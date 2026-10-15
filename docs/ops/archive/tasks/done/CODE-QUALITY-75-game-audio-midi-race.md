@@ -96,3 +96,9 @@ Branch: `codex/code-quality-3y`
 请你做：若继续音频治理，选择新的不重叠 pending 文件；不要回退本卡 generation 取消修复。
 输出要求：本卡仅作历史证据；下一批另开任务卡。
 ```
+
+## 2026-10-16统一3y复审追加（不重写历史验收）
+
+本卡done与以上计数仅表示当时结果；当前main MIDI已被完整发布实现替代，原“当前二阶段”行实际指第一阶段历史实现，不能用作二阶段设计依据。统一候选旧测试1绿1红，FakeSequencer缺新异步事件协议；已核主线12例包含更强的两条同合同，保留产品/主线测试原字节并删除旧boundaries测试文件。定向12、相邻44、game typecheck与隔离stop代际失效反控12绿→11绿1指定业务红→恢复12绿通过。当前ledger仍review，不以本片恢复closed或宣称完整质量门通过；功能视觉和整体产品验收仍待续。
+
+当次完整读取、primary/caller范围、退役原件/身份映射、失败与恢复、环境准备失败及下一片见[Y01证据](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)，归属[统一治理卡](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。无下一位Agent提示词，Codex在唯一3y分支继续复审。

@@ -1,0 +1,2505 @@
+{
+  "candidate": "995cd8aee75423d49fbbcd33f64e0776b6cc6a48",
+  "startedAt": "2026-10-15T15:06:07.954554+00:00",
+  "scratch": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c",
+  "source": "packages/game/src/shell/audio-midi.ts",
+  "test": "packages/game/src/shell/audio-midi.test.ts",
+  "sourceSha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+  "testSha256": "5310870943689fd623d4d29f4e5cd4443c422411e90793750725c0574bc8d155",
+  "mutantSha256": "9b4a9288b008e48c3e171f43259d23ae0eacf5e5adf5e6971833e88420a2c1e4",
+  "recipe": {
+    "needle": "    stop() {\n      generation++\n",
+    "replacement": "    stop() {\n"
+  },
+  "expectedCounter": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+  "runs": [
+    {
+      "label": "counter-before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/audio-midi.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c/counter-before.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c",
+      "exit": 0,
+      "seconds": 1.8,
+      "rawSha256": "ea74ee856cad6c406805e709dc53c024197b683d89b73df7da735d04b379fcba",
+      "runnerSha256": "161fdcc87a0915148c37f7e3348d3ab36903cc281147874011f180cc10f45de6",
+      "passed": 12,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reloads A when returning to it while B is replacing the active sequence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries drains an old parser failure before submitting the next song without failing the new source",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports asynchronous MIDI parser errors delivered by the library worklet",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries ignores a retired request rejection while the newer track remains playable",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries unlocks the latest queued music once when a user gesture resumes a suspended context",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports a track load failure to the current source rather than silently keeping ready status",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries keeps gain instance-local and closes/disconnects disposed output once",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries a newer track wins when the earlier request resolves last",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not complete initialization or revive queued music after disposal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries updates a loaded track loop flag without refetching or restarting it",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries restarts a naturally finished track when its loop intention changes",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-mutant",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/audio-midi.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c/counter-mutant.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c",
+      "exit": 1,
+      "seconds": 1.65,
+      "rawSha256": "eceaa4723cda2bf91f5f2c86e4f3b2135f6f3010e1d5d92b1308cb5d82b5042c",
+      "runnerSha256": "27c733d0f349296ede6e1ecbde05160da4576722a4ecc3e80e13ccb117e9d34b",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reloads A when returning to it while B is replacing the active sequence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries drains an old parser failure before submitting the next song without failing the new source",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports asynchronous MIDI parser errors delivered by the library worklet",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries ignores a retired request rejection while the newer track remains playable",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries unlocks the latest queued music once when a user gesture resumes a suspended context",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports a track load failure to the current source rather than silently keeping ready status",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries keeps gain instance-local and closes/disconnects disposed output once",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st vi.fn() call:\n\n    Array [\n      Array [\n        Object {\n          \"binary\": ArrayBuffer [\n            77,\n            84,\n            104,\n            100,\n            0,\n            0,\n            0,\n            6,\n            0,\n            0,\n            0,\n            1,\n            0,\n            96,\n            77,\n            84,\n            114,\n            107,\n            0,\n            0,\n            0,\n            15,\n            0,\n            -64,\n            0,\n            0,\n            -112,\n            60,\n            64,\n            96,\n            -128,\n            60,\n            0,\n            0,\n            -1,\n            47,\n            0,\n          ],\n          \"fileName\": \"49.mid\",\n        },\n      ],\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c/packages/game/src/shell/audio-midi.test.ts:254:54\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries a newer track wins when the earlier request resolves last",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not complete initialization or revive queued music after disposal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries updates a loaded track loop flag without refetching or restarting it",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries restarts a naturally finished track when its loop intention changes",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/audio-midi.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c/counter-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3y-midi-counter-3ez34n1c",
+      "exit": 0,
+      "seconds": 1.56,
+      "rawSha256": "2005d1a59a7fb2d09e84fe4fd99f8be383ad8f726a8ce926653b93e68c6838a0",
+      "runnerSha256": "a6035e1ca4a8c9298a3d5b8916c018e7460b7cb8bed45beefb7b440acce70ac0",
+      "passed": 12,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reloads A when returning to it while B is replacing the active sequence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries drains an old parser failure before submitting the next song without failing the new source",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports asynchronous MIDI parser errors delivered by the library worklet",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries ignores a retired request rejection while the newer track remains playable",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries unlocks the latest queued music once when a user gesture resumes a suspended context",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports a track load failure to the current source rather than silently keeping ready status",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries keeps gain instance-local and closes/disconnects disposed output once",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries a newer track wins when the earlier request resolves last",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not complete initialization or revive queued music after disposal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries updates a loaded track loop flag without refetching or restarting it",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/shell/audio-midi.test.ts",
+          "fullName": "MIDI backend lifecycle at media IO boundaries restarts a naturally finished track when its loop intention changes",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ],
+  "copiedFiles": [
+    {
+      "path": "package.json",
+      "sha256": "23276788c35ae3803a7562dc1e730f5cb255742822c8446cc5790cb54fa6e7f6"
+    },
+    {
+      "path": "packages/game/.gitignore",
+      "sha256": "6536526a1f9245d184254e7db5cb32e888db39821c8d2a4f435829d51387e8f8"
+    },
+    {
+      "path": "packages/game/README.md",
+      "sha256": "54e03c380b3423ead4740f0860de95fbc65d2844dd6795744f024d64bb96b275"
+    },
+    {
+      "path": "packages/game/index.html",
+      "sha256": "aeabd8dd442041f8449aa3400941c387b420a7544da3b11da561cdc53b6d55a4"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "43ade8421eaeac4be984c3f17eb7cae1ca4b241c9cd3dde5d8e26f1a79f24dba"
+    },
+    {
+      "path": "packages/game/public/favicon.ico",
+      "sha256": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29"
+    },
+    {
+      "path": "packages/game/public/soundfont-LICENSE.txt",
+      "sha256": "e7d0c1143cef0862d5f42c9a54fe4fb2a36c9e02cd578addb9650899ebe92f56"
+    },
+    {
+      "path": "packages/game/public/soundfont.sf3",
+      "sha256": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854"
+    },
+    {
+      "path": "packages/game/public/spessasynth_processor.min.js",
+      "sha256": "2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25"
+    },
+    {
+      "path": "packages/game/public/sw.js",
+      "sha256": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3"
+    },
+    {
+      "path": "packages/game/src/__tests__/e2e-battle.test.ts",
+      "sha256": "6a6dce007ebc45ae48cc0cd7865913e6fa5d07fa6b722a1aede63886657c8390"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "970841dac2c9598eb822496c6af9545d38fb809c2563c16fde0344381c69b220"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "sha256": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f"
+    },
+    {
+      "path": "packages/game/src/__tests__/rix-fixture.ts",
+      "sha256": "459a99c75a81e9e446ed11e3824a00a1d9dea004acf1cade49c38618f69fbc8e"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sha256": "48c8e7dd27da0e2c0c994788300239aec6c6fece6d8a7d2b59e09b3fc5c57213"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sha256": "17093b874741d76022dc519901e2c5df9f7bb649840aa9ab462b7db966894420"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "sha256": "046c898d950992f6f878d4c61bd9013e644e5a325c14bcb5f262737c8527347c"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sha256": "89dcf6f135ea68b7b679e297178c9a0736af2827bbf353aeee94dfa7aa690b16"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "sha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "e69a0b31962b28691014000912bf938148a29808fce52cde37ce68b388310f11"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "4d22598e37127a621cbc6b2d285d18306033809188a98f0a0705a6fc671405ed"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "ff1c2c7d18175a282c011c8e72bb2d33ef898c0151631ada0b97577b92c1f375"
+    },
+    {
+      "path": "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+      "sha256": "af0a483db5ee41b5b3d88ada8ea1fb6696e7f76785a5d4411611569b23d7ffee"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "64c1a23f5a2bdae192e9734caa010c5ef7a7664de9baa38a6b0c6d924392e9c0"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "d629d646370479db986f9359e6e9352654c04c17ba604c7c2eb012ac4c91d623"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "sha256": "fdb1d21b8ad299fe467687b80e1ea0ac62dd15691e0483d14334224908044c5c"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "027f7e05abe6b2a55ee599a7538e679f8f2b7685500e803f81352e23f2764f12"
+    },
+    {
+      "path": "packages/game/src/assets/loader.test.ts",
+      "sha256": "670d54b0053d4b37d0ecd54b82289a8a1b6159b90fb29de4cecdfa2570ebd85c"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+    },
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9"
+    },
+    {
+      "path": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+      "sha256": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0"
+    },
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "sha256": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "dc450aedcaaa14e83422a28ba0d650867cdf8ac9be27aaa927bd0285ada88927"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "dd44cc5c0975856221bec3edc40f0fcecf9e5f40cb6c8b70a6592972cca9b7c1"
+    },
+    {
+      "path": "packages/game/src/assets/rng-blob-snapshot.test.ts",
+      "sha256": "c02b41917cb79b1600046a6ada15af329444d70c6417c39486f9fb6dd3f9afb9"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "ab7d56fcf5fd750022f90c8a1d340699a32f5478badbade72b5f86e9f225a4cd"
+    },
+    {
+      "path": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+      "sha256": "dc3d63855ee5bd4051658475c36bb648f15324bd3569060533d87f1dcf7bd0af"
+    },
+    {
+      "path": "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+      "sha256": "6f62849baed28805ef564d213cbc9a56c40f912fa321953add8c4bf299cfd4db"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "sha256": "3590721822f5a46d2bff8bab28957a330060074ddc72d84c016149023abe2755"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.test.ts",
+      "sha256": "908eee6146c5ddcaea00c283be329d2e166f7772d575b0050bcbb23f4750c531"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "ced4c8d869c1cc1ebf50f4d53dff06d0de95210915db002e663de7b26242f9af"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc"
+    },
+    {
+      "path": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
+      "sha256": "e213e6a4b8bd7f86b31ebe916c94fd2fcdf13f1723dfb8482c6f7644a6ccc965"
+    },
+    {
+      "path": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
+      "sha256": "c0849c85401c17d08338625dcf45069475aee66da08146a1f0af9d2b3f7a9370"
+    },
+    {
+      "path": "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
+      "sha256": "f21e6e034c72269e708cfe6696ac121c4100789d49a8b29302a80266cea87252"
+    },
+    {
+      "path": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
+      "sha256": "ed9c029bcd1d65ac07d657e164c472297b9bcb13e547b4e91a9c907049c0dd04"
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "d6d4c4ca29b8a3174491e8b98597b04e9696ac44fb564db5f6c1881c6da1f069"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+      "sha256": "ebfea33072dcc9679f38aa635b20c9d6bb17594fdcf3a9b80408a728d71aa944"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+      "sha256": "a0d617787be77590ca759306cc59778adc6911c2e22681a946de8239efa4a5b1"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+      "sha256": "7c42960384b1ceacd9985f0ff1839efefda89636bdbd03a2bf2c324e504cea80"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+      "sha256": "2b8df2623dea365cd88b21570572ea67ff004e7c8c8fef87d34405c8998e4167"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+      "sha256": "0ddbd96a3aca515146ed78638453940bec1cfb06c4771c3c2f8d5541aa028f8d"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+      "sha256": "6b92a1977a4ec6fa2e7d4da83b7d04c5e902e9aca2ffd5cf11d3a6858958c72c"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+      "sha256": "0d5abc4b7fa77fe4fac9b8223f34469eca3fb38bfc3544bea18112f28d7f40c3"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+      "sha256": "3c7cc57eb35725c25a043d3b26eda0451c69a994e44246aa0569f8f752f8cb64"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "8e41771ac1cb770a69cfee91ee40ebb01971ca2d7ebd02998f4d64ea64e844ae"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+      "sha256": "766f3dbc27b079b5851792b5b79b35658a3ce4db1a73f6befa1ea148e77472d9"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "698dbe32359e487c5668cb05b823e8bcdf9e597b2a80ff3c5f37583970bc772e"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
+      "sha256": "b5fbc0bfa1c5d0d0da005ddc4d9c09c16801f0fb9602480a700cb40ccd9b398c"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
+      "sha256": "53a9f394d0f2a4273530f7c19499a8afdf73526f07710634528b45d83ee8b99e"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+      "sha256": "33c14538828636ff3e297d3a8a90bf91bbe8d6383f2670b9fd728581bf6cb2ec"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "9026d071d5fcaf7fdaed9630c59a679388f4e6716f62ddbd1975b3d0e861b615"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "6a130a287fdcd9ab9bec28a0aabc040097b991264cab47549b4225dd4d1a40b5"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "3b3489e1bd46e7eb38bf00ec9da4cfea9de8122d1b9b20617721923e0c58c30c"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
+      "sha256": "9876ad90959123fc0a8140e9973ca759f645e43af256c49f35e5427911b95c3b"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/coop-magic.test.ts",
+      "sha256": "7fdc1965cd5814c180c841a935e549eff518446ee4d72a00a3bf72f4d15cd886"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/death-fade.test.ts",
+      "sha256": "cb3a80f4c7171a6affc370939ed2814e89c6ed418bcb096ebcad2105614f067e"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/enemy-ai.test.ts",
+      "sha256": "fea92427875c4c648451d30ac3c35a95bdcf188e6bd5d3f726878b30c3936f0a"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+      "sha256": "0e26bd9efdc1acde4fa61a86a48c1c3b101f8ce2fc64a71b0b1cae4cc6f269b9"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+      "sha256": "fcbcabc7342b6ba7d5099aa912c6d3c5ec4fad88e80d05a38925b2831d99eaf3"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/runscript-rearm.test.ts",
+      "sha256": "1913efa550d9368b72caa464b89e943c836bc82fa153470331c2b4886408735b"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/status.test.ts",
+      "sha256": "e154b307f6c02f2462cb76937133f20d9cee051d80a701e2b6b53630629ef683"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/throw-item.test.ts",
+      "sha256": "6547f71547f351be133fd18e8b493d72d694d9aced6afd0632c1e86c82b36cf6"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "sha256": "2c0e340046499df8d57bc70f5923de9f2f740e8b126365d7ac980b05b1e0846f"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "35e9f6089a323ab7764b5ec9a364cb1092106e4480ee885179d796edc0e0ede6"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
+      "sha256": "5f9a47e4e36314c6aa4f31e58c5ff5fa1bec3a7d67e702e77ca570fa1665dfa8"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.ts",
+      "sha256": "b1eebb8643ab4106a3916f4338726778831976fb87411b33b74fef52a901295a"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/defend.ts",
+      "sha256": "b2240acf6d933b2345cf290adfb58bf7ee3602d9d5b1e3099d843109aae88f60"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "5995eba743a3a36f8344a0b7bb7ca69408b7783c31b3595e4718ff4a79ef6ae0"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "95396fb42b8e3650c6eaa59701c26ed5690a3be168da438b4a83511cf8f6d460"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
+      "sha256": "c548405293d7262949852da273417fc57fa8a81182a268f0b72bcec1187bdf04"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "d357c8c3982e027cb2b61509c1d158691bb4f3b4da44265f93da2bae77ddc7c3"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/throw-item.ts",
+      "sha256": "5e654bb7a7e2e7370bbefbe7e60f89a6e9d059fbcc9bcca5186f8f22603592dc"
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+      "sha256": "cbbd1b680501c50b7461b0005b15527513d66c325afd37934129e652cec8bd90"
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "sha256": "9e6fbf7bc6b2aac42847d81665bf42db502675278c613fe680835ecf69aa5ec7"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-anim-driver.ts",
+      "sha256": "430b37a2be25289f0faf0a497a846502acb46b3f5cd492b083b0a124b8063fd2"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "sha256": "ce06c60c500825b648d1221ef5a8017c4b9a30981b3bcdcd0c64e6bc865472cc"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "sha256": "385d783e2f94188d251140e5abd8f7ebbc94f4453c339ab06452b57bab3d5b8b"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "0025dd6fe905ccd19aced025fff9abd980b47891abb1536a2afdc2c5f3b560c6"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "47bf72791ffe6ea9e3d3bf061e5b0232351e44f938c24e3f049267ca063a1273"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "431898deab2b078912d2acdfcbb6cf3bdd0b84bece7bea09d2bdf2e081bbc05a"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "0e6e04ef6357fca2c8bca989846f2d28514f2ca5634837814b71297dc8df57ef"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "d9075c4dcad02f11f4dceaa6bd044706e543f33f08963de64c391105489a4a95"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "8a2b8f24ecb7ee690e9edbc5419af99a6c1aae146c1e372674055b9dd4e6795a"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "d3c40c64832253f554815e2df4236b714dcfa6c11a6b2aae7a950fee05616fd2"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+      "sha256": "9974f8b8b0f72095e7d74f159d6628fc4bbf657aea1157b623fedaea5b29ca8c"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "0663047d3113842d7fa4937d6c478a69ad6428c12671c843a61ace9e3a9b0fd1"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
+      "sha256": "99d054907eec2e7952f71c3bc1e628a232e3b16e51baabc82e63ae287372147f"
+    },
+    {
+      "path": "packages/game/src/core/battle/enemy-ai.ts",
+      "sha256": "32582a364d7022b415bc74e5c7094f3a504388da71cfaf6c2e3a5beeee4dc912"
+    },
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "fa5d007e9131d344f2e7f90c10e7b67afe7ae42fe2478398adc8f6ffd6259ce8"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "fc31dc5db6ff0cd65a53971cd70261ad01bf1b78eebdea40d3ec056dea2a63b5"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-object.ts",
+      "sha256": "d85dc3c798bb8c3a0e2e06f15c846a2b2d8c5284e0732808a3e737f708e384f8"
+    },
+    {
+      "path": "packages/game/src/core/battle/status.ts",
+      "sha256": "d71fdcb35f47895784f5ec714897b70f699dd8eede414e0d25f707705244d6bc"
+    },
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "d7ff1f4fa1071b98ab86e6c0976a3a45535faf8b6085f5a734089c575603876c"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.test.ts",
+      "sha256": "e51a7c04e5236379f98f7ed851e45d9079cd4a09b645169546649b2f0bf2c93b"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "3bdb8708f32293244a69cf2ba8550fd306d328b49df26757fc175c7773de1200"
+    },
+    {
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+    },
+    {
+      "path": "packages/game/src/core/dialog-bug2-skip.test.ts",
+      "sha256": "1bf9205c4cb670e420236e750a73220d6768fad54c925d893b095dffca8cbc7b"
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.test.ts",
+      "sha256": "eb1c36acafe43070ae1ad6f7d37147d6756261c856eef9a9bb5756f502233a3e"
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.ts",
+      "sha256": "65a10640481c4f34bce61124a885e8bedf0b5d6981d0cffc86274e760352b4b9"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+      "sha256": "b78dfa31c8a2a9f8be0952477218bc685c1fce2be99007209be8979297138fd6"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "sha256": "415a2340e5191aa974f126a51c2f5a135d6a9aef6f234aa92b3fe43ee9141ef5"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+      "sha256": "344d244e4ac3def88cadf75e90b81c8246a95ede9732e5e4967f8198bfb70abb"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c"
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+      "sha256": "82eeeee36bcf11d9a08cfcb103719238470a771886484f71de728b7418c26adb"
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+      "sha256": "c40b71c8a671df230ddd0b137cb56ee30120ea4ad1e279b59aa638cbabaa26af"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "f5a301509e8297f5a1c2e9bad1e956eb8200543c80699d17067267b2670d2d53"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "dd978a600e02a8e65a98777d8a9e7e27203c717a98a247281709e0c50e033bba"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "15eaf7f1ed6097b33ca8397a445f7ac71353c2fa5467503a414e5d630fc4bb05"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "79046bfbeb1bd7a1efad2d0954163719d52b5bb8b194f77766aabd4350553a87"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d"
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042"
+    },
+    {
+      "path": "packages/game/src/core/event-rng-scene-restore.test.ts",
+      "sha256": "5b2795bc962361c67cae6889256f4340cdeeb0ece790df8faae00497e193cfd9"
+    },
+    {
+      "path": "packages/game/src/core/event-system.cov85.test.ts",
+      "sha256": "5671ec34d07dfeec532d83eae1796c780c94909c743e28abce62e7c6916e9c6a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+      "sha256": "2c6cf987e15c53684158c0a37091e33c6e0aa0e44fd9d30e804ae6a737ad901e"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+      "sha256": "e0a27f42b8924910e1a5a386449a6c250ddfcd9092f4117ec8255651b676acb0"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k01.test.ts",
+      "sha256": "b0041924aa2dd9c5e6462b31aa42ed5cf6b3739efea11fb41d400b559735cdf3"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k02.test.ts",
+      "sha256": "5600a604f469f091bfaa7a6e630b687275b51a96845d233e96b51e26ee816da4"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k03.test.ts",
+      "sha256": "eebfbcca6821f1fbbdc22fbf35b058e0ea78518651e817538845ef4bf4955cfe"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "sha256": "0edf6bd6b9af543164baa7b13e0dfce41a6e14bcbc419fb55b66300d2465919c"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k05.test.ts",
+      "sha256": "47c312833a14cc1e8d6e3d68224cec75e36402625709309df500f4b0167fc445"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k06.test.ts",
+      "sha256": "86a5a0526dc3d09e6bd1abe579f2a68f5759d94a4f706d4aa0fa41375acb1c83"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "sha256": "e4c8427f7d4ebeb8f3cd741593fe8c47f28efaf395f7770b145632f834517444"
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "b7fdaf473dce29e1b2b4f714eb40a7b455e344eefdf3f338801d344e233abab0"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242"
+    },
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "sha256": "28cc3cb66fc5b79ada05ad4a34e6dbbe9e26fe126a0dbd46bf47b7b1315acd63"
+    },
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "sha256": "85aaef9fca1ed85c10a9b91809bd7a5c7f7da5e2f888825a20afb868ce31f4c4"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "sha256": "5fe3b552a39cce7ea9155958299f7e2c19fabd2cc43d47e97a448a469d41fb94"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819"
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+      "sha256": "67490a963d59edf577468c0d1584a5e86b7c26ed324305d66a27dbebae8e8bb6"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "d6e3b88800594adeb0cf1fcf73c511da49de35452f48098941ed379052a48db4"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+      "sha256": "6b47c482db8b9521de87db4478819442a1bc5478100cae308e817f00f52be0e2"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "707517e73012cf52d139c2e13e3115ef075f6d7b34adb0924cdaf06eccdadb1b"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "b612967be12be73cc13897d38e45f0625e3d49e8091d7c126814c0994c44b519"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+      "sha256": "a9c3811c76d24ecce78d276d804b5905f97e7f5ea41246a412e7e9cc8eecb8ec"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "sha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "80b99e958e6d384c805356ccb3b325499276e9381648ad59ba5a625818a8612c"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "7cbe225dae84eabb0a55cf3ba41640fd933f39e6ff6ad03ed5bb50645eae8a1e"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
+      "sha256": "a19500d3cc06bd85841127459c51ad45f09fbc151e053b6854b9624e2d4cd83d"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "sha256": "60bbd3908ce49764d23e522dfdef450a474235f71068a34086dac3825d41c0c2"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.test.ts",
+      "sha256": "c110a3a98cea0600b5b7d43be63b93d6f85ee2c9b37bed76fef5b17c0bd9e1e4"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+      "sha256": "239a14e47bc1e8f9746857b94704ae62ed6b34648299dcd811ddab430dfe6c29"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "05af4f49fa95cd19b9e4ff84047188ad4824035130334a5d0a1a16a74dae7b0c"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "sha256": "e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b"
+    },
+    {
+      "path": "packages/game/src/core/menu/script-desc.test.ts",
+      "sha256": "9f7d19362dab5b5447d018feb9631ddf8ee87a2359d9130f5a23b14eece75f50"
+    },
+    {
+      "path": "packages/game/src/core/menu/script-desc.ts",
+      "sha256": "fb91740ca45c61b722d7ac68598f2ba480d4b878481ac02c0a536105d0b1ee0c"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "sha256": "48cacd0aeec2adc71b218704d6e74ae77d441e6293d22cbad1d96831ee225123"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "0ede035e51bf8cb69e899544e88fb3c2e3a39121a4140e993c90c6fce87034a3"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c"
+    },
+    {
+      "path": "packages/game/src/core/rng.test.ts",
+      "sha256": "1f9387d75d234a004e8e4be64bf5789e7fdefa9d0321f6ca15ebe8dd90e39164"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "b2f2701bc6d0158806faa61bb02372cb6abb82bd9ed735980504b69d6effdacc"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/api.test.ts",
+      "sha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "sha256": "56867e3d127850d622c6fe2adb584ddea5d744a21933dabd7ad2bbf41138cefe"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197"
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50"
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "sha256": "ea6229f1c5dac8bd9bffeab3ccbfac8b90073169e4ab65b5e8d71d032276e38a"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "81c48be848ff01b58060c7fe7e5f37c08b754c1ffa4277a5dd53c4ea5553231e"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "0202e00c781e836efdc42ac89db3ead78f8708e7aa18ffde51c6c7c0fee9599a"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "4fe9487c9e3618770929f3e11176cd362cbcb0d1c46b38fa63fc50f981cd0883"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "f37091d9530844bffa1f98008f4d01f665243e931b8e1b42c53c73dcbda1d099"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "sha256": "57b71c9ce217354a257f13d31813a26b538cc2e88dd21a615edac7cdce29a795"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "sha256": "b50f9e69be6bd335b89b5842390a404d868a9ed9e7ee45488ad4fe5a50e042f1"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.pure.test.ts",
+      "sha256": "a1b653bc49b904bf219c0c21acf39df00b9b91f9f9ed67c370c055f6b4eaac6e"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.test.ts",
+      "sha256": "720c4ab10327a9038664e20b8d25d1cb0060ae123e770eadd9023b58fe78d9ce"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d82477551564270e2de8ce41dee51e1a6f6749753e8e6dd4fbc3d7d9da054395"
+    },
+    {
+      "path": "packages/game/src/dev/fixtures/battle-fixtures.json",
+      "sha256": "2688c71ba118bc2e0808a50d5f6fe7e272e22270c9b8e00e09c01680a68a487d"
+    },
+    {
+      "path": "packages/game/src/dev/fixtures/scene-jumps.json",
+      "sha256": "e913480e1e2e94a15120992ba2046503fecfd5c4b2f726b7f02fc6285cbdaf82"
+    },
+    {
+      "path": "packages/game/src/dev/fixtures/scene-names.json",
+      "sha256": "61b887281b80b47836d07fbe9e2f85533df82027350c46bf01c1dc3e927ef542"
+    },
+    {
+      "path": "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts",
+      "sha256": "46a78b0e0e99aee8b75bcb00695ba7817f6ff93f43b369a044936d073658f188"
+    },
+    {
+      "path": "packages/game/src/dev/state-dump.ts",
+      "sha256": "99e47d97825563442027305087f2d49a6a5cb98fb7e3619d16782faecb4c0212"
+    },
+    {
+      "path": "packages/game/src/e2e.test.ts",
+      "sha256": "af5425e1cc8bce8f86f7e614613954982bc668d85eeba7aab6d7c688b3fc6c31"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "sha256": "9bc08ab91390f30bc14028b6a3e8005221dea4ef1fb9ab2dbdb625d3a95beccc"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "c812217641915bd0a39935cf4992757e091770859ecd40ab0aa518e5d8487b2c"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "572332c4f5f44490243dbac6c1ced8944f64ba3ad3e59a31bd377bedd6fac67f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "bfcc6b45b229f08d3cc5b824ce4eae1cde092b4c3e4980ef638df5dc93b3e8aa"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "sha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "b280a039f4ecd1d79b59af8224858a2a62f5afa65d28cf99bec6d9bf6b16fa84"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "sha256": "770ecf1d4d4266e5b50ed51ee71c3dafcd643b445ffb11fcafca197e3cedadc3"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "sha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "8287730a4edf95c5e822dec67c9aa074d498c7f47abe135f7c925739e716ea41"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "9c2ea2827c1011d84c8ee86d2fbad2881bd722a1ef72d547f7463e7d6d6734fc"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "ca07c42756238fa4be8a550f7a3094dfdfb66ed5217364a6d5ecf347cfbeba57"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "sha256": "70e1c6fc31bf75946395904e041ae67ce33097c5bc7d2b609b7bc27c2469ee8f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "sha256": "c1d1310192dc808786acabb97b1caceabf87aecac0a627d1ec7422c873cfe3b9"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "sha256": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "ba8e6bd98cb558cc2955391bfc86e69d030634bb5f4d6c6cf27e857dbcc83072"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "sha256": "e1bfee33b2c33f25717305f9ba9d9504e6a419b1e1aabe1fd40e87969e35b1c7"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+      "sha256": "1e33dd714f2106718facec7fc48755ae8b6d79bde7786968a968d6a07a4cbedc"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+      "sha256": "2c16d296e8f5356e076fd463df8b1b661d846724cfea3200595d797b12eb6c0f"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "15bf29f89525e52bec6686ba17fcdca42cddc1b00dbf2d32a3680c40066aa45d"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "b4626b6cd2b3b06cd789b52e2462d49fb5972f10d69ba26bfd124c671cd08f95"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "5db9d7d93dd741924ec4d36f8f34ed76f5a185d50ed7f8010b4cb03b35c50d3f"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+      "sha256": "0f2c35aee1df5d9d4d030a7a2260c145af72d399a7268184b5e141f57f7b95ae"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "0191a2b06f9f36c50d4cf2cb673a8a83ea84d19e021dea35d2d0f188c0347a44"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "63a6c093cbdbb80126fe87416e9ee6027d1ded34dc6e9ef1d3f0d964e68b332d"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "6dc6dbbf459110332cb58bddfc3e8b27e334ce902a78525759780fda1823b5d3"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+      "sha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-effect.ts",
+      "sha256": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-num.ts",
+      "sha256": "189d73f94b9f6e92654aae29d2f26facc03104f38364c744266fc68b3dd562d5"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+      "sha256": "e9fcfc5f8153c8bc7f164b9d2669080804318fe7172b32ea99817ea9861c1a4b"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "1837084372269c3e5aeccd5069a565b96d8765ded478d57b6977216c4cf433ca"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "13e479a6acacf81fafaec96e6309d5fdb68087daad681ed7b09d88083d3f22f9"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "3b914002b9b26b277ce579630ac15d08bebf984d5d6f54d9b8adfc0b19a76330"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "1e8ba16a1415cb2f69b6ff5c656a11b8fa30b39a1d2f1bde3e795d9d0318bb8b"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "0213a141284d181434071af50b2e62952f72fb12a53b876bad2dbd7cfdeb15c6"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "sha256": "b788eb54cdb9c50fbf4da7d60d6b79556508aeb150478a07d48404595b3cc71f"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.test.ts",
+      "sha256": "6fea4bc4d37db80b9c53e7337b68363ff6d15adf99c8e7d9cc40f954560304ac"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12"
+    },
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "74162daa2bc5b6cb27796c250b2c7288ef060d91417e78c6b5f116a9e313007d"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "67c5cbf6ba690d284dfb463b6f110a704d88ca8a915fb661c99c74432185315f"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "00a5b0bc5c846350a1de1d7692a35e46721bf54aa9948718898954685901f6bc"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf"
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "7e9733473feee765342a7e0d637db2f42d2a6d9168019ccaf92bc3d94171b6de"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "b977880298083a0b2e4a77c21c4e77af683f2b56a6799ceb23b98176fcd29b4f"
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "7998f8a7abefb04d8693231c5ff72a5bfd4fb25b75f3f97966a27125938f114e"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "6e3c42f30f2301f4ad29382e6b9472c53b96d49c379889c5e1a6094e33b22e9c"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "97f87093a1e7f513759ab02ba5e2dcb7eb829b6dca1f061f8755d0692c3d86f3"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "f7227e0590bde8d638cc6954967d79115b23385f096732eaf394c51a7d250399"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "sha256": "6562812ae85ffd489108204391ab704b5ee6e3c9f201ab4c17087aa548588b35"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "a7d6c89af4abbf62a8b546d42ce6f313ef5483f30c1cc83e1d8f6e4da4c6cef3"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "sha256": "ce7a06e9e4f4c9559c0979d797bf3b367cd6cd6add3c21901911bdd984ff8dcc"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "2772110f569c4d082a82fca6c2636dd52193f95bd4ae3f54830b6d17b1ff0c81"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "0639c4004e69d77a690e036ca631a0d134a8297195f5c44bea4689e11c4db42b"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "sha256": "8e64764ea0ea5c633a7386380eba5eb92f24945a83ed15d97282bdd05d62da00"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.test.ts",
+      "sha256": "c519e73ebdf32123da34b729e5c88d8a08ab424249dbbba62f4d3b9af5cdd672"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "9d2d16c7c664ac66f17e5c16ec0885a009c66faa0e7ca9cacc834f43b163331a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "10c96d95b287c9b5c94ffa65a283cf8d6ab7dab2a6a2b138ef678ae87154c09c"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dadd0eead7bd003fe4497930256c6698f5954a1f28e4befdf66eb825b4cde74c"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "sha256": "7d46196042f239d83c884abd312c21c5692c0a2199c06f3750975d87d09cfcc8"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "ec6b3f484aebb0f311e33c864c67128ff54b9a0a2f3d4218d1dbed03bd0b7dae"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "681590bfe7bbf34f443647de52a05e27a41b896fdc19e0f17a34d7041063aeaf"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "9f9491a01db0837af8510aad5e07ea3595ada941ec9d8d10e9bf97cb7310fb46"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "03b46c33d1868763a634c8ad4607049f8f493c1ece65325db570e02853c5fa36"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "sha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "847ba3cd0594f5578ea7a564df055435fa57b9e4a333f69cd25086f6547a8389"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "53f62ba005536b9017a6fe0f81e688827b42516ad0fcba542d57a665aa34adcc"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e0ee06cde04cd4ed675ab60a923ee78e9f5d1d56aa3d70c138036d6bf30f390d"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "45fca59caf1da412bdf310da984721d8e94f4da5e7bfcd20f7e5350b8e1890e1"
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "sha256": "7a66896feeafa7c18cf80de459dbc464a7b60f7b94dd589cab97e643da891587"
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "sha256": "dfaac185e846e88b5aa829531ca6cfc2d59b1f01bcf3d05b7ba71e9af7185fbf"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "51d19a12c63fe6ccf6cf79f0363e68e75ab624a3f0e1f983186780fd12ca2987"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "3144143e26fc20ffa68e44f33b50417ca1bfcf2cb6e50418a577eb883d24c1fa"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "bfd831a4eec3d01d500ff59f8083fc2583c2c97d3eff1671d6ca213a88838895"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "sha256": "5310870943689fd623d4d29f4e5cd4443c422411e90793750725c0574bc8d155"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc"
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.test.ts",
+      "sha256": "e2e992012b440bf4a797603048c03561b9727016edc2aeb4d5c9fecc48728fcc"
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.ts",
+      "sha256": "f484bb9b5a6c8241785bb5535e05d4e9a50182046fdcafae49d2d29ad39bfd3a"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.boundaries.test.ts",
+      "sha256": "3edb12a582f63ff8265468f5247a8a253eb1df4dee85cd25934d9f8ba8fae47a"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.test.ts",
+      "sha256": "4a7824f73e66db86522a11a492fa2bfb622b70d46df2fed4528cf2d99baf9d11"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50"
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256": "8fada52db224be257f90c6f32bc9f94f51f77b1765267c5ff031e4bb1eaaf43b"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "09be343bf55015f9f41eb191eb7f7b128a7d2f6996c4103cd25efd8d73cc5a50"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "sha256": "fc990ecbdfc19eb2c6761d2256bb0bde1756e8b6fcfc0a953c2aebfca02374d1"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "c17eee20181a2aa348aaafd5812e4dd9d3185cc568e62f06a0c2068c6886791e"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "sha256": "5432d84618917dd354e95e4d467e9d7a60ee83fadee4f94791c4bd7410dfbccc"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "sha256": "3f4e3962934dd6cd2c7f242a2fe2b79efe2b44cef9f623396469dc88a3e2565c"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-load.test.ts",
+      "sha256": "2a20bb9788d49be84cae0fa24a0a9ea653be64a1e1b5e3046b14cd843b72d1b6"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "a76b470dd1a16ff46d61def2787f756c15f94b35c9dbbd7fcd2f2317b94f372e"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298"
+    },
+    {
+      "path": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "sha256": "06be431b333ea02d4bbd3033efd7f2381bf44135dd6ea8913caeb1a6542e8c6d"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "sha256": "f49094a11518f02159a3e9cbbd1d05f26825344316fd5475fc8d9df1dc32b785"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.test.ts",
+      "sha256": "f9ec6e7e5bffd30c0135ef06035abcd328d4d371135203737e40dc80b48022e9"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "f3eeccf75b87494ddeb02c9278d785942f3826060cbf4412ce0ac009a6cf70c4"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "sha256": "ad70b8b3a59546206704b3b6e5f0e10cb92bf2d4261f845ca684d46d6de7c4fd"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "sha256": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "9437d966916ac756adf74241ae0034f87bbb83081a436e309781160f2f664e33"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa"
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "sha256": "e81a0927a66bf40ec764e7815af0f25c2080b207a33d9e3865c960b6c403bca4"
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "b643379b87ac71cbbafd151d6d14e297e3c10bdfdac1b69e42ea3caeeba24f28"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "a23434d0ec3a74d3174b90cc7c169bcc27026b94b5af2f9dc37fa239d76d90b6"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "sha256": "8b49ad03c314ba12dc7d9f32176b8962839ee09c994bcef50e89541aef268e0e"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+    },
+    {
+      "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "sha256": "7700eac27d7331d08118477b2a55908d334bddbe082a74260759c72dfa9673f1"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.test.ts",
+      "sha256": "02682feb94bc0a532d07cfb3937909a2d4f37ae4df2356c100a394dbfe91b1ed"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "sha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "sha256": "0350683ba4a51207077e7173e1bf5cb132fc59afc358780fd9343996aa769fd4"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.test.ts",
+      "sha256": "e3260e88b456f5999daf4cff98e727db724e8ace3ae9ffe11c310d7957357991"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "sha256": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "26f675c30e5756de55797b9da3ea57d64aa913fd411401bd616a95673b2fdb3f"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.test.ts",
+      "sha256": "37f66dafb662db38dd20d1d64891c320346aede9acfe7cc133d88c09d8a2d4bf"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "0c7d6a54a3018f0d5c134719430c66706cf651e738156ec37214845d77156a5d"
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.test.ts",
+      "sha256": "8b9593f50cc66de097220fcfadb8a1a80556afb49722cfd5509d910e66b9257f"
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.ts",
+      "sha256": "01ddea4525762fac2bf220e77ae82cabb1ba5accf655ea638a7def3542669f0f"
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.test.ts",
+      "sha256": "56c112038b26d8aa7549e1b80e94ceaeea6ef615747ba316d55922b20ca28a0b"
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.ts",
+      "sha256": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908"
+    },
+    {
+      "path": "packages/game/src/shell/rix/rix.wasm",
+      "sha256": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256": "c619854b757e126b124e460fc6a4ba5dfcfe30335bbe9d6ebe357f328f93455c"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "sha256": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "sha256": "2efeabdbf6c13c8c2f1105330f2e11e18ebfc534527c4c3734defb0062887082"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae"
+    },
+    {
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "sha256": "f17a87fbedf5c6e3261266376a3e9aa6cb003a0c6c5e240abfd48b7742eb1f10"
+    },
+    {
+      "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+      "sha256": "f1ba30df263e9513f2f68cbc76356a02c1e833595c015f558bb80c5ac36488ea"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "sha256": "bf2eca78e24428f91bbe1b092bc9cd6265b33128a31652e13d1008b9a9b2ae90"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "sha256": "daf07a60ac4dfa08001817a7d5c0a80d05b43478f9e3983ab453bb16947a2524"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "952cf66fd72acae0abc1f3ce65068759f2f6a48191cc1769371a08e507bdf5e5"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "b48cd572af41ea4028028409e51ae32a70d7f2201192dfc45be56d06830178b7"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "6f6a77f3af75fafe3e36b81a65019de7cecd2230b70da6a577e3aef23d603df0"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "7599c2960f8d799b5acfd13550ede6d96934f1dcac8ec9853a25fba5d0bc09c0"
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "sha256": "26fbbf14371b6964f9f55588a3dfc8d60e0721c5abfb5e65ab5abf3eff26ff7d"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "88f72d06445500e91792a83aadfbc267681c4aebeb897e0840d66f68cb3d5bff"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "sha256": "333eb001db1f1168694a951e5b2114587bc0d674e0ad95f8b5a568a07bc82f74"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "66884943d42398559449bbdc7d7934d0b9e93f35cc0fd6cedbd8b491ab6cfc40"
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "838f084978bf66af951022f127484014592d073d34018ab9dfb6bf3df3c8947c"
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "37c7ecb64221449ab0cf465e43511789af9698024d3a4aebb2c72a66908bda29"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "5536287e6f7ddc3ce0e7345d206f247d919c4c0356c2f249ff61dbdf433dc5be"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "e6db123378836bff7ae83405dfabbeb641659843405ccd10768b33ad47c8b890"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+    },
+    {
+      "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+      "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "81ea83ea67242f8178bcbbc67c5b7a7d00b685bf343496b3e229da7a089b187e"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "0263a636b91dbc058e95bc44a8dc7c7fe06be1f78fbd697633c677f37c75c706"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "1b299e0b42266c762c792254892f122a6d1318e70fc9c0383fd34f2ebec79378"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "98c0396fd7cfddabe2f8497b1f31c97b3d18d939a04523c8018a6caa3a86224a"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "2ed9d55199cb26f0bbb71f408c6954eb96d325be9afe20165a581998b7cd0121"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "97927e4db3f2805e22592fff7f020209b30ca46bd6de478b51a2b3147315e55d"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "87073fbf0d3748fb909628007c510bc1583fc7bc803f34f83e5b036b5e5dfbcc"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "781e9ef535ee7603c84a601116e4ebe6bc367bc2ad5804a82a9a15ad8cef57f5"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "731da3fbe98aae9b987aca2c7789b0790e86cc70494fbc9e2954b5c806a2aacf"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "1b3a06c02a508765534296e9b1f7a7cc72a746c073c23e7db87e17762da869b3"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "43ff95ba9098a1c6c7e3577056e7ff3e599b5684858861c62b538d21830cc47d"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "sha256": "1342619650b59a697002a742d2a8cefe17c94df057ccb394413fb6dbe5bc9b91"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "sha256": "58e311c31b9684f58158e93c0b36bc003c730fd758f96bee39fe5d66528a272d"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "d637515cd160e117de898fa472704bb169338f6d9ba9517136aed0aec58ad982"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "4e0d74618590ef5ebd5e2d476838886c5013d558e292e2ad59333c14615335b8"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "a00d04bea44135667710c73f8b0fe84a813e4792ed4c4464012dd00cc2014364"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "09728c0af7ad65fbf7c595950eae726427f7b1ef0cd7e5a4b5e7ec504dff8206"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "a016cb828e3b6fb212581a0c59534ec6cb1f29e82eb0403d1ad2c5c58fd809b7"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "557afe10f66636612c0f08851218504d92d078a002b1f27ec2a1d35a22e895f9"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "7cb180cb8b83f7c106f516f12ef6f539d3ec41dd7f185c2aaaf0fe12e4e34a50"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "sha256": "a8be3cf29fce0e53aebddb2316b69b11c36f81d029b5af23e39eadf095724648"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "2113007f0e9db5247e52b432b68f113adda2538222cb2e7a060d9527ec46d0cb"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "sha256": "0a1b097b02079e6f2154036319ca66feb0597eb206b0b733b31cb1ce578345cc"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a"
+    },
+    {
+      "path": "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
+      "sha256": "d5d834d824e1117a7d13ba0898453f0ca7329caa6361f777a082770086b4c476"
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "1869a14855339f6d97921c499ad0e8e56d2c7bb5052989f15b74561acc685945"
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "436027071fbe333f1b3656eb04e3482b92100dcd002b020a81d8743f7ed80989"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "dc9ac8800b0fb86fcd2173afa4c88c11dce106da4df6cdab5c2c4a9cf67d0e57"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1"
+    },
+    {
+      "path": "packages/game/src/worker-url.d.ts",
+      "sha256": "90519798a6ba845bafb60e6f53cdb3dac5a0953a6490f313d30531d599d9632d"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309"
+    },
+    {
+      "path": "packages/game/vendor/rix/COPYING-GPL-3.0",
+      "sha256": "5be661f26e54b8436d20156d80e0d531abcefebce970a9845242cd50b98f9585"
+    },
+    {
+      "path": "packages/game/vendor/rix/COPYING-LGPL-2.1",
+      "sha256": "c70c919322262813d8782ae55673d59063fc5a8d8522d373599ca6f431fd65c4"
+    },
+    {
+      "path": "packages/game/vendor/rix/README.md",
+      "sha256": "24ec7f35a74bcd87485864c19bc1eef93ce928fef7596e68475866fee554ecbc"
+    },
+    {
+      "path": "packages/game/vendor/rix/bridge.cpp",
+      "sha256": "c425456b23d32bb22a88563c01a3cb4f3e927fe510d0ebdca2ecbf55854e8cd2"
+    },
+    {
+      "path": "packages/game/vendor/rix/browser-adapter.patch.gz",
+      "sha256": "e62673fb9ab0de3b6351c70e8f4c96afc1fe8e16e2fd2bf632632faa56a39d53"
+    },
+    {
+      "path": "packages/game/vendor/rix/nuked/opl3.c.h",
+      "sha256": "74ae48b68cac8602ae00686bfb461be79096e81a5adde076ac862f70bbb01a60"
+    },
+    {
+      "path": "packages/game/vendor/rix/nuked/opl3.h",
+      "sha256": "de85ea1afe034d5461e9bb7518e569c5cbc5da59133f49242916dc68d70f4e11"
+    },
+    {
+      "path": "packages/game/vendor/rix/opl.h",
+      "sha256": "039c70225168bc0f949c2f8caa35484a5ae101d185618e0ad1aad119ec8e8da2"
+    },
+    {
+      "path": "packages/game/vendor/rix/opltypes.h",
+      "sha256": "365c580f63fe33b5ce6d62c483e49f34b6ab46129f1f7340310624f6f792e3b3"
+    },
+    {
+      "path": "packages/game/vendor/rix/player.cpp",
+      "sha256": "4aa5119a53ec5520f2a08260159435f72c88e225c627f9ab34d77c6cd6f1077f"
+    },
+    {
+      "path": "packages/game/vendor/rix/player.h",
+      "sha256": "4d25618796117bf86d254a3419e95c5f17ed676f07c612b285c1e3fc7e1f48a0"
+    },
+    {
+      "path": "packages/game/vendor/rix/rix.cpp",
+      "sha256": "35e3ec967a45ce1d6b79e7c056b42ae63d21e2e1d6099afc251d53f681d16ee1"
+    },
+    {
+      "path": "packages/game/vendor/rix/rix.h",
+      "sha256": "be1668331a9cc649abcd7e2fffda7dd069a36c398c55ec95bf98a015152b3a15"
+    },
+    {
+      "path": "packages/game/vendor/rix/source-manifest.json",
+      "sha256": "3f1363a2908f292c63ca66daf376550cfc9eec21488029f9c8138e31f075c523"
+    },
+    {
+      "path": "packages/game/vite.config.ts",
+      "sha256": "ca3efa390c3f0d2ea2e2caf4fbc4470d7ec1e5e12558a20f3cbada795bf080da"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "packages/shared/README.md",
+      "sha256": "41012ce36f3183d1994950bd2c665e35d96498933afac2cd597a2079b374f89e"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "574bb6698c420e6e2858b496676943ba179e671a53127463b3a9c840ad29aa9a"
+    },
+    {
+      "path": "packages/shared/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "bda9a52f990cf145a1fc4749abccac440258139e8f93d0681099a4116535d847"
+    },
+    {
+      "path": "packages/shared/src/__tests__/resources-types.ts",
+      "sha256": "ea9adb31fd528e39c7810182326013e27c3789e73f151465da28c07d6c45d82b"
+    },
+    {
+      "path": "packages/shared/src/events.test.ts",
+      "sha256": "ffc621ee2a5ff8bc453ad8a12b432e0b9d07a0c9b9a9af5a041b2b34867a44a5"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a"
+    },
+    {
+      "path": "packages/shared/src/index.test.ts",
+      "sha256": "fc92b682b1037bd56eb6e11004013abe4290052ee933a8ecee931f660d4d5ef5"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "76a33dfb0fae1ca83f6e8c163d9d4d7ff01d9ae2a1893a9819c3a3291855f98e"
+    },
+    {
+      "path": "packages/shared/src/input.test.ts",
+      "sha256": "bffb9e7bba6e985104736e7cb64af4c082346db894017cbf614032532a6c23d6"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14"
+    },
+    {
+      "path": "packages/shared/src/mkf.boundaries.test.ts",
+      "sha256": "ff365d575d71ed7f97ec349e5ee7ac95c4ced1386c4d187b65c91775bcc45999"
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "6f654d1b361a2e979d9b12b14c1e1f0f4b2aeffc9784e228fe8b30776b9947f1"
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a"
+    },
+    {
+      "path": "packages/shared/src/pal-map-names.test.ts",
+      "sha256": "3a381f468e7107b93efb25592e6a499d5d62cc0e40fe368701b992dcbe1741fc"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "96c2894e297c068065daf8e3e388da21e2f2bc45d41436cd82738db8c256fac2"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.boundaries.test.ts",
+      "sha256": "fc93e0f04f5be79be3c2c15ab83dfc62311d817ef571a9dc3054800dcd7558e3"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+      "sha256": "2a2bb0336aa3b579462c74832971bb113c7d7b302cecc5c731c8974256d4418e"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.test.ts",
+      "sha256": "604eacd989af1111a252f5415700ca070017d60186b8b049955256034deaefe6"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.ts",
+      "sha256": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36"
+    },
+    {
+      "path": "packages/shared/src/rle.boundaries.test.ts",
+      "sha256": "b822c0ec466c41e1171290472feeccbaa423d42e5181b130960b1cc39174f782"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "sha256": "aa7f90c1e75a905198749dee7782800a2c89f05f2d917a9220086ea3572aa043"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "sha256": "cc41e134f9ff96fdceedc7419bde3a6e95e63efb2a18a6410918ed4ab1727f3b"
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "sha256": "790356e8fa9b9d5e50039730af27ebb29cb2cef37253657c6c26c9e598c8e700"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5"
+    },
+    {
+      "path": "packages/shared/src/rng.boundaries.test.ts",
+      "sha256": "0f9f2d9a43672f629c3d1577cdebdd3f2f8847a22f4b00838a42a91eae946e43"
+    },
+    {
+      "path": "packages/shared/src/rng.test.ts",
+      "sha256": "07cd564b6cff29179e3c2c77be797c85d3f3194afe885fa1c2e7bcb0bdd0ad7a"
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "sha256": "2196d3266b5d9a5a91cb4d4778c35eb0df640d28975e2833b3b2e26d88fde1c7"
+    },
+    {
+      "path": "packages/shared/src/tables.test.ts",
+      "sha256": "c46e0c064cca3e07b12da33558c28b82748168bc63ab3f2d79c6caa3481a013c"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a"
+    },
+    {
+      "path": "packages/shared/src/yj2.boundaries.test.ts",
+      "sha256": "9b35d8a20031fc1fdbb7ac97268b113a0c92c59a87eded446a628593c7d1e7e6"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "878b3fb48427f20aede9c660c7030cbd0a74db09c5cb1f01979541a7c192343f"
+    },
+    {
+      "path": "packages/shared/tsconfig.json",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "c64b02e6d0582caa35ae0730ca2e8c7e2e3c3f7ea4f19734459ae7dfaf7b6cf5"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c"
+    }
+  ],
+  "result": "expected-business-assertion-only; recovery green; live source/test unchanged",
+  "scratchRemoved": true
+}

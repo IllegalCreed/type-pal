@@ -1,0 +1,69 @@
+{
+  "candidate": "995cd8aee75423d49fbbcd33f64e0776b6cc6a48",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "fullReads": [
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "lines": 242
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.boundaries.test.ts",
+      "sha256": "a55ce7bb26059e35da357250cf4c1e2aee2cb6d28d3b73ffe486cd0fa751f2f6",
+      "lines": 135
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "sha256": "5310870943689fd623d4d29f4e5cd4443c422411e90793750725c0574bc8d155",
+      "lines": 323
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+      "sha256": "64f9a158bb0a426b619ec75035584e986ace5a6ed25ae9b241bd8b88d9456ffc",
+      "lines": 98
+    }
+  ],
+  "partialCallers": [
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "ranges": ["1-68", "280-327"]
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "ranges": ["1-65"]
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/midi_tsf.c",
+      "ranges": ["130-170"]
+    },
+    {
+      "package": "spessasynth_lib",
+      "version": "4.3.6",
+      "path": "dist/index.js.map sourcesContent ../src/sequencer/sequencer.ts",
+      "ranges": ["325-336", "375-393", "411-420"],
+      "observed": "loadNewSongList sends parser work; later songChange/midiError event delivers completion"
+    }
+  ],
+  "retirement": {
+    "file": "packages/game/src/shell/audio-midi.boundaries.test.ts",
+    "cases": 2,
+    "replacementFile": "packages/game/src/shell/audio-midi.test.ts",
+    "replacementFileEdited": false,
+    "map": [
+      {
+        "old": "audio-midi latest track ownership drops a stale MIDI fetch response after a newer track was requested",
+        "retained": "MIDI backend lifecycle at media IO boundaries a newer track wins when the earlier request resolves last",
+        "oracle": "Both observe latest-wins; retained case waits actual body consumption and proves a single exact load, byte payload and loop intention, in addition to no stale play"
+      },
+      {
+        "old": "audio-midi latest track ownership drops an in-flight MIDI response after stop",
+        "retained": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+        "oracle": "Retained case proves old body read and completion then no load and no play; old assertion only observes no play after timers"
+      }
+    ]
+  },
+  "noProductRuleOrPublicAPIChange": true,
+  "closedFiles": []
+}

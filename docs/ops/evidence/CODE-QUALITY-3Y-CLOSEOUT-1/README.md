@@ -11,3 +11,5 @@
 分支清理已实际完成：本地/远端治理ref各仅codex/code-quality-3y；两个旧菜单别名与本地临时closeout已删，两managed旧树可恢复归档。32855a267已推送，a9be8ab9和d4cf7f57d均为其祖先；main未改、未合。实际工作目录与引用/归档证明见branch-consolidation-proof.json。
 
 首个复审观察：CODE75旧两例实际重跑1通过/1失败（0skip），当前main版MIDI入口已有parser事件/生命周期协议，旧FakeSequencer不提供eventHandler，不能据此回退main产品。已全文读当前MIDI实现、旧测试、main新12例与CODE75卡，现main的新“stop后响应”和“新曲优先”两例更强，排重/合法IO/隔离与精确退役下一片继续核；当前未删除、未改源码。baseline原件/JSON/SHA保留，不能因单branch已统一宣称复审通过。
+
+2026-10-16后续[Y01复审](midi-review/README.md)：旧两例已证合同重复且库协议过期，删除该测试文件，main产品/12例原字节均保留。定向12、相邻44、game typecheck及隔离stop反控12绿→11绿1指定业务红→恢复12绿均通过；0新增关闭。机器3287/223closed/198review/2866pending。58卡当前逐项进度独立写入[rereview-progress.json](rereview-progress.json)，不改合并时历史矩阵；完整门尚未运行本片，未合main。

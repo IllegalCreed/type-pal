@@ -45,3 +45,17 @@ Codex premise verified / design agree / build allowed仅保全式合并、文档
 ## 最新实际分支状态
 
 32855a267已将两线全部提交统一并推送到codex/code-quality-3y，两原tip均为祖先。两个菜单别名本地/远端和本地临时closeout分支均已实际删除；旧managed worktree归档可恢复，旧3x工作树在原SHA只脱离分支。当前唯一治理分支为3y，不再新增。main未改未合；58卡与逐文件门仍未收口。CODE75是首个复审入口，旧测试在main新协议下1红/1绿，已留证；先核与主线现有同合同用例的排重，不回退已发布的MIDI owner。
+
+## Y01 — CODE75 MIDI测试排重准入
+
+Coding Owner Codex，当前995cd8aee，唯一3y分支，0behind。已全文读当前audio-midi.ts、旧audio-midi.boundaries.test.ts、main现有audio-midi.test.ts与CODE75历史卡；直接读MusicBackend合同和AudioManager实际play/stop/dispose caller、SDLPal TSF_Play。旧两例只断言plays列表，使用1字节MIDI/强转Response、不可恢复全局fetch及定时猜完成，FakeSequencer又缺当前事件协议，统一候选1红1绿。main12例已有同两合同，使用实际Response/有效SMF/canonical SF3/ready及arrayBuffer完成见证，且断言load/play/loop或stop后零提交。
+
+Codex premise verified / design agree / build allowed仅本片：删除已证重复且协议过期的旧boundaries测试文件；保留main测试原字节；只更新本卡/账本/证据/复审矩阵。不得改MIDI产品、AudioManager公共接口、音色/资源或规则。删除2条旧用例不等于删两项业务合同，须保留file×fullName转移映射、完整12例/相邻回归、game typecheck和至少一枚隔离stop失效业务反控11绿1指定AssertionError→恢复12绿；全仓门按稳定窗口集中，0文件新增关闭。
+
+coverage runner实际合同：run.mjs:429-433只拦仍存在文件中的test-file/test-count删除，已从Git树实际删除的重复测试文件可按既有精确scope机制处理；官方ratchet如有removal仍须原生allow-scope-removal，并比对main与旧3y保护线。不得新增exclude/ignore或扩大批准predicate；本片不改保护表、不手拼基线。
+
+### Y01当前检查点
+
+2026-10-16：已删除旧测试文件，原件无损gzip与两条file×fullName转移关系留证；main产品/12例测试均原字节。定向12、相邻6文件44、game typecheck通过且无运行时诊断。临时副本stop代际反控12绿→11绿1指定AssertionError→恢复12绿，清理后另进程重建recipe、SHA与实际runner身份核对通过；首次准备缺shared/node_modules未跑测试，失败记录保留。详见[本片证据](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)。
+
+机器3287/223closed/198review/2866pending，0新关闭；CODE75只收本片排重，不恢复历史产品closed，余57卡未复审。完整check/official ratchet/两父protected fast仍待稳定模块窗口集中，不合main。继续只用codex/code-quality-3y；fetch核main未前进，0behind，分支整合所有旧tip可达。

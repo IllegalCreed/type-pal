@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,288。
-当前已闭合核验：223；已读但待审：198；尚未逐文件核验：2,867；合计未闭合：3,065。
+起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
+当前已闭合核验：223；已读但待审：198；尚未逐文件核验：2,866；合计未闭合：3,064。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -386,8 +386,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/shell/audio.ts` | product | review | CODE-QUALITY-74；SDLPal sound/midi caller、bootstrap/dev-panel callers、audio 主/边界 tests；27 定向 tests、全仓质量门 | SFX queue ownership、BGM track/loop、同号去重、开关/补播、OGG release 逐段核验；未发现直接缺陷；MIDI async race 留 CODE-QUALITY-75；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/shell/audio.test.ts` | test | review | CODE-QUALITY-74；URL/track、AudioManager、SFX mapping/dedup、OGG lifecycle oracle；主合同全绿 | 合法输入、真实 MusicBackend caller、资源释放与高判别力反例；不覆盖 MIDI fetch 逆序；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/shell/audio.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-74；OGG volume 与 audio-midi no-WebAudio/no-op 端口 oracle；27 定向 tests 全绿 | 与主合同排重；audio-midi async race 明确留 CODE-QUALITY-75；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `packages/game/src/shell/audio-midi.ts` | product | review | CODE-QUALITY-75；SDLPal `midi_tsf.c:137-168`、bootstrap/dev-panel caller；定向 29、game 3528、全仓质量门 | `playGeneration` 在 play/stop 与 resume/fetch/arrayBuffer 后 fail-closed，旧曲/停止响应不再 load/play；公共 API/曲目选择未变；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `packages/game/src/shell/audio-midi.boundaries.test.ts` | test | review | CODE-QUALITY-75；真实 `createSpessaSynthBackend`/fake Sequencer oracle；逆序响应与 stop 在途反控 red→green | 2 个高判别力竞态合同；不以 mock backend 替代真实入口；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
+| `packages/game/src/shell/audio-midi.ts` | product | review | CODE75当前复审Y01：全文读取并核MusicBackend/AudioManager/source-controller caller及SpessaSynth 4.3.6异步事件协议；精确保留最新main字节 | 旧3y实现已由main发布实现替代；12定向、44相邻、game typecheck与stop代际反控通过；公共输入/整生命周期及统一质量门仍待核，不恢复历史closed |
+| `packages/game/src/shell/audio-midi.test.ts` | test | review | CODE75当前复审Y01：全文323行、合法SMF/canonical SF3/实际Response与受控body完成oracle；两个旧合同精确映射到现有12例；隔离stop反控12绿→11绿1指定业务红→恢复12绿 | 主线原字节未改；旧boundaries两例重复且FakeSequencer协议过期，删除原件与file×fullName映射见[本片证据](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)；全仓门尚未收口 |
 | `packages/game/src/shell/main-loop.ts` | product | review | CODE-QUALITY-76；SDLPal `game.c:43-86`/`play.c:513-565`、bootstrap/mode/speedrun callers；33 定向、全仓质量门 | fixed cadence、accumulator、mode clamp、freeze、present/input gates、scene context、RAF cancel 逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/shell/main-loop.test.ts` | test | review | CODE-QUALITY-76；tickN/interval/accumulator/present/fade/input oracle；12 tests | 主合同与 SDLPal cadence 对照；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/shell/main-loop-gates.grok-r1.test.ts` | test | review | CODE-QUALITY-76；drain/nowMs/dump/freeze/mode-switch/RAF cancel boundary oracle；13 tests | 宿主边界与主合同排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
@@ -536,3 +536,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-15 C02导入/历史三测试仅从pending列review；共用UI助手已在review，本轮仍review。3284/229closed/54review/3001pending，0文件关闭。
 
 2026-10-15 用户要求94前回溯：36卡结构盘点、8卡与13源码/测试/工具全文抽查，四条旧关闭因直接前提/fixture/注释counter撤回；3284/225closed/75review/2984pending，0新关闭。旧计数保持历史，未复验其它225条。见[回溯](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。
+
+2026-10-16 CODE75复审Y01：统一3y保留main MIDI产品与12例测试原字节，删除已证明合同重复且库协议过期的旧boundaries两例（原件无损留存）。12定向、44相邻、game typecheck均通过且无运行时诊断；隔离stop代际失效仅指定业务断言失败，恢复12绿并独立核SHA/身份/清理。账本仅删除退役review行、将现有main测试pending转review；机器结果3287/223closed/198review/2866pending，0新增关闭。58卡整体验收和check/official ratchet/两父protected fast仍待集中窗口，不因本片通过合main。
