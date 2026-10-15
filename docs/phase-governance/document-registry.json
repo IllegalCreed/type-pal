@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 726,
+    "total": 727,
     "byPhase": {
-      "ops": 417,
+      "ops": 418,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -33,13 +33,13 @@
       "test-machine-evidence": 18,
       "test-domain-report": 8,
       "test-contract": 1,
-      "test-catalog": 1
+      "test-catalog": 2
     },
     "reviewStatus": {
-      "content-reviewed": 726
+      "content-reviewed": 727
     },
     "templateCompliance": {
-      "template-compliant": 217,
+      "template-compliant": 218,
       "governed-legacy": 509
     }
   },
@@ -8437,6 +8437,20 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "phase": "ops",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "frozen-document-binding-baseline-v1",
+      "template": "docs/testing/_templates/test-catalog.json",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-binding-baseline-contract.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

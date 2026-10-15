@@ -190,7 +190,7 @@
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "F1 author reads exact ec2 predecessor/current body and changed contract/current administrative fields; original earlier semantic/product/18entry review scopes retained in complete fixedGit prior. Current full body read; no underlying product/raw/oldtest re-audit.",
+      "readMethod": "Reuse complete fixed dd377 prior and independently accepted exact e136 maintenance semantics, not a new18-entry product/old-code review. Root reads the current small administrative reception delta; catalog JSON and quality ledger body unchanged. Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes.",
       "truthAnchors": [
@@ -200,10 +200,10 @@
         "scripts/docs/frozen-document-source.mjs"
       ],
       "unresolved": [
-        "Independent F1 implementation/canonical pilot and current maintenance-byte reception pending.",
-        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
+        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit.",
+        "Current root administrative/central/matrix delta separately pending non-author acceptance and zero gates; full baseline/increments/artifacts incomplete."
       ],
-      "nextStep": "Root/non-author review of exact F1 candidate and real default/source/native/CLI proofs; then decide baseline incremental reception separately. Preserve original catalog deadlines/statuses and all other pending work.",
+      "nextStep": "Independently verify current root administrative/central delta and zero gates; source e136/dd377 accepted only within recorded scopes. Continue full cohort/increments/artifacts; no new runtime or quality closure.",
       "phase": "phase-governance",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -270,13 +270,29 @@
           "date": "2026-10-16",
           "author": "receipt_review",
           "scope": "F1 exact predecessor/current maintenance only; canonical baseline/implementation and these later metadata bytes pending independent reception, not a reused old signature."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
+          "completeImmediatePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+            "gitObject": "d78eece314f3e3def84e4495537277cc1730848e",
+            "fileSha256": "e52896e32811e4b99636a7bc34eb5b80d3a3db12f68efe13588fa9cda3d4aa0b",
+            "completePriorObjectRetrievedAndCompared": true,
+            "selector": {
+              "entries.path": "docs/phase-governance/templates/README.md",
+              "uniqueMatches": 1
+            }
+          }
         }
       ],
       "sourceSha256": "c2d0ee976ad1ff3ea1228af64baf2ab25188acdde50ced8d571d9fd853ddbd80",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "fc539ac13185e1abe087cfde8d6295924d2c2dd69dfb9b60da244e1bf2b6aec1",
+      "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -293,7 +309,7 @@
         "type": "F1-source-specific-maintenance-and-no-new-credit",
         "assertions": [
           "Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes.",
-          "All new baseline implementation/pilot reception remains explicitly non-author pending; version roll/document navigation does not certify runtime/E2E/visual/coverage."
+          "Exact e136/DD377 independent reception now recorded; current later root administrative bytes still require separate acceptance, no runtime/E2E/visual/coverage credit."
         ]
       },
       "dedupe": {
@@ -303,11 +319,11 @@
           "docs/phase-governance/templates/registry.json",
           "docs/phase-governance/reviews/20261016-binding-baseline-contract.json"
         ],
-        "notes": "Existing unique source/current record retained; baseline candidate exists only in pilotCandidate, not duplicated centralentries or1838 membership."
+        "notes": "Existing unique current record; original pilotCandidate remains immutable historical authored snapshot. New baseline current entry in F1 control is a different nonmember document, eligible incremental1 only."
       },
       "revision": {
         "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-        "implementationSha": "fc539ac13185e1abe087cfde8d6295924d2c2dd69dfb9b60da244e1bf2b6aec1",
+        "implementationSha": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -361,7 +377,7 @@
         "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
         "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
         "sourceSha256": "c2d0ee976ad1ff3ea1228af64baf2ab25188acdde50ced8d571d9fd853ddbd80",
-        "afterSha256": "fc539ac13185e1abe087cfde8d6295924d2c2dd69dfb9b60da244e1bf2b6aec1",
+        "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
         "lineCount": 58,
         "sourceScope": "Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes.",
         "completePrior": {
@@ -376,7 +392,19 @@
           },
           "completePriorObjectRetrievedAndCompared": true
         },
-        "independentReception": "pending exact-byte/code/canonical review"
+        "independentReception": "Exact e136 maintenance accepted by history_cards_a; dd377 natural import accepted by history_cards_c_tail; current new root administrative bytes separately pending.",
+        "immediateCompletePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+          "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "gitObject": "d78eece314f3e3def84e4495537277cc1730848e",
+          "fileSha256": "e52896e32811e4b99636a7bc34eb5b80d3a3db12f68efe13588fa9cda3d4aa0b",
+          "completePriorObjectRetrievedAndCompared": true,
+          "selector": {
+            "entries.path": "docs/phase-governance/templates/README.md",
+            "uniqueMatches": 1
+          }
+        }
       },
       "history": [
         {
@@ -493,6 +521,27 @@
           },
           "independentReception": "pending",
           "newMigrationCredit": 0
+        },
+        {
+          "date": "2026-10-16",
+          "action": "root-reception-administrative-update",
+          "base": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+          "sourceSha256": "fc539ac13185e1abe087cfde8d6295924d2c2dd69dfb9b60da244e1bf2b6aec1",
+          "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+          "bodyChanged": true,
+          "runtimeExecutionPerformed": false,
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+            "gitObject": "d78eece314f3e3def84e4495537277cc1730848e",
+            "fileSha256": "e52896e32811e4b99636a7bc34eb5b80d3a3db12f68efe13588fa9cda3d4aa0b",
+            "completePriorObjectRetrievedAndCompared": true,
+            "selector": {
+              "entries.path": "docs/phase-governance/templates/README.md",
+              "uniqueMatches": 1
+            }
+          }
         }
       ],
       "supersedes": [],
@@ -500,10 +549,10 @@
       "userVisibleBeforeAfter": {
         "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
         "after": "Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes.",
-        "semanticChange": "Documentation/contract declaration or pending-inventory maintenance only; independent F1 acceptance still required."
+        "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
       "reviewedLines": "1-58",
-      "reviewNotes": "Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes. Fullprior fixedGit preserved; independentF1 reception pending.",
+      "reviewNotes": "Source e136 maintenance independently accepted; root administrative reception update only, original review scopes and source priors retained.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -2771,7 +2820,7 @@
         "scripts/docs/document-model.mjs",
         "scripts/docs/frozen-document-source.mjs"
       ],
-      "documentStatus": "current publication/navigation; F1 author maintenance awaiting independent exact-byte reception",
+      "documentStatus": "Current publication/navigation; exact e136 maintenance independently accepted, later root administrative fields separately pending scoped reception.",
       "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
       "dependencies": [
         "docs/phase-governance/templates/registry.json",
@@ -2781,19 +2830,20 @@
       "applicability": "F1 source-specific document/contract maintenance only; no current product/runtime or whole-doc acceptance. Full current registry navigation reread; add only F1catalog1.2/default-preservation/unique frozen-capture binding and independent-pilot-pending boundary.17types and machine1.5 unchanged. This is new author-maintained body, not previously accepted J snapshot bytes.",
       "publicEntry": "docs/phase-governance/templates/README.md",
       "counterReworkBlocked": {
-        "F1": "Author static verification only; independent implementation/canonical baseline and maintenance-byte review pending.",
-        "priorAcceptance": "Previous accepted body/record remains exactly retrievable at fixedGit; old acceptances do not cover newF1 bytes."
+        "F1": "Exact e136 implementation/canonical/four maintenance scopes independently accepted; dd377 import accepted. Root later administrative/central bytes separately pending, not old-signature reuse.",
+        "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
+        "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
-      "reviewedSourceSha256": "c2d0ee976ad1ff3ea1228af64baf2ab25188acdde50ced8d571d9fd853ddbd80",
+      "reviewedSourceSha256": "fc539ac13185e1abe087cfde8d6295924d2c2dd69dfb9b60da244e1bf2b6aec1",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.0.0",
-        "method": "Current actual contract/body consumer and source-specific author review; independent F1 byte acceptance pending, no oldsignature reuse.",
+        "method": "Exact e136 maintenance body/semantics independently accepted; current actual source/body contract retained. Only later root administrative reception prose/record fields pending scoped review.",
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0"
       },
-      "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-      "reviewedSourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
+      "reviewedSourceGitRevision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+      "reviewedSourceGitObject": "9807eabc639ce84bb3ac8dba051b0529901514be",
       "priorReadingSources": [
         {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -2806,6 +2856,18 @@
             "uniqueMatches": 1
           },
           "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+          "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "gitObject": "d78eece314f3e3def84e4495537277cc1730848e",
+          "fileSha256": "e52896e32811e4b99636a7bc34eb5b80d3a3db12f68efe13588fa9cda3d4aa0b",
+          "completePriorObjectRetrievedAndCompared": true,
+          "selector": {
+            "entries.path": "docs/phase-governance/templates/README.md",
+            "uniqueMatches": 1
+          }
         }
       ]
     },

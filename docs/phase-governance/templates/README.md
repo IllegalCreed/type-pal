@@ -48,7 +48,7 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
 新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
 不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；
-新baseline canonical候选与实现仍待非作者独立接收，见[F1专属记录](../reviews/20261016-binding-baseline-contract.json)；不能由source/结构绿或作者自验授迁移完成。
+固定e136实现/canonical与dd377自然接入已分别获非作者独立接收；后续根行政及中央接入按当前字节另验，见[F1专属记录](../reviews/20261016-binding-baseline-contract.json)；不能由source/结构绿或作者自验授迁移完成。
 
 ## 证据与下一步
 

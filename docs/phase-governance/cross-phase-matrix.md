@@ -27,7 +27,7 @@ Template: governance-index-v1 / 1.0.0
 | Lore ↔ Phase2 内容 | 只消费确认项与明确版本 | guarded | 来源冲突、创意和安全自查不自动升格 canon |
 | Guijie ↔ Phase3 | 均是未承诺候选/参考 | resolved | 需独立范围和产品裁决才能开 build |
 | Ops 证据 ↔ runtime/testing | 文档记录与实际执行各有范围 | guarded | 截图、计数、任务状态不单独证明通过 |
-| 文档类型 ↔ 全量模板 | 17 类合同，逐篇真实 pilot/迁移 | guarded | 旧 registry 和保真样本不算全量完成 |
+| 文档类型 ↔ 全量模板 | 17 类合同，逐篇真实迁移；捕获索引自身最多增量1 | guarded | 原1838候选绑定仍是历史索引，不代替逐篇审读或全量验收 |
 | 旧协作协议 ↔ 当前 Ops | 原文留存，现行流程控制准入 | resolved | 不恢复固定三签或历史交接授权 |
 | onEnter 下界探针 ↔ 测试信用 | 无 goto/BFS 的线性扫描只给下界 | guarded | 不推出全库不可达或据此撤销业务合同 |
 | Phase3 美术参考 ↔ 当前 build | 仅阶段边界当前有效，旧技术/法律断语未重核 | guarded | 不把旧“现在/推荐/合法”当实施或发行授权 |

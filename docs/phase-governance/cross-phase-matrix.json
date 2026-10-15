@@ -145,18 +145,21 @@
         "docs/phase-governance",
         "docs/README.md"
       ],
-      "relationship": "The approved 1838-document baseline and later candidates require per-document semantic migration. Registered legacy bindings are inventory only; completion requires matching review SHA and concrete template contracts.",
+      "relationship": "The approved 1838-document baseline and later candidates require per-document semantic migration. Registered legacy bindings are inventory only; completion requires matching review SHA and concrete template contracts. Frozen binding capture governance counts only its nonmember file incremental1: original1838 ordered provisional/unread entries and15-type summary are source history. Fixed raw Git Buffer identity and governed view are independently accepted, not source-document approvals.",
       "status": "guarded",
       "evidence": [
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
         "scripts/docs/report-governance-progress.mjs:1",
-        "docs/phase-governance/templates/README.md:1"
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json:1",
+        "scripts/docs/frozen-document-source.mjs:1",
+        "scripts/docs/git-document-snapshot.mjs:1"
       ],
       "unresolved": [
         "The full approved cohort and incremental candidates have not all been read, migrated or assigned artifact ownership.",
         "Types without real pilots cannot be migrated in bulk; legacy reviewed/governed-legacy status does not close this gap."
       ],
-      "stopLine": "Do not claim whole-docs completion from old 563/570 registrations, path classification, preserved-source samples or partial green gates.",
+      "stopLine": "Do not claim whole-docs completion from old 563/570 registrations, path classification, preserved-source samples or partial green gates. Do not turn capture/index structural traversal into1838 semantic reviews or native status promotion.",
       "history": [
         {
           "date": "2026-10-04",

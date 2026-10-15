@@ -35,4 +35,4 @@ runtimeExecutionPerformed 固定 false，逐条 reading 必须与 entries 一一
 
 合同与来源见[F1冻结设计](../../phase-governance/reviews/20261016-binding-baseline-design.md)；
 本轮实现与canonical候选见[专属记录](../../phase-governance/reviews/20261016-binding-baseline-contract.json)。
-作者自验不是非作者canonical接收，现阶段候选保持待独立验收；本页不授runtime/E2E/视觉/coverage信用。
+固定e136实现/canonical及dd377自然接入已分别获非作者独立接收；根后续行政与中央字节须另验。本页不授runtime/E2E/视觉/coverage信用，索引自身最多增量1，不给1838源文授审读信用。
