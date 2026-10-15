@@ -7,6 +7,8 @@
 
 ## 当前证据
 
+- [Editor三文件诊断与oracle](QUALITY-EDITOR-DIAGNOSTICS-1/README.md)（生命周期604→200→0，断言及完整门待续，未关闭文件）。
+
 - [CODE-QUALITY-94 menu 集成证据](CODE-QUALITY-94/README.md)（独立候选源/身份清单、typed fixture 修正与新质量门；尚未集成）。
 - [CODE-QUALITY-83 历史 menu 治理原件](CODE-QUALITY-83/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
 - [CODE-QUALITY-84 历史 menu 治理原件](CODE-QUALITY-84/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。

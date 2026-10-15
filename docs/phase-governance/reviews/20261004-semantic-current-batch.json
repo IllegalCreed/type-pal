@@ -1140,8 +1140,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
+      "sourceSha256": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
+      "afterSha256": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1175,7 +1175,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+        "implementationSha": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1528,6 +1528,14 @@
           "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
           "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
           "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
+        },
+        {
+          "date": "2026-10-15",
+          "action": "editor-first-slice-evidence-navigation-repair",
+          "revision": "da342d6f7",
+          "previousAfterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
+          "afterSha256": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
+          "scope": "Add own diagnostic evidence link only; other task acceptance preserved."
         }
       ],
       "supersedes": [],

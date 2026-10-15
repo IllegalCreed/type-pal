@@ -26,3 +26,6 @@ ID草稿、真实catalog计数、pending→ready禁用合同需单独补强，�
 全部70条不因告警为0升级逐文件accept；相邻oracle/排重未知仍review，未删除任何用例。
 定向/相邻/typecheck与完整check、官方ratchet、protected fast、lint-zero、ledger将在本模块窗口集中完成。
 完整门仍有本片以外诊断时保留CODE94 rework，不合main。
+
+首个检查点文档接线失败原件为docs-initial-failure.raw.gz、ledger-initial-failure.raw.gz：
+漏证据上级导航、表内空行使3行不被机器计数；随后修正，docs0issues、ledger3284/229/48/3007通过。
