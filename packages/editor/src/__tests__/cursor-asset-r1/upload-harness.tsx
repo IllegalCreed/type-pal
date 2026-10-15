@@ -41,8 +41,9 @@ export interface MountedWizard {
   scope: WizardScope
   /** onDone 回调实参按序记录（含 null）。 */
   done: Array<string | null>
+  restoreResourceObservers(): void
   /** 受控宿主：换 scope（等价外壳换项目/会话）。 */
-  setScope(next: WizardScope): Promise<void>
+  setScope(next: WizardScope, waitForPalette?: boolean): Promise<void>
   /** 受控宿主：写入 sprites prop 的覆盖（模拟宿主传入过期 sprites 列表）。 */
   setSpritesOverride(next: WizardSpritesOverride): Promise<void>
 }
@@ -52,6 +53,15 @@ export type WizardSpritesOverride = 'live' | 'empty'
 interface WizardController {
   setScope?: (next: WizardScope) => void
   setOverride?: (next: WizardSpritesOverride) => void
+}
+
+const wizardPaletteWaiters = new WeakMap<HTMLElement, () => Promise<void>>()
+
+/** Wait for the current scope's actual role read, preserving intentional pending IO. */
+export async function waitForWizardPalette(host: HTMLElement): Promise<void> {
+  const wait = wizardPaletteWaiters.get(host)
+  if (!wait) throw new Error('SpriteUploadWizard host is not mounted')
+  await wait()
 }
 
 function WizardHarness(props: {
@@ -79,7 +89,7 @@ function WizardHarness(props: {
 
 export async function mountWizard(
   project: ProjectLike,
-  input: { assetBase?: AssetBase; session?: EditSession } = {},
+  input: { assetBase?: AssetBase; session?: EditSession; waitForPalette?: boolean } = {},
 ): Promise<MountedWizard> {
   const host = document.createElement('div')
   document.body.append(host)
@@ -90,22 +100,52 @@ export async function mountWizard(
     session: input.session ?? new EditSession(project.state),
     assetBase: input.assetBase ?? project.assetBase,
   }
-  await act(async () => {
-    root.render(<WizardHarness initial={scope} done={done} controller={controller} />)
-    await Promise.resolve()
+  const observations = new WeakMap<AssetBase, { base: AssetBase; reads: Promise<string>[] }>()
+  let paletteReads: Promise<string>[] = []
+  const observedScope = (next: WizardScope): WizardScope => {
+    let observed = observations.get(next.assetBase)
+    if (!observed) {
+      const resolver = new PaletteReadObserver(next.assetBase)
+      observed = { base: { ...next.assetBase, assetResolver: resolver }, reads: resolver.reads }
+      observations.set(next.assetBase, observed)
+    }
+    paletteReads = observed.reads
+    return { ...next, assetBase: observed.base }
+  }
+  const initial = observedScope(scope)
+  const restoreResourceObservers = () => wizardPaletteWaiters.delete(host)
+  wizardPaletteWaiters.set(host, async () => {
+    await act(async () => {
+      // The component owns error presentation; failure tests must still assert its UI.
+      await Promise.allSettled(paletteReads)
+    })
   })
+  try {
+    await act(async () => {
+      root.render(<WizardHarness initial={initial} done={done} controller={controller} />)
+    })
+    if (input.waitForPalette !== false) await waitForWizardPalette(host)
+  } catch (reason) {
+    try {
+      await act(async () => root.unmount())
+    } finally {
+      restoreResourceObservers()
+      host.remove()
+    }
+    throw reason
+  }
   const mounted: MountedWizard = {
     host,
     root,
     scope,
     done,
-    async setScope(next) {
+    restoreResourceObservers,
+    async setScope(next, waitForPalette = true) {
       mounted.scope = next
       await act(async () => {
-        controller.setScope?.(next)
-        // 新 scope 的色盘读取经内存目录多段 I/O；在 act 内让出宏任务直至其落地，避免越界更新告警。
-        for (let turn = 0; turn < 8; turn++) await new Promise((resolve) => setTimeout(resolve, 0))
+        controller.setScope?.(observedScope(next))
       })
+      if (waitForPalette) await waitForWizardPalette(host)
     },
     async setSpritesOverride(next) {
       await act(async () => controller.setOverride?.(next))

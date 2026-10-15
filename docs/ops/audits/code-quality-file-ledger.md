@@ -55,6 +55,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-14 CODE92 工程门命令纠错：CODE83–89、CODE91 的 pnpm check:fast 被误记为 protected fast；正确门是 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast。30条记录暂转review，旧语义核验/实际日志/历史任务结论保留；只有真正受保护覆盖门通过并核当前源与逐文件证据一致后才可恢复关闭。本次未改变测试、规则或产品。当前机器库存3271：closed340/review42/pending2889。
 
+2026-10-16 C10保存未完成检查点：Wizard30例仍2act，相邻80例仍8act；typecheck通过，反控/排重/统一门未完成。按用户优先级转94前全量复审，本片不新增关闭或变更逐文件状态，机器3287/223/199/2865。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |

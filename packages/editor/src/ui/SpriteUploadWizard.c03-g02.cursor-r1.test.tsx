@@ -8,6 +8,7 @@
  * 唯一替身：浏览器硬件端口（Node Blob/crypto；createImageBitmap 经 node-canvas 真实 PNG 解码，
  * 仅按文件名闸门并计 close）与色盘 I/O 闸门；业务核心全部真实。
  */
+import { act } from 'react'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { atlasColors, pngFileOf } from '../__tests__/cursor-asset-r1/image-ports.js'
 import {
@@ -20,6 +21,7 @@ import {
   type MountedWizard,
   mountWizard,
   unmountHost,
+  waitForWizardPalette,
 } from '../__tests__/cursor-asset-r1/upload-harness.js'
 import {
   atlasFile,
@@ -31,7 +33,6 @@ import {
   installGatedBitmapPort,
 } from '../__tests__/cursor-asset-r1/upload-ports.js'
 import {
-  flush,
   waitDone,
   wizardBusy,
   wizardCancel,
@@ -66,10 +67,13 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-  if (mounted) await unmountHost(mounted)
-  mounted = undefined
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
+  try {
+    if (mounted) await unmountHost(mounted)
+  } finally {
+    mounted = undefined
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 const walkAtlas = () => gridAtlasPng(3, 4, 4, 4, atlasColors(12))
@@ -78,7 +82,7 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
   test('C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史', async () => {
     mounted = await mountWizard(project)
     expect(wizardCancel(mounted.host).disabled).toBe(false)
-    wizardCancel(mounted.host).click()
+    await act(async () => wizardCancel(mounted!.host).click())
     expect(mounted.done).toEqual([null])
     expect(mounted.scope.session.getHistoryVersion()).toBe(0)
     expect(mounted.scope.session.getState().sprites).toEqual(project.state.sprites)
@@ -87,17 +91,19 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
   test('C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库', async () => {
     mounted = await mountWizard(project)
     const hold = port.gate('slow.png')
-    await wizardPick(mounted.host, atlasFile('slow.png', walkAtlas()))
+    const image = await wizardPick(mounted.host, atlasFile('slow.png', walkAtlas()), {
+      waitForDecode: false,
+    })
     expect(port.started).toEqual(['slow.png'])
     expect(wizardBusy(mounted.host)).toBe('true')
     expect(wizardCancel(mounted.host).disabled).toBe(false)
-    wizardCancel(mounted.host).click()
+    await act(async () => wizardCancel(mounted!.host).click())
     expect(mounted.done).toEqual([null])
-    hold.resolve()
-    await vi.waitFor(() => {
-      expect(port.closes('slow.png')).toBe(1)
+    await act(async () => {
+      hold.resolve()
+      await image.finished
     })
-    await flush()
+    expect(port.closes('slow.png')).toBe(1)
     expect(port.decoded).toEqual(['slow.png'])
     expect(mounted.host.querySelector('.sprite-upload-submit')).toBeNull()
     expect(wizardReadout(mounted.host)).toBe('')
@@ -106,14 +112,18 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
 
   test('C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入', async () => {
     const wizard = await mountWizard(project)
+    mounted = wizard
     const hold = port.gate('gone.png')
-    await wizardPick(wizard.host, atlasFile('gone.png', walkAtlas()))
-    await unmountHost(wizard)
-    hold.resolve()
-    await vi.waitFor(() => {
-      expect(port.closes('gone.png')).toBe(1)
+    const image = await wizardPick(wizard.host, atlasFile('gone.png', walkAtlas()), {
+      waitForDecode: false,
     })
-    await flush()
+    await unmountHost(wizard)
+    mounted = undefined
+    await act(async () => {
+      hold.resolve()
+      await image.finished
+    })
+    expect(port.closes('gone.png')).toBe(1)
     expect(wizard.scope.session.getHistoryVersion()).toBe(0)
     expect(wizard.done).toEqual([])
     mounted = undefined
@@ -121,7 +131,7 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
 
   test('C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库', async () => {
     const { assetBase, hold } = gatePalette(project.assetBase)
-    mounted = await mountWizard(project, { assetBase })
+    mounted = await mountWizard(project, { assetBase, waitForPalette: false })
     await wizardPick(mounted.host, atlasFile('late-palette.png', walkAtlas()))
     await wizardWaitDecoded(mounted.host)
     expect(wizardReadout(mounted.host)).toContain('late-palette.png')
@@ -130,7 +140,10 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
     expect(wizardSubmit(mounted.host).disabled).toBe(true)
     await wizardClickSubmit(mounted.host)
     expect(mounted.done).toEqual([])
-    hold.resolve()
+    await act(async () => {
+      hold.resolve()
+      await waitForWizardPalette(mounted!.host)
+    })
     await wizardWaitReady(mounted.host)
     expect(wizardThumbCount(mounted.host)).toBe(12)
     await wizardClickSubmit(mounted.host)

@@ -34,6 +34,7 @@
 | QUALITY-EDITOR-FORM-FIXTURES-1 | [数值表单合法夹具与生命周期](tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md) | review | Codex / 统一诊断未清 | 联合check/ratchet/protected已测；act/环境仍在，0关闭 |
 | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 | [大世界精灵真实宿主](tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | Codex / 待下一稳定窗口 | 9定向/121相邻零诊断，两枚旧绿新红；0关闭 |
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
+| QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 未完成检查点，先复审94前成果 | 30例仍2act、相邻80例仍8act；未排重/反控/统一门，0关闭 |
 | QUALITY-PRE94-RETROSPECTIVE-1 | [94前治理风险抽审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | review | Codex / 继续分层补验 | 36卡盘点、8卡全文；四旧关闭撤回，0新关闭 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |

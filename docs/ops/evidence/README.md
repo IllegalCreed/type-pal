@@ -99,3 +99,5 @@
 - [3y统一治理线收尾](CODE-QUALITY-3Y-CLOSEOUT-1/README.md)（65差异文件、58任务卡待复审；合并候选不是质量验收，未合main）。
 
 历史日志原件映射：[3y整合raw存储](CODE-QUALITY-3Y-CLOSEOUT-1/README.md)（仅17份显示副本规范空白，原字节/SHA无损保留，不改变历史质量结论）。
+
+- [C03上传向导检查点](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md)（30例仍2act、80相邻仍8act；未完成、0关闭，让位94前全量复审）。
