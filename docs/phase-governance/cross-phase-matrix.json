@@ -268,10 +268,16 @@
         "docs/testing/e2e/evidence/e2e-001.json",
         "docs/testing/e2e/contract.md",
         "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
-        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "docs/testing/e2e/stages/003-kitchen/README.md",
+        "docs/testing/e2e/stages/003-kitchen/report.md",
+        "docs/testing/e2e/stages/004-meal/README.md",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "docs/testing/e2e/stages/005-shrimp/README.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md"
       ],
       "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
-      "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
+      "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit. Six003-005 retain own-engine002/003/004saves predecessor contracts, unique stage duties and original warnings/failures. Oct2 specific004 continuous-demo user recognition is preserved; other per-item/capture/fullQ1Q2/publication and006 rework are separate. Oct8 local kitchen result lacks initial idle and does not restore complete-chain credit;005 wrapper failed plus supplements do not become one successful wrapper. No static reception creates current-version execution.",
       "status": "guarded",
       "evidence": [
         "packages/content/src/character.ts:168-170",
@@ -280,13 +286,49 @@
         "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
         "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
-        "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61"
+        "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61",
+        "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md:13-18"
       ],
       "unresolved": [
         "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
-        "M002 raw availability/storage owner/retention is not reverified; other6 stage MD and006 remain separate scopes."
+        "Raw bytes/storage owner/retention not recertified. Six003-005 root intake separately pending;001/006/paired native evidence unchanged."
       ],
-      "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
+      "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass.",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Six003-005 source-specific document relation,39to39",
+          "previousCompleteRow": {
+            "id": "paired-test-publication-vs-current-version",
+            "from": [
+              "docs/testing/domains/runtime/menu/menu-session/report.md",
+              "docs/testing/e2e/stages/001-opening/report.md",
+              "docs/testing/e2e/evidence/e2e-001.json",
+              "docs/testing/e2e/contract.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
+            ],
+            "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+            "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
+            "status": "guarded",
+            "evidence": [
+              "packages/content/src/character.ts:168-170",
+              "packages/reforge/src/save/types.ts:9",
+              "scripts/docs/check-testing.mjs:187",
+              "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
+              "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
+              "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61"
+            ],
+            "unresolved": [
+              "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
+              "M002 raw availability/storage owner/retention is not reverified; other6 stage MD and006 remain separate scopes."
+            ],
+            "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
+          },
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "historical-static-diagnostics-vs-current-zero-gate",

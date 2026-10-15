@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 727,
+    "total": 733,
     "byPhase": {
       "ops": 418,
       "lore": 14,
@@ -14,7 +14,7 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 118
+      "testing": 124
     },
     "byType": {
       "guide-runbook": 15,
@@ -28,18 +28,18 @@
       "reference-canon": 15,
       "narrative-idea": 2,
       "plan-status": 64,
-      "test-e2e-stage": 3,
-      "test-run-report": 3,
+      "test-e2e-stage": 6,
+      "test-run-report": 6,
       "test-machine-evidence": 18,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 2
     },
     "reviewStatus": {
-      "content-reviewed": 727
+      "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 221,
+      "template-compliant": 227,
       "governed-legacy": 506
     }
   },
@@ -8457,6 +8457,84 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-binding-baseline-contract.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+      "phase": "testing",
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-e2e-stage.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+      "phase": "testing",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-run-report.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/README.md",
+      "phase": "testing",
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-e2e-stage.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/report.md",
+      "phase": "testing",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-run-report.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+      "phase": "testing",
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-e2e-stage.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+      "phase": "testing",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-run-report.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-e2e-stage-m.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

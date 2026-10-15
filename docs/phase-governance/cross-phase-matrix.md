@@ -31,7 +31,7 @@ Template: governance-index-v1 / 1.0.0
 | 旧协作协议 ↔ 当前 Ops | 原文留存，现行流程控制准入 | resolved | 不恢复固定三签或历史交接授权 |
 | onEnter 下界探针 ↔ 测试信用 | 无 goto/BFS 的线性扫描只给下界 | guarded | 不推出全库不可达或据此撤销业务合同 |
 | Phase3 美术参考 ↔ 当前 build | 仅阶段边界当前有效，旧技术/法律断语未重核 | guarded | 不把旧“现在/推荐/合法”当实施或发行授权 |
-| Testing 出版／002历史 ↔ SAVE12 | 出版与执行分轴；10月8日局部通过不恢复被撤完整链，后继批次另证 | guarded | 保原版本／日期／失败与反馈继任；静态接收不授实跑或用户观感信用 |
+| Testing 出版／002–005历史 ↔ SAVE12 | 合法前驱、分case与分轮；保004具体认可，不扩大为其它验收 | guarded | 保失败／警告／撤信与后继；005补跑不等wrapper全程成功，006另核 |
 | 历史静态诊断 ↔ 当前零诊断 | E-06 原 0/50/11 保留，现行规则约束今天的检查 | guarded | 不倒改旧计数、不用历史 exit0 或旧例外放行 |
 | Testing source出版 ↔ 测试质量准入 | readiness fixture强转仅记录已见来源，质量判断待独立审计 | guarded | 不把source-backed/旧全绿/模板通过当测试质量accept |
 | 正文锚点 ↔ 当前sourceRefs | 6处已读源码后校正行号，原映射/Git blob留存 | resolved | 只关闭这些导航漂移，不推断全库锚点或运行通过 |

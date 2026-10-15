@@ -900,3 +900,9 @@ Branch: codex/docs-full-template-proposal
 - Exact dbacf01f908c181d5a488c74812a90cc1fb13989 的15文件接入获独立closure1610a12b190aecf20e916239fd369afdcce00bee3f7b21529c0bae886322a550；原44390首counter及六份完整prior保留，C-N3-1/2仅在最终候选闭合。实际86工具/model221/strict727/phase184/lint4109 EWI0/diff0，当前216/1838+5增量，不等全量完成。
 - build allowed（本元数据提交clean后）：history_cards_c_tail 仅在原codex/docs-lore-reference-n隔离树自然FF到本提交，修改 versions.md、world-rules.md、world-rules-ghost-realm.md、factions.md、ideas/README.md、ideas/guijie/README.md 和既有 contributor-lore-reference-n-20261016.json 共7文件。遵守冻结N1.0设计；四reference为candidate、两index current，catalog成熟度另轴；完整458源逐篇实读、新五章/原行头表链/日期与项目约束/未知完整保留。
 - 旧三正文只读，回执旧三记录仅可按已接受根正文更新after/保真位置/实际接收时态，先以固定c7d和dbacf完整43字段/Git priors保全；这不授旧三新迁移信用。其余共享central/catalog/routes/matrix/task/四大长稿/dlc/scripts/product/旧tests/coverage/main不写。作者冻结候选不自accept；根与另一非作者逐篇验收后另接账。
+
+#### M六篇来源接收与根接入候选
+
+- 固定777六篇003–005原538行/currentlive444与完整43字段语义获非作者tail接收；C-M6-1/2在最终候选闭合，原21d/c73错误报告与完整记录均保留。根完整读353行closure及六篇live层；不冒fresh538源全文或raw执行。
+- 根只九处行政/明确Oct2认可归属替换，原全部538字节inverse/maps不变；原004用户“非常好”仅归其具体连续演示，不授其它签名/capture/Q1Q2/发布/006。原005wrapper失败与补跑、003缺初始idle及完整链撤信均保留。
+- 六条新增中央/route与既有39关系中一行，旧002正文/after不改，现行metadata同步六source实际接收。现有其它registry/routes和38matrix对象全等；原机器JSON/001/006/product/旧测/coverage不写。root候选需独立新bytes接收及实际零门，控制/回执为pending增量，全目标active。
