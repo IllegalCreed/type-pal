@@ -12,9 +12,10 @@
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -189,6 +190,8 @@
 | [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](../archive/tasks/done/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-RIX-MUSIC-1 - 第一阶段 MIDI / DOS FM 音源选择](../archive/tasks/done/GAME-RIX-MUSIC-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-RNG-SCENE-RESTORE-1 — 酒剑仙传功后动画末帧遮挡场景](../archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [M3 - 迁移脚本去内联、按场景分片与体积门禁](../archive/tasks/done/M3-wander-arm-explosion.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MG2 - 迁移器结构化三方合并与安全重导](../archive/tasks/done/MG2-incremental-migration-merge.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -284,7 +287,9 @@
 | [TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 — audio preview ownership contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-BATTLE-REGISTRY-1 — battle sprite registry authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-BATTLE-REGISTRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1 — ControlCommandForm 残余合同审计（音频选择/店铺身份/共享脚本 self）](../archive/tasks/done/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 — data and battle authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts](../archive/tasks/done/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 — project persistence, recovery and history contracts](../archive/tasks/done/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](../archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -314,6 +319,7 @@
 | [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main host orchestration boundary audit](../archive/tasks/done/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 — MenuBox 未证明公开绘制合同审计](../archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit](../archive/tasks/done/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |

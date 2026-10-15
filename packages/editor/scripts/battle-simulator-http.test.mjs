@@ -15,12 +15,14 @@ test('real editor HTTP server returns genuine optional-file 404 instead of SPA f
   try {
     await server.listen()
     const port = server.httpServer.address().port
-    const response = await fetch(
-      `http://127.0.0.1:${port}/projects/simulator-missing-${crypto.randomUUID()}/editor/battle-simulator.json`,
-    )
-    expect(response.status).toBe(404)
-    expect(response.headers.get('cache-control')).toBe('no-store')
-    expect(await response.text()).toBe('')
+    for (const sidecar of ['battle-simulator', 'script-preview']) {
+      const response = await fetch(
+        `http://127.0.0.1:${port}/projects/simulator-missing-${crypto.randomUUID()}/editor/${sidecar}.json`,
+      )
+      expect(response.status).toBe(404)
+      expect(response.headers.get('cache-control')).toBe('no-store')
+      expect(await response.text()).toBe('')
+    }
   } finally {
     await server.close()
   }

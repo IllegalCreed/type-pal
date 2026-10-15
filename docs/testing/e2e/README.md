@@ -19,6 +19,7 @@
 ## 共用合同与横向材料
 
 - [两阶段 E2E 与录像合同](contract.md)
+- [每段必查：编辑器预览初始状态](contract.md#每段核对编辑器预览初始状态用户2026-10-12)
 - [路线方案](route-proposal.md)
 - [001–005 共性问题族](cross-stage/common-issues.md)
 - [横向材料索引](cross-stage/README.md)

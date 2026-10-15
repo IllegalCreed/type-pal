@@ -1252,7 +1252,7 @@ export class ScriptEditSession {
     command: ScriptEditorCommand,
     id: symbol,
     owner?: object,
-  ): PreparedHistoryChange | undefined {
+  ): (PreparedHistoryChange & { readonly nextState: ScriptEditorState }) | undefined {
     this.assertHistoryOwner(owner)
     const before = this.state
     const version = this.historyVersion
@@ -1273,6 +1273,7 @@ export class ScriptEditSession {
     }
     let used = false
     return {
+      nextState: next,
       validate: () => {
         this.assertHistoryOwner(owner)
         if (used || this.state !== before || this.historyVersion !== version)

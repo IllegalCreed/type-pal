@@ -63,6 +63,13 @@ import {
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
+import {
+  assertScriptPreviewPathAvailable,
+  loadScriptPreviewLibrary,
+  parseScriptPreviewLibrary,
+  SCRIPT_PREVIEW_PATH,
+  type ScriptPreviewLibrary,
+} from './script-preview-library.js'
 import { isWorkspaceIdentityPath, type WorkspaceContext } from './workspace-context.js'
 import {
   type AuthorizedWorkspaceInput,
@@ -86,6 +93,7 @@ export function toEditorState(
   scriptChunks: Record<string, ScriptChunkV1> = {},
   stamps?: StampTemplate[],
   battleSimulator?: BattleSimulatorLibrary,
+  scriptPreview?: ScriptPreviewLibrary,
 ): EditorState {
   if (project.manifest.content.stamps && stamps === undefined)
     throw new Error('toEditorState: manifest.content.stamps 已登记但调用方未加载图章模板表')
@@ -131,6 +139,7 @@ export function toEditorState(
     // manifest 透传；启动入口及其开局世界只在 manifest.entryPoints 中保留一份真值。
     manifest: project.manifest,
     ...(battleSimulator ? { battleSimulator: parseBattleSimulatorLibrary(battleSimulator) } : {}),
+    ...(scriptPreview ? { scriptPreview: parseScriptPreviewLibrary(scriptPreview) } : {}),
   }
 }
 
@@ -189,13 +198,15 @@ async function validateAuthorProjectContents(
 ): Promise<AuthorProjectCheckReport> {
   const project = await loadCurrentProjectFrom(source)
   assertBattleSimulatorPathAvailable(project)
-  const [scenes, stamps, battleSimulator] = await Promise.all([
+  assertScriptPreviewPathAvailable(project)
+  const [scenes, stamps, battleSimulator, scriptPreview] = await Promise.all([
     loadAllAuthorScenes(project),
     loadStampTemplates(project),
     loadBattleSimulatorLibrary(source),
+    loadScriptPreviewLibrary(source),
   ])
   await serializeProjectWithMapCopies(
-    toEditorState(project, scenes, {}, {}, stamps, battleSimulator),
+    toEditorState(project, scenes, {}, {}, stamps, battleSimulator, scriptPreview),
     source,
   )
   if (auditMaps) {
@@ -267,6 +278,7 @@ export function serializeProject(
   // canonical 入口不变式必须在任一路径落盘前 fail-loud。
   assertProjectSaveValid(state)
   assertBattleSimulatorPathAvailable(state)
+  assertScriptPreviewPathAvailable(state)
   // Match the current loader: an obsolete author-script directory cannot be saved as a
   // seemingly valid project. Internal canonical preview chunks are not author output.
   if (state.manifest.content.scripts !== undefined)
@@ -380,6 +392,11 @@ export function serializeProject(
   if (state.battleSimulator !== undefined) {
     const library = parseBattleSimulatorLibrary(state.battleSimulator)
     if (!isBattleSimulatorEmpty(library)) addFile(BATTLE_SIMULATOR_PATH, library, '战斗模拟器配置')
+  }
+  if (state.scriptPreview !== undefined) {
+    const library = parseScriptPreviewLibrary(state.scriptPreview)
+    if (library.states.length || library.bindings.length)
+      addFile(SCRIPT_PREVIEW_PATH, library, '预览初始状态')
   }
 
   return files
@@ -696,6 +713,10 @@ export async function preflightProjectWriteSet(
   if (Object.hasOwn(files, BATTLE_SIMULATOR_PATH)) {
     const value = files[BATTLE_SIMULATOR_PATH]
     parseBattleSimulatorLibrary(typeof value === 'string' ? JSON.parse(value) : value)
+  }
+  if (Object.hasOwn(files, SCRIPT_PREVIEW_PATH)) {
+    const value = files[SCRIPT_PREVIEW_PATH]
+    parseScriptPreviewLibrary(typeof value === 'string' ? JSON.parse(value) : value)
   }
   const rawManifest = files['manifest.json'] as { assets?: { catalog?: string } } | undefined
   const catalogPath = rawManifest?.assets?.catalog

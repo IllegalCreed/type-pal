@@ -27,7 +27,7 @@ import {
   renderSceneFrame,
   walkFrameIndex,
 } from '@type-pal/reforge'
-import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { type KeyboardEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { entityDisplayLabel } from '../core/entity-display.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
@@ -243,6 +243,7 @@ export function PreviewCanvas(props: {
   playback: Playback
   /** 当前作者态入口：直接启动原始 flow；缺省使用运行时投影的 stages。 */
   startPlayback?: (paused: boolean) => void
+  initialStateControl?: ReactNode
   canonicalFlow?: AuthorScriptFlow
   canonicalCursor?: FlowCursor
   canonicalSceneEntry?: boolean
@@ -334,7 +335,7 @@ export function PreviewCanvas(props: {
     track.nodes.some((node) => node.kind === 'teleport'),
   )
   const movementDescription = [
-    '编排参考，非避障路径。节点编号为编排顺序，起点取作者场景位置。',
+    '编排参考，非避障路径。节点编号为编排顺序，起点取当前预览初始状态。',
     ...(hasConditionalRoute ? ['虚线表示条件、循环或动态路径。'] : []),
     ...movementPreview.notes,
   ].join('\n')
@@ -650,6 +651,7 @@ export function PreviewCanvas(props: {
         ]}
         trailing={
           <div className="preview-toolbar__trailing">
+            {props.initialStateControl}
             {routeFrame ? (
               <DsButton
                 size="compact"

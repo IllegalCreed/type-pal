@@ -1146,7 +1146,7 @@ export function buildLabelMap(commands: Command[]): Record<string, number> {
  *     即使 fPlayingRNG(op2)=FALSE,首行对话前仍 `VIDEO_BackupScreen(gpScreen)`(=RNG 末帧)→ 对话画其上。
  *     即"RNG 末帧叠字"本不依赖对话 op2;求雨"天地诸神"(op2=0)走此路径,原仅认条件 1 → 漏判 → present
  *     重绘大世界 + RNG 调色板(setPalette 6)花屏(user 报"求雨说话漏出大世界、调色盘还是 RNG 的")。
- * 清除走 reset(场景重载/读档/op160 quit)/ loadScene。
+ * 进入对话前的普通 0x05 重绘会使 rngFrameActive 失效；已进入的保持态由 reset / loadScene 清除。
  */
 function maybeEnterDialogRNG(
   gs: GameState,
@@ -2210,8 +2210,8 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   开 modal(suspendRaf + playRng)+ waiting='rng-play' + ip++ + return;播完清 waiting 续跑。
         if (cmd.opcode === OP_PLAY_RNG) {
           // sdlpal PAL_RNGPlay 播完 gpScreen 留 RNG 末帧(持久至下次 PAL_MakeScene)→ 标记"屏幕是 RNG 末帧",
-          //   紧接的 setDialogStyle 经 maybeEnterDialogRNG 保持末帧叠字(求雨"天地诸神")。纯动画 RNG 无对话
-          //   不消费此标记,loadScene 兜底清(全游戏 RNG 播放点后续皆 fade+loadScene,无裸回大世界)。
+          //   紧接的 setDialogStyle 经 maybeEnterDialogRNG 保持末帧叠字(求雨"天地诸神")。
+          //   若先经普通 0x05 重绘(山神庙传功)，该重绘必须清标记，后续对话才回到场景背景。
           gs.rngFrameActive = true
           const startFrame = cmd.operands[0] ?? 0
           const op1 = cmd.operands[1] ?? 0
@@ -2444,6 +2444,13 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
           // PAL_MakeScene 擦立绘像素(见上方 pendingFullClear 分支):清 portraitIcon(图)、**保留** layout(缩进)。
           gs.currentDialogPortraitIcon = undefined
+          // 尚未进入动画背景对话时，0x05 走 PAL_MakeScene，屏幕已不再属于 RNG。
+          // 传功 2248 PlayRNG → 2260 redraw → 2261 普通对话：漏清会把动画末帧重新锁到出门。
+          // 已在 RNG 对话内的 0x05 则是 VIDEO_RestoreScreen(script.c:3273)，须保留结局背景。
+          if (!gs.dialogPlayingRNG) {
+            gs.rngFrameActive = false
+            gs.rngDialogBackup = undefined
+          }
           // 无 dialog:sdlpal 0x05 真值(script.c:3283-3294 非 RNG/battle)= PAL_MakeScene() + VIDEO_UpdateScreen。
           //   PAL_MakeScene 末尾检查 fNeedToFadeIn → PAL_FadeIn(delay=1=600ms)从黑淡入(scene.c:503-508)。
           //   **仙灵岛靠岸"过场黑屏"真因**:onEnter(如 5117)序 setpos→0x05→对话;旧码 0x05 无对话时纯 ip++,

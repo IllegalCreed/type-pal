@@ -1,0 +1,326 @@
+{
+  "numTotalTestSuites": 12,
+  "numPassedTestSuites": 12,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 25,
+  "numPassedTests": 25,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791698960970,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N03 九宫格退化尺寸与零输入"],
+          "fullName": "N03 九宫格退化尺寸与零输入 框尺寸小于边框合计：tileFill 全部早退，仅阴影 + 四角",
+          "status": "passed",
+          "title": "框尺寸小于边框合计：tileFill 全部早退，仅阴影 + 四角",
+          "duration": 189.48891600000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 九宫格退化尺寸与零输入"],
+          "fullName": "N03 九宫格退化尺寸与零输入 drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+          "status": "passed",
+          "title": "drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+          "duration": 0.7006670000000668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 九宫格退化尺寸与零输入"],
+          "fullName": "N03 九宫格退化尺寸与零输入 阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+          "status": "passed",
+          "title": "阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+          "duration": 0.8517499999998108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 数字绘制的缺字形臂"],
+          "fullName": "N03 数字绘制的缺字形臂 部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+          "status": "passed",
+          "title": "部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+          "duration": 0.6407919999999194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 MenuBox 无 imageCache 的状态板渲染"],
+          "fullName": "N03 MenuBox 无 imageCache 的状态板渲染 extras 缺 imageCache：appearance.portrait 存在也不崩、不发起读取、回落模板立绘",
+          "status": "passed",
+          "title": "extras 缺 imageCache：appearance.portrait 存在也不崩、不发起读取、回落模板立绘",
+          "duration": 0.8300830000000587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698961981,
+      "endTime": 1791698962173.83,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge/src/menu/menu-box.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R11 drawSlicedBox 平铺与阴影"],
+          "fullName": "R11 drawSlicedBox 平铺与阴影 中心 tileFill 15 块（3 列 × 5 行）逐块坐标 + 裁剪矩形；四角锚位",
+          "status": "passed",
+          "title": "中心 tileFill 15 块（3 列 × 5 行）逐块坐标 + 裁剪矩形；四角锚位",
+          "duration": 2.903125000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSlicedBox 平铺与阴影"],
+          "fullName": "R11 drawSlicedBox 平铺与阴影 缺角块（pop 移除 br）：跳过对应 drawImage 不崩",
+          "status": "passed",
+          "title": "缺角块（pop 移除 br）：跳过对应 drawImage 不崩",
+          "duration": 0.4199999999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSlicedBox 平铺与阴影"],
+          "fullName": "R11 drawSlicedBox 平铺与阴影 默认阴影：离屏画布按框宽高+16 建、source-in 染黑、(x+6,y+6) α0.35 贴回",
+          "status": "passed",
+          "title": "默认阴影：离屏画布按框宽高+16 建、source-in 染黑、(x+6,y+6) α0.35 贴回",
+          "duration": 0.6182090000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R11 drawSlicedBox 平铺与阴影"],
+          "fullName": "R11 drawSlicedBox 平铺与阴影 drawScroll 零尺寸（空 tiles）早退：零绘制",
+          "status": "passed",
+          "title": "drawScroll 零尺寸（空 tiles）早退：零绘制",
+          "duration": 0.25883400000000734,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698962405,
+      "endTime": 1791698962409.6182,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前 MenuBox 级联与面板公开布局残余"],
+          "fullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移",
+          "status": "passed",
+          "title": "级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移",
+          "duration": 4.268000000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 MenuBox 级联与面板公开布局残余"],
+          "fullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白",
+          "status": "passed",
+          "title": "级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白",
+          "duration": 1.3538339999999778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 MenuBox 级联与面板公开布局残余"],
+          "fullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成",
+          "status": "passed",
+          "title": "属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成",
+          "duration": 2.3938330000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 MenuBox 级联与面板公开布局残余"],
+          "fullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)",
+          "status": "passed",
+          "title": "中栏名字金黄居中于158、回落立绘按宽居中于(142,50)",
+          "duration": 0.3467499999999859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 MenuBox 级联与面板公开布局残余"],
+          "fullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中",
+          "status": "passed",
+          "title": "装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中",
+          "duration": 0.5015420000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698962255,
+      "endTime": 1791698962264.5015,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge/src/menu/menu-box.residual.glm.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前菜单九宫格与数字绘制边界"],
+          "fullName": "当前菜单九宫格与数字绘制边界 数字右对齐与左对齐各按实际字形宽排，负数钳零且缺失字形零绘制",
+          "status": "passed",
+          "title": "数字右对齐与左对齐各按实际字形宽排，负数钳零且缺失字形零绘制",
+          "duration": 2.1205420000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前菜单九宫格与数字绘制边界"],
+          "fullName": "当前菜单九宫格与数字绘制边界 单行卷轴按中段数量算自然宽高；宽右角从中段右列向外探出",
+          "status": "passed",
+          "title": "单行卷轴按中段数量算自然宽高；宽右角从中段右列向外探出",
+          "duration": 0.6746669999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前菜单九宫格与数字绘制边界"],
+          "fullName": "当前菜单九宫格与数字绘制边界 确认框固定两卷轴位置，左右选中互斥且第二拍只改变高亮色",
+          "status": "passed",
+          "title": "确认框固定两卷轴位置，左右选中互斥且第二拍只改变高亮色",
+          "duration": 1.195541999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698962467,
+      "endTime": 1791698962471.1956,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge/src/menu/menu-box.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 状态板按 live 等级阈值、可解毒名与装备效果画数值，不显示不可解毒",
+          "status": "passed",
+          "title": "状态板按 live 等级阈值、可解毒名与装备效果画数值，不显示不可解毒",
+          "duration": 3.1452079999999114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 状态页无队员只画底；成员索引越界分别钳到队首与队尾",
+          "status": "passed",
+          "title": "状态页无队员只画底；成员索引越界分别钳到队首与队尾",
+          "duration": 0.8999589999999671,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 立绘异步加载时先回落默认图；同 AssetId 就绪后替换且不重复读取",
+          "status": "passed",
+          "title": "立绘异步加载时先回落默认图；同 AssetId 就绪后替换且不重复读取",
+          "duration": 52.447291000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 立绘读取失败被记录为当前 AssetId 的稳定错误，不吞掉后续状态页异常",
+          "status": "passed",
+          "title": "立绘读取失败被记录为当前 AssetId 的稳定错误，不吞掉后续状态页异常",
+          "duration": 50.82537500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 当前外观立绘覆写模板图；非 Error 的读失败也稳定转为带原因的异常",
+          "status": "passed",
+          "title": "当前外观立绘覆写模板图；非 Error 的读失败也稳定转为带原因的异常",
+          "duration": 52.020124999999894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 毒名过宽另起一行；未知毒与未提供调色板不绘制额外字色",
+          "status": "passed",
+          "title": "毒名过宽另起一行；未知毒与未提供调色板不绘制额外字色",
+          "duration": 0.427791999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 装备图标按槽内框等比缩放；目录缺席的已装备 ID 仍留可定位的名称",
+          "status": "passed",
+          "title": "装备图标按槽内框等比缩放；目录缺席的已装备 ID 仍留可定位的名称",
+          "duration": 0.34333399999991343,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前状态板与级联菜单画面所有权"],
+          "fullName": "当前状态板与级联菜单画面所有权 两级级联把父项留静态高亮，子级选中继续闪烁，禁用项保留红色区分",
+          "status": "passed",
+          "title": "两级级联把父项留静态高亮，子级选中继续闪烁，禁用项保留红色区分",
+          "duration": 0.8049169999999322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698961881,
+      "endTime": 1791698962041.805,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge/src/menu/menu-box.status-residual.test.ts"
+    }
+  ]
+}

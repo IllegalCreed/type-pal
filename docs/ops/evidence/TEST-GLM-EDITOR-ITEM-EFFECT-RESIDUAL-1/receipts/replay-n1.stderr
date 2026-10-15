@@ -1,0 +1,32 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性
+AssertionError: expected { target: 'scene', …(2) } to deeply equal { target: 'scene', …(2) }
+
+- Expected
++ Received
+
+@@ -3,11 +3,11 @@
+    "effects": [
+      {
+        "kind": "placeEntityInFront",
+        "state": 2,
+        "target": {
+-         "entity": "e2",
++         "entity": "ghost-e",
+          "scene": "scene-res",
+        },
+        "unavailableMessage": "前方没有足够空间。",
+      },
+    ],
+
+ ❯ src/ui/ItemUseEffectEditor.residual.glm.test.tsx:219:45
+    217|
+    218|     await chooseOption('目标实体', 'e2 · 精灵 hero')
+    219|     expect(useSpec(session, 'talisman-r1')).toEqual({
+       |                                             ^
+    220|       target: 'scene',
+    221|       consuming: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

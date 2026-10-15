@@ -1,0 +1,50 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge
+
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 162ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 216ms
+ ❯ src/menu/menu-box.residual.glm.test.ts (5 tests | 1 failed) 16ms
+     × 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移 9ms
+     ✓ 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白 4ms
+     ✓ 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成 1ms
+     ✓ 中栏名字金黄居中于158、回落立绘按宽居中于(142,50) 0ms
+     ✓ 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中 0ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 6ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 24 passed (25)
+   Start at  15:09:22
+   Duration  1.46s (transform 1.17s, setup 0ms, import 1.71s, tests 405ms, environment 346ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/menu/menu-box.residual.glm.test.ts > 当前 MenuBox 级联与面板公开布局残余 > 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移
+AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+@@ -14,9 +14,9 @@
+        "close": [Function close],
+        "height": 4,
+        "id": "b-tl",
+        "width": 8,
+      },
+-     30,
++     31,
+      60,
+    ],
+  ]
+
+ ❯ src/menu/menu-box.residual.glm.test.ts:241:39
+    239|
+    240|     // 层框：depth0 (3,37) 4 项 → 高 22+72=94（下行 127）；depth1 (30,60) 2 项 → …
+    241|     expect(h.callsOf(h.box.tiles[0])).toEqual([
+       |                                       ^
+    242|       [h.box.tiles[0], 3, 37],
+    243|       [h.box.tiles[0], 30, 60],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,26 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交
+AssertionError: expected [] to deeply equal [ { kind: 'error', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "kind": "error",
+-     "message": "项目没有场景实体，无法创建放置实体效果",
+-   },
+- ]
++ []
+
+ ❯ src/ui/ItemUseEffectEditor.residual.glm.test.tsx:302:21
+    300|
+    301|     await chooseOption('效果 1 类型', '把场景实体放到玩家面前')
+    302|     expect(notices).toEqual([{ kind: 'error', message: '项目没有场景实体，无法创建放…
+       |                     ^
+    303|     expect(session.getHistoryVersion()).toBe(before)
+    304|     expect(useSpec(session, 'charm-r5')).toEqual(initial)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

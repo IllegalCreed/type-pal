@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge
+
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 162ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 193ms
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 10ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+
+ Test Files  5 passed (5)
+      Tests  25 passed (25)
+   Start at  15:09:20
+   Duration  1.49s (transform 1.14s, setup 0ms, import 1.74s, tests 375ms, environment 356ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/green-baseline.json

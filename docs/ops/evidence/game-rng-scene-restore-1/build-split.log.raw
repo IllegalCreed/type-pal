@@ -1,0 +1,13 @@
+
+> @type-pal/game@1.0.0 build /Users/zhangxu/illegal/type-pal/packages/game
+> vite build
+
+vite v8.0.14 building client environment for production...
+[2Ktransforming...✓ 157 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  5.99 kB │ gzip:   2.52 kB
+dist/assets/audio-T8kdK6_l.js  268.03 kB │ gzip:  99.22 kB
+dist/assets/index-CTToMLs2.js  381.03 kB │ gzip: 118.30 kB
+
+✓ built in 299ms

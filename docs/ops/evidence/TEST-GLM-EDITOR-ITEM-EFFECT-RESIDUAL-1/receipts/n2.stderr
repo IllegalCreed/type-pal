@@ -1,0 +1,37 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标
+AssertionError: expected { target: 'oneAlly', …(2) } to deeply equal { target: 'scene', …(2) }
+
+- Expected
++ Received
+
+  {
+    "consuming": false,
+    "effects": [
+      {
+-       "kind": "placeEntityInFront",
+-       "state": 2,
+-       "target": {
+-         "entity": "e1",
+-         "scene": "scene-res",
+-       },
+-       "unavailableMessage": "前方没有足够空间。",
++       "amount": 30,
++       "kind": "healHp",
+      },
+    ],
+-   "target": "scene",
++   "target": "oneAlly",
+  }
+
+ ❯ src/ui/ItemUseEffectEditor.residual.glm.test.tsx:261:41
+    259|
+    260|     await chooseOption('效果 1 类型', '把场景实体放到玩家面前')
+    261|     expect(useSpec(session, 'bell-r3')).toEqual({
+       |                                         ^
+    262|       target: 'scene',
+    263|       consuming: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

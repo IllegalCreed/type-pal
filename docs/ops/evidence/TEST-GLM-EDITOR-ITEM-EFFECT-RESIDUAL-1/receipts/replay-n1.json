@@ -1,0 +1,72 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 2,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791698629293,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+          "status": "failed",
+          "title": "R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+          "duration": 173.87504200000149,
+          "failureMessages": [
+            "AssertionError: expected { target: 'scene', …(2) } to deeply equal { target: 'scene', …(2) }\n    at /private/tmp/tp-item-effect-residual/packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx:219:45\n    at file:///private/tmp/tp-item-effect-residual/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+          "status": "passed",
+          "title": "R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+          "duration": 290.62212499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+          "status": "passed",
+          "title": "R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+          "duration": 49.08729200000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698638438,
+      "endTime": 1791698638953.0874,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-item-effect-residual/packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx"
+    }
+  ]
+}

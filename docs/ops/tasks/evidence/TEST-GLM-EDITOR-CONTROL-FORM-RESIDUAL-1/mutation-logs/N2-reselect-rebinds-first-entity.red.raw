@@ -1,0 +1,49 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-cf-residual/packages/editor
+
+ ❯ src/ui/command-form-control.residual.glm.test.tsx (1 test | 1 failed) 89ms
+   × 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体 89ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  15:11:59
+   Duration  1.78s (transform 1.09s, setup 0ms, import 1.32s, tests 89ms, environment 295ms)
+
+JSON report written to /private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/command-form-control.residual.glm.test.tsx > 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体
+AssertionError: expected "vi.fn()" to be called once with arguments: [ [ { kind: 'callScript', …(2) } ] ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -2,11 +2,11 @@
+    [
+      {
+        "kind": "callScript",
+        "script": "shared/user/heal",
+        "self": {
+-         "entity": "npc",
++         "entity": "npc-2",
+          "scene": "start",
+        },
+      },
+    ],
+  ]
+
+
+Number of calls: 1
+
+ ❯ Object.finish src/ui/__tests__/command-form-current-fixture.ts:220:22
+    218|     checkAuthorCommands([expected], 'form.expected', validation)
+    219|     await click('完成')
+    220|     expect(onChange).toHaveBeenCalledExactlyOnceWith([expected])
+       |                      ^
+    221|     const output = onChange.mock.calls[0]?.[0]
+    222|     checkAuthorCommands(output, 'form.output', validation)
+ ❯ src/ui/command-form-control.residual.glm.test.tsx:50:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

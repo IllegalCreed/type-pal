@@ -1,0 +1,28 @@
+{
+  mutantSha256: 'e54a335f534774c40839ebea066dc1744583564f9dd9cf4e2f4de45eb4496f90',
+  actual: 'cce397c8923e7ebaaea1efb15a5bde0401463e1472a4868e987816153a896158'
+}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'cce397c8923e7ebaaea1efb15a5bde0401463e1472a4868e987816153a896158'
+- '2786ab8a1b592e927299c58f80651ece9d093c204a184c2cd4b7faff8cfa8bd6'
+
+    at file:///Users/zhangxu/illegal/type-pal/[eval1]:2:562
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:282:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:278:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'cce397c8923e7ebaaea1efb15a5bde0401463e1472a4868e987816153a896158',
+  expected: '2786ab8a1b592e927299c58f80651ece9d093c204a184c2cd4b7faff8cfa8bd6',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.2

@@ -99,6 +99,7 @@ async function runEntry(hooks: GlobalEntryHook[]): Promise<EntryRun> {
   symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
   const rawDir = join(tree, 'data', 'raw')
   mkdirSync(rawDir, { recursive: true })
+  writeFileSync(join(rawDir, 'mus.mkf'), new Uint8Array([8, 0, 0, 0, 8, 0, 0, 0]))
   for (const [name, bytes] of Object.entries(buildGlobalEntryRawInputs(hooks))) {
     writeFileSync(join(rawDir, name), bytes)
   }

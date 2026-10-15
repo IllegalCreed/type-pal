@@ -25,6 +25,7 @@ import type {
 } from '../core/project-leave-guard.js'
 import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
+import { scriptPreviewRemovalPaths } from '../core/script-preview-library.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import {
   authorizeBoundWorkspaceTarget,
@@ -142,6 +143,7 @@ export function useEditorProjectSession(input: {
       const savedScriptVersion = script.getVersion()
       const removePaths = [
         ...battleSimulatorRemovalPaths(savedState.battleSimulator),
+        ...scriptPreviewRemovalPaths(savedState.scriptPreview),
         ...main.getDeletedScenePaths(),
         ...main.getDeletedMapPaths(),
         ...main.getDeletedAssetPaths(),
@@ -280,6 +282,7 @@ export function useEditorProjectSession(input: {
       const savedScriptState = script.getState()
       const removePaths = [
         ...battleSimulatorRemovalPaths(savedState.battleSimulator),
+        ...scriptPreviewRemovalPaths(savedState.scriptPreview),
         ...main.getDeletedScenePaths(),
         ...main.getDeletedMapPaths(),
         ...main.getDeletedAssetPaths(),

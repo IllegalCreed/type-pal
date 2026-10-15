@@ -1,0 +1,521 @@
+{
+  "card": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1",
+  "protocol": "判据自测 → 隔离树绿基线(五文件执行集逐字锁定) → 每针独立新树变异红(跨文件恰一指定业务 AssertionError) → 删树 → 新净树还原绿(执行集与基线逐字一致) → 工作树产品零残留",
+  "createdAt": "2026-10-11T06:09:20.656Z",
+  "judgeCriteria": "进程层(exit/signal/spawnError) + 非空 file×fullName 执行集逐字锁定 + 计数/明细一致 + 非空 suite.message 拒收 + 零断言 failed suite 拒收 + stdout/stderr 无 unhandled + 红态跨文件恰一指定业务 AssertionError;judgeSelfTest 以合成反例自证拒收",
+  "sourceFreeze": "9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+  "executionSet": "五文件 = 新增 residual.glm + 已接收 residual/glm-runtime-resource/glm-n/status-residual",
+  "judgeSelfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "frozenSources": {
+    "packages/reforge/src/menu/menu-box.ts": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+  },
+  "baseline": {
+    "treeCleanup": "removed=true path=/tmp/tp-menubox-residual-baseline-green.9F9lzM",
+    "tests": "25/25 passed",
+    "executionRows": 25,
+    "exit": 0,
+    "signal": null,
+    "pid": 25443,
+    "spawnError": null,
+    "argvTail": [
+      "src/menu/menu-box.status-residual.test.ts",
+      "--reporter=json",
+      "--reporter=default",
+      "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/green-baseline.json"
+    ],
+    "cwd": "/tmp/tp-menubox-residual-baseline-green.9F9lzM/packages/reforge",
+    "env": {
+      "inherited": true,
+      "node": "v22.23.2",
+      "NODE_OPTIONS": null,
+      "NODE_ENV": null,
+      "TZ": null
+    },
+    "unhandledInOutput": false,
+    "numTotalTests": 25,
+    "numPassedTests": 25,
+    "numFailedTests": 0,
+    "raw": {
+      "file": "mutation-logs/green-baseline.raw",
+      "sha256": "a787b94ba700899e00610405cb70b54aaf7ab30b4069144a66a8d111d63d874d"
+    },
+    "json": {
+      "file": "mutation-logs/green-baseline.json",
+      "sha256": "e67061effcb6f09b8e74e9550f6b052b629cade8ac0ff8b60db1f0d301d23897"
+    }
+  },
+  "needles": [
+    {
+      "id": "K1-cascade-layer-offset",
+      "mutation": "const CASCADE_DX = 27 → const CASCADE_DX = 28",
+      "axis": "级联层框几何:depth 偏移 CASCADE_DX 接线(menu-box.ts:153,529)",
+      "execution": "五文件执行集(隔离树,与基线同集)",
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "pid": 25495,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 24,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "mutation-logs/K1-cascade-layer-offset.red.raw",
+          "sha256": "a6bab9e7a0e68a25fbc36ab4756b48e70dba7c20994c98be18ead700d415d6ec"
+        },
+        "json": {
+          "file": "mutation-logs/K1-cascade-layer-offset.red.json",
+          "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592"
+        },
+        "failedFullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "signal": null,
+        "pid": 25586,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 25,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "mutation-logs/K1-cascade-layer-offset.green.raw",
+          "sha256": "703dbae9826e293ce5e9d9c6186c8d12291d95f2b6f63cf102e4864ab345eb7b"
+        },
+        "json": {
+          "file": "mutation-logs/K1-cascade-layer-offset.green.json",
+          "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b"
+        },
+        "menuBoxSha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+      },
+      "redTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs",
+      "greenTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ"
+    },
+    {
+      "id": "K2-blink-phase-wrap",
+      "mutation": "    // 选中色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED);父层选中项静态高亮指示已展开路径\n    const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL →     // 选中色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED);父层选中项静态高亮指示已展开路径\n    const blink = SELECTED_COLORS[Math.floor(now / 200) % SELECTED_COLORS.length] ?? COLOR_NORMAL",
+      "axis": "级联选中色 now 相位接线(menu-box.ts:525)",
+      "execution": "五文件执行集(隔离树,与基线同集)",
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "pid": 25646,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K2-blink-phase-wrap-red.qs2eSw/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 24,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "mutation-logs/K2-blink-phase-wrap.red.raw",
+          "sha256": "1e6e4c5e3c95ce07cb9f9f0cdfa59cbd454e0a397a354ba3eca75462bbeeb488"
+        },
+        "json": {
+          "file": "mutation-logs/K2-blink-phase-wrap.red.json",
+          "sha256": "beb1c7d7f579445003dce617ff9d62372b1eb8d05abd8092c7da82fe390fee6b"
+        },
+        "failedFullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "signal": null,
+        "pid": 25720,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K2-blink-phase-wrap-green.glBwH1/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 25,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "mutation-logs/K2-blink-phase-wrap.green.raw",
+          "sha256": "3c8e99b83710a534eea31dd0a4f3fa0eccac3436c2fae6550765364f7ccca880"
+        },
+        "json": {
+          "file": "mutation-logs/K2-blink-phase-wrap.green.json",
+          "sha256": "2bb4040917a7cdb49504a0d1c92a66c881497aafac028b743ad0112604ffa861"
+        },
+        "menuBoxSha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+      },
+      "redTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K2-blink-phase-wrap-red.qs2eSw",
+      "greenTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K2-blink-phase-wrap-green.glBwH1"
+    },
+    {
+      "id": "K3-stat-row-pitch",
+      "mutation": "const STAT_LINE_H = 20 → const STAT_LINE_H = 21",
+      "axis": "属性行距 STAT_LINE_H 数据驱动布局接线(menu-box.ts:176,576)",
+      "execution": "五文件执行集(隔离树,与基线同集)",
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "pid": 25820,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.red.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K3-stat-row-pitch-red.nveM4G/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 24,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "mutation-logs/K3-stat-row-pitch.red.raw",
+          "sha256": "3926cd8099dfdf668544af82938fa066cd281d3d472c266863d806d8e322a965"
+        },
+        "json": {
+          "file": "mutation-logs/K3-stat-row-pitch.red.json",
+          "sha256": "bb20e8368a23365811caf45f88f1d66a24cb47f2eab501989f7b380bae043261"
+        },
+        "failedFullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "signal": null,
+        "pid": 25877,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K3-stat-row-pitch-green.u04Vqr/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 25,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "mutation-logs/K3-stat-row-pitch.green.raw",
+          "sha256": "ea80f1dc2c24f0c799a3b61d9b4e72f41cc4a697b9c6e22f074d9fc30427c153"
+        },
+        "json": {
+          "file": "mutation-logs/K3-stat-row-pitch.green.json",
+          "sha256": "f3dd26afc0816ead7f510d787b5756e2328cf09550d37f84776ac223a678d348"
+        },
+        "menuBoxSha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+      },
+      "redTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K3-stat-row-pitch-red.nveM4G",
+      "greenTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K3-stat-row-pitch-green.u04Vqr"
+    },
+    {
+      "id": "K4-mid-name-anchor",
+      "mutation": "const NAME_Y = 30 → const NAME_Y = 31",
+      "axis": "中栏名字 NAME_Y 定位接线(menu-box.ts:180,581)",
+      "execution": "五文件执行集(隔离树,与基线同集)",
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "pid": 26004,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.red.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K4-mid-name-anchor-red.UXZ3cn/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 24,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "mutation-logs/K4-mid-name-anchor.red.raw",
+          "sha256": "61e77b7d57728fc300a5de67f2f20f80cb93ab7f6ea06069274fea4057798401"
+        },
+        "json": {
+          "file": "mutation-logs/K4-mid-name-anchor.red.json",
+          "sha256": "947aa553c75d3cadd782314dd30d4062d5410461c9a9e90d1219faaa109a1ecd"
+        },
+        "failedFullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "signal": null,
+        "pid": 26083,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.green.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K4-mid-name-anchor-green.4qtB5z/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 25,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "mutation-logs/K4-mid-name-anchor.green.raw",
+          "sha256": "a71bec3c1e2929cb6d321d67bc40df743f064cebbe6b7d51e3449c9b574f8a55"
+        },
+        "json": {
+          "file": "mutation-logs/K4-mid-name-anchor.green.json",
+          "sha256": "f08efc80fea242e03d2847f0c06708fd48fa928ab125631fb66cc8484a30e44f"
+        },
+        "menuBoxSha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+      },
+      "redTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K4-mid-name-anchor-red.UXZ3cn",
+      "greenTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K4-mid-name-anchor-green.4qtB5z"
+    },
+    {
+      "id": "K5-empty-slot-skip",
+      "mutation": "if (!equippedId) return // 空槽:格画了,图标/名都不画(留空) → if (false) return // 空槽:格画了,图标/名都不画(留空)",
+      "axis": "装备格空槽跳过接线(menu-box.ts:624)",
+      "execution": "五文件执行集(隔离树,与基线同集)",
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "pid": 26168,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.red.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K5-empty-slot-skip-red.QXMr2k/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 24,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "mutation-logs/K5-empty-slot-skip.red.raw",
+          "sha256": "3a361c03ec30405be439a3b588546713438fa90af955528bb8e7aae92214fcf9"
+        },
+        "json": {
+          "file": "mutation-logs/K5-empty-slot-skip.red.json",
+          "sha256": "25725a1a839cd791fa674e3078941a17e3994730fc6f78885e23b8601b385a92"
+        },
+        "failedFullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "signal": null,
+        "pid": 26272,
+        "spawnError": null,
+        "argvTail": [
+          "src/menu/menu-box.status-residual.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.green.json"
+        ],
+        "cwd": "/tmp/tp-menubox-residual-K5-empty-slot-skip-green.dd0RXJ/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 25,
+        "numPassedTests": 25,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "mutation-logs/K5-empty-slot-skip.green.raw",
+          "sha256": "4d0f454228751e0f0b825446ce782690e128af6a391a2a4f0ce9706a4f0d6537"
+        },
+        "json": {
+          "file": "mutation-logs/K5-empty-slot-skip.green.json",
+          "sha256": "aa16295f9b6b7d94c7e52f5800cf5767f55ad137be31499f486d73b4eff33943"
+        },
+        "menuBoxSha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+      },
+      "redTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K5-empty-slot-skip-red.QXMr2k",
+      "greenTreeCleanup": "removed=true path=/tmp/tp-menubox-residual-K5-empty-slot-skip-green.dd0RXJ"
+    }
+  ],
+  "productResidue": "clean (git status --porcelain packages/ 无 M/D 残留；?? 仅本卡新增测试与证据)"
+}

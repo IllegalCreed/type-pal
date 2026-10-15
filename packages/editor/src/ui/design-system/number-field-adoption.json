@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": {
-    "files": 40,
-    "leafCalls": 120,
+    "files": 41,
+    "leafCalls": 122,
     "controls": {
       "DsNumberInput": 56,
-      "DsDraftNumberInput": 27,
+      "DsDraftNumberInput": 29,
       "DsNumberField": 5,
       "DsDraftNumberField": 32
     }
@@ -872,6 +872,20 @@
       "reason": "配置数值复用短数字字段；不是自造宽度。",
       "verification": "scripts/battle-simulator-ui.test.tsx",
       "removalCondition": "删除对应模拟器字段时同步移除。"
+    },
+    {
+      "source": "SceneInitialStateEditor.tsx",
+      "component": "SceneInitialStateInspector",
+      "match": { "context": "property-row", "fieldClass": "" },
+      "count": 2,
+      "mode": "coordinate-frame",
+      "control": "DsDraftNumberInput",
+      "measure": "property-grid",
+      "grid": "property-grid",
+      "owner": "card:ED-ENTITY-STATE-PLAN-1",
+      "reason": "三轴坐标与画序偏置位于右侧初始状态 Inspector，仅提交预览侧车。",
+      "verification": "SceneScriptWorkspace.test.tsx + core/editor-history-coordinator.test.ts",
+      "removalCondition": "状态属性移出 Inspector 时改用数字字段主表单合同。"
     }
   ],
   "wrappers": [
@@ -918,7 +932,7 @@
     {
       "source": "command-form-controls.tsx",
       "component": "Num",
-      "consumerCount": 39,
+      "consumerCount": 37,
       "context": "script-grid",
       "owner": "card:ED-NUMBER-FIELD-1",
       "reason": "脚本命令参数 helper。",

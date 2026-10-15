@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
+import { createMusicSourceController } from '../shell/music-source.js'
 import { __resetSpeedrunForTest } from './speedrun/index.js'
 import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
 
@@ -30,6 +31,7 @@ function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
       }) as never,
     getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }) as never,
     displayScale: { getPercent: () => 100, setPercent: () => {}, toggleFullscreen: () => {} },
+    musicSource: createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi'),
     audioVolume: mkVol(),
     sfxVolume: mkVol(),
     videoVolume: mkVol(),
@@ -213,6 +215,38 @@ describe('tools-panel 框架', () => {
     expect(labels).toContain('音乐')
     expect(labels).toContain('音效')
     expect(labels).toContain('视频')
+  })
+
+  it('音乐音源选择通过实际控制器记住偏好，加载失败提供重试', async () => {
+    let attempts = 0
+    const musicSource = createMusicSourceController(
+      (source) => ({
+        play() {},
+        stop() {},
+        ready:
+          source === 'rix' && ++attempts === 1
+            ? Promise.reject(new Error('曲库不可用'))
+            : Promise.resolve(),
+      }),
+      'midi',
+    )
+    setupToolsPanel(mkDeps({ musicSource }))
+    openSystemTab()
+    const select = document.querySelector<HTMLSelectElement>('#tp-music-source')!
+    expect(select.value).toBe('midi')
+    select.value = 'rix'
+    select.dispatchEvent(new Event('change', { bubbles: true }))
+    expect(localStorage.getItem('tp-music-source')).toBe('rix')
+    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('正在加载音乐…')
+    await Promise.resolve()
+    expect(document.querySelector('#tp-music-source-status')?.textContent).toContain('曲库不可用')
+    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(false)
+    document.querySelector<HTMLButtonElement>('#tp-music-source-retry')!.click()
+    await Promise.resolve()
+    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('')
+    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(true)
+    musicSource.dispose?.()
+    localStorage.removeItem('tp-music-source')
   })
 
   it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {

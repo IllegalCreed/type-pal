@@ -37,17 +37,6 @@ export interface SpessaSynthBackendOptions {
   reverbAmount?: number
 }
 
-// BGM 主音量(0..1)。synth → masterGain → destination,经我们自己的 GainNode 缩放,
-//   **不**依赖 spessasynth 自带音量 API。setBgmVolume 在 synth 就绪(masterGain 建好)前被调 →
-//   先暂存到 pendingBgmVolume,创建 masterGain 时回填。
-let masterGain: GainNode | undefined
-let pendingBgmVolume: number | undefined
-
-export function setBgmVolume(v: number): void {
-  pendingBgmVolume = v
-  if (masterGain) masterGain.gain.value = v
-}
-
 export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): MusicBackend {
   const { baseUrl, workletUrl, soundfontUrl, reverbAmount = 0 } = opts
   const w =
@@ -61,6 +50,17 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   if (!AudioCtor) return { play() {}, stop() {} } // SSR / 测试无 Web Audio → no-op
 
   const ctx = new AudioCtor()
+  const masterGain = ctx.createGain()
+  masterGain.gain.value = 0
+  masterGain.connect(ctx.destination)
+  let disposed = false
+  let generation = 0
+  let loading: AbortController | undefined
+  const initializing = new AbortController()
+  let playingTrack = -1
+  let parsing: Promise<void> | undefined
+  let cancelParsing: (() => void) | undefined
+  let reportError: ((error: unknown) => void) | undefined
   let seq: Sequencer | undefined
   let ready = false
   // 当前想播的曲(play 写入)。用于:① init 完成后补播 ② autoplay 解锁(resume)后补播。
@@ -68,110 +68,171 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   let resuming = false // resume() 防重入(解锁监听持续触发,ctx.resume() pending 期间不重复 doPlay)
 
   async function doPlay(track: number, loop: boolean): Promise<void> {
-    if (!seq) return
-    if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
-    const url = `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
-    const res = await fetch(url)
-    if (!res.ok) {
-      console.warn(`[audio] MIDI track ${track} 取不到(${url} HTTP ${res.status})`)
+    if (!seq || disposed) return
+    const token = ++generation
+    loading?.abort()
+    if (playingTrack === track && !seq.isFinished) {
+      seq.loopCount = loop ? Infinity : 0
       return
     }
-    seq.loadNewSongList([{ binary: await res.arrayBuffer(), fileName: `${track}.mid` }])
-    seq.loopCount = loop ? Infinity : 0
-    seq.play()
+    loading = new AbortController()
+    try {
+      if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
+      if (disposed || token !== generation) return
+      const url = `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
+      const res = await fetch(url, { signal: loading.signal })
+      if (!res.ok) throw new Error(`MIDI 曲目 ${track} 加载失败 (${res.status})`)
+      const binary = await res.arrayBuffer()
+      // The library's parser reports asynchronously without a request ID. Serialize parser
+      // submissions so an old parser error cannot be mistaken for the latest song's error.
+      if (parsing) await parsing.catch(() => {})
+      if (disposed || token !== generation) return
+      const sequencer = seq
+      playingTrack = -1 // The library replaces its sequence as soon as a parser submission begins.
+      const parse = new Promise<void>((resolve, reject) => {
+        sequencer.eventHandler.addEvent('songChange', 'type-pal-load', () => resolve())
+        sequencer.eventHandler.addEvent('midiError', 'type-pal-load', reject)
+        cancelParsing = () => reject(new DOMException('Disposed', 'AbortError'))
+        sequencer.loadNewSongList([{ binary, fileName: `${track}.mid` }])
+      })
+      parsing = parse
+      try {
+        await parse
+      } finally {
+        sequencer.eventHandler.removeEvent('songChange', 'type-pal-load')
+        sequencer.eventHandler.removeEvent('midiError', 'type-pal-load')
+        if (parsing === parse) {
+          parsing = undefined
+          cancelParsing = undefined
+        }
+      }
+      if (disposed || token !== generation) return
+      playingTrack = track
+      sequencer.loopCount = loop ? Infinity : 0
+      sequencer.play()
+    } catch (error) {
+      if (
+        !disposed &&
+        token === generation &&
+        !(error instanceof DOMException && error.name === 'AbortError')
+      ) {
+        reportError?.(error)
+      }
+    }
   }
 
   // 异步初始化:worklet + synth + soundfont + sequencer。失败 → warn 静默(不阻塞)。
-  void (async () => {
-    try {
-      // AudioWorklet 仅在 secure context 下存在(https / http://localhost)。用 http:// + 局域网 IP
-      //   (如 http://192.168.x.x:5173)访问时 `ctx.audioWorklet` 为 undefined → addModule 会抛
-      //   "Cannot read properties of undefined"。SFX 走 decodeAudioData/createBufferSource 不受此限,故
-      //   会出现"有音效没 BGM"。先识破给准确提示,别让下面 catch 误报成"没放 soundfont"。
-      if (!ctx.audioWorklet) {
-        const secure = typeof window !== 'undefined' ? window.isSecureContext : false
-        throw new Error(
-          `AudioWorklet 不可用:当前非 secure context(isSecureContext=${secure})。` +
-            '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
-        )
-      }
-      await ctx.audioWorklet.addModule(workletUrl)
-      const synth = new WorkletSynthesizer(ctx)
-      // synth → masterGain → destination(经自己的 GainNode 缩放 BGM 主音量)。
-      //   pendingBgmVolume:若 setBgmVolume 在此之前被调,用暂存值;默认 1(原样)。
-      masterGain = ctx.createGain()
-      masterGain.gain.value = pendingBgmVolume ?? 1
-      masterGain.connect(ctx.destination)
-      synth.connect(masterGain)
-      // 优先用 bootstrap 预取的数据(boot 进度条已等它);预取 reject → 回退自取。
-      let sfBytes = opts.soundfontData ? await opts.soundfontData.catch(() => undefined) : undefined
-      if (!sfBytes) {
-        const sf = await fetch(soundfontUrl)
-        if (!sf.ok)
-          throw new Error(
-            `soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`,
-          )
-        sfBytes = await sf.arrayBuffer()
-      }
-      // 守卫:soundfont(SF2/SF3/DLS)都是 RIFF 容器(魔数 "RIFF")。文件不存在时 vite dev server 会回
-      //   SPA fallback(index.html,几 KB),sf.ok=true 但内容是 HTML → 这里识破,给清晰报错而非卡死解析。
-      const head = new Uint8Array(sfBytes.slice(0, 4))
-      const magic = String.fromCharCode(...head)
-      if (magic !== 'RIFF') {
-        throw new Error(
-          `${soundfontUrl} 不是有效 soundfont(取到 ${sfBytes.byteLength} 字节,魔数 "${magic}" 非 "RIFF")。` +
-            `多半是文件不存在 → dev server 回了 index.html。请把一个真 GM soundfont(.sf2/.sf3,通常 MB 级)` +
-            `放到 packages/game/public/soundfont.sf3`,
-        )
-      }
-      await synth.soundBankManager.addSoundBank(sfBytes, 'main')
-      await synth.isReady
-      // user 报"混响太严重"。仙剑原 OPL/MIDI 本就偏干 → 关混响:每 channel 设 reverb send(CC91)=0
-      //   + lockController 锁住,防 MIDI 自带的 CC91 把混响重新拉高。reverbAmount(0~127)可调:0=全干,
-      //   想回一点混响把 0 改成低值(如 12)。chorus(CC93)暂不动(user 只提混响)。
-      const REVERB_CC = 91 as Parameters<typeof synth.controllerChange>[1]
-      for (let ch = 0; ch < 16; ch++) {
-        synth.controllerChange(ch, REVERB_CC, reverbAmount)
-        synth.midiChannels[ch]?.lockController(REVERB_CC, true)
-      }
-      // skipToFirstNoteOn: false —— **不**跳 MIDI 头部静音。作曲者在曲头设的那段静音就是循环间隔;
-      //   设 true 会把它跳掉 → 循环显赶(user 报)。默认 false,显式写明意图。
-      seq = new Sequencer(synth, { skipToFirstNoteOn: false })
-      ready = true
-      // DEV-only 调试探针:console 可接 AnalyserNode 量 RMS(排查"某段 BGM 几乎听不到"类问题),
-      //   也可直接看 seq/synth 状态。生产构建 DEV=false 整段 tree-shake。
-      if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
-        ;(window as unknown as Record<string, unknown>).__tpmidi = { ctx, synth, getSeq: () => seq }
-      }
-      if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
-    } catch (err) {
-      // 具体原因在 err 里(secure-context 缺 AudioWorklet / soundfont 取不到 / 不是 RIFF 等)—— 别在这
-      //   硬猜成"没放 soundfont"误导排查。
-      console.warn('[audio] ✗ MIDI BGM 后端初始化失败 → BGM 静默:', err)
+  const readyPromise = (async () => {
+    // AudioWorklet 仅在 secure context 下存在(https / http://localhost)。用 http:// + 局域网 IP
+    //   (如 http://192.168.x.x:5173)访问时 `ctx.audioWorklet` 为 undefined → addModule 会抛
+    //   "Cannot read properties of undefined"。SFX 走 decodeAudioData/createBufferSource 不受此限,故
+    //   会出现"有音效没 BGM"。先识破给准确提示,别让下面 catch 误报成"没放 soundfont"。
+    if (!ctx.audioWorklet) {
+      const secure = typeof window !== 'undefined' ? window.isSecureContext : false
+      throw new Error(
+        `AudioWorklet 不可用:当前非 secure context(isSecureContext=${secure})。` +
+          '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
+      )
     }
+    await ctx.audioWorklet.addModule(workletUrl)
+    if (disposed) return
+    const synth = new WorkletSynthesizer(ctx)
+    // Instance-owned gain is set by the source controller before output is connected.
+    synth.connect(masterGain)
+    // 优先用 bootstrap 预取的数据(boot 进度条已等它);预取 reject → 回退自取。
+    let sfBytes = opts.soundfontData ? await opts.soundfontData.catch(() => undefined) : undefined
+    if (!sfBytes) {
+      const sf = await fetch(soundfontUrl, { signal: initializing.signal })
+      if (!sf.ok)
+        throw new Error(
+          `soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`,
+        )
+      sfBytes = await sf.arrayBuffer()
+    }
+    // 守卫:soundfont(SF2/SF3/DLS)都是 RIFF 容器(魔数 "RIFF")。文件不存在时 vite dev server 会回
+    //   SPA fallback(index.html,几 KB),sf.ok=true 但内容是 HTML → 这里识破,给清晰报错而非卡死解析。
+    const head = new Uint8Array(sfBytes.slice(0, 4))
+    const magic = String.fromCharCode(...head)
+    if (magic !== 'RIFF') {
+      throw new Error(
+        `${soundfontUrl} 不是有效 soundfont(取到 ${sfBytes.byteLength} 字节,魔数 "${magic}" 非 "RIFF")。` +
+          `多半是文件不存在 → dev server 回了 index.html。请把一个真 GM soundfont(.sf2/.sf3,通常 MB 级)` +
+          `放到 packages/game/public/soundfont.sf3`,
+      )
+    }
+    if (disposed) return
+    // SpessaSynth transfers this buffer to its worklet. Keep the boot copy reusable on switching.
+    await synth.soundBankManager.addSoundBank(sfBytes.slice(0), 'main')
+    await synth.isReady
+    if (disposed) return
+    // user 报"混响太严重"。仙剑原 OPL/MIDI 本就偏干 → 关混响:每 channel 设 reverb send(CC91)=0
+    //   + lockController 锁住,防 MIDI 自带的 CC91 把混响重新拉高。reverbAmount(0~127)可调:0=全干,
+    //   想回一点混响把 0 改成低值(如 12)。chorus(CC93)暂不动(user 只提混响)。
+    const REVERB_CC = 91 as Parameters<typeof synth.controllerChange>[1]
+    for (let ch = 0; ch < 16; ch++) {
+      synth.controllerChange(ch, REVERB_CC, reverbAmount)
+      synth.midiChannels[ch]?.lockController(REVERB_CC, true)
+    }
+    // skipToFirstNoteOn: false —— **不**跳 MIDI 头部静音。作曲者在曲头设的那段静音就是循环间隔;
+    //   设 true 会把它跳掉 → 循环显赶(user 报)。默认 false,显式写明意图。
+    seq = new Sequencer(synth, { skipToFirstNoteOn: false })
+    ready = true
+    // DEV-only 调试探针:console 可接 AnalyserNode 量 RMS(排查"某段 BGM 几乎听不到"类问题),
+    //   也可直接看 seq/synth 状态。生产构建 DEV=false 整段 tree-shake。
+    if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+      ;(window as unknown as Record<string, unknown>).__tpmidi = { ctx, synth, getSeq: () => seq }
+    }
+    if (last) queuePlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
   })()
+  function queuePlay(track: number, loop: boolean): void {
+    void doPlay(track, loop)
+  }
 
   return {
+    ready: readyPromise,
     play(track, loop) {
+      if (disposed) return
       last = { track, loop } // 记当前曲(就绪前 init 补播 / autoplay 解锁后 resume 补播都用)
-      if (ready) void doPlay(track, loop)
+      if (ready) queuePlay(track, loop)
     },
     stop() {
+      generation++
+      loading?.abort()
+      playingTrack = -1
       seq?.pause()
       last = undefined
+    },
+    setVolume(value) {
+      masterGain.gain.value = value
+    },
+    setErrorHandler(handler) {
+      reportError = handler
+    },
+    dispose() {
+      if (disposed) return
+      disposed = true
+      generation++
+      loading?.abort()
+      initializing.abort()
+      reportError = undefined
+      cancelParsing?.()
+      last = undefined
+      seq?.pause()
+      masterGain.disconnect()
+      void ctx.close().catch(() => {})
     },
     resume() {
       // 用户手势里调(bootstrap keydown/pointerdown → AudioManager.resume → 此):resume 本后端
       //   AudioContext 解 autoplay。此前曲被 autoplay 挡掉没出声 → resume 后重播当前曲一次确保发声。
       //   resuming 守卫:解锁监听持续触发,ctx.resume() pending 期间(ctx 仍 'suspended')多个手势不重复
       //   doPlay(否则 BGM 在解锁瞬间被重启多次)。
-      if (resuming || ctx.state !== 'suspended') return
+      if (disposed || resuming || ctx.state !== 'suspended') return
       resuming = true
       void ctx
         .resume()
         .then(() => {
           resuming = false
-          if (ready && last) void doPlay(last.track, last.loop)
+          if (!disposed && ready && last) queuePlay(last.track, last.loop)
         })
         .catch(() => {
           resuming = false

@@ -9,6 +9,7 @@
 
 import type {
   ActorDef,
+  GridPos,
   Locale,
   MapIndexV1,
   SceneDef,
@@ -85,6 +86,8 @@ export function SceneCanvas(props: {
   /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   selectedEntityId: string | null
+  /** Explicit region selection, e.g. a different preview state; property edits keep the camera. */
+  focusRegion?: { key: string; positions: readonly GridPos[] }
   /** 当前 canonical 实体页的静态触发方式；画布只消费作者真值，不从旧投影猜测。 */
   selectedTriggerActivation?: TriggerActivation
   selectedAnchor?: SceneAnchorSelection | null
@@ -664,6 +667,26 @@ export function SceneCanvas(props: {
     const loaded = loadedRef.current
     if (loaded) fitView(loaded.map)
   }, [status, scene.id, size.w, size.h])
+
+  const focusRegionRef = useRef(props.focusRegion)
+  focusRegionRef.current = props.focusRegion
+  const focusRegionKey = props.focusRegion?.key
+  useEffect(() => {
+    if (status !== 'ready' || !focusRegionKey) return
+    const points = focusRegionRef.current?.positions.map(gridToPixel) ?? []
+    if (!points.length) return
+    setView(
+      fitStageView(
+        {
+          minX: Math.min(...points.map((p) => p.x)) - 90,
+          maxX: Math.max(...points.map((p) => p.x)) + 90,
+          minY: Math.min(...points.map((p) => p.y)) - 100,
+          maxY: Math.max(...points.map((p) => p.y)) + 60,
+        },
+        { w: size.w, h: size.h },
+      ),
+    )
+  }, [focusRegionKey, status, size.w, size.h, setView])
 
   return (
     <div className="viewport" ref={wrapRef}>

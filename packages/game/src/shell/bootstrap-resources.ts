@@ -43,9 +43,12 @@ const defaultPorts: BootstrapResourcePorts = {
 export function startBootstrapResourceLoad(
   sceneId: number,
   ports: BootstrapResourcePorts = defaultPorts,
+  preloadSoundfont = true,
 ): BootstrapResourceLoad {
   // soundfont 必须最先起跑；大文件下载与其余 boot 资源重叠。
-  const soundfontData = ports.fetchSoundfont()
+  const soundfontData = preloadSoundfont
+    ? ports.fetchSoundfont()
+    : Promise.resolve(new ArrayBuffer(0))
   const soundfontSettled = soundfontData.then(
     () => {},
     () => {},

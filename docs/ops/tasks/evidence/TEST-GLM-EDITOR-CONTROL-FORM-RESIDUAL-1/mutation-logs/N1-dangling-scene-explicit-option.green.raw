@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-cf-residual/packages/editor
+
+ ✓ src/ui/command-form-control.residual.glm.test.tsx (1 test) 86ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  15:11:57
+   Duration  1.92s (transform 1.15s, setup 0ms, import 1.40s, tests 86ms, environment 363ms)
+
+JSON report written to /private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json

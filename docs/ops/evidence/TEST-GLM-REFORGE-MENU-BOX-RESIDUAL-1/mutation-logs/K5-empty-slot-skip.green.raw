@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K5-empty-slot-skip-green.dd0RXJ/packages/reforge
+
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 23ms
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 165ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 150ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 6ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+
+ Test Files  5 passed (5)
+      Tests  25 passed (25)
+   Start at  15:09:40
+   Duration  1.40s (transform 1.09s, setup 0ms, import 1.64s, tests 349ms, environment 362ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.green.json

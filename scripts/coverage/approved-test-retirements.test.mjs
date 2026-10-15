@@ -23,11 +23,11 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
-  assert.equal(approvedTestRetirements.length, 13)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 13)
+  assert.equal(approvedTestRetirements.length, 14)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 14)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    40,
+    41,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

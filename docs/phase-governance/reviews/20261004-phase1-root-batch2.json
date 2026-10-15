@@ -505,11 +505,11 @@
     {
       "path": "docs/phase1/engineering-notes.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Engineering notes preserve implementation pitfalls and fidelity lessons from phase1; they are experience/history, not normative current design.",
+      "coreConclusion": "2026-10-14：新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
       "truthAnchors": [
-        "notes contain discovered pitfalls",
-        "sdlpal and data boundary lessons",
-        "historical context must remain visible"
+        "docs/phase1/engineering-notes.md:142",
+        "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "individual notes need per-item supersedes/current applicability tags in future batches"
@@ -521,7 +521,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
-      "afterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+      "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/engineering-notes.md"],
       "businessOracle": {
@@ -537,8 +537,8 @@
         "notes": "Content review record; no runtime/E2E/coverage credit."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+        "currentSha": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+        "implementationSha": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -547,25 +547,68 @@
             "date": "2026-10-04",
             "action": "phase1-content-review-20261004-batch2",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-14",
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "workingTree": true,
+            "action": "issue-3-fix-evidence-delta-review",
+            "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+            "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+            "reviewedRanges": ["142-152"],
+            "scope": "新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/phase1/engineering-notes.md",
-        "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96"
+        "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+        "readingHistory": [
+          {
+            "sha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+            "reviewedLines": "1-205",
+            "coreConclusion": "Engineering notes preserve implementation pitfalls and fidelity lessons from phase1; they are experience/history, not normative current design.",
+            "truthAnchors": [
+              "notes contain discovered pitfalls",
+              "sdlpal and data boundary lessons",
+              "historical context must remain visible"
+            ]
+          }
+        ],
+        "currentReading": {
+          "date": "2026-10-14",
+          "sha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "lineCount": 214,
+          "reviewedRanges": ["142-152"],
+          "scope": "新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+          "method": "prior-content-review-plus-current-delta-and-primary-evidence"
+        },
+        "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed"
       },
       "history": [
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-14",
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "workingTree": true,
+          "action": "issue-3-fix-evidence-delta-review",
+          "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+          "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "reviewedRanges": ["142-152"],
+          "scope": "新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-205",
+      "reviewedLines": "1-214",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",

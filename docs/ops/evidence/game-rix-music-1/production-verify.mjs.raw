@@ -1,0 +1,76 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { execFileSync } from 'node:child_process'
+import { join, relative } from 'node:path'
+import { createRixKernel } from '/Users/zhangxu/illegal/type-pal/packages/game/src/shell/rix/kernel.ts'
+const root = '/Users/zhangxu/illegal/type-pal'
+const base = 'https://pal.illegalscreed.cn'
+const sha = bytes => createHash('sha256').update(bytes).digest('hex')
+const dist = join(root, 'packages/game/dist')
+const files = []
+async function walk(directory) {
+  for (const item of await readdir(directory, { withFileTypes: true })) {
+    const path = join(directory, item.name)
+    if (item.name === 'extracted' || item.name === '.DS_Store') continue
+    assert.ok(!item.name.startsWith('._'), `AppleDouble file: ${path}`)
+    if (item.isDirectory()) await walk(path)
+    else if (item.isFile()) files.push(relative(dist, path))
+  }
+}
+await walk(dist)
+const remoteText = execFileSync('ssh', ['-o', 'BatchMode=yes', 'root@47.120.26.143', 'cd /var/www/type-pal/dist && find . -type f -print0 | sort -z | xargs -0 sha256sum'], { encoding: 'utf8' })
+const remoteFiles = Object.fromEntries(remoteText.trim().split('\n').map(line => [line.slice(66).replace(/^\.\//, ''), line.slice(0, 64)]))
+assert.deepEqual(Object.keys(remoteFiles).sort(), [...files].sort(), 'remote application file inventory matches local build')
+const checks = []
+let archive
+let wasm
+for (const path of [...files, 'extracted/asset-manifest.json', 'extracted/music/mus.mkf']) {
+  const localPath = path.startsWith('extracted/') ? join(root, 'data', path) : join(dist, path)
+  const local = await readFile(localPath)
+  const response = await fetch(`${base}/${path}`)
+  assert.equal(response.status, 200, path)
+  const bytes = Buffer.from(await response.arrayBuffer())
+  assert.equal(sha(bytes), sha(local), `HTTPS bytes match ${path}`)
+  if (!path.startsWith('extracted/')) assert.equal(remoteFiles[path], sha(local), `server bytes match ${path}`)
+  if (path.endsWith('.wasm')) {
+    assert.match(response.headers.get('content-type') ?? '', /application\/wasm/)
+    wasm = bytes
+  }
+  if (path === 'extracted/music/mus.mkf') archive = bytes
+  checks.push({ path, status: response.status, size: bytes.length, sha256: sha(bytes), contentType: response.headers.get('content-type'), cacheControl: response.headers.get('cache-control') })
+}
+assert.ok(archive && wasm)
+const manifest = JSON.parse(await readFile(join(root, 'data/extracted/asset-manifest.json'), 'utf8'))
+assert.equal(manifest.version, '7b0cf09680554792')
+assert.equal(manifest.fileCount, 2906)
+const module = new WebAssembly.Module(wasm)
+assert.deepEqual(WebAssembly.Module.imports(module), [])
+const pcm = []
+for (const rate of [44100, 48000]) {
+  const kernel = createRixKernel(module, archive.buffer.slice(archive.byteOffset, archive.byteOffset + archive.byteLength), rate)
+  for (const track of [1, 2, 87]) {
+    assert.ok(kernel.play(track, true))
+    let peak = 0
+    const hash = createHash('sha256')
+    for (let remaining = rate * 2; remaining > 0;) {
+      const frames = Math.min(4096, remaining)
+      const samples = kernel.render(frames)
+      for (const sample of samples) {
+        assert.ok(Number.isFinite(sample))
+        peak = Math.max(peak, Math.abs(sample))
+      }
+      hash.update(new Uint8Array(samples.buffer, samples.byteOffset, samples.byteLength))
+      remaining -= frames
+    }
+    assert.ok(peak > 0)
+    pcm.push({ rate, track, seconds: 2, peak, sha256: hash.digest('hex') })
+  }
+  kernel.dispose()
+}
+const oldText = execFileSync('ssh', ['-o', 'BatchMode=yes', 'root@47.120.26.143', 'cd /var/www/type-pal/dist.old && find . -type f -print0 | sort -z | xargs -0 sha256sum'], { encoding: 'utf8' })
+const before = await readFile('/tmp/type-pal-rix-before-app-sha256.txt', 'utf8')
+assert.equal(oldText, before, 'rollback directory preserves the previous production build exactly')
+const result = { verifiedAt: new Date().toISOString(), base, commit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(), manifestVersion: manifest.version, manifestFileCount: manifest.fileCount, remoteInventoryExact: true, rollbackBuildExact: true, appleDoubleFiles: 0, files: checks, productionArtifactPcm: { browserAudioOutputMeasured: false, description: 'Node rendered the exact WASM and MKF bytes fetched over production HTTPS; real browser UI smoke is recorded separately', results: pcm } }
+await writeFile('/tmp/type-pal-rix-production-verification.json', `${JSON.stringify(result, null, 2)}\n`)
+console.log(JSON.stringify({ files: checks.length, manifest: manifest.version, pcmChecks: pcm.length, rollbackBuildExact: true }))

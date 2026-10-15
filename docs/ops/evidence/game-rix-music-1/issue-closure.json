@@ -1,0 +1,10 @@
+{
+  "closedAt": "2026-10-15T01:53:43Z",
+  "lastComment": {
+    "author": "IllegalCreed",
+    "body": "已实现并上线：[在线试玩](https://pal.illegalscreed.cn/)。\n\n第一阶段现在可以在「工具 → 系统 → 音频 → 音源」选择「MIDI（当前音色）」或「DOS FM（RIX）」。默认仍是 MIDI，选择会保存在浏览器中，刷新后保留。\n\nDOS FM 直接读取 MUS.MKF，通过 RIX 播放器和 Nuked OPL 的 WebAssembly / AudioWorklet 实时合成。已完成线上切换、刷新记忆及资源校验。\n\n感谢你的建议！\n",
+    "url": "https://github.com/IllegalCreed/type-pal/issues/4#issuecomment-6182581943"
+  },
+  "state": "CLOSED",
+  "url": "https://github.com/IllegalCreed/type-pal/issues/4"
+}

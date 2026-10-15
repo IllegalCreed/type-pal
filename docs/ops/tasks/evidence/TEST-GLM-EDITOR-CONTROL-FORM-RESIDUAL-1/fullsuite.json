@@ -1,0 +1,20 @@
+{
+  "card": "TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1",
+  "suite": "editor 全包 vitest run --passWithNoTests --maxWorkers=1（隔离 worktree，wrapper config；2026-10-11）",
+  "command": "pnpm exec vitest run --passWithNoTests --maxWorkers=1 --config vitest.isolated.config.ts（cwd=packages/editor，spawn 于后台 shell，日志原件见 fullsuite.raw）",
+  "exitCode": 1,
+  "testFilesPassed": 627,
+  "testFilesFailed": 1,
+  "testsTotal": 4931,
+  "testsPassed": 4930,
+  "testsFailed": 1,
+  "knownBaselineFailures": [
+    {
+      "file": "src/ui/design-system/number-field-adoption.test.ts",
+      "fullName": "number field adoption gate > locks wrapper consumers and representative static expansions",
+      "assertion": "command-form-controls.tsx@Num: expected 37 to be 39",
+      "baseline": "主树同命令复跑同样失败（冻结点 9aa3bed89 既有，非本卡引入；本卡白名单不含该文件）"
+    }
+  ],
+  "note": "首轮全包另有 scripts/pal-simulator-presets.test.ts 因 worktree 缺 packages/reforge/node_modules 软链而 collect 失败；补链后复跑通过（12/12），属隔离树装置而非产品/测试差异。"
+}

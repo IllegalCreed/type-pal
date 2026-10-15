@@ -1,0 +1,41 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K5-empty-slot-skip-red.QXMr2k/packages/reforge
+
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 165ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 190ms
+ ❯ src/menu/menu-box.residual.glm.test.ts (5 tests | 1 failed) 12ms
+     ✓ 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移 3ms
+     ✓ 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白 1ms
+     ✓ 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成 1ms
+     ✓ 中栏名字金黄居中于158、回落立绘按宽居中于(142,50) 2ms
+     × 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中 4ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 7ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 24 passed (25)
+   Start at  15:09:38
+   Duration  1.54s (transform 1.32s, setup 0ms, import 1.86s, tests 379ms, environment 357ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/menu/menu-box.residual.glm.test.ts > 当前 MenuBox 级联与面板公开布局残余 > 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中
+AssertionError: expected [ …(16) ] to have a length of 11 but got 16
+
+- Expected
++ Received
+
+- 11
++ 16
+
+ ❯ src/menu/menu-box.residual.glm.test.ts:448:22
+    446|       { text: '木剑', x: 212, y: 49, color: [231, 223, 195] },
+    447|     ])
+    448|     expect(labels()).toHaveLength(11)
+       |                      ^
+    449|   })
+    450| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

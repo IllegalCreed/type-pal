@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T02:09:01.479Z",
+  "generatedAt": "2026-10-15T01:23:10.725Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 729,
-  "testCount": 19789,
+  "sourceFileCount": 736,
+  "testCount": 19857,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1171,7 +1171,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 38,
+      "sourceFileCount": 39,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1203,6 +1203,7 @@
         "packages/pal-extract/src/resources/parsers/items.ts",
         "packages/pal-extract/src/resources/parsers/player-roles.ts",
         "packages/pal-extract/src/resources/parsers/rgm.ts",
+        "packages/pal-extract/src/resources/parsers/rix.ts",
         "packages/pal-extract/src/resources/parsers/rng-frames.ts",
         "packages/pal-extract/src/resources/parsers/sounds.ts",
         "packages/pal-extract/src/resources/parsers/spells.ts",
@@ -1212,10 +1213,10 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
+      "scopeDigest": "3db86b821bd1077315bbaf201384a269c23fd534ee29c66f3ea256b2af8762e7",
       "fastTests": {
-        "testCount": 272,
-        "testFileCount": 59,
+        "testCount": 276,
+        "testFileCount": 60,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1261,6 +1262,7 @@
           "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
@@ -1499,6 +1501,11 @@
             "identityDigest": "354759d605031561d84211c4168e7364d6371709e60c8be9df66284b5ad903a5"
           },
           {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+            "testCount": 4,
+            "identityDigest": "caca06440521c0210544b8088f93e5f0d6747607dd9410d8c488c3524e535515"
+          },
+          {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
             "testCount": 1,
             "identityDigest": "b04fe30263c5d745e7e04da469ff94257be712c1cb829d0777af87637a545ce7"
@@ -1574,26 +1581,26 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "7d3ab96ad748204fe12f033a9543df05d1a2471d3dcd1d8f0f66e1dd0d60abcc",
-        "duplicateIdentityCount": 0,
-        "executionDigest": "7c9a4cccf0a351b853b98a6635008ddf94515e60be8e54c73d03499495c52e8c"
+        "identityDigest": "f0b9c033cb6468d8b51e2385f37e0ee1d31814ea04ba77166b1a0aaa07f8054b",
+        "duplicateIdentityCount": 1,
+        "executionDigest": "eeebe5a786486c359e9cd6b2032e4b333628bb94f360185d41d5d0a66439949a"
       },
       "metrics": {
         "statements": {
-          "covered": 1058,
-          "total": 1521
+          "covered": 1069,
+          "total": 1535
         },
         "branches": {
-          "covered": 455,
-          "total": 577
+          "covered": 462,
+          "total": 584
         },
         "functions": {
-          "covered": 110,
-          "total": 138
+          "covered": 111,
+          "total": 139
         },
         "lines": {
-          "covered": 935,
-          "total": 1345
+          "covered": 944,
+          "total": 1357
         }
       }
     },
@@ -2336,8 +2343,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8958,
-        "testFileCount": 358,
+        "testCount": 8964,
+        "testFileCount": 359,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2531,6 +2538,7 @@
           "packages/reforge/src/menu/magic-box.glm-runtime-resource.test.ts",
           "packages/reforge/src/menu/menu-box.glm-n.test.ts",
           "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+          "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
           "packages/reforge/src/menu/menu-box.residual.test.ts",
           "packages/reforge/src/menu/menu-box.status-residual.test.ts",
           "packages/reforge/src/menu/menu-session.glm-next-wave.test.ts",
@@ -3606,8 +3614,8 @@
           },
           {
             "file": "packages/reforge/src/main.save-flows.test.ts",
-            "testCount": 5,
-            "identityDigest": "66e0c7e01b70b51bef20f718be24b9cc5dfcff7a8bfc97af2df73d44bf3af03f"
+            "testCount": 6,
+            "identityDigest": "e37aa5fca5602b5d6f3e8a519d2f48c073f4372c146f37f10ca719f1b3c1842e"
           },
           {
             "file": "packages/reforge/src/main.scene-flows.test.ts",
@@ -3658,6 +3666,11 @@
             "file": "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
             "testCount": 4,
             "identityDigest": "5537331c316f9cbb5a8fb88b3cc29e0f10489cc87b8d3eda71eca2542abc6e5f"
+          },
+          {
+            "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+            "testCount": 5,
+            "identityDigest": "7d69b874aeaf94b5e01221e9ff7f3940c73f1cc5f0bc7532219854fa43734849"
           },
           {
             "file": "packages/reforge/src/menu/menu-box.residual.test.ts",
@@ -4490,9 +4503,9 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "478aac62972ba96f5afd547670afcce979221dec7090f8670f58a9b4d1433d02",
+        "identityDigest": "6b2470c257007391ad73a0f7cfa848c925a6e5f1bde3ed076f4a59f4e382a3c4",
         "duplicateIdentityCount": 3,
-        "executionDigest": "3fef5df77210ed0fa2f609b9efe2d6e8a5e74047ba9324b60ac78e463dc4f870"
+        "executionDigest": "3566ec664c2f91d8b6913940ee24bcf5bb6fe69bf00b93f322beb455c259c517"
       },
       "metrics": {
         "statements": {
@@ -4500,7 +4513,7 @@
           "total": 18885
         },
         "branches": {
-          "covered": 10806,
+          "covered": 10807,
           "total": 13097
         },
         "functions": {
@@ -4525,7 +4538,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 136,
+      "sourceFileCount": 140,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4630,6 +4643,7 @@
         "packages/game/src/present/screen-shake.ts",
         "packages/game/src/present/screen-wave.ts",
         "packages/game/src/shell/audio-midi.ts",
+        "packages/game/src/shell/audio-rix.ts",
         "packages/game/src/shell/audio-volume.ts",
         "packages/game/src/shell/audio.ts",
         "packages/game/src/shell/avi-player.ts",
@@ -4641,8 +4655,11 @@
         "packages/game/src/shell/fetch-retry.ts",
         "packages/game/src/shell/input.ts",
         "packages/game/src/shell/main-loop.ts",
+        "packages/game/src/shell/music-source.ts",
         "packages/game/src/shell/precache-client.ts",
         "packages/game/src/shell/precache-ui.ts",
+        "packages/game/src/shell/rix-worklet.ts",
+        "packages/game/src/shell/rix/kernel.ts",
         "packages/game/src/shell/rng-player.ts",
         "packages/game/src/shell/splash-fallback.ts",
         "packages/game/src/shell/trademark-fallback.ts",
@@ -4664,10 +4681,10 @@
         "packages/game/src/tools/toast.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
+      "scopeDigest": "c989cc3144e11a587080f7bba5c6c04db8d4d4c321e9e409c9018733fb0cd058",
       "fastTests": {
-        "testCount": 3491,
-        "testFileCount": 306,
+        "testCount": 3528,
+        "testFileCount": 312,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4756,6 +4773,7 @@
           "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
           "packages/game/src/core/event-opcode-player.test.ts",
           "packages/game/src/core/event-opcodes.cov85.test.ts",
+          "packages/game/src/core/event-rng-scene-restore.test.ts",
           "packages/game/src/core/event-system.cov85.test.ts",
           "packages/game/src/core/event-system.glm-event-contracts.test.ts",
           "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
@@ -4902,6 +4920,8 @@
           "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
           "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
           "packages/game/src/present/screen-wave.test.ts",
+          "packages/game/src/shell/audio-midi.test.ts",
+          "packages/game/src/shell/audio-rix.test.ts",
           "packages/game/src/shell/audio-volume.boundaries.test.ts",
           "packages/game/src/shell/audio-volume.test.ts",
           "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
@@ -4930,10 +4950,13 @@
           "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
           "packages/game/src/shell/main-loop.test.ts",
           "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+          "packages/game/src/shell/music-source.test.ts",
           "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
           "packages/game/src/shell/precache-client.test.ts",
           "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
           "packages/game/src/shell/precache-ui.test.ts",
+          "packages/game/src/shell/rix-worklet.test.ts",
+          "packages/game/src/shell/rix/kernel.test.ts",
           "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
           "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
           "packages/game/src/shell/rng-player.test.ts",
@@ -5411,6 +5434,11 @@
             "file": "packages/game/src/core/event-opcodes.cov85.test.ts",
             "testCount": 21,
             "identityDigest": "5a8a4340b2140b994f56cfbada807cd13fad776edd8cd3becbead58a98d413e9"
+          },
+          {
+            "file": "packages/game/src/core/event-rng-scene-restore.test.ts",
+            "testCount": 4,
+            "identityDigest": "58763dcd8a8a6c8c7eb5d04268af315f483edbdaf884a72f865487a86aeaf987"
           },
           {
             "file": "packages/game/src/core/event-system.cov85.test.ts",
@@ -6143,6 +6171,16 @@
             "identityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7"
           },
           {
+            "file": "packages/game/src/shell/audio-midi.test.ts",
+            "testCount": 12,
+            "identityDigest": "818ba52c42b4d3a3c692ff6c9505b73912a96b8bfe0d7fdd337c4b4f76d35912"
+          },
+          {
+            "file": "packages/game/src/shell/audio-rix.test.ts",
+            "testCount": 4,
+            "identityDigest": "54217320857d9e490091350d06697d65915e2b0b50fae666c5746467bee68d79"
+          },
+          {
             "file": "packages/game/src/shell/audio-volume.boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "35268c5c6a4e07481fff6d6e5afbde4e9abcf8d752bfd8d5f22e68a56cccb6e6"
@@ -6154,8 +6192,8 @@
           },
           {
             "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
-            "testCount": 3,
-            "identityDigest": "6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7"
+            "testCount": 2,
+            "identityDigest": "4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5"
           },
           {
             "file": "packages/game/src/shell/audio.test.ts",
@@ -6204,8 +6242,8 @@
           },
           {
             "file": "packages/game/src/shell/bootstrap-resources.test.ts",
-            "testCount": 3,
-            "identityDigest": "d2837c8efbc5aa534a83d8ac84604b7536b1cc4573ccff97c079c86d83ed183f"
+            "testCount": 4,
+            "identityDigest": "820efc27ef15c3c737fb37250049bcc193e09461862305b53dd1cd415ad22d24"
           },
           {
             "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
@@ -6283,6 +6321,11 @@
             "identityDigest": "02491409d29d4c065b9c2882884b4768a8a70434759bd1f5b7743cdfa7e51327"
           },
           {
+            "file": "packages/game/src/shell/music-source.test.ts",
+            "testCount": 8,
+            "identityDigest": "beee415df99bbc24f4dda70844def74b6031167144e676451bc07b1bac807c1c"
+          },
+          {
             "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
             "testCount": 2,
             "identityDigest": "9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3"
@@ -6301,6 +6344,16 @@
             "file": "packages/game/src/shell/precache-ui.test.ts",
             "testCount": 7,
             "identityDigest": "4c8a642621e0bc5dc4168d39c42ccaaa893e0567b5bb2b8ce5a41b317669ae48"
+          },
+          {
+            "file": "packages/game/src/shell/rix-worklet.test.ts",
+            "testCount": 2,
+            "identityDigest": "ebf9b306963142370ebcacd6daae3fe39bdbf9ad5b7408c600307757c2ed8cce"
+          },
+          {
+            "file": "packages/game/src/shell/rix/kernel.test.ts",
+            "testCount": 6,
+            "identityDigest": "b5ba170ec6164aa6c01159db84a53553e5b2d2114233f9ae2276b6e1b812b5cf"
           },
           {
             "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
@@ -6504,30 +6557,30 @@
           },
           {
             "file": "packages/game/src/tools/tools-panel.test.ts",
-            "testCount": 15,
-            "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
+            "testCount": 16,
+            "identityDigest": "e537b3aa3bfb413bbe52098ea9ada8727e52e38f41de757334faeb9eda0e9973"
           }
         ],
-        "identityDigest": "6cff978c86e89307953c7c61c680280f266320b70b30d305deeb8254152298c0",
+        "identityDigest": "276c6c6ef7c30227898e28d119a88d07b595d84aedccf1dc1fe565776264a3a5",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b74a17774d619fbcfbd15df123db7ca20eb6492cb054930628113396e6033c75"
+        "executionDigest": "8cb352a0c781b322104611ab529186b54405ca2e314792adaa1c74aa64e156d1"
       },
       "metrics": {
         "statements": {
-          "covered": 13486,
-          "total": 15523
+          "covered": 13818,
+          "total": 15822
         },
         "branches": {
-          "covered": 8875,
-          "total": 11294
+          "covered": 9032,
+          "total": 11452
         },
         "functions": {
-          "covered": 1517,
-          "total": 1853
+          "covered": 1570,
+          "total": 1904
         },
         "lines": {
-          "covered": 12045,
-          "total": 13626
+          "covered": 12339,
+          "total": 13878
         }
       }
     },
@@ -6543,7 +6596,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 292,
+      "sourceFileCount": 294,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6637,6 +6690,7 @@
         "packages/editor/src/core/script-editor.ts",
         "packages/editor/src/core/script-flow-preview.ts",
         "packages/editor/src/core/script-movement-preview.ts",
+        "packages/editor/src/core/script-preview-library.ts",
         "packages/editor/src/core/script-reference-catalog.ts",
         "packages/editor/src/core/script-references.ts",
         "packages/editor/src/core/seed-assets.ts",
@@ -6738,6 +6792,7 @@
         "packages/editor/src/ui/ProjectSaveDialog.tsx",
         "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
         "packages/editor/src/ui/SceneCanvas.tsx",
+        "packages/editor/src/ui/SceneInitialStateEditor.tsx",
         "packages/editor/src/ui/SceneScriptWorkspace.tsx",
         "packages/editor/src/ui/ScriptBehaviorInspector.tsx",
         "packages/editor/src/ui/ScriptEditor.tsx",
@@ -6838,10 +6893,10 @@
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
+      "scopeDigest": "714747a53e2a4641a7b8c1099aa9a962b2012de0217f2d05a2ccb979350489a4",
       "fastTests": {
-        "testCount": 4768,
-        "testFileCount": 608,
+        "testCount": 4789,
+        "testFileCount": 612,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7049,6 +7104,7 @@
           "packages/editor/src/core/script-movement-preview.cursor-mid-1.test.ts",
           "packages/editor/src/core/script-movement-preview.test.ts",
           "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts",
+          "packages/editor/src/core/script-preview-library.test.ts",
           "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
           "packages/editor/src/core/script-reference-catalog.test.ts",
           "packages/editor/src/core/script-references.glm-leaf-wave.test.ts",
@@ -7244,6 +7300,7 @@
           "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
           "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx",
           "packages/editor/src/ui/LayerStackControls.test.tsx",
@@ -7295,6 +7352,7 @@
           "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.glm-large-wave.test.tsx",
+          "packages/editor/src/ui/SceneScriptWorkspace.initial-state.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
@@ -7379,6 +7437,7 @@
           "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-contract.test.ts",
           "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+          "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
           "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-family-ownership.test.ts",
           "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
@@ -7630,8 +7689,8 @@
           },
           {
             "file": "packages/editor/src/core/author-save-conflict.test.ts",
-            "testCount": 37,
-            "identityDigest": "adfa4cf518e4cc4317008bf7726575e56450a171fd743cc69ab9268b968b3496"
+            "testCount": 38,
+            "identityDigest": "2ef765d494395b0352764bb3244ff5f38015b74c5f2a9cc0eb19ee3fc84998cf"
           },
           {
             "file": "packages/editor/src/core/author-save-journal.test.ts",
@@ -7700,8 +7759,8 @@
           },
           {
             "file": "packages/editor/src/core/battle-simulator-persistence.test.ts",
-            "testCount": 13,
-            "identityDigest": "92b9304939b65c4cf3eabbb4a6dc85b26f5845ecbd117220226cb3f94e7596bf"
+            "testCount": 16,
+            "identityDigest": "9beae991faea710b744b2a2105034e47d089b9f6c85a63ec582ff4ba5955bd04"
           },
           {
             "file": "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
@@ -7865,8 +7924,8 @@
           },
           {
             "file": "packages/editor/src/core/editor-history-coordinator.test.ts",
-            "testCount": 4,
-            "identityDigest": "1539bb7e6f7d2e9e8f023c286666a28091a74b2e18f2e7cee6cc7b0f9fbb4fa9"
+            "testCount": 5,
+            "identityDigest": "67abd045c29976b8dc16cb8f7ed519602553df511c75ded587baf073be268c49"
           },
           {
             "file": "packages/editor/src/core/editor-history-foundations.test.ts",
@@ -8482,6 +8541,11 @@
             "file": "packages/editor/src/core/script-preview-integration.cursor-mid-1.test.ts",
             "testCount": 3,
             "identityDigest": "9c0422955a15d834236031fac7f50a837940059bb4ee50dd899df4dc7f529125"
+          },
+          {
+            "file": "packages/editor/src/core/script-preview-library.test.ts",
+            "testCount": 4,
+            "identityDigest": "4153b24aa9caa77d52d9551a18ed069732c209079c0c082b7d013bd8a4e892e7"
           },
           {
             "file": "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
@@ -9459,6 +9523,11 @@
             "identityDigest": "a30b5925ed42f4ba5b338509eda98e5a137428cb06c8ac5d798aebf08cc32270"
           },
           {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+            "testCount": 3,
+            "identityDigest": "abf6eabd216e6c68a87e915bfc3c1cdbc4e33a1dda5f73363659e687701f060e"
+          },
+          {
             "file": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
             "testCount": 12,
             "identityDigest": "0ad2d4215e914349b3621033c8dad55a7fb6af903f2bfdbd99ae23e5994ddbeb"
@@ -9714,9 +9783,14 @@
             "identityDigest": "790a63bbd11dff560402c543f43b54baa309c1e876e0d96ba1470763ab29e44f"
           },
           {
+            "file": "packages/editor/src/ui/SceneScriptWorkspace.initial-state.test.tsx",
+            "testCount": 5,
+            "identityDigest": "fc31c987ea8ee48f2f953389d921e35bf7741ad1b11f9f8961ea7174288e7634"
+          },
+          {
             "file": "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
-            "testCount": 7,
-            "identityDigest": "760d825468455bc577cfd2367720ef00bdebc6df3d3034017bf785c67b3ca3b0"
+            "testCount": 10,
+            "identityDigest": "474a9a8c7713d19f5a43384187a2f9443d6667bb48804e55d8144944bb6dfc6f"
           },
           {
             "file": "packages/editor/src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx",
@@ -10134,6 +10208,11 @@
             "identityDigest": "a14a1a7761a4674cfc2cac15c29e7d6d170beaeb518e14a6e1114ca0292606ad"
           },
           {
+            "file": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+            "testCount": 1,
+            "identityDigest": "573c66b5871d9095d45f430b2286dae38a2975fe1168808d14b2be405d255f30"
+          },
+          {
             "file": "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
             "testCount": 3,
             "identityDigest": "6474dacb59eef72e1723fc0a87dabfdec47df9340968ccba1812266eefa781c8"
@@ -10494,46 +10573,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "7c91a8e3d0c05b3c0ea17dfc884a1ac095af5ecfff8ad766b7601ac5209924dd",
+        "identityDigest": "36d8a254b3d4fbedc86748acee591a2b8ed1584ff29822085283a08c6c32b573",
         "duplicateIdentityCount": 8,
-        "executionDigest": "56416ee0b25129a678ba54dc192ab2778d7b8fb4f48ccf456240ad01e3bbb2a4"
+        "executionDigest": "3698a1f5611673a9a8511bd8a4ebac27c72402f9f4c604cad3873df68464ba19"
       },
       "metrics": {
         "statements": {
-          "covered": 30232,
-          "total": 33522
+          "covered": 30524,
+          "total": 33836
         },
         "branches": {
-          "covered": 24271,
-          "total": 29079
+          "covered": 24578,
+          "total": 29437
         },
         "functions": {
-          "covered": 7657,
-          "total": 8544
+          "covered": 7769,
+          "total": 8662
         },
         "lines": {
-          "covered": 27054,
-          "total": 29293
+          "covered": 27309,
+          "total": 29561
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 70236,
-      "total": 78387
+      "covered": 70871,
+      "total": 79014
     },
     "branches": {
-      "covered": 51060,
-      "total": 61181
+      "covered": 51532,
+      "total": 61704
     },
     "functions": {
-      "covered": 13270,
-      "total": 14868
+      "covered": 13436,
+      "total": 15038
     },
     "lines": {
-      "covered": 62760,
-      "total": 68618
+      "covered": 63318,
+      "total": 69150
     }
   }
 }

@@ -1,0 +1,548 @@
+{
+  "phase": "before",
+  "events": [
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2205
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2206,
+        "waiting": "delay"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2210,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "哈哈哈！小伙子你果然守信",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2211,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "哈哈哈！小伙子你果然守信",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2214,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "要不是婶婶看得紧，晚辈原本",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2216,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "还想替老前辈带几壶好酒来",
+      "lines": [
+        "要不是婶婶看得紧，晚辈原本"
+      ],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2217,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": null,
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2218,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "呵呵！那倒不必了",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2222,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "的酸酒。",
+      "lines": [
+        "呵呵！那倒不必了",
+        "老夫喝遍天下名酒，要不是酒",
+        "虫闹得凶，才不稀罕那掺了水"
+      ],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2224,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": null,
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2225,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "让前辈见笑了，乡下小店没啥",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2228,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "前辈多多见谅",
+      "lines": [
+        "让前辈见笑了，乡下小店没啥",
+        "美酒佳肴，怠慢不周之处还请"
+      ],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2231,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "哈～哈哈！这样说才像句人话",
+      "lines": [],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2235,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "line": "酒之恩，仔细看清楚了",
+      "lines": [
+        "哈～哈哈！这样说才像句人话",
+        "我一生从不亏欠别人，现在就",
+        "教你一式剑招，算是回报你赐"
+      ],
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2235,
+        "waiting": "palette-fade"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": false,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": false,
+      "rng": 0
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2239,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": false,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2239
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": false,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2241,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2243,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2245,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2247,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2247
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": false,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2249,
+        "waiting": "rng-play"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": true,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2249
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": false,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2249,
+        "waiting": "palette-fade"
+      },
+      "party": {
+        "x": 736,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": false,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2260,
+        "waiting": "palette-fade"
+      },
+      "party": {
+        "x": 672,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": false,
+      "backup": true,
+      "suspendRaf": false,
+      "rng": 1
+    },
+    {
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2262,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 672,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": true,
+      "backup": true,
+      "suspendRaf": false,
+      "line": null,
+      "lines": [],
+      "rng": 1
+    },
+    {
+      "checkpoint": "after-redraw-dialog",
+      "scene": 12,
+      "mode": "event",
+      "cursor": {
+        "ip": 2262,
+        "waiting": "dialog"
+      },
+      "party": {
+        "x": 672,
+        "y": 400,
+        "facing": "down"
+      },
+      "rngFrameActive": true,
+      "dialogPlayingRNG": true,
+      "backup": true,
+      "suspendRaf": false,
+      "line": null,
+      "lines": [],
+      "rng": 1
+    }
+  ],
+  "errors": []
+}

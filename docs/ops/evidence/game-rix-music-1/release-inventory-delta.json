@@ -1,0 +1,73 @@
+{
+  "previousTotal": 3267,
+  "currentTotal": 3283,
+  "added": [
+    {
+      "path": "packages/game/src/__tests__/rix-fixture.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.ts",
+      "category": "product"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "category": "product"
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.ts",
+      "category": "product"
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.ts",
+      "category": "product"
+    },
+    {
+      "path": "packages/game/src/worker-url.d.ts",
+      "category": "product"
+    },
+    {
+      "path": "packages/game/vendor/rix/source-manifest.json",
+      "category": "vendor/reference"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+      "category": "test"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "category": "product"
+    },
+    {
+      "path": "scripts/audio/build-rix.mjs",
+      "category": "tool"
+    },
+    {
+      "path": "scripts/e2e/sw-cache.test.mjs",
+      "category": "test"
+    }
+  ],
+  "verifiedUnchanged": 229,
+  "reviewUnchanged": 5,
+  "pending": 3049
+}

@@ -1782,6 +1782,8 @@
         "MusicPicker.tsx",
         "NamedIdPicker.tsx",
         "PreviewCanvas.tsx",
+        "SceneInitialStateEditor.tsx",
+        "SceneScriptWorkspace.tsx",
         "ScriptBehaviorInspector.tsx",
         "ScriptEditor.tsx",
         "ScriptSceneHookInspector.tsx",
@@ -1797,7 +1799,7 @@
         "catalog": "N/A: single project mechanism",
         "scroll": "editor shell center / Inspector single owners",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
+        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextField + DsDraftTextInput + DsField + DsFieldGroup + DsMultiSelect + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

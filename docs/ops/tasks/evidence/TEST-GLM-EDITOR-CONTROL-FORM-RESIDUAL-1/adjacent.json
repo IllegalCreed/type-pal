@@ -1,0 +1,1903 @@
+{
+  "numTotalTestSuites": 38,
+  "numPassedTestSuites": 38,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 171,
+  "numPassedTests": 171,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791699110895,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+          "status": "passed",
+          "title": "E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+          "duration": 171.0949169999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+          "status": "passed",
+          "title": "E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+          "duration": 25.96462500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+          "status": "passed",
+          "title": "E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+          "duration": 81.5438750000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113428,
+      "endTime": 1791699113706.544,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前对话身份表单"],
+          "fullName": "当前对话身份表单 人物立绘只列该人物的默认与命名表情",
+          "status": "passed",
+          "title": "人物立绘只列该人物的默认与命名表情",
+          "duration": 47.71245900000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前对话身份表单"],
+          "fullName": "当前对话身份表单 显示称谓交给 locale+cue 原子事务回调",
+          "status": "passed",
+          "title": "显示称谓交给 locale+cue 原子事务回调",
+          "duration": 9.026041000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前对话身份表单"],
+          "fullName": "当前对话身份表单 切换人物会清除旧人物的表情引用",
+          "status": "passed",
+          "title": "切换人物会清除旧人物的表情引用",
+          "duration": 13.470042000000149,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["脚本指令同项动作组"],
+          "fullName": "脚本指令同项动作组 对话速度字段与纯图标动作分离，并保留原有行级更新语义",
+          "status": "passed",
+          "title": "对话速度字段与纯图标动作分离，并保留原有行级更新语义",
+          "duration": 10.286125000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["脚本指令同项动作组"],
+          "fullName": "脚本指令同项动作组 单行对话保留禁用删除并给出可见原因",
+          "status": "passed",
+          "title": "单行对话保留禁用删除并给出可见原因",
+          "duration": 6.526417000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["脚本指令同项动作组"],
+          "fullName": "脚本指令同项动作组 队伍成员移动与移出使用一致的纯图标危险动作",
+          "status": "passed",
+          "title": "队伍成员移动与移出使用一致的纯图标危险动作",
+          "duration": 6.554292000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CommandForm commit characterization"],
+          "fullName": "CommandForm commit characterization number empty string commits Number('') === 0 immediately",
+          "status": "passed",
+          "title": "number empty string commits Number('') === 0 immediately",
+          "duration": 1.8849170000000868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CommandForm commit characterization"],
+          "fullName": "CommandForm commit characterization world variable picker commits only a registered id",
+          "status": "passed",
+          "title": "world variable picker commits only a registered id",
+          "duration": 13.363917000000129,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CommandForm commit characterization"],
+          "fullName": "CommandForm commit characterization select commits the selected string directly",
+          "status": "passed",
+          "title": "select commits the selected string directly",
+          "duration": 3.9108329999999114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CommandForm commit characterization"],
+          "fullName": "CommandForm commit characterization entity state uses the shared Chinese semantic selector and preserves raw values on open",
+          "status": "passed",
+          "title": "entity state uses the shared Chinese semantic selector and preserves raw values on open",
+          "duration": 4.201291999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["角色当前状态命令表单"],
+          "fullName": "角色当前状态命令表单 显示角色和毒名称，状态词表不开放死人专用傀儡",
+          "status": "passed",
+          "title": "显示角色和毒名称，状态词表不开放死人专用傀儡",
+          "duration": 7.979792000000089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["角色当前状态命令表单"],
+          "fullName": "角色当前状态命令表单 切换类型重建 exact condition，不保留上一类型字段",
+          "status": "passed",
+          "title": "切换类型重建 exact condition，不保留上一类型字段",
+          "duration": 3.860292000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["角色当前状态命令表单"],
+          "fullName": "角色当前状态命令表单 清除命令明确区分指定毒、指定状态与全部临时毒抗",
+          "status": "passed",
+          "title": "清除命令明确区分指定毒、指定状态与全部临时毒抗",
+          "duration": 4.126125000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699114984,
+      "endTime": 1791699115118.1262,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-characterization.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references flag reference and boolean are edited together with no intermediate parent commit",
+          "status": "passed",
+          "title": "flag reference and boolean are edited together with no intermediate parent commit",
+          "duration": 158.13708300000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references 'setVar' selects number identity and exact signed payload",
+          "status": "passed",
+          "title": "'setVar' selects number identity and exact signed payload",
+          "duration": 48.31720799999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references 'addVar' selects number identity and exact signed payload",
+          "status": "passed",
+          "title": "'addVar' selects number identity and exact signed payload",
+          "duration": 44.85941700000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references money delta is not an absolute balance and preserves negative values",
+          "status": "passed",
+          "title": "money delta is not an absolute balance and preserves negative values",
+          "duration": 29.976916999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references shop selection serializes numeric identity and changes buy to sell",
+          "status": "passed",
+          "title": "shop selection serializes numeric identity and changes buy to sell",
+          "duration": 98.07037499999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references giveItem selects a named item but commits its opaque ID and explicit count",
+          "status": "passed",
+          "title": "giveItem selects a named item but commits its opaque ID and explicit count",
+          "duration": 55.40045799999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references loseItem returning to one omits the optional count without changing kind",
+          "status": "passed",
+          "title": "loseItem returning to one omits the optional count without changing kind",
+          "duration": 78.00004200000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command data references"],
+          "fullName": "Current command data references missing registered variable is visible as repair context, and can be replaced with a legal ID",
+          "status": "passed",
+          "title": "missing registered variable is visible as repair context, and can be replaced with a legal ID",
+          "duration": 70.12679100000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113423,
+      "endTime": 1791699114006.1267,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-data.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields narration becomes an unbound identity without leaking runtime cue fields",
+          "status": "passed",
+          "title": "narration becomes an unbound identity without leaking runtime cue fields",
+          "duration": 173.87591599999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields clearing the final unbound name without portrait returns to narration",
+          "status": "passed",
+          "title": "clearing the final unbound name without portrait returns to narration",
+          "duration": 98.6289999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields switching narration to a project actor uses an actual actor ID",
+          "status": "passed",
+          "title": "switching narration to a project actor uses an actual actor ID",
+          "duration": 68.34016699999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields editing a current actor name uses a literal override and keeps row data",
+          "status": "passed",
+          "title": "editing a current actor name uses a literal override and keeps row data",
+          "duration": 144.62370800000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields dialog position and cursor changes preserve the actual rows",
+          "status": "passed",
+          "title": "dialog position and cursor changes preserve the actual rows",
+          "duration": 62.681666999999834,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields returning position and cursor to defaults omits only their optional overrides",
+          "status": "passed",
+          "title": "returning position and cursor to defaults omits only their optional overrides",
+          "duration": 102.7182499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields automatic advance permits zero and a configured delay before one aggregate commit",
+          "status": "passed",
+          "title": "automatic advance permits zero and a configured delay before one aggregate commit",
+          "duration": 108.32583299999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields disabling automatic advance removes its delay",
+          "status": "passed",
+          "title": "disabling automatic advance removes its delay",
+          "duration": 62.218624999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current author dialogue aggregate fields"],
+          "fullName": "Current author dialogue aggregate fields adding a row and cancelling discards the actual aggregate draft",
+          "status": "passed",
+          "title": "adding a row and cancelling discards the actual aggregate draft",
+          "duration": 97.78145799999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113423,
+      "endTime": 1791699114344.7815,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-dialog.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Current command actor appearance"],
+          "fullName": "Current command actor appearance actor and sprite selectors commit stable identities rather than display labels",
+          "status": "passed",
+          "title": "actor and sprite selectors commit stable identities rather than display labels",
+          "duration": 148.35929199999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command actor appearance"],
+          "fullName": "Current command actor appearance adding an appearance override and then clearing it preserves the other override",
+          "status": "passed",
+          "title": "adding an appearance override and then clearing it preserves the other override",
+          "duration": 90.06341699999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command actor appearance"],
+          "fullName": "Current command actor appearance battle appearance can be cleared while world sprite remains explicit",
+          "status": "passed",
+          "title": "battle appearance can be cleared while world sprite remains explicit",
+          "duration": 95.87712499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command actor appearance"],
+          "fullName": "Current command actor appearance appearance profile picker accepts only player fighter definitions",
+          "status": "passed",
+          "title": "appearance profile picker accepts only player fighter definitions",
+          "duration": 68.32387500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113425,
+      "endTime": 1791699113827.324,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-identity.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'wait duration' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'wait duration' commits exact sibling-preserving command",
+          "duration": 121.53129100000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'fade duration' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'fade duration' commits exact sibling-preserving command",
+          "duration": 48.129415999999765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'dither duration' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'dither duration' commits exact sibling-preserving command",
+          "duration": 61.80745799999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'teleport col' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'teleport col' commits exact sibling-preserving command",
+          "duration": 61.85195900000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'teleport row' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'teleport row' commits exact sibling-preserving command",
+          "duration": 64.55120800000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'party gesture' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'party gesture' commits exact sibling-preserving command",
+          "duration": 66.40079100000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'party gesture clear' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'party gesture clear' commits exact sibling-preserving command",
+          "duration": 84.89633299999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'move col' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'move col' commits exact sibling-preserving command",
+          "duration": 84.3485410000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'move row' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'move row' commits exact sibling-preserving command",
+          "duration": 32.37162500000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'nudge dx' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'nudge dx' commits exact sibling-preserving command",
+          "duration": 33.49412500000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'nudge dy' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'nudge dy' commits exact sibling-preserving command",
+          "duration": 59.76458300000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'nudge layer' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'nudge layer' commits exact sibling-preserving command",
+          "duration": 41.260041999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'camera dx' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'camera dx' commits exact sibling-preserving command",
+          "duration": 51.09054100000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'camera dy' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'camera dy' commits exact sibling-preserving command",
+          "duration": 51.20645799999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'camera frames' commits exact sibling-preserving command",
+          "status": "passed",
+          "title": "'camera frames' commits exact sibling-preserving command",
+          "duration": 22.098999999999705,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'teleportParty' selector updates only its field",
+          "status": "passed",
+          "title": "'teleportParty' selector updates only its field",
+          "duration": 91.39920800000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'setPartyFacing' selector updates only its field",
+          "status": "passed",
+          "title": "'setPartyFacing' selector updates only its field",
+          "duration": 69.91600000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'moveParty' selector updates only its field",
+          "status": "passed",
+          "title": "'moveParty' selector updates only its field",
+          "duration": 36.666707999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'holdScreen' exposes its paired token as read-only",
+          "status": "passed",
+          "title": "'holdScreen' exposes its paired token as read-only",
+          "duration": 22.34504199999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current command motion aggregate"],
+          "fullName": "Current command motion aggregate 'revealScreen' exposes its paired token as read-only",
+          "status": "passed",
+          "title": "'revealScreen' exposes its paired token as read-only",
+          "duration": 45.65691700000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113434,
+      "endTime": 1791699114584.657,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-movement.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate 'default' destination clears explicit facing through submission and canonical reopening",
+          "status": "passed",
+          "title": "'default' destination clears explicit facing through submission and canonical reopening",
+          "duration": 223.57808300000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate 'named' destination clears explicit facing through submission and canonical reopening",
+          "status": "passed",
+          "title": "'named' destination clears explicit facing through submission and canonical reopening",
+          "duration": 159.9519580000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate 'temporary' destination clears explicit facing through submission and canonical reopening",
+          "status": "passed",
+          "title": "'temporary' destination clears explicit facing through submission and canonical reopening",
+          "duration": 211.61041700000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate retargeting through the dialog clears old entry and preserves facing and source timing",
+          "status": "passed",
+          "title": "retargeting through the dialog clears old entry and preserves facing and source timing",
+          "duration": 71.74541599999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate named mode chooses the first actual entry then permits another named destination",
+          "status": "passed",
+          "title": "named mode chooses the first actual entry then permits another named destination",
+          "duration": 43.55212500000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate reselecting named mode retains the valid selected entry instead of replacing it with the first",
+          "status": "passed",
+          "title": "reselecting named mode retains the valid selected entry instead of replacing it with the first",
+          "duration": 52.70729200000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate temporary coordinates start at the target default including its height",
+          "status": "passed",
+          "title": "temporary coordinates start at the target default including its height",
+          "duration": 116.3882080000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate temporary col edits preserve both siblings and transition",
+          "status": "passed",
+          "title": "temporary col edits preserve both siblings and transition",
+          "duration": 45.56224999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate temporary row edits preserve both siblings and transition",
+          "status": "passed",
+          "title": "temporary row edits preserve both siblings and transition",
+          "duration": 48.754249999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate temporary height edits preserve both siblings and transition",
+          "status": "passed",
+          "title": "temporary height edits preserve both siblings and transition",
+          "duration": 35.49554199999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate default mode removes a temporary location without dropping direction or timing",
+          "status": "passed",
+          "title": "default mode removes a temporary location without dropping direction or timing",
+          "duration": 40.026082999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate switching to modern timing changes only transition",
+          "status": "passed",
+          "title": "switching to modern timing changes only transition",
+          "duration": 45.824125000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Current scene destination aggregate"],
+          "fullName": "Current scene destination aggregate a target with no named entries disables named mode and seeds its actual zero-height default",
+          "status": "passed",
+          "title": "a target with no named entries disables named mode and seeds its actual zero-height default",
+          "duration": 27.126792000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113443,
+      "endTime": 1791699114568.1267,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/CommandForm.current-scene.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["musicAssets / musicLabel 剩余合同"],
+          "fullName": "musicAssets / musicLabel 剩余合同 filters music records, sorts by id and labels with id fallback",
+          "status": "passed",
+          "title": "filters music records, sorts by id and labels with id fallback",
+          "duration": 28.440000000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MusicPicker 剩余合同"],
+          "fullName": "MusicPicker 剩余合同 commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly",
+          "status": "passed",
+          "title": "commits plain selections and (延续上一曲)/(停止音乐) sentinels exactly",
+          "duration": 37.777624999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MusicPicker 剩余合同"],
+          "fullName": "MusicPicker 剩余合同 announces an empty catalog when no unset sentinel is offered",
+          "status": "passed",
+          "title": "announces an empty catalog when no unset sentinel is offered",
+          "duration": 7.12824999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MusicPicker 剩余合同"],
+          "fullName": "MusicPicker 剩余合同 preview button reflects the idle port state and disables without an asset",
+          "status": "passed",
+          "title": "preview button reflects the idle port state and disables without an asset",
+          "duration": 9.006416000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699115189,
+      "endTime": 1791699115271.0063,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NamedIdPicker"],
+          "fullName": "NamedIdPicker 以名称与稳定 id 显示当前引用",
+          "status": "passed",
+          "title": "以名称与稳定 id 显示当前引用",
+          "duration": 35.96849999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["NamedIdPicker"],
+          "fullName": "NamedIdPicker 可按名称或 id 选择引用",
+          "status": "passed",
+          "title": "可按名称或 id 选择引用",
+          "duration": 16.404457999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["NamedIdPicker"],
+          "fullName": "NamedIdPicker 悬空引用不会伪装成有效选项",
+          "status": "passed",
+          "title": "悬空引用不会伪装成有效选项",
+          "duration": 2.108208999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699114990,
+      "endTime": 1791699115045.1082,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/NamedIdPicker.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script '当前场景' 条件切换提交缺省条件体且保留两臂",
+          "status": "passed",
+          "title": "cov85-script '当前场景' 条件切换提交缺省条件体且保留两臂",
+          "duration": 176.11137499999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script '实体状态' 条件切换提交缺省条件体且保留两臂",
+          "status": "passed",
+          "title": "cov85-script '实体状态' 条件切换提交缺省条件体且保留两臂",
+          "duration": 55.36416599999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script '实体在场' 条件切换提交缺省条件体且保留两臂",
+          "status": "passed",
+          "title": "cov85-script '实体在场' 条件切换提交缺省条件体且保留两臂",
+          "duration": 115.10195799999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script '两个实体靠近' 条件切换提交缺省条件体且保留两臂",
+          "status": "passed",
+          "title": "cov85-script '两个实体靠近' 条件切换提交缺省条件体且保留两臂",
+          "duration": 158.77800000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script '面向实体' 条件切换提交缺省条件体且保留两臂",
+          "status": "passed",
+          "title": "cov85-script '面向实体' 条件切换提交缺省条件体且保留两臂",
+          "duration": 91.02766599999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 循环名称首填自动派生 loop-1 id，清空名称保留已派生 id",
+          "status": "passed",
+          "title": "cov85-script 循环名称首填自动派生 loop-1 id，清空名称保留已派生 id",
+          "duration": 34.43445800000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script selectSceneHooks 槽位：use→disabled→inherit→omit 逐态提交",
+          "status": "passed",
+          "title": "cov85-script selectSceneHooks 槽位：use→disabled→inherit→omit 逐态提交",
+          "duration": 54.730125000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script selectSceneHooks 最后一个槽位选「不修改」时整段槽位键省略",
+          "status": "passed",
+          "title": "cov85-script selectSceneHooks 最后一个槽位选「不修改」时整段槽位键省略",
+          "duration": 88.804666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'startBattle 呈现' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'startBattle 呈现' 渲染业务标签",
+          "duration": 43.92712500000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'teleportOut 呈现' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'teleportOut 呈现' 渲染业务标签",
+          "duration": 30.656375000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'callScript 带自身实体' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'callScript 带自身实体' 渲染业务标签",
+          "duration": 20.861917000000176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'setEntityTriggerActivation use 带范围' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'setEntityTriggerActivation use 带范围' 渲染业务标签",
+          "duration": 35.21008400000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'mountParty 带偏移' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'mountParty 带偏移' 渲染业务标签",
+          "duration": 29.008915999999772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-script 命令行呈现：'stepEntity 走一步' 渲染业务标签",
+          "status": "passed",
+          "title": "cov85-script 命令行呈现：'stepEntity 走一步' 渲染业务标签",
+          "duration": 29.134040999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert 无实体时暂停实体禁用并给出原因，配实体后提交缺省体",
+          "status": "passed",
+          "title": "cov85-insert 无实体时暂停实体禁用并给出原因，配实体后提交缺省体",
+          "duration": 62.557500000000346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert '暂停实体' 缺省体插入在既有指令之后",
+          "status": "passed",
+          "title": "cov85-insert '暂停实体' 缺省体插入在既有指令之后",
+          "duration": 128.78316700000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert '恢复实体' 缺省体插入在既有指令之后",
+          "status": "passed",
+          "title": "cov85-insert '恢复实体' 缺省体插入在既有指令之后",
+          "duration": 60.773499999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert '移除实体' 缺省体插入在既有指令之后",
+          "status": "passed",
+          "title": "cov85-insert '移除实体' 缺省体插入在既有指令之后",
+          "duration": 42.34100000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert '实体页' 缺省体插入在既有指令之后",
+          "status": "passed",
+          "title": "cov85-insert '实体页' 缺省体插入在既有指令之后",
+          "duration": 43.93379099999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-insert 搜索无匹配回显空态",
+          "status": "passed",
+          "title": "cov85-insert 搜索无匹配回显空态",
+          "duration": 56.346958000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113427,
+      "endTime": 1791699114785.347,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/ScriptEditor.cov85.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从跟随切为定位后提交精确二维落点",
+          "status": "passed",
+          "title": "镜头从跟随切为定位后提交精确二维落点",
+          "duration": 149.57816700000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标",
+          "status": "passed",
+          "title": "镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标",
+          "duration": 56.92183300000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 追逐距离、速度和穿越地形三个输入保留独立意义",
+          "status": "passed",
+          "title": "追逐距离、速度和穿越地形三个输入保留独立意义",
+          "duration": 50.08829199999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 全队资源的负数扣除与单独法力选择保持原样",
+          "status": "passed",
+          "title": "全队资源的负数扣除与单独法力选择保持原样",
+          "duration": 38.87154099999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 跟随者逐行输入只保留有效精灵身份和原有顺序",
+          "status": "passed",
+          "title": "跟随者逐行输入只保留有效精灵身份和原有顺序",
+          "duration": 24.846208999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 战斗结束结果选择从终止切为胜利，不改指令类型",
+          "status": "passed",
+          "title": "战斗结束结果选择从终止切为胜利，不改指令类型",
+          "duration": 119.8307090000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 地图覆写明确选择另一场景，保留当前项目地图身份",
+          "status": "passed",
+          "title": "地图覆写明确选择另一场景，保留当前项目地图身份",
+          "duration": 69.28333399999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份",
+          "status": "passed",
+          "title": "共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份",
+          "duration": 35.9522079999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本切回当前执行者会删除显式 self，不留旧实体引用",
+          "status": "passed",
+          "title": "共享脚本切回当前执行者会删除显式 self，不留旧实体引用",
+          "duration": 43.647541000000274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 当前实体的定位表单仅改目标格，保持目标稳定身份与高度",
+          "status": "passed",
+          "title": "当前实体的定位表单仅改目标格，保持目标稳定身份与高度",
+          "duration": 86.45866700000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体触发方式从继承切到自定义触碰，精确保留当前目标与距离",
+          "status": "passed",
+          "title": "实体触发方式从继承切到自定义触碰，精确保留当前目标与距离",
+          "duration": 57.11249999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体页面从继承改为当前登记的 silent 页面 ID",
+          "status": "passed",
+          "title": "实体页面从继承改为当前登记的 silent 页面 ID",
+          "duration": 28.586041999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签",
+          "status": "passed",
+          "title": "实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签",
+          "duration": 62.333458000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本属性弹窗的未覆盖作者工作流"],
+          "fullName": "当前脚本属性弹窗的未覆盖作者工作流 确认双臂由指令树编辑，不再暴露结果标识",
+          "status": "passed",
+          "title": "确认双臂由指令树编辑，不再暴露结果标识",
+          "duration": 71.60120800000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113419,
+      "endTime": 1791699114314.6013,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation single-step details choose completion or repetition without manufacturing another step",
+          "status": "passed",
+          "title": "single-step details choose completion or repetition without manufacturing another step",
+          "duration": 85.84800000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation names a selected step through a draft field without changing playback identity or commands",
+          "status": "passed",
+          "title": "names a selected step through a draft field without changing playback identity or commands",
+          "duration": 48.09908399999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps a zero-command single step visible without creating or rewriting author data",
+          "status": "passed",
+          "title": "keeps a zero-command single step visible without creating or rewriting author data",
+          "duration": 7.610500000000229,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation has an author-facing Chinese name for every enabled canonical command kind",
+          "status": "passed",
+          "title": "has an author-facing Chinese name for every enabled canonical command kind",
+          "duration": 5.090125000000171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation renders command rows in the existing Chinese script-tree language",
+          "status": "passed",
+          "title": "renders command rows in the existing Chinese script-tree language",
+          "duration": 11.380833000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps the command list full width and edits or inserts through dialogs",
+          "status": "passed",
+          "title": "keeps the command list full width and edits or inserts through dialogs",
+          "duration": 95.29162499999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation copies, reorders and removes an entity-state command through shared row actions",
+          "status": "passed",
+          "title": "copies, reorders and removes an entity-state command through shared row actions",
+          "duration": 32.04670800000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation inserts, retargets, copies and deletes an explicit invocation while preserving stable entity IDs",
+          "status": "passed",
+          "title": "inserts, retargets, copies and deletes an explicit invocation while preserving stable entity IDs",
+          "duration": 64.08487500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation [reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity",
+          "status": "passed",
+          "title": "[reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity",
+          "duration": 115.8330420000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation [reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo",
+          "status": "passed",
+          "title": "[reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo",
+          "duration": 140.98658300000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation branch groups expose readable labels and explicit count badges",
+          "status": "passed",
+          "title": "branch groups expose readable labels and explicit count badges",
+          "duration": 29.831958000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation inserts and edits an entity-state command with the shared localized form",
+          "status": "passed",
+          "title": "inserts and edits an entity-state command with the shared localized form",
+          "duration": 98.39095799999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation 角色当前状态命令可从空脚本插入并复用中文聚合表单",
+          "status": "passed",
+          "title": "角色当前状态命令可从空脚本插入并复用中文聚合表单",
+          "duration": 37.287624999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation 无可参战角色时禁用状态指令，无毒定义时默认使用护体",
+          "status": "passed",
+          "title": "无可参战角色时禁用状态指令，无毒定义时默认使用护体",
+          "duration": 80.00904100000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation edits entity state through Chinese semantic choices without rewriting an existing raw value",
+          "status": "passed",
+          "title": "edits entity state through Chinese semantic choices without rewriting an existing raw value",
+          "duration": 22.464375000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation uses the same semantic state selector for batch entity commands",
+          "status": "passed",
+          "title": "uses the same semantic state selector for batch entity commands",
+          "duration": 22.285999999999603,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps trigger zones out of 'setEntityFacing' insertion and edit targets",
+          "status": "passed",
+          "title": "keeps trigger zones out of 'setEntityFacing' insertion and edit targets",
+          "duration": 28.51987500000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps trigger zones out of 'faceEntityToParty' insertion and edit targets",
+          "status": "passed",
+          "title": "keeps trigger zones out of 'faceEntityToParty' insertion and edit targets",
+          "duration": 79.13708299999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation inserts a dynamic face-party command and edits only its canonical target",
+          "status": "passed",
+          "title": "inserts a dynamic face-party command and edits only its canonical target",
+          "duration": 92.86033299999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation focuses a referenced command once per revision and fails closed for stale paths",
+          "status": "passed",
+          "title": "focuses a referenced command once per revision and fails closed for stale paths",
+          "duration": 71.19500000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps a pending reference focus when the shell rerenders before the next frame",
+          "status": "passed",
+          "title": "keeps a pending reference focus when the shell rerenders before the next frame",
+          "duration": 14.631875000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation opens hostile battle-loss scripts in the common editor and switches modes canonically",
+          "status": "passed",
+          "title": "opens hostile battle-loss scripts in the common editor and switches modes canonically",
+          "duration": 35.222749999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps raw JSON out of canonical command dialogs",
+          "status": "passed",
+          "title": "keeps raw JSON out of canonical command dialogs",
+          "duration": 120.51654199999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation startBattle 只能从项目战场表选择 fieldId，并可跳转打开定义",
+          "status": "passed",
+          "title": "startBattle 只能从项目战场表选择 fieldId，并可跳转打开定义",
+          "duration": 33.09900000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation resolves current actor identity in canonical command summaries",
+          "status": "passed",
+          "title": "resolves current actor identity in canonical command summaries",
+          "duration": 6.656208000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation separates trigger-stage creation, details, and deletion while preserving body tabs",
+          "status": "passed",
+          "title": "separates trigger-stage creation, details, and deletion while preserving body tabs",
+          "duration": 95.18804199999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation selects the referenced execution step without pulling the author back after edits",
+          "status": "passed",
+          "title": "selects the referenced execution step without pulling the author back after edits",
+          "duration": 19.16191600000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation rewrites initial and incoming next links atomically when a trigger stage is removed",
+          "status": "passed",
+          "title": "rewrites initial and incoming next links atomically when a trigger stage is removed",
+          "duration": 2.1472499999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps development-save protection out of author-facing stage controls",
+          "status": "passed",
+          "title": "keeps development-save protection out of author-facing stage controls",
+          "duration": 9.942417000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation preserves preparation tabs for ordinary scene-entry steps",
+          "status": "passed",
+          "title": "preserves preparation tabs for ordinary scene-entry steps",
+          "duration": 19.14495799999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113221,
+      "endTime": 1791699114746.145,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/ScriptEditor.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["soundAssets / soundLabel 剩余合同"],
+          "fullName": "soundAssets / soundLabel 剩余合同 filters sound records, sorts by id and labels with id fallback",
+          "status": "passed",
+          "title": "filters sound records, sorts by id and labels with id fallback",
+          "duration": 30.39129200000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SoundPicker 剩余合同"],
+          "fullName": "SoundPicker 剩余合同 commits selections and the (无音效) sentinel exactly",
+          "status": "passed",
+          "title": "commits selections and the (无音效) sentinel exactly",
+          "duration": 35.77929100000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SoundPicker 剩余合同"],
+          "fullName": "SoundPicker 剩余合同 marks a wrong-kind value as invalid and announces an empty catalog",
+          "status": "passed",
+          "title": "marks a wrong-kind value as invalid and announces an empty catalog",
+          "duration": 8.47158300000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SoundPicker 剩余合同"],
+          "fullName": "SoundPicker 剩余合同 surfaces a visible preview error when the reader rejects the asset",
+          "status": "passed",
+          "title": "surfaces a visible preview error when the reader rejects the asset",
+          "duration": 7.685917000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SoundPicker 剩余合同"],
+          "fullName": "SoundPicker 剩余合同 disables the preview button without a valid selection",
+          "status": "passed",
+          "title": "disables the preview button without a valid selection",
+          "duration": 7.283541999999898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699115177,
+      "endTime": 1791699115267.2834,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/SoundPicker.glm-leaf-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["author command form bridge"],
+          "fullName": "author command form bridge keeps canonical-only command kinds in CanonicalCommandForm",
+          "status": "passed",
+          "title": "keeps canonical-only command kinds in CanonicalCommandForm",
+          "duration": 2.499332999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author command form bridge"],
+          "fullName": "author command form bridge admits a shared leaf without copying its draft",
+          "status": "passed",
+          "title": "admits a shared leaf without copying its draft",
+          "duration": 1.11399999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author command form bridge"],
+          "fullName": "author command form bridge rejects command-kind drift at the author boundary",
+          "status": "passed",
+          "title": "rejects command-kind drift at the author boundary",
+          "duration": 0.8357089999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author command form bridge"],
+          "fullName": "author command form bridge preserves canonical dialogue identity and rejects a runtime cue downgrade",
+          "status": "passed",
+          "title": "preserves canonical dialogue identity and rejects a runtime cue downgrade",
+          "duration": 0.35720899999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699114706,
+      "endTime": 1791699114710.3572,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-contract.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "playSound picks a catalog sound and forwards onOpenSound with the stable asset id",
+          "status": "passed",
+          "title": "playSound picks a catalog sound and forwards onOpenSound with the stable asset id",
+          "duration": 110.0578330000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playSound surfaces a missing or mistyped asset as an explicit invalid option",
+          "status": "passed",
+          "title": "playSound surfaces a missing or mistyped asset as an explicit invalid option",
+          "duration": 29.054208000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playSound with an empty catalog states the lack instead of offering a commit",
+          "status": "passed",
+          "title": "playSound with an empty catalog states the lack instead of offering a commit",
+          "duration": 29.4800409999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playMusic commits the selected music asset id",
+          "status": "passed",
+          "title": "playMusic commits the selected music asset id",
+          "duration": 43.21324999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setAmbience with a project ambience table commits the stable id via the picker",
+          "status": "passed",
+          "title": "setAmbience with a project ambience table commits the stable id via the picker",
+          "duration": 42.651584000000184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setAmbience without a table degrades to a raw text input that commits the typed id",
+          "status": "passed",
+          "title": "setAmbience without a table degrades to a raw text input that commits the typed id",
+          "duration": 9.359666999999718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "learnSkill keeps the legacy numeric role slot and commits the role change",
+          "status": "passed",
+          "title": "learnSkill keeps the legacy numeric role slot and commits the role change",
+          "duration": 28.011499999999614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clearDialog has no editable parameters",
+          "status": "passed",
+          "title": "clearDialog has no editable parameters",
+          "duration": 32.83983300000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699113430,
+      "endTime": 1791699113755.8398,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+          "status": "passed",
+          "title": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+          "duration": 87.55829199999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699115124,
+      "endTime": 1791699115211.5583,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-control.residual.glm.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership CommandForm routes dialog through one family component without retaining cue implementation",
+          "status": "passed",
+          "title": "CommandForm routes dialog through one family component without retaining cue implementation",
+          "duration": 1.5856249999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership dialog family receives only dialogue resources and draft callbacks",
+          "status": "passed",
+          "title": "dialog family receives only dialogue resources and draft callbacks",
+          "duration": 0.5868340000000103,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership CommandForm routes world commands through one narrow family owner",
+          "status": "passed",
+          "title": "CommandForm routes world commands through one narrow family owner",
+          "duration": 0.9327080000000194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership actor and party commands own their reorder session and fallback locally",
+          "status": "passed",
+          "title": "actor and party commands own their reorder session and fallback locally",
+          "duration": 0.4389580000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership the control/resource family owns the remaining forms behind one default route",
+          "status": "passed",
+          "title": "the control/resource family owns the remaining forms behind one default route",
+          "duration": 0.4750410000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership the author bridge owns dialect admission and rejects lossy dialogue commits",
+          "status": "passed",
+          "title": "the author bridge owns dialect admission and rejects lossy dialogue commits",
+          "duration": 0.25074999999998226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["command form family ownership"],
+          "fullName": "command form family ownership shared controls have one implementation while CommandForm preserves the public picker export",
+          "status": "passed",
+          "title": "shared controls have one implementation while CommandForm preserves the public picker export",
+          "duration": 0.2617079999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699114856,
+      "endTime": 1791699114860.475,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-family-ownership.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DsSelect 剩余合同"],
+          "fullName": "DsSelect 剩余合同 selected, missing and placeholder values render without opening the popover",
+          "status": "passed",
+          "title": "selected, missing and placeholder values render without opening the popover",
+          "duration": 59.88629199999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DsSelect 剩余合同"],
+          "fullName": "DsSelect 剩余合同 keyboard open, skip disabled, commit by Enter and Escape restores focus",
+          "status": "passed",
+          "title": "keyboard open, skip disabled, commit by Enter and Escape restores focus",
+          "duration": 41.20395800000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DsSelect 剩余合同"],
+          "fullName": "DsSelect 剩余合同 disabled options reject clicks and keep the popover open; disabled trigger stays closed",
+          "status": "passed",
+          "title": "disabled options reject clicks and keep the popover open; disabled trigger stays closed",
+          "duration": 20.247082999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DsSelect 剩余合同"],
+          "fullName": "DsSelect 剩余合同 search mode filters by label and value, commits from search and reports empty state",
+          "status": "passed",
+          "title": "search mode filters by label and value, commits from search and reports empty state",
+          "duration": 24.61091699999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DsSelect 剩余合同"],
+          "fullName": "DsSelect 剩余合同 closed-trigger typeahead commits the matching enabled label directly",
+          "status": "passed",
+          "title": "closed-trigger typeahead commits the matching enabled label directly",
+          "duration": 2.3040840000001026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699114658,
+      "endTime": 1791699114806.3042,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/design-system/select.glm-leaf-wave.test.tsx"
+    }
+  ]
+}

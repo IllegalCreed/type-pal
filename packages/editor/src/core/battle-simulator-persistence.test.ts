@@ -9,6 +9,7 @@ import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 import { simulatorLibrary } from './__tests__/battle-simulator-fixture.js'
+import { previewAuthorScene, previewLibrary } from './__tests__/script-preview-fixture.js'
 
 const bindings = vi.hoisted(
   () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
@@ -61,6 +62,11 @@ import { finishOpen, saveProjectAs } from './open-actions.js'
 import { openLocalProject } from './open-local.js'
 import { observeProjectCopySource } from './project-copy-source.js'
 import { serializeProjectWithMapCopies, toEditorState, writeProject } from './project-io.js'
+import {
+  emptyScriptPreviewLibrary,
+  SCRIPT_PREVIEW_PATH,
+  scriptPreviewRemovalPaths,
+} from './script-preview-library.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import { authorizeBoundWorkspaceTarget, authorizeFirstSaveTarget } from './workspace-persistence.js'
@@ -76,9 +82,13 @@ const writes = (disk: ReturnType<typeof memoryAuthorDirectory>) =>
   Object.values(disk.changes)
     .flat()
     .filter((path) => path !== '.type-pal' && !path.startsWith('.type-pal/'))
-async function fixture(withLibrary = false) {
+async function fixture(withLibrary = false, withPreview = false) {
   const disk = memoryAuthorDirectory(await buildBlankProject('trial-project'))
+  disk.set('content/scenes/start.json', previewAuthorScene())
   if (withLibrary) disk.set(BATTLE_SIMULATOR_PATH, simulatorLibrary())
+  if (withPreview) {
+    disk.set(SCRIPT_PREVIEW_PATH, previewLibrary())
+  }
   const opened = await finishOpen(disk.dir)
   const state = toEditorState(
     opened.project,
@@ -87,13 +97,19 @@ async function fixture(withLibrary = false) {
     {},
     opened.stamps,
     opened.battleSimulator,
+    opened.scriptPreview,
   )
   const files = () => serializeProjectWithMapCopies(state, opened.project.source)
   const save = async () =>
     writeProject(
       await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
       await files(),
-      { removePaths: battleSimulatorRemovalPaths(state.battleSimulator) },
+      {
+        removePaths: [
+          ...battleSimulatorRemovalPaths(state.battleSimulator),
+          ...scriptPreviewRemovalPaths(state.scriptPreview),
+        ],
+      },
     )
   return { disk, opened, state, files, save }
 }
@@ -217,31 +233,40 @@ test.each([
   false,
   true,
 ])('Save As carries edits or intentional deletion (%s) and leaves the source untouched', async (remove) => {
-  const f = await fixture(true),
+  const f = await fixture(true, true),
     target = memoryAuthorDirectory()
   const before = authors(f.disk)
   f.state.battleSimulator = remove ? emptyBattleSimulatorLibrary() : simulatorLibrary()
   if (!remove) f.state.battleSimulator.plans[0]!.name = 'Saved copy'
+  f.state.scriptPreview = remove ? emptyScriptPreviewLibrary() : previewLibrary()
+  if (!remove) f.state.scriptPreview.states[0]!.name = '预览副本'
   picker(target)
   const result = await saveProjectAs(
     f.opened.workspace,
     f.files,
     f.disk.dir,
-    battleSimulatorRemovalPaths(f.state.battleSimulator),
+    [
+      ...battleSimulatorRemovalPaths(f.state.battleSimulator),
+      ...scriptPreviewRemovalPaths(f.state.scriptPreview),
+    ],
     { source: f.opened.project.source, authorBaseline: f.opened.authorBaseline },
   )
   expect(result).not.toBeNull()
   expect(result!.workspace.workspaceId).not.toBe(f.opened.workspace.workspaceId)
   expect(result!.battleSimulator).toEqual(remove ? undefined : f.state.battleSimulator)
   expect(target.files.has(BATTLE_SIMULATOR_PATH)).toBe(!remove)
+  expect(result!.scriptPreview).toEqual(remove ? undefined : f.state.scriptPreview)
+  expect(target.files.has(SCRIPT_PREVIEW_PATH)).toBe(!remove)
   expect(authors(f.disk)).toEqual(before)
   expect(writes(f.disk)).toEqual([])
 })
 test('clone and author ZIP carry exact configuration bytes, including noncanonical formatting', async () => {
-  const f = await fixture(true),
+  const f = await fixture(true, true),
     target = memoryAuthorDirectory()
   const raw = `${JSON.stringify(simulatorLibrary())}\n\n`
   f.disk.set(BATTLE_SIMULATOR_PATH, raw)
+  const previewRaw = `${JSON.stringify(previewLibrary())}\n\n`
+  f.disk.set(SCRIPT_PREVIEW_PATH, previewRaw)
   const source = fsaSource(f.disk.dir)
   await cloneFromPal(
     source,
@@ -253,10 +278,15 @@ test('clone and author ZIP carry exact configuration bytes, including noncanonic
   )
   expect(await fsaSource(target.dir).readText(BATTLE_SIMULATOR_PATH)).toBe(raw)
   expect((await openLocalProject(target.dir)).battleSimulator).toEqual(simulatorLibrary())
+  expect(await fsaSource(target.dir).readText(SCRIPT_PREVIEW_PATH)).toBe(previewRaw)
+  expect((await openLocalProject(target.dir)).scriptPreview).toEqual(previewLibrary())
   const zip = await collectProjectZipEntries(target.dir)
   expect(
     new TextDecoder().decode(zip.find((entry) => entry.path === BATTLE_SIMULATOR_PATH)!.data),
   ).toBe(raw)
+  expect(
+    new TextDecoder().decode(zip.find((entry) => entry.path === SCRIPT_PREVIEW_PATH)!.data),
+  ).toBe(previewRaw)
   expect(zip.some((entry) => entry.path.includes('/save-recovery/'))).toBe(false)
 })
 test('HTTP editor reads record genuine absence and reject missing-to-present races in copy evidence', async () => {
@@ -290,4 +320,40 @@ test('reserved sidecar path collisions are rejected even when no library is bein
   f.state.manifest.content.locale = 'EDITOR/battle-simulator.json'
   await expect(f.files()).rejects.toThrow('保留路径冲突')
   expect(writes(f.disk)).toEqual([])
+})
+
+test.each([
+  false,
+  true,
+])('external preview change (previously present: %s) cannot be overwritten by saving', async (existing) => {
+  const f = await fixture(false, existing)
+  f.state.scriptPreview = previewLibrary()
+  const external = previewLibrary()
+  external.states[0]!.name = '外部修改'
+  f.disk.set(SCRIPT_PREVIEW_PATH, external)
+  const before = authors(f.disk)
+  f.disk.resetChanges()
+  await expect(f.save()).rejects.toThrow('其他位置修改')
+  expect(authors(f.disk)).toEqual(before)
+  expect(writes(f.disk)).toEqual([])
+})
+
+test('a corrupt preview sidecar blocks editor open but does not enter the game loader', async () => {
+  const disk = memoryAuthorDirectory(await buildBlankProject('preview-invalid'))
+  disk.set('content/scenes/start.json', previewAuthorScene())
+  disk.set(SCRIPT_PREVIEW_PATH, {
+    ...previewLibrary(),
+    bindings: [
+      {
+        entry: { sceneId: 'start', channel: 'trigger', schemeId: 'greet', stageId: 'arrival' },
+        stateId: 'door',
+      },
+    ],
+  })
+  const before = authors(disk)
+  await expect(finishOpen(disk.dir)).rejects.toThrow('entry.entityId')
+  expect(bindings.size).toBe(0)
+  expect(authors(disk)).toEqual(before)
+  expect(writes(disk)).toEqual([])
+  expect((await loadCurrentProjectFrom(fsaSource(disk.dir))).manifest.id).toBe('preview-invalid')
 })

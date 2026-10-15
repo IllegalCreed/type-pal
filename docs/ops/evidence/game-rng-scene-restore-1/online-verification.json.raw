@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-14T04:23:18.221113+00:00",
+  "sourceCommit": "588790383ac4f8692019acd7f94dc292b0acd640",
+  "site": "https://pal.illegalscreed.cn",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 5991,
+      "sha256": "140cd0c12670f2287a54859b82ed975f13f6aa9d38d4f413287d626e1c63cf94",
+      "expectedSha256": "140cd0c12670f2287a54859b82ed975f13f6aa9d38d4f413287d626e1c63cf94",
+      "match": true,
+      "contentType": "text/html",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "bytes": 7370,
+      "sha256": "90a5f1f42329c329e63e4dae3b9fc9d55bbc49e2a0571573ba23cd78d98c7b85",
+      "expectedSha256": "90a5f1f42329c329e63e4dae3b9fc9d55bbc49e2a0571573ba23cd78d98c7b85",
+      "match": true,
+      "contentType": "application/javascript",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "bytes": 268030,
+      "sha256": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+      "expectedSha256": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+      "match": true,
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=31536000"
+    },
+    {
+      "path": "assets/index-CTToMLs2.js",
+      "status": 200,
+      "bytes": 381033,
+      "sha256": "5ba93ef892bc5b93fdc566acf26df085521ebcbcddf89fec72f51315f7468615",
+      "expectedSha256": "5ba93ef892bc5b93fdc566acf26df085521ebcbcddf89fec72f51315f7468615",
+      "match": true,
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=31536000"
+    }
+  ],
+  "htmlAssets": [
+    "assets/index-CTToMLs2.js",
+    "assets/audio-T8kdK6_l.js"
+  ],
+  "copyrightTextPresent": true,
+  "passed": true
+}

@@ -1,0 +1,140 @@
+{
+  "task": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1",
+  "startedAt": "2026-10-11T06:03:01.590Z",
+  "command": "node /private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/counterproof.mjs",
+  "cwd": "/private/tmp/tp-item-effect-residual",
+  "execPath": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+  "nodeVersion": "v22.23.2",
+  "product": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+  "test": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+  "frozenProductSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+  "frozenTestSha": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+  "phases": [
+    {
+      "phase": "green0",
+      "exit": 0,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green0.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green0.raw",
+      "verdict": "VALID",
+      "problems": [],
+      "fullNames": [
+        "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+        "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+        "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交"
+      ]
+    },
+    {
+      "phase": "N1",
+      "contract": "R1",
+      "expectedRed": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+      "mutation": {
+        "beforeSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+        "mutatedSha": "4b8a28a9f1f5ec37db8407ac1261a5a905f0bce039da929502eef195857e1e92",
+        "patchSha": "d70d5d879fbaece8f026e4889391c8b424d758889c0733a30db1239743a90bb7"
+      },
+      "exit": 1,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n1.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n1.raw",
+      "verdict": "VALID",
+      "problems": []
+    },
+    {
+      "phase": "N2",
+      "contract": "R3",
+      "expectedRed": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+      "mutation": {
+        "beforeSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+        "mutatedSha": "8da7cdd94c49220a674f8f1b4f35552878de2da35105fffe492f29034fbccb5e",
+        "patchSha": "e1c73d96b8dde4fc4b5051c24fda7c74c123fcbd1be9fd6d9018d94aaf2dba6f"
+      },
+      "exit": 1,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n2.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n2.raw",
+      "verdict": "VALID",
+      "problems": []
+    },
+    {
+      "phase": "N3",
+      "contract": "R5",
+      "expectedRed": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+      "mutation": {
+        "beforeSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+        "mutatedSha": "d919e9312be67afa31da7da72d66b2a2cd11903f583255860ddc38942661e6ab",
+        "patchSha": "53405944351ba8288c231f7125bd8e72117b07defb8b2f84b1b3a1af30033f06"
+      },
+      "exit": 1,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n3.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n3.raw",
+      "verdict": "VALID",
+      "problems": []
+    },
+    {
+      "phase": "green2",
+      "exit": 0,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.raw",
+      "verdict": "VALID",
+      "problems": []
+    },
+    {
+      "phase": "replay-n1",
+      "expectedRed": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+      "mutation": {
+        "beforeSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+        "mutatedSha": "4b8a28a9f1f5ec37db8407ac1261a5a905f0bce039da929502eef195857e1e92",
+        "patchSha": "d70d5d879fbaece8f026e4889391c8b424d758889c0733a30db1239743a90bb7"
+      },
+      "exit": 1,
+      "jsonPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/replay-n1.json",
+      "rawPath": "/private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/replay-n1.raw",
+      "verdict": "VALID",
+      "problems": []
+    }
+  ],
+  "restoredProductSha": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+  "restoredTestSha": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+  "selftest": [
+    {
+      "id": "selftest-a-双红拒绝",
+      "want": "INVALID",
+      "got": "INVALID",
+      "ok": true,
+      "problems": [
+        "执行集 fullName 不一致：[\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性\",\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性\",\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标\",\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交\"]",
+        "failed=2（期望恰 1）"
+      ]
+    },
+    {
+      "id": "selftest-b-TypeError-红拒绝",
+      "want": "INVALID",
+      "got": "INVALID",
+      "ok": true,
+      "problems": ["失败非 AssertionError（业务断言）", "失败含 TypeError/SyntaxError"]
+    },
+    {
+      "id": "selftest-c-绿配-exit1-拒绝",
+      "want": "INVALID",
+      "got": "INVALID",
+      "ok": true,
+      "problems": ["绿相位 exit=1（期望 0）"]
+    },
+    {
+      "id": "selftest-d-合法针接受",
+      "want": "VALID",
+      "got": "VALID",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "id": "selftest-e-执行集缺失拒绝",
+      "want": "INVALID",
+      "got": "INVALID",
+      "ok": true,
+      "problems": [
+        "执行集 fullName 不一致：[\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性\",\"TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标\"]"
+      ]
+    }
+  ],
+  "finishedAt": "2026-10-11T06:03:59.189Z",
+  "overall": "VALID"
+}

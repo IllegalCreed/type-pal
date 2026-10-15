@@ -143,24 +143,26 @@ export function DsMultiSelect(props: {
             <span className="ds-spacer" />
             <span className="ds-field__help">已选 {props.value.length} 项</span>
           </div>
-          <fieldset className="ds-multiselect__options">
-            <legend className="ds-visually-hidden">{props.label}选项</legend>
-            {filtered.length ? (
-              filtered.map((option) => (
-                <div key={option.value} className="ds-multiselect__option">
-                  <DsCheckbox
-                    label={option.label}
-                    size={props.size}
-                    checked={selected.has(option.value)}
-                    disabled={option.disabled}
-                    onChange={() => toggle(option.value)}
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="ds-select-popover__empty">没有匹配的选项</div>
-            )}
-          </fieldset>
+          <div className="ds-multiselect__scroll">
+            <fieldset className="ds-multiselect__options">
+              <legend className="ds-visually-hidden">{props.label}选项</legend>
+              {filtered.length ? (
+                filtered.map((option) => (
+                  <div key={option.value} className="ds-multiselect__option">
+                    <DsCheckbox
+                      label={option.label}
+                      size={props.size}
+                      checked={selected.has(option.value)}
+                      disabled={option.disabled}
+                      onChange={() => toggle(option.value)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="ds-select-popover__empty">没有匹配的选项</div>
+              )}
+            </fieldset>
+          </div>
         </div>
       </DsFloatingLayer>
     </>
