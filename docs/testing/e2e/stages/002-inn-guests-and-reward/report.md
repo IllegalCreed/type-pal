@@ -8,6 +8,115 @@ evidence: e2e/evidence/e2e-002.json
 {"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/game-inn.mjs","lines":"3-3","anchor":"await runInnJourney","role":"caller","sha256":"aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"},{"path":"scripts/e2e/inn-contract.mjs","lines":"67-111","anchor":"export function validatePredecessor(","role":"input","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"scripts/e2e/inn-contract.mjs","lines":"340-388","anchor":"export function assertInnEvidence(","role":"oracle","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"scripts/e2e/inn-contract.mjs","lines":"473-488","anchor":"'money not committed between thanks and reward display'","role":"oracle","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/inn-observer.mjs","lines":"1-115","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20行正文/说话人完整","cash 0→500且三苗人真实进房","结束档在新上下文恢复并保留房内状态"]},"dedupe":{"result":"reviewed","against":["e2e-001","e2e-003","docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-002.json"}
 -->
 
+# 002 — 客栈路线、住客与赏银核心
+
+Status: verified
+Owner: Codex（本轮治理接收）；history_cards_a（候选正文）
+Last reviewed: 2026-10-16
+Template: test-run-report-v1 / 1.0.0
+
+## Scope
+
+本报告仍是 e2e-002 客栈路线、住客与赏银的唯一canonical，覆盖Game/phase1和Reforge/phase2各自真实001→002链。用户2026-09-30要求分开“从卧房正常走到e56”与“首次核心演出”；跳场景后的演出不替代路线。二阶段按已核演出意图与干净显式编排处理，一阶段是对照，不机械复制其调度。
+
+原frontmatter/testing-meta是本页唯一live机器声明，保留 candidate `d02278dc0154dd73b5db24388a35c30bb096cc81`、content22/SAVE11、10月4日source-and-publication-audit及notRun。原SAVE9/content21、SAVE10和各轮revision仍在历史；10月6日核当前content22/SAVE12只更新来源合同，10月8/9源码绑定和10月10配对findings也不把旧执行升级。本页 `verified` 仅对应catalog出版状态，新增日期/Owner只属2026-10-16静态治理，候选待非作者接收。
+
+## Execution and assertions
+
+公开来源是 `game-inn.mjs → runInnJourney('game')` 以及Reforge/both入口；本次不执行这些runner。合法输入是同引擎passed 001、精确原checkpoint字节/哈希和当前合法格式，真实正式恢复后正常移动，另有隔离fresh restore上下文；capture/错引擎/失败档及手写世界不合法。窄源 `validatePredecessor` 对Game核原scene/队伍/0钱，对Reforge核content22/SAVE12/pal及其卧房位置；旧SAVE9/10历史档不喂给当前合同。
+
+| 合同 | 输入与公开caller | 必需观察与业务oracle |
+|---|---|---|
+| 路线 | 本轨001真实结束档，runInnJourney正常移动 | 原正式轮28步/提交经s001/e3到s003首次e56；held轮进度样本不补成每个中间格，恢复提交/切场落点另算 |
+| 正文与钱 | 首stage及真实money提交 | 20个TextId25,27,29,30,32,33,34,36,37,38,40,41,43,45,46,47,49,50,51,53及说话人；dlg54属下次激活；cash只0→500一次，谢赏dlg50之后/提示dlg51之前 |
+| 三苗人编排 | 实际auto、局部take/release与正常确认/停读 | 先起步，dlg32前接管暂停，dlg51关闭后释放续走，dlg53前再接管、关闭后释放；真实终点/隐藏、e24/e25/e26替身可见及控制返回，不只核最后截图 |
+| 门与持久恢复 | 正式save/原字节及新上下文读取 | e73/e74 open page/frame1在结束/恢复均保留；实际openingSaveView全持久域相等，晚到postResumeWorld单列，不能停世界或删游标迎合相等；RF生产dumpSave不冒浏览器F5，Game相应轮真实F5 |
+
+`assertInnEvidence`另核采集无overflow/errors、seq/order与全局clock/sample；Game drawn与RF selected/world-pass-only分别解释，不能把“selected”当像素已画。源摘要不是本轮实测。大娘46状态/12轮nudge及24次原位置提交只能证明原路线与结束状态；尚未证明一个move可替换所有动画/节拍，不改源脚本或恢复转换器。
+
+## Results
+
+- **原失败不抹除**：09-30首轮RF locale key、Game blocker/narration采集缺口使两report failed；这不是产品修复通过。10-01 RF `15-07-24-839Z`路线/核心通过，但fresh后晚dump等待553ms时e62正常推进，整体failed；工具`9d15218b`把真实成功提交点单独取证，不伪造世界。`15-29-25-294Z`持久世界相等仍因Canvas门frame1→0失败，不能过滤门像素或改阈值。
+- **门后正式窄通过**：Game `0869a707`与RF冻结`4fc15826`各自真实001前驱→正常28步→20行/0→500/三人真实编排→正式存读。RF32/53停读3045/3024ms、生产屏障195ms、门结束恢复open/frame1；原runtime errors0及可选save-state.json的404 warning原样保留。`3feb5a77`编辑器引用followup不改49个冻结E2E源。原10648/10655/10658包测试、57/56/71工具、首census失败及ENOENT失败分别是旧轮记录，本次没有重跑或相加。
+- **反馈与后继**：原10月1日仅队长主动透视/未集成/体验pending是当时记录；[10月2日反馈卡](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)记`fd2cd083→04eb9331`队伍局部透视及NPC正常遮挡、21项像素/独立43项/正式RF002技术收口，继任旧描述。没有由本治理补用户逐项体验签名；held输入也不证明60fps平滑。
+- **10月8日局部与完整链撤信**：10-07 14:25两轨录制的离线比较曾0未决finding、10项合理差异、35/35反例拒。后来001真实记录删除initial/57接管、initial/36转向、initial/37定帧仍0finding，反证完整作者链漏检；被撤的是“完整执行链/基础设施收口”，不是自动判定002每项局部断言失败。详见[被撤信的前批结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。35不是本轮新产品测试或完整形式化证明。
+- **10月11日另轮**：[连续卡最终重录/headed验收](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)记录段内对白残留反例后的显式clear与新六份固定输入/正式连续回执，属于后继批次；不倒签10月8日，也不因连续卡done更改006现有出版rework。原卡后续main/CI接线与coverage失败/修复仍归其各自范围，本轮不授信用。
+
+当前raw、截图/像素、用户观感、capture音轨、完整Q1/Q2与产品源码全量差异均未新验；静态文档通过不能关闭这些项目。本报告停止002首次核心及恢复，003楼梯/厨房、004–006不借此通过。
+
+## Evidence
+
+[配对机器证据](../../evidence/e2e-002.json)原16顶层字段完整不改：schema2/document-audit/status verified、candidate d022、22/11、source-backed、runtimeExecution.performed=false、artifacts=[]。它与顶部testing-meta/catalog保持配对；其source审计与原报告记载的实际执行是不同轴。原publication lastVerified2026-10-02/reviewBy2026-11-02不因本次日期自动续期。
+
+原Game正式档SHA `4c6e7c9af68013952789a2a977c90c8cc8ccc0a2a72dbd47fee61c13aff3af19`，320×200 Canvas `b66199d84496f4dc82a15478dd4e4c0be736dfd68303dd44b3ff7d1cebf6a194`；RF正式档 `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`，1280×800 Canvas `90e49d7cc22b1a454d250a54ca7447fde8cefc3452c239e2b5320bcd72612400`。后held轮Game档 `b5db78c6e09bebd543b859b9b29ad07bf728a5f4980d84459dd7aa3b6b0ac7aa`与其runID另记原文，不拿相同RF档或Canvas再计一次新恢复。
+
+完整原runID/revision/数值、失败日志、source/trace/save/screenshot指针均在下节冻结原文；本包不打开raw、不执行历史命令。原producer是相应runInnJourney及各旧run，原报告记录的Codex/贡献者观察不被本轮冒领；目前存储Owner/retention保证和文件字节可用性unknown。旧warning不是允许当前硬静态门非零：本候选仍须实际docs/lint/diff零诊断。
+
+## Revision history
+
+本轮只重组同一路径，保原身份/版本/日期/警告并显式纠正失效入口；不supersede各轮真实原产物。原report没有独立Owner/Last reviewed，顶部新增仅指治理责任。下面保原标题markup及顺序为live历史导航；标题中的“当前/已核”均属于其原日期，不恢复旧build授权。
+
+### 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+
+原局部35/35及10项合理差异见[分轮结果](#results)；完整链/基础设施信用已由连续卡漏针反证撤回。
+
+### 2026-10-04 文档深审
+
+原d022/content22/SAVE11来源审计与本次静态治理分开，见[范围](#scope)。
+
+### 用户边界与两块验证
+
+路线与首次核心不能互替；20行/奖励/三人/恢复见[执行合同](#execution-and-assertions)。
+
+### 证据基线
+
+原SAVE9/10与各候选只作该轮来源，不成为今天前驱；完整原路径在下方冻结原文。
+
+### 脚本编排审查（源码、实际时序与最终恢复已核）
+
+局部接管、持久开门与尚未证等价的大娘路径分别见[执行合同](#execution-and-assertions)。
+
+### 三苗人移动表达：已有目标坐标＋速度
+
+保坐标/slow速度及独立auto，不擅加parallel/join；本轮不重核其生产实现。
+
+### 离场启动与说话者：已证差异，按一阶段编排修正
+
+原首轮时序、局部take/release和32/53停读属已记录候选，[窄作者卡](../../../../ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md)保留其编排边界，不泛化新对白耦合。
+
+### 李大娘 46 状态：重复展开，不等于可机械替换
+
+12轮nudge和24次提交留原字节；一个move的中间动画/节拍等价仍未证。
+
+### 开门表达：改用持久页面意图
+
+瞬态frame恢复丢失后改open page/action，失败与正式恢复分别见[结果](#results)及[门卡](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)。
+
+### 等待、零位移与奖励边界
+
+原wait/零位移终点与stage next保边界；实际加钱必须在dlg50/51之间且一次。
+
+### 实际验证与未完成项
+
+旧包/工具/静态绿数各归原候选；capture、003以后、Q1/Q2未由本轮关闭。
+
+### 当前正式链（2026-10-01；历史失败不改写）
+
+RF首轮晚dump与第二轮门Canvas失败原样保留；工具取真实提交点不等关闭门问题，[门卡](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)记录其后持久页面修复。
+
+### 最终正式回执（2026-10-01）
+
+Game0869a707/RF4fc15826及followup3feb5a77是原正式轮，见[结果](#results)和[证据](#evidence)。
+
+### 演示反馈后续：主角遮挡与连续输入（2026-10-01）
+
+仅主角主动透视/未集成是旧时点；10月2日队伍局部透视技术收口继任，见[结果](#results)及[反馈卡](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md)。
+
+### 冻结原始正文（source 5a125c37）
+
+以下text仅保来源字节；原命令、旧结论和旧错误href不可作为本次执行指令或活跃入口。完整原文件由顶部原始live前缀加此payload严格恢复；另一来源为固定5a Git blob。
+
+````text
 2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
 
 2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
@@ -259,3 +368,4 @@ Root最终accept、四张002子卡done归档；母卡与完成表达用户检视
   完整check启动后仅CLI工具继续窄修，packages未变；该次工具门69项，最终工具71项、docs37项和严格lint
   分别补核通过，不冒称最后CLI提交又重复完整包测试。原资源复制层级错误的5项ENOENT失败日志保留。
   独立代码与实际回执均accept；证据/log在隔离树 `build/e2e/feedback-20261001/`，用户体验仍pending。
+````
