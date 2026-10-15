@@ -1,6 +1,12 @@
-# 94 前治理回溯抽审
+# 94前全部治理成果复审
 
-任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。这是风险概览和明确抽样，不是把所有旧卡重新签成accept。当前治理源f0cf0f7f；main=f98d0ddd8，主工作树只读。
+任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前要求是全部83卡逐卡逐文件复审，未全部完成。下文原f0cf0f7f抽查是历史快照；当前唯一3y分支、主工作树只读。
+
+## 2026-10-16 当前范围与优先级
+
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10未完成检查点bea19f80c已推送；主线f98d0ddd8，0behind，未合main。[6a工程四文件](6a/README.md)已发现并补两处测试判别力缺口，11定向/38相邻绿、两枚有效反控；仍partial。下一片92，再按模块逐文件推进；editor未完成项保留。
+
+下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
 ## 统一候选后的范围更正
 
@@ -42,3 +48,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 用户临时查询旧分支：code-quality-3y=d4cf7f57d未合main（main...branch=5behind/86ahead，82非mergepatch不等价）；也非当前治理HEAD祖先，旧worktree干净但挂着它。按“已合并才清理”条件未删除，不把清理当作批准合并。
 
 无下一位Agent提示词，Codex继续；专项未完成。
+
+2026-10-16 6a切片机器重新对账：3287 inventory /222closed /201review /2864pending，0新增关闭；撤回一条旧测试关闭，另一测试pending→review。原83卡本轮accept仍0。

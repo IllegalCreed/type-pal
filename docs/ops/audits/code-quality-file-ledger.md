@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：223；已读但待审：199；尚未逐文件核验：2,865；合计未闭合：3,064。
+当前已闭合核验：222；已读但待审：201；尚未逐文件核验：2,864；合计未闭合：3,065。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -56,6 +56,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-14 CODE92 工程门命令纠错：CODE83–89、CODE91 的 pnpm check:fast 被误记为 protected fast；正确门是 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast。30条记录暂转review，旧语义核验/实际日志/历史任务结论保留；只有真正受保护覆盖门通过并核当前源与逐文件证据一致后才可恢复关闭。本次未改变测试、规则或产品。当前机器库存3271：closed340/review42/pending2889。
 
 2026-10-16 C10保存未完成检查点：Wizard30例仍2act，相邻80例仍8act；typecheck通过，反控/排重/统一门未完成。按用户优先级转94前全量复审，本片不新增关闭或变更逐文件状态，机器3287/223/199/2865。
+
+2026-10-16 94前全83卡复审恢复；6a四文件全文核验发现两份测试判别力缺口，补安静导入与--out字节合同。两反控旧绿/新单例红，恢复定向11及quality-tools38绿。精确撤回ledger测试一条旧关闭、inventory测试pending→review，0新增关闭。机器重跑确认222closed/201review/2864pending，统一门待续。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -155,7 +157,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `scripts/quality/lint-zero.mjs` | tool | 已验证 | whole-repository Biome JSON report/fail-closed wrapper；3198-file zero-diagnostic runs | 不接受过滤参数 |
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | scoped git inventory/caller propagation、quality inventory tests | machine snapshot 不冒充 verdict |
 | `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | CODE-QUALITY-6a；真实 inventory/ledger uniqueness/status/count verifier、37 quality-tool tests | 只校验记录完整性，不把机器 PASS 当语义审查 verdict；fail-closed |
-| `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |
+| `scripts/quality/code-quality-ledger.test.mjs` | test | review | 6a当前复审；CLI导入副作用反控旧9绿/新9绿1红→恢复10绿；[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md) | 原测试漏护import guard；历史关闭撤回，补证后统一门仍待续 |
+| `scripts/quality/code-quality-inventory.test.mjs` | test | review | 6a当前复审；真实stdout/--out字节与无关cwd合同；错误写入反控旧1绿/新1红→恢复1绿；[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md) | 临时目录after清理；pending登记review，不以字段全绿宣称图或整卡完备 |
 | `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | CODE-QUALITY-3x；battle.c:991-1373,1226-1328；global.c:2347-2454；settlement/battle-system callers | 306 行逐段核验主升级、隐藏经验池顺序/整数截断/99 边界、主升级 cap、HP/MP 时机、法术学习去重与 snapshot 有效值；205 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
 | `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3x；139 行全文、CHECK_HIDDEN_EXP/主升级边界与 205 定向/相邻 tests | wLevel>99、隐藏无999 cap、池 RNG 顺序、无主升级不回满/主升级含隐藏回满反例 |
 | `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | CODE-QUALITY-3x；340 行全文、主升级/法术/投影 oracle 与 205 定向/相邻 tests | 活人 gate、阈值/余数/连升/满级、STAT_LIMIT、法术去重/level gate、runtime→battle projection 反例 |

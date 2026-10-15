@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/scripts/quality/.pre94-6a-ledger-probe.test.mjs"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 2.44,
+  "rawSha256": "4ae5facd36a4ab371558330d1b55abf3d800018ed8819801cf73db1cd823f40d",
+  "originalSourceSha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+  "originalTestSha256": "1cd882cd1ec6daced32aa438b2760dac9fc6891ab76648d45be81cfcd2948f77",
+  "mutation": "replace final import guard with unconditional main(); isolated same-directory module, replace only its URL in copied existing tests",
+  "semanticResult": "survives existing nine tests while import prints unsolicited CLI PASS; not a production defect claim"
+}

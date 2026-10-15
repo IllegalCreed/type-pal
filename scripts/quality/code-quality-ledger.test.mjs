@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { tmpdir } from 'node:os'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { auditCodeQualityLedger } from './code-quality-ledger.mjs'
@@ -105,6 +106,18 @@ test('malformed or duplicate inventory is rejected before claiming success', () 
   ]) {
     assert.ok(auditCodeQualityLedger(ledger(), invalid).issues.length > 0)
   }
+})
+
+test('importing the validator from an unrelated cwd does not start the CLI', () => {
+  const moduleUrl = new URL('./code-quality-ledger.mjs', import.meta.url)
+  const run = spawnSync(
+    process.execPath,
+    ['--input-type=module', '--eval', `await import(${JSON.stringify(moduleUrl.href)})`],
+    { cwd: tmpdir(), encoding: 'utf8' },
+  )
+  assert.equal(run.status, 0, run.stderr)
+  assert.equal(run.stdout, '')
+  assert.equal(run.stderr, '')
 })
 
 test('real quality-tools caller checks the current repository ledger against the inventory CLI', () => {

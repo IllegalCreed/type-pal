@@ -1,0 +1,17 @@
+{
+  "rawHashesVerified": true,
+  "currentSourceHashesVerified": true,
+  "temporaryCopiesAbsent": true,
+  "failures": [
+    {
+      "label": "ledger-counter-new",
+      "singleFailure": "importing the validator from an unrelated cwd does not start the CLI",
+      "type": "ERR_ASSERTION / testCodeFailure"
+    },
+    {
+      "label": "inventory-counter-new",
+      "singleFailure": "code-quality inventory emits deterministic scoped records with caller and category fields",
+      "type": "ERR_ASSERTION / testCodeFailure"
+    }
+  ]
+}

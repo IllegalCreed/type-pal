@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "222c1df2f1a1462d5fb99e73e2eec16827dc9f20ff9b985ba50f7620b833aa89",
-      "afterSha256": "222c1df2f1a1462d5fb99e73e2eec16827dc9f20ff9b985ba50f7620b833aa89",
+      "sourceSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
+      "afterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1373,6 +1373,15 @@
             "previousAfterSha256": "def18f6baf87695d1b375ad7524eecbefc22620b855f9eb5806936aafc432f95",
             "afterSha256": "222c1df2f1a1462d5fb99e73e2eec16827dc9f20ff9b985ba50f7620b833aa89",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "bea19f80c",
+            "action": "restore-all-83-pre94-result-reviews-and-6a-test-counter-evidence",
+            "scope": "docs/ops/board.md own retrospective navigation only; 0 current card acceptances; other owner states unchanged",
+            "previousAfterSha256": "222c1df2f1a1462d5fb99e73e2eec16827dc9f20ff9b985ba50f7620b833aa89",
+            "afterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
           }
         ]
       },
@@ -1683,8 +1692,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "054ae27f34ebdd52a6df8801d54a47419f3ca27af43f69184ebc6c4f0d7918e3",
-      "afterSha256": "054ae27f34ebdd52a6df8801d54a47419f3ca27af43f69184ebc6c4f0d7918e3",
+      "sourceSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
+      "afterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2156,6 +2165,15 @@
             "previousAfterSha256": "755678dcf55e23da91fb0670876cb9590355026830e04c971a308d82fb570f09",
             "afterSha256": "054ae27f34ebdd52a6df8801d54a47419f3ca27af43f69184ebc6c4f0d7918e3",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "bea19f80c",
+            "action": "restore-all-83-pre94-result-reviews-and-6a-test-counter-evidence",
+            "scope": "docs/ops/evidence/README.md own retrospective navigation only; 0 current card acceptances; other owner states unchanged",
+            "previousAfterSha256": "054ae27f34ebdd52a6df8801d54a47419f3ca27af43f69184ebc6c4f0d7918e3",
+            "afterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2908,8 +2926,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "c68fe0ca830e00ca645488517ae667fa00f5c6595cd3823df81e9e094940e28d",
-      "afterSha256": "c68fe0ca830e00ca645488517ae667fa00f5c6595cd3823df81e9e094940e28d",
+      "sourceSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
+      "afterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -3753,6 +3771,15 @@
             "previousAfterSha256": "b20379a25e8ebe65b82f6373399f3a3d86320296e1394698e73d102672b4effc",
             "afterSha256": "c68fe0ca830e00ca645488517ae667fa00f5c6595cd3823df81e9e094940e28d",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "bea19f80c",
+            "action": "restore-all-83-pre94-result-reviews-and-6a-test-counter-evidence",
+            "scope": "docs/ops/tasks/index.md own retrospective navigation only; 0 current card acceptances; other owner states unchanged",
+            "previousAfterSha256": "c68fe0ca830e00ca645488517ae667fa00f5c6595cd3823df81e9e094940e28d",
+            "afterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
           }
         ]
       },

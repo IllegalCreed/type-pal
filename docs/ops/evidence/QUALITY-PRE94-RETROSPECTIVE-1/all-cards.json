@@ -1,0 +1,3887 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "snapshotHead": "bea19f80c0e1e41586493dff390007c1b26b6905",
+  "selection": "tracked CODE-QUALITY-(number)(lowercase suffix)- cards; number <94; excludes administrative uppercase 3Y",
+  "semantics": "structural inventory only; historical done is not current acceptance; scope fragments require manual review",
+  "count": 83,
+  "historicalStatusCounts": {
+    "done": 77,
+    "build": 1,
+    "review": 4,
+    "draft": 1
+  },
+  "currentAccepted": 0,
+  "cards": [
+    {
+      "id": "1",
+      "number": 1,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "sha256": "3893c7855c67c0135815bafb3dbf004b7126d659ee1879f2c6c91738ad74f98f",
+      "lines": 179,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 18,
+          "text": "> 当前模式按 [`AGENTS.md`](../../../../../AGENTS.md) 执行：Codex 负责范围、实现和独立验收；固定三签不是当前门禁。"
+        },
+        {
+          "line": 22,
+          "text": "建立按工程 → 模块 → 功能 → 文件组织、可机器核验且不与并行线程重叠的代码质量治理账，先在 shared 的 RLE"
+        },
+        {
+          "line": 25,
+          "text": "## 范围"
+        },
+        {
+          "line": 27,
+          "text": "- 范围内：`packages/shared`、`packages/content`、`packages/pal-extract`、`packages/migrate`、`packages/game`、"
+        },
+        {
+          "line": 28,
+          "text": "  `packages/reforge`、`packages/editor` 与 `scripts` 的生产源码逐文件清点；Q1 收 shared RLE 解码边界，Q1b 收"
+        },
+        {
+          "line": 30,
+          "text": "- 范围外：覆盖率目标/候选测试批，E2E/剧情脚本，`docs/testing/**`，并行线程正在修改的实现文件，"
+        },
+        {
+          "line": 90,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex；`/Users/zhangxu/illegal/type-pal-code-quality`；首批仅 `packages/shared/src/rle.ts`、`packages/shared/src/rle.test.ts`、`packages/shared/src/rle.boundaries.test.ts`、`packages/shared/src/rle.glm-runtime-resource.test.ts`，治理脚本/清单/本卡可由 Codex 修改。"
+        },
+        {
+          "line": 91,
+          "text": "- 前提核验：verified（直接证据见真值矩阵；可证伪点已列；当前无用户行为/schema/save 变化）"
+        },
+        {
+          "line": 92,
+          "text": "- 范围、设计和验收条件：agree（先有限边界，再扩包；合法输入 oracle 固定既有测试，畸形输入 oracle 为显式失败/有限跳过）"
+        },
+        {
+          "line": 112,
+          "text": "4. 每批定向门后按风险串行全仓 `pnpm check`、官方 ratchet/受保护 strict（若源码变更进入统计域），再更新本卡与看板；未全仓零诊断不宣布专项总体完成。"
+        },
+        {
+          "line": 133,
+          "text": "- 新贡献者与独占写入范围：Codex 独占本卡及首批文件；覆盖率、E2E、测试文档线程继续使用各自工作树，不共享实现文件。"
+        },
+        {
+          "line": 134,
+          "text": "- 交接风险与 Codex 验收方式：本轮不交给其它 Agent；如后续需要贡献者，先复制任务卡 revision 和白名单，不得直接在主 checkout 修改。"
+        },
+        {
+          "line": 170,
+          "text": "- 2026-10-04 Codex：前提真值门完成，直接读取 `reference/sdlpal/palcommon.c`、shared decoder 和全部生产 callers；清单生成器与治理路线已落盘。首批白名单只含 `shared/src/rle.ts` 及同域回归，合法输入不变、畸形输入显式失败/宽容跳过。Next: 实现并跑定向/相邻回归。"
+        },
+        {
+          "line": 172,
+          "text": "- 2026-10-04 Codex：复核 raw/primary source 后修正 Q1 前提：generic `decodeRle` 的 0/0x80 no-op 只要后续 source 能填满帧就属于合法 framing；严格 sprite container 仍拒绝 zero-length command。Q1 收紧范围为截断/越界失败，避免把 sprite 上限或 strict 合同错误扩到通用 codec。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "2",
+      "number": 2,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "sha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
+      "lines": 95,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 23,
+          "text": "## 范围"
+        },
+        {
+          "line": 25,
+          "text": "- 范围内：`packages/shared/src/mkf.ts`、`packages/shared/src/rng.ts` 及同域 tests；必要时更新机器清单摘要。"
+        },
+        {
+          "line": 26,
+          "text": "- 范围外：`pal-extract`/game caller、原始资源、生成产物、schema/save、用户可见 UI、RLE/YJ2 算法正常路径。"
+        },
+        {
+          "line": 73,
+          "text": "- Codex 范围/前提核验：verified（直接证据与可证伪观察如上）"
+        },
+        {
+          "line": 75,
+          "text": "- 修改白名单：`packages/shared/src/mkf.ts`、`packages/shared/src/rng.ts`、同域 tests、此卡、看板/索引、必要 coverage baseline。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "2b",
+      "number": 2,
+      "suffix": "b",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
+      "lines": 84,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 17,
+          "text": "> `resources.ts` 与 `tables.ts` 是纯类型合同，已在逐文件账本登记为待核→本批核验，不改 schema 或生成物。"
+        },
+        {
+          "line": 24,
+          "text": "## 范围"
+        },
+        {
+          "line": 26,
+          "text": "- 范围内：`packages/shared/src/yj2.ts`、同域边界测试、shared/Q2 文档账本。"
+        },
+        {
+          "line": 27,
+          "text": "- 范围外：YJ1、MKF/RNG、资源类型、extract/game/reforge/editor、原始数据和生成产物。"
+        },
+        {
+          "line": 61,
+          "text": "- Codex 范围/前提核验：verified（primary/raw/frozen oracle 已读，合法 early-EOS 明确保留）。"
+        },
+        {
+          "line": 62,
+          "text": "- Coding Owner / 白名单：Codex；仅 YJ2、同域测试、本卡/账本/治理/看板/索引。"
+        },
+        {
+          "line": 74,
+          "text": "- Protected fast：`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 通过；七包范围、origin/main 保护线和零诊断均通过。默认串行 runner 曾因 editor 单分支抖动失败，已独立登记 CODE-QUALITY-3c，未放宽门槛。"
+        },
+        {
+          "line": 79,
+          "text": "- 2026-10-04 Codex：shared 逐文件复核后定位 YJ2 `bt` 与回引边界为剩余可执行风险；resources/tables/events/input/index/rle-encode 先按直接类型/合同证据核验，不扩大实现范围。Next: 增加坏位流与坏回引反例，保持合法 raw。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3",
+      "number": 3,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
+      "lines": 95,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 23,
+          "text": "## 范围"
+        },
+        {
+          "line": 25,
+          "text": "- 范围内：`packages/pal-extract/src/events/slice.ts`、`annotate.ts` 及同域最小回归。"
+        },
+        {
+          "line": 26,
+          "text": "- 范围外：`disasm.ts`/`recompile.ts` 算法、事件 schema、原始 `data/raw`、生成输出、game/reforge/editor、E2E 与覆盖率派发。"
+        },
+        {
+          "line": 48,
+          "text": "- 已排查替代根因：本批不改运行时或 raw 数据；反控只看纯输入输出和源码不再含目标强转，不把覆盖率提升当缺陷证据。"
+        },
+        {
+          "line": 74,
+          "text": "- Codex 范围/前提核验：verified（纯转换、直接 caller、反证观察已列）"
+        },
+        {
+          "line": 76,
+          "text": "- 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3b",
+      "number": 3,
+      "suffix": "b",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
+      "lines": 141,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 25,
+          "text": "## 范围"
+        },
+        {
+          "line": 27,
+          "text": "- 范围内：两个解析器、同域边界回归、此卡/看板/索引/治理台账。"
+        },
+        {
+          "line": 28,
+          "text": "- 范围外：MKF/YJ2/RLE codec（Q1/Q2 已收或另批）、事件 disasm/recompile、资源生成物、game/reforge/editor、E2E 与覆盖率测试派发。"
+        },
+        {
+          "line": 79,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `/Users/zhangxu/illegal/type-pal-code-quality`；两个 parser、同域边界测试、治理文档与必要 coverage baseline。"
+        },
+        {
+          "line": 80,
+          "text": "- 前提核验：verified（直接 raw/primary-source 证据与反证点已列）。"
+        },
+        {
+          "line": 81,
+          "text": "- 范围、设计和验收条件：agree（只收 SSS/M.MSG 畸形输入边界，不改变合法输出或生成物；WORD/palette 留待独立裁决）。"
+        },
+        {
+          "line": 101,
+          "text": "  - 缓解：只拒绝不足以安全解释的输入；先用真实 raw 直接核验，发现合法反例立即 rework/blocked。"
+        },
+        {
+          "line": 124,
+          "text": "- 审查结论：实现范围、primary source、真实 raw 合同、相邻回归和零诊断已独立复核；覆盖率 ratchet 通过，但受保护 fast 的 editor 单分支差额未闭合。"
+        },
+        {
+          "line": 125,
+          "text": "- 必须返工项：无；后续 editor runner 时序问题归 CODE-QUALITY-3c，不回写本卡范围。"
+        },
+        {
+          "line": 135,
+          "text": "- 2026-10-04 Codex：Q3a 归档后直接读取 raw/primary source 与四 parser，确认 SSS/M.MSG 边界缺陷候选；WORD/palette 与并行 Kimi 覆盖合同冲突，收窄白名单并保留待裁决。Next: 先写 SSS/M.MSG 原子反例，再实现最小边界检查。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3c",
+      "number": 3,
+      "suffix": "c",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "sha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
+      "lines": 66,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "定位并修复 editor fast coverage 在相同生产范围下偶发少 1 branch 的确定性问题，使受保护 fast 可重复通过，不改变产品行为、测试范围、coverage include/exclude 或精确比例门槛。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 16,
+          "text": "- 范围内：专属 `SpriteFrameWorkbench.animation-boundary.test.tsx` 与本卡/账本/看板/索引/官方生成 baseline；只补公开组件动画缺帧回退的确定性合同。"
+        },
+        {
+          "line": 17,
+          "text": "- 范围外：不降低 baseline、不扩大排除、不改 editor 生产 UI、不改 Q3b parser、不把历史覆盖率调查当作当前根因。"
+        },
+        {
+          "line": 23,
+          "text": "- 当前 `before -> after`：`editor coverage 偶发少 1 branch -> 在相同范围/门槛下确定性达到基线`"
+        },
+        {
+          "line": 31,
+          "text": "- baseline 与当前结果的 editor test count、identity digest、execution digest 完全相同；差异只剩 branch covered `24,166 -> 24,165`。不能把它解释成测试清单漂移，也不能通过 baseline 降级关闭。"
+        },
+        {
+          "line": 37,
+          "text": "- `AGENTS.md` 零诊断、精确门、不得用 ignore/缩窄范围逃避。"
+        },
+        {
+          "line": 46,
+          "text": "- 不改产品源码或 coverage config；以公开 `SemanticFrameShelf`、真实 canvas 和受控 performance/timer 推进一条合法的缺帧预览合同，并反控仅移除 fallback 后指定断言失败。"
+        },
+        {
+          "line": 50,
+          "text": "- Codex 范围/前提核验: verified（逐文件与 branch identity 已定位动画缺帧 fallback；生产保持不变）。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3d",
+      "number": 3,
+      "suffix": "d",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "sha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
+      "lines": 65,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 19,
+          "text": "- 范围内：`packages/pal-extract/src/resources/sprite.ts`、同域边界测试、治理账本/本卡。"
+        },
+        {
+          "line": 20,
+          "text": "- 范围外：PNG 编码库、调色板/像素语义、`data/extracted`、runtime/UI、其它 parser。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 前提核验：verified；修改白名单仅 sprite.ts、专属边界测试与治理文档。"
+        },
+        {
+          "line": 55,
+          "text": "- Review：Codex 确认实现范围和 caller 保真；accept。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3f",
+      "number": 3,
+      "suffix": "f",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "sha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
+      "lines": 54,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 19,
+          "text": "- 范围内：`packages/pal-extract/src/events/annotate.ts`、CLI 读取入口与专属边界测试、任务账本。"
+        },
+        {
+          "line": 20,
+          "text": "- 范围外：事件数字 ID/opcode、WORD fallback、生成物、原始数据、运行时/UI。"
+        },
+        {
+          "line": 43,
+          "text": "- Codex 前提核验：verified；build allowed；白名单只含 annotate/CLI 入口与专属测试/文档。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3g",
+      "number": 3,
+      "suffix": "g",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
+      "lines": 55,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐段核验 `packages/pal-extract/src/cli.ts` 的 raw 输入、输出清理、写盘、异常降级和 round-trip 失败策略；只有有直接 caller/oracle 证据的问题才修复，保持 data/raw、data/extracted 生成物格式和事件数字真值。"
+        },
+        {
+          "line": 19,
+          "text": "- 范围内：CLI 总装入口、文件/目录安全 guard、写盘原子性/失败传播、可选资源降级、全量 round-trip 自检。"
+        },
+        {
+          "line": 20,
+          "text": "- 范围外：已收 Q1–Q3f 的 codec/事件/PNG/symbols 子批、迁移器、runtime/UI、E2E。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 前提核验：verified（范围明确；symbols 子批已收，其余 CLI 仍待证）。"
+        },
+        {
+          "line": 50,
+          "text": "- 2026-10-05 Codex：CLI 已直接读过并完成 symbols 子批；账本将其余总装 IO/失败策略保留 review。Next: 分段核验清理、写盘、降级与 manifest 的真实调用域。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3h",
+      "number": 3,
+      "suffix": "h",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+      "lines": 72,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 game 资产/启动窄域的生产源码、直接 caller 与现有合同，先处理有直接证据的边界缺陷，再把无缺陷文件和未决候选写入治理账本。首批白名单："
+        },
+        {
+          "line": 21,
+          "text": "- 对应的直接测试与 caller 只读核对；`bootstrap.ts`、save、scene 语义不在本批实现范围，另开高风险卡。"
+        },
+        {
+          "line": 23,
+          "text": "范围外：生成的 `public/extracted`、`projects/pal`、E2E/剧情视觉、schema/save/migration、公共接口与覆盖率 runner 改造。"
+        },
+        {
+          "line": 29,
+          "text": "- 当前 before -> 目标 after：`逐文件证据分散 -> 每个白名单生产文件都有 caller、合同、反例/保留理由和独立验证记录`。"
+        },
+        {
+          "line": 42,
+          "text": "- 逐段读取白名单生产文件，记录职责、真实 caller、输入域、异常/降级、可疑候选和结论到账本；未知候选保持 `review/待核`，不凭静态行数关闭。"
+        },
+        {
+          "line": 44,
+          "text": "- 视觉/E2E：N/A；功能启动演出按集中 E2E 规则延后，不用源码推断视觉完成。"
+        },
+        {
+          "line": 48,
+          "text": "- Codex 前提核验：verified（范围窄、证据锚点已列；save/bootstrap 主流程留给后续高风险卡）。"
+        },
+        {
+          "line": 49,
+          "text": "- build 准入：Codex build allowed（本批允许在白名单内修复直接证据问题；不得越界修改 bootstrap/save/schema/生成物）。"
+        },
+        {
+          "line": 54,
+          "text": "- done 准入：Codex done allowed；提交 `22840ef03` 已推送，独立 diff/status 核对通过；本卡只关闭白名单，不代表 game 或全仓治理完成。"
+        },
+        {
+          "line": 58,
+          "text": "- 2026-10-05 Codex：用户要求继续推进并明确关注后期偷懒；本卡锁定 6 个生产文件及其直接测试，逐个读取、逐个登记，不把包级绿灯当完成。Next: 完成白名单审计与必要窄修。"
+        },
+        {
+          "line": 66,
+          "text": "当前状态：build；只能在列出的 game 资产/shell 白名单内工作。"
+        },
+        {
+          "line": 68,
+          "text": "先读：AGENTS.md、CLAUDE.md、docs/ops/audits/code-quality-file-ledger.md、本卡，以及白名单源码与直接测试。"
+        },
+        {
+          "line": 71,
+          "text": "输出要求：给出每个白名单文件的 verified/review/blocked 结论、候选与反证；运行定向/相邻、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；通过后提交并推送，未完成项保留待核。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3i",
+      "number": 3,
+      "suffix": "i",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "sha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
+      "lines": 69,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 game 的对话资产、Service Worker precache 客户端/UI、音量 controller 和 DOS 商标 fallback；以真实 caller、第一阶段合同和现有测试为证据，只修直接可证伪的输入/失败问题。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：`packages/game/src/assets/dialog-assets.ts`、`packages/game/src/shell/{precache-client,precache-ui,audio-volume,trademark-fallback}.ts`"
+        },
+        {
+          "line": 21,
+          "text": "- 范围外：生成资源、save/schema/migration、公共数据格式、覆盖率 runner 和剧情视觉路线。"
+        },
+        {
+          "line": 35,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3h 后已闭合 113 条，仍有 2,846 条机器记录未逐文件核验；本卡不把包级全绿冒充清单完成。"
+        },
+        {
+          "line": 40,
+          "text": "- 每个白名单生产文件先完整读取并记录 caller/输入域/失败语义；只把有直接证据的问题修复，未知候选留 `review`。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 前提核验：verified（五文件职责和一手锚点已列；无 schema/save 取舍）。"
+        },
+        {
+          "line": 47,
+          "text": "- build 准入：Codex build allowed；只允许白名单内窄修与专属测试。"
+        },
+        {
+          "line": 56,
+          "text": "- 2026-10-05 Codex：五个生产文件逐个核验；`audio-volume.ts` 发现 NaN 可进入 sink/localStorage，已按 0 修复并由负控验证；`trademark-fallback.ts` 仅修正与 playRng 真值冲突的过时注释；dialog/precache UI/client 未发现直接缺陷。定向 68、game 全包 3398、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档并继续 game 未核模块。"
+        },
+        {
+          "line": 63,
+          "text": "当前状态：build；只能在五个白名单生产文件与对应测试内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3j",
+      "number": 3,
+      "suffix": "j",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "sha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
+      "lines": 73,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 game 工具小域的显示缩放、FPS 诊断、toast/countdown DOM、地图名回退和 speedrun 时间格式/节点配置，保持现有工具形态与速通数据，不进入 save、core、E2E 或玩法语义。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：`tools/{display-scale,fps-overlay,toast,map-names}.ts`、`tools/speedrun/{time-format,countdown,checkpoints}.ts`"
+        },
+        {
+          "line": 25,
+          "text": "- 真值来源：各白名单文件及对应测试；`CLAUDE.md` 第一阶段工具/原版真值规则；`tools/speedrun/checkpoints.ts:92-109` 的 PalTimer 坐标注释与 BANANA 配置。"
+        },
+        {
+          "line": 27,
+          "text": "- 最强替代解释 / 推翻观察：UI 只会产生有限 slider/timer 输入，速通配置由源码固定；若当前 caller 不能产生坏值且测试钉住保留语义，则不改；若 NaN/Infinity 进入 CSS/格式化输出或配置与一手数据冲突，则停线并单独升级。"
+        },
+        {
+          "line": 33,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3i 后 119 个已闭合，2,840 个尚未逐文件核验；本卡不能用 game 全包绿灯代替文件证据。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 前提核验：verified（小域、无 save/schema；checkpoint 只读）。"
+        },
+        {
+          "line": 45,
+          "text": "- build 准入：Codex build allowed；只允许白名单窄修。"
+        },
+        {
+          "line": 47,
+          "text": "- Codex 独立验收：accept（七个生产文件逐个重读；display-scale NaN guard 负控 6 tests=5 pass/1 fail，恢复后 6/6；速通 checkpoints 坐标只读核验并保留实跑未知；全仓 `pnpm check`、support ratchet、protected fast、Biome 零诊断通过）。"
+        },
+        {
+          "line": 49,
+          "text": "- done 准入：Codex done allowed；提交 `96710de55` 已推送，独立 diff/status 核对通过；本卡只关闭七个文件，不代表 game 或全仓治理完成。"
+        },
+        {
+          "line": 53,
+          "text": "- 2026-10-05 Codex：Q3i 已归档；本卡从 game tools 小域继续，不接 core/save/玩法。Next: 完成七个白名单文件的逐文件证据与最小窄修。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-05 Codex：七个生产文件逐个核验；仅 `display-scale.ts` NaN 输入有直接证据并修复，删除 guard 的隔离 mutant 失败（5/6），恢复后 6/6；FPS/toast/map-names/time-format/countdown 合同保留；checkpoints 仅核配置与 caller，坐标仍待真实运行证据。定向 47、game 全包 3399、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 game core/present 未核文件。"
+        },
+        {
+          "line": 67,
+          "text": "当前状态：build；只能在七个白名单生产文件及对应测试内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3k",
+      "number": 3,
+      "suffix": "k",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "sha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+      "lines": 74,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 game present 的基础 framebuffer、屏幕 shake/wave、dither fade、数字绘制和跟随者位置 helper；保留已核实的 sdlpal 公式、透明 mask、坐标和 UI 形态，只修有直接 caller/反例证据的问题。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：`packages/game/src/present/{framebuffer,screen-shake,screen-wave,dither-fade,draw-number,follower-pos}.ts`"
+        },
+        {
+          "line": 21,
+          "text": "- 范围外：battle present、dialog/menu UI、剧情 E2E、save/schema、原版坐标重判和 coverage runner。"
+        },
+        {
+          "line": 26,
+          "text": "- 真值来源：各源码注释中的 `reference/sdlpal/video.c/scene.c/ui.c` 锚点；`packages/game/src/present/present.ts` caller；对应定向测试和 `CLAUDE.md` 第一阶段忠实还原规则。"
+        },
+        {
+          "line": 35,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：当前 146 个已闭合、5 个 review、2,813 个尚未核验；本卡不得用 game 全包绿灯代替文件证据。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 前提核验：verified（纯 helper 小域；无 save/schema；坐标只按源码和现有合同核对）。"
+        },
+        {
+          "line": 46,
+          "text": "- build 准入：Codex build allowed；只允许白名单窄修。"
+        },
+        {
+          "line": 50,
+          "text": "- done 准入：Codex done allowed；提交 `03cc513df` 已推送，独立 diff/status 核对通过；本卡只关闭六个 primitive，不代表 present/battle/menu 或全仓治理完成。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-05 Codex：Q3j 已归档；继续从 game present primitive 小域推进，不接 battle/menu/dialog/save。Next: 完成六文件逐文件证据与直接问题核验。"
+        },
+        {
+          "line": 55,
+          "text": "- 2026-10-05 Codex：六个 primitive 生产文件与真实 `present.ts` caller 逐段核验；发现 `screen-wave.ts` 在真实 `[255,65532,0]` 收尾时负波幅不关断，已按 C WORD 语义加 `<=0` guard；其余五文件保持公式/边界合同。定向 77、game typecheck/Biome 通过；未知的原版视觉坐标不靠静态合同关闭。Next: 完成全仓质量门并归档，继续 present/battle/menu 未核文件。"
+        },
+        {
+          "line": 61,
+          "text": "- restored command 输出 `/tmp/type-pal-q3k-counter/screen-wave-restored.json`，exit 0，`4 / 4 / 0 / 0`；恢复后源码保留 `<=0` guard。"
+        },
+        {
+          "line": 68,
+          "text": "当前状态：build；只能在六个白名单生产文件及对应测试内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3l",
+      "number": 3,
+      "suffix": "l",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "sha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
+      "lines": 66,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 game battle present 的背景、特效、数字弹幕、结算屏、战斗精灵、战斗 UI 和一帧装配器，保持 `reference/sdlpal/battle.c`、`uibattle.c`、`fight.c` 的绘制顺序、坐标、mask、寿命和 UI 形态；只修有直接 caller/primary-source/反例证据的问题。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：`packages/game/src/present/battle/{draw-battle-bg,draw-battle-effect,draw-battle-num,draw-battle-settlement,draw-battle-sprites,draw-battle-ui,present-battle}.ts`"
+        },
+        {
+          "line": 34,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3k 后 146 个已闭合、5 个 review、2,813 个尚未核验；本卡不把 game 全包绿灯当逐文件完成。"
+        },
+        {
+          "line": 39,
+          "text": "- 逐文件完整读源码、`present-battle.ts` caller 和 primary source/tests；未知项保留 review。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 前提核验：verified（battle present 小域；不触碰 core/save/schema）。"
+        },
+        {
+          "line": 45,
+          "text": "- build 准入：Codex build allowed；只允许白名单窄修。"
+        },
+        {
+          "line": 49,
+          "text": "- done 准入：Codex done allowed；提交 `b0c171c28` 已推送，独立 diff/status 核对通过；本卡只关闭七个 battle-present 文件，不代表 battle core/menu/dialog 或全仓治理完成。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-05 Codex：七个 battle-present 生产文件与 `present-battle.ts` 真实 caller 逐段核验；未发现需修的直接证据问题。定向 179、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 battle/menu/dialog/core 未核文件。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3m",
+      "number": 3,
+      "suffix": "m",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "sha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
+      "lines": 68,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 battle core 的公式、magic damage、status tick、action queue、battle positions 和 seeded RNG，保持 `fight.c`/`battle.c` 公式、SHORT/WORD 语义、状态寿命、排序和坐标边界；只修有一手证据与可证伪反例的问题。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：`packages/game/src/core/battle/{formulas,magic-damage,status,turn-queue,battle-positions}.ts`、`packages/game/src/core/rng.ts`"
+        },
+        {
+          "line": 21,
+          "text": "- 范围外：battle-system/progression/actions、save/schema、runtime 玩法取舍、E2E、覆盖率 runner。"
+        },
+        {
+          "line": 35,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3l 后 167 个已闭合、5 个 review、2,792 个尚未核验；本卡不能把 game 全包绿灯当逐文件验收。"
+        },
+        {
+          "line": 41,
+          "text": "- 若修代码或改变合同：定向/相邻 battle tests、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；纯审计也需记录实际验证范围。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 前提核验：verified（六文件纯 helper；公式 primary source 已列，暂不做产品取舍）。"
+        },
+        {
+          "line": 50,
+          "text": "- done 准入：Codex done allowed；提交 `6c48c1390` 已推送，独立 diff/status 核对通过；本卡只关闭六个 core helper，不代表 battle core/system/menu/save 或全仓治理完成。"
+        },
+        {
+          "line": 55,
+          "text": "- 2026-10-05 Codex：六个 battle core helper 逐文件核验；SHORT/WORD、formula、status、dualMove、layout、seed state 合同均有 primary source/caller/tests，未发现直接缺陷。定向 128、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 battle core/system/menu/scene 未核文件。"
+        },
+        {
+          "line": 62,
+          "text": "当前状态：build；只能在六个白名单生产文件及对应测试内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3n",
+      "number": 3,
+      "suffix": "n",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "sha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
+      "lines": 69,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 `palette-fade.ts`、`scene-identity.ts`、`word-lookup.ts`、`script-catalog.ts` 及直接测试/ caller；保持 fade 的一阶段 palette 数学、当前 map ownership、WORD.DAT fallback 和全局脚本 catalog/已批准 zero-item overlay 边界。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：上述 4 个 `packages/game/src/core` 文件。"
+        },
+        {
+          "line": 21,
+          "text": "- 范围外：battle-system、scene-system、save/schema、生成物、剧情 E2E、coverage runner。"
+        },
+        {
+          "line": 35,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3m 后 178 已闭合、5 review、2,781 尚未核验；不得把 package green 当文件验收。"
+        },
+        {
+          "line": 40,
+          "text": "- 逐文件读生产源码、真实 caller、primary source 和测试；未知风险保留 review。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 前提核验：verified（四文件小域，caller/primary source 已列）。"
+        },
+        {
+          "line": 50,
+          "text": "- done 准入：Codex done allowed；待提交推送和独立工作树核对；本卡只关闭四个 core helper，不代表 scene/event/system/menu/save 或全仓治理完成。"
+        },
+        {
+          "line": 55,
+          "text": "- 2026-10-05 Codex：四个 core helper 逐文件核验；script-catalog 发现原型属性可被误当 label IP，已以 own-property/null-prototype 最小修复并补 3 组负控；palette/scene identity/WORD lookup 无其它直接缺陷。定向 34、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 scene/event/system/menu 未核文件。"
+        },
+        {
+          "line": 63,
+          "text": "当前状态：build；只能在四个白名单生产文件及对应 tests/callers 内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3o",
+      "number": 3,
+      "suffix": "o",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
+      "lines": 67,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 15,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 17,
+          "text": "逐文件核验 `dialog-history.ts`、`mode.ts`、`player-poison-state.ts`、`scene-system-search.ts` 及真实 callers/tests；保持历史环形缓冲、顶层 mode 调度、毒状态寿命/槽位和 Confirm Search 的原版 cell/trigger 语义。"
+        },
+        {
+          "line": 19,
+          "text": "- 白名单生产文件：上述 4 个 `packages/game/src/core` 文件。"
+        },
+        {
+          "line": 20,
+          "text": "- 范围外：event-opcode-player、scene-system、battle-system、save/schema、生成物、E2E、coverage runner。"
+        },
+        {
+          "line": 34,
+          "text": "- `docs/ops/audits/code-quality-file-ledger.md`：Q3n 后 186 个已闭合、5 个 review、2,773 个尚未核验。"
+        },
+        {
+          "line": 39,
+          "text": "- 逐文件完整读取生产源码、真实 caller、primary source 和 tests；未知项留 review。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 前提核验：verified（四文件小域、primary source/caller 已列）。"
+        },
+        {
+          "line": 49,
+          "text": "- done 准入：Codex done allowed；提交 `b9b078e1f` 已推送，独立 diff/status 核对通过；本卡只关闭四个 core helper，不代表 event-opcode/scene-system/battle-system/save 或全仓治理完成。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-05 Codex：四个 core helper 逐文件核验；history/mode/poison/search 均保持既有 caller/primary 合同，未发现直接缺陷。定向 42、game 全包 3403、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 event-opcode/scene-system/battle-system 未核文件。"
+        },
+        {
+          "line": 61,
+          "text": "当前状态：build；只能在四个白名单生产文件及对应 tests/callers 内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3p",
+      "number": 3,
+      "suffix": "p",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "sha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
+      "lines": 130,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 18,
+          "text": "逐文件核验 `event-opcode-player.ts` 的玩家属性、装备、HP/MP、复活、毒、状态、魔法 opcode 边界及其真实 `event-system`/equipment/inventory/poison callers；只修有 primary source + caller + 可证伪反例的问题，不改变事件格式或脚本产品取舍。"
+        },
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内：`packages/game/src/core/event-opcode-player.ts` 与其公开测试/相邻 caller 证据；`reference/sdlpal/script.c/global.c` 对应 opcode。"
+        },
+        {
+          "line": 23,
+          "text": "- 范围外：完整 `event-system.ts`、battle-opcodes、save/schema/migration、生成物、剧情 E2E、覆盖率 runner。"
+        },
+        {
+          "line": 74,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 event-opcode-player + 专属测试（若直接缺陷）。"
+        },
+        {
+          "line": 75,
+          "text": "- 前提核验：verified（`script.c/global.c`、event-system caller、公开测试；可证伪观察已列）。"
+        },
+        {
+          "line": 76,
+          "text": "- 范围、设计和验收条件：agree（audit-first；不主动改行为）。"
+        },
+        {
+          "line": 85,
+          "text": "- done 准入结论：Codex done allowed；提交 `dfec903b3` 已推送，独立 diff/status 核对通过；本卡只关闭 event-opcode-player，不代表 event-system/save/schema 或全仓治理完成。"
+        },
+        {
+          "line": 116,
+          "text": "- 2026-10-05 Codex：Q3o 已归档；本卡建立用于高风险 event player opcode 逐段 primary-source/caller 核验，不得越界改 event-system/save/schema。"
+        },
+        {
+          "line": 117,
+          "text": "- 2026-10-05 Codex：event-opcode-player 全段核验；3 个专属测试/相邻 equipment/ownership 合同 99 tests 通过，未发现直接缺陷。全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 event-system/scene-system 未核文件。"
+        },
+        {
+          "line": 124,
+          "text": "当前状态：build；只能在 event-opcode-player.ts 与白名单测试内工作。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3q",
+      "number": 3,
+      "suffix": "q",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "sha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
+      "lines": 129,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 18,
+          "text": "## 范围"
+        },
+        {
+          "line": 20,
+          "text": "- 范围内：`scene-system.ts` 全文件、其直接 scene/event/present caller 与已有 scene-system/scene tests。"
+        },
+        {
+          "line": 21,
+          "text": "- 范围外：event-system 全文件、battle-system、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 72,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `scene-system.ts` 与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 73,
+          "text": "- 前提核验：verified（已逐段读取 primary source、当前实现、生产 callers、测试；见下方审计日志）"
+        },
+        {
+          "line": 74,
+          "text": "- 范围、设计和验收条件：agree（audit-first；不主动改变坐标、触发、scene 索引或异步状态语义）"
+        },
+        {
+          "line": 76,
+          "text": "- build 准入结论：build allowed（本批无实现变更白名单需求；若发现 direct bug 仍须先补反例再修）"
+        },
+        {
+          "line": 83,
+          "text": "- done 准入结论：done allowed；本卡只关闭 scene-system 与其专属 scene-system.test.ts 的逐文件治理，不代表 event-system、battle-system、save 或全仓剩余 2,760 个待核记录已完成。"
+        },
+        {
+          "line": 124,
+          "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3r",
+      "number": 3,
+      "suffix": "r",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "sha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
+      "lines": 132,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内：`event-system.ts` 全文件、其公开生产 callers 与已有 event-system/cross-module/scene/battle tests。"
+        },
+        {
+          "line": 23,
+          "text": "- 范围外：`scene-system.ts`（已由 CODE-QUALITY-3q 关闭）、battle-opcodes 全文件、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 74,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `event-system.ts` 与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 75,
+          "text": "- 前提核验：verified（已逐段读取 primary source、当前实现、生产 callers、主测试合同；见下方审计日志）"
+        },
+        {
+          "line": 76,
+          "text": "- 范围、设计和验收条件：agree（audit-first；不主动改变脚本格式、玩法、公共 API 或状态所有权）"
+        },
+        {
+          "line": 78,
+          "text": "- build 准入结论：build allowed（当前无实现变更白名单需求；若直接反例出现，先补证据再作最小修复）"
+        },
+        {
+          "line": 85,
+          "text": "- done 准入结论：done allowed；本卡只关闭 event-system 与其主测试文件，不代表 battle-opcodes、save 或账本剩余待核记录已完成。"
+        },
+        {
+          "line": 89,
+          "text": "- 2026-10-05 Codex：Q3q 已归档；建立 event-system 高风险卡，先完成 5110 行实现、5973 行主测试、primary source 与真实 callers 的逐段核验；未获 build 准入前不得修改实现。"
+        },
+        {
+          "line": 90,
+          "text": "- 2026-10-05 Codex：完成 event-system 5110 行源码全文读取，覆盖全局表、auto/event 主循环、runScript、poison/item、battle resume、raw opcode、对象解析、移动/镜头和 runEnterScript；对照 `script.c`/`play.c`/`scene.c`/`global.h` 直接证据。主测试按职责段与 K01–K06/cross-module/mode/dialogue caller 合同读取，未发现可由 primary source + 真实 caller 证实的新 direct defect；进入 audit-only build。"
+        },
+        {
+          "line": 102,
+          "text": "| raw 特效/移动/scene handlers | `2160-2888` | bootstrap scene loader/map reloader/effect handlers、scene/present tests、K03/K04/K05 | `script.c:1870-1900,2050-2145,2290-2385,2570-2775`、`scene.c:887-902` | startBattle/save resume、walk/ride/camera relative、fade/RNG/FBP、loadScene deferred、changeMap fire-and-forget 与 C 返回点一致；未改 scene-system 已闭合范围 |"
+        },
+        {
+          "line": 104,
+          "text": "| trigger/item/battle lifecycle helpers | `3227-3453` | scene-system trigger、menu item use、battle finalize、game-state resume | `play.c:244-325`、`script.c:3318-3331,3258-3265` | fScriptSuccess/item consume、applyToAll mode restore、scene reload failure解冻、global jump/confirm goto 语义直接核验 |"
+        },
+        {
+          "line": 105,
+          "text": "| `applyRawOpcode` data/state/object families | `3464-4691` | event-opcode-player/equipment/inventory/poison、scene/global object、bootstrap injections、A1/A2/A3 tests | `script.c:608-750,752-1404,1600-1815,1850-1990,2050-2145,2385-2555,2570-2775,2970-3070` | SHORT/WORD、self vs pCurrent、1-based global object、current-scene-only predicates、jump target fallback、state/party/map/follower ownership逐段核验；未发现直接缺陷 |"
+        },
+        {
+          "line": 127,
+          "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3s",
+      "number": 3,
+      "suffix": "s",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "sha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
+      "lines": 131,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 21,
+          "text": "## 范围"
+        },
+        {
+          "line": 23,
+          "text": "- 范围内：`battle-system.ts` 全文件、`startBattle`/`tickBattle`/cleanup 直接 callers 与已有 battle-system/cov85/settlement/finalization/runtime-context tests。"
+        },
+        {
+          "line": 24,
+          "text": "- 范围外：`battle-opcodes.ts` 全文件、battle formula/magic/status/queue/positions（Q3m 已关闭）、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 75,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `battle-system.ts` 与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 76,
+          "text": "- 前提核验：verified（已逐段读取 primary source、当前实现、生产 callers、battle lifecycle tests；见下方审计日志）"
+        },
+        {
+          "line": 77,
+          "text": "- 范围、设计和验收条件：agree（audit-first；不主动改变战斗玩法、phase 产品取舍或资源格式）"
+        },
+        {
+          "line": 79,
+          "text": "- build 准入结论：build allowed（本批无实现变更白名单需求；若直接反例出现，先补证据再作最小修复）"
+        },
+        {
+          "line": 86,
+          "text": "- done 准入结论：done allowed；本卡只关闭 battle-system 与直接 lifecycle oracle，不代表 battle-opcodes、actions 全域、save 或剩余待核记录已完成。"
+        },
+        {
+          "line": 90,
+          "text": "- 2026-10-05 Codex：Q3r 已归档；建立 battle-system 高风险卡，先完成 3139 行实现、分散 battle lifecycle tests、primary source 与真实 callers 的逐段核验；未获 build 准入前不得修改实现。"
+        },
+        {
+          "line": 91,
+          "text": "- 2026-10-05 Codex：完成 battle-system 3139 行源码与 4182 行主测试全文核验；对照 `battle.c`/`fight.c`/`script.c`、bootstrap/mode/actions/settlement/finalization callers。定向 9 files/242 tests 全绿，未发现直接缺陷。"
+        },
+        {
+          "line": 93,
+          "text": "- 2026-10-05 Codex：完成 battle-system 3139 行源码、battle-system 主测试 4182 行、cov85/GLM/runtime-context/finalization/settlement/dialog/death-fade/anim integration tests 的职责入口读取；对照 `battle.c`/`fight.c`/`script.c`、bootstrap/mode/actions callers。定向 9 files/242 tests 与 game typecheck 通过，未发现 primary-source + caller 可证实的 direct defect，准入 audit-only build。"
+        },
+        {
+          "line": 126,
+          "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3t",
+      "number": 3,
+      "suffix": "t",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "sha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
+      "lines": 123,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内：`battle-opcodes.ts` 全文件、`dispatchBattleOpcode` 公开 caller 与对应 battle opcode tests/anim/action callers。"
+        },
+        {
+          "line": 23,
+          "text": "- 范围外：`battle-system.ts`（CODE-QUALITY-3s 已关闭）、公式/magic/status/queue/positions（Q3m 已关闭）、event-system 全文件、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 60,
+          "text": "- 相关测试：`battle-opcodes.cov85.test.ts`、`battle-opcodes.glm-next-wave.test.ts`、`battle-opcodes.test.ts`、battle-system/action/magic/throw/coop/anim tests；4 个 battle-opcodes 专属测试已逐文件全文核验。"
+        },
+        {
+          "line": 77,
+          "text": "定向/相邻实测：10 个 test files、470 tests 全绿；4 个专属测试文件已全文核验，包含合法输入、目标缺失/非法输入、资源缺失、边界值和 `consumed:false` 反控；未以数量或覆盖率单独判定。"
+        },
+        {
+          "line": 79,
+          "text": "本次只读核验未发现直接缺陷；实现文件保持不变。`0x2E` 的 SDL 与原版后期差异已按现有 `game-mechanics.md` 产品裁决保留，不能把“SDL 文本不同”误报成 TS 缺陷。"
+        },
+        {
+          "line": 92,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `battle-opcodes.ts` 与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 93,
+          "text": "- 前提核验：`premise verified`（已直接读取 primary source、第一阶段 caller/ctx、相关测试；上表保留最强替代解释与可证伪观察）"
+        },
+        {
+          "line": 94,
+          "text": "- 范围、设计和验收条件：`design agree`（只读审计无实现变更；若后续发现反例，先回到 rework/blocked，不扩张范围）"
+        },
+        {
+          "line": 96,
+          "text": "- build 准入结论：`build allowed`（本批无实现改动；仅允许按卡范围执行验证和文档/账本收口）"
+        },
+        {
+          "line": 100,
+          "text": "- 贡献者交付与自验：`accept`（生产实现逐段读证、4 个专属测试全文核验与 470 个定向/相邻测试完成）。"
+        },
+        {
+          "line": 112,
+          "text": "- 当前结论：`battle-opcodes.ts` 全 1528 行生产实现与 4 个专属测试文件完成逐文件核验，未发现直接缺陷；本卡关闭 5 条记录。"
+        },
+        {
+          "line": 116,
+          "text": "- 2026-10-05 Codex：Q3s 已归档；建立 battle-opcodes 高风险卡，先完成 1528 行实现、真实 runScript caller、battle opcode tests 与 script/fight/battle primary source 逐段核验；未获 build 准入前不得修改实现。"
+        },
+        {
+          "line": 122,
+          "text": "无下一位 Agent 提示词，Q3t 已由 Codex 独立验收；本卡 5 条记录均有逐文件证据，继续治理从账本 pending 范围开下一张不重叠卡。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3u",
+      "number": 3,
+      "suffix": "u",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "sha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
+      "lines": 123,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 21,
+          "text": "## 范围"
+        },
+        {
+          "line": 23,
+          "text": "- 范围内：上述 3 个实现文件、其直接工厂/清理/动画/inspect caller，以及 `battle-state`、`battle-runtime-context`、`battle-positions` 专属测试和必要 cross-module oracle；其中 `battle-positions.ts` 已在 CODE-QUALITY-3m 登记，`battle-runtime-context.test.ts` 已在 CODE-QUALITY-3s 登记，本卡只做相邻复核，不重复关闭。"
+        },
+        {
+          "line": 24,
+          "text": "- 范围外：`battle-system.ts`（CODE-QUALITY-3s 已关闭）、`battle-opcodes.ts`（CODE-QUALITY-3t 已关闭）、公式/magic/status/queue、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 65,
+          "text": "已读取 3 个实现文件共 1109 行、直接 owner/caller 与 primary source 对应段，以及 4 个本卡新增直接测试文件共 619 行；`battle-positions.ts` 与 `battle-runtime-context.test.ts` 的历史核验沿用原卡，不重复计数；未改实现。"
+        },
+        {
+          "line": 77,
+          "text": "定向实测：7 个 test files、55 tests 全绿（state 主/GLM、runtime context、finalization、battle anim driver/integration、cross-module）；其中本卡新增直接测试全文核验为 state 主/GLM 与 finalization 3 个，runtime context test 仅沿用 Q3s 历史核验。测试包含 >3 player、未知 role、null 空槽、对象身份/满血快照、缺 EnemyPos、y offset、资源清理、runner override 和 post-battle resume 反例；不以数量或覆盖率单独验收。"
+        },
+        {
+          "line": 92,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅本卡 3 个实现文件与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 93,
+          "text": "- 前提核验：`premise verified`（已直接读取 battle.h/global.h/battle.c/fight.c、第一阶段 owners/callers 与 state/runtime/finalization tests）"
+        },
+        {
+          "line": 94,
+          "text": "- 范围、设计和验收条件：`design agree`（只读审计无实现变更；发现行为反例才回到 rework/blocked）"
+        },
+        {
+          "line": 100,
+          "text": "- 贡献者交付与自验：`accept`（Codex 完成 3 个实现文件逐段读证；本卡新增直接测试为 3 个全文核验，另有历史记录复用）。"
+        },
+        {
+          "line": 112,
+          "text": "- 结论：3 个实现文件均有核验记录，但 `battle-positions.ts` 与 runtime context 测试为历史已闭合记录；本卡新增并关闭 5 条记录（2 个 product + 3 个 test），不能外推为全仓治理完成。"
+        },
+        {
+          "line": 116,
+          "text": "- 2026-10-05 Codex：Q3t 已归档；建立 battle-state/runtime-context/positions 窄卡，先完成 918/98/93 行实现、真实 owners/callers、专属 tests 与 battle.h/global.h/battle.c/fight.c primary source 逐段核验；未获 build 准入前不得修改实现。"
+        },
+        {
+          "line": 117,
+          "text": "- 2026-10-05 Codex：完成前提门、逐段 primary/caller/oracle 核验与 55 个定向/相邻测试；无直接缺陷。全仓 check、official ratchet、protected fast、Biome 零诊断通过，账本关闭 7 条记录，卡转 done 后归档。"
+        },
+        {
+          "line": 122,
+          "text": "无下一位 Agent 提示词，Q3u 已由 Codex 独立验收并归档；本卡未重复关闭 Q3m/Q3s 已有记录，全仓逐文件治理仍未完成。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3v",
+      "number": 3,
+      "suffix": "v",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "sha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
+      "lines": 120,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内：上述 4 个实现文件、直接 `battle-system.ts` action caller、`attack-mate.test.ts`、`actions.test.ts` 相关段、`attack.glm-next-wave.test.ts` 与必要 anim/formula oracle。"
+        },
+        {
+          "line": 23,
+          "text": "- 范围外：`battle-system.ts` 全文件（CODE-QUALITY-3s 已关闭）、`battle-opcodes.ts`（CODE-QUALITY-3t 已关闭）、magic/item/throw/coop actions、公式/magic/status/queue、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
+        },
+        {
+          "line": 69,
+          "text": "本批只读核验未发现直接缺陷；`performFlee` 使用敌吉运而非 SDL 旧 bug 的身法字段，是 `docs/phase1/game-mechanics.md` 已记录的用户批准修复，不回改。"
+        },
+        {
+          "line": 82,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅本卡 4 个 action 文件与专属回归（若 direct evidence）。"
+        },
+        {
+          "line": 83,
+          "text": "- 前提核验：`premise verified`（已直接读取 fight.c/battle.c/battle.h、action caller 与相关 tests）"
+        },
+        {
+          "line": 84,
+          "text": "- 范围、设计和验收条件：`design agree`（只读审计无实现变更；发现行为反例才回到 rework/blocked）"
+        },
+        {
+          "line": 90,
+          "text": "- 贡献者交付与自验：`accept`（4 个实现文件逐段读证、attack-mate/attack GLM 测试全文核验、154 个定向/相邻 tests）。"
+        },
+        {
+          "line": 91,
+          "text": "- Codex 独立复核：`accept`（全仓 check、official ratchet、protected fast、Biome 零诊断及账本/治理正文均已完成；actions.test.ts 仅相关段读取，不计入本批关闭）。"
+        },
+        {
+          "line": 102,
+          "text": "- 结论：4 个 action 实现文件和 2 个专属测试文件逐文件核验，未发现直接缺陷；`actions.test.ts` 相关段只作相邻 oracle，不计入本批关闭。"
+        },
+        {
+          "line": 106,
+          "text": "- 2026-10-05 Codex：Q3t/Q3u 已收口；建立 battle actions basic 窄卡，先完成 614/111/20/81 行实现、真实 action caller、专属 tests 与 fight.c/battle.c primary source 逐段核验；未获 build 准入前不得修改实现。"
+        },
+        {
+          "line": 107,
+          "text": "- 2026-10-05 Codex：完成 4 个实现文件与 2 个专属测试全文核验，154 个定向/相邻测试通过；无直接缺陷。全仓 check、official ratchet、protected fast、Biome 零诊断通过，关闭 6 条账本记录并归档。"
+        },
+        {
+          "line": 115,
+          "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
+        },
+        {
+          "line": 119,
+          "text": "输出要求：无下一位 Agent 提示词；若发现新反例，另开不重叠返工卡，不回写已核验行为。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3w",
+      "number": 3,
+      "suffix": "w",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
+      "lines": 71,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 18,
+          "text": "`battle-system.tickBattle` caller、settlement/finalization tests 和 progression 相邻 oracle 核真值。范围外：battle-system 全文件、"
+        },
+        {
+          "line": 50,
+          "text": "定向/相邻实测：4 个 test files、196 tests 全绿（finalization、settlement GLM、battle-system lifecycle、battle-progression GLM）。本卡新增直接测试为 finalization.test.ts 与 settlement.glm-next-wave.test.ts；battle-system/progression 仅作相邻 oracle，不计入本卡关闭。"
+        },
+        {
+          "line": 58,
+          "text": "- 本卡关闭 3 条新增账本记录（2 product + 1 test）；`battle-finalization.test.ts` 已在 Q3u 关闭，本卡只复用其相邻 oracle，不重复计数；不得外推为全仓完成。"
+        },
+        {
+          "line": 67,
+          "text": "- 2026-10-05 Codex：Q3v 已归档；完成 settlement/finalization 两文件全文、primary/caller/tests 对照与 196 定向/相邻测试，未发现直接缺陷，关闭 4 条记录并归档。"
+        },
+        {
+          "line": 71,
+          "text": "无下一位 Agent 提示词，Q3w 已由 Codex 独立验收并归档；继续从账本 pending 范围开下一张不重叠卡。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3x",
+      "number": 3,
+      "suffix": "x",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "sha256": "5e13a953a15a5f1e6a21abcb56d35fcdace461ec771f8830840a16cef2bd31dd",
+      "lines": 99,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 18,
+          "text": "- 范围内：`battle-progression.ts` 全文件、`battle-progression.glm-next-wave.test.ts` 全文件、`battle-levelup.test.ts` 和 `battle-system.test.ts` progression 相关段、settlement caller。"
+        },
+        {
+          "line": 19,
+          "text": "- 范围外：`battle-settlement.ts`/`battle-finalization.ts`（Q3w 已关闭）、battle-system 全文件、公式/magic/status/actions、save/schema/migration、生成物、E2E/UI/coverage runner。"
+        },
+        {
+          "line": 33,
+          "text": "| 本任务目标 | 306 行实现和直接 tests 按池/升级/法术/快照逐段核验，未知保留 review/blocked | 本卡、file ledger、定向/相邻 tests 与全仓门禁 |"
+        },
+        {
+          "line": 51,
+          "text": "定向/相邻实测：4 个 test files、205 tests 全绿（progression GLM、levelup、battle-system、settlement GLM）；progression/levelup 专属文件全文核验，system/settlement 作相邻 caller/oracle，不以数量或 coverage 单独验收。"
+        },
+        {
+          "line": 53,
+          "text": "本批只读核验未发现直接缺陷；没有改实现、数值、schema/save、生成物或 UI。"
+        },
+        {
+          "line": 64,
+          "text": "- 测试：直接 tests 全文核验、定向/相邻 progression/settlement tests、game typecheck；若改代码再跑完整 check、official ratchet、protected fast、Biome 零诊断。"
+        },
+        {
+          "line": 69,
+          "text": "- 前提核验：`premise verified`；范围/设计：`design agree`；build：`build allowed`（只读审计，无实现变更）。"
+        },
+        {
+          "line": 73,
+          "text": "- 贡献者交付与自验：`accept`（306 行实现与 progression/levelup 专属测试全文核验、205 定向/相邻 tests）。"
+        },
+        {
+          "line": 79,
+          "text": "- 定向/相邻：4 个 test files、205 tests 全绿；progression/levelup 专属文件全文核验，system/settlement 作相邻 caller/oracle。"
+        },
+        {
+          "line": 84,
+          "text": "- 结论：`battle-progression.ts` 与 2 个专属测试文件逐文件核验，未发现直接缺陷；system/settlement 测试只作相邻 oracle，不计入本卡关闭。"
+        },
+        {
+          "line": 88,
+          "text": "- 2026-10-05 Codex：Q3w 已归档；建立 progression 窄卡，先全文核验 306 行实现、专属 GLM/levelup tests、battle-system progression 段与 battle.c/global.c primary source。"
+        },
+        {
+          "line": 89,
+          "text": "- 2026-10-05 Codex：完成全文核验与 205 定向/相邻测试，未发现直接缺陷；全仓门、账本 integrity gate、ratchet、protected fast 和零诊断通过，卡转 done 后归档。"
+        },
+        {
+          "line": 98,
+          "text": "输出：无下一位 Agent 提示词；若发现新反例，另开不重叠返工卡，不回写已核验行为。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3y",
+      "number": 3,
+      "suffix": "y",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+      "sha256": "fa5cf235109bb1800bec942b24d7ee2457406fe285fabf0d56e384658cad9602",
+      "lines": 37,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 11,
+          "text": "逐文件核验隐私同意存储、DNT/GPC 默认拒绝、广播订阅与失败关闭语义。生产 caller 为"
+        },
+        {
+          "line": 16,
+          "text": "已全文读取三份范围文件、caller、相邻实现及其测试；直接核对合法输入、异常存储、dispatch 失败、"
+        },
+        {
+          "line": 27,
+          "text": "- protected `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：因 worktree `node_modules` 在运行期间被清理，reforge 阶段失败（环境问题，未改源码）。"
+        },
+        {
+          "line": 33,
+          "text": "2026-10-11 Codex：从最新 `origin/main` 隔离 worktree 逐文件核验；完成定向测试，准备运行官方质量门并更新账本。"
+        },
+        {
+          "line": 37,
+          "text": "无下一位 Agent 提示词，等待 Codex 质量门收口；不得扩大范围或标记其它 analytics 文件已验证。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "3z",
+      "number": 3,
+      "suffix": "z",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+      "sha256": "d5a8f11926f9d831c5b4f72937212f809329608a64b07aa5e953bb507950635b",
+      "lines": 47,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 13,
+          "text": "`analytics-consent.ts` 提供。范围只覆盖 page-view URL 清洗、GA 初始化/脚本生命周期、同意切换、"
+        },
+        {
+          "line": 16,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 18,
+          "text": "- `google-analytics.ts`：全文核对 measurement ID 合法性、UTM 白名单/长度、游戏参数剔除、gtag/dataLayer"
+        },
+        {
+          "line": 43,
+          "text": "保持现有 page-view 语义与失败关闭策略；若发现用户可见行为、公共接口或隐私政策取舍变化，立即停线并转高风险/用户裁决。"
+        },
+        {
+          "line": 47,
+          "text": "无下一位 Agent；Codex继续完成本批审计与质量门，不扩大文件白名单。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "6a",
+      "number": 6,
+      "suffix": "a",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9",
+      "lines": 46,
+      "historicalStatus": "done",
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 前提、范围与准入"
+        },
+        {
+          "line": 21,
+          "text": "- 白名单：新增 `scripts/quality/code-quality-ledger.mjs` 与专属测试；修正 ledger/总纲/本卡/board/index。"
+        },
+        {
+          "line": 22,
+          "text": "- 不做：不判断人是否真正读过源码，不自动标已验证，不自动删候选，不降低 lint/coverage 门。"
+        },
+        {
+          "line": 39,
+          "text": "- 结论：记录完整性门已纳入正式 quality-tools runner；它只防重复/漂移/漏记，不替代逐文件源码语义审查；goal 仍未完成。"
+        },
+        {
+          "line": 43,
+          "text": "2026-10-05 Codex：先完成账本事实核验，再实现机器门。Q3x 继续只读，禁止因为工具过门而宣布全仓已审。"
+        },
+        {
+          "line": 46,
+          "text": "无下一位 Agent 提示词；本卡只完成治理记录完整性，不代表全仓源码治理完成。"
+        }
+      ],
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "reviewedFiles": [
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "read": "complete current source",
+          "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.test.mjs",
+          "read": "complete current source",
+          "sha256": "316ae87733dac03c5a6cb14ec40e0ea0067cc65e947bd5a4b57ca26db4d55442"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "read": "complete current source",
+          "sha256": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.test.mjs",
+          "read": "complete current source",
+          "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
+        }
+      ],
+      "findings": "two test discrimination gaps repaired; targeted 11 and quality-tools 38 pass; two old-green/new-single-red counters; unified gates pending; no file closed"
+    },
+    {
+      "id": "40",
+      "number": 40,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
+      "sha256": "9190895a9625082826e9d368895eb7fa0b6ac0a0d9f67a6125121d2aa15362c9",
+      "lines": 41,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 16,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 41,
+          "text": "无下一位 Agent；Codex继续完成本批审计，签字门禁未完成前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "41",
+      "number": 41,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+      "sha256": "07107fcebb1a732bdac61ba7b406e466d139886eb543c6a39073d843cff9a977",
+      "lines": 38,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 32,
+          "text": "- `pnpm coverage:ratchet`：通过并按主线新增测试更新官方 fast baseline；总 19,798 tests，提升 9 项、范围变化 4 项。"
+        },
+        {
+          "line": 38,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "42",
+      "number": 42,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
+      "sha256": "b9d0c1080023240c5c372f39094347e351bc24b8ee95be1743178ecfb4c44bf8",
+      "lines": 37,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 24,
+          "text": "已读取三个范围文件及 event-system/present caller、相邻 pixel tests；未发现直接缺陷。"
+        },
+        {
+          "line": 37,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "43",
+      "number": 43,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+      "sha256": "6406df7eaa0ccaa4dc4119bd7b0b49dc1e10ef1e1cd07cb19f10a5d4858f7064",
+      "lines": 37,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 24,
+          "text": "已读取三个范围文件、present/battle callers、相邻 framebuffer/pixel tests 与 `scene.c` 锚点；未发现直接缺陷。"
+        },
+        {
+          "line": 37,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "44",
+      "number": 44,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+      "sha256": "5b2a40148425ebee6d3d5c4f39481a67d0d7a8454f31cbeaef6410cb601c3984",
+      "lines": 37,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 37,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "45",
+      "number": 45,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+      "sha256": "c5d51aa3b436f7d75fb4709b6e112f4470b540bbd04d84e93ffae7288fc2dd77",
+      "lines": 36,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 23,
+          "text": "已读取三个范围文件、`present.ts`、`follower-pos` 相邻实现与 SDLPal 锚点；未发现直接缺陷。"
+        },
+        {
+          "line": 36,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "46",
+      "number": 46,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
+      "sha256": "9ea6cce96941f34a3f01a0e2fb0c75b9cf4e9c5d129f325d1136e1fa487dba29",
+      "lines": 35,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 35,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "47",
+      "number": 47,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+      "sha256": "a18712b7dc799df7414337ae27d3f72f103a53d065c5575f3ee3d94c03f0c704",
+      "lines": 28,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 前提与范围"
+        },
+        {
+          "line": 15,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 22,
+          "text": "已完成全文实现、3 份测试、caller/primary source 与测试质量核验，未发现直接缺陷。"
+        },
+        {
+          "line": 28,
+          "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "48",
+      "number": 48,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+      "sha256": "da8b2d2d412ee0af517f0f70d2b12f7804383a4bae266069e99fa22dfa1f987b",
+      "lines": 62,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验装备菜单绘制实现及其两份边界/像素测试，确认 phase/list 与 phase/pick-role 的状态 ownership、资源缺失行为、角色可装备四色、装备槽/属性/数量投影和 framebuffer 边界均与一阶段真值一致；没有直接证据时保持 pending/review，不因包级通过关闭文件。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 20,
+          "text": "相邻 caller/oracle 只读核对：`packages/game/src/present/menu/draw-menu.ts`、`packages/game/src/present/present.ts`、`packages/game/src/core/menu/equip-menu.ts`、`packages/game/src/core/menu/menu-driver.ts`、`packages/game/src/present/__tests__/grok-present/p03-equip.test.ts`；这些文件不在本批账本关闭范围。"
+        },
+        {
+          "line": 27,
+          "text": "- 最强替代解释 / 什么观察会推翻前提：`draw-equip` 可能把状态快照、角色 ID、资源缺失或边界条件误当作可信输入；若 caller 传入的 phase/selectedItemId/party 或 primary source 显示不同 ownership，或定向反例发现静默绘制错误，则本批留在 review/rework，不关闭文件。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: verified（已直接读取 primary source、caller、状态和 3 个目标文件，并完成定向、相邻与全仓质量门）"
+        },
+        {
+          "line": 48,
+          "text": "- build 准入: Codex build allowed（仅核验与治理文档；若发现行为缺陷立即停线，不直接修复跨边界问题）"
+        },
+        {
+          "line": 50,
+          "text": "- Codex 独立验收: accept（已完整读取 3 个范围文件、primary source、生产 caller、状态生命周期与相邻 oracle；未发现直接缺陷）"
+        },
+        {
+          "line": 56,
+          "text": "- 2026-10-12 Codex：从最新 `origin/main` 同步后建立窄批。当前分支与 `origin/main` 为 ahead 14 / behind 0；基线 ledger 为 3266 files / 259 closed / 5 review / 3002 pending。已完整读取 3 个范围文件、`draw-menu.ts`、`present.ts`、`equip-menu.ts`、`menu-driver.ts`、P03 caller/oracle 与 `reference/sdlpal/uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:350-357`。发现的问题：未发现直接缺陷；未修问题：无。定向 Vitest 3 files/16 tests、game typecheck、game 311 files/3519 tests、全仓 `pnpm check`（content149/1498、shared16/131、game311/3519、pal-extract70/423、reforge359/8964、editor631/4951、migrate96/739）均通过；coverage ratchet 通过且基线保持，protected fast 通过且 0 项下降；lint-zero 3994 files，error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰高风险边界；菜单观感登记集中 E2E 延后。账本更新为 3266 files / 262 closed / 5 review / 2999 pending。下一批候选：`packages/game/src/present/menu/draw-inventory.ts` 及其专属测试，或 `draw-tilemap.ts`（需另开卡并重新核 primary source）。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "49",
+      "number": 49,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+      "sha256": "2f9accc798276ca90bfa6b79031fa755b8337d7ec50ae8ce79d6cea632c37559",
+      "lines": 71,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "核定物品目标层在实时库存数量变为 0 时的 canonical 行为，再决定是否允许修复 `drawInventoryMenu` 及其测试。当前实现、现有测试和 SDLPal primary source 对物品图标/名称是否继续显示存在直接冲突；在用户裁决前不得实现、不得关闭账本文件。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 32,
+          "text": "- 是否主动偏离已核真值：no；用户于 2026-10-12 明确裁决选择 B：按 SDLPal 对齐，范围限定为大世界使用物品目标层。"
+        },
+        {
+          "line": 42,
+          "text": "- 已完整读取范围实现、三份目标测试、P01/P02 caller/oracle、状态机、公共绘制出口和 primary source；已运行失败反例并完成修复验证。"
+        },
+        {
+          "line": 48,
+          "text": "- Codex 范围/前提核验: verified（直接证据显示实现/测试与 primary source 冲突）"
+        },
+        {
+          "line": 58,
+          "text": "- 2026-10-12 Codex：用户裁决选择 B（大世界按 SDLPal 对齐）。先运行失败反例，旧实现确实在数量 0 时画出 BALL 图标；随后把 `drawItemUseMenu` 的图标/名称/数量统一置于 live `amount > 0` 分支，保留目标框与角色信息，退出仍由 `menu-driver.ts:697-704` 的既有 auto-cancel 负责。定向 4 files/22 tests、game typecheck、game 全包 311/3519、全仓 `pnpm check`（editor631/4951、migrate96/739，其余包全绿）均通过；coverage ratchet 通过并只升不降更新 baseline（总 70529/78702 statements、51368/61539 branches、13382/14986 functions、63015/68886 lines，731 files/19816 tests），protected fast 通过且 0 项下降；lint-zero 3994 files、error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰 schema/save/asset pipeline；视觉观感仍登记集中 E2E。账本更新为 `3266 files / 265 closed / 5 review / 2996 pending`。下一批候选：`packages/game/src/present/menu/draw-magic.ts` 及其专属测试（已完成只读 primary-source 核验，需另开卡），或 `draw-tilemap.ts`。"
+        },
+        {
+          "line": 68,
+          "text": "请你做：下一批另开任务卡并从最新 origin/main 重新核对范围与账本"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "50",
+      "number": 50,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+      "sha256": "a24bad934bab68a571354b2ed1eca2e4cae0f934126ac1c58ad80c58bbe222f6",
+      "lines": 62,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验大世界仙术菜单绘制实现和三份专属测试，确认施法人选择、仙术网格、WIN95 MP/说明布局、目标箭头、角色信息框、运行时数值、缺资源边界与 framebuffer ownership 对齐 SDLPal；只在直接证据支持时修复，不把包级全绿推成文件已审。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 28,
+          "text": "- 最强替代解释 / 什么观察会推翻前提：测试可能只覆盖素色像素而未覆盖真实 state/caller、角色 ID/运行时统计或说明脚本；若 caller 的 phase/party/resource ownership 与当前实现不同，或 primary source 反例能击穿现有 oracle，则本批留 review/rework，不关闭文件。"
+        },
+        {
+          "line": 35,
+          "text": "- 4 个范围文件已全文读取；P06 caller/oracle覆盖合法施法人/网格/目标/MP/翻页，GLM leaves覆盖死亡/禁用/空表/缺 catalog，pixels覆盖坐标/缺帧/运行时属性/说明多行/透明孔。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: verified（已读取 primary source、caller、状态生命周期和 4 个范围文件；尚待测试结果）"
+        },
+        {
+          "line": 48,
+          "text": "- build 准入: Codex build allowed（仅本批白名单；发现行为/primary 冲突立即停线）"
+        },
+        {
+          "line": 50,
+          "text": "- Codex 独立验收: accept（4 个范围文件全文、primary source/caller、定向/相邻与全仓质量门完成；未发现直接缺陷）"
+        },
+        {
+          "line": 56,
+          "text": "- 2026-10-12 Codex：从最新 `origin/main` 建立本批；当前分支相对主线 ahead 20 / behind 0；完整读取 4 个范围文件、P06 caller、draw-menu/present/menu-driver/in-game-magic-menu 及 `magicmenu.c`/`uigame.c`/`uibattle.c` primary source；未发现直接缺陷。定向 4 files/25 tests、game typecheck、game 全包 311/3519、全仓 `pnpm check`（editor631/4951、migrate96/739，其余包全绿）均通过；coverage ratchet 与 protected fast 通过且基线保持、0 项下降；lint-zero 3994 files、error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰高风险边界；视觉留集中 E2E。账本更新为 `3266 files / 269 closed / 5 review / 2992 pending`。下一批建议先累积相邻 `present/menu` 只读核验，形成独立 wave 后再统一跑全仓门。"
+        },
+        {
+          "line": 61,
+          "text": "无下一位 Agent；本批已完成并归档，下一批先累积相邻菜单只读核验再统一跑质量门。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "51",
+      "number": 51,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+      "sha256": "08c7b198e5835ba510b8cdef1ba0160b5e3263313c79aa3a9ee304e0dbdb22f3",
+      "lines": 67,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验标题菜单绘制实现与两份专属测试，确认 FBP 背景、两项文案、长文案 x 公式、闪烁色、阴影和缺背景边界对齐 SDLPal；本卡是 present/menu wave 成员，先完成定向证据，wave 完整后统一跑全仓质量门。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 33,
+          "text": "- 目标实现/测试已全文读取；`opening-confirm-pixels.grok-r1.test.ts` 是已收口的相邻像素 oracle，本卡不重复关闭该文件。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 范围/前提核验: verified（已读取实现、3 个范围测试、相邻 caller/oracle 与 primary source）"
+        },
+        {
+          "line": 62,
+          "text": "角色：Codex 独立核验；允许读/测本卡白名单，不得标记 done"
+        },
+        {
+          "line": 65,
+          "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "52",
+      "number": 52,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+      "sha256": "e03ec268f9b9fb67a1821e0b69a6a86678e8e6db4c490aa7aea0e3ec68350810",
+      "lines": 67,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验商店买/卖绘制实现及两份专属测试，确认买入列表/价格、预览框/图标、ownedCount（库存+装备）、金钱、确认框、卖价 overlay、缺目录/缺帧边界与 framebuffer ownership 对齐 SDLPal；本卡与 CODE-QUALITY-51 组成 present/menu wave，先完成定向证据，wave 完整后统一跑全仓门。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 34,
+          "text": "- 3 个范围文件已全文读取；P04 caller/oracle覆盖正常买入/卖出/确认；GLM leaves覆盖 owned/空店/非卖品；pixels覆盖 rightText 价格、阴影/缺帧/透明孔/半价/装备 owned/0 金钱。"
+        },
+        {
+          "line": 44,
+          "text": "- Codex 范围/前提核验: verified（已读取实现、测试、caller/state 与 primary source）"
+        },
+        {
+          "line": 62,
+          "text": "角色：Codex 独立核验；允许读/测本卡白名单，不得标记 done"
+        },
+        {
+          "line": 65,
+          "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "53",
+      "number": 53,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+      "sha256": "675f192bbb974f8a61fde21f5b917a63b63d9ffc0c5c91a2936352902a4b3d80",
+      "lines": 175,
+      "historicalStatus": "build",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 46,
+          "text": "- 额外高风险冲突：SDLPal 在按角色施毒/解毒时找第一个对应 party slot；战斗回合和状态页则读取实际遍历槽/cursor（`global.c:1483-1505,1543-1599`; `fight.c:1622-1628,4454-4461`），但 `script.c:2153-2188` 的 `0x75 SetPlayerParty` 会 `memset(rgPoisonStatus, 0)` 清空换队伍后的全部毒，因此毒不会因换员转移给另一个人。用户已裁决按队伍位置寻址。换队清毒是已核源码行为，不是要求用户另作的产品选择。role→slot mapper 仅用于以角色为入口的操作；已有 slot 的消费者不能再回查 role，以免合法重复角色队伍重复执行首槽毒。"
+        },
+        {
+          "line": 87,
+          "text": "- Codex 范围/前提核验：verified（primary/caller、runtime ownership、party-slot poison 与换队清表已核对）"
+        },
+        {
+          "line": 92,
+          "text": "- 用户产品裁决/体验验收：2026-10-13 用户批准：①保留真实 runtime 0；②按当前 party slot 读取毒；换队清毒由 Agent 查源码确认"
+        },
+        {
+          "line": 107,
+          "text": "- Dev 换队清表后装备伪毒重建、Save API 其它 caller、功能界面视觉与全部变更文件复核仍待完成；本卡不得 done 或合 main。未关闭任何新增文件。"
+        },
+        {
+          "line": 110,
+          "text": "### 本轮实际读取清单与范围"
+        },
+        {
+          "line": 114,
+          "text": "变更白名单补充：所有 fixture 更新限于此次键语义/显式 hydrate；`actions.test.ts`、`dependency-ownership.test.ts`、`equip-effect.test.ts`、`event-opcode-player.glm-next-wave.test.ts`、`event-system.glm-event-contracts.test.ts`、`event-system.test.ts`、`core/inspect/battle-inspect.test.ts`、`p05-menu-stack.test.ts`、`draw-battle-ui.test.ts`、`battle-ui-pixels.grok-r1.test.ts`、`status-poison-equip.glm-q.test.ts`；当前 testing-docs 三个源 hash 清单联动更新，history 原样保留。完整路径以本提交 diff 为准。"
+        },
+        {
+          "line": 118,
+          "text": "- 补全文读取 `present/menu/draw-player-status.ts`、`draw-player-status.glm-phase1-leaves.test.ts`、`core/inspect/battle-inspect.ts`、`status-poison-equip.glm-q.test.ts`、`event-opcode-player.glm-next-wave.test.ts`、`core/menu/menu-mode.ts`、`core/save/api.ts`、`core/save/indexed-db.ts`。不因完整阅读自动关闭，遗留fixture隔离/业务输入与dev生命周期仍待复核。"
+        },
+        {
+          "line": 123,
+          "text": "- 当前机器账本为 `3267 / 338 closed / 10 review / 2919 pending`，是两条旧已验证记录恢复review，无新增关闭。"
+        },
+        {
+          "line": 126,
+          "text": "- 尚未关闭的脚本重入边界：`addPoisonForPlayer` 仍先运行入口、后写完整毒槽；SDLPal `global.c:1513-1517` 先写ID再运行入口。若入口重组队伍或重入施毒，ownership可能不同。本批不把合成重入场景当成已证生产缺陷，后续先扫描真实毒入口脚本/caller；未知保持review，不顺带改顺序。"
+        },
+        {
+          "line": 132,
+          "text": "- 补全文读取 `packages/game/src/dev/dev-panel.ts` 的 1–2299 行，涵盖生产入口、全部 DOM handler、场景异步回调、关闭流程与 fixture/custom/boss 启战入口。完整读取不等于完成验收；该文件仍 pending。"
+        },
+        {
+          "line": 134,
+          "text": "- 另记只读候选而不顺带实现：`setupDevPanel` 没有返回监听器 disposer；`closePicker` 仅移除 DOM，没有断开局部 `IntersectionObserver`，缩略图 Promise 没有关闭后的取消/拒绝处理。这些仍需真实调用生命周期与反例，未认定整文件通过。"
+        },
+        {
+          "line": 137,
+          "text": "- 本轮新关闭文件：无。`player-poison-state.ts`、`battle-opcodes.ts` 保持 review；状态页、battle-system、inspect、dev 等未完成整文件证据的项继续 pending。本卡 build、CODE79 draft；不是已闭合批次。"
+        },
+        {
+          "line": 138,
+          "text": "- 补全文读取 `dev-panel.pure.test.ts`（574行）、`dev-panel.glm-next-wave.test.ts`（107行）、`dev-panel.test.ts`（40行）和 `core/dependency-ownership.test.ts`（178行）。dev 现有测试未覆盖清毒后的装备恢复或战中队伍切换；pure fixture 还有多处强转/不完整资源，不能直接复制为新增反例。GLM 的“释放”只验证 DOM 移除，并未证明全局 listener/observer 释放；这些文件不因本次全包绿而关闭。"
+        },
+        {
+          "line": 147,
+          "text": "| game全包/必要typecheck | 312 files / 3535 tests；typecheck exit 0 | 不替代逐文件核验 |"
+        },
+        {
+          "line": 157,
+          "text": "下一批直接继续：优先保留当前候选，核离队角色调用域并补有判别力的 ownership 反例；把现有0x75用例改为正式事件入口，连同dev换队/fixture的装备恢复和战中ownership一起判断。完成这组生命周期与测试质量修正后集中重跑统一门；另行定位jsdom导航诊断。CODE79继续只读核真实battle-item链，不夹带产品改动。未完成全文件核验、统一门和集中视觉前，不得把任何上述pending/review改为已验证。"
+        },
+        {
+          "line": 172,
+          "text": "- 本轮没有关闭文件。ledger机器结果仍3267 /338 closed /10 review /2919 pending。player-poison-state、battle-opcodes继续review；两份测试及dev-panel/状态页/battle-system/inspect等未完成整文件证据的文件继续pending。待CODE80裁决后先写失败反例再修改，集中运行全部质量门；CODE79另行推进。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "54",
+      "number": 54,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+      "sha256": "7f3952759c08a2e2b28c444e85af77731a501e9b297bcd9d9222592c9ce824f2",
+      "lines": 69,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验大世界瓦片绘制实现及两份专属测试，确认 layer 0/1、h 子行坐标、缺帧回落、透明/opaque coverage、cover-tile 候选与 SDLPal `map.c`/`scene.c` 真值一致；只读审计，不改变地图、碰撞、资源格式或用户可见形态。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 28,
+          "text": "- 当前 `before -> after`：文件仍待逐文件核验 -> 以 primary/caller/oracle 与定向/相邻测试登记已验证；发现语义冲突立即留 review/rework。"
+        },
+        {
+          "line": 36,
+          "text": "- 地图/碰撞/坐标属于第一阶段高风险边界；本批只读核验，任何 schema/save、资源管线或用户可见行为变化立即停线。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: verified（实现、两份专属测试、primary、公共类型、extractor、present/bootstrap caller 已全文读取）"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "55",
+      "number": 55,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+      "sha256": "cc77e6ca0f84b75bffed59f21b6654a864021a7d1020e775e367ea7deebdcebc",
+      "lines": 69,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验大世界菜单统一绘制入口及两份专属测试，确认 menu stack 顺序、主菜单/系统菜单/存档槽/库存动作/商店卖出叠层、缺资源占位、颜色闪烁、cash 与数字绘制，以及额外资源转发都保持 SDLPal 与当前状态机合同；只读审计，不改变产品形态或公共接口。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 28,
+          "text": "- 当前 `before -> after`：文件仍待逐文件核验 -> 以 primary/caller/oracle 与波次测试登记已验证；发现输入 ownership 或用户可见行为冲突立即留 review/rework。"
+        },
+        {
+          "line": 29,
+          "text": "- 最强替代解释 / 可证伪观察：真实 word table 宽度、非默认 menu state、缺 catalog 资源或异步 slot metadata 可能暴露硬编码坐标/宽度与占位策略偏差；需要 caller/oracle 反例才能关闭，不能以主菜单五个 happy path 推断全部分支。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: verified（实现、两份专属测试、真实 present/core/menu caller 与 primary anchors 已全文读取）"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "56",
+      "number": 56,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+      "sha256": "3cc5da1fb37d42352cfe89f33072863bc1f6f41a897826090cb6f109b72b07ad",
+      "lines": 71,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验小地图实现及两份专属测试，确认世界像素到 640px thumbnail 的变换、NPC/宝物分类、缩放/显隐状态、底图缓存与异步 Image 生命周期对齐真实 caller；先以失败反例验证底图 URL resolve 后 `baseLoading` 提前释放是否会重复加载，再决定最小修复。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 45,
+          "text": "- 波次统一门：`pnpm check` 第二次 exit 0；官方 `pnpm coverage:ratchet` exit 0（接纳 8 个测试项、2 个范围文件）；`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` exit 0；`pnpm lint` exit 0（3994 files，0/0/0）；docs/content review 与 ledger PASS。"
+        },
+        {
+          "line": 49,
+          "text": "- Codex 范围/前提核验: verified（实现、两份专属测试、bootstrap/tools-panel/dev-panel caller、draw-tilemap 合同已全文读取）"
+        },
+        {
+          "line": 51,
+          "text": "- build 准入: Codex build allowed（先写失败反例；只改本卡白名单）"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "57",
+      "number": 57,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
+      "lines": 64,
+      "historicalStatus": "review",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 bootstrap 启动编排、相关测试与地图缩略图路径，确认资源加载、场景切换、thumbnail caller、framebuffer ownership 与 SDLPal scene 真值一致；明确 `renderMapThumbnail` 未调用 `repairTilemapSeams` 是否属于可直接修复的工程缺陷，还是需要用户/视觉证据裁决。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 40,
+          "text": "- 完整读取：bootstrap.ts 1931 行；两个范围测试；dev-panel/tools-panel/minimap/draw-tilemap/present caller 与 SDLPal primary 已读取。"
+        },
+        {
+          "line": 42,
+          "text": "- 当前结论：留在 review，未运行本卡专属全仓收口门；不得以现有包级全绿关闭 bootstrap.ts。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: counter（已证主 gameplay seam repair 与 bootstrap thumbnail 直绘存在边界，但缺真实 thumbnail 像素 oracle，不能安全改行为）"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "58",
+      "number": 58,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "sha256": "8a9de1ab3c753f2d2bcd7a15121e3156875ce4aacef38852187b1768a81815ac",
+      "lines": 54,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验生产工具面板及两份专属测试，确认 tab/DOM ownership、键盘传播、battle/scene/dialog/timer 只读投影、音量/缩放/FPS 委托、minimap 生命周期和导入导出 caller 合同；不改变 UI 形态或公共接口。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 27,
+          "text": "- 当前 `before -> after`：仍待逐文件核验 -> 保持现有 DOM/状态委托，登记 caller/oracle/生命周期证据；不扩大产品形态。"
+        },
+        {
+          "line": 28,
+          "text": "- 最强替代解释：工具面板的导入存档按钮可能把 save-io 的版本合同暴露给用户；该风险已单独开 CODE-QUALITY-59，不能由本卡关闭。"
+        },
+        {
+          "line": 38,
+          "text": "- 定向范围与相邻：`tools-panel.test.ts`、`tools-panel.glm-phase1-leaves.test.ts`，18 tests；minimap/dev-panel caller 已在 CODE-QUALITY-56 与本轮读取中核验。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "59",
+      "number": 59,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md",
+      "sha256": "0570b597f3073f3d7c3047825926fa1dbc22e96e92aef337ee0a419a5b93047a",
+      "lines": 56,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 34,
+          "text": "- 这是 schema/save 边界：只允许在本卡白名单内补现有 VERSION=1 fail-closed guard；不得恢复旧 upgrader、改变 Save API 或增加兼容 fallback。"
+        },
+        {
+          "line": 39,
+          "text": "- 已完整读取范围实现/测试、tools-panel/quick-save/bootstrap callers、phase1 工具计划、core Save API 与 phase2 current codec。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "60",
+      "number": 60,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md",
+      "sha256": "ba7fe741167a330a26b38552c79cd82722b73e68f606d38a20adf8edb1a186bd",
+      "lines": 52,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验快速存档/读档快捷键、准入状态、取消解绑、异常传播与 bootstrap caller，确认 F5/F9 不越过战斗/对话/菜单门，不吞错误，不残留 window listener。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 26,
+          "text": "- 当前 `before -> after`：文件仍待逐文件核验 -> 以真实 caller、测试 oracle 和 save wave 全门登记已验证；不改变快捷键或 slot 形态。"
+        },
+        {
+          "line": 36,
+          "text": "- Codex 范围/前提核验: verified"
+        },
+        {
+          "line": 37,
+          "text": "- Codex 独立验收: accept（2 文件逐段核验、真实 bootstrap caller、定向/相邻与全门通过）"
+        },
+        {
+          "line": 42,
+          "text": "- 2026-10-13 Codex：F5/F9 准入、preventDefault、解绑函数、Save/loader 异常 toast 与 bootstrap caller 均核验；save wave 全门通过。账本收口为 `3266 / 292 closed / 8 review / 2966 pending`。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "61",
+      "number": 61,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+      "sha256": "693d39a5e0d615c8d3d10fbdf285761e0ca4d1dde4b91d38c77285a5cecc19c5",
+      "lines": 49,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 speedrun localStorage 设置/最佳成绩持久化，确认坏 JSON、未知 key、非法数值与默认副本边界；先写失败反例，再做最小 fail-closed 修复。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 25,
+          "text": "- 原版/primary source：PalTimer 成绩存储无直接仓库源码，N/A；当前 type-pal 设计以 `BestTimes`/checkpoint defaults 为唯一工具合同。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "62",
+      "number": 62,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+      "sha256": "3171d360e7ee46ebb802880ccd2a59c57cf96080cf3b931c335c7daeca11c6a1",
+      "lines": 48,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 SpeedrunTimer wall-clock 起表、依序 detector、PB 更新、香蕉暂停、手动暂停倒计时、setStep/reset 和一次性 dirty flags，保持 PalTimer 对齐注释与现有工具行为。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 25,
+          "text": "- 原版/primary source：PalTimer 源码不在仓库，N/A；现有 checkpoint/timer 注释与 phase1 design 是当前工具真值，detector boundary tests 是 oracle。"
+        },
+        {
+          "line": 27,
+          "text": "- `before -> after`：文件仍待逐文件核验 -> 通过 caller/oracle/状态边界登记已验证；不改变 checkpoint 数据或计时产品形态。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "63",
+      "number": 63,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+      "sha256": "1a75c3542dfd9fc1ef3094fad6dc04f33cb803a540c26c2f9e9b18edd13750a4",
+      "lines": 39,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 speedrun `buildSnapshot` 及测试，确认 inventory、battle enemy identity/HP、wall-clock inputs 和 canMove 门控只读投影 `GameState`，不提前起表或泄漏可变集合。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "64",
+      "number": 64,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md",
+      "sha256": "8179df4464f6d06b5de48bbd7df5c7f6e5c090de0052de1815b8fa5ef1c7a1c1",
+      "lines": 40,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 speedrun detectors 及两份测试，确认 enter/leave/any/spot/boss/item/music 与彩依两段状态机的 prev/mem ownership、边界和顺序语义保持现有工具合同。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "65",
+      "number": 65,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+      "sha256": "88a60f78a7b26adc16781b5b9d7a51665a9b5a323ed8f25cc1079cbafb4e8307",
+      "lines": 40,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 speedrun 单例编排、主循环 tick、快捷键、设置/PB persistence、暂停门与 reset/解绑测试，确认 index 只协调已核验的 snapshot/timer/store/overlay 能力，不越界改 GameState。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "66",
+      "number": 66,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md",
+      "sha256": "e6192ed09f052f2b0dd267fc7574168b263628c79cf3fd0677c8331d954efd09",
+      "lines": 40,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验速通 overlay DOM 渲染及两份测试，确认 checkpoint row/最佳/差值/当前时间、预计通关、暂停前缀、隐藏/幂等生命周期保持 timer/store 合同。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "67",
+      "number": 67,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md",
+      "sha256": "f41f2857a94e896479787224da74fe48f229c3e757f5151eba2bf198102c8bc0",
+      "lines": 39,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 speedrun checkpoint data oracle 与 timer boundary suite，确认 21 节点唯一/单调、香蕉配置、同 now/finished/暂停/step/mem 隔离及 detector 边界测试均具真实判别力。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "68",
+      "number": 68,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+      "sha256": "e08e4fba34cf94403008d7399a128c3138f4913bf0a321e8698164892c6eeed2",
+      "lines": 29,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "69",
+      "number": 69,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+      "sha256": "f453f78a6ec57a1492ab92295c466df195a6437763f3c032862c0c5ce2948f7f",
+      "lines": 30,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "70",
+      "number": 70,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
+      "sha256": "e4f311bf6d40deda89b472fa26501fb9f9a8ef179bcf52f692cb61b81995efa1",
+      "lines": 30,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "71",
+      "number": 71,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+      "sha256": "fe17aaa1063aa5020c62fb38249b59773b6bca27f31761d87775d806fefde3ee",
+      "lines": 51,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 GET retry wrapper 的错误分类、AbortSignal 取消传播、backoff、HTTP 状态与 uninstall 生命周期；先写失败反例，修复后确保取消不被重试层吞掉。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 34,
+          "text": "- 3 个范围文件 18 tests、game 全包 3526、`pnpm check`、ratchet、protected fast、lint-zero、docs/content/ledger 全部通过；HTTP/method/backoff/uninstall 既有合同保持。"
+        },
+        {
+          "line": 35,
+          "text": "- 当前结论：accept/done；不改变 retry 次数、状态码白名单、公共 API 或非 GET 行为。"
+        },
+        {
+          "line": 40,
+          "text": "- 不改变 retry 次数、状态码白名单、公共 API 或非 GET 行为。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "72",
+      "number": 72,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
+      "sha256": "00c678769eb7b1c2efddd20b01fdaec62beab36a8e26028901bbe300388d1d9f",
+      "lines": 30,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围"
+        },
+        {
+          "line": 18,
+          "text": "完整读取实现、main/bootstrap caller 与两份测试；范围/host tests 共 20 tests 全绿，覆盖 fetch 计数、分母/单调进度、onProgress/SW 互斥、note、finish/fail/restore、缺 DOM、缺节点、rAF fallback、幂等与错误生命周期。最近完整 `pnpm check`、ratchet、protected fast、lint-zero、docs/content review、ledger 已通过；无实现改动，未发现直接缺陷。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "73",
+      "number": 73,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md",
+      "sha256": "2874450d11db286d9bbfad7577df49dde61915cf27d3fc730e4c485748173d18",
+      "lines": 31,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "74",
+      "number": 74,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
+      "sha256": "ccb49d3c6bf5a7b14e11b6a704e42e53bed43f814c26e6cbbbf6ee8a17609ed1",
+      "lines": 62,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 shell 音频管理器及其主/边界测试，确认 SFX/BGM 路由、队列 ownership、去重、开关和 OGG 资源释放保持 SDLPal/第一阶段约束。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 20,
+          "text": "- `packages/game/src/shell/audio-midi.ts` 发现异步曲目切换风险，留 CODE-QUALITY-75 独立 review，不在本卡关闭"
+        },
+        {
+          "line": 26,
+          "text": "- 当前 `before` -> 目标 `after`：现有音频路由与生命周期 -> 逐段核验并保留已核实行为；本卡无实现改动。"
+        },
+        {
+          "line": 28,
+          "text": "- 是否主动偏离已核真值：N/A（纯治理核验，无行为改动）。"
+        },
+        {
+          "line": 40,
+          "text": "- 测试合同：URL/track 映射、合法 SFX/BGM 输入、队列就地清空、真实 MusicBackend caller oracle、去重/结束复位、OGG release/volume、无 Web Audio no-op；边界测试与主合同排重，未以数量或 coverage 单独关闭。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 范围/前提核验: verified（直接读取实现、caller、primary source 与测试）。"
+        },
+        {
+          "line": 47,
+          "text": "- build 准入: Codex build allowed（只读治理与文档账本更新；实现白名单为空）。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-13 Codex：完成逐文件核验；无实现改动。定向 27 tests 全绿；相邻 game、全仓 check、coverage ratchet、protected fast、lint-zero、docs/content review、ledger 通过。账本更新为 `3266 / 329 closed / 9 review / 2928 pending`（另含 CODE-QUALITY-75 的 audio-midi review）。"
+        },
+        {
+          "line": 61,
+          "text": "当前状态：done，已归档；无实现改动。若继续音频治理，请接 CODE-QUALITY-75，先核验 audio-midi 异步曲目切换风险。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "75",
+      "number": 75,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+      "sha256": "fd8ed7fe0828774f65ccee1d72a9d65b61738d761c7e8d88e98a32c875ebaa33",
+      "lines": 104,
+      "historicalStatus": "done",
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内：`packages/game/src/shell/audio-midi.ts`、`packages/game/src/shell/audio-midi.boundaries.test.ts`、其 `audio.ts` MusicBackend caller、bootstrap/dev-panel 曲目切换 caller、SDLPal MIDI primary source。"
+        },
+        {
+          "line": 23,
+          "text": "- 范围外：soundfont 格式、资源生成、公共 AudioManager API、产品音量/混响取舍。"
+        },
+        {
+          "line": 36,
+          "text": "| 原版 / primary source | SDLPal `TSF_Play` 先关闭当前消息、再同步加载新曲；相同曲号直接返回 | `reference/sdlpal/midi_tsf.c:137-168` |"
+        },
+        {
+          "line": 69,
+          "text": "- 视觉/手工：dev-functional 最小连续切歌复现；若工具/资源不可用，明确 blocked，不以源码推断替代。"
+        },
+        {
+          "line": 73,
+          "text": "- Codex 范围/前提核验: verified（逆序 fetch 反控复现旧曲目抢播；primary source 与 caller 语义支持 latest-wins）。"
+        },
+        {
+          "line": 74,
+          "text": "- 范围、设计和验收条件: agree（先测试后决定是否修复）。"
+        },
+        {
+          "line": 87,
+          "text": "- 2026-10-13 Codex：保留逆序 fetch/stop 失败反控，加入 `playGeneration` latest-wins 守卫；定向 29、game 全包 3528、全仓 `pnpm check`、coverage ratchet、origin/main protected fast、lint-zero、docs/content review、ledger 全部通过。覆盖率 ratchet 只升不降更新 8 项/2 范围项；lint 3995 files，0/0/0。Evidence: `audio-midi.ts:61-95,161-187`; `audio-midi.boundaries.test.ts`; `reference/sdlpal/midi_tsf.c:137-168`. Next: 无，等待集成。"
+        },
+        {
+          "line": 104,
+          "text": "当次完整读取、primary/caller范围、退役原件/身份映射、失败与恢复、环境准备失败及下一片见[Y01证据](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)，归属[统一治理卡](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。无下一位Agent提示词，Codex在唯一3y分支继续复审。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "76",
+      "number": 76,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md",
+      "sha256": "b91b5cc8c119613cab39f559682ef5217e614a80121fd75af4ecb22347ccfb8b",
+      "lines": 63,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验主循环 wrapper 及其直接测试，确认 fixed logic cadence、rAF accumulator、mode 切换、冻结、present 门控、scene-context ownership 和取消生命周期与 SDLPal/第一阶段约束一致。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 26,
+          "text": "- 当前 `before` -> 目标 `after`：现有主循环实现 -> 逐段核验并保留已核实行为；本卡无实现改动。"
+        },
+        {
+          "line": 28,
+          "text": "- 是否主动偏离已核真值：N/A（纯治理核验，无行为改动）。"
+        },
+        {
+          "line": 42,
+          "text": "- 无实现改动；未以 game 包全绿单独关闭文件，三个范围文件均有直接 caller/oracle 证据。"
+        },
+        {
+          "line": 46,
+          "text": "- Codex 范围/前提核验: verified（实现、caller、primary source 和测试合同直接读取）。"
+        },
+        {
+          "line": 48,
+          "text": "- build 准入: Codex build allowed（只读治理与账本更新；实现白名单为空）。"
+        },
+        {
+          "line": 55,
+          "text": "- 2026-10-13 Codex：完成逐文件核验；无实现改动。定向 33 tests、game 全包 3528、全仓 `pnpm check`、coverage ratchet/protected fast、lint-zero、docs/content review、ledger 通过；未发现直接缺陷。账本收口为 `3267 / 334 closed / 8 review / 2925 pending`。"
+        },
+        {
+          "line": 62,
+          "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把 CODE-QUALITY-57 thumbnail review 当作已关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "77",
+      "number": 77,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
+      "sha256": "8d5da4092fb3b4372265b838862bd296a7e9e72de0d4ee02cff669ace60bcff6",
+      "lines": 62,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 RNG.MKF 播放器及其主/边界测试，确认资源 manifest/frame window、缓存并发、失败重试、帧 blit、淡入、skip、shake ownership 与 SDLPal `PAL_RNGPlay` 一致。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 26,
+          "text": "- 当前 `before` -> 目标 `after`：现有 RNG 播放器 -> 逐段核验并保留已核实行为；本卡无实现改动。"
+        },
+        {
+          "line": 28,
+          "text": "- 是否主动偏离已核真值：N/A（纯治理核验，无行为改动）。"
+        },
+        {
+          "line": 41,
+          "text": "- 无实现改动；未以包级绿单独关闭文件，三个范围文件均有直接 caller/oracle 与 primary 证据。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 范围/前提核验: verified（实现、caller、primary source 与测试合同直接读取）。"
+        },
+        {
+          "line": 47,
+          "text": "- build 准入: Codex build allowed（只读治理与账本更新；实现白名单为空）。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-13 Codex：完成逐文件核验；无实现改动。定向 RNG/trademark 33 tests、game 全包 3528、全仓 `pnpm check`、coverage ratchet/protected fast、lint-zero、docs/content review、ledger 通过；未发现直接缺陷。账本收口为 `3267 / 337 closed / 8 review / 2922 pending`。"
+        },
+        {
+          "line": 61,
+          "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "78",
+      "number": 78,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+      "sha256": "bf0a73e28616201d112ccd6fbce7d5cc852bc51dae8c60974be7f68055651ec1",
+      "lines": 62,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "逐文件核验 AVI/MP4 播放器及其主/边界测试，确认视频 DOM 生命周期、skip 键消费、500ms 结束窗口、autoplay click fallback、warm-up、音量 ownership 与 SDLPal `PAL_PlayAVI` 约束一致。"
+        },
+        {
+          "line": 14,
+          "text": "## 范围"
+        },
+        {
+          "line": 26,
+          "text": "- 当前 `before` -> 目标 `after`：现有 AVI player -> 逐段核验并保留已核实行为；本卡无实现改动。"
+        },
+        {
+          "line": 28,
+          "text": "- 是否主动偏离已核真值：N/A（纯治理核验，无行为改动）。"
+        },
+        {
+          "line": 45,
+          "text": "- Codex 范围/前提核验: verified（实现、caller、primary source、异步生命周期反控直接读取）。"
+        },
+        {
+          "line": 47,
+          "text": "- build 准入: Codex build allowed（只读治理与账本更新；实现白名单为空）。"
+        },
+        {
+          "line": 54,
+          "text": "- 2026-10-13 Codex：完成逐文件核验；无实现改动。定向 AVI/媒体 32 tests、game 全包 3528、全仓 `pnpm check`、coverage ratchet/protected fast、lint-zero、docs/content review、ledger 通过；未发现直接缺陷。账本收口为 `3267 / 340 closed / 8 review / 2919 pending`。"
+        },
+        {
+          "line": 61,
+          "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把视频剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "79",
+      "number": 79,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-79-battle-poison-level-boundary.md",
+      "sha256": "69a88763c8b756c20f7fbd5b2a8d2b808c5d04b422e955b01891dab2d9aa63e0",
+      "lines": 36,
+      "historicalStatus": "draft",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 12,
+          "text": "只读核验战斗 `0x61` 是否应忽略 level>=99 装备伪毒。CODE53 用户只明确批准 runtime 零值与 poison key 对齐，不能把额外的解毒物品效果变化混入。当前不得实现，不占 CODE53 的 Coding Owner 写入范围。"
+        },
+        {
+          "line": 24,
+          "text": "## 范围与验收"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "80",
+      "number": 80,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+      "sha256": "7f71c707284ac6c1aff684982bee2f83ca46389fb80c36368d9fe27079a4df29",
+      "lines": 60,
+      "historicalStatus": "review",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围与停止线"
+        },
+        {
+          "line": 17,
+          "text": "- primary：`reference/sdlpal/script.c:2164-2197` 正式0x75换队先清毒再 `PAL_UpdateEquipments`；`global.c:1333-1369` 重放装备脚本；SDLPal没有本项目DOM Dev Panel，不能以SDL源码自动决定战中按钮策略。"
+        },
+        {
+          "line": 21,
+          "text": "- 最强替代解释与可证伪点：也许handler之后由战斗tick同步队伍、或startBattle已间接刷新装备。后者已证实，因此撤回“applyFixture缺重建”的推断；前者未在handler中发生。DOM实际复现见下，后续若存在自动重建必须补直接caller证据，不能靠源码片段断言。"
+        },
+        {
+          "line": 37,
+          "text": "已先写合法失败反例，再改 handler。定向回归验证战斗控件 disabled、点击不改 party，探索控件仍可切换；真实 fixture 验证探索换队清毒后重建仍装备角色的寿葫芦伪毒。额外反控分别省略战斗 disabled 和装备重建，各产生恰一个业务断言失败，恢复后同一测试通过。资源生命周期、observer/监听器、异步缩略图另留 pending，不因这两条修复关闭2299行整个 dev-panel。"
+        },
+        {
+          "line": 43,
+          "text": "Codex：用户裁决已记录，前提与范围 verified；build allowed。实现 Owner 为 Codex；行为切片独立验收与本批质量门已完成，剩余 picker 生命周期风险由 CODE81 单独承接。没有使用历史三签要求阻塞。无下一位 Agent 提示词，继续由 Codex 负责。"
+        },
+        {
+          "line": 52,
+          "text": "- 尚未关闭任何文件；dev-panel、两份测试及 CODE53 其它 review/pending 文件仍需逐文件验收。视觉层只保留功能性 DOM 证据，未声称浏览器截图验收。"
+        },
+        {
+          "line": 60,
+          "text": "- CODE80 从 `build` 进入 `review`：用户裁决、行为修复和本批门禁已完成，Codex 独立验收记录在本卡；剩余 dev-panel 的全局 listener disposer、picker IntersectionObserver 与异步 thumbnail 取消/关闭生命周期仍 pending，另需后续小批，不影响本批行为合同。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "81",
+      "number": 81,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+      "sha256": "178d18d9432ed2443b8cbb5a31fcafb71fcff97efdc94fbfdc832e88f7cd1903",
+      "lines": 58,
+      "historicalStatus": "review",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与停止线"
+        },
+        {
+          "line": 11,
+          "text": "只处理 `packages/game/src/dev/dev-panel.ts` 中场景 picker 的 observer 释放、过滤/关闭后的异步缩略图写回和失败兜底；配套测试只验证这些生命周期合同。保留模块级缩略图缓存与 `DevPanelDeps.renderSceneThumbnail` 现有公共签名，不引入 AbortSignal、不改变场景跳转或 UI 形态，也不接管 CODE53/CODE80 的队伍行为。"
+        },
+        {
+          "line": 15,
+          "text": "- 一句话前提：picker 关闭或列表代际替换后，旧 observer 与旧异步结果不得继续操作已失效 DOM；成功结果仍可进入既有共享缓存。"
+        },
+        {
+          "line": 17,
+          "text": "- 一阶段：Dev Panel 是 DEV-only DOM 调试工具；`IntersectionObserver` 只服务当前 scene list，关闭 picker 后不再有用户可见目标。"
+        },
+        {
+          "line": 19,
+          "text": "- 目标：增加 picker-owned cleanup 与 generation guard，observer 在关闭/重建时断开，旧 promise 不更新旧 DOM；生产 renderer 已将资源失败归一为 `null`，对可注入 callback 的 rejection 也以占位文案收束。"
+        },
+        {
+          "line": 21,
+          "text": "最强替代解释是浏览器移除根节点后会自动释放 observer/回调；可证伪观察是 fake observer 在关闭后仍收到 queued entry，或 deferred renderer 在关闭后仍改变旧图片节点。测试直接控制这两种观察，故不依赖 GC 推断。"
+        },
+        {
+          "line": 27,
+          "text": "- `docs/ops/audits/code-quality-governance.md`：P0 资源/异步清理需失败反例，不因短文件或包级绿关闭。"
+        },
+        {
+          "line": 32,
+          "text": "1. 每次 picker close 和 scene list rebuild 都 disconnect 当前 observer；关闭后的 queued entry 不启动 thumbnail load。"
+        },
+        {
+          "line": 43,
+          "text": "- 修改 `packages/game/src/dev/dev-panel.ts`：picker 保存 owner cleanup；关闭和列表重建断开 observer；以 `sceneGeneration`/`pickerClosed` 阻止旧 queued entry 与旧 Promise 写回 DOM；成功 URL 仍写入既有模块缓存；renderer fulfillment 为 `null` 或 rejection 都回到原占位文案。"
+        },
+        {
+          "line": 53,
+          "text": "- 不新增 `AbortSignal` 或修改 bootstrap renderer 公共签名；生产 renderer 已在 bootstrap 内捕获资源失败。共享 thumbnail cache 的跨 picker 保留是既有合同；成功结果在 picker 已关闭时仍缓存，但不再写旧 DOM。"
+        },
+        {
+          "line": 58,
+          "text": "无下一位 Agent 提示词；本批可由 Codex 独立验收，新增生命周期测试文件已具备关闭证据，复合生产文件与既有 GLM 测试不得随本卡一并关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "82",
+      "number": 82,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+      "lines": 49,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅 `packages/pal-extract/audit-data-mkf.mjs` 与新增 `packages/pal-extract/src/audit-data-mkf.test.ts`。单一 Coding Owner 为 Codex；不修改 extractor CLI、shared codec、资产管线、raw/extracted 数据或公共 API。最新基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`，隔离分支 `codex/code-quality-3y`，开批 HEAD `571fbeb18683c6f36d5b54a213c9a6159f28d4aa`，0 behind / 54 ahead。"
+        },
+        {
+          "line": 28,
+          "text": "- 已读 AGENTS/CLAUDE/workflow/governance/ledger；历史 CODE-QUALITY-2 的共享 MKF 边界与本文件 review 记录；当前 CODE53/57/79/80/81 不占用本白名单。"
+        },
+        {
+          "line": 45,
+          "text": "Codex：premise verified / build allowed；范围只读诊断、零 API 变动。初次候选在建卡/反例前误落盘，已完整撤回为 HEAD，随后重建失败反例；该历史不冒称首轮先红。修复保留 standalone parser，因为真实入口是 `node` 执行 `.mjs`，而 shared codec 是未构建的 TS workspace export；实际路径/cwd 与输出等价反例已验证。"
+        },
+        {
+          "line": 49,
+          "text": "本批不触碰 schema/save/migration/asset pipeline、公共 API、raw/extracted 生成物或用户可见行为；standalone parser duplication 作为执行方式边界保留并登记。全仓未完成；本批不得关闭未读的 Q3 文件。无下一位 Agent 提示词，继续由 Codex 单 Agent 执行。下一批选择未被活动卡占用的 Q3 pending 或 Q6 非 E2E 工具。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "83",
+      "number": 83,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+      "sha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
+      "lines": 70,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅："
+        },
+        {
+          "line": 17,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验与治理记录，不改实现、公共接口、schema/save、资源或用户可见形态；CODE53/57/79/80/81 不占用白名单。"
+        },
+        {
+          "line": 20,
+          "text": "一句话前提：显式 `menuStack` 必须在每个 mode tick 中把输入交给栈顶菜单，并按真实 SDLPal modal 返回域恢复 battle/event/explore；关闭栈本身不应在同一帧制造错误 dispatch。"
+        },
+        {
+          "line": 29,
+          "text": "## 逐文件核验"
+        },
+        {
+          "line": 33,
+          "text": "- 完整读取 33 行实现。`tickMenu` 先处理空栈恢复，再把输入交给 `dispatchMenuInput`，dispatch 后再次检查空栈，避免关闭最后一层后把同帧输入继续送入已不存在的菜单。"
+        },
+        {
+          "line": 51,
+          "text": "本批未发现可直接修复的输入、边界、状态 ownership、错误传播、异步取消、资源清理或公共接口缺陷。`menu-mode` 依赖的具体菜单行为仍由 `menu-driver`/各菜单文件承担，不因本批通过而关闭；battle-inspect/战斗毒键、bootstrap thumbnail、Dev Panel 生命周期继续由活动卡负责。"
+        },
+        {
+          "line": 58,
+          "text": "- 受影响静态门：`pnpm --filter @type-pal/game typecheck` 通过；三条白名单文件 Biome 通过。"
+        },
+        {
+          "line": 66,
+          "text": "Codex：premise verified / build allowed；逐文件复核与全套质量门完成，`review -> done` 由 Codex 独立 accept。未发现直接缺陷，不新增弱测试，不触碰高风险边界。该批只将三个白名单文件写入 `已验证`，其它 menu-driver、battle-inspect、dev-panel 与活动任务继续保持 review/pending。"
+        },
+        {
+          "line": 70,
+          "text": "全仓治理尚未完成；其余 Q3 core/present/shell/analytics/tools 文件仍需逐文件核验。无下一位 Agent 提示词，继续由 Codex 从最新账本选择下一组不重叠的 2–4 个 pending 文件；不得把本批全绿推成全仓完成。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "84",
+      "number": 84,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+      "sha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
+      "lines": 96,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅："
+        },
+        {
+          "line": 18,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验与治理记录，不改实现、公共接口、schema/save、资源或用户可见形态；CODE53/57/79/80/81 不占用白名单。"
+        },
+        {
+          "line": 30,
+          "text": "## 逐文件核验"
+        },
+        {
+          "line": 57,
+          "text": "- `draw-inventory.ts:130-390` 只渲染 state 快照，但 use-target 的图标/名称/数量从 `gs.inventory` live 读取；CODE49 已闭合数量归零隐藏物品层的像素行为，本批不重复关闭绘制文件。"
+        },
+        {
+          "line": 62,
+          "text": "本批未发现可直接修复的输入、边界、role identity、错误传播、异步取消、资源清理或公共接口缺陷。`menu-driver.ts` 的 live refresh、item script resume 和 `draw-inventory.ts` 的像素合同继续由相邻/历史卡负责，不因本批通过而关闭。若后续发现负的持久化 `iCurInvMenuItem`、同一 item 同时存在背包与装备追加的去重要求，必须先用真实 save/runtime 证据开高风险卡，不在本批猜测修改。"
+        },
+        {
+          "line": 69,
+          "text": "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。"
+        },
+        {
+          "line": 80,
+          "text": "- 受影响静态门：`@type-pal/game` typecheck 通过；四条白名单文件 Biome 通过且无诊断。"
+        },
+        {
+          "line": 88,
+          "text": "- Codex 独立验收：四个白名单文件均完整读取，并核对真实 caller、公共出口、相邻类型/生命周期、SDLPal primary source 与测试 oracle；未发现可直接修复的实现或测试缺陷。"
+        },
+        {
+          "line": 90,
+          "text": "- 四条账本记录在完整证据与全部质量门通过后关闭，任务卡随后归档至 `docs/ops/archive/tasks/done/`。"
+        },
+        {
+          "line": 94,
+          "text": "- CODE-QUALITY-53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件保持原状态，继续 pending/review/draft；未知的负 cursor、装备重复展示和迁移 id 假设不在本批猜测关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "85",
+      "number": 85,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+      "sha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
+      "lines": 93,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅："
+        },
+        {
+          "line": 18,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验与治理记录，不改实现、公共接口、schema/save、资源或用户可见形态；CODE53/57/79/80/81 不占用白名单，CODE84 inventory menu 已收口。"
+        },
+        {
+          "line": 26,
+          "text": "| 第一阶段 | `shop-menu.ts` 四份白名单文件；`menu-driver.ts` 真实输入 caller；相邻 shop drawing/event-system/GameState inventory/money ownership；对应 shop tests 与 public exports。 |"
+        },
+        {
+          "line": 30,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 32,
+          "text": "- 完整读取四个白名单文件；读取真实 `menu-driver`/shop drawing/event-system callers、GameState money/inventory ownership、公共出口和相邻类型。"
+        },
+        {
+          "line": 34,
+          "text": "- 测试只接受直接执行生产 public function 的判别性合同；不以覆盖率、数量或恒真断言关闭文件。"
+        },
+        {
+          "line": 44,
+          "text": "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。"
+        },
+        {
+          "line": 51,
+          "text": "## 逐文件核验记录"
+        },
+        {
+          "line": 69,
+          "text": "## 生产 caller / primary source 核验"
+        },
+        {
+          "line": 77,
+          "text": "- 受影响静态门：`@type-pal/game` typecheck 通过；四条白名单文件 Biome 通过且无诊断。"
+        },
+        {
+          "line": 79,
+          "text": "- 官方 `pnpm coverage:ratchet`：731 source files / 19855 tests；statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)，覆盖率和范围均保持基线。"
+        },
+        {
+          "line": 85,
+          "text": "- Codex 独立验收：四个白名单文件均完整读取，读取真实 menu-driver/bootstrap/event-system/GameState/draw-shop/sell-menu caller 与 SDLPal primary source；未发现 shop 状态机直接缺陷。"
+        },
+        {
+          "line": 91,
+          "text": "- `menu-driver.ts` 交易应用、`inventory-state.ts` 容量/装备占用差异、`sell-menu.ts` 与 `draw-shop.ts` 相邻文件仍不因本批自动关闭；如需修复必须另开不重叠卡并先核真实 runtime/save 证据。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "86",
+      "number": 86,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+      "sha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
+      "lines": 84,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅："
+        },
+        {
+          "line": 18,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验与测试质量收口；不改生产实现、公共接口、schema/save、资源或用户可见形态。CODE53/57/79/80/81 不占用白名单，CODE84/85 已收口。"
+        },
+        {
+          "line": 26,
+          "text": "| 第一阶段 | 四条白名单文件；`menu-driver.ts:753-852` 真实 dispatcher/caller；`equip-effect.ts:115-236,239-294` 的 script/swap/effect ownership；`equipment-state.ts`、`game-state.ts` 运行时 equipment/party 类型；`draw-equip.ts` 与 P03/pixel 相邻 oracle。 |"
+        },
+        {
+          "line": 30,
+          "text": "## 逐文件核验记录"
+        },
+        {
+          "line": 40,
+          "text": "## 生产 caller / primary source 核验"
+        },
+        {
+          "line": 42,
+          "text": "`menu-driver.ts:753-852`、`equip-effect.ts:115-236,239-294`、`equipment-state.ts`、`game-state.ts`、`draw-equip.ts` 及 P03/pixel 相邻测试已读；SDLPal `itemmenu.c`、`uigame.c`、`play.c`、`script.c` 已对照。装备 swap、inventory refresh、`wLastUnequippedItem`、effect reset 与 role bit 均保留在相邻 caller 范围，若发现 runtime/save 或脚本链缺陷须另开高风险卡，不在本批猜测修改。"
+        },
+        {
+          "line": 46,
+          "text": "- 当前未发现白名单实现直接缺陷；相邻 dispatcher/equip-effect/inventory-state 的行为风险不因本批自动关闭。"
+        },
+        {
+          "line": 52,
+          "text": "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。"
+        },
+        {
+          "line": 57,
+          "text": "Codex：premise verified / build allowed。当前只清理测试输入质量，不改生产实现；完成全部质量门后再决定四条记录是否关闭。"
+        },
+        {
+          "line": 62,
+          "text": "- game typecheck 通过；四条白名单 Biome 通过且无诊断。"
+        },
+        {
+          "line": 69,
+          "text": "- game typecheck、四条白名单 Biome 通过且无诊断。"
+        },
+        {
+          "line": 71,
+          "text": "- 官方 `pnpm coverage:ratchet`：731 source files / 19855 tests；statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)，范围与基线不变。"
+        },
+        {
+          "line": 77,
+          "text": "- Codex 独立验收：四个白名单文件完整读取，并核对真实 menu-driver/equip-effect/equipment-state/game-state/draw-equip caller 与 SDLPal itemmenu/uigame/play/script primary source；未发现白名单生产实现直接缺陷。"
+        },
+        {
+          "line": 79,
+          "text": "- 相邻 dispatcher/equip-effect/inventory-state 风险保持独立 pending/review，未被本批账本关闭。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "87",
+      "number": 87,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+      "sha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
+      "lines": 82,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅："
+        },
+        {
+          "line": 18,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验，不改生产实现、公共接口、schema/save、资源或用户可见形态。CODE53/57/79/80/81 不占用白名单，CODE84/85/86 已收口。"
+        },
+        {
+          "line": 26,
+          "text": "| 第一阶段 | 四条白名单文件；`menu-driver.ts:457-620` 主/系统 dispatcher；`game-state.ts:57-74,1002-1008,1917-1920` menu stack/cursor ownership；`draw-menu.ts`、menu-driver/draw-menu tests 与 P05 menu-stack oracle。 |"
+        },
+        {
+          "line": 30,
+          "text": "## 逐文件核验记录"
+        },
+        {
+          "line": 40,
+          "text": "## 生产 caller / primary source 核验"
+        },
+        {
+          "line": 46,
+          "text": "- 当前未发现白名单实现或测试直接缺陷。"
+        },
+        {
+          "line": 52,
+          "text": "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。"
+        },
+        {
+          "line": 56,
+          "text": "Codex：premise verified / build allowed。当前无实现改动；完成全部质量门后再决定四条记录是否关闭。"
+        },
+        {
+          "line": 61,
+          "text": "- game typecheck 通过；四条白名单 Biome 通过且无诊断。"
+        },
+        {
+          "line": 67,
+          "text": "- game typecheck、四条白名单 Biome 通过且无诊断。"
+        },
+        {
+          "line": 69,
+          "text": "- 官方 `pnpm coverage:ratchet`：731 source files / 19857 tests；总覆盖率保持 statements 89.93%、branches 83.65%、functions 89.50%、lines 91.81%；仅记录两项合法的 in-game-menu 测试范围变化。"
+        },
+        {
+          "line": 75,
+          "text": "- Codex 独立验收：四个白名单文件完整读取，并核对真实 menu-driver/GameState/draw-menu caller 与 SDLPal uigame/ui primary source；未发现白名单生产实现直接缺陷。"
+        },
+        {
+          "line": 77,
+          "text": "- 运行时逻辑、schema/save、资源、公共接口和用户行为均未改变；源码头部菜单说明注释按真实菜单项修正，测试与官方 coverage baseline 也随合同补强更新。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "88",
+      "number": 88,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+      "sha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
+      "lines": 136,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "> 本卡按 [`AGENTS.md`](../../../../../AGENTS.md) 的 Codex 独立验收模式执行；本批只核 magic-select 四个白名单文件，不接管 in-game-magic-menu、battle-system 或 present 文件。"
+        },
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内:"
+        },
+        {
+          "line": 27,
+          "text": "- 范围外:"
+        },
+        {
+          "line": 44,
+          "text": "| 当前二阶段 | N/A；本批仅 phase1 `packages/game` 运行时 | N/A（范围不涉及 phase2） |"
+        },
+        {
+          "line": 45,
+          "text": "| 本任务目标 | 四个白名单文件只建 `SelectionMenuItem`，按 object id 排序、`magicNumber` 连接成本、缺失关联剔除、MP 边界与输入隔离有判别力合同 | `packages/game/src/core/menu/magic-select.ts:26-55`；本卡测试白名单 |"
+        },
+        {
+          "line": 49,
+          "text": "- 最强替代解释: `Spell.id` 仍是局部数组索引，或某些 caller 传入 battle-only spell；提取器实际 `id=wObjectID`、player-role raw slot 与 caller 过滤可反证前者，battle caller 不在本批写入范围。"
+        },
+        {
+          "line": 60,
+          "text": "- `before -> after` 一句话: N/A（只核验/补强测试 fixture）"
+        },
+        {
+          "line": 70,
+          "text": "- 相关测试: 四个白名单测试；相邻 `in-game-magic-menu` 三文件、`battle-system` magic-select 合同、draw-magic tests。"
+        },
+        {
+          "line": 74,
+          "text": "- 功能: 完整读取四个白名单文件，确认合法角色/目录、空槽、排序、MP=cost、MP=cost-1、缺 spell/magic/name 与输入隔离合同。"
+        },
+        {
+          "line": 75,
+          "text": "- 测试: 定向白名单 + in-game-magic/battle 相邻回归；Biomes、game typecheck；必要时记录可重复反控证据。"
+        },
+        {
+          "line": 84,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / 四个白名单文件及本卡、证据、账本。"
+        },
+        {
+          "line": 85,
+          "text": "- 前提核验: verified（`magicmenu.c`、parser、player-role raw id 与实际 caller 直接证据；若观察到 parser id 改变则推翻）。"
+        },
+        {
+          "line": 86,
+          "text": "- 范围、设计和验收条件: agree（纯建表/测试质量，不修改实现行为）。"
+        },
+        {
+          "line": 93,
+          "text": "- Codex 独立复核: accept（完整源码/caller/primary source 证据、3 针反控与全部质量门）"
+        },
+        {
+          "line": 120,
+          "text": "- 审查结论: 四个白名单文件均已完整读取；未发现直接生产缺陷。SDLPal object-id 排序、Magic 成本连接、MP 边界、缺失关联和 disabled cursor 均有 caller/primary-source oracle。"
+        },
+        {
+          "line": 121,
+          "text": "- 必须返工项: 若定向测试暴露 object-id、排序、MP 或 typed fixture 反例，先修复/恢复 review，不强行关闭。"
+        },
+        {
+          "line": 131,
+          "text": "- 2026-10-14 Codex: 完整读取四个白名单文件、in-game-magic caller、battle builder/input、draw caller、primitives、shared types、parser/player-role callers 与 SDLPal magicmenu/uigame；确认 object-id/排序/MP 真值。补强 boundaries 与组合测试为完整 typed fixtures，并把组合 fixture 改为生产 object id 300/301；早期定向回归暴露并修正一处旧 id 断言。Evidence: [evidence](../../../evidence/CODE-QUALITY-88/README.md)。Next: 无，四条记录已关闭；shared Spell.id 旧注释另留 pending。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "89",
+      "number": 89,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+      "sha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
+      "lines": 109,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "> 本卡按 [`AGENTS.md`](../../../../../AGENTS.md) 的 Codex 独立验收模式执行；只核四个 in-game-magic 白名单文件，不接管 `menu-driver.ts`、`magic-script.ts`、battle magic 或 draw 实现。"
+        },
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内:"
+        },
+        {
+          "line": 27,
+          "text": "- 范围外: `menu-driver.ts`、`magic-script.ts`、`event-system.ts`、`draw-magic.ts`、battle-system 及共享 Spell 类型。"
+        },
+        {
+          "line": 41,
+          "text": "| 本任务目标 | 四白名单文件用完整 typed fixtures、真实 public state/request oracle 覆盖 phase/cancel/navigation/caster memory/MP refresh/party identity | 四个白名单测试文件 |"
+        },
+        {
+          "line": 57,
+          "text": "- 已拍板决策 / 铁律: 逐文件读取；不以 package green 关闭；脚本/MP 副作用不能由状态模块伪造；未知项保留 pending/review。"
+        },
+        {
+          "line": 61,
+          "text": "- 相关测试: 四白名单测试；`menu-driver.test.ts`、`menu-driver.cov85.test.ts`、`magic-script.test.ts`、draw-magic tests。"
+        },
+        {
+          "line": 74,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / 四个白名单文件及本卡、证据、账本。"
+        },
+        {
+          "line": 75,
+          "text": "- 前提核验: verified（SDLPal、runtime projection、dispatcher caller 直接证据）。"
+        },
+        {
+          "line": 76,
+          "text": "- 范围、设计和验收条件: agree（测试证据强化；不改生产行为）。"
+        },
+        {
+          "line": 92,
+          "text": "- 运行命令: 定向/相邻 9 files / 158 tests；白名单 3 files / 37 tests；game typecheck/Biome；3 针隔离 mutation；`pnpm check`；`pnpm coverage:ratchet`；`pnpm check:fast`；`pnpm lint`；`pnpm check:docs`；ledger。"
+        },
+        {
+          "line": 98,
+          "text": "- 审查结论: 四个白名单文件完整读取；状态 phase、party role identity、取消、光标记忆、MP refresh 与脚本 ownership 均与 SDLPal/真实 caller 一致，未发现生产直接缺陷。"
+        },
+        {
+          "line": 104,
+          "text": "- 2026-10-14 Codex: 重新完整读取四白名单文件、menu-driver dispatch、runtime hydrate/project、magic-script、draw caller 与 SDLPal `uigame.c`/`magicmenu.c`；发现三份状态测试存在不完整 `as unknown` fixture，已改为完整 typed PlayerRole/Spell/Magic，并补齐 battle-only spell 的 Magic 关联以验证 outside filter。Evidence: [evidence](../../../evidence/CODE-QUALITY-89/README.md)。Next: 无，四条记录已关闭；script/MP caller、battle magic、draw 与 shared Spell 类型留后续 pending。"
+        },
+        {
+          "line": 105,
+          "text": "- 2026-10-14 Codex: 定向/相邻 9 files / 158 tests、白名单 3 files / 37 tests、game typecheck/Biome 通过；3 针隔离反控均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0；coverage baseline 未变。账本 3,270：closed 368、review 9、pending 2,893。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "90",
+      "number": 90,
+      "suffix": "",
+      "path": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+      "sha256": "254e96c1bbaaac2c7234c921534ad57cdce16fdfcc6daba1237f03c182909b5f",
+      "lines": 160,
+      "historicalStatus": "review",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "> 高风险机制卡：已完成 primary source 核验并取得用户裁决；实现必须先补失败反例，再按 SDLPal 的 `<=999` 清除边界修复。"
+        },
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内:"
+        },
+        {
+          "line": 25,
+          "text": "- 范围外: 战斗复活、save/schema/migration、毒键寻址 CODE53/79、其它脚本 opcode。"
+        },
+        {
+          "line": 44,
+          "text": "- 什么观察会推翻当前前提: primary source 的 `PAL_RemovePlayerStatus` 被证明无 `<=999` guard，或真实 caller 证明大世界 revive 不消费 `rgPlayerStatus`；当前直接源码已排除。"
+        },
+        {
+          "line": 76,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `packages/game/src/core/menu/magic-script.ts`、其专属测试、任务卡与 evidence；不得修改 schema/save、battle runner、poison key 或公共接口。"
+        },
+        {
+          "line": 77,
+          "text": "- 前提核验: verified（`script.c:1052-1102` + `global.c:2279-2344` 直接证明复活遍历 status 但只清 `<=999`；`game-mechanics.md:1453,1483,1517-1539` 记录 <=999 状态边界和 DualAttack 9 的复活清除；32760 的装备实例见 `game-state.ts:1082-1085`）。"
+        },
+        {
+          "line": 78,
+          "text": "- 范围、设计和验收条件: agree（先红反例，再最小实现；单体/全体/活人失败/非顺序队伍/`<=999`/`>999`/毒边界与相邻 caller 回归）。"
+        },
+        {
+          "line": 80,
+          "text": "- build 准入结论: Codex build allowed（仅白名单实现与测试；未完成独立验证前不得标记 done）。"
+        },
+        {
+          "line": 88,
+          "text": "- 4 个隔离精确 mutation：漏清理、999 误留、1000 误清、错误按 party position 寻址；各恰好 1 个业务 AssertionError，恢复绿、源码哈希一致，无运行时错误。"
+        },
+        {
+          "line": 90,
+          "text": "- official ratchet：第一次恢复实跑因 pal-extract 五个 CLI 5000ms 超时失败，原件保留 `gate-ratchet-timeouts.txt`；原命令重试全部通过（731源文件/19860tests，总体89.93/83.66/89.50/91.82）。官方基线提升6项、范围变化2项，仅 game 新增3个复活合同与实现覆盖变化；其它包指标/范围未变化。"
+        },
+        {
+          "line": 91,
+          "text": "- check:fast（历史误标protected fast，已撤回）：默认并发两次因相同4个 pal-extract CLI 5000ms 超时失败，输出与exit1回执分别保留 `gate-protected-fast-timeouts*`。按已安装 Vitest 4.1.7 的官方 `VITEST_MAX_WORKERS=2` 接口限制文件并发，完整重跑同一 `pnpm check:fast`；pal-extract71/431通过，但全局设2同时覆盖editor原有单worker设置，editor出现1个业务失败（`BattleSpriteLibrary.glm-m.test.tsx:170`，expected apply.disabled=false / actual=true；631 files中1 failed，4951 tests中1 failed）。失败原件保留 `gate-protected-fast-workers2-editor-failure*`。单独重放2例exit0，但有3条React act诊断，**不计干净验收**。当前改用 `VITEST_MAX_WORKERS=1` 恢复editor原有并发，并限制其它包，完整门仍待续；timeout/测试范围/断言/静态规则未改，默认并发超时和editor抖动根因仍未知。"
+        },
+        {
+          "line": 92,
+          "text": "- 高风险：第一阶段机制/用户可见行为；已在实现前完成 primary source 核验并取得用户裁决，无 schema/save/migration/资产/公共接口改动。"
+        },
+        {
+          "line": 93,
+          "text": "- 第二阶段边界：`packages/reforge/src/battle/battle-core.ts:107-111` 单独区分 `status` 与 `grantedStatuses`；`:604-624` 复活只清临时 `status`。`packages/content/src/item.ts:36,449-462` 装备 `grantStatus` 实时派生。仅用作阶段区分证据，未修改、未关闭这些二阶段文件。"
+        },
+        {
+          "line": 94,
+          "text": "- **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 的无断言伪 applyAll 用例已改成活人状态不变 oracle，`Spell` fixture 已改为完整公共类型；poison table cleanup、其余 synthetic fixture 与完整 script-chain/input/unsupported-op/step-limit 合同仍待隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。"
+        },
+        {
+          "line": 101,
+          "text": "- 完整读取新增 RNG 任务卡/124行专属测试；核源差分 event-system/game-state/vite。RNG 实现保持主线原样，未扩大其产品范围或更改其任务状态。"
+        },
+        {
+          "line": 104,
+          "text": "- magic-script 两文件源码字节未变，但最新集成基点的定向/typecheck、full check、official ratchet、protected fast、lint-zero、docs/content-review/ledger需重新实测；此前所有全门回执明确属于旧基点，不冒充最新基点结果。"
+        },
+        {
+          "line": 122,
+          "text": "下一批候选: 先完整审 magic-script 两文件未闭合项，或不重叠 sell-menu.ts 与三份专属测试；已对 sell-menu 四文件只读，不等于已完成核验"
+        },
+        {
+          "line": 128,
+          "text": "最新集成源基点7a93336c6（包含origin/main588790383）：9 files / 522定向相邻tests、game typecheck和完整pnpm check已通过（worker1；game315/3559，editor631/4951，migrate96/739，lint4031/0/0/0）。真正protected fast是TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast，先前pnpm check:fast不能替代，原件保留且不计此门。CODE92已对Code83–89/91的30条记录开当前counter，机器账本暂为3271/340closed/42review/2889pending，待真实门通过与30/30已证源码一致性一起恢复。CODE90两文件仍review，不因工程门纠错而关闭。"
+        },
+        {
+          "line": 133,
+          "text": "- 新夹具重新实测31/31；隔离去清理反控仍恰好2个业务AssertionError，4针精确身份反控均baseline绿/mutant单业务红/restored绿，源码未动。新原件见 `mutation-raw-legal-script-id/` 与 `mutation-legal-script-id-result.json`；旧77779原件保留为历史，不替代合法输入的新证明。"
+        },
+        {
+          "line": 135,
+          "text": "- 主线文档发布收口已在隔离治理分支合入 `cddf65557`，不触碰主工作树，不将RNG专项done扩大为event-system整文件关闭。"
+        },
+        {
+          "line": 141,
+          "text": "- 合法 script-id mutation 重新执行：31/31 基线通过；去清理变异恰好2个业务 AssertionError；MUT-01..04 均 baseline绿、mutant单业务红、restored绿，源码/仓库字节未变。"
+        },
+        {
+          "line": 153,
+          "text": "- 官方工具只升不降地更新 `scripts/coverage/baseline.fast.json`（SHA-256 `aabca727e834ab4f3c5700ca940208a78a7cc81ee60c8fb4eaa866efd4dc15ce`），提升6个指标、范围变化2项；没有降阈值、加排除或手工拼 baseline。原始 receipt：`evidence/CODE-QUALITY-90/gate-ratchet-after-boundary.txt`。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "91",
+      "number": 91,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+      "sha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
+      "lines": 137,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "> 当前采用 [`AGENTS.md`](../../../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”临时模式；本批不修改产品实现，仅完成三份已存在实现/测试文件的逐文件核验与证据收口。"
+        },
+        {
+          "line": 18,
+          "text": "逐文件核验物品一级子菜单的实现、测试和阶段一边界：装备/使用的 canonical WORD id、顺序、光标记忆、环绕移动、文案来源、防御性空选择，以及其 menu-driver caller/返回链与 SDLPal primary source 对齐；只有直接证据成立的三份文件才关闭。"
+        },
+        {
+          "line": 20,
+          "text": "## 范围"
+        },
+        {
+          "line": 22,
+          "text": "- 范围内:"
+        },
+        {
+          "line": 27,
+          "text": "- 范围外:"
+        },
+        {
+          "line": 32,
+          "text": "  - 不把包级绿灯、覆盖率或测试数量当作逐文件关闭理由。"
+        },
+        {
+          "line": 46,
+          "text": "| 当前二阶段 | 此批仅核验 phase1 game menu slice；无 ref​​orge/editor/content 代码变更或行为迁移。 | `CLAUDE.md`; `docs/phase1/engineering-notes.md`; `docs/phase1/game-mechanics.md` |"
+        },
+        {
+          "line": 47,
+          "text": "| 本任务目标 | 三份白名单文件的 caller/oracle/边界证据充分，测试输入合法、逐合同可反证、无直接生产缺陷；生产文件不改。 | `packages/game/src/core/menu/menu-driver.ts:617-651`; `packages/game/src/core/menu/menu-driver.test.ts:238-271`; 本卡验证与 evidence |"
+        },
+        {
+          "line": 57,
+          "text": "  - audit / test model: 逐读三份白名单测试，并以 caller 相邻 `menu-driver.test.ts` / `menu-driver.cov85.test.ts` 与 draw oracle 复核；mutation controls 覆盖 id mapping、cursor guard、wrap、WORD lookup、empty selection。"
+        },
+        {
+          "line": 72,
+          "text": "- 相关测试: 白名单两份 state tests；`menu-driver.test.ts:238-271`、`menu-driver.cov85.test.ts:510-535`、`draw-menu.glm-phase1-leaves.test.ts:74-88` 为相邻 caller/render oracle。"
+        },
+        {
+          "line": 76,
+          "text": "- 功能: 三份白名单逐文件完整读取并给出 primary source/caller/oracle 证据；未发现直接生产缺陷时只关闭证据成立的记录。"
+        },
+        {
+          "line": 77,
+          "text": "- 测试: 白名单与相邻 menu-driver/draw 测试定向通过；合法 typed 输入；合同按 id mapping、cursor guard、wrap、label source、empty choice 分轴；3+ 精确 mutation controls 均业务失败、恢复全绿且字节还原。"
+        },
+        {
+          "line": 86,
+          "text": "- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / 仅任务卡、board/index、evidence、governance、ledger；实现白名单只读。"
+        },
+        {
+          "line": 87,
+          "text": "- 前提核验: verified（SDLPal `uigame.c:878-919`、`ui.h:80-81`、`play.c:244-359` 与 TS/caller 逐行读取；可证伪观察见反证节）。"
+        },
+        {
+          "line": 88,
+          "text": "- 范围、设计和验收条件: agree（纯治理/证据批，不改产品实现；定向测试、相邻测试、typecheck、Biome、mutation 与全量质量门）。"
+        },
+        {
+          "line": 97,
+          "text": "- done 准入结论: Codex done allowed；本卡只关闭三份白名单记录。"
+        },
+        {
+          "line": 103,
+          "text": "保持实现不变；以 primary source → TS implementation → menu-driver caller → tests/oracles 的链路核验文件，补齐机器可复现证据和精确 mutation controls，再更新治理账本。"
+        },
+        {
+          "line": 108,
+          "text": "- 缓解: 白名单测试只按自身实现边界计数；caller/renderer 仅作 oracle 与相邻回归，不关闭相邻文件；mutation runner 使用临时 package tree 并记录 hash/恢复。"
+        },
+        {
+          "line": 114,
+          "text": "- 实现摘要: 无生产实现修改；三份白名单文件完成逐文件核验，未发现直接缺陷。"
+        },
+        {
+          "line": 115,
+          "text": "- 运行命令: 白名单/相邻 5 files / 85 tests；`node docs/ops/evidence/CODE-QUALITY-91/mutation-runner.mjs`（4 针精确 identity 反控）；`pnpm --filter @type-pal/game typecheck`；Biome 白名单；`pnpm check`；`pnpm coverage:ratchet`；`pnpm check:fast`；`pnpm lint`；`node scripts/quality/code-quality-ledger.mjs`。"
+        },
+        {
+          "line": 122,
+          "text": "- 审查结论: 三份白名单逐文件证据完整；primary source、caller、oracle、合法输入、排重与有效反控均通过。"
+        },
+        {
+          "line": 133,
+          "text": "- 2026-10-14 Codex: 完整读取三份白名单、menu-driver dispatch/state cursor、inventory/equip caller、selection primitive、draw oracle 与 SDLPal `uigame.c`/`ui.h`/`play.c`；确认本批无直接生产缺陷，准许仅文档/证据写入。Evidence: 本卡上下文锚点与 `docs/ops/evidence/CODE-QUALITY-91/`。Next: Codex 跑定向/相邻/全量质量门并独立收口。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "92",
+      "number": 92,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48",
+      "lines": 67,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 14,
+          "text": "## 目标与范围"
+        },
+        {
+          "line": 16,
+          "text": "纠正 CODE83–89、CODE91 将 `pnpm check:fast` 误标 protected fast 的门禁结论。范围限本卡、账本、导航、审查增量及 evidence/CODE-QUALITY-92；不改30条关联文件、测试断言或产品。"
+        },
+        {
+          "line": 21,
+          "text": "- 一手证据：`scripts/coverage/run.mjs:403-462,526-558`，只有设置 TYPE_PAL_COVERAGE_BASE_REF 的 coverage fast 才保护目标 baseline 的比例和存量生产/测试范围；`pnpm check:fast` 是另一条检查命令。"
+        },
+        {
+          "line": 26,
+          "text": "- AGENTS.md：硬门零诊断、未知不关闭；用户要求逐文件证据与完整质量门，不能用包级全绿作文件完成。"
+        },
+        {
+          "line": 30,
+          "text": "- Codex 已核定前提、唯一 Owner 和范围；build allowed 仅限纠错记录/门执行，不允许改产品、规则、ignore/exclude、assertion 或手工拼 baseline。"
+        },
+        {
+          "line": 33,
+          "text": "- 逐一比对每个关联文件当前 Git blob 与各自关闭提交的源码；不同者维持review并重新逐文件核验，相同者可引用原完整读/primary/caller/oracle加本轮真实门恢复。"
+        },
+        {
+          "line": 34,
+          "text": "- 正确命令：`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`。并发资源限制可披露，不能改变 timeout/范围/断言/规则。"
+        },
+        {
+          "line": 35,
+          "text": "- CODE90 两文件及最新 event-system 的独立未闭合项不因本卡恢复旧记录而关闭。"
+        },
+        {
+          "line": 43,
+          "text": "继续 CODE92 工程门纠错；先读 AGENTS.md、code-quality-governance/ledger、脚本真门与本卡。保持单Agent，不能改30条源码或产品/规则。保留旧实际日志，执行当前真实门，逐一比较源快照。只对证据和门均齐全的文件恢复关闭，差异/未知继续review。CODE90/53/57/79/80/81及event-system独立counter不自动消失。"
+        },
+        {
+          "line": 45,
+          "text": "- 2026-10-14 源快照核对：30/30 当前文件与各自旧任务归档/关闭提交的源码字节一致，逐条closureCommit/双SHA256见 evidence/CODE-QUALITY-92/source-snapshot-comparison.json。原语义/primary/caller/oracle证据可沿用；真实受保护覆盖门尚未通过前仍review。"
+        },
+        {
+          "line": 51,
+          "text": "- 门禁最终 `exit 1`，明确失败为 `候选 baseline 删除仍存在文件中的 fast tests: test-file: packages/game/src/core/event-rng-scene-restore.test.ts`。候选分支 baseline 仍是 d7 旧快照，主线已新增 RNG 测试；不能把这条删除当作批准退役，也不能恢复30条旧关闭。"
+        },
+        {
+          "line": 60,
+          "text": "- 30/30 当前文件与各自关闭提交源码字节一致；下一步仅剩全仓 `pnpm check`、最终 lint/docs/content-review/ledger，再恢复30条账本状态并把本卡收口。CODE90 两文件不随本卡恢复。"
+        },
+        {
+          "line": 66,
+          "text": "- 30/30 当前源码与各自关闭提交字节一致；恢复 CODE83–89/CODE91 的30条账本记录为 `已验证`。CODE90 两文件、latest event-system 与其它 pending/review 不在本卡范围。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    {
+      "id": "93",
+      "number": 93,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md",
+      "sha256": "c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c",
+      "lines": 131,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 12,
+          "text": "白名单仅："
+        },
+        {
+          "line": 19,
+          "text": "单一 Coding Owner 为 Codex。本批只做逐文件语义核验和测试夹具清理，不改变生产行为、公共接口、schema/save、资源或用户可见形态；CODE-QUALITY-85 已核验 shop buy/transaction，本批只收其明确留出的 sell-menu 四文件。"
+        },
+        {
+          "line": 26,
+          "text": "| 第一阶段 | `sell-menu.ts` 四份白名单文件；`menu-driver.ts:349-435` 的真实 dispatch/transaction/refresh caller；`bootstrap.ts:1236-1249`、`event-system.ts:204-209,804-819,2192-2206` 的菜单入口；`draw-shop.ts` 与 shop/present tests 的渲染 oracle。 |"
+        },
+        {
+          "line": 30,
+          "text": "## 逐文件核验计划"
+        },
+        {
+          "line": 32,
+          "text": "- 完整读取四个白名单文件；读取真实 `menu-driver`/`bootstrap`/`event-system`/`draw-shop` caller、GameState inventory/cash ownership、公共出口和相邻 inventory/shop 类型。"
+        },
+        {
+          "line": 33,
+          "text": "- 对照 SDLPal primary source；核验非卖物仍显示但确认 no-op、`count === inUse` 拒绝、合法剩余量、空/缩表游标、confirm/list 取消和半价交易意图。"
+        },
+        {
+          "line": 34,
+          "text": "- 测试只接受直接执行 public function 或真实 dispatcher 的判别性合同；不以覆盖率、数量或恒真断言关闭文件。"
+        },
+        {
+          "line": 47,
+          "text": "- 旧版本兼容审查：pass；四白名单和直接调用域无旧 schema/version/upgrader 产品路径；不将状态机默认值当作旧版本兼容。"
+        },
+        {
+          "line": 48,
+          "text": "- 当前四文件只读和测试治理未触碰 schema/save/migration/资产/公共接口/玩法更改停止线；交易 apply 与 renderer 不随本批关闭。"
+        },
+        {
+          "line": 53,
+          "text": "- 受影响静态门：game typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、official coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。"
+        },
+        {
+          "line": 58,
+          "text": "Codex：premise verified / build allowed。完整读取与 caller/primary-source 核验完成；只允许移除无必要测试强转，禁止改生产行为。复核后补充允许清理已证重复测试、按独立合同拆分用例和补强真实入口/ownership oracle；不为覆盖率堆弱测试。"
+        },
+        {
+          "line": 60,
+          "text": "## 逐文件核验记录"
+        },
+        {
+          "line": 78,
+          "text": "## 生产 caller / primary source 核验"
+        },
+        {
+          "line": 86,
+          "text": "- 受影响静态门：`@type-pal/game` typecheck 通过；四条白名单 Biome 通过且无诊断。"
+        },
+        {
+          "line": 94,
+          "text": "- `menu-driver.ts` 交易 apply、`inventory-state.ts` 容量/装备占用、`draw-shop.ts` 视觉形态与其它 Q3 core/present 文件不因本批自动关闭；如需修复另开不重叠卡。"
+        },
+        {
+          "line": 100,
+          "text": "- 定向/相邻 96 项、game typecheck、白名单 Biome、3 针反控、文档预检与 lint-zero 4045/0/0/0 已通过；全仓 check 正在 editor，official ratchet/protected fast 尚未运行。"
+        },
+        {
+          "line": 102,
+          "text": "- 阶段集成窗口须拆出已验收 menu 白名单，避免携带 CODE53/90 未收口生产改动。"
+        },
+        {
+          "line": 110,
+          "text": "- 下一步：等 coverage 两门实际终态、核日志/官方 baseline、最终 lint/docs/ledger 后才关闭本四文件；提交推送批次收口后，从最新 main 拆出已闭合 menu 的独立集成候选。不得整条合入含 CODE53/90 未收口行为的分支，不再继续积累新的 pending 实现批次而跳过阶段集成窗口。"
+        },
+        {
+          "line": 119,
+          "text": "Codex review accept：完整读取与直接caller/primary/oracle成立，定向相邻96、coverage工具59、quality工具37、game/七包typecheck、完整pnpm check及official ratchet和真正protected fast均exit0，无Warning/act/Unhandled诊断。protected明确核准唯一sell GLM测试3→2精确退役；731生产文件/19874fast tests、指标与ratchet新基线一致，未降低规则、ignore/exclude或生产范围。最终导航/账本/lint回执见CODE96/final-*，未通过时不得提交done。"
+        },
+        {
+          "line": 121,
+          "text": "只关闭CODE93四文件及CODE96两工具文件。当前3271/373closed/15review/2883pending；CODE95三份旧测试、CODE90两文件与其它review/pending保持未闭合。来源/最终文件SHA见CODE96/final-source-snapshot.json，原始失败回执保留，不追溯改写历史。"
+        },
+        {
+          "line": 127,
+          "text": "接手CODE94/95，工作树`/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`、分支`codex/code-quality-menu-integration`（推送检查点abf284d75）。先fetch/status/show/ledger，完整读取AGENTS/CLAUDE/agent-workflow、board/治理总纲/逐文件账本、phase1工程经验/机制，以及CODE94/95和83–89/91/92历史卡；完整提示词在候选CODE94/95。30条仍review，先独立核typed fixture/真实caller/oracle、跑全部门再交Codex验收；不得把旧卡或源分支门当当前接收，未验收不得标done。允许白名单测试补证，不允许未知产品/public/schema/save/资产修改。"
+        },
+        {
+          "line": 129,
+          "text": "CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。"
+        }
+      ],
+      "scopeConfirmed": false
+    }
+  ]
+}

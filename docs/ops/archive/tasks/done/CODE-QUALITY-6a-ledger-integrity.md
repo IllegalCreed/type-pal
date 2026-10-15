@@ -44,3 +44,7 @@ Branch: codex/code-quality-governance
 2026-10-05 Codex：账本门、反例测试、全仓 check、ratchet、protected fast 和零诊断全部通过；卡转 done 后归档。
 
 无下一位 Agent 提示词；本卡只完成治理记录完整性，不代表全仓源码治理完成。
+
+## 2026-10-16 全量复审counter（历史done不代表本轮验收）
+
+归[94前全量复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前完整读取本卡与账本/清单四文件；删除CLI导入guard的隔离副本仍9/9绿且导入打印PASS，原测试未保护本卡“导入纯函数不得启动CLI”的合同。当前生产guard本身正确；只对测试判别力提出counter，旧命令/收口作为历史保留。测试补证和原件见[6a复审](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md)；当前未重新accept整卡，统一门未完成。

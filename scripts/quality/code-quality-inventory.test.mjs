@@ -1,18 +1,34 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const script = fileURLToPath(new URL('./code-quality-inventory.mjs', import.meta.url))
 const root = fileURLToPath(new URL('../../', import.meta.url))
 
-test('code-quality inventory emits deterministic scoped records with caller and category fields', () => {
+test('code-quality inventory emits deterministic scoped records with caller and category fields', (t) => {
   const run = spawnSync(process.execPath, [script], {
     cwd: root,
     encoding: 'utf8',
     maxBuffer: 32 * 1024 * 1024,
   })
   assert.equal(run.status, 0, run.stderr)
+  assert.equal(run.stderr, '')
+  const directory = mkdtempSync(join(tmpdir(), 'type-pal-quality-inventory-'))
+  t.after(() => rmSync(directory, { recursive: true, force: true }))
+  const destination = join(directory, 'inventory.json')
+  const written = spawnSync(process.execPath, [script, `--out=${destination}`], {
+    cwd: directory,
+    encoding: 'utf8',
+    maxBuffer: 32 * 1024 * 1024,
+  })
+  assert.equal(written.status, 0, written.stderr)
+  assert.equal(written.stdout, '')
+  assert.equal(written.stderr, '')
+  assert.equal(readFileSync(destination, 'utf8'), run.stdout)
   const inventory = JSON.parse(run.stdout)
   assert.equal(inventory.schemaVersion, 1)
   assert.match(inventory.base, /^[0-9a-f]{40}$/)
