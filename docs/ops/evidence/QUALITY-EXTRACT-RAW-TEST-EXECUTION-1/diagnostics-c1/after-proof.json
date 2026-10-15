@@ -1,0 +1,1631 @@
+{
+  "phase": "after",
+  "baseCommit": "d0151242f024116bab97e8866e6aa6364b0a64d9",
+  "sourceSha256": {
+    "resources/parsers/ball.ts": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+    "resources/parsers/rgm.ts": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+    "__tests__/parser-diagnostics.ts": "efa8cfcecb3c3c7f9ccc5b2554d00308a9dca6a38426da00946506852c8fd131"
+  },
+  "testSha256": {
+    "resources/parsers/ball.glm-runtime-resource.test.ts": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+    "resources/misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+  },
+  "variants": {
+    "control": null,
+    "ball-missing": [
+      "resources/parsers/ball.ts",
+      [["console.warn(`[ball] chunk ${chunkIdx} RLE decode fail, skip:`, err)", ""]]
+    ],
+    "ball-wrong-id": ["resources/parsers/ball.ts", [["${chunkIdx}", "${chunkIdx + 1}"]]],
+    "ball-extra": [
+      "resources/parsers/ball.ts",
+      [
+        [
+          "console.warn(`[ball] chunk ${chunkIdx} RLE decode fail, skip:`, err)",
+          "console.warn(`[ball] chunk ${chunkIdx} RLE decode fail, skip:`, err)\n    console.warn('unexpected parser output')"
+        ]
+      ]
+    ],
+    "rgm-missing": [
+      "resources/parsers/rgm.ts",
+      [["console.warn(`[rgm] chunk ${chunkIdx} RLE decode fail, skip:`, err)", ""]]
+    ],
+    "rgm-wrong-id": ["resources/parsers/rgm.ts", [["${chunkIdx}", "${chunkIdx + 1}"]]],
+    "rgm-extra": [
+      "resources/parsers/rgm.ts",
+      [
+        [
+          "console.warn(`[rgm] chunk ${chunkIdx} RLE decode fail, skip:`, err)",
+          "console.warn(`[rgm] chunk ${chunkIdx} RLE decode fail, skip:`, err)\n    console.warn('unexpected parser output')"
+        ]
+      ]
+    ],
+    "error-propagation": [
+      "__tests__/parser-diagnostics.ts",
+      [
+        [
+          "if (!outcome.ok) throw outcome.error",
+          "if (!outcome.ok) throw new Error('wrapped parser error')"
+        ]
+      ]
+    ],
+    "restore-on-throw": [
+      "__tests__/parser-diagnostics.ts",
+      [
+        [
+          "const previous = globalThis.console",
+          "let actionFailed = false\n  const previous = globalThis.console"
+        ],
+        ["} catch (error) {", "} catch (error) {\n    actionFailed = true"],
+        ["globalThis.console = previous", "if (!actionFailed) globalThis.console = previous"]
+      ]
+    ],
+    "transfer-bare-height": [
+      "resources/parsers/ball.ts",
+      [["height: frame.height,", "height: chunkIdx === 1 ? frame.height + 1 : frame.height,"]]
+    ]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-control-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-control-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/control.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "passed": 20,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": null,
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-control-ball.glm-runtime-resource.test.ts": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+        "packages/pal-extract/src/resources/pre94-c1-after-control-misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+      },
+      "rawSha256": "873df747ee132fd7718a9bed071a2cc0ed951822ed401a22649c1b032d1a17b1",
+      "runnerSha256": "521632d2b9d8e1b89b609c3019f76c6ccdff892bf9653e50270696f5cc86c108",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "ball-missing",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-ball-missing-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-ball-missing-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/ball-missing.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected undefined to be '[ball] chunk 9 RLE decode fail, skip:…' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-missing-ball.glm-runtime-resource.test.ts:67:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        }
+      ],
+      "moduleSha256": "8626db10de263fab59d4cd92ad1c3478e63fc64d09b940b78abb176b6e127375",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-missing-ball.glm-runtime-resource.test.ts": "02b7d4438994f6511d03d37840a67f781bb10bb3ff94431be6ce42ef4d7993f3",
+        "packages/pal-extract/src/resources/pre94-c1-after-ball-missing-misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+      },
+      "rawSha256": "355bd631629325ac40e110a372a8216a25a0381b18716d13f7facf67feb42ea9",
+      "runnerSha256": "0f18fb6fcb46093924a739559e7adfb67efd4f7dfb023737b300a96aae357dad",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "ball-wrong-id",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-ball-wrong-id-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-ball-wrong-id-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/ball-wrong-id.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected '[ball] chunk 10 RLE decode fail, skip…' to be '[ball] chunk 9 RLE decode fail, skip:…' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-wrong-id-ball.glm-runtime-resource.test.ts:67:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        }
+      ],
+      "moduleSha256": "e9342335180bf805ea54c5d901214e3d3c76fec02d04e191203fcad8e8f09390",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-wrong-id-ball.glm-runtime-resource.test.ts": "79c85da5ce6c39597462c96e28e0cca37774af96a2b878147de2a80cbc955396",
+        "packages/pal-extract/src/resources/pre94-c1-after-ball-wrong-id-misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+      },
+      "rawSha256": "ec168d18a9eb02fccb295e8c7b49b9533e5cf719995df0e88fcfb62c0eb0fc84",
+      "runnerSha256": "fd490ea9817613732e2c65daa4eca950f7db31b44d3a1c5f2ea1d6014b9b640f",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "ball-extra",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-ball-extra-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-ball-extra-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/ball-extra.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 'unexpected parser output' to be '[ball] chunk 9 RLE decode fail, skip:…' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-extra-ball.glm-runtime-resource.test.ts:67:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        }
+      ],
+      "moduleSha256": "0619d2075d5e7c4985a5b5380d576ece558a98abcce6407e7cd6d3febfebf8b2",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-ball-extra-ball.glm-runtime-resource.test.ts": "aa0e8bf9d28028140d575b805ae1d536efec3881387820e5b13615fc40386e9d",
+        "packages/pal-extract/src/resources/pre94-c1-after-ball-extra-misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+      },
+      "rawSha256": "837928aa9d7d978690dae6de55424a177502f36b6e8cd6fc96b42d022e5344e3",
+      "runnerSha256": "e9c808bdee9014cda180f80ffcd3fe3e6d984fdc8c348b98e74ad2fffdb234ce",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "rgm-missing",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-rgm-missing-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-rgm-missing-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/rgm-missing.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected undefined to be '[rgm] chunk 7 RLE decode fail, skip: …' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-c1-after-rgm-missing-misc-guards.kimi-r1.test.ts:206:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "24cf4086a09e611030c126d57be8d0b5e217ebbfe53c92d79e14d1a89ab06e7e",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-rgm-missing-ball.glm-runtime-resource.test.ts": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+        "packages/pal-extract/src/resources/pre94-c1-after-rgm-missing-misc-guards.kimi-r1.test.ts": "7c7c52365a0ae52fed5e33e9ec3974491eb952dea4f9515adde9c81db4ea3781"
+      },
+      "rawSha256": "143fb4981843289132df17b8e486a81854c8d97eb8fa5b5e43e9c72f514c7438",
+      "runnerSha256": "a7c233809e2dd7d990071fac739f0aa3b76f45bfdaa710f82eb662a53db5d850",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "rgm-wrong-id",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-rgm-wrong-id-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-rgm-wrong-id-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/rgm-wrong-id.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected '[rgm] chunk 8 RLE decode fail, skip: …' to be '[rgm] chunk 7 RLE decode fail, skip: …' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-c1-after-rgm-wrong-id-misc-guards.kimi-r1.test.ts:206:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "00c36dfe4687e43200d112f0e6d05c38499ba6ca9aed4dd4df285015e9a112e2",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-rgm-wrong-id-ball.glm-runtime-resource.test.ts": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+        "packages/pal-extract/src/resources/pre94-c1-after-rgm-wrong-id-misc-guards.kimi-r1.test.ts": "693a22843acf0bffa5c189717a0c8ce678428715eae6f0b9ef2fe9efff6fa814"
+      },
+      "rawSha256": "4e04ab3e2765eb21f5e5ac87c91b328bed2124b7435af268562eb2f0ed9b392a",
+      "runnerSha256": "299938663eac8b8b574f23f33e6a8f4957a97ca1ed51c493ba6c55eda61ec58c",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "rgm-extra",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-rgm-extra-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-rgm-extra-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/rgm-extra.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 'unexpected parser output' to be '[rgm] chunk 8 RLE decode fail, skip: …' // Object.is equality\n    at withParserWarnings (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/__tests__/parser-diagnostics.ts:49:29)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-c1-after-rgm-extra-misc-guards.kimi-r1.test.ts:206:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "5e7e15ea4b77e1a19c549b6ab54c708b02031c97fa27cb36a41f91ca4dc3794d",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-rgm-extra-ball.glm-runtime-resource.test.ts": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+        "packages/pal-extract/src/resources/pre94-c1-after-rgm-extra-misc-guards.kimi-r1.test.ts": "ba10ab68585bdd3c314edf9693f6067a5fd49c4a036787970f4ca2d3c03aeeca"
+      },
+      "rawSha256": "a63c10a35cb65b81c7fe42834e5668a7ca959c875538e00303676c7c8dfbf0ee",
+      "runnerSha256": "c1ea8e880995bfeabaa06bac15f59f5b77d64d44d6c9ea393922ce753e616a1f",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "error-propagation",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-error-propagation-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-error-propagation-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/error-propagation.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [Function] to throw error including 'parseItems: SSS.MKF chunk 2 truncated…' but got 'wrapped parser error'\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-c1-after-error-propagation-misc-guards.kimi-r1.test.ts:191:83\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "fae6bc4147cd675fd6608a47f71f751878824336e6ef05716c92c29b028bcd4d",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-error-propagation-ball.glm-runtime-resource.test.ts": "6ca3a8a132b369c0b4fe1a1e0870675cc90953b5d8c20f429db3f2b7d40c4063",
+        "packages/pal-extract/src/resources/pre94-c1-after-error-propagation-misc-guards.kimi-r1.test.ts": "b50f7d7cc7291585815409687764d9601d8728e3ef958203d35f5d51cd25040d"
+      },
+      "rawSha256": "f7ffd9f33a4f179a5c6c3f83603929cf46b6eaf22a6090c4c5f5a744f5aa3276",
+      "runnerSha256": "2ca692fe52f53a7fd6d96c5398d746ed1b8a60ad2cba71c5de49510860232190",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "restore-on-throw",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-restore-on-throw-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-restore-on-throw-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/restore-on-throw.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-c1-after-restore-on-throw-misc-guards.kimi-r1.test.ts:194:47\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "bdec2dbe16af0e5d27dfaeb1ea9ad1feaedc970a2bacc931a8628819eb75e4ae",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-restore-on-throw-ball.glm-runtime-resource.test.ts": "901178d91d76e867b8a867f021ca5e711fa4a0bcec4e7a8a41cde6151a3f6307",
+        "packages/pal-extract/src/resources/pre94-c1-after-restore-on-throw-misc-guards.kimi-r1.test.ts": "e7b7dce2cd66606eafacf2d8a09af450e5962d5685151afa2580a748c91589e3"
+      },
+      "rawSha256": "2b6a8daca1e3b9b7d87f0d5ad95447604c1572d206855126403e6cba354f17ec",
+      "runnerSha256": "9c97b1f3eceb4f47ea8440f73edaa081c1e8209860ab3099fdae457a452d8fe2",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "transfer-bare-height",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/pre94-c1-after-transfer-bare-height-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-after-transfer-bare-height-misc-guards.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-counter-0log95v1/transfer-bare-height.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-guards.kimi-r1.test.ts",
+          "fullName": "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 2 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-c1-after-transfer-bare-height-ball.glm-runtime-resource.test.ts:48:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "ball.glm-runtime-resource.test.ts",
+          "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "27b4e711d0614fb85df5e7b2ce7aa131aec91eadbb9ad566c41fa607cd2895ad",
+      "testCopySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-after-transfer-bare-height-ball.glm-runtime-resource.test.ts": "8cfd7451419b0c88b4da22a2e3ff4ed44d50c257426ced9abbe21cbb0286b189",
+        "packages/pal-extract/src/resources/pre94-c1-after-transfer-bare-height-misc-guards.kimi-r1.test.ts": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4"
+      },
+      "rawSha256": "b26c329650da62cfdabb8fdd7f45a5da3020ac14347159c0c8ae42cd98293618",
+      "runnerSha256": "a956802e1ea296df36cc35b0e3d4eee15263938fc59cc29d4d29e9b1b4400427",
+      "stderrBlocks": 0
+    }
+  ],
+  "sourceUnchanged": true,
+  "testUnchanged": true,
+  "copiesRemoved": true
+}

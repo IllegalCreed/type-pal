@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
-      "afterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
+      "sourceSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
+      "afterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1454,6 +1454,15 @@
             "previousAfterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
             "afterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "d0151242f",
+            "action": "C1-parser-diagnostic-IO-contracts-and-exact-BALL-deduplication",
+            "scope": "docs/ops/board.md own retrospective/raw-task navigation only; no other-owner state change; full extract still 2 stderr blocks; 0 closures",
+            "previousAfterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
+            "afterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md"
           }
         ]
       },
@@ -1764,8 +1773,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
-      "afterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
+      "sourceSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
+      "afterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2318,6 +2327,15 @@
             "previousAfterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
             "afterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "d0151242f",
+            "action": "C1-parser-diagnostic-IO-contracts-and-exact-BALL-deduplication",
+            "scope": "docs/ops/evidence/README.md own retrospective/raw-task navigation only; no other-owner state change; full extract still 2 stderr blocks; 0 closures",
+            "previousAfterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
+            "afterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

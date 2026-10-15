@@ -66,3 +66,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 [CODE3/3f标注测试复审](3-annotate/README.md)：六旧绿新红、四重复有证转移，17→16；两测试撤回review、0新关闭；83卡0accept/9partial/74pending。完整extract433原生绿实际10 stderr块、6条原盘路径早退，不能作为包级验收；下一片原盘执行完整性，之后3b与94–102/editor。
 
 2026-10-16 [原盘执行完整性支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)：六早退修复，native1332图像全RGBA、七有效反控、空块重复转移21→20。四测试/helper登记review，0新关闭；extract432仍4stderr块，非零诊断验收。全83卡仍9partial/74pending/0accept；不以支持片代替后续整卡核验。
+
+2026-10-16 [C1同步诊断IO支持](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)：53定向、8有效反控、局部V8不降；三文件仅review，0关闭；全83卡仍9partial/74pending/0accept，extract431剩两块日志待C2。

@@ -143,3 +143,7 @@ Codex premise verified/design agree/build allowed白名单为annotate.test.ts、
 ### 原盘执行完整性支持片
 
 [原盘任务/证据](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)已修两测试六假绿，native SDL1332图像完整RGBA oracle、七旧绿新红；一空块重复转移，21→20。共享test-only摘要与相邻事实注释均review，0关闭；完整extract432仍4stderr块，统一门未清。全83卡仍9partial/74pending/0accept；本支持片不替代CODE3b/3g/其它卡全文复审。先核四处诊断真实输出合同，再续编号卡与94–102/editor。
+
+### C1同步诊断合同支持片
+
+[C1完整证据](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)：两测试补真实warn/Error/null与异常恢复，八有效反控；BALL精简一同输入弱例，53定向/shared126/typecheck/71工具通过、生产局部V8保持。extract431仍2stderr块，三测试/helper仅review、0关闭；全83卡仍9partial/74pending/0accept，不以支持片代替编号卡成果复审。先C2，再3b及94–102/editor。

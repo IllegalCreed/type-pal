@@ -1,0 +1,180 @@
+{
+  "approval": {
+    "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+    "previous": 5,
+    "current": 4,
+    "previousIdentityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846",
+    "currentIdentityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c",
+    "fileSha256": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83"
+  },
+  "input": {
+    "removal": {
+      "kind": "test-count",
+      "value": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "previous": 5,
+      "current": 4
+    },
+    "previous": {
+      "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "testCount": 5,
+      "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+    },
+    "current": {
+      "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "testCount": 4,
+      "identityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c"
+    },
+    "fileSha256": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83"
+  },
+  "native": {
+    "before": {
+      "identities": [
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行非法 hex 回退 0，合法行保真",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseItems：截断精确拒绝（报实测与所需字节数）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：非 65536 字节精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseSpells：无 words 时不填 _name 注释",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseStores / parseBattleFields：尺寸不整除精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > byteLength < 4 → null（0 字节空槽）",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 前缀形似但非 02 00 00 00：不剥离（02 00 01 00 → w=2,h=1 从 0 读）",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 零尺寸帧 → null（空槽语义），标记与非标记各一"
+      ],
+      "fileEntry": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "testCount": 5,
+        "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+      }
+    },
+    "after": {
+      "identities": [
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行非法 hex 回退 0，合法行保真",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseItems：截断精确拒绝（报实测与所需字节数）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：非 65536 字节精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseSpells：无 words 时不填 _name 注释",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseStores / parseBattleFields：尺寸不整除精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 0x02000000 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > byteLength < 4 → null（0 字节空槽）",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）",
+        "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null"
+      ],
+      "fileEntry": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "testCount": 4,
+        "identityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c"
+      }
+    }
+  },
+  "receipts": [
+    {
+      "phase": "before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "list",
+        "src/resources/parsers/pre94-c1-list-ball.glm-runtime-resource.test.ts",
+        "src/resources/pre94-c1-list-misc-guards.kimi-r1.test.ts",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-list-5F3bzC/before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "57cd273127839c2874103a986b568049f4b8ccafe00b04172903ff1d5f6853e2",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/pre94-c1-list-ball.glm-runtime-resource.test.ts": "3223102a3c009022d4a3c5fc546ef95b72ead478f30ebe274f03b66db940f319",
+        "packages/pal-extract/src/resources/pre94-c1-list-misc-guards.kimi-r1.test.ts": "010e628bcdb81ec708b8658c5899d29a45191b968e04bad4929b5fb615317a04"
+      }
+    },
+    {
+      "phase": "after",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "list",
+        "src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "src/resources/misc-guards.kimi-r1.test.ts",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-list-5F3bzC/after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "1cd3ae253c18b998ee96fecaf45355c58512b094ca99f2539ccc5c1657826994",
+      "copySha256": {}
+    }
+  ],
+  "previousSnapshots": [
+    {
+      "ref": "HEAD",
+      "fileSha256": "3223102a3c009022d4a3c5fc546ef95b72ead478f30ebe274f03b66db940f319",
+      "fileEntry": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "testCount": 5,
+        "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+      },
+      "revision": "d0151242f024116bab97e8866e6aa6364b0a64d9"
+    },
+    {
+      "ref": "origin/main",
+      "fileSha256": "3223102a3c009022d4a3c5fc546ef95b72ead478f30ebe274f03b66db940f319",
+      "fileEntry": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "testCount": 5,
+        "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+      },
+      "revision": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246"
+    },
+    {
+      "ref": "d4cf7f57d",
+      "fileSha256": "3223102a3c009022d4a3c5fc546ef95b72ead478f30ebe274f03b66db940f319",
+      "fileEntry": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "testCount": 5,
+        "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+      },
+      "revision": "d4cf7f57d237895d920ddee72f69e0278680157a"
+    }
+  ],
+  "removedIdentities": [
+    "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 前缀形似但非 02 00 00 00：不剥离（02 00 01 00 → w=2,h=1 从 0 读）",
+    "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 零尺寸帧 → null（空槽语义），标记与非标记各一"
+  ],
+  "addedIdentities": [
+    "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts :: project root :: R03 decodeBallIcon 空槽与标记头 > 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null"
+  ],
+  "rejectedBeforeRegistration": true,
+  "acceptedAfterRegistration": true,
+  "byteDriftRejected": true,
+  "extraRemovalRejected": true,
+  "matcherAndOther25RowsUnchanged": true,
+  "baseCommit": "d0151242f024116bab97e8866e6aa6364b0a64d9"
+}

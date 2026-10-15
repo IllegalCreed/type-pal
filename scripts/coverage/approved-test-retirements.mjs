@@ -232,6 +232,15 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'd6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d',
       fileSha256: '3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d',
     },
+    // Codex C1: exact duplicate bare-prefix case transfers to the full PNG oracle.
+    {
+      file: 'packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846',
+      currentIdentityDigest: '2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c',
+      fileSha256: '1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

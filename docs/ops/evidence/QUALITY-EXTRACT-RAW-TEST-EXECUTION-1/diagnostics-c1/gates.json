@@ -1,0 +1,41 @@
+{
+  "runs": [
+    {
+      "name": "docs",
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.246,
+      "rawSha256": "62b86a5862cda7ce431167696ac478ee99d35190c46ca2e988346285f56d8d2b"
+    },
+    {
+      "name": "lint-zero",
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.267,
+      "rawSha256": "cf5fafe679cc88154e0407ef11a99cf6478acdd962111c3ae60c3d6bf4e6f249"
+    },
+    {
+      "name": "ledger",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.075,
+      "rawSha256": "282f8a7484b37625dc596f3d2d4309b581708e616bf7a40dc863605f9b7a42a8"
+    },
+    {
+      "name": "diff-check",
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.024,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "fullCheckRun": false,
+  "officialRatchetRun": false,
+  "protectedFastRun": false,
+  "runtimeDiagnosticsZero": false,
+  "mergeAllowed": false
+}

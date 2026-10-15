@@ -1,0 +1,42 @@
+{
+  "name": "extract-package",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--silent=false",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-recovery-slpl9_q9/extract-package.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 49.84,
+  "rawSha256": "5c560ae25f5d773713e069735a3e34d3a50883e8c8aea15e3a91f7514220f960",
+  "diagnostics": {
+    "act": 0,
+    "environment": 0,
+    "navigation": 0,
+    "stderrBlocks": 2
+  },
+  "passed": 431,
+  "failed": 0,
+  "pending": 0,
+  "runnerSha256": "a0954ff766a55ba5d09bec5e8e16255bfdba397a15ae637027a312f5dc8fb131",
+  "packageAcceptance": false,
+  "stderrCensus": [
+    {
+      "header": "stderr | src/resources/tables.test.ts > parseEnemyTeams (M3 T7) > M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn",
+      "lines": ["[parseEnemyTeams] team 0 slot OBJECT index 999 不在 OBJECT_ENEMY 段映射中,标空"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts > P07 parseEnemyTeams 翻译模式原身份保真 > 两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查",
+      "lines": ["[parseEnemyTeams] team 1 slot OBJECT index 403 不在 OBJECT_ENEMY 段映射中,标空"]
+    }
+  ],
+  "runtimeDiagnosticsZero": false
+}

@@ -50,3 +50,22 @@ Codex premise verified/design agree/build allowed：白名单仅两份现有data
 本检查点静态docs、coverage-tools70、ledger、diff-check均通过；lint4445文件error/warning/info全部0。机器已确认3288 inventory /209closed /220review /2859pending，0关闭。完整check/official ratchet/protected未新跑、extract和editor仍非零运行时诊断，保持build/不合main。
 
 精简最终复核准入：空块转移须连同原chunkIndex=0保真，不只保留GLM的7。允许在GLM原空块同一合同内参数化[0,7]并核各自完整输出，其余三测试体/四身份保持；这是原合同转移，不新增产品行为/测试计数。旧“只改注释/四体不动”仅保留为初稿历史，当前以本段为准；重跑空块转移、定向/包级与typecheck后再提交。
+
+
+## 诊断合同C1有限准入（2026-10-16）
+
+Codex premise verified/design agree/build allowed：白名单为ball.glm-runtime-resource.test.ts、misc-guards.kimi-r1.test.ts与新增test-only __tests__/parser-diagnostics.ts；只修本片BALL/RGM坏尺寸IO合同及同文件缺sprite IO测试的旧console空实现。两个实现、shared RLE、sprite.ts已读/保持原字节，CLI452–500为真实caller；坏0尺寸不是原盘空槽，当前共享decodeRle显式throw→BALL/RGM真实warn+null是本片IO真值，不改产品诊断或API。
+
+ installed Vitest4.1.7 V8 provider通过本worker inspector startPreciseCoverage/takePreciseCoverage收集，子进程不会自动并入。故使用真实Node Console+Writable完整捕获同步parser IO，同一worker执行；expected warning必须手列全部消息/必要Error来源，stdout必须空、stderr全部消费，未知输出fail，不mock业务函数、不no-op console、不设onConsoleLog/ignore。正常与throw均恢复原console/关闭buffer；以现有parseItems真实截断例补error propagation/restore检查，生产错误不被包装或吞掉。
+
+已全文读两目标测试、enemy-teams.ts/两相邻测试、tables.test.ts864行、tables barrel及fixture；enemy-teams正例漏403映射与tables旧弱缺映射例留下一片C2，不越界修改。BALL两个无标记/形似前缀例是同一7B输入；弱例只width/height，转入原完整PNG例，5→4，异常0尺寸标题纠正为bad-input IO。先隔离源模块反控省warn/错chunkID/额外日志与helper异常传播，旧21绿→新各指定AssertionError；重复转移单列失败集合。只在原生身份/main/旧3y快照与新SHA精确核准后登记5→4退役元数据，批准表25→26/净59→60；matcher/拒绝合同、baseline/规则不改。
+
+测试/IO修复不等于产品build或文件关闭，C1后仍有2个enemy stderr块；全部83卡和94–102/editor原goal继续，完整质量门在诊断稳定窗口，未全零不合main。
+
+### C1实际检查点
+
+[逐文件/原件](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)：53定向/shared126及typecheck、71工具通过；六原诊断缺口+两个新harness合同各指定一AssertionError，恢复20绿。BALL同7B/id1弱例承接至原完整PNG，5→4；原生双digest/新SHA对三旧snapshot后精确登记26项净60，matcher/其它25项/拒绝合同不变。生产与规则/baseline不改，两模块局部V8原 covered/total完全保持。
+
+真实Node Console输出全部捕获后按显式消息/Error来源与stack记录格式断言，stdout必须空，未知普通输出/错id/漏消息均失败；动态stack内容不作逐字节固定，不声称日志被产品删除。throw/rethrow/console恢复也有反控，原global no-op已从本片同文件移除。全部三测试/helper仅review，0关闭；完整extract72/431仍2stderr块，C2两处源与fixture已读但未改。初检collector有15info不算通过，已修文件字面量样式待零诊断硬门。下一片先C2，再3b与94–102/editor；统一门未过不合main。
+
+C1静态docs/ledger/diff-check通过，lint4465文件0 errors/0 warnings/0 infos；机器3289/209closed/223review/2857pending，0关闭。helper最终仅收窄一行过强注释，探针与当前函数体全字节保持，精确差异单列核验。完整check/ratchet/protected未新跑，extract仍2处和editor诊断未清，不合main。

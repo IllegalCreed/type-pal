@@ -50,3 +50,5 @@ Primary是SDLPal palcommon.c真实PAL_SpriteGetFrame与PAL_RLEBlitToSurfaceWithS
 下一有限片先核上述4块诊断的真实caller/输出合同和测试判别力，再续CODE3b及94–102/editor；禁止blanket console mock/ignore，不为零输出改产品诊断行为。无下一位Agent提示词，Codex单Agent继续。
 
 最后全文重读四测试文件：两份私有makeFakeSpriteChunk同为无sentinel的1×1固定像素构造器，后续可单独提取共用fixture并核既有输入/oracle转移；本片只提取实际摘要接线，未用“已读”关闭这两文件。空块0/7最终补证后定向36/typecheck及完整432重跑原件均为当前版本；四块诊断未变。最终lint4450文件error/warning/info全0，ledger保持3288/209/220/2859。
+
+2026-10-16 后续[C1同步诊断合同](diagnostics-c1/README.md)：BALL/RGM负面输出转为显式完整IO断言，8有效反控，局部生产V8不降；退一同输入弱例5→4，extract431仍2stderr块。原四块日志保留历史原件，C2两处未修；0关闭。
