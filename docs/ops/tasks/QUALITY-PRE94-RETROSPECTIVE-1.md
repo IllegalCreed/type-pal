@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、10partial/73pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -156,3 +156,18 @@ Codex premise verified/design agree/build allowed白名单为annotate.test.ts、
 两测试只review；enemies.ts两处不存在的EnemyTeam.slots注释是直接counter，旧关闭撤回review，生产未改。机器3289/208closed/226review/2855pending，0新关闭；全83卡仍9partial/74pending/0accept。完整check/ratchet/protected未新跑、editor诊断未清，不合main；回CODE3b四文件继续，原94–102/editor保留。无下一位Agent提示词。
 
 C2静态门与历史失败保留见[最终回执](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md)；只更新本卡导航，无其它Owner状态变化。整体验收/统一三门未通过不合main。
+
+## CODE3b 当前复审与有限测试准入
+
+已全文读原3b卡、msg.ts/sss.ts、两boundary及两真实raw测试、utils/gbk.ts、roundtrip.ts、io/mkf.ts；共享fixture沿C1全文同SHA并重读1–155。真实CLI200–250、SDL global.h95–121、text.c792–850及工程笔记22/62/172为当前锚点。生产两个parser继续只读，未发现本片实现缺陷；SSS固定结构的非对齐拒绝和MSG越界/倒序拒绝已由旧3b实施，不能沿用旧P03“政策未定”注释。
+
+Codex premise verified/design agree/build allowed白名单仅sss.boundaries.test.ts、msg.boundaries.test.ts：将SSS的实际父buffer及其前后非零保护区纳入调用前后比较，手列两EO/两scene完整语义与raw字段及独立bytecode字节；MSG核实际bytes/offsets和父buffer不变。六项隔离故障（SSS前/后保护、第二EO/scene字段、MSG两输入修改）须先证旧绿，再新各恰一指定AssertionError，原件/源/测试hash与清理完整保存。
+
+原SSS两组混合拒绝拆成五个独立chunk输入轴，MSG混合拒绝拆成越界/倒序两例，明确身份变化，不用总数假装相同。原两正例、合法单offset零消息合同保留；只修错误注释与测试证据，不新增共享helper或改变解码/资源/schema/API/错误策略。生产bytecode当前借用输入视图、其它解析数组自行分配；本片不擅自改变返回ownership。全量统一门仍在诊断稳定窗口集中，editor未清不合main，不因局部反控关闭文件/整卡。
+
+
+### CODE3b 本片结果
+
+[逐文件与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md)：六针旧16绿→新各19绿1指定AssertionError，恢复20绿；保护父buffer、两完整EO/scene、两MSG输入ownership，原拒绝轴拆独立5+2例并修过期注释。生产两个parser字节不变；独立Python struct全量5077 EO/295 scene/3955 WORD/13514 offsets/43503指令一致，正文摘要只作观察，不冒充native/text oracle。
+
+42定向相邻含真实roundtrip、extract72/435、shared126及双方typecheck、71工具通过，0stderr；全仓check/ratchet/protected未新跑。两boundary旧关闭撤回review，两个raw sanity pending→review待精度/排重，0关闭。机器3289/206closed/230review/2853pending；83卡10partial/73pending/0accept。下一片先两raw测试，再3d/3g；94–102/editor保留，未统一零诊断不合main。无下一位Agent提示词。

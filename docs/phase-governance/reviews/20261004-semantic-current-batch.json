@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
-      "afterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
+      "sourceSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
+      "afterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1472,6 +1472,15 @@
             "previousAfterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
             "afterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8843d459b",
+            "action": "pre94-CODE3b-input-ownership-and-complete-record-oracle-review",
+            "scope": "docs/ops/board.md own retrospective row/navigation only; 83 cards 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
+            "afterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md"
           }
         ]
       },
@@ -1782,8 +1791,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
-      "afterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
+      "sourceSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
+      "afterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2354,6 +2363,15 @@
             "previousAfterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
             "afterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8843d459b",
+            "action": "pre94-CODE3b-input-ownership-and-complete-record-oracle-review",
+            "scope": "docs/ops/evidence/README.md own retrospective row/navigation only; 83 cards 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
+            "afterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

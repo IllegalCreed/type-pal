@@ -4,7 +4,7 @@
 
 ## 2026-10-16 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10未完成检查点bea19f80c已推送；主线f98d0ddd8，0behind，未合main。全83卡9partial/74pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；下一片CODE3b的SSS/M.MSG四文件，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10未完成检查点bea19f80c已推送；主线f98d0ddd8，0behind，未合main。全83卡10partial/73pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)已补两边界测试的六oracle，完整extract435零stderr；下一片两raw测试精度/排重，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -70,3 +70,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 [C1同步诊断IO支持](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)：53定向、8有效反控、局部V8不降；三文件仅review，0关闭；全83卡仍9partial/74pending/0accept，extract431剩两块日志待C2。
 
 2026-10-16 [C2敌队测试合同](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)：7旧绿新红、同999输入独立转移、实际V8保持；完整extract431/0stderr，shared126/战斗caller186/TC通过。两测试review，误导slots注释精确重开enemies；机器3289/208/226/2855，0关闭，全83卡9partial/74pending/0accept。回3b，94–102/editor原goal保留，统一门未过不合main。
+
+2026-10-16 [CODE3b SSS/M.MSG复审](3b/README.md)：六旧绿新红与原子拒绝，原生16→20，生产未改；独立struct全量5077/295/3955/13514/43503一致，非文本codec/native证明。42定向/extract435/shared126/TC/71工具通过，0stderr；两旧test重开、两raw仅review，0关闭。83卡10partial/73pending/0accept；续raw精度及3d/3g，94–102/editor与统一门未收口。

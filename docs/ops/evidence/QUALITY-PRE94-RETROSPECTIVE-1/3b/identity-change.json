@@ -1,0 +1,62 @@
+{
+  "source": "native complete execution JSON, not a separate vitest list/official baseline run",
+  "beforeCounts": {
+    "msg.boundaries.test.ts": 3,
+    "msg.test.ts": 3,
+    "sss.boundaries.test.ts": 4,
+    "sss.test.ts": 6
+  },
+  "afterCounts": {
+    "msg.boundaries.test.ts": 4,
+    "msg.test.ts": 3,
+    "sss.boundaries.test.ts": 7,
+    "sss.test.ts": 6
+  },
+  "removedIdentities": [
+    ["msg.boundaries.test.ts", "P03 parseMessages 已知字节切片 offset 越界或倒序时显式失败"],
+    [
+      "msg.boundaries.test.ts",
+      "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 只作下界不产消息；GBK 双字节轴"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk0 非 32 倍数 / chunk1 非 8 倍数各自单轴拒绝（其余 chunk 合法）"
+    ],
+    ["sss.boundaries.test.ts", "P01 parseSss 合成 5-chunk MKF chunk2/3/4 非结构对齐各自单轴拒绝"]
+  ],
+  "addedIdentities": [
+    [
+      "msg.boundaries.test.ts",
+      "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值"
+    ],
+    [
+      "msg.boundaries.test.ts",
+      "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值"
+    ],
+    [
+      "msg.boundaries.test.ts",
+      "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk"
+    ],
+    [
+      "sss.boundaries.test.ts",
+      "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk"
+    ]
+  ],
+  "explanation": "SSS two combined refusal cases become five chunk cases; MSG one combined refusal becomes two axes; first MSG title corrected; all contracts kept. No count reduction/retirement approval and no baseline edit."
+}

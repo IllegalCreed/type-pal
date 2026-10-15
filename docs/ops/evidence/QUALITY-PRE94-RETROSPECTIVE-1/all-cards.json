@@ -218,7 +218,7 @@
       "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
       "lines": 141,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -262,7 +262,9 @@
           "text": "- 2026-10-04 Codex：Q3a 归档后直接读取 raw/primary source 与四 parser，确认 SSS/M.MSG 边界缺陷候选；WORD/palette 与并行 Kimi 覆盖合同冲突，收窄白名单并保留待裁决。Next: 先写 SSS/M.MSG 原子反例，再实现最小边界检查。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md",
+      "findings": "Both parsers/four tests fully read; six old-green/new-single-AssertionError oracle gaps fixed in two boundary files, structured refusal axes split. Independent raw struct comparison covers all 5077 EO/295 scenes/3955 words/13514 offsets/43503 instructions. Production unchanged; raw smoke precision and unified/editor gates remain; no whole-card acceptance."
     },
     {
       "id": "3c",

@@ -1,43 +1,51 @@
 /**
- * TEST-PAL-TABLES-COVERAGE-1 P03：parseMessages 边界（io/msg.ts）。
- * 既有 msg.test 只用真实 M.MSG（规模/字符串/逍遥）——不重复。本文件：独立已知 GBK/ASCII
- * 字节 + 偏移表，精确四条含空条、末 offset sentinel 不产消息、合法 [0] 零消息、
- * 两输入均带非零 byteOffset（4 字节对齐）。
+ * P03：已知GBK字节切片、空段/末offset、两输入的实际所有权。
+ * bytes/offsets均为带非零偏移的视图，父buffer前后保护区也须保持。
+ * 越界与倒序已由CODE3b入口明确拒绝，分成独立输入轴。
  */
 import { describe, expect, test } from 'vitest'
 import { concatBytes, gbk, msgRegion } from '../__tests__/glm-tb04-fixtures.js'
 import { parseMessages } from './msg.js'
 
-/** 把 bytes/offsets 各放进带 4B 前导垫的缓冲，返回非零 byteOffset 视图。 */
 function offsetViews() {
   const { bytes, offsets } = msgRegion()
-  const paddedBytes = concatBytes([new Uint8Array(4), bytes])
-  const bytesView = paddedBytes.subarray(4)
-  const offsetsRaw = new Uint8Array(8 + offsets.byteLength)
-  const view = new DataView(offsetsRaw.buffer)
+  const bytesParent = concatBytes([Uint8Array.of(1, 2, 3, 4), bytes, Uint8Array.of(5, 6, 7, 8)])
+  const bytesView = bytesParent.subarray(4, 4 + bytes.byteLength)
+  const offsetsParent = new Uint8Array(8 + offsets.byteLength + 4).fill(0xa7)
+  const view = new DataView(offsetsParent.buffer)
   offsets.forEach((value, index) => view.setUint32(8 + index * 4, value, true))
-  const offsetsView = new Uint32Array(offsetsRaw.buffer, 8, offsets.length)
-  return { bytesView, offsetsView }
+  const offsetsView = new Uint32Array(offsetsParent.buffer, 8, offsets.length)
+  return { bytesView, offsetsView, bytesParent, offsetsParent }
 }
 
 describe('P03 parseMessages 已知字节切片', () => {
-  test('四条精确（含空条）；末 offset 只作下界不产消息；GBK 双字节轴', () => {
-    const { bytesView, offsetsView } = offsetViews()
+  test('四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴', () => {
+    const { bytesView, offsetsView, bytesParent, offsetsParent } = offsetViews()
+    const beforeBytes = bytesParent.slice()
+    const beforeOffsets = offsetsParent.slice()
     expect(bytesView.byteOffset).toBe(4)
     expect(offsetsView.byteOffset).toBe(8)
     expect(parseMessages(bytesView, offsetsView)).toEqual(['甲', '乙丙', '', '丁'])
+    expect(bytesParent).toEqual(beforeBytes)
+    expect(offsetsParent).toEqual(beforeOffsets)
   })
+
   test('合法 [0] 单 offset → 零消息', () => {
-    const bytes = gbk('甲乙丙丁')
-    expect(parseMessages(bytes, new Uint32Array([0]))).toEqual([])
-    // 注：非递增/倒序 offset 的行为政策在 P03 设计中明确未定（工作包「收窄与待证」），
-    // 本批不为其新增正确绿测；待政策裁决后另批补齐。
+    expect(parseMessages(gbk('甲乙丙丁'), new Uint32Array([0]))).toEqual([])
   })
-  test('offset 越界或倒序时显式失败', () => {
-    const bytes = gbk('甲乙')
-    expect(() => parseMessages(bytes, new Uint32Array([0, bytes.byteLength + 1]))).toThrow(
-      'offset[1]',
-    )
-    expect(() => parseMessages(bytes, new Uint32Array([1, 0]))).toThrow('precedes')
+
+  test.each([
+    {
+      title: 'offset越界',
+      offsets: [0, 5],
+      error: 'parseMessages: offset[1] 5 exceeds message buffer 4',
+    },
+    {
+      title: 'offset倒序',
+      offsets: [1, 0],
+      error: 'parseMessages: offset[1] 0 precedes offset[0] 1',
+    },
+  ])('$title：显式失败并指出实际索引和值', ({ offsets, error }) => {
+    expect(() => parseMessages(gbk('甲乙'), new Uint32Array(offsets))).toThrow(error)
   })
 })

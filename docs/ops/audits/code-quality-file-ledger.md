@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：208；已读但待审：226；尚未逐文件核验：2,855；合计未闭合：3,081。
+当前已闭合核验：206；已读但待审：230；尚未逐文件核验：2,853；合计未闭合：3,083。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -89,9 +89,11 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a；真实资源 slice 合同 | 不改生成物 |
 | `packages/pal-extract/src/events/slice.kimi-r1.test.ts` | test | review | CODE3当前复审；[EO身份oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 旧auto入口错为1仍绿、新精确一红；字符串扫描例不能证明正确控制流，风险专卡未解 |
 | `packages/pal-extract/src/io/msg.ts` | product | 已验证 | CODE-QUALITY-3b；offset 越界/倒序 34/34，pal-extract/full check、ratchet、protected fast | Q3b done |
-| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；越界/倒序反例 | Q3b done |
+| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | review | [CODE3b完整输入ownership/原子拒绝/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 两输入修改旧绿/新指定AssertionError；纠正政策未定注释，3→4独立轴；旧关闭撤回review |
 | `packages/pal-extract/src/io/sss.ts` | product | 已验证 | CODE-QUALITY-3b；chunk2/3/4 对齐反例，真实 SSS，全包/check/ratchet/protected | Q3b done |
-| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |
+| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | review | [CODE3b父buffer/完整EO与scene/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 原view不含guard，四反控旧绿/新指定AssertionError；4→7独立chunk拒绝，生产未改，旧关闭撤回review |
+| `packages/pal-extract/src/io/msg.test.ts` | test | review | [CODE3b真实raw读取/caller与oracle核验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 三sanity仅规模/类型/含逍遥；完整文本oracle未证，类型smoke与排重待独立精简，本片未改 |
+| `packages/pal-extract/src/io/sss.test.ts` | test | review | [CODE3b真实raw读取/独立struct全量对照](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 六sanity不能证明完整字段；探针对拍不自动提升测试质量，raw例精度/排重留下一片，本片未改 |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
 | `packages/shared/src/events.ts` | product | 已验证 | 直接读取 Command union；shared typecheck/events 合同 | 类型 schema，未改公共接口 |
@@ -577,3 +579,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 C1 BALL/RGM诊断IO：六旧漏日志反控和两个新harness合同各精确一业务AssertionError，重复高度反控旧2红→新1红，21→20。新增同步test-only Console边界，真实warn/原Error全核；两生产解析器局部V8 covered/total前后一致。53定向/shared126/typecheck/工具71通过，完整extract431仍2stderr块，包级零诊断未过；static门待原命令，规则/baseline/产品不改。机器原命令已确认3289/209closed/223review/2857pending，0关闭；全83卡9partial/74pending/0accept，续C2和94–102/editor。
 
 2026-10-16 C2敌队测试：完整DTO/ownership/真实诊断，七旧绿新红与两既有oracle保留/转移；生产和baseline未改，完整extract431零stderr，相邻shared126/game186/TC通过。两测试pending→review；enemies.ts注释不存在的slots字段直接counter，旧关闭撤回review。机器3289/208closed/226review/2855pending，0新关闭；统一门未新跑，83卡复审未完成。
+
+2026-10-16 CODE3b当前复审：两boundary补六判别力缺口与父buffer/完整字段，原拒绝轴拆独立5+2；生产不变。独立raw struct全量对照一致，正文codec不冒称重验。42相邻/extract435/shared126/TC/71工具通过，0stderr；两test旧关闭精确重开，两个raw sanity pending→review，0关闭。机器3289/206closed/230review/2853pending；全83卡10partial/73pending/0accept，统一门仍待editor稳定窗口。

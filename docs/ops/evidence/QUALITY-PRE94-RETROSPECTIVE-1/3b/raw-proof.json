@@ -1,0 +1,43 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "tsx",
+    "--eval",
+    "\nimport { createHash } from 'node:crypto'\nimport { readFileSync } from 'node:fs'\nimport { parseSss } from './src/io/sss.ts'\nimport { parseMessages } from './src/io/msg.ts'\nconst sha = b => createHash('sha256').update(b).digest('hex')\nconst digest = v => sha(JSON.stringify(v))\nconst sssBytes = new Uint8Array(readFileSync('../../data/raw/SSS.MKF'))\nconst msgBytes = new Uint8Array(readFileSync('../../data/raw/M.MSG'))\nconst before = [sha(sssBytes), sha(msgBytes)]\nconst sss = parseSss(sssBytes)\nconst fields = ['vanishTime','x','y','layer','triggerScript','autoScript','state','triggerMode','spriteNum','nSpriteFrames','direction','currentFrameNum','scriptIdleFrame','spritePtrOffset','nSpriteFramesAuto','scriptIdleFrameCountAuto']\nconst messages = parseMessages(msgBytes, sss.messageOffsets)\nconsole.log(JSON.stringify({\n eoDigest: digest(sss.eventObjects.map(o => [...fields.map(f => o[f]), Array.from(o.raw)])),\n sceneDigest: digest(sss.scenes.map(s => [s.mapNum,s.scriptOnEnter,s.scriptOnTeleport,s.eventObjectIndex,Array.from(s.raw)])),\n objectDigest: digest(Array.from(sss.objects)), offsetDigest: digest(Array.from(sss.messageOffsets)),\n bytecodeDigest: sha(sss.bytecode), messageCount: messages.length,\n rawSssSha256: before[0], rawMsgSha256: before[1], messageTextObservationDigest: digest(messages), inputsUnchanged: before[0] === sha(sssBytes) && before[1] === sha(msgBytes),\n}))\n"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "rawSssSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+  "rawMsgSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+  "chunkSizes": [162464, 2360, 7910, 54056, 348024],
+  "eventObjects": 5077,
+  "scenes": 295,
+  "objectWords": 3955,
+  "messageOffsets": 13514,
+  "bytecodeInstructions": 43503,
+  "independentStructExpected": {
+    "eoDigest": "439658d77816db3cbc3dd54fcf3a6989c405716230998b0193838a557f262dcd",
+    "sceneDigest": "dafd2356cb308d7cf4671b87d465473298bf8b3f6633bfb0140068f6ee47c305",
+    "objectDigest": "8c371169b681d006267d28ec85b2afd06324d8e2ac2f2d346c79b63f290c1ed0",
+    "offsetDigest": "8ea4810e4ee1001dfc4a91af44537cc0bfb6fd87f8a86f22fc9013edf79f948b",
+    "bytecodeDigest": "241ecddf16642de71eb4ba35f80b42677f7ececd42462c778d44c2e048a0dc70"
+  },
+  "actual": {
+    "eoDigest": "439658d77816db3cbc3dd54fcf3a6989c405716230998b0193838a557f262dcd",
+    "sceneDigest": "dafd2356cb308d7cf4671b87d465473298bf8b3f6633bfb0140068f6ee47c305",
+    "objectDigest": "8c371169b681d006267d28ec85b2afd06324d8e2ac2f2d346c79b63f290c1ed0",
+    "offsetDigest": "8ea4810e4ee1001dfc4a91af44537cc0bfb6fd87f8a86f22fc9013edf79f948b",
+    "bytecodeDigest": "241ecddf16642de71eb4ba35f80b42677f7ececd42462c778d44c2e048a0dc70",
+    "messageCount": 13513,
+    "rawSssSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "rawMsgSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+    "messageTextObservationDigest": "2ec106aeca4f245589b6845cb4b25411301531c1e3895b3c0a36eeb3cab190fd",
+    "inputsUnchanged": true
+  },
+  "stdoutSha256": "7642bcc599bc6ffc5fd809caafaad020b36180fa2efcf51e53c02886eb42a4ed",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "notClaimed": "No native SDL execution or text codec oracle. Text digest is observation only; no assets regenerated."
+}

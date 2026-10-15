@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-16，基点bea19f80c；77历史done/1build/4review/1draft。本轮accept=0，partial=9，pending=74。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
+2026-10-16，基点bea19f80c；77历史done/1build/4review/1draft。本轮accept=0，partial=10，pending=73。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -8,7 +8,7 @@
 | [CODE-QUALITY-2](../../archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md) | done | partial | [MKF/RNG四核心文件与相邻](2/README.md)：两补证/一精简，native1464帧一致，统一门待续 |
 | [CODE-QUALITY-2b](../../archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md) | done | partial | [YJ2五文件/四合同转移](2b/README.md)：native2626段一致，独立树归约/统一门待续 |
 | [CODE-QUALITY-3](../../archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md) | done | partial | [切分](3/README.md)与[标注](3-annotate/README.md)：九有效反控，控制流风险draft；raw假绿/统一门待续 |
-| [CODE-QUALITY-3b](../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-3b](../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) | done | partial | [SSS/M.MSG六文件](3b/README.md)：六反控/父buffer与完整字段、raw独立struct全量一致；raw smoke/统一门待续 |
 | [CODE-QUALITY-3c](../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) | done | partial | [动画与清理合同](3c/README.md)：原1例补活动timer卸载、三有效反控，相邻仍6act/统一门待续 |
 | [CODE-QUALITY-3d](../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-3f](../../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | partial | [标注与symbols](3-annotate/README.md)：六有效反控，四重复转移；CLI/raw假绿/统一门待续 |

@@ -1,113 +1,154 @@
 /**
- * TEST-PAL-TABLES-COVERAGE-1 P01：SSS 边界（io/sss.ts）。
- * 既有 sss.test 只做真实资产 sanity（倍数/非空）——不重复。本文件用合成 5-chunk MKF：
- * 非对称 16 字段 EO、signed 与 unsigned 高位分开、完整 chunk2 WORD / chunk3 DWORD / chunk4 字节、
- * 32B/8B 截断各单轴。输入前后留保护字节且不变。
+ * P01：合成五chunk原始结构，核完整字段与实际输入父buffer所有权。
+ * 数值是WORD/SHORT布局向量，不冒充可执行场景或真实剧情。
+ * 各chunk拒绝轴独立执行；真实raw sanity另在sss.test.ts。
  */
 import { describe, expect, test } from 'vitest'
-import { concatBytes, mkfContainer, sssChunks, u16Bytes } from '../__tests__/glm-tb04-fixtures.js'
+import { concatBytes, mkfContainer, sssChunks } from '../__tests__/glm-tb04-fixtures.js'
 import { parseSss } from './sss.js'
 
-/** 前后各 3 字节保护；保留实际传入 view 与其调用前快照。 */
-function guardedSss(): {
-  parse: () => ReturnType<typeof parseSss>
-  view: Uint8Array
-  before: Uint8Array
-} {
-  const guard = new Uint8Array([0xee, 0xee, 0xee])
+/** view本身不含保护区；比较父buffer才能覆盖前后各3B。 */
+function guardedSss() {
+  const guard = Uint8Array.of(0xee, 0xee, 0xee)
   const raw = mkfContainer(sssChunks())
   const wrapped = concatBytes([guard, raw, guard])
   const view = wrapped.subarray(3, 3 + raw.byteLength)
-  return { parse: () => parseSss(view), view, before: view.slice() }
+  return { view, wrapped, before: wrapped.slice() }
 }
 
 describe('P01 parseSss 合成 5-chunk MKF', () => {
   test('非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开', () => {
-    const { parse, view, before } = guardedSss()
-    const sss = parse()
-    expect(sss.eventObjects).toHaveLength(2)
-    expect(sss.eventObjects[0]).toMatchObject({
-      vanishTime: -32768, // 0x8000 signed
-      x: 0xffff, // unsigned 高位
-      y: 0x1234,
-      layer: -2, // 0xFFFE signed
-      triggerScript: 0x000a,
-      autoScript: 0x000b,
-      state: -5, // 0xFFFB signed
-      triggerMode: 0x00c3,
-      spriteNum: 0x0abc,
-      nSpriteFrames: 3,
-      direction: 2,
-      currentFrameNum: 1,
-      scriptIdleFrame: 9,
-      spritePtrOffset: 0x0fed,
-      nSpriteFramesAuto: 0x12,
-      scriptIdleFrameCountAuto: 0x34,
-    })
-    expect(sss.eventObjects[1]!.vanishTime).toBe(32767)
-    expect(sss.eventObjects[1]!.layer).toBe(1)
-    expect(sss.eventObjects[1]!.state).toBe(2)
-    // raw 16 槽保真（unsigned 位模式）
-    expect(Array.from(sss.eventObjects[0]!.raw)).toEqual([
-      0x8000, 0xffff, 0x1234, 0xfffe, 0x000a, 0x000b, 0xfffb, 0x00c3, 0x0abc, 0x0003, 0x0002,
-      0x0001, 0x0009, 0x0fed, 0x0012, 0x0034,
+    const { view, wrapped, before } = guardedSss()
+    const sss = parseSss(view)
+    expect(sss.eventObjects).toStrictEqual([
+      {
+        vanishTime: -32768,
+        x: 0xffff,
+        y: 0x1234,
+        layer: -2,
+        triggerScript: 0x000a,
+        autoScript: 0x000b,
+        state: -5,
+        triggerMode: 0x00c3,
+        spriteNum: 0x0abc,
+        nSpriteFrames: 3,
+        direction: 2,
+        currentFrameNum: 1,
+        scriptIdleFrame: 9,
+        spritePtrOffset: 0x0fed,
+        nSpriteFramesAuto: 0x12,
+        scriptIdleFrameCountAuto: 0x34,
+        raw: new Uint16Array([
+          0x8000, 0xffff, 0x1234, 0xfffe, 0x000a, 0x000b, 0xfffb, 0x00c3, 0x0abc, 3, 2, 1, 9,
+          0x0fed, 0x12, 0x34,
+        ]),
+      },
+      {
+        vanishTime: 32767,
+        x: 1,
+        y: 2,
+        layer: 1,
+        triggerScript: 0x1110,
+        autoScript: 0x2220,
+        state: 2,
+        triggerMode: 4,
+        spriteNum: 5,
+        nSpriteFrames: 6,
+        direction: 7,
+        currentFrameNum: 8,
+        scriptIdleFrame: 9,
+        spritePtrOffset: 0x000a,
+        nSpriteFramesAuto: 0x000b,
+        scriptIdleFrameCountAuto: 0x000c,
+        raw: new Uint16Array([
+          0x7fff, 1, 2, 1, 0x1110, 0x2220, 2, 4, 5, 6, 7, 8, 9, 0x000a, 0x000b, 0x000c,
+        ]),
+      },
     ])
-    // 实参保真：实际传入的同一 view（含前后保护字节）调用前后逐字节一致（污染已读缓冲即红）
-    expect(view).toEqual(before)
+    expect(wrapped).toEqual(before)
   })
+
   test('scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整', () => {
     const sss = parseSss(mkfContainer(sssChunks()))
-    expect(sss.scenes).toHaveLength(2)
-    expect(sss.scenes[0]).toMatchObject({
-      mapNum: 0x0102,
-      scriptOnEnter: 0x0304,
-      scriptOnTeleport: 0x0506,
-      eventObjectIndex: 0x0708,
-    })
-    expect(Array.from(sss.scenes[1]!.raw)).toEqual([0x1122, 0x3344, 0x5566, 0x7788])
-    expect(Array.from(sss.objects)).toEqual([0x0001, 0x8000, 0xfffe, 0x7fff, 0x1234, 0xabcd])
-    expect(Array.from(sss.messageOffsets)).toEqual([0, 3, 3, 7, 0x0000beef])
-    expect(Array.from(sss.bytecode)).toEqual(
-      Array.from(
-        concatBytes([
-          u16Bytes(0x0001, 0x0011, 0x0022, 0x0033),
-          u16Bytes(0x00ff, 0x0111, 0x0222, 0x0333),
-          u16Bytes(0x8000, 0x0444, 0x0555, 0x0666),
-        ]),
+    expect(sss.scenes).toStrictEqual([
+      {
+        mapNum: 0x0102,
+        scriptOnEnter: 0x0304,
+        scriptOnTeleport: 0x0506,
+        eventObjectIndex: 0x0708,
+        raw: new Uint16Array([0x0102, 0x0304, 0x0506, 0x0708]),
+      },
+      {
+        mapNum: 0x1122,
+        scriptOnEnter: 0x3344,
+        scriptOnTeleport: 0x5566,
+        eventObjectIndex: 0x7788,
+        raw: new Uint16Array([0x1122, 0x3344, 0x5566, 0x7788]),
+      },
+    ])
+    expect(sss.objects).toStrictEqual(new Uint16Array([1, 0x8000, 0xfffe, 0x7fff, 0x1234, 0xabcd]))
+    expect(sss.messageOffsets).toStrictEqual(new Uint32Array([0, 3, 3, 7, 0xbeef]))
+    // 直接手列LE字节，expected不再复用输入的u16Bytes构造器。
+    expect(sss.bytecode).toStrictEqual(
+      Uint8Array.of(
+        0x01,
+        0x00,
+        0x11,
+        0x00,
+        0x22,
+        0x00,
+        0x33,
+        0x00,
+        0xff,
+        0x00,
+        0x11,
+        0x01,
+        0x22,
+        0x02,
+        0x33,
+        0x03,
+        0x00,
+        0x80,
+        0x44,
+        0x04,
+        0x55,
+        0x05,
+        0x66,
+        0x06,
       ),
     )
   })
-  test('chunk0 非 32 倍数 / chunk1 非 8 倍数各自单轴拒绝（其余 chunk 合法）', () => {
-    const good = sssChunks()
-    const bad0 = [...good]
-    bad0[0] = concatBytes([bad0[0]!, u16Bytes(0x0001)]) // 66B
-    expect(() => parseSss(mkfContainer(bad0))).toThrow(
-      'SSS chunk0: byte length 66 is not a multiple of 32',
-    )
-    const bad1 = [...good]
-    bad1[1] = concatBytes([bad1[1]!, new Uint8Array(1)]) // 17B
-    expect(() => parseSss(mkfContainer(bad1))).toThrow(
-      'SSS chunk1: byte length 17 is not a multiple of 8',
-    )
-  })
-  test('chunk2/3/4 非结构对齐各自单轴拒绝', () => {
-    const good = sssChunks()
-    const bad2 = [...good]
-    bad2[2] = concatBytes([bad2[2]!, new Uint8Array(1)])
-    expect(() => parseSss(mkfContainer(bad2))).toThrow(
-      'SSS chunk2: byte length 13 is not a multiple of 2',
-    )
 
-    const bad3 = [...good]
-    bad3[3] = concatBytes([bad3[3]!, new Uint8Array(1)])
-    expect(() => parseSss(mkfContainer(bad3))).toThrow(
-      'SSS chunk3: byte length 21 is not a multiple of 4',
+  test.each([
+    {
+      chunk: 0,
+      append: Uint8Array.of(1, 0),
+      error: 'SSS chunk0: byte length 66 is not a multiple of 32',
+    },
+    {
+      chunk: 1,
+      append: Uint8Array.of(0),
+      error: 'SSS chunk1: byte length 17 is not a multiple of 8',
+    },
+    {
+      chunk: 2,
+      append: Uint8Array.of(0),
+      error: 'SSS chunk2: byte length 13 is not a multiple of 2',
+    },
+    {
+      chunk: 3,
+      append: Uint8Array.of(0),
+      error: 'SSS chunk3: byte length 21 is not a multiple of 4',
+    },
+    {
+      chunk: 4,
+      append: Uint8Array.of(0),
+      error: 'SSS chunk4: byte length 25 is not a multiple of 8',
+    },
+  ])('chunk$chunk 非结构对齐：其余chunk合法，错误定位当前chunk', ({ chunk, append, error }) => {
+    const malformed = sssChunks().map((bytes, index) =>
+      index === chunk ? concatBytes([bytes, append]) : bytes,
     )
-
-    const bad4 = [...good]
-    bad4[4] = concatBytes([bad4[4]!, new Uint8Array(1)])
-    expect(() => parseSss(mkfContainer(bad4))).toThrow(
-      'SSS chunk4: byte length 25 is not a multiple of 8',
-    )
+    expect(() => parseSss(mkfContainer(malformed))).toThrow(error)
   })
 })
