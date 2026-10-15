@@ -1,5 +1,7 @@
 # CODE-QUALITY-94 evidence — menu integration
 
+- [Codex 三验及接手边界](codex-r3-review.md)：候选5477af1e4，监听器泄漏/C4假正例实测、精确退役核对、当前SHA与诊断原件；0新关闭，用户授权Codex继续低风险返工。
+
 - [Codex 独立验收 counter](codex-review.md)：原始诊断、注释和测试质量反证，以及 GLM 返工提示词。
 
 `source-manifest.json` 记录独立 main base、治理来源、30条原 closure SHA 与当前候选 SHA。旧卡/原件复制为历史证据，不代替新候选的质量门；CODE95 更正三份非法 fixture，更新后 manifest 必须标明字节已变并重新验证。

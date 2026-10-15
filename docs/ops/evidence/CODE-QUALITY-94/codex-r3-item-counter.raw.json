@@ -1,0 +1,16 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/docs/ops/evidence/CODE-QUALITY-94/codex-r3-item-counter.mts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 1.61,
+  "sha256": "4729b6ddd0d9d7d4b57172fdb2fdba6a5f55e35363621ba1feb2531ab8ff1941",
+  "bytes": 316,
+  "expectedCounter": true,
+  "combinedOutput": "{\n  \"existingFixture\": {\n    \"phase\": \"use-target\",\n    \"mode\": \"menu\",\n    \"scriptStarted\": false,\n    \"count\": 2\n  },\n  \"positiveControl\": {\n    \"phase\": \"use-target\",\n    \"mode\": \"event\",\n    \"scriptStarted\": true,\n    \"count\": 2\n  },\n  \"verdict\": \"COUNTER: phase alone passes without starting the item script\"\n}\n"
+}

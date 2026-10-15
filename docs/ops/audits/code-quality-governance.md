@@ -9,6 +9,11 @@
 
 ## 2026-10-15 menu候选独立再验收
 
+当前三验见 [Codex R3](../evidence/CODE-QUALITY-94/codex-r3-review.md)，候选5477af1e4、main=f98d0ddd8。
+CODE95三份夹具局部accept；其余批次有效增量接收但仍有测试/注释counter、机制/Save风险和全仓非零诊断。
+3283 inventory /229 closed /44 review /3010 pending，0新关闭、未合main。用户本轮授权后由Codex接手低风险返工。
+下文R2数字与裁定保留为历史，不将旧门或作者自验升级为当前通过。
+
 CODE94/97–102当前counter/rework，CODE95仅三份fixture局部accept、仍review。
 [Codex R2逐文件证据](../evidence/CODE-QUALITY-94/codex-r2-review.md)钉候选1f8bcd468；0新闭合，
 3267 inventory /229 closed /44 review /2994 pending。全仓门含真实诊断不计通过，未合main。

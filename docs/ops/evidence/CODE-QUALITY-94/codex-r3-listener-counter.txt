@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+stdout | src/tools/quick-save.test.ts
+{"reviewProbe":"keydown listener balance after real quick-save tests","leakedListeners":1}
+
+ ❯ src/tools/quick-save.test.ts (8 tests) 56ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/tools/quick-save.test.ts [ src/tools/quick-save.test.ts ]
+AssertionError: all test-owned keydown listeners must be removed: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ node_modules/.cache/codex-r3-review/setup.ts:19:69
+     17|   removed.mockRestore()
+     18|   console.log(JSON.stringify({ reviewProbe: 'keydown listener balance …
+     19|   expect(count, 'all test-owned keydown listeners must be removed').to…
+       |                                                                     ^
+     20| })
+     21|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 passed (8)
+   Start at  14:32:28
+   Duration  693ms (transform 53ms, setup 29ms, import 42ms, tests 56ms, environment 405ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --config /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/node_modules/.cache/codex-r3-review/config.mts

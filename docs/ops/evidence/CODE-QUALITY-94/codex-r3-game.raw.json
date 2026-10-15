@@ -1,0 +1,11 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": ["pnpm", "--filter", "@type-pal/game", "test"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 188.76,
+  "sha256": "9ba6a30b05ea6a2f21b6f293d56246563b34fc54acd715bd0a3833c22bbc9885",
+  "bytes": 426,
+  "expectedCounter": false,
+  "combinedOutput": "\n> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n> vitest run --passWithNoTests\n\n\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n\n\n Test Files  317 passed (317)\n      Tests  3561 passed (3561)\n   Start at  14:32:05\n   Duration  188.18s (transform 3.20s, setup 1.85s, import 10.41s, tests 36.23s, environment 115.16s)\n\n"
+}

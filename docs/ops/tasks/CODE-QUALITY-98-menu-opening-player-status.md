@@ -7,7 +7,17 @@ Phase: phase1
 Capability: Q3 menu state contract governance
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
-## Codex R2 当前验收（2026-10-15）
+## Codex R3 当前验收与接手（2026-10-15）
+
+候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
+排重局部 accept；新 role index/wObjectID 注释仍需纠正；取消链风险留独立高风险卡。
+直接证据、逐文件读取、反例与真实门见 [Codex 三验](../evidence/CODE-QUALITY-94/codex-r3-review.md)。
+本轮 0 新闭合；3283 / 229 closed / 44 review / 3010 pending，未合 main。
+用户本轮授权质量不足时由 Codex 接手；后续低风险测试/注释修复的 Coding Owner 改为 Codex，
+GLM 不再写本批修复文件。三张 GAME 高风险卡保持 draft，无 build allowed；不扩产品/Save/公共接口。
+无下一位 Agent 提示词，由 Codex 继续；原 GLM/R2 结论以下按历史保留。
+
+## Codex R2 验收（历史，2026-10-15）
 
 候选 `1f8bcd468`，独立验收分支 `codex/quality-menu-accept-94-95`，主线基点 `cddf65557`。
 counter：choice用例重复；真实标题取消未复位已开高风险卡。状态页局部合同不升级整卡通过。

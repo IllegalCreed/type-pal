@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+      "sourceSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
+      "afterSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+        "implementationSha": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -840,14 +840,20 @@
             "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
             "scope": "C5 返工交付后合并 main 音乐收口；两线 history 双保留。",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "5477af1e4",
+            "date": "2026-10-15",
+            "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
+            "notRun": ["E2E", "visual"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/board.md",
-        "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 22,
+        "sourceSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
+        "lineCount": 31,
         "headings": [
           {
             "line": 1,
@@ -2102,7 +2108,7 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
+      "sourceSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
       "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
@@ -2139,7 +2145,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+        "implementationSha": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2419,14 +2425,20 @@
             "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
             "scope": "任务索引再生成（音乐卡归档+C5 卡）后重钉。",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "5477af1e4",
+            "date": "2026-10-15",
+            "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
+            "notRun": ["E2E", "visual"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
-        "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 370,
+        "sourceSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
+        "lineCount": 400,
         "headings": [
           {
             "line": 1,

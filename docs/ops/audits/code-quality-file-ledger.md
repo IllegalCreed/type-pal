@@ -308,6 +308,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/save/indexed-db.ts` | product | review | CODE-101：C4 事务缺口维持（Codex 反控已复现 request.onsuccess≠commit） | GAME-SAVE-IDB-COMMIT-1 停线（draft 无 build allowed）；E-12 维持；待该卡收口 |
 | `packages/game/src/tools/quick-save.ts` | product | review | CODE-102 C5 返工后：测试重写为真实 GameState+toast DOM/计时器清理+preventDefault/解绑/三异步反馈 oracle（E-13 关闭） | C4 写成功语义继承高风险卡；待 Codex 再验收 |
 
+2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。
+
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 
 2026-10-14 CODE94 独立 menu 集成窗口：从最新 origin/main cddf65557 建分支，仅接收治理分支已闭合30条 menu 记录及其测试治理候选，完整原卡/证据保留。集成前暂登记 review，当前机器 inventory3267：closed229/review35/pending3003；主线其它 pending 不升级，不导入 CODE53/90 等未收口生产行为。

@@ -1,0 +1,20 @@
+{
+  "openingCancel": {
+    "observedCursor": 1,
+    "primaryCursor": 0,
+    "primary": "SDLPal uigame.c:143-150",
+    "sameOpeningObjectRetained": true
+  },
+  "outsideMagic": {
+    "observedIds": [
+      300
+    ],
+    "primaryIds": [
+      300,
+      305
+    ],
+    "primary305Enabled": false,
+    "primary": "SDLPal magicmenu.c:338-372"
+  },
+  "conclusion": "COUNTER: current assertions miss opening cursor reset and enshrine hiding a disabled learned spell"
+}

@@ -1,0 +1,11 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 4.03,
+  "sha256": "febd502ffabd8611920f04911e6fa0e88fac6cb8ff063bb009b63b02bf965931",
+  "bytes": 131,
+  "expectedCounter": false,
+  "combinedOutput": "\n> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n> tsc --noEmit\n\n"
+}
