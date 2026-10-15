@@ -759,3 +759,12 @@ Branch: codex/docs-full-template-proposal
 
 - K49实际非作者receipt_review根接入accept，精确59文件proof SHA`924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436`，K1已闭无其它接入counter；实际22组行政语句对/49映射、完整49current/原作者快照、17catalog绑定/112工具归属/唯一3分片/old662+153+38均复核。其独立strict/model/链接/progress/ledger/GFM/diff与根全76工具/lint4099零诊断分开。受审59字节精确保存到`f85e282b936df9c2fb939bc3497ce9a5629f5c04`，本根签收为后续明确新字节，不复用旧SHA签字。
 - 为保完整prior且不再次超1MiB，49当前记录逐一附固定f85+各shard Git blob/whole-file SHA/唯一path selector，根实际gitshow逐条取出完整旧object相等；该提交必须保最终发布可达历史，不能只留/tmp或摘要。小control/matrix旧current仍完整内嵌prior。三新shard自身仍pending增量；实际198/1838+4、current1967/pending1765，49body/原文/links/after完全未改，J配对MD尚未写，goalactive/main未动。本签收最终质量门按后续实际字节跑完才提交。
+
+#### L十份索引与公开producer设计冻结 / 单一Owner准入
+
+- [L-index-governance1.0冻结设计](../../phase-governance/reviews/20261016-testing-index-design.md)保完整89行历史proposal和根16项唯一决定/回执同形字段合同。实际10篇921行，作者与非作者tail均全文读；root读9篇504行/161writer/89+394设计和60独立设计，不冒legacy417或全部SSOT字段。独立design agree11e1ffa...；source9e十blob/双SSOT/writer/checker在77b5829e实际同字节，原85标题/572出链/11入链为静态图。新设计自身进入pending增量，L仍0/10。
+- 根选择唯一“旧分类账 reviewStatus”、真实legacy-flat-classification.json路径、动态输入计数、固定真实2026-10-16索引scope审查日期、九producer输出/人工README分责、无整表重复quote、原Git与逐项成员/标题/links保真。缺任一必需SSOT写前拒绝，validateIndexes整文件比对不改；原006rework/routeproposal/359reviewed成员来源/12lab排重不升当前执行。
+- L build allowed仅本冻结实际提交并根交精确基点后生效：history_cards_a唯一Owner在隔离codex/docs-testing-index-l分支，严格13文件=writer、新testing-index-governance.test.mjs、实际十MD与contributor-testing-index-l-20261016.json。完整白名单/真实ownedtmp正反控/每篇43字段与17顶层既有receipt合同见设计。不得改旧tests、checker、SSOT、template、产品、coverage、CI、K49或共享中央账；根掌中央/路由/完整review/矩阵/quality库存，新测试只pending。
+- 非作者逐篇读新十正文/全部receipt/producer/newtest并核真实反例与零门后，根才接10/route10及SHA。此为设计/工具准入，不是本批migration accept；原K af42及旧分支回执保留。已准备三J配对MD仅/tmp候选（原134行inverse/纯model0），canonical仍未改/0新增信用；后继由根先补完整current record并非作者验收。goalactive/main未改，无用户转交。
+
+- L冻结首轮真实全门未过：76工具均过，但目录门指出reviews/README未列新设计页（1issue），不能因lint4099零诊断或puremodel0宣称通过；原失败log/tmp保留。根仅为当前reviews/README追加明确“设计而非implementation/迁移accept”入口，未将该未治理README冒计新迁移，补同步索引后重跑全部门。

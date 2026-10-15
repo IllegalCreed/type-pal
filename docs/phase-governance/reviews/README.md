@@ -22,3 +22,5 @@
 - [JSON catalog 真正 pilot](20261015-catalog-pilot-batch.json)：18条逐字段阅读，3条分类/4字段勘误有源留痕、逆向相等与真实消费者检查，不变旧状态和版本。
 
 - [域报告/机器证据与历史卡接收记录](20261015-domain-pairs-and-archive-cards.json)：逐篇真实阅读、实际字段/历史/锚点边界；贡献者候选只有独立接收后才写入。
+
+- [Testing 十份索引与公开 producer 冻结设计](20261016-testing-index-design.md)：仅设计和单一Owner准入；原十篇source/语义/反控须候选后逐篇独立验收，L中央仍0/10。
