@@ -10,7 +10,17 @@ evidence: domains/phase1-runtime/dependencies/dependency-ownership/evidence.json
 
 # 第一阶段依赖所有权拆分
 
-## 复核范围与结论
+Owner: Codex
+Status: current（source/publication scope；无新运行验收）
+Last reviewed: 2026-10-15
+Template: test-domain-report-v1 / 1.0.0
+
+## Domain scope
+
+本报告范围为 phase1/game。Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。
+本次按实际正文与 caller 核类型；catalog已纠正阶段/引擎分类，原候选、版本、日期和执行结论不改。
+
+### 复核范围与结论
 
 Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings.
 
@@ -18,7 +28,21 @@ Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 ne
 
 2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。
 
-## 真实 caller、输入与业务 oracle
+## Claim matrix
+
+下表是待由相应业务执行验证的合同义务，原配对 evidence 的 source-backed 不因本次排版变为 runtime-backed。
+
+| 合同义务 | 原证据范围 | 本次停止线 |
+|---|---|---|
+| 静态 runtime SCC 为零是原结构义务 | 原 sourceRefs / 历史报告和配对 evidence | 本次未重新执行 |
+| 旧 exports/functions 合同保持，不能复制共享状态 | 原 sourceRefs / 历史报告和配对 evidence | 本次未重新执行 |
+| inventory/poison/equipment/scene/menu 各有单一 owner | 原 sourceRefs / 历史报告和配对 evidence | 本次未重新执行 |
+
+## Inputs and fixtures
+
+合法输入为 当前 GameState、event/battle/menu typed commands、PAL 数据与同步 scene identity。损坏记录或内部突变反控不冒充产品合法输入；报告不新造fixture或测试数量。
+
+### 真实 caller、输入与业务 oracle
 
 - `packages/game/src/core/script-catalog.ts:33-40`（owner；anchor `export function patchGiveItemZeroBugs`）
 - `packages/game/src/core/inventory-state.ts:10-23`（owner；anchor `export function addItemToInventory`）
@@ -33,7 +57,14 @@ Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 ne
 
 业务判据：static runtime SCC is zero；old exports and function bodies retain contracts；inventory/poison/equipment/scene/menu state has one owner。这里是对既有测试合同的核读，不是新增测试或历史运行真实性再认证。
 
-## 排重和处理理由
+## Results and gaps
+
+161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。
+下方原“当前内容22/保存11”描述2026-10-04出版审计revision；现行二阶段源常量为content22/minimumSave12，
+不因此更新旧candidate/versions或授予新通过。D1的一阶段合同另有其GameState/原版轴，不从该出版元数据推导存档兼容。
+原工具“remain legacy”说明按其审计日期读取，今天的位置/清理状态须查迁移账与实际caller，不能从旧叙述自动继承。
+
+### 排重和处理理由
 
 D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts remain legacy tools with explicit package-relative imports. It does not close gameplay/E2E or coverage.
 
@@ -41,8 +72,14 @@ D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts rema
 
 保留唯一历史 report/evidence；当前索引与报告 supersede 原平面材料的导航和当前状态口径，原失败、warnings、计数和候选 SHA 均由 [历史报告](history/report.md) 和 [原始机账](history/evidence.json) 保留。
 
-## 证据与 revision
+
+### 证据与 revision
 
 [配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](/docs/testing/archive/migrations/testing-domains-20261004-wave2.json)；当前内容22/保存11，历史内容20/保存8不升级。
 
 2026-10-04：基线 2aed1f0dbbbed8ce01cb3511315745ab1ccdf159，迁移+source audit；未重新执行产品，原作者验收与历史 counter 按旧记录保留。
+
+## Quality gate
+
+本次仅运行文档结构、链接、配对 publication consumer、source/after SHA 与全仓静态门；不改产品、旧测试或coverage。
+缺当前runtime/UI/E2E/视觉/覆盖证据继续保留为限制，不以静态绿色关闭原历史counter或提升catalog状态。

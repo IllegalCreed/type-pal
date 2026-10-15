@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-15",
-  "scope": "Two new catalog/template-navigation records; existing template root review updated in original file. Static only.",
+  "scope": "Catalog/template-navigation and three connected domain reports: actual full-source migrations only; existing template root updated in its original review. No dynamic execution.",
   "entries": [
     {
       "path": "docs/testing/catalog.json",
@@ -253,6 +253,410 @@
         "result": "template-compliant",
         "version": "1.0.0",
         "method": "concrete body/schema plus actual source/consumer and migration review"
+      }
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "phase2/editor：ScriptEditor → author bridge → CommandForm 各 family，不能由 Reforge 游戏通过替代编辑器输入合同。 全四节原文与metadata保留；不重跑 UI、旧 mutant 或覆盖率；历史B3与design-system测试不同责。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+      "truthAnchors": [
+        "packages/editor/src/ui/CommandForm.tsx:82-93",
+        "packages/editor/src/ui/command-form-contract.ts:98-113",
+        "packages/editor/src/ui/command-form-family-ownership.test.ts:11-34",
+        "packages/editor/src/ui/command-form-contract.test.ts:8-25",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "primarySource": [
+        "docs/testing/domains/editor/commands/command-form-families/report.md:1",
+        "docs/testing/catalog.json:1"
+      ],
+      "documentStatus": "current-source-publication; no runtime reacceptance",
+      "phaseAnchors": ["phase2/editor", "docs/testing/governance.md"],
+      "dependencies": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "domains/editor/commands/command-form-families/evidence.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "phase2/editor source/publication and historical scopes separated",
+      "publicEntry": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "counterReworkBlocked": {
+        "migration": "no open content/template counter after original preservation and real paired consumer",
+        "notClosed": [
+          "不重跑 UI、旧 mutant 或覆盖率；历史B3与design-system测试不同责。",
+          "current dynamic evidence and original task counters"
+        ]
+      },
+      "unresolved": [
+        "不重跑 UI、旧 mutant 或覆盖率；历史B3与design-system测试不同责。",
+        "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
+      ],
+      "nextStep": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。",
+      "phase": "testing",
+      "module": "editor-command-form-families",
+      "owner": "Codex",
+      "provenance": [
+        "full source report read",
+        "actual caller anchors read for classification",
+        "original Git blob",
+        "manual concrete template chapters"
+      ],
+      "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
+      "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "10ea6da860f3c6e7cf44b6420acadb2fda1fe676",
+      "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+      "publicCallers": [
+        "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
+        "CommandForm → dialogue/actor/world/control typed subforms",
+        "node scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": [
+        "current typed AuthorCommand/SharedAuthorCommand",
+        "current editor project guards",
+        "family-specific form props and author bridge"
+      ],
+      "businessOracle": {
+        "type": "domain-semantic-migration-and-scope-boundaries",
+        "assertions": [
+          "phase2/editor：ScriptEditor → author bridge → CommandForm 各 family，不能由 Reforge 游戏通过替代编辑器输入合同。 全四节原文与metadata保留；不重跑 UI、旧 mutant 或覆盖率；历史B3与design-system测试不同责。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+          "kind dialect 在桥接前后保持",
+          "family owner 只输出合法 command shape",
+          "共享控件保持单一实现",
+          "原业务oracle为待验证合同，不由本次static source/publication审查宣称当前执行通过"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "domains/editor/commands/command-form-families/history/report.md"
+        ],
+        "notes": "保留原editor-command-form-families scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
+      },
+      "revision": {
+        "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+        "implementationSha": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+        "originalPublicationRevision": {
+          "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "date": "2026-10-04",
+              "action": "source-and-publication-audit",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "full report semantic template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
+        "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+        "lineCount": 81
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
+          "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+          "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication.",
+      "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
+      "reviewedLines": "1-81",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+      }
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "phase2/editor：MapMode → pointer/transform/view/stamp sessions；EditSession 与 map revision 是不同身份门。 全四节原文与metadata保留；旧最小浏览器验证不覆盖原生剪贴板或完整视觉矩阵；本次没有操作地图。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+      "truthAnchors": [
+        "packages/editor/src/ui/MapMode.tsx:403-420",
+        "packages/editor/src/ui/map-pointer-gesture-session.ts:36-59",
+        "packages/editor/src/ui/map-pointer-gesture-session.test.tsx:31-48",
+        "packages/editor/src/ui/map-transform-session.test.ts:37-54",
+        "packages/editor/src/ui/map-workspace-view-session.test.tsx:30-47",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "primarySource": [
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md:1",
+        "docs/testing/catalog.json:1"
+      ],
+      "documentStatus": "current-source-publication; no runtime reacceptance",
+      "phaseAnchors": ["phase2/editor", "docs/testing/governance.md"],
+      "dependencies": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "domains/editor/map/map-workspace-sessions/evidence.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "phase2/editor source/publication and historical scopes separated",
+      "publicEntry": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "counterReworkBlocked": {
+        "migration": "no open content/template counter after original preservation and real paired consumer",
+        "notClosed": [
+          "旧最小浏览器验证不覆盖原生剪贴板或完整视觉矩阵；本次没有操作地图。",
+          "current dynamic evidence and original task counters"
+        ]
+      },
+      "unresolved": [
+        "旧最小浏览器验证不覆盖原生剪贴板或完整视觉矩阵；本次没有操作地图。",
+        "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
+      ],
+      "nextStep": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。",
+      "phase": "testing",
+      "module": "editor-map-workspace-sessions",
+      "owner": "Codex",
+      "provenance": [
+        "full source report read",
+        "actual caller anchors read for classification",
+        "original Git blob",
+        "manual concrete template chapters"
+      ],
+      "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
+      "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "8dc02e7799a680f6fef6180792614249782c6b19",
+      "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+      "publicCallers": [
+        "MapMode → pointer gesture session",
+        "MapMode → transform/view/stamp sessions → reducered command dispatch",
+        "node scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": [
+        "current MapMode project/map revision",
+        "trusted pointer session and pointerId",
+        "typed map command plan with revision guard"
+      ],
+      "businessOracle": {
+        "type": "domain-semantic-migration-and-scope-boundaries",
+        "assertions": [
+          "phase2/editor：MapMode → pointer/transform/view/stamp sessions；EditSession 与 map revision 是不同身份门。 全四节原文与metadata保留；旧最小浏览器验证不覆盖原生剪贴板或完整视觉矩阵；本次没有操作地图。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+          "cancel/lost capture 不产生 command 写入",
+          "clipboard/session 尊重 map 与 EditSession 身份",
+          "过期 structure confirmation 不提交",
+          "原业务oracle为待验证合同，不由本次static source/publication审查宣称当前执行通过"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "domains/editor/map/map-workspace-sessions/history/report.md"
+        ],
+        "notes": "保留原editor-map-workspace-sessions scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
+      },
+      "revision": {
+        "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+        "implementationSha": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+        "originalPublicationRevision": {
+          "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "date": "2026-10-04",
+              "action": "source-and-publication-audit",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "full report semantic template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
+        "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+        "lineCount": 82
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
+          "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+          "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication.",
+      "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
+      "reviewedLines": "1-82",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+      "truthAnchors": [
+        "packages/game/src/core/script-catalog.ts:33-40",
+        "packages/game/src/core/inventory-state.ts:10-23",
+        "packages/game/src/core/equipment-state.ts:6-13",
+        "packages/game/src/core/player-poison-state.ts:12-19",
+        "packages/game/src/core/scene-identity.ts:6-13",
+        "packages/game/src/core/menu/menu-stack.ts:12-19",
+        "packages/game/src/core/dependency-ownership.test.ts:26-45",
+        "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "primarySource": [
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md:1",
+        "docs/testing/catalog.json:1"
+      ],
+      "documentStatus": "current-source-publication; no runtime reacceptance",
+      "phaseAnchors": ["phase1/game", "docs/testing/governance.md"],
+      "dependencies": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "phase1/game source/publication and historical scopes separated",
+      "publicEntry": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "counterReworkBlocked": {
+        "migration": "no open content/template counter after original preservation and real paired consumer",
+        "notClosed": [
+          "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
+          "current dynamic evidence and original task counters"
+        ]
+      },
+      "unresolved": [
+        "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
+        "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
+      ],
+      "nextStep": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。",
+      "phase": "testing",
+      "module": "phase1-dependency-ownership",
+      "owner": "Codex",
+      "provenance": [
+        "full source report read",
+        "actual caller anchors read for classification",
+        "original Git blob",
+        "manual concrete template chapters"
+      ],
+      "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+      "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
+      "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+      "publicCallers": [
+        "game event/scene/equipment/battle/menu consumers → single lower owner modules",
+        "dependency-ownership and cross-module boundary tests",
+        "node scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": [
+        "current GameState",
+        "current event/battle/menu typed commands",
+        "PAL runtime data and synchronous scene identity"
+      ],
+      "businessOracle": {
+        "type": "domain-semantic-migration-and-scope-boundaries",
+        "assertions": [
+          "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+          "静态 runtime SCC 为零是原结构义务",
+          "旧 exports/functions 合同保持，不能复制共享状态",
+          "inventory/poison/equipment/scene/menu 各有单一 owner",
+          "原业务oracle为待验证合同，不由本次static source/publication审查宣称当前执行通过"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
+        ],
+        "notes": "保留原phase1-dependency-ownership scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
+      },
+      "revision": {
+        "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+        "implementationSha": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+        "originalPublicationRevision": {
+          "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "date": "2026-10-04",
+              "action": "source-and-publication-audit",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "full report semantic template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+        "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+        "lineCount": 85
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+          "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+          "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication.",
+      "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
+      "reviewedLines": "1-85",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
       }
     }
   ]

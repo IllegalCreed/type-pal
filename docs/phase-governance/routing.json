@@ -151,6 +151,18 @@
     {
       "path": "docs/testing/_templates/README.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "templateId": "test-domain-report-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "templateId": "test-domain-report-v1"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "templateId": "test-domain-report-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

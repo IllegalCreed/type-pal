@@ -187,5 +187,48 @@
     }
   ],
   "notRun": ["runtime", "E2E", "visual", "coverage"],
-  "stopLine": "Publication validation and JSON preservation do not certify actual execution or migration of paired reports/evidence."
+  "stopLine": "Publication validation and JSON preservation do not certify actual execution or migration of paired reports/evidence.",
+  "relatedReportMigrations": [
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "id": "editor-command-form-families",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "10ea6da860f3c6e7cf44b6420acadb2fda1fe676",
+      "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
+      "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "id": "editor-map-workspace-sessions",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "8dc02e7799a680f6fef6180792614249782c6b19",
+      "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
+      "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "id": "phase1-dependency-ownership",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
+      "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+      "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    }
+  ],
+  "relatedReportConsumerResults": [
+    {
+      "id": "editor-command-form-families",
+      "issues": []
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "issues": []
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "issues": []
+    }
+  ]
 }

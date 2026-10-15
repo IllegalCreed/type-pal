@@ -173,3 +173,10 @@ Branch: codex/docs-full-template-proposal
 | test-run-report | docs/testing/e2e/stages/001-opening/report.md |
 | test-machine-evidence | docs/testing/e2e/evidence/e2e-001.json（document-audit-v2） |
 | quality-gate | docs/ops/audits/pre-e2e/quality-gate-remediation.md（history overlay） |
+
+### 2026-10-15 首个同类型后续批次：三个域报告
+
+- 已继续完成 editor command-form-families、editor map-workspace-sessions、phase1 dependency-ownership；原四节全文、YAML、testing-meta、candidate/历史版本和全部旧结论保留，新增具体 claim matrix、合法输入、阶段与 quality scope。
+- 阶段分别为 phase2/editor、phase2/editor、phase1/game，不从统一 publication 元数据的 content/SAVE 轴推导一阶段行为或旧档兼容。原“remain legacy”按原审计日期读取，工具当前位置/清理状态须逐项另核。
+- 三份实际 paired consumer 均零问题，保留回执纳入现有 catalog pilot receipt；没有为了计数创建平行报告。累计 **27/1838 基线 + 4 增量**，17/17 类型、31 篇实际正文合同；当前仍有 **1910** 候选未完成，旧 ledger 589 条不代表589篇迁移。
+- 60 项工具测试、完整 check:docs 与本批静态门通过；动态、视觉、旧反控和 coverage 未运行。下一批核这三份 paired evidence 的全部JSON字段，再做独立 envelope/consumer/历史边界迁移；不能从报告模板通过自动授予其证据 reviewed。

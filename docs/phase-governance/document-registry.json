@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 586,
+    "total": 589,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,7 +14,7 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 7
+      "testing": 10
     },
     "byType": {
       "guide-runbook": 15,
@@ -31,15 +31,15 @@
       "test-e2e-stage": 1,
       "test-run-report": 1,
       "test-machine-evidence": 1,
-      "test-domain-report": 1,
+      "test-domain-report": 4,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 586
+      "content-reviewed": 589
     },
     "templateCompliance": {
-      "template-compliant": 28,
+      "template-compliant": 31,
       "governed-legacy": 558
     }
   },
@@ -6526,6 +6526,42 @@
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
       "phase": "testing",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-catalog-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-catalog-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-catalog-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-catalog-pilot-batch.json"
