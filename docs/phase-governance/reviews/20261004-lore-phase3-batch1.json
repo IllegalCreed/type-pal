@@ -1000,282 +1000,1135 @@
     {
       "path": "docs/phase3/README.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Phase3 is explicitly future content reconstruction/productization after phase2; it separates release/IP, map reconstruction, website, offline app, user/cloud systems, localization, and MMO ideas from current phase2 work.",
+      "coreConclusion": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
       "truthAnchors": [
-        "phase2 remains the current mainline",
-        "phase3 items have no build authority",
-        "copyright/IP replacement is a release gate, not a phase2 gate"
+        "docs/phase3/README.md:1",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase2/READ-FIRST.md:1"
       ],
       "unresolved": [
-        "priority/order is roadmap guidance, not committed schedule",
-        "future product/IP decisions require user review"
+        "阶段实施仍无build；当前任务/能力事实回各自权威入口。",
+        "旧技术/尺寸/工期不在目录认证为今天事实，原记录完整移入backlog。"
       ],
-      "nextStep": "Keep all phase3 items draft/backlog until a scoped phase3 task receives current evidence and user approval.",
+      "nextStep": "Keep draft product ideas/designs outside build; continue full docs governance and final whole-scope audit; future implementation needs scoped current evidence and authorization.",
       "phase": "phase3",
-      "module": "README.md",
+      "module": "governance",
       "capability": "phase3-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代替未来产品Owner或用户取舍）",
+      "provenance": [
+        "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "294fc20df1a02bfd9f46929f8ba2e4698958816e",
+        "four complete original documents",
+        "read-only independent design agree",
+        "explicit current/historical/future scope separation"
+      ],
       "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
-      "afterSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase3/README.md"],
+      "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+      "publicCallers": [
+        "phase3 navigation",
+        "phase/lore catalog and generated indexes",
+        "docs template/model checker"
+      ],
+      "legalInputs": [
+        "original source documents, dates and author phase decisions",
+        "48e2019 source references as historical snapshot, not current compatibility",
+        "no new product/data/asset execution input"
+      ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "phase3-document-scope-and-semantic-preservation",
         "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
+          "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+          "原README目标与远期两个完整原块移入既有backlog，不产生第二份产品方案。",
+          "原索引表和全部旧标题锚点仍可导航。",
+          "Phase classification does not change product behavior, build authority or current-version policy."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase3/README.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/phase3/README.md",
+          "docs/phase3/backlog.md",
+          "docs/phase2/capability-map.md"
+        ],
+        "notes": "README routes; backlog owns moved long-form candidate text; capability/ops sources keep current task status. No duplicate current product truth."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+        "originalInventoryVersions": {
+          "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "implementationSha": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "date": "2026-10-04",
+              "action": "content-deep-review-batch-1",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
             "action": "content-deep-review-batch-1",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "actual-phase3-semantic-template-migration",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+            "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+            "docTypeBefore": "governance-index",
+            "docTypeAfter": "governance-index",
+            "beforeAfter": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase3/README.md",
-        "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267"
+        "kind": "full-content-semantic-rewrite-and-source-block-mapping",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+        "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+        "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+        "lineCount": 81
       },
       "history": [
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-phase3-semantic-template-migration",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+          "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+          "docTypeBefore": "governance-index",
+          "docTypeAfter": "governance-index",
+          "beforeAfter": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "event": "Non-author history_cards_a independently accepted full source/candidate semantic migration, 14 block mappings, actual consumers and scoped fragments; no product or dynamic verification credit",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-115",
+      "stopLine": "No phase3 product/schema/asset/map/script build or publication from document status; old forecasts/legal assertions and source snapshots are not current proof.",
+      "userVisibleBeforeAfter": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+      "reviewedLines": "1-81",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original four documents and D32 directly read; manual content-specific chapter restructuring and source→target block migration; historical source sample and prior ledger read",
+      "reviewDepth": "deep-semantic",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "Actual content migration and semantic type/status correction; old limited ledger preserved",
+          "record": {
+            "path": "docs/phase3/README.md",
+            "contentReviewStatus": "content-reviewed",
+            "coreConclusion": "Phase3 is explicitly future content reconstruction/productization after phase2; it separates release/IP, map reconstruction, website, offline app, user/cloud systems, localization, and MMO ideas from current phase2 work.",
+            "truthAnchors": [
+              "phase2 remains the current mainline",
+              "phase3 items have no build authority",
+              "copyright/IP replacement is a release gate, not a phase2 gate"
+            ],
+            "unresolved": [
+              "priority/order is roadmap guidance, not committed schedule",
+              "future product/IP decisions require user review"
+            ],
+            "nextStep": "Keep all phase3 items draft/backlog until a scoped phase3 task receives current evidence and user approval.",
+            "phase": "phase3",
+            "module": "README.md",
+            "capability": "phase3-README",
+            "owner": "Codex",
+            "provenance": ["source-document", "repository-history"],
+            "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+            "afterSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+            "publicCallers": ["docs navigation"],
+            "legalInputs": ["current repository documentation", "docs/phase3/README.md"],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "core conclusion is grounded in the read body",
+                "unresolved claims remain explicitly blocked"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": ["docs/phase-governance/catalog.json", "docs/phase3/README.md"],
+              "notes": "Content review record; no runtime/E2E/coverage credit."
+            },
+            "revision": {
+              "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "implementationSha": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "date": "2026-10-04",
+                  "action": "content-deep-review-batch-1",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/phase3/README.md",
+              "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267"
+            },
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-115",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "template": "docs/phase-governance/templates/governance-index.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-read",
+            "reviewDepth": "deep-semantic"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "primarySource": [
+        "docs/phase3/README.md @ 28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "documentStatus": "current (navigation-only or future design maturity; no product build)",
+      "phaseAnchors": [
+        "phase3 planning/navigation",
+        "phase2 D32:522-531",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/phase3/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase2/decisions.md"
+      ],
+      "applicability": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+      "publicEntry": "docs/phase3/README.md",
+      "counterReworkBlocked": {
+        "migration": "accepted by non-author history_cards_a on 2026-10-16; no migration counter; product/history limits remain explicit",
+        "unresolvedProductOrHistoryLimits": [
+          "阶段实施仍无build；当前任务/能力事实回各自权威入口。",
+          "旧技术/尺寸/工期不在目录认证为今天事实，原记录完整移入backlog。"
+        ]
+      },
+      "reviewedSourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+      "sourceGitRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "294fc20df1a02bfd9f46929f8ba2e4698958816e",
+      "contentRelocations": [
+        {
+          "sourcePath": "docs/phase3/README.md",
+          "sourceHeading": "第三阶段目标（2026-07-18 用户定调，后续增补）",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "4c4784cc06ebb43c910b3b514a9cc1092c64ded565ea886c1a2d101382d058f0",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/README.md",
+          "sourceHeading": "远期：MMO + 深度玩法",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "9bd46c0e0bd1293bde6914b5f982cdefec3f5774a17082b34134759aae6b5232",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/README.md",
+          "sourceHeading": "索引",
+          "targetPath": "docs/phase3/README.md",
+          "targetSection": "入口与责任",
+          "sourceBlockSha256": "061f34ab86df18d7e4ec86cb233b7826df61bdaac53dc8e970503878d4789cb7",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        }
+      ],
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Concrete five registered chapters, explicit state/history/owner/source/next-step; original blocks preserved and non-author independent review accepted."
+      }
     },
     {
       "path": "docs/phase3/backlog.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Preserves phase3 wish-list material moved from phase2: copyright replacement, map reconstruction, MMO/RPG systems, world/lore expansion. It explicitly states non-commitment and no phase2 build.",
+      "coreConclusion": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
       "truthAnchors": [
-        "items are backlog/wish-list",
-        "phase2 must not pre-build MMO hooks",
-        "map reconstruction has a separate technical plan"
+        "docs/phase3/backlog.md:1",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase2/READ-FIRST.md:1"
       ],
       "unresolved": [
-        "all D5–D24 mechanics remain unapproved designs",
-        "copyright and release scope require later legal/product decisions"
+        "具体机制/技术/预算/发行/实施时点待独立证据与用户取舍；阶段归属不退回任意想法。",
+        "旧认证/存储前提具备是条件性愿景，不认证基础设施、网络或玩法准入。"
       ],
-      "nextStep": "Use as historical product intent and candidate pool, not as current engineering contract.",
+      "nextStep": "Keep draft product ideas/designs outside build; continue full docs governance and final whole-scope audit; future implementation needs scoped current evidence and authorization.",
       "phase": "phase3",
-      "module": "backlog.md",
+      "module": "backlog",
       "capability": "phase3-backlog",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代替未来产品Owner或用户取舍）",
+      "provenance": [
+        "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "c2d65de9123e06815cf6ae50a367c18780605cf5",
+        "four complete original documents",
+        "read-only independent design agree",
+        "explicit current/historical/future scope separation"
+      ],
       "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
-      "afterSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase3/backlog.md"],
+      "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+      "publicCallers": [
+        "phase3 navigation",
+        "phase/lore catalog and generated indexes",
+        "docs template/model checker"
+      ],
+      "legalInputs": [
+        "original source documents, dates and author phase decisions",
+        "48e2019 source references as historical snapshot, not current compatibility",
+        "no new product/data/asset execution input"
+      ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "phase3-document-scope-and-semantic-preservation",
         "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
+          "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+          "原五个H2块及README两长块完整保留，仅标题降一级。",
+          "第二阶段不为MMO留口与第三阶段未来复用分别表述；两个P编号语义不混用。",
+          "Phase classification does not change product behavior, build authority or current-version policy."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase3/backlog.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/phase3/README.md",
+          "docs/phase3/backlog.md",
+          "docs/phase2/capability-map.md"
+        ],
+        "notes": "README routes; backlog owns moved long-form candidate text; capability/ops sources keep current task status. No duplicate current product truth."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+        "originalInventoryVersions": {
+          "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "implementationSha": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "date": "2026-10-04",
+              "action": "content-deep-review-batch-1",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
             "action": "content-deep-review-batch-1",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "actual-phase3-semantic-template-migration",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+            "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+            "docTypeBefore": "plan-status",
+            "docTypeAfter": "narrative-idea",
+            "beforeAfter": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase3/backlog.md",
-        "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d"
+        "kind": "full-content-semantic-rewrite-and-source-block-mapping",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+        "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+        "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+        "lineCount": 229
       },
       "history": [
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-phase3-semantic-template-migration",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+          "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+          "docTypeBefore": "plan-status",
+          "docTypeAfter": "narrative-idea",
+          "beforeAfter": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "event": "Non-author history_cards_a independently accepted full source/candidate semantic migration, 14 block mappings, actual consumers and scoped fragments; no product or dynamic verification credit",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-100",
-      "docType": "plan-status",
-      "templateId": "plan-status-v1",
-      "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
+      "stopLine": "No phase3 product/schema/asset/map/script build or publication from document status; old forecasts/legal assertions and source snapshots are not current proof.",
+      "userVisibleBeforeAfter": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+      "reviewedLines": "1-229",
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "template": "docs/phase-governance/templates/narrative-idea.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original four documents and D32 directly read; manual content-specific chapter restructuring and source→target block migration; historical source sample and prior ledger read",
+      "reviewDepth": "deep-semantic",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "Actual content migration and semantic type/status correction; old limited ledger preserved",
+          "record": {
+            "path": "docs/phase3/backlog.md",
+            "contentReviewStatus": "content-reviewed",
+            "coreConclusion": "Preserves phase3 wish-list material moved from phase2: copyright replacement, map reconstruction, MMO/RPG systems, world/lore expansion. It explicitly states non-commitment and no phase2 build.",
+            "truthAnchors": [
+              "items are backlog/wish-list",
+              "phase2 must not pre-build MMO hooks",
+              "map reconstruction has a separate technical plan"
+            ],
+            "unresolved": [
+              "all D5–D24 mechanics remain unapproved designs",
+              "copyright and release scope require later legal/product decisions"
+            ],
+            "nextStep": "Use as historical product intent and candidate pool, not as current engineering contract.",
+            "phase": "phase3",
+            "module": "backlog.md",
+            "capability": "phase3-backlog",
+            "owner": "Codex",
+            "provenance": ["source-document", "repository-history"],
+            "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+            "afterSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+            "publicCallers": ["docs navigation"],
+            "legalInputs": ["current repository documentation", "docs/phase3/backlog.md"],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "core conclusion is grounded in the read body",
+                "unresolved claims remain explicitly blocked"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": ["docs/phase-governance/catalog.json", "docs/phase3/backlog.md"],
+              "notes": "Content review record; no runtime/E2E/coverage credit."
+            },
+            "revision": {
+              "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "implementationSha": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "date": "2026-10-04",
+                  "action": "content-deep-review-batch-1",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/phase3/backlog.md",
+              "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d"
+            },
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-100",
+            "docType": "plan-status",
+            "templateId": "plan-status-v1",
+            "template": "docs/phase-governance/templates/plan-status.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-read",
+            "reviewDepth": "deep-semantic"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "primarySource": [
+        "docs/phase3/backlog.md @ 28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "documentStatus": "draft (navigation-only or future design maturity; no product build)",
+      "phaseAnchors": [
+        "phase3 planning/navigation",
+        "phase2 D32:522-531",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/phase3/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase2/decisions.md"
+      ],
+      "applicability": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+      "publicEntry": "docs/phase3/backlog.md",
+      "counterReworkBlocked": {
+        "migration": "accepted by non-author history_cards_a on 2026-10-16; no migration counter; product/history limits remain explicit",
+        "unresolvedProductOrHistoryLimits": [
+          "具体机制/技术/预算/发行/实施时点待独立证据与用户取舍；阶段归属不退回任意想法。",
+          "旧认证/存储前提具备是条件性愿景，不认证基础设施、网络或玩法准入。"
+        ]
+      },
+      "reviewedSourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+      "sourceGitRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "c2d65de9123e06815cf6ae50a367c18780605cf5",
+      "contentRelocations": [
+        {
+          "sourcePath": "docs/phase3/backlog.md",
+          "sourceHeading": "0. 发布与版权资源替换",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "已知约束",
+          "sourceBlockSha256": "4378fd025be90903cbe962113f500d267a42f127243ceeb270764500190b3abd",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/backlog.md",
+          "sourceHeading": "0.1 构件化地图重建与拆房迁移",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "已知约束",
+          "sourceBlockSha256": "a762e4749166be0e183ea2788fe8c626bc5d5d4d1109d7a9a95aa93225c34172",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/backlog.md",
+          "sourceHeading": "A. MMO（最远期）",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "0ca9d0621c6600568471dfa9d3da25554abe478ab1846520708041bf8d3270b2",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/backlog.md",
+          "sourceHeading": "B. 战斗 / 成长系统（移交：MMO/RPG 量级玩法，第二阶段不碰）",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "ab03c3cab7f34ba2138674e52282497163e1165906e4d5f518f2849bbc5c0db1",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/backlog.md",
+          "sourceHeading": "C. 世界观 / 玩法扩展系统（移交：种族 / 门派 / 御灵之类）",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "0f2a6e8535f8f2e2850e88decf7b8441902d64e9fb21b4c02cf5209407743301",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/README.md",
+          "sourceHeading": "第三阶段目标（2026-07-18 用户定调，后续增补）",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "4c4784cc06ebb43c910b3b514a9cc1092c64ded565ea886c1a2d101382d058f0",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/README.md",
+          "sourceHeading": "远期：MMO + 深度玩法",
+          "targetPath": "docs/phase3/backlog.md",
+          "targetSection": "候选内容",
+          "sourceBlockSha256": "9bd46c0e0bd1293bde6914b5f982cdefec3f5774a17082b34134759aae6b5232",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        }
+      ],
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Concrete five registered chapters, explicit state/history/owner/source/next-step; original blocks preserved and non-author independent review accepted."
+      }
     },
     {
       "path": "docs/phase3/map-reconstruction.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Provides a high-risk future migration plan: source/instance single truth, deterministic local composition, explicit room/script mapping, dry-run/transaction/rollback, and M0–M4 milestones. It repeatedly says no build is authorized.",
+      "coreConclusion": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
       "truthAnchors": [
-        "ProjectMap/GridPos/entity addresses are directly anchored to source lines",
-        "one room per author map does not imply one logical scene",
-        "collision and visual height are orthogonal"
+        "docs/phase3/map-reconstruction.md:1",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase2/READ-FIRST.md:1"
       ],
       "unresolved": [
-        "logic scene boundary, max-height exceptions, collision semantics, migration mappings and performance budgets require a future pilot"
+        "逻辑scene、合成例外/碰撞、共享脚本闭包/事务回退/性能预算仍需未来M0-M4试点。",
+        "本轮只核冻结ProjectMap/GridPos窄来源，不重新验证全部MAP数据、产品实现或旧工具授权。"
       ],
-      "nextStep": "No implementation until a phase3 M0 task verifies current source and user-visible before→after.",
+      "nextStep": "Keep draft product ideas/designs outside build; continue full docs governance and final whole-scope audit; future implementation needs scoped current evidence and authorization.",
       "phase": "phase3",
-      "module": "map-reconstruction.md",
+      "module": "design",
       "capability": "phase3-map-reconstruction",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代替未来产品Owner或用户取舍）",
+      "provenance": [
+        "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "56ec8ec335172d587f00d6a42cf83aa977a2a7d5",
+        "four complete original documents",
+        "read-only independent design agree",
+        "explicit current/historical/future scope separation"
+      ],
       "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
-      "afterSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase3/map-reconstruction.md"],
+      "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+      "publicCallers": [
+        "phase3 navigation",
+        "phase/lore catalog and generated indexes",
+        "docs template/model checker"
+      ],
+      "legalInputs": [
+        "original source documents, dates and author phase decisions",
+        "48e2019 source references as historical snapshot, not current compatibility",
+        "no new product/data/asset execution input"
+      ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "phase3-document-scope-and-semantic-preservation",
         "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
+          "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+          "原六个H2块完整保留并保持原标题锚点，5/6顺序按验收/风险重排。",
+          "当时已发Kimi/GLM补测按历史读，不下发当前任务；所有验收未执行。",
+          "Phase classification does not change product behavior, build authority or current-version policy."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase3/map-reconstruction.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/phase3/README.md",
+          "docs/phase3/backlog.md",
+          "docs/phase2/capability-map.md"
+        ],
+        "notes": "README routes; backlog owns moved long-form candidate text; capability/ops sources keep current task status. No duplicate current product truth."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+        "originalInventoryVersions": {
+          "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "implementationSha": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "date": "2026-10-04",
+              "action": "content-deep-review-batch-1",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
             "action": "content-deep-review-batch-1",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "actual-phase3-semantic-template-migration",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+            "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+            "docTypeBefore": "governance-index",
+            "docTypeAfter": "design-spec",
+            "beforeAfter": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase3/map-reconstruction.md",
-        "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3"
+        "kind": "full-content-semantic-rewrite-and-source-block-mapping",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+        "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+        "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+        "lineCount": 165
       },
       "history": [
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-phase3-semantic-template-migration",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+          "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+          "docTypeBefore": "governance-index",
+          "docTypeAfter": "design-spec",
+          "beforeAfter": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "event": "Non-author history_cards_a independently accepted full source/candidate semantic migration, 14 block mappings, actual consumers and scoped fragments; no product or dynamic verification credit",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-141",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
+      "stopLine": "No phase3 product/schema/asset/map/script build or publication from document status; old forecasts/legal assertions and source snapshots are not current proof.",
+      "userVisibleBeforeAfter": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+      "reviewedLines": "1-165",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original four documents and D32 directly read; manual content-specific chapter restructuring and source→target block migration; historical source sample and prior ledger read",
+      "reviewDepth": "deep-semantic",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "Actual content migration and semantic type/status correction; old limited ledger preserved",
+          "record": {
+            "path": "docs/phase3/map-reconstruction.md",
+            "contentReviewStatus": "content-reviewed",
+            "coreConclusion": "Provides a high-risk future migration plan: source/instance single truth, deterministic local composition, explicit room/script mapping, dry-run/transaction/rollback, and M0–M4 milestones. It repeatedly says no build is authorized.",
+            "truthAnchors": [
+              "ProjectMap/GridPos/entity addresses are directly anchored to source lines",
+              "one room per author map does not imply one logical scene",
+              "collision and visual height are orthogonal"
+            ],
+            "unresolved": [
+              "logic scene boundary, max-height exceptions, collision semantics, migration mappings and performance budgets require a future pilot"
+            ],
+            "nextStep": "No implementation until a phase3 M0 task verifies current source and user-visible before→after.",
+            "phase": "phase3",
+            "module": "map-reconstruction.md",
+            "capability": "phase3-map-reconstruction",
+            "owner": "Codex",
+            "provenance": ["source-document", "repository-history"],
+            "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+            "afterSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+            "publicCallers": ["docs navigation"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/phase3/map-reconstruction.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "core conclusion is grounded in the read body",
+                "unresolved claims remain explicitly blocked"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/phase-governance/catalog.json",
+                "docs/phase3/map-reconstruction.md"
+              ],
+              "notes": "Content review record; no runtime/E2E/coverage credit."
+            },
+            "revision": {
+              "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "implementationSha": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "date": "2026-10-04",
+                  "action": "content-deep-review-batch-1",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/phase3/map-reconstruction.md",
+              "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3"
+            },
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-141",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "template": "docs/phase-governance/templates/governance-index.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-read",
+            "reviewDepth": "deep-semantic"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "primarySource": [
+        "docs/phase3/map-reconstruction.md @ 28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "documentStatus": "draft (navigation-only or future design maturity; no product build)",
+      "phaseAnchors": [
+        "phase3 planning/navigation",
+        "phase2 D32:522-531",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/phase3/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase2/decisions.md"
+      ],
+      "applicability": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+      "publicEntry": "docs/phase3/map-reconstruction.md",
+      "counterReworkBlocked": {
+        "migration": "accepted by non-author history_cards_a on 2026-10-16; no migration counter; product/history limits remain explicit",
+        "unresolvedProductOrHistoryLimits": [
+          "逻辑scene、合成例外/碰撞、共享脚本闭包/事务回退/性能预算仍需未来M0-M4试点。",
+          "本轮只核冻结ProjectMap/GridPos窄来源，不重新验证全部MAP数据、产品实现或旧工具授权。"
+        ]
+      },
+      "reviewedSourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+      "sourceGitRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "56ec8ec335172d587f00d6a42cf83aa977a2a7d5",
+      "contentRelocations": [
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "1. 已确认的创作目标",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "问题与目标",
+          "sourceBlockSha256": "1041b33cbd1d213f7a8cb394b283018b349289065598b0a4d319053a00fa010d",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "2. 当前一手锚点与模型边界",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "真值与约束",
+          "sourceBlockSha256": "34e2e9786ea56f32a35180635d6f78229e1a8e306792af45fb18915733e9fc4c",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "3. 建议技术边界（须经试点决定，不是已完成设计）",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "方案",
+          "sourceBlockSha256": "8b350a6450235d95a4cfc2662dfdb7a1e4ba320170f2ac93d68cc569f5c7e59f",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "4. 拆房与脚本迁移：遗漏风险清单",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "方案",
+          "sourceBlockSha256": "83fb94d9f1c764dedc9e1b84d782153c907f963c85664c5180a2c0481f2cfad9",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "6. 发布边界与当前阶段",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "边界与风险",
+          "sourceBlockSha256": "98af4cf1567683428af57e849ee91a0418d081d796033dda94884f117e3efeb8",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        },
+        {
+          "sourcePath": "docs/phase3/map-reconstruction.md",
+          "sourceHeading": "5. 渐进里程碑与验收出口",
+          "targetPath": "docs/phase3/map-reconstruction.md",
+          "targetSection": "验收",
+          "sourceBlockSha256": "85db627bbd452a477fa307c430166cf537be61aff422b67a32d1593bbae2bb0b",
+          "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+          "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+        }
+      ],
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Concrete five registered chapters, explicit state/history/owner/source/next-step; original blocks preserved and non-author independent review accepted."
+      }
     },
     {
       "path": "docs/phase3/reference/README.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Marks reference inputs as directional phase3 material, not phase2 tasks or approved release work.",
-      "truthAnchors": ["reference input only", "art pipeline is the linked input"],
-      "unresolved": [],
-      "nextStep": "Keep reference material separate from current specs and tasks.",
+      "coreConclusion": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+      "truthAnchors": [
+        "docs/phase3/reference/README.md:1",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["下游旧模型/API/费用/法律结论未重核，不能从目录分类继承。"],
+      "nextStep": "Keep draft product ideas/designs outside build; continue full docs governance and final whole-scope audit; future implementation needs scoped current evidence and authorization.",
       "phase": "phase3",
       "module": "reference",
       "capability": "phase3-reference-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代替未来产品Owner或用户取舍）",
+      "provenance": [
+        "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "e0a0a0fe4d1a7d956e2dcc362bdeff10b9d43791",
+        "four complete original documents",
+        "read-only independent design agree",
+        "explicit current/historical/future scope separation"
+      ],
       "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
-      "afterSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase3/reference/README.md"],
+      "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+      "publicCallers": [
+        "phase3 navigation",
+        "phase/lore catalog and generated indexes",
+        "docs template/model checker"
+      ],
+      "legalInputs": [
+        "original source documents, dates and author phase decisions",
+        "48e2019 source references as historical snapshot, not current compatibility",
+        "no new product/data/asset execution input"
+      ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "phase3-document-scope-and-semantic-preservation",
         "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
+          "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+          "原scope、上级和art-pipeline链接全部保留于五个具体导航章节。",
+          "资源生成Owner继续遵守AGENTS的Codex约束。",
+          "Phase classification does not change product behavior, build authority or current-version policy."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase3/reference/README.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/phase3/README.md",
+          "docs/phase3/backlog.md",
+          "docs/phase2/capability-map.md"
+        ],
+        "notes": "README routes; backlog owns moved long-form candidate text; capability/ops sources keep current task status. No duplicate current product truth."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+        "originalInventoryVersions": {
+          "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "implementationSha": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "date": "2026-10-04",
+              "action": "content-deep-review-batch-1",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
             "action": "content-deep-review-batch-1",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "actual-phase3-semantic-template-migration",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+            "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+            "docTypeBefore": "reference-canon",
+            "docTypeAfter": "governance-index",
+            "beforeAfter": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase3/reference/README.md",
-        "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57"
+        "kind": "full-content-semantic-rewrite-and-source-block-mapping",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+        "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+        "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+        "lineCount": 32
       },
       "history": [
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-phase3-semantic-template-migration",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+          "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+          "docTypeBefore": "reference-canon",
+          "docTypeAfter": "governance-index",
+          "beforeAfter": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "event": "Non-author history_cards_a independently accepted full source/candidate semantic migration, 14 block mappings, actual consumers and scoped fragments; no product or dynamic verification credit",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json"
         }
       ],
       "supersedes": [],
-      "stopLine": "future edits must update this review record and governance catalog",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-10",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
+      "stopLine": "No phase3 product/schema/asset/map/script build or publication from document status; old forecasts/legal assertions and source snapshots are not current proof.",
+      "userVisibleBeforeAfter": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+      "reviewedLines": "1-32",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original four documents and D32 directly read; manual content-specific chapter restructuring and source→target block migration; historical source sample and prior ledger read",
+      "reviewDepth": "deep-semantic",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "Actual content migration and semantic type/status correction; old limited ledger preserved",
+          "record": {
+            "path": "docs/phase3/reference/README.md",
+            "contentReviewStatus": "content-reviewed",
+            "coreConclusion": "Marks reference inputs as directional phase3 material, not phase2 tasks or approved release work.",
+            "truthAnchors": ["reference input only", "art pipeline is the linked input"],
+            "unresolved": [],
+            "nextStep": "Keep reference material separate from current specs and tasks.",
+            "phase": "phase3",
+            "module": "reference",
+            "capability": "phase3-reference-README",
+            "owner": "Codex",
+            "provenance": ["source-document", "repository-history"],
+            "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+            "afterSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+            "publicCallers": ["docs navigation"],
+            "legalInputs": ["current repository documentation", "docs/phase3/reference/README.md"],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "core conclusion is grounded in the read body",
+                "unresolved claims remain explicitly blocked"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": ["docs/phase-governance/catalog.json", "docs/phase3/reference/README.md"],
+              "notes": "Content review record; no runtime/E2E/coverage credit."
+            },
+            "revision": {
+              "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "implementationSha": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "date": "2026-10-04",
+                  "action": "content-deep-review-batch-1",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/phase3/reference/README.md",
+              "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57"
+            },
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "future edits must update this review record and governance catalog",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-10",
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "template": "docs/phase-governance/templates/reference-canon.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-read",
+            "reviewDepth": "deep-semantic"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "primarySource": [
+        "docs/phase3/reference/README.md @ 28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "documentStatus": "current (navigation-only or future design maturity; no product build)",
+      "phaseAnchors": [
+        "phase3 planning/navigation",
+        "phase2 D32:522-531",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/phase3/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase2/decisions.md"
+      ],
+      "applicability": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+      "publicEntry": "docs/phase3/reference/README.md",
+      "counterReworkBlocked": {
+        "migration": "accepted by non-author history_cards_a on 2026-10-16; no migration counter; product/history limits remain explicit",
+        "unresolvedProductOrHistoryLimits": [
+          "下游旧模型/API/费用/法律结论未重核，不能从目录分类继承。"
+        ]
+      },
+      "reviewedSourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+      "sourceGitRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "e0a0a0fe4d1a7d956e2dcc362bdeff10b9d43791",
+      "contentRelocations": [],
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Concrete five registered chapters, explicit state/history/owner/source/next-step; original blocks preserved and non-author independent review accepted."
+      }
     },
     {
       "path": "docs/phase3/reference/art-pipeline.md",

@@ -353,6 +353,51 @@
         "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review."
       ],
       "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant."
+    },
+    {
+      "id": "phase3-navigation-vs-implementation-maturity",
+      "from": [
+        "docs/phase3/README.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md"
+      ],
+      "to": [
+        "docs/phase2/decisions.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/capability-map.md",
+        "AGENTS.md"
+      ],
+      "relationship": "The two current indexes route future work; backlog and map design remain draft. Approved phase/release boundaries remain constraints, while historical D6-D8 decisions, 48e2019 source examples, tool/size/time estimates and MMO infrastructure wishes do not become present implementation truth or build authority.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/backlog.md:1",
+        "docs/phase3/map-reconstruction.md:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json:1"
+      ],
+      "unresolved": [
+        "Specific scene/composition/migration/performance design and future product/release choices still require scoped primary-source review and user decisions.",
+        "Old technical/legal/size/time suggestions and MAP observations were not revalidated as current facts."
+      ],
+      "stopLine": "No phase3 product/schema/asset/script build, no phase2 MMO hooks and no reopening completed phase2 tools from this documentation migration."
+    },
+    {
+      "id": "phase3-index-vs-candidate-text-authority",
+      "from": ["docs/phase3/README.md"],
+      "to": [
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md"
+      ],
+      "relationship": "The index routes stable source/heading identities; original long goal/authoring/localization/forecast and far-future blocks move intact into the existing backlog. Fourteen source blocks retain original dates, decisions, numbers and links with one heading-level demotion; navigation does not maintain a second product plan.",
+      "status": "resolved",
+      "evidence": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json:1",
+        "docs/phase3/README.md:1",
+        "docs/phase3/backlog.md:1"
+      ],
+      "stopLine": "Block preservation is only one check; semantic review and actual link/contract gates remain mandatory and do not grant runtime acceptance."
     }
   ],
   "acceptance": {

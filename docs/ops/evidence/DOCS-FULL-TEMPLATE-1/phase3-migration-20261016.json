@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "id": "DOCS-FULL-TEMPLATE-1-phase3-migration-20261016",
+  "kind": "static-semantic-document-migration",
+  "date": "2026-10-16",
+  "owner": "Codex",
+  "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+  "scope": "Four fully read phase3 documents, semantic chapter routing and explicit historical source/implementation limits; not product build or whole docs acceptance",
+  "entries": [
+    {
+      "path": "docs/phase3/README.md",
+      "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "294fc20df1a02bfd9f46929f8ba2e4698958816e",
+      "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+      "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+      "lineCount": 81,
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "current",
+      "coreConclusion": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+      "unresolved": [
+        "阶段实施仍无build；当前任务/能力事实回各自权威入口。",
+        "旧技术/尺寸/工期不在目录认证为今天事实，原记录完整移入backlog。"
+      ],
+      "beforeType": "governance-index",
+      "phaseCatalogPreviousStatus": "current"
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "e0a0a0fe4d1a7d956e2dcc362bdeff10b9d43791",
+      "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+      "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+      "lineCount": 32,
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "current",
+      "coreConclusion": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+      "unresolved": ["下游旧模型/API/费用/法律结论未重核，不能从目录分类继承。"],
+      "beforeType": "reference-canon",
+      "phaseCatalogPreviousStatus": "current"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "c2d65de9123e06815cf6ae50a367c18780605cf5",
+      "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+      "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+      "lineCount": 229,
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "draft",
+      "coreConclusion": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+      "unresolved": [
+        "具体机制/技术/预算/发行/实施时点待独立证据与用户取舍；阶段归属不退回任意想法。",
+        "旧认证/存储前提具备是条件性愿景，不认证基础设施、网络或玩法准入。"
+      ],
+      "beforeType": "plan-status",
+      "phaseCatalogPreviousStatus": "draft"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourceGitObject": "56ec8ec335172d587f00d6a42cf83aa977a2a7d5",
+      "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+      "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+      "lineCount": 165,
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "draft",
+      "coreConclusion": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+      "unresolved": [
+        "逻辑scene、合成例外/碰撞、共享脚本闭包/事务回退/性能预算仍需未来M0-M4试点。",
+        "本轮只核冻结ProjectMap/GridPos窄来源，不重新验证全部MAP数据、产品实现或旧工具授权。"
+      ],
+      "beforeType": "governance-index",
+      "phaseCatalogPreviousStatus": "current"
+    }
+  ],
+  "blockMappings": [
+    {
+      "sourcePath": "docs/phase3/backlog.md",
+      "sourceHeading": "0. 发布与版权资源替换",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "已知约束",
+      "sourceBlockSha256": "4378fd025be90903cbe962113f500d267a42f127243ceeb270764500190b3abd",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/backlog.md",
+      "sourceHeading": "0.1 构件化地图重建与拆房迁移",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "已知约束",
+      "sourceBlockSha256": "a762e4749166be0e183ea2788fe8c626bc5d5d4d1109d7a9a95aa93225c34172",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/backlog.md",
+      "sourceHeading": "A. MMO（最远期）",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "候选内容",
+      "sourceBlockSha256": "0ca9d0621c6600568471dfa9d3da25554abe478ab1846520708041bf8d3270b2",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/backlog.md",
+      "sourceHeading": "B. 战斗 / 成长系统（移交：MMO/RPG 量级玩法，第二阶段不碰）",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "候选内容",
+      "sourceBlockSha256": "ab03c3cab7f34ba2138674e52282497163e1165906e4d5f518f2849bbc5c0db1",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/backlog.md",
+      "sourceHeading": "C. 世界观 / 玩法扩展系统（移交：种族 / 门派 / 御灵之类）",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "候选内容",
+      "sourceBlockSha256": "0f2a6e8535f8f2e2850e88decf7b8441902d64e9fb21b4c02cf5209407743301",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/README.md",
+      "sourceHeading": "第三阶段目标（2026-07-18 用户定调，后续增补）",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "候选内容",
+      "sourceBlockSha256": "4c4784cc06ebb43c910b3b514a9cc1092c64ded565ea886c1a2d101382d058f0",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/README.md",
+      "sourceHeading": "远期：MMO + 深度玩法",
+      "targetPath": "docs/phase3/backlog.md",
+      "targetSection": "候选内容",
+      "sourceBlockSha256": "9bd46c0e0bd1293bde6914b5f982cdefec3f5774a17082b34134759aae6b5232",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/README.md",
+      "sourceHeading": "索引",
+      "targetPath": "docs/phase3/README.md",
+      "targetSection": "入口与责任",
+      "sourceBlockSha256": "061f34ab86df18d7e4ec86cb233b7826df61bdaac53dc8e970503878d4789cb7",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "1. 已确认的创作目标",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "问题与目标",
+      "sourceBlockSha256": "1041b33cbd1d213f7a8cb394b283018b349289065598b0a4d319053a00fa010d",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "2. 当前一手锚点与模型边界",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "真值与约束",
+      "sourceBlockSha256": "34e2e9786ea56f32a35180635d6f78229e1a8e306792af45fb18915733e9fc4c",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "3. 建议技术边界（须经试点决定，不是已完成设计）",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "方案",
+      "sourceBlockSha256": "8b350a6450235d95a4cfc2662dfdb7a1e4ba320170f2ac93d68cc569f5c7e59f",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "4. 拆房与脚本迁移：遗漏风险清单",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "方案",
+      "sourceBlockSha256": "83fb94d9f1c764dedc9e1b84d782153c907f963c85664c5180a2c0481f2cfad9",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "6. 发布边界与当前阶段",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "边界与风险",
+      "sourceBlockSha256": "98af4cf1567683428af57e849ee91a0418d081d796033dda94884f117e3efeb8",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    },
+    {
+      "sourcePath": "docs/phase3/map-reconstruction.md",
+      "sourceHeading": "5. 渐进里程碑与验收出口",
+      "targetPath": "docs/phase3/map-reconstruction.md",
+      "targetSection": "验收",
+      "sourceBlockSha256": "85db627bbd452a477fa307c430166cf537be61aff422b67a32d1593bbae2bb0b",
+      "method": "entire original content block retained; headings demoted exactly one level; boundary blank lines normalized; internal text, dates, numbers and links unchanged",
+      "boundaryWhitespace": "Original leading/trailing block blank lines normalized by strip plus two final newlines; original complete file bytes remain in source Git blob."
+    }
+  ],
+  "preservationRules": [
+    "All original backlog/map H2 blocks remain in full with headings demoted once only",
+    "Original phase3 README target/far-future blocks moved intact into existing backlog; original index table remains in README",
+    "Original README heading identities kept as concise routes; file paths unchanged",
+    "Short reference index preserves all original links and scope in five concrete chapters"
+  ],
+  "primaryEvidenceRead": [
+    "Four complete original documents",
+    "docs/phase2/decisions.md:522-531",
+    "docs/phase2/READ-FIRST.md",
+    "48e201935841c268c1576a3ca2020b6807c17120:packages/content/src/project-map.ts:45-63",
+    "48e201935841c268c1576a3ca2020b6807c17120:packages/content/src/grid.ts:23-57"
+  ],
+  "notRevalidated": [
+    "complete current product source",
+    "original MAP.MKF observations",
+    "old technology/size/time/legal recommendations",
+    "runtime",
+    "E2E",
+    "visual",
+    "coverage"
+  ],
+  "independentReview": {
+    "reviewer": "history_cards_a (non-author, read-only)",
+    "date": "2026-10-16",
+    "result": "accept",
+    "counters": [],
+    "candidateReceiptSha256": "6037522c38a4036e46ffee98f42470627828c16843da56d12bad499f3141896a",
+    "evidence": [
+      "Full original/candidate four documents and their central records/catalog changes read independently; prior records and source references preserved by deep equality",
+      "All 14 original blocks match source hashes and appear once in declared target section after heading demotion and declared boundary whitespace normalization",
+      "All four final body/source/blob/line identities match receipt and ledgers; eight current catalog source anchors checked",
+      "Marked 17 GFM heading parse plus local slug check: 37 old heading identities retained, 16 outgoing fragments and four original copyright incoming links reachable",
+      "Actual document model: 7 routes / 75 body contracts / 0 issues; phase/lore 184 passed"
+    ],
+    "limits": "Document migration only; not online GitHub click verification, current complete source, old technology/legal claims, runtime/E2E/visual/coverage or whole docs completion"
+  },
+  "selfHashPolicy": "Receipt identity is external Git blob/commit; no self-embedded after hash",
+  "blockPreservationCheck": {
+    "blocks": 14,
+    "result": "pass",
+    "scope": "Mechanical full-block preservation only; semantic reader review and template/model/consumer checks are separately required."
+  },
+  "staticGates": {
+    "docs": {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "toolTests": 63,
+      "routes": 7,
+      "bodyContracts": 75,
+      "registeredContentReviews": 608,
+      "issues": 0
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "files": 4074,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "diff": {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    "scope": "Partial document migration validation; non-author semantic/source preservation/fragment review accepted separately; whole-goal final audit pending"
+  },
+  "authoringFailures": [
+    {
+      "gate": "git diff --check",
+      "finding": "map-reconstruction extra blank line at EOF",
+      "resolution": "normalized trailing blank lines and recomputed only its actual body identities; no rule exclusion",
+      "currentStatus": "repaired; final git diff --check exit 0, no diagnostic or rule exclusion"
+    }
+  ]
+}

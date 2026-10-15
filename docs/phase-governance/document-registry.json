@@ -24,10 +24,10 @@
       "governance-index": 24,
       "task-card": 306,
       "quality-gate": 1,
-      "reference-canon": 17,
-      "narrative-idea": 1,
-      "plan-status": 64,
-      "design-spec": 41,
+      "reference-canon": 16,
+      "narrative-idea": 2,
+      "plan-status": 63,
+      "design-spec": 42,
       "test-e2e-stage": 1,
       "test-run-report": 1,
       "test-machine-evidence": 13,
@@ -39,8 +39,8 @@
       "content-reviewed": 608
     },
     "templateCompliance": {
-      "template-compliant": 71,
-      "governed-legacy": 537
+      "template-compliant": 75,
+      "governed-legacy": 533
     }
   },
   "entries": [
@@ -6321,24 +6321,26 @@
     {
       "path": "docs/phase3/backlog.md",
       "phase": "phase3",
-      "docType": "plan-status",
-      "templateId": "plan-status-v1",
-      "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "template": "docs/phase-governance/templates/narrative-idea.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase3/map-reconstruction.md",
       "phase": "phase3",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase3/README.md",
@@ -6346,10 +6348,11 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/phase3/reference/art-pipeline.md",
@@ -6367,13 +6370,14 @@
     {
       "path": "docs/phase3/reference/README.md",
       "phase": "phase3",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/README.md",

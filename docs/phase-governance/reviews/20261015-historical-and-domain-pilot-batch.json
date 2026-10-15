@@ -254,7 +254,7 @@
       "reviewedSourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
+      "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -283,7 +283,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "1aa52bfe273ab2d6baad6a54174ce6f3c0a19eabcec2ba06172d24290b029286",
+        "implementationSha": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
         "contentVersion": "N/A-doc-governance; original revision versions retained",
         "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
         "history": [
@@ -313,7 +313,7 @@
         "kind": "static-semantic-migration-and-original-content-preservation",
         "path": "docs/phase-governance/cross-phase-matrix.json",
         "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
-        "afterSha256": "1aa52bfe273ab2d6baad6a54174ce6f3c0a19eabcec2ba06172d24290b029286",
+        "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
         "lineCount": 45
       },
       "history": [
@@ -351,6 +351,13 @@
           "sourceSha256": "74228d94e219233b9a9f8e440e1bb734c598db8fab91fed1a8be172e340606f6",
           "afterSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
           "beforeAfter": "16 registered relationships → 17; preserve old classifier membership semantics without inheriting whole-docs review credit."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "phase3-authority-and-maturity-relationships",
+          "sourceSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
+          "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+          "beforeAfter": "17 registered relationships → 19; explain current navigation/draft design and unique candidate-text ownership without new product authority."
         }
       ],
       "supersedes": [],

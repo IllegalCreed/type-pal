@@ -49,3 +49,5 @@
 - [历史卡包A作者候选回执](contributor-history-cards-a-20261015.json)保留c86b92d原候选状态；根线程独立接收后的SHA与逐篇结论另写[本批回执](domain-pair-migration-20261015.json)，不改作者历史自验结果。
 
 - [历史卡包B作者回执](contributor-history-cards-b-20261015.json)保留b8c8fa4f候选与作者自验；根线程逐篇独立接收、最终SHA及A/B交接时态同步记录在[本批回执](domain-pair-migration-20261015.json)，不授予旧FSA/用户观感/CI或动态通过。
+
+- [第三阶段四篇迁移回执](phase3-migration-20261016.json)记录正文类型/状态纠正、14个原块映射和入口长文移入原议题池；原阶段裁决、冻结来源与未实施边界保留，独立候选复核及全量完成度另验。

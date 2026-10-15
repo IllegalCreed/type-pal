@@ -139,7 +139,6 @@
 - [第二阶段现行规范](../phase2/specs/README.md) · phase2/specs
 - [当前存档合同](../phase2/specs/save-system.md) · phase2/specs
 - [作者脚本与运行时合同](../phase2/specs/script-system.md) · phase2/specs
-- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/governance
 - [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) · phase3/governance
 - [第三阶段参考输入](../phase3/reference/README.md) · phase3/reference
 
@@ -193,4 +192,5 @@
 - [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) · phase1/plans
 - [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) · phase1/plans
 - [第二阶段 · 设计议题池（backlog）](../phase2/design-backlog.md) · phase2/governance
-- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/governance
+- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/backlog
+- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/design

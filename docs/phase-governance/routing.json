@@ -358,6 +358,22 @@
       "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "templateId": "narrative-idea-v1"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "templateId": "design-spec-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

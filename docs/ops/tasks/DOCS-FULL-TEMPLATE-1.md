@@ -235,3 +235,17 @@ Branch: codex/docs-full-template-proposal
 - history_cards_a对根c1c4ba289b44ad060cb4c5f3ab881a5412f229cd五机器JSON作非作者独立accept：全文5原/新JSON、5中央记录/回执，5严格逆对象、18源范围/hash/anchor、5真实consumer/唯一catalog id与scoped model通过；无counter。不核未全文canonical/完整migration ledger、runtime/E2E/视觉/coverage。
 - 当前67/1838基线+4增量，1874当前候选待迁移；608旧+新账本条目不等608篇迁移，537条governed-legacy仍未闭合。63文档工具/71正文合同与完整check:docs通过；lint4073文件0 error/warning/info，diff检查通过。未写main、产品源码/旧测试/coverage，目标active、任务build，未全量完成。
 - 根线程已全文核读第三阶段剩余README、reference/README、backlog、map-reconstruction四篇与phase2 D32:522–531，尚未迁移/计数。发现旧类型把map规划当index、reference入口当canon，以及current catalog标签与无build规划须区分；下一批按已读语义纠正绑定/状态、保留冻结48e2019锚点与原技术/工期建议的历史范围，不能将其当新实施授权。
+
+### 2026-10-16 第三阶段四篇设计与文档准入
+
+- 非作者只读设计复核agree：两个目录为governance-index/current，backlog为narrative-idea/draft，map-reconstruction为design-spec/draft。使用现有已冻结1.0.0和有效pilot，无新类型/格式变体；Codex为唯一正文Owner，纯文档build allowed，不授予第三阶段产品build。
+- README长篇候选与估期转入既有backlog同提交保存并给段落映射，入口只做路由；已拍板版权/地图阶段归属作为约束，旧D6–D8的“决定”、技术尺寸/工期与MMO前提不升级当前实现合同。map保留48e2019快照语义；catalog current→draft只纠正设计成熟度。
+- 白名单为四篇正文及对应review/registry/routing/phase catalog/生成索引/跨域矩阵/本卡/专属保留回执/证据导航。原路径与锚点保持或有明确导航映射，不改产品/旧测试/coverage。Reviewer在候选后独立核完整前后文本与语义移动，静态全门另跑。
+- 已核现有tracked Markdown中四条入站锚点均指backlog版权段；该标题保留。首次全仓扫描遇未检出reference/sdlpal/AUTHORS.md，随后按现有文件明确重扫，未把缺失子模块当完成/断链修复。现有通用链接门只核文件目标、不覆盖fragment，不能据局部链接绿宣称全库锚点通过；本批另核四篇的实际锚点与后续全量检查范围。
+
+### 2026-10-16 第三阶段四篇独立接收
+
+- history_cards_a只读全文核原/新四篇、中央记录、catalog与回执，独立accept，无counter；14个原文块按已声明标题降级和边界空白规范化完整保留，各在目标章节唯一出现，旧记录/引用完整保留。两个目录负责导航，backlog为唯一长篇候选池，map为无build的draft；不能由current入口继承产品实施准入。
+- 实际GFM解析与本地slug核37个旧标题、16个出站fragment与4个版权段入链均可达；仅本批范围，不冒称线上点击或全库锚点检查。原48e快照、MMO阶段、版权、旧技术/估期及未来验收边界保留。
+- 累计71/1838基线+4增量已迁移，1871当前候选待迁移；新增治理回执仍列增量候选，不静默豁免。63文档工具测试、75正文合同、完整check:docs零问题，lint4074文件零error/warning/info，diff检查零诊断；首轮地图EOF空行被拒并修复，失败记录保留。
+- 主树未改、未合main，任务build/目标active。最终全库附件归属、片段链接和独立验收仍待完成，阶段文档迁移不等于产品runtime/E2E/视觉/coverage通过。继续下一批，不需用户搬运或重复批准。

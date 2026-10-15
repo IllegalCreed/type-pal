@@ -13,8 +13,8 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 51,
-      "draft": 49,
+      "current": 50,
+      "draft": 50,
       "archived": 84
     }
   },
@@ -19975,31 +19975,38 @@
       "path": "docs/phase3/backlog.md",
       "title": "第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）",
       "phase": "phase3",
-      "module": "governance",
+      "module": "backlog",
       "capability": "phase3-backlog",
       "status": "draft",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
-      "afterSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+      "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
       "sourceRefs": [
         {
           "path": "docs/phase3/backlog.md",
           "lines": "1-1",
-          "anchor": "第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）",
-          "role": "document-source",
-          "sha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d"
+          "anchor": "# 第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）",
+          "role": "reviewed-document-scope-only",
+          "sha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef"
+        },
+        {
+          "path": "docs/phase2/decisions.md",
+          "lines": "522-531",
+          "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
+          "role": "approved-phase-boundary-not-build-authority",
+          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
         }
       ],
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase3/backlog.md:1-1"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "semantic-document-scope-not-product-proof",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+          "原五个H2块及README两长块完整保留，仅标题降一级。",
+          "第二阶段不为MMO留口与第三阶段未来复用分别表述；两个P编号语义不混用。"
         ]
       },
       "dedupe": {
@@ -20008,8 +20015,8 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20018,88 +20025,94 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "phase3-document-template-and-status-correction",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+            "scope": "Document source/maturity only; original inventory versions preserved",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "applicability": "Documentation migration source only; contentVersion/minimumSaveVersion retain original inventory scope, not a current runtime/save contract."
       },
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+        "currentReading": {
+          "scope": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+          "date": "2026-10-16",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-semantic-migration-and-scope-correction",
+          "previousAfterSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+          "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+          "previousStatus": "draft",
+          "previousModule": "governance",
+          "previousSourceRefs": [
+            {
+              "path": "docs/phase3/backlog.md",
+              "lines": "1-1",
+              "anchor": "第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）",
+              "role": "document-source",
+              "sha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d"
+            }
+          ],
+          "originalInventoryVersions": {
+            "content": 22,
+            "minimumSave": 11
+          },
+          "note": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"],
+          "previousInventoryRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "未承诺的MMO/RPG愿景与原阶段入口移入的产品化/作者增强在同一候选池；版权/地图阶段归属仍是已拍板约束。原D6-D8决定、P0-P3口径、MMO留口和工期保持各自历史范围，不升级当前产品canon。",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase3-map-reconstruction",
       "path": "docs/phase3/map-reconstruction.md",
       "title": "构件提取、房间重绘与场景脚本迁移",
       "phase": "phase3",
-      "module": "governance",
+      "module": "design",
       "capability": "phase3-map-reconstruction",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
-      "afterSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+      "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
       "sourceRefs": [
         {
-          "path": "packages/content/src/project-map.ts",
+          "path": "docs/phase3/map-reconstruction.md",
           "lines": "1-1",
-          "anchor": "/** 地图与组合共享的等距视觉层。高度和瓦片来源都属于格子实例。 */",
-          "role": "body-source-reference",
-          "sha256": "243364b913aaee6e9cdfa4aeff49955ea7e9e26b3cf825734ea3e28b332be9f8"
+          "anchor": "# 构件提取、房间重绘与场景脚本迁移",
+          "role": "reviewed-document-scope-only",
+          "sha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0"
         },
         {
-          "path": "packages/content/src/stamp.ts",
-          "lines": "4-4",
-          "anchor": "export interface StampTemplate extends IsometricMapContent<number | null> {",
-          "role": "body-source-reference",
-          "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a"
-        },
-        {
-          "path": "packages/reforge/src/project-map.ts",
-          "lines": "96-96",
-          "anchor": "export function latticeCenter(pos: LatticePos): { x: number; y: number } {",
-          "role": "body-source-reference",
-          "sha256": "3e301a36bbdfe7d0ec9b53fdc32c359d692090b929dc9e7b1179de45fe973a2e"
-        },
-        {
-          "path": "packages/editor/src/core/stamp-placement.ts",
-          "lines": "1-1",
-          "anchor": "import {",
-          "role": "body-source-reference",
-          "sha256": "e021499cb3c6d549019087377ac901a26009fc7691d79d2931634a9a24e3505e"
-        },
-        {
-          "path": "packages/content/src/grid.ts",
-          "lines": "23-23",
-          "anchor": "export interface GridPos {",
-          "role": "body-source-reference",
-          "sha256": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6"
-        },
-        {
-          "path": "packages/editor/src/core/map-transform.ts",
-          "lines": "82-82",
-          "anchor": "export function latticeU(point: GridPointRef): number {",
-          "role": "body-source-reference",
-          "sha256": "142e3dd3c606431e36ae348e32283fce07af1dab4c86592bcd3673caeb84511c"
-        },
-        {
-          "path": "packages/content/src/author-script-core.ts",
-          "lines": "20-20",
-          "anchor": "entity: string",
-          "role": "body-source-reference",
-          "sha256": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058"
+          "path": "docs/phase2/decisions.md",
+          "lines": "522-531",
+          "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
+          "role": "approved-phase-boundary-not-build-authority",
+          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -20114,11 +20127,11 @@
         "packages/content/src/author-script-core.ts:20-20"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "semantic-document-scope-not-product-proof",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+          "原六个H2块完整保留并保持原标题锚点，5/6顺序按验收/风险重排。",
+          "当时已发Kimi/GLM补测按历史读，不下发当前任务；所有验收未执行。"
         ]
       },
       "dedupe": {
@@ -20127,8 +20140,8 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20137,25 +20150,108 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "phase3-document-template-and-status-correction",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+            "scope": "Document source/maturity only; original inventory versions preserved",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "applicability": "Documentation migration source only; contentVersion/minimumSaveVersion retain original inventory scope, not a current runtime/save contract."
       },
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+        "currentReading": {
+          "scope": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+          "date": "2026-10-16",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-semantic-migration-and-scope-correction",
+          "previousAfterSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+          "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+          "previousStatus": "current",
+          "previousModule": "governance",
+          "previousSourceRefs": [
+            {
+              "path": "packages/content/src/project-map.ts",
+              "lines": "1-1",
+              "anchor": "/** 地图与组合共享的等距视觉层。高度和瓦片来源都属于格子实例。 */",
+              "role": "body-source-reference",
+              "sha256": "243364b913aaee6e9cdfa4aeff49955ea7e9e26b3cf825734ea3e28b332be9f8"
+            },
+            {
+              "path": "packages/content/src/stamp.ts",
+              "lines": "4-4",
+              "anchor": "export interface StampTemplate extends IsometricMapContent<number | null> {",
+              "role": "body-source-reference",
+              "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a"
+            },
+            {
+              "path": "packages/reforge/src/project-map.ts",
+              "lines": "96-96",
+              "anchor": "export function latticeCenter(pos: LatticePos): { x: number; y: number } {",
+              "role": "body-source-reference",
+              "sha256": "3e301a36bbdfe7d0ec9b53fdc32c359d692090b929dc9e7b1179de45fe973a2e"
+            },
+            {
+              "path": "packages/editor/src/core/stamp-placement.ts",
+              "lines": "1-1",
+              "anchor": "import {",
+              "role": "body-source-reference",
+              "sha256": "e021499cb3c6d549019087377ac901a26009fc7691d79d2931634a9a24e3505e"
+            },
+            {
+              "path": "packages/content/src/grid.ts",
+              "lines": "23-23",
+              "anchor": "export interface GridPos {",
+              "role": "body-source-reference",
+              "sha256": "3cb90d5b58af9c824f7d772cdc79753b962627f2fb8c02b59284f98158f766e6"
+            },
+            {
+              "path": "packages/editor/src/core/map-transform.ts",
+              "lines": "82-82",
+              "anchor": "export function latticeU(point: GridPointRef): number {",
+              "role": "body-source-reference",
+              "sha256": "142e3dd3c606431e36ae348e32283fce07af1dab4c86592bcd3673caeb84511c"
+            },
+            {
+              "path": "packages/content/src/author-script-core.ts",
+              "lines": "20-20",
+              "anchor": "entity: string",
+              "role": "body-source-reference",
+              "sha256": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058"
+            }
+          ],
+          "originalInventoryVersions": {
+            "content": 22,
+            "minimumSave": 11
+          },
+          "note": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"],
+          "previousInventoryRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "地图重建是无build的draft设计；原§1-6按五节表达，48e2019冻结锚点/原MAP观察限定历史时点。已确认max高度/阶段归属不授权迁移、当前schema或地图写盘。",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase3-readme",
@@ -20169,24 +20265,31 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
-      "afterSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+      "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
       "sourceRefs": [
         {
           "path": "docs/phase3/README.md",
           "lines": "1-1",
-          "anchor": "docs/phase3/ — 第三阶段：内容重建与产品化",
-          "role": "document-source",
-          "sha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267"
+          "anchor": "# docs/phase3/ — 第三阶段：内容重建与产品化",
+          "role": "reviewed-document-scope-only",
+          "sha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7"
+        },
+        {
+          "path": "docs/phase2/decisions.md",
+          "lines": "522-531",
+          "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
+          "role": "approved-phase-boundary-not-build-authority",
+          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
         }
       ],
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase3/README.md:1-1"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "semantic-document-scope-not-product-proof",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+          "原README目标与远期两个完整原块移入既有backlog，不产生第二份产品方案。",
+          "原索引表和全部旧标题锚点仍可导航。"
         ]
       },
       "dedupe": {
@@ -20195,8 +20298,8 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20205,25 +20308,66 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "phase3-document-template-and-status-correction",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+            "scope": "Document source/maturity only; original inventory versions preserved",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "applicability": "Documentation migration source only; contentVersion/minimumSaveVersion retain original inventory scope, not a current runtime/save contract."
       },
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+        "currentReading": {
+          "scope": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+          "date": "2026-10-16",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-semantic-migration-and-scope-correction",
+          "previousAfterSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+          "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+          "previousStatus": "current",
+          "previousModule": "governance",
+          "previousSourceRefs": [
+            {
+              "path": "docs/phase3/README.md",
+              "lines": "1-1",
+              "anchor": "docs/phase3/ — 第三阶段：内容重建与产品化",
+              "role": "document-source",
+              "sha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267"
+            }
+          ],
+          "originalInventoryVersions": {
+            "content": 22,
+            "minimumSave": 11
+          },
+          "note": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"],
+          "previousInventoryRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "第三阶段入口只导航；长篇目标/八增强/本地化/旧技术与估期移至原议题池。current仅导航与已记阶段边界，不宣称第三阶段实施或复制Ops/能力地图状态。",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase3-reference-art-pipeline",
@@ -20333,24 +20477,31 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
-      "afterSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+      "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
       "sourceRefs": [
         {
           "path": "docs/phase3/reference/README.md",
           "lines": "1-1",
-          "anchor": "第三阶段参考输入",
-          "role": "document-source",
-          "sha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57"
+          "anchor": "# 第三阶段参考输入",
+          "role": "reviewed-document-scope-only",
+          "sha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2"
+        },
+        {
+          "path": "docs/phase2/decisions.md",
+          "lines": "522-531",
+          "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
+          "role": "approved-phase-boundary-not-build-authority",
+          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
         }
       ],
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase3/reference/README.md:1-1"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "semantic-document-scope-not-product-proof",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+          "原scope、上级和art-pipeline链接全部保留于五个具体导航章节。",
+          "资源生成Owner继续遵守AGENTS的Codex约束。"
         ]
       },
       "dedupe": {
@@ -20359,8 +20510,8 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+        "currentSha": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "implementationSha": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20369,25 +20520,66 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "phase3-document-template-and-status-correction",
+            "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+            "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+            "scope": "Document source/maturity only; original inventory versions preserved",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "applicability": "Documentation migration source only; contentVersion/minimumSaveVersion retain original inventory scope, not a current runtime/save contract."
       },
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+        "currentReading": {
+          "scope": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+          "date": "2026-10-16",
+          "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-semantic-migration-and-scope-correction",
+          "previousAfterSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+          "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+          "previousStatus": "current",
+          "previousModule": "reference",
+          "previousSourceRefs": [
+            {
+              "path": "docs/phase3/reference/README.md",
+              "lines": "1-1",
+              "anchor": "第三阶段参考输入",
+              "role": "document-source",
+              "sha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57"
+            }
+          ],
+          "originalInventoryVersions": {
+            "content": 22,
+            "minimumSave": 11
+          },
+          "note": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+          "notRun": ["runtime", "E2E", "visual", "coverage"],
+          "previousInventoryRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
+      "lastReviewed": "2026-10-16"
     }
   ],
   "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed."

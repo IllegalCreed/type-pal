@@ -41,6 +41,9 @@ Template: governance-index-v1 / 1.0.0
 
 | Legacy分类reviewed ↔ 本次语义深审 | movedTo/closeout成员关系只解释旧账状态，分类规则不是内容验收 | guarded | 不继承旧359/331或零待审信用；逐篇核读及artifact归属另验 |
 
+| Phase3导航 ↔ 实施成熟度 | 两个current索引只导航，议题/地图设计draft，已拍板归属仍有效 | guarded | 48e旧源码/估期/MMO愿景不变成当前build或二阶段预留 |
+| Phase3入口 ↔ 候选正文事实权 | 14原块重组，长篇目标移入原议题池，原路径/标题继续导航 | resolved | 原块保真还须语义/链接/模板复核，不等运行或全量完成 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步

@@ -200,8 +200,8 @@
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) | governance | draft | Codex |
-| [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) | governance | current | Codex |
+| [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) | backlog | draft | Codex |
+| [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) | design | draft | Codex |
 | [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) | governance | current | Codex |
 | [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) | reference | archived | Codex |
 | [第三阶段参考输入](../phase3/reference/README.md) | reference | current | Codex |
