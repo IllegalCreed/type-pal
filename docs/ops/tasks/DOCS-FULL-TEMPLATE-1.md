@@ -304,3 +304,55 @@ Branch: codex/docs-full-template-proposal
 - Codex按已批准范围迁移006 stage/report，分别test-e2e-stage1.0.0与test-run-report1.0.0；完整17/78行原文已读。入口保留原H1/YAML/结论，报告原frontmatter/testing-meta不变、完整正文仅标题降两级可严格逆回读。当前state2与旧state3、首句撤信、原两段偏移/朝向未解释冲突、后继固定批次done均明确分域；不删除旧通过/失败或日期。
 - 当前仅候选，未写中央template-compliant/未计迁移数，待非作者全文核原/新两篇、原对象保真、实际caller/consumer与模板。机器JSON未改，未运行产品/旧测试/coverage/浏览器，不继承旧动态信用。候选SHA及真实阅读边界在C2专属回执pairedMarkdownCandidate。
 - 日期义务设计待独立核：原10-15已过期，候选保持不变。若实际内容/配对证据/状态边界审查足以构成发布复核，可明确记录本次内容结论并将catalog与README的下一次publication reviewBy设10-23；lastVerified10-03、rework、原revision/versions/机器执行字段不变，不把续期当新的E2E。只靠排版不得延期；尚未执行此提案，非作者不认可则保留门失败并记录前提。
+
+
+### 2026-10-16 包C分段独立接收与根集成
+
+- 非作者receipt_review全文核前四原文2453行/全部新prose/对应回执及最终f19e delta，逐篇accept；history_cards_c_tail全文核后四原文2477行/候选3049行及对应回执/最终delta，逐篇accept。三组counter按原证据修复：WorldState.audio.currentMusic/真实音频链/三轮、team-27是ID与380队普查/mock真实链、严格RLE接受单零尾及无尾且无来源拒绝。原quote不动，counter历史和真实读域留中央新记录。
+- 根完整核八卡新章节并逐篇strict Git blob/source/candidate/接收after及4930原行逆回读，直接音乐98/静态117/MIG389与已读A7-0原528；不冒称亲读其余七原卡，按两非作者各自完整原文和primary source实核接收。原作者7ddc/f19e与receipt字节保持历史pending身份，根另记当前接受。接收后只改治理Owner和接受时态，原产品Status/Owner/日期/签字/字节保留。
+- cherry-pick为f7ba8bd6e与60c285366；中央8旧结构化记录进入priorReadings，替为具体deep-semantic/task1.0+archive记录并同步routing/afterSHA。共享设计skip旧说法、face后继、音乐角色和OFL失败/修复在矩阵另4关系明确guarded，不假称共享正文已治理或今天实跑。
+- 中央614内容review、89正文合同与固定分母progress已实际通过；最终集成全门与只读record复核待本轮补齐。006两MD仍独立候选，不计上述数，原10-15日期未延期；目标active/任务build，未合main/产品源码/旧测试/coverage。
+
+
+### 2026-10-16 006发布复核与本批质量门
+
+- receipt_review对40bce两MD原/新全文、严格原文保留、配对JSON和实际Reforge caller独立accept；日期提案独立agree，理由是确实完成完整内容/证据/状态/反证复核，继续保守rework，7日后复核publication合理，不要求为日期补录剧情。实施明确catalog+stage reviewBy10-15→10-23，lastVerified10-03/status rework/原revision/content/save/JSON机器字段不动，原today16过期失败留dated history；其它17entry对象未改。
+- C2.5复核counter：catalog中央当前记录仍留“10-15不延/只4分类字段/deepEqual不动日期”旧断语，不能靠新增history掩盖。已把当前readMethod/core/oracle/unknown/nextStep/before-after等明确区分10-15原full18与10-16仅006实质复核/17对象保持，原对象和错误草稿字段保留priorReadings/history；待非作者最终delta闭合。机器JSON字节仍95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03。
+- 中央新增两篇stage/report完整语义记录；当前投影87/1838基线+4增量、1952当前候选中1861待迁移，616账本=91compliant+525governed-legacy，不得宣称616篇完成。矩阵25关系仍非全量穷尽，新增控制回执/review仍纳增量候选，没有保留豁免。
+- 实际全门：68文档工具0fail/0skip，check:docs1223Markdown/7119本地链接/361任务、91正文合同、testing0、phase/lore184、content616通过。本地today16与paired006均零问题。lint首轮仅旧ops账本JSON格式1error，已格式化复跑4083files/0error/0warning/0info，失败记录保留，未降级规则；diff检查0。中央文字counter最后补核后仍需最终集成门。
+- 任务build、目标active，未合main/推main，没有产品源码/旧测试/coverage改动或新runtime/E2E/视觉信用。下一批D仅只读盘点12历史质量卡943行，尚未实现；共享ledger screen-wave“3fail”与原卡/总纲“3pass/1fail”冲突已识别，待具体设计/独立接收而非继承绿数。
+
+
+### 2026-10-16 本轮独立增量闭合
+
+- history_cards_c_tail对根接收后8条source/candidate/after/metadata/完整逆回读/priorReadings和唯一registry-route签integration accept；后四正文仅治理Owner/接收时态变化。前四语义签仍属于receipt_review，不互相冒领全文阅读。中央旧nextStep移入历史，当前仅指剩余全量工作。
+- receipt_review对006最终日期delta和C2.5修正签accept：其它17catalog entry逐对象不变、006只公开reviewBy改变；旧报告和原机器字节严格相等，原过期负控仍能准确失败。冻结两MD/catalog/JSON与其实际受审record SHA记在C2回执；后续仅根接受签收/真实门维护不冒称新record字节也获旧SHA签字。
+- C2.5已闭合，10-23是publication下次复核而非动态新通过；rework/lastVerified/原runtime flag/版本不变。静态全门首轮格式1error→修复后零诊断，原失败留回执，最终签收维护后复跑。当前87/1838+4增量已接收，1861候选仍待迁移；525governed-legacy无用户保留豁免，不能提前done。
+
+
+### 2026-10-16 包D内容设计与文档准入
+
+- 固定只读预审40bce2fb7fb8d19ff99b228063e337e1b3050fa2，history_cards_a全文12卡943行，逐篇根据目标/白名单/准入/收口绑定task-card1.0.0+archive overlay1.0.0，Q3g只读审计也是一次性任务，不改为通用指南。根核范围、具体反证与基点，全文读Q3c/Q3g/Q3k及ledger182/总纲110直接相反计数，实核12源blob与根当前完全相等；纯历史文档无产品build前提变化。
+- 唯一Coding Owner为history_cards_a；根Codex独立接收。build allowed仅下列12张docs/ops/archive/tasks/done/CODE-QUALITY-*.md及专属docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json；根本接收提交后复用干净候选worktree，新branch codex/docs-history-cards-d，以该稳定根提交为source并再核12blob与40bce相等。原C分支f19e保留，未独立接收D前不合main/不计数。
+
+| 卡尾名 | 五任务章节必须说明的具体合同 | 五历史章节必须保留的边界 |
+|---|---|---|
+| 2-shared-codec-boundaries | MKF/RNG合法字节/非法offset-opcode-surface、空chunk及end后尾部、调用方与当轮收口 | 基点65dbeba3f；15raw/2373chunks/1464帧及shared127/game18/extract17为旧轮，不新对拍 |
+| 2b-shared-yj2-boundaries | 位流/回引guard、合法重叠/early-EOS零尾、3guard反控、无任意尺寸上限 | 2626段34367608B；131与129两处shared数未解释，保留出处不自选；后继Q3c独立 |
+| 3-pal-extract-event-types | slice/annotate纯转换、scene/global BFS/goto及shared归属、45定向/68files415 | 不将移除不可达rule表说成删所有annotation字段；10-04旧全门，不认证当前事件真值 |
+| 3b-pal-extract-io-boundaries | SSS/M.MSG截断/对齐/offset、GBK和末offset，WORD/palette宽容不收紧 | 24165/29058低于24166原失败及266fast/417全包分母；10-04与10-05收口分时 |
+| 3c-editor-coverage-determinism | 同census292/identity定位Workbench174缺帧分支；仅公开组件回归/单点mutant | 先worker/runner猜测后回归缺口；24165→24166、4682probe非正式门；原Owner不补CodingOwner |
+| 3d-pal-extract-png-inputs | encoder尺寸/短pixels或opaque，RGB复制索引/alpha；opaque可省略，不加任意上限 | 9定向/69files419与1044/1507为原指标，等Q3c及后续支持模式门，不从单包泛化全仓 |
+| 3f-pal-extract-symbols-input | 五种可选字符串映射、缺文件{}、非法JSON字段显式失败，17定向/421 | 数字事件ID仍真值，名字只注释；不额外要求Record数字键；后继Q3g |
+| 3g-pal-extract-cli-io | 总装清理/写盘/异常降级/manifest，只读审计无实现缺陷 | 原声称73–896分段审计属历史，本轮未全文CLI；末旧未build/不得done提示不重新执行 |
+| 3h-game-assets-shell | 六文件职责，只有fetch-retry非法retries/backoff窄修、双barrier/负控 | 12files77/game3397/lint3198为旧轮；2962/98与2964/106按清单纠正时点；旧build prompt历史化 |
+| 3i-game-dialog-precache-ui | 五文件，只有音量NaN→0，商标skipKeys注释纠正，其余caller合同保留 | 10files68/game3398；DOM状态不等视觉/E2E，不扩大所有数值拒绝 |
+| 3j-game-tools-speedrun | 七工具，只有display-scale NaN→100%，6total5pass1fail恢复6/6 | 12files47/game3399；checkpoint坐标仍unknown，原临时raw不存在；不新跑速通 |
+| 3k-game-present-primitives | 六primitive，raw[255,65532,0]/WORD与wave<=0；4total3pass1fail恢复4/4 | 13files77/game3400为旧轮；ledger182误写3fail与卡48/60及总纲110相反，明确guarded并由根后继治理共享源；未知视觉坐标保留 |
+
+- 每篇实际五任务章/五历史章、完整原文quote逐字节可逆、原头字段/日期/失败/counter/旧prompt和原标题入口保留；不能只wrapper或模板空壳。新review须具体primary/phase/owner/provenance/合法输入/oracle/排重/状态/历史/源与after SHA/停止线/下一步，作者只自验，根另独立签收。
+- 禁止共享registry/reviews/routing/catalog/board/index/ledger/总纲写入，禁止产品/旧测试/coverage/浏览器/E2E。原卡旧raw、测试绿数和已验证词仅属当时，未读生产全文不授当下全文信用；根后续统一维护已识别共享计数冲突，不为模板再跑产品反控。
+- 初始独立设计范围通过；贡献者先基点/12blob/脏树保护核准，再实现专属包。交付非作者全文核源/候选/一手关键反证及集成门后才accept；无新用户产品裁决项，不要求转发或重复批准。
+
+
+- 本轮签收维护后再次完整实跑：pnpm check:docs全部68工具/91正文合同/616review通过，pnpm lint4083files零error/warning/info、diff0；原首次1format失败保留。仅根结果登记不改已签正文SHA；继续包D和剩余全量，最终目标仍active/build。

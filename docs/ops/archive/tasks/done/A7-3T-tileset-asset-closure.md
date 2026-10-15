@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Kimi
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ GLM早期范围与sha8提议被纠正：使用完整SHA，等长新字节也必�
 
 ## 状态与交接
 
-原done、Coding Owner Codex、Kimi/GLM签字及July19用户“都没问题”保持。用户当时223/223与s066手验不再索要；native FSA picker未重复自动化，core I/O测试不冒充OS UI。2026-10-16仅文档候选待根独立接受；原历史Agent提示词无新授权。
+原done、Coding Owner Codex、Kimi/GLM签字及July19用户“都没问题”保持。用户当时223/223与s066手验不再索要；native FSA picker未重复自动化，core I/O测试不冒充OS UI。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收；原历史Agent提示词无新授权。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

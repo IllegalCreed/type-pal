@@ -254,7 +254,7 @@
       "reviewedSourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+      "afterSha256": "89dd4ec2e2578bc598461c7234dc28b6a17aa8f36e82b8d548d45f5f11eac576",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -283,7 +283,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+        "implementationSha": "89dd4ec2e2578bc598461c7234dc28b6a17aa8f36e82b8d548d45f5f11eac576",
         "contentVersion": "N/A-doc-governance; original revision versions retained",
         "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
         "history": [
@@ -313,8 +313,8 @@
         "kind": "static-semantic-migration-and-original-content-preservation",
         "path": "docs/phase-governance/cross-phase-matrix.json",
         "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
-        "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
-        "lineCount": 56
+        "afterSha256": "89dd4ec2e2578bc598461c7234dc28b6a17aa8f36e82b8d548d45f5f11eac576",
+        "lineCount": 61
       },
       "history": [
         {
@@ -365,12 +365,18 @@
           "sourceSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
           "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
           "scope": "21 registered relationships, not exhaustive; five body migrations still await non-author candidate acceptance"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "add-four-A7-history-and-correction-relations-after-independent-source-review",
+          "afterSha256": "89dd4ec2e2578bc598461c7234dc28b6a17aa8f36e82b8d548d45f5f11eac576",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "Template conformity and historical/static results grant no new runtime/E2E/visual/coverage, product, or zero-diagnostics acceptance.",
       "userVisibleBeforeAfter": "11条关系导航 → 12条，新增历史诊断边界并收窄 acceptance scope。",
-      "reviewedLines": "1-56",
+      "reviewedLines": "1-61",
       "reviewNotes": "全文实际读取并按具体语义改写；原材料的未知按历史/候选/源码范围解释，不捏造缺失执行证据。最终全量独立验收未完成。",
       "priorReadings": [
         {
@@ -629,6 +635,201 @@
               "historyOverlay": false,
               "method": "concrete purpose/inputs/oracle/decision/limits plus original metadata/body preservation"
             }
+          }
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "governance-index",
+          "templateId": "governance-index-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/governance-index.md",
+          "historyOverlay": false,
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-text-manual-semantic-migration; original paragraphs and metadata preservation; real static consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "14条已登记关系说明当前/历史/阶段与证据边界；新增readiness fixture类型强转的测试质量待审guarded，以及6处正文source锚点的已核导航修正。只说明注册关系，不冒充全docs穷尽或运行验收。",
+          "truthAnchors": [
+            "docs/phase-governance/cross-phase-matrix.json:1",
+            "docs/testing/e2e/contract.md:1",
+            "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
+            "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json:1"
+          ],
+          "unresolved": [
+            "1838 基线和增量仍有未核关系；只更新已实际核读的两篇代表关系，不授予整个矩阵全量完成。",
+            "readiness最小snapshot fixture的typed-input质量未独立判断；旧测试本任务禁止修改。"
+          ],
+          "nextStep": "本类型可供后续逐篇真实迁移；缺失的历史 raw/执行不补造，按当前产品任务验证动态结论。",
+          "phase": "phase-governance",
+          "module": "contract-quality-boundaries",
+          "owner": "Codex（本次治理；原作者与旧验收身份不变）",
+          "provenance": [
+            "full-original-text-read",
+            "Git source blob",
+            "manual semantic rewrite",
+            "real docs/testing consumer"
+          ],
+          "sourceSha256": "87d8774d0bd3d35a64742ddd22e98f1720fda603a623bbcb78154d66b1f7f940",
+          "reviewedSourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+          "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+          "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
+          "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+          "publicCallers": [
+            "docs/phase-governance/README.md",
+            "node scripts/docs/check-content-review.mjs --strict"
+          ],
+          "legalInputs": ["explicitly reviewed relationship rows and source-limited evidence"],
+          "businessOracle": {
+            "type": "semantic-preservation-and-authority-bounds",
+            "assertions": [
+              "跨域关系补充 E2E 合同的历史版本/执行边界与 E-06 历史诊断对现行零诊断门的边界；机器 acceptance 显式仅限已登记关系，12行不是全docs穷尽或执行验收。",
+              "原段落、日期、数值、失败与用户裁决均保留；模板不得将历史/静态改成执行通过",
+              "testing metadata/paired consumer 与公开路径不因重排改变；具体模板及历史合同同时满足"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/ops",
+              "docs/lore",
+              "docs/phase1",
+              "docs/phase2",
+              "docs/phase3",
+              "docs/testing",
+              "docs/phase-governance/templates/registry.json"
+            ],
+            "notes": "机器矩阵为关系事实源，Markdown仅导航；文档进度由显式review/SHA/正文合同投影，不复制候选执行状态。"
+          },
+          "revision": {
+            "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+            "implementationSha": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+            "contentVersion": "N/A-doc-governance; original revision versions retained",
+            "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-type-pilot-migration",
+                "sourceSha256": "87d8774d0bd3d35a64742ddd22e98f1720fda603a623bbcb78154d66b1f7f940",
+                "afterSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-15",
+                "action": "full-text-contract-or-historical-gate-migration",
+                "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+                "afterSha256": "4363f6c2f99617669552578fb929d0c45b863f376766910a1895cdb9654a6382",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-15",
+                "action": "source/test admission boundaries and table-contiguity correction",
+                "sourceSha256": "4363f6c2f99617669552578fb929d0c45b863f376766910a1895cdb9654a6382",
+                "afterSha256": "1aa52bfe273ab2d6baad6a54174ce6f3c0a19eabcec2ba06172d24290b029286"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "static-semantic-migration-and-original-content-preservation",
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+            "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+            "lineCount": 56
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "previousAfterSha256": null,
+              "sourceSha256": "87d8774d0bd3d35a64742ddd22e98f1720fda603a623bbcb78154d66b1f7f940",
+              "afterSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+              "beforeAfter": "过时类型全绑定 resolved 表 -> 当前关系导航与显式 guarded，保留原限定范围历史。"
+            },
+            {
+              "date": "2026-10-15",
+              "action": "semantic-template-migration",
+              "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+              "afterSha256": "4363f6c2f99617669552578fb929d0c45b863f376766910a1895cdb9654a6382",
+              "previousAfterSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
+              "beforeAfter": "11条关系导航 → 12条，新增历史诊断边界并收窄 acceptance scope。"
+            },
+            {
+              "date": "2026-10-15",
+              "action": "source/test admission boundaries and table-contiguity correction",
+              "sourceSha256": "4363f6c2f99617669552578fb929d0c45b863f376766910a1895cdb9654a6382",
+              "afterSha256": "1aa52bfe273ab2d6baad6a54174ce6f3c0a19eabcec2ba06172d24290b029286"
+            },
+            {
+              "date": "2026-10-15",
+              "action": "add-publication-execution-and-historical-report-boundaries",
+              "sourceSha256": "1aa52bfe273ab2d6baad6a54174ce6f3c0a19eabcec2ba06172d24290b029286",
+              "afterSha256": "74228d94e219233b9a9f8e440e1bb734c598db8fab91fed1a8be172e340606f6",
+              "beforeAfter": "14 registered rows → 16; separate status axes and historical UI/finite-audit claims, without whole-docs or dynamic acceptance."
+            },
+            {
+              "date": "2026-10-15",
+              "action": "separate-legacy-classifier-membership-from-content-reading",
+              "sourceSha256": "74228d94e219233b9a9f8e440e1bb734c598db8fab91fed1a8be172e340606f6",
+              "afterSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
+              "beforeAfter": "16 registered relationships → 17; preserve old classifier membership semantics without inheriting whole-docs review credit."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "phase3-authority-and-maturity-relationships",
+              "sourceSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
+              "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+              "beforeAfter": "17 registered relationships → 19; explain current navigation/draft design and unique candidate-text ownership without new product authority."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "append-two-content-reviewed-historical-F2-A3-relationships",
+              "sourceSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+              "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+              "scope": "21 registered relationships, not exhaustive; five body migrations still await non-author candidate acceptance"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Template conformity and historical/static results grant no new runtime/E2E/visual/coverage, product, or zero-diagnostics acceptance.",
+          "userVisibleBeforeAfter": "11条关系导航 → 12条，新增历史诊断边界并收窄 acceptance scope。",
+          "reviewedLines": "1-56",
+          "reviewNotes": "全文实际读取并按具体语义改写；原材料的未知按历史/候选/源码范围解释，不捏造缺失执行证据。最终全量独立验收未完成。",
+          "primarySource": [
+            "docs/phase-governance/cross-phase-matrix.json:1",
+            "docs/testing/e2e/contract.md:1",
+            "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1"
+          ],
+          "documentStatus": "current-navigation",
+          "phaseAnchors": [
+            "docs/ops",
+            "docs/lore",
+            "docs/phase1",
+            "docs/phase2",
+            "docs/phase3",
+            "docs/testing"
+          ],
+          "dependencies": [
+            "docs/phase-governance/templates/registry.json",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "applicability": "Document governance only; original normative/historical/runtime scopes explicitly retained.",
+          "publicEntry": "docs/phase-governance/cross-phase-matrix.md",
+          "counterReworkBlocked": {
+            "status": "none-open-for-this-document-migration",
+            "explainedLimits": [
+              "1838 基线和增量仍有未核关系；只更新已实际核读的两篇代表关系，不授予整个矩阵全量完成。"
+            ],
+            "notClosedByThisReview": [
+              "full docs governance",
+              "current runtime/E2E/visual/coverage",
+              "catalog template pilot"
+            ]
+          },
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "governance-index-v1",
+            "templateVersion": "1.0.0",
+            "historyOverlay": false,
+            "method": "concrete purpose/inputs/oracle/decision/limits plus original metadata/body preservation"
           }
         }
       ],

@@ -35,7 +35,7 @@ Template: test-run-report-v1 / 1.0.0
 
 原“当前双轨独立实跑”记 Reforge 偏移 `[0,0]` / down，原“独立轨迹对比”记两轨 `[-2,-4]` / up，并都引用同一组日期级产物。缺原 raw、每轮 revision 与指标/修正时序绑定，本轮不能断言两段描述已相互解释或任选一段升级为当前真值；两组数值完整保留为明确未闭合冲突。若后续恢复对应原始数据，须逐项记录归属后再更正。
 
-本轮不会将原命名、NPC、视觉待核项认作今天重新确认的产品缺陷；它们是原 rework 的证据边界。原 `reviewBy: 2026-10-15` 到本地2026-10-16已过期，排版或 source hash 核读不自动延期。仅本次文档内容/模板迁移交独立审查，产品 rework 与日期义务另列。
+本轮不会将原命名、NPC、视觉待核项认作今天重新确认的产品缺陷；它们是原 rework 的证据边界。原 `reviewBy: 2026-10-15` 到本地2026-10-16实测过期。此次完整原/新正文、配对机器/来源/状态/反证与不同候选边界经非作者receipt_review实质发布复核，文档迁移accept；明确续至10-23仅安排下一次published evidence/status review。lastVerified10-03、rework、原revision/versions/历史机器执行不变；不是排版自动延期或新E2E通过，原失败和续期理由留catalog history。
 
 ## Evidence
 
@@ -46,7 +46,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ## Revision history
 
-2026-10-16：内容迁移候选。原 frontmatter/testing-meta 字节不变；以下完整保留原报告正文，仅 ATX 标题降两级以置于本历史节，未删除日期、失败、旧质量计数或反证。下方“当前”“正在执行”“待生成”等词仅指原日期，不指本次治理。新章节明确 state2/state3、偏移口径、首句撤信及不同冻结批次的边界；不静默改写旧结论。
+2026-10-16：内容迁移经非作者receipt_review独立accept、根Codex接收。原 frontmatter/testing-meta 字节不变；以下完整保留原报告正文，仅 ATX 标题降两级以置于本历史节，未删除日期、失败、旧质量计数或反证。下方“当前”“正在执行”“待生成”等词仅指原日期，不指本次治理。新章节明确 state2/state3、偏移口径、首句撤信及不同冻结批次的边界；不静默改写旧结论。
 
 
 2026-10-10 当前 caller 核读：006 仍消费真实 005 saves；e123 恢复值现在精确断言 primary state2。boarding artifact 与 interval 共用 island-arrival 的实际 route start；末 draw 与真实两条 ride leg 的 settlement/completion 分开验证。当前单轨诊断正在执行，正式双轨及视觉验收尚未收口。

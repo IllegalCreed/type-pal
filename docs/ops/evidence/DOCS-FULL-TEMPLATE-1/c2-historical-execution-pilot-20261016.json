@@ -233,6 +233,13 @@
       "finding": "Missing frozen Git source human output still used empty cohort size0 despite JSON1838",
       "resolution": "Human denominator and require-complete comparison use trusted1838; actual missing-source CLI regression proves0/1838 and exit1",
       "status": "closed by independent non-author recheck"
+    },
+    {
+      "id": "C2.5",
+      "reviewer": "receipt_review",
+      "finding": "Catalog current central record retained stale10-15/unchanged-date/only-classification claims after legitimate explicit10-23 renewal",
+      "resolution": "Reconcile all current fields to originalfull18 plus only006 renewal and17-object preservation; original fields retained in history/priorReadings",
+      "status": "closed by independent receipt_review final maintenance-delta recheck"
     }
   ],
   "approvedBaselineScope": "Frozen original binding identity and1838 paths only, not baseline semantic migration credit; baseline remains candidate requiring own future control-metadata design/migration, no permanent legacy exemption",
@@ -288,5 +295,112 @@
     "notRun": ["runtime", "E2E", "visual", "coverage"],
     "independentReview": "pending",
     "migrationCredit": 0
+  },
+  "pairedMarkdownIntegration": {
+    "date": "2026-10-16",
+    "reviewer": "receipt_review",
+    "contentResult": "accept exact40bce two MD and complete original-body proof",
+    "publicationRenewalDesign": "agree; actual full content/evidence/status/negative-source review, conservative rework retained;7-day nextpublication deadline",
+    "finalDeltaReview": {
+      "reviewer": "receipt_review",
+      "result": "accept;C2.5 independently closed",
+      "scope": "Only006 date/prose/catalog current reading and17 unchanged-entry object proof; original report inverse and JSON bytes unchanged; no fresh all18 read or runtime credit",
+      "bodySha256": {
+        "stage": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+        "report": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+        "catalog": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+        "machine": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03"
+      },
+      "reviewedRecordSnapshots": {
+        "catalogReview": "e2af7f07a9290809522fcb179cef71ee357b64ac41fc62c0c0b4c783c49dee66",
+        "006Review": "b5492376ea519f90ad13c5776fc28d3288fb16877207b41d3d1ce18f83b67774",
+        "receipt": "07a4b1e7b291ea7479410a0a594f31ca3c44c717e54af23516f81db8060e0e42"
+      },
+      "maintenanceLimit": "Subsequent root-only signoff/gate append changes record hashes; above hashes identify actually reviewed snapshots, not a claim of immutable current record bytes",
+      "actualGates": {
+        "localDate": "2026-10-16",
+        "catalogIssues": [],
+        "pairedIssues": [],
+        "oldDeadlineNegative": "In-memory restoring10-15 still rejects expiry",
+        "bodyContracts": 91,
+        "contentReviews": 616,
+        "diffIssues": 0
+      },
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    "documents": [
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+        "sourceSha256": "a1564b1c8a7614424e0114412fbdfbdc2493034b7ef17bd3608899f0c99e84d4",
+        "candidateSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
+        "afterSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+        "lineCount": 42,
+        "preservation": "Original H1/conclusion byte-exact; original YAML byte-exact except explicit independently reviewed reviewBy10-15→10-23; original date retained in source Git and dated publication renewal history"
+      },
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "sourceSha256": "880f782826e30e349d226fbe3525fc29717dffd0e52e1983dad37f1bf66420b8",
+        "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
+        "afterSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+        "lineCount": 119,
+        "preservation": "Original frontmatter/testing-meta exact prefix; entire original body byte-exact after reversing only2-level ATX demotion, including all original chronology/status/numbers/failed and passed results"
+      }
+    ],
+    "machineJsonUnchangedSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+    "sourceMetadataUntouched": true,
+    "explicitDeadline": {
+      "before": "2026-10-15",
+      "after": "2026-10-23",
+      "originalLocal2026-10-16FailureRetained": true,
+      "lastVerifiedUnchanged": "2026-10-03",
+      "statusUnchanged": "rework",
+      "notExecutionFreshness": true
+    },
+    "notRun": ["runtime", "E2E", "visual", "coverage"]
+  },
+  "rootPairedIntegrationGates": {
+    "checkDocs": {
+      "log": "/tmp/type-pal-c-006-final-docs-20261016.log",
+      "exitCode": 0,
+      "toolTests": 68,
+      "failed": 0,
+      "skipped": 0,
+      "markdown": 1223,
+      "links": 7119,
+      "tasks": 361,
+      "bodyContracts": 91,
+      "contentReviews": 616,
+      "issues": 0
+    },
+    "lint": {
+      "firstRun": {
+        "errors": 1,
+        "reason": "Changed old ops review JSON not formatted; historical failure retained"
+      },
+      "rerun": {
+        "log": "/tmp/type-pal-c-006-lint-repaired-20261016.log",
+        "files": 4083,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "exitCode": 0
+      }
+    },
+    "explicitPublicationGate": "local2026-10-16 zero; originalexpiry rejected then explicit non-author-approved substantive review renews10-23",
+    "diff": "zero issues",
+    "scope": "These are actual integrated checks before signoff-only maintenance; final post-maintenance run still required",
+    "postSignoffRerun": {
+      "checkDocsLog": "/tmp/type-pal-c-006-accepted-docs-20261016.log",
+      "lintLog": "/tmp/type-pal-c-006-accepted-lint-20261016.log",
+      "result": "PASS",
+      "toolTests": 68,
+      "bodyContracts": 91,
+      "contentReviews": 616,
+      "lintFiles": 4083,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "scope": "Actual post-signoff full run; this field is subsequent root-only result maintenance, no new body or runtime claim"
+    }
   }
 }

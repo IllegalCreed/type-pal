@@ -404,6 +404,54 @@
       "path": "docs/testing/e2e/evidence/e2e-006.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-execution-publication-v2"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "templateId": "test-run-report-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

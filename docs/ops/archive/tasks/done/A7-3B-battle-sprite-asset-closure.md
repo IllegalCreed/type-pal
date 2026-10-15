@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Kimi
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ player0合法且与enemy通道隔离；19份player帧数不统一11，旧尾24/2
 
 ## 状态与交接
 
-原done、Kimi/GLM签字保持。July19“待用户”是中间记录，July21用户最终验收已关闭，不能将旧prompt再次发起正式review或build。2026-10-16本次文档候选仍待根独立接收；原Visual Verification Owner不变，作者自验不能替根接受。
+原done、Kimi/GLM签字保持。July19“待用户”是中间记录，July21用户最终验收已关闭，不能将旧prompt再次发起正式review或build。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收；原Visual Verification Owner不变，作者自验不能替根接受。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

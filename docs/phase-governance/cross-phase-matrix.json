@@ -443,6 +443,68 @@
         "Frame browser short press changed direction without observed movement; full narrative/E2E/full/Q1/Q2 were excluded."
       ],
       "stopLine": "Do not infer locomotion from direction, current execution from AST/static records, fdad remote pass from ad16 helper CI, or current zero diagnostics from historical 47 warnings/6 infos."
+    },
+    {
+      "id": "a7-music-role-and-denominator-history",
+      "from": ["docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md"],
+      "to": ["docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md"],
+      "relationship": "四音乐角色被第五标题菜单角色纠正；1326/13与1327/12按不同日期，G5 Record atomic错误归因不恢复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": ["002仅binding、048无专门走场和O2统一回执缺口保留。"],
+      "stopLine": "绑定、同逻辑或浏览器网络链不等实际走场/物理听觉；不恢复旧upgrader。"
+    },
+    {
+      "id": "a7-face-absence-supersedes-transparent-stub",
+      "from": ["docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"],
+      "to": ["docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md"],
+      "relationship": "旧6face/10392B/68B透明stub被Aug23/24 raw后继5face/10324B/absence取代，portrait044保留。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": ["本轮未重新解码DATA.MKF或运行产品/视觉；后继固定raw证据与原历史快照分开。"],
+      "stopLine": "旧accept不升当前真值，不新增按角色号或透明度猜测fallback。"
+    },
+    {
+      "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
+      "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+      "to": [
+        "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md"
+      ],
+      "relationship": "旧设计末§11/总审计§3.8的s066空格跳过PASS与A7-3后续C1–C5撤签返工冲突；后继C3默认不可跳取代旧accept，旧两源待正文治理追加勘误。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": [
+        "共享设计与总审计尚未正文迁移；s059 active wave邻域验证未走s066到s059完整门路线，原raw/原生OS picker仍缺。"
+      ],
+      "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。"
+    },
+    {
+      "id": "a7-tileset-ofl-failure-and-later-byte-restoration",
+      "from": ["docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md"],
+      "to": [
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"
+      ],
+      "relationship": "原migrate222pass/1fail/1skip是OFL hash失败；后继5b7b49c8359795f8eb9f2de2397d837b754dd4b8恢复4249B/ddd…到4340B/869…并保护字节，原测试未改。PAL单零尾和作者无尾均为严格parser接受的结构，无origin拒绝。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": [
+        "只核历史Git/字节，非今天法律认证或重跑通过；223mapNum缺168/171与636文件/580定义/21共享及5+15+1均为历史分母。"
+      ],
+      "stopLine": "不倒填旧失败、不降低hash门、不添作者带尾来源禁令，不授今天测试质量信用。"
     }
   ],
   "acceptance": {

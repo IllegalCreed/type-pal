@@ -765,7 +765,7 @@
       "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-10-15",
+      "reviewBy": "2026-10-23",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -1861,7 +1861,7 @@
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
       "Dependencies require current/verified publication and acyclic IDs; actual runtime predecessors also need the fragment contract and same-engine current execution receipts.",
-      "reviewBy deadlines are unchanged; expired/rework entries cannot be silently renewed or upgraded by documentation formatting.",
+      "Original reviewBy deadlines retain their dated scope; expired/rework entries cannot be silently renewed or upgraded by formatting. An explicit scoped publication review may set the next review deadline with rationale/history while preserving execution freshness and status.",
       "Canonical report, metadata and evidence remain paired. History/supersedes identify archived originals without making them current inputs."
     ],
     "runtimeExecutionPerformed": false,
@@ -1900,7 +1900,7 @@
       },
       {
         "id": "e2e-006",
-        "conclusion": "保留 rework 与10-15 reviewBy；期望当前SAVE12输入但revision仍原SAVE11审计，求药/出海/岛口双轨日志和视觉缺口不能被路线终点代替。"
+        "conclusion": "2026-10-16实质发布复核后明确reviewBy10-15→10-23；继续rework/lastVerified10-03。当前SAVE12合法输入、原SAVE11 revision/历史执行、state2/state3与偏移冲突及完整岛口停止线分别核读，不认证本次E2E/视觉通过。"
       },
       {
         "id": "runtime-active-scene",
@@ -1971,6 +1971,28 @@
             "after": ["game"]
           }
         ],
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "date": "2026-10-16",
+        "action": "explicit-e2e006-publication-review-renewal",
+        "scope": "Only e2e-006; original/new stage/report and paired JSON, source/current caller, active card and continuous top160 independently read; other17 entries not re-audited",
+        "reviewer": "receipt_review",
+        "decision": "agree; conservative continued publication as rework with explicit source/history conflicts and stop lines",
+        "before": {
+          "reviewBy": "2026-10-15",
+          "entryReading": {
+            "id": "e2e-006",
+            "conclusion": "保留 rework 与10-15 reviewBy；期望当前SAVE12输入但revision仍原SAVE11审计，求药/出海/岛口双轨日志和视觉缺口不能被路线终点代替。"
+          }
+        },
+        "after": {
+          "reviewBy": "2026-10-23",
+          "lastVerified": "2026-10-03",
+          "status": "rework"
+        },
+        "originalFailure": "validateCatalog(today=2026-10-16) rejected e2e-006 reviewBy10-15; original failure retained, not waived",
+        "rationale": "Actual full paired publication/evidence/status review rather than formatting; next publication review in7days, no new execution claim",
         "notRun": ["runtime", "E2E", "visual", "coverage"]
       }
     ],

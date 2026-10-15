@@ -11,9 +11,9 @@
       "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "all text/JSON fields manually read; specific authority and scope rewrite; real consumer",
+      "readMethod": "2026-10-15 full18-entry/field catalog semantic read and actual pilot consumers;2026-10-16 only006 substantive paired-publication review/renewal plus exact unchanged17 entry-object comparison, not a fresh full18 review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
+      "coreConclusion": "10-15原18条机器目录全部字段已读，schema2/generatedBy/entries保持顶层，3条分类/4字段有源纠正；10-16仅006实质发布复核后明确reviewBy10-15→10-23并同步说明/history，其它17条对象保持。rework/lastVerified10-03/原revision/versions/机器执行均不变，旧日期审查与本次明确续期分开，静态consumer不授实跑信用。",
       "truthAnchors": [
         "scripts/docs/check-testing.mjs:187-340",
         "scripts/docs/check-testing.mjs:415-555",
@@ -43,15 +43,16 @@
         "migration": "no open conformity counter after real consumer checks",
         "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
         "deferred": [
-          "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
-          "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
-        ]
+          "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
+          "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
+        ],
+        "publicationReviewRenewal": "Explicit single-entry00610-16 review with non-author agree; original expiry failure retained; no automatic formatting renewal or execution upgrade"
       },
       "unresolved": [
-        "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
-        "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
+        "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
+        "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
       ],
-      "nextStep": "继续逐篇模板迁移与artifact归属；缺原始执行证据按停止线保留，不延长reviewBy或伪造新通过。",
+      "nextStep": "继续逐篇模板迁移与artifact归属；006下一publication review10-23，route10-18按原义务复核；缺动态证据保持rework，不静默续期或伪造新通过。",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -59,13 +60,18 @@
         "full original document read",
         "frozen 1.1.0 design",
         "manual JSON/Markdown semantic migration",
-        "real publication consumers"
+        "real publication consumers",
+        {
+          "date": "2026-10-16",
+          "reviewer": "receipt_review",
+          "scope": "Only006 substantive publication plus17 unchanged entry-object proof; no fresh all18 semantic-read claim"
+        }
       ],
       "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
       "reviewedSourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "f1832ec54e4be6db7bf105bfc373b122e319d9bb",
-      "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+      "afterSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -73,14 +79,14 @@
       ],
       "legalInputs": [
         "schemaVersion2 JSON publication records or explicitly labelled template examples",
-        "real canonical paths, source anchors, unchanged lifecycle and candidate axes; not invented runtime input"
+        "real canonical paths/source anchors and explicitly scoped publication lifecycle; historical execution/candidate axes unchanged, no invented runtime input"
       ],
       "businessOracle": {
         "type": "catalog-preservation-and-publication-contract",
         "assertions": [
-          "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
-          "仅登记的分类更正可变；机器字段顶层与真实consumer保持相容",
-          "原样例/历史日期/状态与当前模板合同分开，非本批已执行"
+          "10-15原18条机器目录全部字段已读，schema2/generatedBy/entries保持顶层，3条分类/4字段有源纠正；10-16仅006实质发布复核后明确reviewBy10-15→10-23并同步说明/history，其它17条对象保持。rework/lastVerified10-03/原revision/versions/机器执行均不变，旧日期审查与本次明确续期分开，静态consumer不授实跑信用。",
+          "允许原有源分类更正与本次有实质复核/历史/理由的单条006 reviewBy续期；其它17entry对象及006其余公开机器字段保持",
+          "原日期/拒绝结果完整留history/priorReadings，下一publication期限不等于lastVerified或新动态执行"
         ]
       },
       "dedupe": {
@@ -94,7 +100,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+        "implementationSha": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -104,15 +110,22 @@
             "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
             "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "explicit-single006-publication-review-renewal-and-C2.5-current-record-reconciliation",
+            "afterSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
         "kind": "static-catalog-consumer-and-semantic-reading",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
         "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
-        "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
-        "lineCount": 1981
+        "afterSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+        "lineCount": 2003,
+        "previousPilot": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json"
       },
       "history": [
         {
@@ -121,17 +134,199 @@
           "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
           "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
           "previousAfterSha256": null
+        },
+        {
+          "date": "2026-10-16",
+          "action": "explicit-single-entry006-publication-renewal-after-substantive-independent-review",
+          "scope": "Only006 reviewBy10-15→10-23 and current reading/publication rule/history; other17 entry objects untouched",
+          "afterSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2.5-current-catalog-review-wording-counter-correction",
+          "finding": "Current review still asserted unchanged10-15 deadline/only4classification fields despite legitimate10-23 publication renewal; history alone did not fix current contradiction",
+          "beforeCurrentFields": {
+            "readMethod": "all text/JSON fields manually read; specific authority and scope rewrite; real consumer",
+            "coreConclusion": "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
+            "counterReworkBlocked": {
+              "migration": "no open conformity counter after real consumer checks",
+              "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
+              "deferred": [
+                "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
+                "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
+              ]
+            },
+            "unresolved": [
+              "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
+              "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
+            ],
+            "nextStep": "继续逐篇模板迁移与artifact归属；缺原始执行证据按停止线保留，不延长reviewBy或伪造新通过。",
+            "legalInputs": [
+              "schemaVersion2 JSON publication records or explicitly labelled template examples",
+              "real canonical paths, source anchors, unchanged lifecycle and candidate axes; not invented runtime input"
+            ],
+            "businessOracle": {
+              "type": "catalog-preservation-and-publication-contract",
+              "assertions": [
+                "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
+                "仅登记的分类更正可变；机器字段顶层与真实consumer保持相容",
+                "原样例/历史日期/状态与当前模板合同分开，非本批已执行"
+              ]
+            },
+            "userVisibleBeforeAfter": "无机器模板合同、3条分类错误 → JSON1.1.0及18条阅读记录、4字段有源更正，不动candidate/版本/状态/日期。"
+          },
+          "resolution": "Current fields explicitly distinguish10-15 full18 read and10-16 only006 publication renewal; original scope remains priorReadings/history",
+          "status": "closed by independent receipt_review final delta check"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-explicit006-renewal-and-C2.5-current-record-accept",
+          "reviewer": "receipt_review",
+          "scope": "Other17 entry objects unchanged; no freshall18 semantic or dynamic acceptance"
         }
       ],
       "supersedes": [],
       "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
-      "userVisibleBeforeAfter": "无机器模板合同、3条分类错误 → JSON1.1.0及18条阅读记录、4字段有源更正，不动candidate/版本/状态/日期。",
-      "reviewedLines": "1-1981",
+      "userVisibleBeforeAfter": "原无合同/3条分类错误→JSON1.1.0及18条原阅读与4字段分类更正；10-16另基于完整006配对实质复核明确期限10-15→10-23，继续rework，candidate/版本/执行/lastVerified不动。",
+      "reviewedLines": "1-2003",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.1.0",
         "method": "concrete body/schema plus actual source/consumer and migration review"
-      }
+      },
+      "priorReadings": [
+        {
+          "path": "docs/testing/catalog.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-catalog",
+          "templateId": "test-catalog-v1",
+          "templateVersion": "1.1.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "all text/JSON fields manually read; specific authority and scope rewrite; real consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
+          "truthAnchors": [
+            "scripts/docs/check-testing.mjs:187-340",
+            "scripts/docs/check-testing.mjs:415-555",
+            "scripts/docs/generate-testing-index.mjs:9-155",
+            "packages/editor/src/ui/CommandForm.tsx:82-93",
+            "packages/editor/src/ui/MapMode.tsx:403-420",
+            "packages/game/src/core/dependency-ownership.test.ts:1-45"
+          ],
+          "primarySource": [
+            "scripts/docs/check-testing.mjs:187-340",
+            "scripts/docs/check-testing.mjs:415-555",
+            "scripts/docs/generate-testing-index.mjs:9-155",
+            "packages/editor/src/ui/CommandForm.tsx:82-93",
+            "packages/editor/src/ui/MapMode.tsx:403-420",
+            "packages/game/src/core/dependency-ownership.test.ts:1-45"
+          ],
+          "documentStatus": "current-publication-or-navigation; no execution acceptance",
+          "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
+          "dependencies": [
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/catalog.json",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": "Published catalog/schema and template navigation only; historical execution/canon/product facts do not inherit acceptance.",
+          "publicEntry": "docs/testing/catalog.json",
+          "counterReworkBlocked": {
+            "migration": "no open conformity counter after real consumer checks",
+            "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
+            "deferred": [
+              "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
+              "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
+            ]
+          },
+          "unresolved": [
+            "e2e-006保持rework和10-15 reviewBy；路线10-18期限不续期，缺新的同引擎执行/视觉不能升级。",
+            "目录只登记18份published材料，不涵盖全部testing文件或证明配对报告已完成模板迁移。"
+          ],
+          "nextStep": "继续逐篇模板迁移与artifact归属；缺原始执行证据按停止线保留，不延长reviewBy或伪造新通过。",
+          "phase": "testing",
+          "module": "catalog-and-template-navigation",
+          "owner": "Codex",
+          "provenance": [
+            "full original document read",
+            "frozen 1.1.0 design",
+            "manual JSON/Markdown semantic migration",
+            "real publication consumers"
+          ],
+          "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+          "reviewedSourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+          "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+          "sourceGitObject": "f1832ec54e4be6db7bf105bfc373b122e319d9bb",
+          "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+          "publicCallers": [
+            "node scripts/docs/check-document-model.mjs",
+            "node scripts/docs/check-testing.mjs",
+            "node scripts/docs/generate-testing-index.mjs"
+          ],
+          "legalInputs": [
+            "schemaVersion2 JSON publication records or explicitly labelled template examples",
+            "real canonical paths, source anchors, unchanged lifecycle and candidate axes; not invented runtime input"
+          ],
+          "businessOracle": {
+            "type": "catalog-preservation-and-publication-contract",
+            "assertions": [
+              "现有18条机器目录全部字段已读；schema2/generatedBy/entries保持顶层，统一envelope逐项说明publication不等于SAVE12实跑。实际正文/caller证明两编辑器engine及D1阶段/engine原分类错误，4字段纠正可逆留痕；其他字段与源对象deep-equal，真实catalog/paired/index消费者零问题。",
+              "仅登记的分类更正可变；机器字段顶层与真实consumer保持相容",
+              "原样例/历史日期/状态与当前模板合同分开，非本批已执行"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/testing/catalog.json",
+              "docs/testing/indexes",
+              "docs/phase-governance/templates/registry.json"
+            ],
+            "notes": "catalog是published索引唯一源；Markdown导航、模板示例和各片段执行报告各有责任，不能平行维护不同状态。"
+          },
+          "revision": {
+            "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+            "implementationSha": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+            "contentVersion": "N/A-doc-publication; original candidate versions retained",
+            "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual catalog pilot or navigation alignment",
+                "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+                "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "static-catalog-consumer-and-semantic-reading",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+            "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+            "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+            "lineCount": 1981
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "beforeAfter": "无机器模板合同、3条分类错误 → JSON1.1.0及18条阅读记录、4字段有源更正，不动candidate/版本/状态/日期。",
+              "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+              "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+              "previousAfterSha256": null
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
+          "userVisibleBeforeAfter": "无机器模板合同、3条分类错误 → JSON1.1.0及18条阅读记录、4字段有源更正，不动candidate/版本/状态/日期。",
+          "reviewedLines": "1-1981",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.1.0",
+            "method": "concrete body/schema plus actual source/consumer and migration review"
+          }
+        }
+      ]
     },
     {
       "path": "docs/testing/_templates/README.md",

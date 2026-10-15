@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + User
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status done、Coding Owner Codex、Reviewer both、Visual Verification Owner Codex + User保持；both的实际历史审查为Opus/GLM，不能因排版改名。治理候选待根线程独立接收，旧提示词不执行，也不重新要求用户重复当时已完成的听验。
+原Status done、Coding Owner Codex、Reviewer both、Visual Verification Owner Codex + User保持；both的实际历史审查为Opus/GLM，不能因排版改名。文档迁移经非作者receipt_review复核、根Codex独立接收，旧提示词不执行，也不重新要求用户重复当时已完成的听验。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

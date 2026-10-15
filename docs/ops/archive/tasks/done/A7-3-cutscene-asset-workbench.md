@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Opus + User
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ C1 s066→s059的waveRenderer目标context错配620×356/1280×800以独立rende
 
 ## 状态与交接
 
-原done、Opus/GLM签字及July17用户接受Agent OPFS工程验证保留。当前仅文档候选待根独立验收；旧交接要求与三签不恢复。LAN HTTP IP不属secure context、localhost HTTP另论；HTTPS自签ignoreHTTPSErrors只支持API/布局取证，不认证用户证书信任，saveAs picker须在异步序列化前保手势激活。
+原done、Opus/GLM签字及July17用户接受Agent OPFS工程验证保留。本次文档迁移经非作者history_cards_c_tail复核、根Codex独立接收；旧交接要求与三签不恢复。LAN HTTP IP不属secure context、localhost HTTP另论；HTTPS自签ignoreHTTPSErrors只支持API/布局取证，不认证用户证书信任，saveAs picker须在异步序列化前保手势激活。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

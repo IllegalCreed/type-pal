@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 614,
+    "total": 616,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,7 +14,7 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 35
+      "testing": 37
     },
     "byType": {
       "guide-runbook": 15,
@@ -28,19 +28,19 @@
       "narrative-idea": 2,
       "plan-status": 63,
       "design-spec": 42,
-      "test-e2e-stage": 1,
-      "test-run-report": 1,
+      "test-e2e-stage": 2,
+      "test-run-report": 2,
       "test-machine-evidence": 14,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 614
+      "content-reviewed": 616
     },
     "templateCompliance": {
-      "template-compliant": 81,
-      "governed-legacy": 533
+      "template-compliant": 91,
+      "governed-legacy": 525
     }
   },
   "entries": [
@@ -509,10 +509,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
@@ -520,10 +522,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
@@ -531,10 +535,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
@@ -542,10 +548,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
@@ -553,10 +561,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
@@ -564,10 +574,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
@@ -575,10 +587,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
@@ -586,10 +600,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
@@ -6927,6 +6943,30 @@
       "templateVersion": "1.3.0",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateVariant": "historical-execution-publication-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-historical-execution-pilot.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "phase": "testing",
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-e2e-stage.md",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-historical-execution-pilot.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "phase": "testing",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/testing/_templates/test-run-report.md",
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "reviewStatus": "content-reviewed",

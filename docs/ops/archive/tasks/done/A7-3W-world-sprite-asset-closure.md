@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Kimi
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ followers从裸号变SpriteDef.id；两处setFollowers为清空及82→sprite82�
 
 ## 状态与交接
 
-原done、Kimi/GLM签字与July19用户收口保持；旧“当前正式/历史draft”交接提示词不重启build。2026-10-16本次只有文档作者自验，待根独立接收；只读核验许可修复5b7b49c8359795f8eb9f2de2397d837b754dd4b8，不把源卡已accept视为今天全部测试质量/产品验收。
+原done、Kimi/GLM签字与July19用户收口保持；旧“当前正式/历史draft”交接提示词不重启build。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收；只读核验许可修复5b7b49c8359795f8eb9f2de2397d837b754dd4b8，不把源卡已accept视为今天全部测试质量/产品验收。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

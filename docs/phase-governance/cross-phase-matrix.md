@@ -47,6 +47,11 @@ Template: governance-index-v1 / 1.0.0
 | F2贡献/集成 ↔ 历史独立验收 | 作者与真实生产加载针、额外登记、最终接收各有身份；09-25/26状态不倒写 | guarded | 不把原生confirm替身或旧截图/绿数外推为当前通过 |
 | A3段落/对照/CI ↔ 当前信用 | 内部枚举不加用例，cb1失败/ad16驱动成功/fdad候选分开 | guarded | 朝向不等位移；loader不等SFX/Canvas；旧47/6不等今天零诊断 |
 
+| A7音乐角色 ↔ 后继勘误 | 四→五角色与1326/13→1327/12分时点，G5错误归因不恢复 | guarded | binding/网络链不等走场/听觉；O2缺口保留 |
+| A7静态图像 ↔ raw face后继 | 6/10392旧stub被5/10324及absence取代，portrait保留 | guarded | 旧accept不等当前真值；本轮不重解码raw或运行 |
+| A7过场旧设计/审计 ↔ C1–C5 | skip旧accept撤回，后继默认不可跳；共享两源待明确勘误 | guarded | s059邻域不等s066全路，OPFS不等原生OS UI |
+| A7瓦片许可失败 ↔ 字节修复 | 原222/1/1保留，后继恢复OFL字节；两种合法RLE容器均接受 | guarded | 不回填零、不添来源拒绝、不授今天法律/动态信用 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步

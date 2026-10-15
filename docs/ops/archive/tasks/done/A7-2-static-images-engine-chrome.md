@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Kimi
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、Coding Owner Codex、Reviewer Kimi + GLM及July19用户验收不改。本轮文档候选等待根独立验收，旧签字不授权新产品build。后继5b7b49c8359795f8eb9f2de2397d837b754dd4b8实际恢复Unifont许可证原文并以.gitattributes保字节，不是更新期望hash掩盖失败。
+原done、Coding Owner Codex、Reviewer Kimi + GLM及July19用户验收不改。本轮文档迁移经非作者receipt_review复核、根Codex独立接收，旧签字不授权新产品build。后继5b7b49c8359795f8eb9f2de2397d837b754dd4b8实际恢复Unifont许可证原文并以.gitattributes保字节，不是更新期望hash掩盖失败。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

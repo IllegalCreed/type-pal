@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Opus
 Unavailable Agents: none
 Branch: current
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status done、Coding Owner Codex、Reviewer Opus + GLM与原用户签字保持。2026-10-16本次仅提交文档治理候选，等待根线程独立验收；旧build签字和交接命令不重新生效。原“四音乐角色”已由A7-0A纠为五角色，后续判断须沿继任链，不能再从已有播放点扫描宣称需求穷尽。
+原Status done、Coding Owner Codex、Reviewer Opus + GLM与原用户签字保持。2026-10-16文档迁移经非作者receipt_review复核、根Codex独立接收；旧build签字和交接命令不重新生效。原“四音乐角色”已由A7-0A纠为五角色，后续判断须沿继任链，不能再从已有播放点扫描宣称需求穷尽。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

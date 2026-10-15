@@ -10,7 +10,7 @@ Visual Verification Owner: Codex + Opus
 Unavailable Agents: none
 Branch: main
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 C 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -31,7 +31,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done及Opus/GLM签字、2026-07-18用户“签了”保持。旧提示词要求用户再做OS文件框/听验是中间态，最终用户接受既有OPFS+mock工程取证后不重新派发。本次仅作者文档自验，候选待根独立接收；readiness测试的合法输入/unsafe cast质量仍未在本包深审，不从绿测直接授予当前质量accept或判为垃圾。
+原done及Opus/GLM签字、2026-07-18用户“签了”保持。旧提示词要求用户再做OS文件框/听验是中间态，最终用户接受既有OPFS+mock工程取证后不重新派发。本次文档迁移经非作者receipt_review复核、根Codex独立接收；readiness测试的合法输入/unsafe cast质量仍未在本包深审，不从绿测直接授予当前质量accept或判为垃圾。
 
 以下保留原标题的公开锚点；短导航仅指向本卡原文或治理归纳，不恢复旧授权。
 

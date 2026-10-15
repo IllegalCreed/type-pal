@@ -10,7 +10,7 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-03
-reviewBy: 2026-10-15
+reviewBy: 2026-10-23
 dependsOn: [e2e-005]
 tags: [story, npc, boat, visual, rework]
 canonicalReport: report.md
@@ -31,7 +31,7 @@ canonicalReport: report.md
 
 [机器回执](../../evidence/e2e-006.json)保留历史 `runtimeExecution.performed=true`、原 SHA/content22/SAVE11 和 raw 路径，`_governance.currentAudit.runtimeExecutionPerformed=false` 只描述本轮未执行。不能把旧机器标志理解为今天实跑，不能把静态模板通过当成剧情或视觉验收。
 
-停止线是完整确认岛口 `dlg.1886/1888/1889/1890`、进场剧情结束且控制返回；不进入水月宫、破阵或岛上后续。缺当前两阶段关键 NPC、船体/人物锚点或视觉闭合时保留 rework。原 `reviewBy: 2026-10-15` 在本地 2026-10-16 已过期，迁移不自动续期，待独立核定发布审查义务。
+停止线是完整确认岛口 `dlg.1886/1888/1889/1890`、进场剧情结束且控制返回；不进入水月宫、破阵或岛上后续。缺当前两阶段关键 NPC、船体/人物锚点或视觉闭合时保留 rework。原 `reviewBy: 2026-10-15` 在本地2026-10-16实测过期；完整原/新正文、配对证据、状态与反证经非作者实质发布复核后，明确将下一次发布复核设为2026-10-23。该续期不改 lastVerified/rework，不补签动态通过，原过期失败留入 catalog history。
 
 ## 依赖与历史
 
@@ -39,4 +39,4 @@ canonicalReport: report.md
 
 [活动 006 卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)保存原 rework；[连续批次卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)顶部的后继 done 有自己的冻结候选、日期和证据范围。本轮只直接读其前 160 行，不能据此宣布整卡深审或把该批次结论移植为本页当前实跑。
 
-下一步先完成本次文档迁移的非作者审查和明确日期义务，再由对应 E2E 任务按实际证据处理动态缺口；本页不重新授权产品实现或为续期重录剧情。
+本次文档迁移已由非作者receipt_review独立accept、根Codex接收；下一次publication复核为10-23。对应E2E任务仍按实际证据处理动态缺口，本页不重新授权产品实现或为续期重录剧情。
