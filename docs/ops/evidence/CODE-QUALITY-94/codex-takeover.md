@@ -21,6 +21,13 @@ Coding Owner=Codex。白名单仅 `menu-driver.test.ts`、`menu-driver.cov85.tes
 
 本切片未新增用例、未删除业务轴、未改变产品行为。全模块窗口统一跑相邻与全仓门，当前不关闭文件。
 
+## B1：helper 注释真值（CODE97，build allowed）
+
+Coding Owner=Codex，白名单 primitives.ts、其leaves测试、item-select.ts三文件；仅注释/现状标题。
+撤回虚构Important枚举、SDLPal通用翻页锚、全disabled“返回当前”和“保证可选”断言。
+真实依据为 global.h:134-142、ui.c:510-572、当前两个翻页实现及全仓caller搜索；没有改公开API或翻页行为。
+test-only边界仍review，不因注释诚实化升级闭合。定向与质量门在完整模块窗口共跑。
+
 ## 保留边界
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。

@@ -2,10 +2,11 @@
  * TEST-GLM-PHASE1-LEAVES-3 L01（primitives.ts）— 去重表：
  *  - __tests__/primitives.test（defaultCursor clamp/环绕/停 disabled/pageOffset 推进/Confirm/Triple/Switch 主干）→ 不重复
  *  - primitives.boundaries.test（空表/单项/入参不改写/跨页视窗）→ 不重复
- *  - 新差异：pageUp/pageDown 落点跳过 disabled 的 findNextSelectable 集成、全 disabled 环绕兜底、
+ *  - 新差异：test-only pageUp/pageDown 的查找/钳制现状、全 disabled 的现状落点、
  *    负 defaultCursor 归 0、TripleMenu 自定义 defaultSel 环绕、SwitchMenu current 越上界 clamp、
  *    空 getSelected undefined、primitive 透传 rightText 不消费（同一对象 identity）。
- * 第一阶段锚：sdlpal ui.c:540+ PAL_ReadMenu PgUp/PgDn（primitives.ts:107-126 注释）。
+ * PAL_ReadMenu(ui.c:510-572)只对应逐项移动；没有 PgUp/PgDn 分支。
+ * pageUp/pageDown 当前无生产 caller；以下为现状特征，不证明 SDLPal 机制或期望产品行为。
  */
 import { describe, expect, it } from 'vitest'
 import {
@@ -21,7 +22,7 @@ import {
   switchLeft,
 } from './primitives.js'
 
-describe('L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成）', () => {
+describe('L01 test-only pageUp/pageDown 查找与钳制现状', () => {
   it('pageDown 目标位 disabled → 落点被钳回目标位（target 钳制优先于跳过禁用）', () => {
     // C5 更正(2026-10-15)：原 fixture target=2 是 enabled，"跳禁用"路径从未执行，标题与
     // 行为不符。真实语义：findNextSelectable 越过 target 找到的可选项(3)会被
@@ -65,7 +66,7 @@ describe('L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成�
     expect(getSelected(s)?.id).toBe(2)
   })
 
-  it('全 disabled 时 pageUp/pageDown 不抛错（findNextSelectable 返回原位兜底）', () => {
+  it('全 disabled 时返回 target-1，再由各自边界钳制（现状记录）', () => {
     const items: SelectionMenuItem[] = [
       { id: 0, label: 'a', disabled: true },
       { id: 1, label: 'b', disabled: true },

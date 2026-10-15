@@ -46,8 +46,8 @@ export function matchesFilter(item: Item, filter: ItemFilter): boolean {
       return f.usable && !f.equipable && !f.throwable
     case 'battle':
       return f.throwable || (f.usable && f.consuming)
-    // sdlpal `kItemFlagImportant` 实际是非 sellable + 非 consuming + 非 equipable
-    // 等的间接判断(M5 简版按 sellable=false 近似)。
+    // 工程分类：只检查非卖且非装备，不检查 consuming。
+    // SDLPal ITEMFLAG 没有 Important 位；不能将此近似当作原版标志。
     case 'important':
       return !f.sellable && !f.equipable
     // sdlpal play.c:266 `PAL_ItemSelectMenu(NULL, kItemFlagUsable)` 真值 — PAL_GameUseItem
