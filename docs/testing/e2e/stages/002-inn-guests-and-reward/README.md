@@ -5,7 +5,7 @@ Owner: Codex
 Last reviewed: 2026-10-16
 Template: test-e2e-stage-v1 / 1.0.0
 
-本页是 e2e-002 的稳定入口。`verified`、原 lastVerified/reviewBy 只投影 catalog 的出版记录；本次日期仅指静态文档核读。候选正文由 history_cards_a 编写，待非作者接收；本轮没有重新执行游戏或更新测试状态。
+本页是 e2e-002 的稳定入口。`verified`、原 lastVerified/reviewBy 只投影 catalog 的出版记录；本次日期仅指静态文档核读。正文由 history_cards_a 迁移，固定364315ce候选已获 Codex 非作者内容接收；根接入状态见专属治理记录。本轮没有重新执行游戏或更新测试状态。
 
 ## 入口与前置
 
@@ -44,4 +44,4 @@ canonicalReport: report.md
 
 `dependsOn=e2e-001`，002结束于首次20行/一次赏银、三人进房和控制/保存恢复，后继[003厨房](../003-kitchen/README.md)另核；不能以终点或重复计数替代中途编排。20行、三人和一次奖励不是多个新执行；旧57/56/71工具、10648/10655/10658包测试、35/35反例均按各轮排重，不加总为本次测试。
 
-后继事实权：[反馈卡10月2日收口](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)、[连续卡10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日新批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)。更新必须回到本路径和原配对资料，不能另造平行报告；完整原16行可由回执span拼接或固定5a Git blob恢复。下一步是本两篇canonical pilot的独立全文接收；未接收不计迁移，不启动旧runner/原始资源或下一段。
+后继事实权：[反馈卡10月2日收口](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)、[连续卡10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日新批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)。更新必须回到本路径和原配对资料，不能另造平行报告；完整原16行可由回执span拼接或固定5a Git blob恢复。本两篇canonical pilot的内容接收与后续中央接入分开，范围以[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)为准；不启动旧runner/原始资源或下一段，余六篇须另获准入。

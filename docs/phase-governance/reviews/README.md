@@ -32,3 +32,5 @@
 - [固定 binding baseline JSON 合同冻结设计](20261016-binding-baseline-design.md)：test-catalog父1.2.0专用frozen-capture变体，固定33cc原生八字段保全、旧default行为不变；现2.0.1含22项必要写域，实施/canonical接收另验，设计自身pending。
 
 - [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
+
+- [E2E 002 入口与报告逐篇接入记录](20261016-e2e-stage-m.json)：保留固定364作者候选及根非作者内容读域；中央/行政/矩阵接入另验，余六须另准，不授运行或用户观感信用。

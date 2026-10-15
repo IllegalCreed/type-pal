@@ -11,7 +11,7 @@ evidence: e2e/evidence/e2e-002.json
 # 002 — 客栈路线、住客与赏银核心
 
 Status: verified
-Owner: Codex（本轮治理接收）；history_cards_a（候选正文）
+Owner: Codex（本轮治理接收）；history_cards_a（正文迁移）
 Last reviewed: 2026-10-16
 Template: test-run-report-v1 / 1.0.0
 
@@ -19,7 +19,7 @@ Template: test-run-report-v1 / 1.0.0
 
 本报告仍是 e2e-002 客栈路线、住客与赏银的唯一canonical，覆盖Game/phase1和Reforge/phase2各自真实001→002链。用户2026-09-30要求分开“从卧房正常走到e56”与“首次核心演出”；跳场景后的演出不替代路线。二阶段按已核演出意图与干净显式编排处理，一阶段是对照，不机械复制其调度。
 
-原frontmatter/testing-meta是本页唯一live机器声明，保留 candidate `d02278dc0154dd73b5db24388a35c30bb096cc81`、content22/SAVE11、10月4日source-and-publication-audit及notRun。原SAVE9/content21、SAVE10和各轮revision仍在历史；10月6日核当前content22/SAVE12只更新来源合同，10月8/9源码绑定和10月10配对findings也不把旧执行升级。本页 `verified` 仅对应catalog出版状态，新增日期/Owner只属2026-10-16静态治理，候选待非作者接收。
+原frontmatter/testing-meta是本页唯一live机器声明，保留 candidate `d02278dc0154dd73b5db24388a35c30bb096cc81`、content22/SAVE11、10月4日source-and-publication-audit及notRun。原SAVE9/content21、SAVE10和各轮revision仍在历史；10月6日核当前content22/SAVE12只更新来源合同，10月8/9源码绑定和10月10配对findings也不把旧执行升级。本页 `verified` 仅对应catalog出版状态，新增日期/Owner只属2026-10-16静态治理，固定364315ce候选已获 Codex 非作者内容接收，后续根接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)。
 
 ## Execution and assertions
 
