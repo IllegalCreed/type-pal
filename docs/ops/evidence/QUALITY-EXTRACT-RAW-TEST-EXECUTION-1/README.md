@@ -52,3 +52,8 @@ Primary是SDLPal palcommon.c真实PAL_SpriteGetFrame与PAL_RLEBlitToSurfaceWithS
 最后全文重读四测试文件：两份私有makeFakeSpriteChunk同为无sentinel的1×1固定像素构造器，后续可单独提取共用fixture并核既有输入/oracle转移；本片只提取实际摘要接线，未用“已读”关闭这两文件。空块0/7最终补证后定向36/typecheck及完整432重跑原件均为当前版本；四块诊断未变。最终lint4450文件error/warning/info全0，ledger保持3288/209/220/2859。
 
 2026-10-16 后续[C1同步诊断合同](diagnostics-c1/README.md)：BALL/RGM负面输出转为显式完整IO断言，8有效反控，局部生产V8不降；退一同输入弱例5→4，extract431仍2stderr块。原四块日志保留历史原件，C2两处未修；0关闭。
+
+
+## C2敌队诊断合同支持片
+
+[C2逐文件/真实IO与7有效反控](diagnostics-c2/README.md)：正例补完整映射与DTO/ownership，未知999同输入独立转移；92身份总数不变但原生变动显式记录，实际V8覆盖保持。extract72/431零stderr、shared126/战斗caller186/双方TC通过，0文件关闭；enemies错误slots注释撤回review，统一门/editor仍未清。

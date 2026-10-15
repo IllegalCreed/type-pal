@@ -1,0 +1,142 @@
+{
+  "baseCommit": "3bcdaadc3fd173ebd735e396f6147b4c6bc64b13",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "method": "full-text",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0",
+      "lines": 111,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "method": "full-text",
+      "sha256": "b20e652c9d85ff27a6e5a64f97a56c18f88dcd09fe3bce7cbf8ddefbc48f19ea",
+      "lines": 110,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "method": "full-text",
+      "sha256": "5ac390a1b612c97ce6d199abd86a172079ac5505643dab330a58292caa1c1c8a",
+      "lines": 44,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "method": "full-text",
+      "sha256": "e36e71a6a37afa64971c96dc13f2c0e13ba21626e8acac72ee2a82dd658a8c52",
+      "lines": 250,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "method": "full-text",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd",
+      "lines": 43,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "method": "full-text",
+      "sha256": "81e4c3b53d339c6c95a34ca9cd257d7b2a4541dec9be5ea8f3213d0af45e8010",
+      "lines": 67,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "method": "C1 full-text of before SHA; C2 exact deletion proof",
+      "sha256": "1d223df93228b3bd45a4058ce61bd57ad4ee6999b17fa5f4c201353590d78403",
+      "lines": 851,
+      "wholeFileAccepted": false,
+      "priorFullRead": "../diagnostics-c1/read-boundaries.json",
+      "currentReadRanges": [[480, 642]],
+      "beforeSha256": "7988ed742762aa0a13c1423c1ca2fbf44059143fe325d3276cc1ea67c20fa4f9"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "method": "C1 full-text same SHA; C2 range213-215",
+      "sha256": "0fc1d1c37d118bf3fced22d140804e0f395ab7a3156deaeabede3a41d796000a",
+      "lines": 261,
+      "wholeFileAccepted": false,
+      "priorFullRead": "../diagnostics-c1/read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "method": "ranges",
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "lines": 901,
+      "wholeFileAccepted": false,
+      "ranges": [[320, 347]]
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "method": "ranges",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+      "lines": 641,
+      "wholeFileAccepted": false,
+      "ranges": [[325, 393]]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "method": "ranges",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "wholeFileAccepted": false,
+      "ranges": [[198, 270]]
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "method": "ranges",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "wholeFileAccepted": false,
+      "ranges": [[288, 298]]
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "method": "ranges",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "wholeFileAccepted": false,
+      "ranges": [[288, 299]]
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "method": "ranges",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "wholeFileAccepted": false,
+      "ranges": [[1592, 1635], [1710, 1725]]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md",
+      "method": "full-text (current C2 grant authored and inspected)",
+      "sha256": "722fac26e4e8b0d04bc7ce636b55bad4f3249183ab7a1683db79a03400fba9ac",
+      "lines": 206,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md",
+      "method": "full-text (current C2 grant authored and inspected)",
+      "sha256": "bdf3465c0b5164052018adaa6a9f4c62d40aa6a4692c97fcd0cd7746e4a2d251",
+      "lines": 153,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md",
+      "method": "full-text (current C2 grant authored and inspected)",
+      "sha256": "932144d9ab4af68466b2d4349b93e1ddd87664e1024de98183c116acdec0e437",
+      "lines": 90,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "method": "full-text (current C2 grant authored and inspected)",
+      "sha256": "3691e46d1e716d542944c5b6ecf45369e469f89c87d0033caf3ef7266d0b86d6",
+      "lines": 158,
+      "wholeFileAccepted": false
+    }
+  ],
+  "notClaimed": "Reading a file/range or passing package tests is not whole-file acceptance. No production changes. 94pre scope unchanged."
+}

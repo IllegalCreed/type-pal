@@ -69,3 +69,22 @@ Codex premise verified/design agree/build allowed：白名单为ball.glm-runtime
 真实Node Console输出全部捕获后按显式消息/Error来源与stack记录格式断言，stdout必须空，未知普通输出/错id/漏消息均失败；动态stack内容不作逐字节固定，不声称日志被产品删除。throw/rethrow/console恢复也有反控，原global no-op已从本片同文件移除。全部三测试/helper仅review，0关闭；完整extract72/431仍2stderr块，C2两处源与fixture已读但未改。初检collector有15info不算通过，已修文件字面量样式待零诊断硬门。下一片先C2，再3b与94–102/editor；统一门未过不合main。
 
 C1静态docs/ledger/diff-check通过，lint4465文件0 errors/0 warnings/0 infos；机器3289/209closed/223review/2857pending，0关闭。helper最终仅收窄一行过强注释，探针与当前函数体全字节保持，精确差异单列核验。完整check/ratchet/protected未新跑，extract仍2处和editor诊断未清，不合main。
+
+## 诊断合同C2有限准入（2026-10-16）
+
+Codex premise verified/design agree/build allowed：仅修改enemy-teams.boundaries.test.ts和tables.test.ts两个现有测试。前者正例完整映射403，保留双OBJECT映同enemyId、五槽与原身份、按raw取名，改用完整DTO并核实际输入bytes/map/names未被修改；纠正parser直接caller为CLI320–335，非BattleSpriteLibrary。后者unknown999旧例只验首槽，不验标题所称warn；原10B/空map/无names输入完整转入P07缺映射合同，逐条真实Node Console IO和全部槽/原索引断言后，才删除已证弱子集。既有合法OBJECT缺map与补map、无names恢复轴保留。999是未知/非法OBJECT域，不算真实敌人覆盖。
+
+已读当前enemy-teams实现/两个相邻测试/barrel/同步IO helper及真实CLI，tables和共享fixture沿C1全文读取的同SHA；shared EnemyTeam、game startBattle原槽位脚本身份caller与SDL ENEMYTEAM/global加载/battle初始化仅按已读区间引用。0与FFFF保持原五槽，不将两者运行时语义混同。生产parser、资源、schema/API与规则/baseline冻结；helper复用不新增抽象，不把同步捕获扩展到React/异步测试。
+
+隔离完整两测试运行证明旧绿/新指定AssertionError（完整id、三输入ownership、未知域漏/错/额外warn）；已有raw名字与999输出oracle的保留/转移失败集合单列，不冒充新缺口。原生list披露唯一退役和标题更正；先确认tables既有fast排除，不新增无用退役豁免。局部实际V8 covered/total对照、完整extract与相邻/typecheck按原命令核验。有限支持片不关闭文件/编号卡，不替代83卡成果复审；完成后回3b，原94–102/editor继续，统一门未清不合main。
+
+C2原子性细化：未知999是非法OBJECT域，独立为P07第三例，不塞进合法OBJECT缺map的恢复合同。tables90→89、P07两例→三例，总92不变；不能因总数不变隐去原生身份迁移，退役tables旧弱例仅在同10B输入的专属新例承接后成立。
+
+
+### C2实际检查点
+
+[C2原件与逐文件结论](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)：两测试完整DTO/实际输入ownership/真实同步IO，7旧绿新单例AssertionError；raw名字既有oracle和同999字节oracle各1→1转移另列。tables90→89、P07 2→3，总92但原生身份变化公开；既有fast不含tables，无新增豁免/baseline改动。生产enemy-teams实际V8 32/32、2/2、22/22保持。完整extract72/431、shared126、真实战斗caller186、双方typecheck与71工具通过，0stderr块。
+
+两测试只review；enemies.ts两处不存在的EnemyTeam.slots注释是直接counter，旧关闭撤回review，生产未改。机器3289/208closed/226review/2855pending，0新关闭；全83卡仍9partial/74pending/0accept。完整check/ratchet/protected未新跑、editor诊断未清，不合main；回CODE3b四文件继续，原94–102/editor保留。无下一位Agent提示词。
+
+C2静态门与历史失败保留见[最终回执](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md)；只更新本卡导航，无其它Owner状态变化。整体验收/统一三门未通过不合main。

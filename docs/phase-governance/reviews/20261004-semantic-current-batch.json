@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
-      "afterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
+      "sourceSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
+      "afterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1463,6 +1463,15 @@
             "previousAfterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
             "afterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "3bcdaadc3",
+            "action": "C2-enemy-team-DTO-ownership-and-diagnostic-contract-review",
+            "scope": "docs/ops/board.md own two task rows/navigation only; 83 cards still 9 partial/74 pending/0 accept; no other owner changes",
+            "previousAfterSha256": "972a055798c8b7d3b80bbbd7b447a937c3cf8c53930a75c1e84e967940af1743",
+            "afterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md"
           }
         ]
       },
@@ -1773,8 +1782,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
-      "afterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
+      "sourceSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
+      "afterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2336,6 +2345,15 @@
             "previousAfterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
             "afterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "3bcdaadc3",
+            "action": "C2-enemy-team-DTO-ownership-and-diagnostic-contract-review",
+            "scope": "docs/ops/evidence/README.md own two task rows/navigation only; 83 cards still 9 partial/74 pending/0 accept; no other owner changes",
+            "previousAfterSha256": "dba1dce4d186f5ed127f967a9a4c4c238c69b173df8947cc388385a81ea46a96",
+            "afterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

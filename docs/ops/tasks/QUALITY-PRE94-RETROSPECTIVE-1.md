@@ -147,3 +147,12 @@ Codex premise verified/design agree/build allowed白名单为annotate.test.ts、
 ### C1同步诊断合同支持片
 
 [C1完整证据](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)：两测试补真实warn/Error/null与异常恢复，八有效反控；BALL精简一同输入弱例，53定向/shared126/typecheck/71工具通过、生产局部V8保持。extract431仍2stderr块，三测试/helper仅review、0关闭；全83卡仍9partial/74pending/0accept，不以支持片代替编号卡成果复审。先C2，再3b及94–102/editor。
+
+
+### C2实际检查点
+
+[C2原件与逐文件结论](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)：两测试完整DTO/实际输入ownership/真实同步IO，7旧绿新单例AssertionError；raw名字既有oracle和同999字节oracle各1→1转移另列。tables90→89、P07 2→3，总92但原生身份变化公开；既有fast不含tables，无新增豁免/baseline改动。生产enemy-teams实际V8 32/32、2/2、22/22保持。完整extract72/431、shared126、真实战斗caller186、双方typecheck与71工具通过，0stderr块。
+
+两测试只review；enemies.ts两处不存在的EnemyTeam.slots注释是直接counter，旧关闭撤回review，生产未改。机器3289/208closed/226review/2855pending，0新关闭；全83卡仍9partial/74pending/0accept。完整check/ratchet/protected未新跑、editor诊断未清，不合main；回CODE3b四文件继续，原94–102/editor保留。无下一位Agent提示词。
+
+C2静态门与历史失败保留见[最终回执](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md)；只更新本卡导航，无其它Owner状态变化。整体验收/统一三门未通过不合main。

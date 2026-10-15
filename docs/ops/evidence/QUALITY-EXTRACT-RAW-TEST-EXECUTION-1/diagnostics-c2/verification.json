@@ -1,0 +1,15 @@
+{
+  "verifiedBy": "Codex, separate read-only process; not independent third party",
+  "fullRuns": 20,
+  "oldGreenNewSingleAssertionError": 7,
+  "existingNameOracleRetained": true,
+  "exact999OracleTransferred": true,
+  "originalSourceAndBarrelUnchanged": true,
+  "testIdentityCountBefore": 92,
+  "testIdentityCountAfter": 92,
+  "tableChangeOnlyExactDeletion": true,
+  "realV8CountsKept": true,
+  "officialBaselineUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "wholeFilesClosed": 0
+}

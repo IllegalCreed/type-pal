@@ -1,0 +1,38 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/resources/tables.test.ts",
+    "src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--coverage.enabled",
+    "--coverage.reporter=json",
+    "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c2-v8-333oxnmd",
+    "--coverage.include=src/resources/parsers/enemy-teams.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "metrics": {
+    "enemy-teams.ts": {
+      "statements": {
+        "covered": 32,
+        "total": 32
+      },
+      "functions": {
+        "covered": 2,
+        "total": 2
+      },
+      "branches": {
+        "covered": 22,
+        "total": 22
+      }
+    }
+  },
+  "coverageSha256": "66863b355b6a19f8d50f5ce2eaf5fdbef496e811996a4d31efab9c60c0ba75c3",
+  "officialGate": false
+}
