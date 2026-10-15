@@ -906,3 +906,8 @@ Branch: codex/docs-full-template-proposal
 - 固定777六篇003–005原538行/currentlive444与完整43字段语义获非作者tail接收；C-M6-1/2在最终候选闭合，原21d/c73错误报告与完整记录均保留。根完整读353行closure及六篇live层；不冒fresh538源全文或raw执行。
 - 根只九处行政/明确Oct2认可归属替换，原全部538字节inverse/maps不变；原004用户“非常好”仅归其具体连续演示，不授其它签名/capture/Q1Q2/发布/006。原005wrapper失败与补跑、003缺初始idle及完整链撤信均保留。
 - 六条新增中央/route与既有39关系中一行，旧002正文/after不改，现行metadata同步六source实际接收。现有其它registry/routes和38matrix对象全等；原机器JSON/001/006/product/旧测/coverage不写。root候选需独立新bytes接收及实际零门，控制/回执为pending增量，全目标active。
+
+#### M六篇根接入实际收口
+
+- Exact dc2dde84e16e917678c7281375e0970f6ac0ecf8 的14文件获8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c独立根行政/中央层接收；C-M6-root-1/2/3在该候选闭合，dd024首counter与七完整prior保留。source六篇的实际接受权仍是tail21d/777，不由原作者自签。
+- 实际86工具/227body/733strict/phase184/lint4109 EWI0/diff0；完成222/1838+5增量，current1979/pending1752；旧002不重计、control/receipt仍pending。此次四文件只写真实接受事件与当前时态，不改source/body/native/after/registry/routes/matrix，不冒另一次外部metadata签字。继续P11及所有剩余docs/artifacts，不收口全目标或main。
