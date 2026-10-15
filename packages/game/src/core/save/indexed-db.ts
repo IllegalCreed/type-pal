@@ -60,11 +60,27 @@ function asPromise<T>(req: IDBRequest<T>): Promise<T> {
   })
 }
 
+/** Request success can still be followed by abort. Only complete confirms a committed write.
+ * Request errors retain their default abort behavior; abort propagates the original transaction error.
+ */
+function commitWrite(db: IDBDatabase, write: (store: IDBObjectStore) => void): Promise<void> {
+  const store = txStore(db, 'readwrite')
+  const transaction = store.transaction
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve()
+    transaction.onabort = () =>
+      reject(transaction.error ?? new DOMException('IndexedDB write aborted', 'AbortError'))
+    write(store) // A synchronous request-creation error rejects this Promise as well.
+  })
+}
+
 export const IndexedDbSave = {
   async saveSlot(slot: number, gs: GameState, meta: SlotMeta): Promise<void> {
     const db = await openDb()
     const value: StoredSlot = { id: slot, gs, meta }
-    await asPromise(txStore(db, 'readwrite').put(value))
+    await commitWrite(db, (store) => {
+      store.put(value)
+    })
   },
 
   async loadSlot(slot: number): Promise<{ gs: GameState; meta: SlotMeta } | null> {
@@ -83,7 +99,9 @@ export const IndexedDbSave = {
 
   async deleteSlot(slot: number): Promise<void> {
     const db = await openDb()
-    await asPromise(txStore(db, 'readwrite').delete(slot))
+    await commitWrite(db, (store) => {
+      store.delete(slot)
+    })
   },
 }
 

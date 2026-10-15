@@ -1,0 +1,25 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ✓ src/tools/toast.test.ts (4 tests) 66ms
+ ✓ src/tools/quick-save.test.ts (8 tests) 74ms
+stdout | src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.cov85.test.ts (37 tests) 42ms
+ ✓ src/core/menu/save-slot-menu.test.ts (14 tests) 16ms
+ ✓ src/core/save/__tests__/indexed-db.test.ts (3 tests) 20ms
+stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.test.ts (37 tests) 16ms
+ ✓ src/core/save/__tests__/api.test.ts (8 tests) 10ms
+ ✓ src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts (4 tests) 9ms
+ ✓ src/core/menu/opening-menu.glm-phase1-leaves.test.ts (2 tests) 5ms
+ ✓ src/core/menu/menu-save-chain.glm-msio.test.ts (2 tests) 11ms
+ ✓ src/core/menu/opening-menu.test.ts (6 tests) 5ms
+
+ Test Files  11 passed (11)
+      Tests  125 passed (125)
+   Start at  14:58:50
+   Duration  3.12s (transform 1.55s, setup 292ms, import 2.00s, tests 274ms, environment 6.93s)

@@ -18,6 +18,7 @@
     "@types/node": "^25.9.1",
     "@vitejs/plugin-basic-ssl": "2.3.0",
     "canvas": "^3.2.3",
+    "fake-indexeddb": "6.2.5",
     "jsdom": "^29.1.1",
     "vite": "^8.0.14"
   }

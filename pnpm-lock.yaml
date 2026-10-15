@@ -92,6 +92,9 @@ importers:
       canvas:
         specifier: ^3.2.3
         version: 3.2.3
+      fake-indexeddb:
+        specifier: 6.2.5
+        version: 6.2.5
       jsdom:
         specifier: ^29.1.1
         version: 29.1.1(canvas@3.2.3)

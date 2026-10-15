@@ -54,6 +54,14 @@ editor诊断归属与有限首片待核见 [QUALITY-EDITOR-DIAGNOSTICS-1](../../
 新批准到达时停止了尚未完成的旧候选check，保留SIGTERM原件；两项修好后统一跑最终窗口，
 不把中断运行算通过，不在coverage运行期间改源。
 
+## C1：用户批准的存档事务修复
+
+GAME-SAVE-IDB-COMMIT-1由Codex实施，private commitWrite等待complete，abort传播原始事务错误或AbortError。
+新game直接devDependency仅fake-indexeddb6.2.5；保留原lock的全部其它版本与可选平台记录，frozen/offline安装通过。
+三条精确回归走真实Save→IndexedDbSave，覆盖提交时机与真实存读删、put success后abort拒绝/旧槽保留、
+delete success后abort拒绝/旧槽保留。用例每次关闭连接并恢复global/spy/cache，不借别包私有依赖，不改schema/版本。
+红例1fail（-t过滤2skip），恢复完整3/3；相邻11files/125tests、game typecheck通过，0新关闭。
+
 ## 保留边界（批准前检查点，历史）
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。

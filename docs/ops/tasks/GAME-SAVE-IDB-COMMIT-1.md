@@ -1,6 +1,6 @@
 # GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播
 
-Status: build
+Status: review
 Phase: phase1
 Capability: save transaction correctness
 Coding Owner: Codex
@@ -41,6 +41,14 @@ runtime 层直接执行，W3C 与 SDL 同步 IO 分开，无数据/提取/迁移
 行为修复先失败反例，再实现，再相邻回归；纯重构分提交；完整模块窗口执行全部质量门与零诊断检查。
 
 ## 2026-10-15 用户批准与最小方案
+
+实现与定向自验证：commitWrite只在transaction complete后resolve，默认请求错误经abort传播，手动abort无原始错误时返回AbortError。
+没有改DB_VERSION/store/schema/清档/readonly/public API。显式game测试依赖fake-indexeddb6.2.5，lock仅新增3行importer引用；
+离线安装造成的无关transitive刷新已撤回，frozen/offline安装通过，未升级音频或其它依赖。
+真实Save→IDB的put success后abort反例先恰一业务断言失败；修后三条测试证明complete时机、正常存读元数据/删除、
+覆盖与删除abort均reject且旧槽cash100保留。每例独立IDBFactory，结束关闭真实连接、复位句柄/spy/global。
+与相邻菜单/Save/快存共11files/125tests、game typecheck通过；原件见CODE94/codex-takeover-idb-red与approved-fixes-green/typecheck。
+本次为Codex作者自验，完整模块质量门仍待最终窗口，不标done、不关闭账本文件。
 
 用户本轮明确批准前两项，其中本项为①；Codex依据真实Save→IDB合法abort反例、W3C事务生命周期、
 quick-save等待Save后反馈的caller核定premise verified / design agree，**build allowed**。
