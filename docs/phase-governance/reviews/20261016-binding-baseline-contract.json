@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "kind": "F1-frozen-binding-baseline-implementation-and-canonicalpilot-candidate",
+  "scope": "Exact22 isolatedowner; no product/oldtests/coverage/T/CI/whole-goal closure. Author candidate only.",
+  "entries": [],
+  "frozenDesign": {
+    "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+    "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+    "sha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
+    "version": "2.0.1",
+    "whitelistCount": 22
+  },
+  "pilotCandidate": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+    "contentReviewStatus": "partial-review-unknown",
+    "docType": "test-catalog",
+    "templateId": "test-catalog-v1",
+    "templateVersion": "1.2.0",
+    "templateVariant": "frozen-document-binding-baseline-v1",
+    "templateCompliance": "needs-migration",
+    "reviewDepth": "deep-semantic",
+    "readMethod": "Author all8native semantic fields/nonentry values, first/last entry and all1838 object field/type/path/ordered index metadata read/structurally traversed; old full18407-line/1838 source-prose reading not claimed. Current newgovernance fields full read; source capture identity machine checked; non-author canonical reception pending.",
+    "coreConclusion": "The frozen provisional binding index is a test-catalog capture, not runtime evidence or current source approvals. Native8/original15-type summary/1838 unread provisional entries remain exact; governance19/capture8 states fixed source and threefalse credit limits. Baseline ownmembership0; candidate is not centrally counted.",
+    "truthAnchors": [
+      "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3:docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+      "scripts/docs/frozen-document-source.mjs",
+      "scripts/docs/document-model.mjs",
+      "scripts/docs/report-governance-progress.mjs"
+    ],
+    "primarySource": [
+      {
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+        "gitObject": "00da11bb594126105abbb5ea596c7272ed8e5542",
+        "sha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+        "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+        "sha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3"
+      }
+    ],
+    "phaseAnchors": {
+      "ops": "Approvedcohort scheduling/source anchor only.",
+      "phase1": "N/A product mechanism; no source documents re-audited.",
+      "phase2": "N/A product schema/editor; unchanged.",
+      "testing": "Existing catalog-type JSON variant, distinct from publicationdefault."
+    },
+    "owner": "receipt_review / candidate author; root independent reception pending",
+    "provenance": [
+      "Fixed 2026-10-11 provisional binding capture from approved33cc Git source; original capture author/individual source reviewers not invented.",
+      "2026-10-16 F1 author reviewed all eight field semantics, index metadata/structure and current consumer responsibility; this is not a fresh semantic reading of1838 source documents."
+    ],
+    "dependencies": [
+      "docs/phase-governance/templates/registry.json",
+      "scripts/docs/git-document-snapshot.mjs",
+      "scripts/docs/frozen-document-source.mjs"
+    ],
+    "applicability": "Only the fixed approved33cc root path, native8 and governed view;17types, machine1.5 existing source contracts unchanged.",
+    "publicEntry": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+    "publicCallers": [
+      "scripts/docs/check-document-model.mjs",
+      "scripts/docs/report-governance-progress.mjs",
+      "scripts/docs/document-model.mjs"
+    ],
+    "legalInputs": [
+      "Actual ordinary33cc commit/path regular100644 blob original Buffer with fixed SHA; original raw source allowed without migration.",
+      "Exactly originalnative8 plus governance19/capture8, strictUTF8/all-depthdecoded uniqueJSON keys; unique hardpath/type/variant/JSON/source joint binding."
+    ],
+    "businessOracle": {
+      "type": "fixed-cohort-provisional-index-preservation-and-no-credit-inflation",
+      "assertions": [
+        "Native8 object values/types/entryorder/summary15 remain fully deep-equal fixed33cc source.",
+        "New envelope false currentAudit plus threefalse capture credits, original unread/needs-migration/null/policy remain.",
+        "Realfixturemodel/progress counts governedbaselineincremental1/cohort0; canonical currently no centralcompliant entry ormigrationcredit.",
+        "Actual same mutation with jointly synchronized route/review must reject source/native/path and owned targetguard-only removal calibrates discrimination."
+      ]
+    },
+    "dedupe": {
+      "result": "unique-fixed-capture-no-selfmembership-no-new-source-review-credit",
+      "against": ["docs/testing/catalog.json", "docs/phase-governance/document-registry.json"],
+      "notes": "Publicationcatalog/default and historical capture have distinct native contracts; not forced fakeid/entryReadings/generatedBy."
+    },
+    "counterReworkBlocked": {
+      "F1-SCOPE1": "design2.0.1 exact22 includes onlyrealtemplateREADME currentcontainer",
+      "implementation": "author selfchecks only, independent code/canonical fullreview pending"
+    },
+    "unresolved": [
+      "Non-author implementation/canonical pilot acceptance pending.",
+      "All original1838 candidatebindings remain provisional/unread;105capture differences/fourdirty chronology retained, not drift or source reacceptance."
+    ],
+    "nextStep": "Root/non-author full code and new governance semantic review, exact source/native/default/CLI negative verification, then separate central incremental reception.",
+    "sourceSha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "00da11bb594126105abbb5ea596c7272ed8e5542",
+    "afterSha256": "c497472112382b63062efce1cdb7ccb71eeb1a6bd146fb6b5fe2ffb58d242f00",
+    "reviewedLines": "Grouped8native/1838index metadata + fullgov; actualfile1-18465, not fullsource-document reading",
+    "reviewedLineScope": "Grouped field semantics/index structural traversal; no fake18407-line manualread credit",
+    "history": [
+      {
+        "date": "2026-10-16",
+        "event": "F1 author canonicalpilot candidate, not independentaccept"
+      }
+    ],
+    "supersedes": [],
+    "revision": {
+      "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "implementationSha": "c497472112382b63062efce1cdb7ccb71eeb1a6bd146fb6b5fe2ffb58d242f00",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "source": {
+            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "gitObject": "00da11bb594126105abbb5ea596c7272ed8e5542",
+            "sha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5"
+          },
+          "afterSha256": "c497472112382b63062efce1cdb7ccb71eeb1a6bd146fb6b5fe2ffb58d242f00",
+          "action": "append-only-governance-candidate",
+          "runtimeExecutionPerformed": false
+        }
+      ]
+    },
+    "evidence": {
+      "kind": "F1-source-bound-native-capture-canonicalpilot-author-review",
+      "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+      "sourceSha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
+      "afterSha256": "c497472112382b63062efce1cdb7ccb71eeb1a6bd146fb6b5fe2ffb58d242f00",
+      "lineCount": 18465,
+      "nativeFieldCount": 8,
+      "entryCount": 1838,
+      "selfMembership": 0,
+      "govKeys": 19,
+      "captureKeys": 8
+    },
+    "beforeAfter": "Raw provisional capture without its own typed JSON governance → same native8/index plus explicit capture semantics, fixed Git source, nonexecution boundary and guarded test-catalog1.2 variant.",
+    "stopLine": "No1838 source-document rereview credit, no current-template approval from provisional bindings, no runtime/E2E/visual/coverage proof. Canonical pilot and new implementation require independent reception; original source-pending status remains.",
+    "templateConformity": {
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "version": "1.2.0",
+      "variant": "frozen-document-binding-baseline-v1",
+      "result": "author-verified-awaiting-independent-canonical-accept",
+      "method": "Actual Buffer/root/view+typed contract; no fixturegreen alone grants canonicalaccept."
+    }
+  },
+  "completeMaintenancePriorSources": [
+    {
+      "kind": "complete-prior-current-in-reachable-fixed-git",
+      "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+      "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
+      "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
+      "selector": {
+        "entries.path": "docs/testing/catalog.json",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    {
+      "kind": "complete-prior-current-in-reachable-fixed-git",
+      "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+      "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
+      "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
+      "selector": {
+        "entries.path": "docs/testing/_templates/README.md",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    {
+      "kind": "complete-prior-current-in-reachable-fixed-git",
+      "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+      "gitObject": "3358aa8760c38801c84ccf798e4bd125c80d2a49",
+      "fileSha256": "6d56afd484233d69059b820a587ef6a966eb62f0afaabda2e5ae983ac61d4105",
+      "selector": {
+        "entries.path": "docs/phase-governance/templates/README.md",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    {
+      "kind": "complete-prior-current-in-reachable-fixed-git",
+      "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "gitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
+      "fileSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+      "selector": {
+        "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    }
+  ],
+  "implementation": {
+    "status": "author self-verification; independent reception pending",
+    "sourceManifest": "/tmp/type-pal-f1-build-source-manifest-20261016.json",
+    "currentAudit": {
+      "kind": "static-document-governance",
+      "runtimeExecutionPerformed": false
+    },
+    "progressPolicy": "Baseline onlytyped route; no canonical compliantregistry/central entry before independentaccept; keep211baseline+4incremental, actualmodel216 structural only.",
+    "defaultContract": "Ordered16/default14 common scope; generatedBy values/null oldbehavior and runtimefalse/entryreading/realID responsibilities retained.",
+    "machineContract": "Default/sixvariants/fivepins1.5 fullobject unchanged.",
+    "inventory": "Actual3294/229closed/5review/3060pending; newreader+newtest bothpending;246oldrows and273source unchanged.",
+    "candidateCode": [
+      {
+        "path": "scripts/docs/frozen-document-source.mjs",
+        "sha256": "d83596fa33a1bc04656c58190b767a0323718c433cfe53efb3025eb57d3ee374",
+        "bytes": 10473,
+        "lines": 293
+      },
+      {
+        "path": "scripts/docs/document-model.mjs",
+        "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+        "bytes": 14057,
+        "lines": 335
+      },
+      {
+        "path": "scripts/docs/git-document-snapshot.mjs",
+        "sha256": "ab1a61e21ffe4862bb4bb5ec9ddc6e63998bc2ba6d6117186f6b96c44117ce7c",
+        "bytes": 1274,
+        "lines": 38
+      },
+      {
+        "path": "scripts/docs/check-document-model.mjs",
+        "sha256": "b61048dc9e575b30bcb9c62225490fab6ad9e18f79b856d6b5d1a22ab7e2984b",
+        "bytes": 1294,
+        "lines": 31
+      },
+      {
+        "path": "scripts/docs/report-governance-progress.mjs",
+        "sha256": "dcc925f8df74a9fc5cb57ceaba5775de37179fd9e200015102173b05f574a631",
+        "bytes": 6226,
+        "lines": 146
+      },
+      {
+        "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+        "sha256": "700512f5ee2f5b821b5eb7e156cd653423dec794f967cf78a35a8fcdfab710b6",
+        "bytes": 21741,
+        "lines": 679
+      }
+    ]
+  },
+  "authorChecks": {
+    "status": "Actual focused/consumer/source self-verification; independent implementation/canonical acceptance pending. Whole final gates recorded externally after frozen candidate run.",
+    "focused": {
+      "command": "node --test scripts/docs/frozen-binding-baseline.test.mjs",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "path": "/tmp/type-pal-f1-malformed-corrected-focused-20261016.log",
+      "sha256": "0067d775cf22bcbe1107db66b787a3cf61f07c3b8641c6965a3fe4d8086f9f97",
+      "sources": [
+        {
+          "path": "scripts/docs/frozen-document-source.mjs",
+          "sha256": "d83596fa33a1bc04656c58190b767a0323718c433cfe53efb3025eb57d3ee374",
+          "bytes": 10473,
+          "lines": 293
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "bytes": 14057,
+          "lines": 335
+        },
+        {
+          "path": "scripts/docs/git-document-snapshot.mjs",
+          "sha256": "ab1a61e21ffe4862bb4bb5ec9ddc6e63998bc2ba6d6117186f6b96c44117ce7c",
+          "bytes": 1274,
+          "lines": 38
+        },
+        {
+          "path": "scripts/docs/check-document-model.mjs",
+          "sha256": "b61048dc9e575b30bcb9c62225490fab6ad9e18f79b856d6b5d1a22ab7e2984b",
+          "bytes": 1294,
+          "lines": 31
+        },
+        {
+          "path": "scripts/docs/report-governance-progress.mjs",
+          "sha256": "dcc925f8df74a9fc5cb57ceaba5775de37179fd9e200015102173b05f574a631",
+          "bytes": 6226,
+          "lines": 146
+        },
+        {
+          "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+          "sha256": "700512f5ee2f5b821b5eb7e156cd653423dec794f967cf78a35a8fcdfab710b6",
+          "bytes": 21741,
+          "lines": 679
+        }
+      ]
+    },
+    "sourceAndMaintenance": {
+      "verifiedChecks": 91,
+      "scope": "Exact22, native8/fullprefix/index1838/summary15/self0, alloldmachine bodies/contracts/pins, catalogonevalue, old215routes+1typed,724registryonlycatalogversion, alloldcurrent fullGitlocators,246oldrows/273fence exact; not a fresh1838-source semantic read."
+    },
+    "actualConsumers": {
+      "modelBodies": 216,
+      "modelIssues": 0,
+      "strictRecords": 724,
+      "strictIssues": 0,
+      "qualityInventory": 3294,
+      "closed": 229,
+      "review": 5,
+      "pending": 3060,
+      "scope": "Actual structural/record/inventory consumers only, not runtime or independentaccept."
+    },
+    "finalGateCommands": [
+      "pnpm check:docs",
+      "pnpm lint",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    "finalGateEvidencePolicy": "Frozen exact22 manifest and actualimmutablelogs/proof under/tmp; no selfreferential ownSHA or prefilledPASS for future gate input."
+  },
+  "counterHistory": [
+    {
+      "id": "F1-focused-first",
+      "status": "author-corrected-awaiting-independent-review",
+      "actualFirstResult": "2pass2fail, log preserved; raw missinggov wrongly failed test no-variant-mismatch helper; invalidUTF8 rawafter vs decoded progress digest caused collateral SHA drift.",
+      "correction": "Allow expectedrawmissing-envelope declaration failures only that case; newbaseline rawBuffer after digest; source/typed guards not relaxed.",
+      "log": "/tmp/type-pal-f1-focused-first-20261016.log",
+      "logSha256": "41a62b4391fa5e83a655150c5a09fe9796b45bfbed257e94c726fe6d6c99ed59"
+    },
+    {
+      "id": "F1-format-oracle",
+      "status": "author-corrected-awaiting-independent-review",
+      "actualFirstResult": "After Biomeformat3pass1fail: owned hardpath literal mutation anchor had changed whitespace, failedbeforecalibration.",
+      "correction": "Exact one-occurrence whitespace-aware targetguardregex; noproductionguard/source weakened.",
+      "log": "/tmp/type-pal-f1-focused-formatted-20261016.log",
+      "logSha256": "c23168b426bd561129ab078c733c55a1f0c6382f7607c4e74c72119bc8159da9"
+    },
+    {
+      "id": "F1-old-source-diagnostic-regression",
+      "actualFirstResult": "Actual first full86 tools84pass2fail: original historical-execution-source tests require exact old working-tree-drift diagnostic. Invalid view already rejected/count0; no oldtest changed.",
+      "correction": "Composition retains original drift diagnostic and appends new strict/native reason; fixedsource/typed/native gate unchanged.",
+      "status": "author-corrected pending independent review",
+      "log": "/tmp/type-pal-f1-first-full-docs-20261016.log",
+      "logSha256": "2889a05bf5abd55c4f1ec17a442f1923a6d525046ac337282e8adc4125461e77"
+    },
+    {
+      "id": "F1-missing-working-view",
+      "actualFirstResult": "Ownedtmp actual progress CLI on missing baseline body emitted no JSON; test JSONparse failed Unexpectedend. Original failure preserved; no product execution.",
+      "correction": "Progress safe file read yields undefined, fixedview reports Buffer missing, digest absent skips hashing undefined; structured exit1/count0 expected.",
+      "status": "author final4focused verified structuredexit1/count0; independent review pending",
+      "log": "/tmp/type-pal-f1-missing-body-before-20261016.log",
+      "logSha256": "1219c8847ddb8ad9dc9b10d689f676a5eeb1999250b1471b15c3774da462dbed"
+    },
+    {
+      "id": "F1-initial-lint",
+      "actualFirstResult": "Three organizeImports diagnostics, exit1; format-only pass not lint acceptance.",
+      "correction": "Actual Biome import organization only in authorized new/changed docs tools; rules unchanged.",
+      "status": "author import correction complete; exact final candidate gate results live in the external immutable proof, independent reception pending",
+      "log": "/tmp/type-pal-f1-first-lint-20261016.log",
+      "logSha256": "b227d8d111fa5a58c624cd98c3fa7dcabea87a2ec24afe1ab8ceb3e15ddf3cbf"
+    },
+    {
+      "id": "F1-metadata-coercion",
+      "status": "author corrected and formal4focused verified; independent review pending",
+      "actualBefore": {
+        "kind": "author-direct-malformed-metadata-pre-correction-counter",
+        "cases": [
+          {
+            "name": "primarySource callable-coercion",
+            "threw": true,
+            "error": "TypeError",
+            "message": "meta?.primarySource?.includes is not a function"
+          },
+          {
+            "name": "reviewDate coercion",
+            "threw": true,
+            "error": "TypeError",
+            "message": "Cannot convert object to primitive value"
+          }
+        ],
+        "pass": false,
+        "scope": "Only new baseline view; no product execution"
+      },
+      "beforeProbePath": "/tmp/type-pal-f1-malformed-metadata-before-20261016.json",
+      "beforeProbeSha256": "b8a5805c606c8b226e92626e48bc12fb34b4edcc8370b92a23176ab6adbb6ddb",
+      "correction": "Require lastReviewed string before date operations and primarySource actualarray before includes; require reader functions/revision string before invocation/coercion. Actual bothCLIs now reject object/toString and noncallableincludes inputs with structuredissues/count0. Strictscope onlynewroot/view and newreader, no defaultbehavior hardening.",
+      "scope": "No oldtest or product changes; earlier86green retained as datedprehardeningevent."
+    }
+  ],
+  "artifactRules": {
+    "owner": "receipt_review current F1 docs author; root independent reviewer separate",
+    "tmp": "Owned tests/consumer logs under/tmp are staticdoc-tool evidence, not runtime/raw; durable source/proofs summarized here, full candidatecommit remains reachable.",
+    "source": "Fixed33cc/root constants and ec2 wholecurrent/priorlocators actually Gitretrieved; no unknown source fabricated."
+  },
+  "priorAuthorCheckEvents": [
+    {
+      "date": "2026-10-16",
+      "event": "Pre-malformed-hardening focused and fullgate actual success does not certify latercode.",
+      "focused": {
+        "command": "node --test scripts/docs/frozen-binding-baseline.test.mjs",
+        "tests": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "exitCode": 0,
+        "path": "/tmp/type-pal-f1-final-focused-20261016.log",
+        "sha256": "8d8a995b1b3eeff9ebfd9728aa226285b1a9bae114bf45f71bf02b40c905dce8",
+        "sources": [
+          {
+            "path": "scripts/docs/frozen-document-source.mjs",
+            "sha256": "8f163165e74803d63a42d72b2ba7ed2934242be7748ae42d542a1715e99d099a",
+            "bytes": 10296,
+            "lines": 290
+          },
+          {
+            "path": "scripts/docs/document-model.mjs",
+            "sha256": "b5519382f17bceb33e47ca3f3bd8b13e4ac76f0222cc927bf6c09bfb99e2f950",
+            "bytes": 14015,
+            "lines": 335
+          },
+          {
+            "path": "scripts/docs/git-document-snapshot.mjs",
+            "sha256": "6023d9e3c6143c91c248b8019b76ba14ac4618d03e77905be84dda7abbaf02d4",
+            "bytes": 1240,
+            "lines": 37
+          },
+          {
+            "path": "scripts/docs/check-document-model.mjs",
+            "sha256": "b61048dc9e575b30bcb9c62225490fab6ad9e18f79b856d6b5d1a22ab7e2984b",
+            "bytes": 1294,
+            "lines": 31
+          },
+          {
+            "path": "scripts/docs/report-governance-progress.mjs",
+            "sha256": "dcc925f8df74a9fc5cb57ceaba5775de37179fd9e200015102173b05f574a631",
+            "bytes": 6226,
+            "lines": 146
+          },
+          {
+            "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+            "sha256": "8b2a17a89541aba7c3e5cc27743d2f58b5b462a0476538472c48256360c10cc5",
+            "bytes": 21045,
+            "lines": 653
+          }
+        ]
+      },
+      "fullDocs": {
+        "path": "/tmp/type-pal-f1-final-docs-20261016.log",
+        "tests": 86,
+        "fail": 0,
+        "skip": 0,
+        "modelBodies": 216,
+        "strictRecords": 724,
+        "exitCode": 0
+      },
+      "lint": {
+        "path": "/tmp/type-pal-f1-final-lint-20261016.log",
+        "files": 4105,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "exitCode": 0
+      },
+      "exactPreviousManifestSha256": "75db6bf4c69985e437bb095db0731fe93f183a556dd8b0dc6ade9420bf98a787",
+      "completePreviousBytes": "/tmp/type-pal-f1-pre-malformed-correction-exact22-20261016"
+    }
+  ]
+}

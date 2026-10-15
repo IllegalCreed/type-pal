@@ -34,3 +34,5 @@
 - [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
 
 - [E2E 002 入口与报告逐篇接入记录](20261016-e2e-stage-m.json)：固定364内容及73根接入已分别独立接收；后续写回另核，余六准入依任务卡精确新基点，不授运行或用户观感信用。
+
+- [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：entries为空，完整pilotCandidate待独立代码/正文接收；typed route只做结构验证，未给baseline增迁移信用。

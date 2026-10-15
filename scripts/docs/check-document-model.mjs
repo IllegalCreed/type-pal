@@ -2,9 +2,17 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { checkDocumentModel } from './document-model.mjs'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+const readBuffer = (path) => {
+  try {
+    return readFileSync(resolve(root, path))
+  } catch {
+    return undefined
+  }
+}
 const read = (path) => {
   const absolute = resolve(root, path)
   return existsSync(absolute) ? readFileSync(absolute, 'utf8') : undefined
@@ -13,6 +21,8 @@ const config = JSON.parse(read('docs/phase-governance/routing.json'))
 const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
 const issues = checkDocumentModel(config, registry, read, {
   readSource: (pin) => readGitDocumentSource(root, pin),
+  readBuffer,
+  readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
 })
 for (const issue of issues) console.error(`- ${issue}`)
 console.log(

@@ -1057,6 +1057,12 @@
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
       "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "templateId": "test-catalog-v1",
+      "variant": "frozen-document-binding-baseline-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -18403,5 +18403,63 @@
       "reviewRecord": null,
       "semanticBinding": "candidate-from-structure; requires full-text review"
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-catalog-v1",
+    "templateVersion": "1.2.0",
+    "variant": "frozen-document-binding-baseline-v1",
+    "lastReviewed": "2026-10-16",
+    "owner": "receipt_review / current document-governance author; root Codex independent reception pending",
+    "provenance": [
+      "Fixed 2026-10-11 provisional binding capture from approved33cc Git source; original capture author/individual source reviewers not invented.",
+      "2026-10-16 F1 author reviewed all eight field semantics, index metadata/structure and current consumer responsibility; this is not a fresh semantic reading of1838 source documents."
+    ],
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "00da11bb594126105abbb5ea596c7272ed8e5542",
+    "sourceSha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
+    "primarySource": [
+      "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3:docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "docs/phase-governance/reviews/20261016-binding-baseline-design.md / F1-binding-baseline2.0.1",
+      "scripts/docs/frozen-document-source.mjs; scripts/docs/document-model.mjs; scripts/docs/report-governance-progress.mjs"
+    ],
+    "scope": "Frozen provisional source-anchor index for the approved1838 cohort; governing this file does not accept its source documents, provisional template guesses, captured summary or unread entries as current truth.",
+    "lifecycle": "historical",
+    "currentAudit": {
+      "kind": "static-document-governance",
+      "runtimeExecutionPerformed": false
+    },
+    "captureReading": {
+      "kind": "frozen-provisional-binding-capture",
+      "nativeFieldSemantics": {
+        "schemaVersion": "Original capture schema1, preserved; not the schema2 testing publication catalog.",
+        "id": "Original docs-full-template-binding-baseline-20261011 capture identity; not a newly invented test publication ID.",
+        "status": "Original baseline-pending-semantic-review remains; file-governance reception cannot turn provisional1838 source bindings into reviewed/current/completed.",
+        "denominator": "Approved fixed1838 cohort; incremental documents, including this nonmember baseline, do not change it.",
+        "registry": "Capture-time content-document-template-registry-20261011 reference; not a claim that all current17 types were captured.",
+        "policy": "Every binding is provisional for scheduling and explicitly not content-reviewed/template-compliant.",
+        "summary": "Original15 template-ID counts totaling1838; not refreshed to17 types or current completion statistics.",
+        "entries": "1838 ordered path/sourceSHA/provisional-template objects with their original eight keys, unread/needs-migration/null and candidate-from-structure semantics; source-content review and105capture/fourdirty timing observations remain separately scoped."
+      },
+      "entryCount": 1838,
+      "entryKey": "path",
+      "sourceDocumentSemanticReviewPerformed": false,
+      "entryBindingsAreCurrentTemplateApproval": false,
+      "captureSummaryIsCurrentRegistrySummary": false,
+      "consumerUse": "approved-1838-cohort-source-anchor"
+    },
+    "history": [
+      {
+        "date": "2026-10-11",
+        "event": "Original frozen provisional capture; eight native fields and1838 ordered entries retained exactly by value."
+      },
+      {
+        "date": "2026-10-16",
+        "event": "F1 adds source-bound historical capture governance only. Native capture/source status and summary remain original; no runtime/E2E/visual/coverage execution."
+      }
+    ],
+    "supersedes": [],
+    "beforeAfter": "Raw provisional capture without its own typed JSON governance → same native8/index plus explicit capture semantics, fixed Git source, nonexecution boundary and guarded test-catalog1.2 variant.",
+    "stopLine": "No1838 source-document rereview credit, no current-template approval from provisional bindings, no runtime/E2E/visual/coverage proof. Canonical pilot and new implementation require independent reception; original source-pending status remains.",
+    "nextStep": "Independent author-separated review of this canonical envelope, fixed source preservation and real consumers; current central reception decides migration credit. Continue remaining cohort/increment/artifact work separately."
+  }
 }
