@@ -1,0 +1,22 @@
+{
+  "scratchTypecheck": {
+    "exitCode": 2,
+    "missingInputs": [
+      "projects/pal/content/actors.json",
+      "projects/pal/content/locale.json",
+      "projects/pal/content/scenes/s001.json",
+      "projects/pal/content/scenes/s003.json"
+    ],
+    "bytes": 1150,
+    "sha256": "5680294081f19fc48811f9ca03e3b9680b8d3e547a718ee6410014357ffdf790",
+    "notAcceptance": "Four-package isolated counter copy lacks project JSON; final full-workspace typecheck required"
+  },
+  "scratchFormatting": "First preparation invoked Biome without root configuration and printed 21 warnings, then missing .gitignore error. Copied exact existing biome.json and .gitignore; final checks use unchanged repository rules. Neither probe is a quality-gate pass.",
+  "preliminaryFailures": "prepared: 7 pass / 2 fail, retained raw. Replaced DOM wait inside act with actual bitmap promise, and gated failed read to await viewer cache promise without creating a duplicate retry. No production patch.",
+  "rejectedByteCounter": "blob-preliminary-proof.json: ArrayBuffer toEqual let equal-length zero-filled data pass; final Uint8Array compares actual contents.",
+  "missingIgnoreProbe": {
+    "exitCode": 1,
+    "bytes": 645,
+    "sha256": "c512ca029d46ac63fb2fd077035a9c7438a96c06b0a4765750c0fc27fae811c5"
+  }
+}

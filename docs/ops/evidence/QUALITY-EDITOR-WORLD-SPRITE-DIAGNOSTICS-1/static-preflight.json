@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "exitCode": 0,
+      "bytes": 11735,
+      "sha256": "3e5a24fe38bfe75df368c18c3f69a110f0c8904c1f8f49b2a24a95964a56a3be"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "bytes": 199,
+      "sha256": "a149ab92ccaf6cd76d33fa3f63f24c1a7b6eb0233922813e444b93f6bb332f2b"
+    }
+  ],
+  "lint": "4250 files; 0 errors / 0 warnings / 0 infos",
+  "docs": "0 issues; 184 phase/lore and 570 semantic records",
+  "threeRuntimeSourcesFrozenSinceRootRuns": true,
+  "fourthFixtureCodeUnchangedBeyondHeader": true,
+  "ledger": {
+    "inventory": 3284,
+    "closed": 229,
+    "review": 65,
+    "pending": 2990
+  },
+  "nextFullWindowPending": true,
+  "newFileClosures": 0
+}

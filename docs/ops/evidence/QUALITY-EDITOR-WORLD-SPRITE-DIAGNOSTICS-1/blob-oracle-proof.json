@@ -1,0 +1,218 @@
+{
+  "sourceCandidate": "cae26b1c7 + 3 scoped files in isolated preparation",
+  "testPath": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+  "sourceSha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "noWorkingTreeProductMutation": true,
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipe": {
+    "target": "packages/editor/src/core/sprite-commands.ts",
+    "find": "assetBlobs[record.path] = this.persistedBytes.slice(0)",
+    "replace": "assetBlobs[record.path] = new ArrayBuffer(this.persistedBytes.byteLength)"
+  },
+  "runs": [
+    {
+      "label": "blob-oracle-old-zero-bytes",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/blob-oracle-old-zero-bytes.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 492,
+      "rawSha256": "b8408f5490dd87b1b2b4734861732bb17273757b3871bcfbba8fb572f4ed01f7",
+      "runnerBytes": 1849,
+      "runnerSha256": "acde6241309a9bd67b87ae9f067f3ca4234d2a0b35f0c36dd4325e18b0906b16",
+      "testSha256": "e0696ae55cd58822a15416888f5754d42a6286303bb3206b5348af6a1798d70a",
+      "executedProductSha256": "88c7996bb037779c87982b363c8c950b28f834b1795bba55dc51d02d7f38e7ff",
+      "passed": 3,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "blob-oracle-new-zero-bytes",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/blob-oracle-new-zero-bytes.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2737,
+      "rawSha256": "ff334be764f9b82a41e99c30daffea65b18fe9532238b41113392215a0e4332c",
+      "runnerBytes": 2320,
+      "runnerSha256": "ad9e0c87419d6ccd13c0b3ca988bf4d5d5dda76d349f81d9376ce614ffe5ee9d",
+      "testSha256": "e2e91246b2ffe0acfb492a4392ffcf47c3c4f28e083b201a4d17ca610c8d60c7",
+      "executedProductSha256": "88c7996bb037779c87982b363c8c950b28f834b1795bba55dc51d02d7f38e7ff",
+      "passed": 2,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected Uint8Array[ 0, 0, 0, 0, 0, 0, 0, …(46) ] to deeply equal Uint8Array[ 31, 139, 8, 0, 0, 0, …(46) ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx:111:78\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "blob-oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/blob-oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 934,
+      "rawSha256": "caac6e192277653512b8f56fb48a22ad3fedf70f9e42039cb5aa13250bfa070d",
+      "runnerBytes": 4812,
+      "runnerSha256": "c32b7da5f7e5cdd88e0cbe66da9dc1ce4b1355fc3eea4042e3bf7647c0a9ec2d",
+      "testSha256": "e2e91246b2ffe0acfb492a4392ffcf47c3c4f28e083b201a4d17ca610c8d60c7",
+      "executedProductSha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+      "passed": 9,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 迟到磁盘读取归属：闸门内旧读取完成后不得盖掉已切换的新选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 磁盘字节损坏：真实解码失败 fail-loud 且编辑保持禁用；切走再切回真实重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ],
+  "sharedHostSha256": "edb43815e46e0902fde287e3f31336e6ae7a3ad88853a2d2dd4bde6098e8b326"
+}

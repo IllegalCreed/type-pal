@@ -2,7 +2,7 @@
  * WorldSpriteLibrary 合法挂载宿主：真实 EditSession + EditorAssetReader + AssetBase。
  * 不 mock SpriteResourceViewer / SpriteUploadWizard；不使用 as never 资产桥。
  */
-import type { AssetBase, FileSource } from '@type-pal/reforge'
+import { type AssetBase, type FileSource, loadStandardPalette } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { EditSession } from '../../core/edit-session.js'
@@ -89,7 +89,10 @@ export async function mountWorldSpriteLibrary(
   const reader = createEditorAssetReader(input.source ?? project.source, () => session.getState())
   const notices: Notice[] = []
   const battleDomainCalls: number[] = []
-  const focusHistory: Array<{ view: 'definition' | 'asset'; objectId?: string }> = []
+  const focusHistory: Array<{
+    view: 'definition' | 'asset'
+    objectId?: string
+  }> = []
   await act(async () => {
     root.render(
       <Harness
@@ -132,17 +135,23 @@ export async function mountWorldSpriteLibrary(
   return mounted
 }
 
-/** Await the viewer's real shared decode; act also flushes its proof/frames callbacks. */
+/** Await real sprite decode and palette IO; act flushes the viewer's proof/frames callbacks. */
 export async function waitForWorldSpriteResource(
   mounted: MountedWorldSpriteLibrary,
   asset: string,
 ): Promise<void> {
   await act(async () => {
-    await loadEditorSprite(mounted.reader, asset)
+    await Promise.all([
+      loadEditorSprite(mounted.reader, asset),
+      loadStandardPalette(mounted.project.assetBase),
+    ])
   })
 }
 
 export async function unmountWorldSpriteLibrary(mounted: MountedWorldSpriteLibrary): Promise<void> {
-  await act(async () => mounted.root.unmount())
-  mounted.host.remove()
+  try {
+    await act(async () => mounted.root.unmount())
+  } finally {
+    mounted.host.remove()
+  }
 }

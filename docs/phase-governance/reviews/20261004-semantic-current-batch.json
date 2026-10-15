@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
-      "afterSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
+      "sourceSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
+      "afterSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "cae26b1c7",
+        "implementationSha": "84d5dd31f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -934,6 +934,14 @@
             "previousAfterSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
             "afterSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
+            "afterSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
           }
         ]
       },
@@ -1234,8 +1242,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
-      "afterSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
+      "sourceSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
+      "afterSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1269,7 +1277,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "cae26b1c7",
+        "implementationSha": "84d5dd31f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1535,6 +1543,14 @@
             "previousAfterSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
             "afterSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
+            "afterSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2287,8 +2303,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
-      "afterSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
+      "sourceSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
+      "afterSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2324,7 +2340,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "cae26b1c7",
+        "implementationSha": "84d5dd31f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2684,6 +2700,14 @@
             "previousAfterSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
             "afterSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
+            "afterSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
           }
         ]
       },
