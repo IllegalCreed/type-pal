@@ -626,7 +626,7 @@
         "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
         "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
         "claims": [
-          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+          "Exact c7d source content accepted by A and dbacf root15 intake accepted by scoped non-author1610a12b; no fresh official/runtime conclusion."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -680,6 +680,24 @@
           },
           "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
           "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record real dbacf root intake acceptance; body/identity/status/sourceRefs unchanged",
+          "completePrior": {
+            "kind": "complete-accepted-current-before-signoff-in-fixed-git",
+            "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6c2547b6b7f64a8b2dde4c766d2ec1cc857f37bb",
+            "fileSha256": "a210faa31006474fe95f1bcf6456ccfc30045a1ba24f2cad52fba566cd9aa192",
+            "selector": {
+              "entries.path": "docs/lore/narrative-workflow.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "independentAcceptanceSha256": "1610a12b190aecf20e916239fd369afdcce00bee3f7b21529c0bae886322a550",
           "runtimeExecutionPerformed": false
         }
       ],
@@ -791,7 +809,7 @@
         "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
         "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
         "claims": [
-          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+          "Exact c7d source content accepted by A and dbacf root15 intake accepted by scoped non-author1610a12b; no fresh official/runtime conclusion."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -845,6 +863,24 @@
           },
           "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
           "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record real dbacf root intake acceptance; body/identity/status/sourceRefs unchanged",
+          "completePrior": {
+            "kind": "complete-accepted-current-before-signoff-in-fixed-git",
+            "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6c2547b6b7f64a8b2dde4c766d2ec1cc857f37bb",
+            "fileSha256": "a210faa31006474fe95f1bcf6456ccfc30045a1ba24f2cad52fba566cd9aa192",
+            "selector": {
+              "entries.path": "docs/lore/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "independentAcceptanceSha256": "1610a12b190aecf20e916239fd369afdcce00bee3f7b21529c0bae886322a550",
           "runtimeExecutionPerformed": false
         }
       ],
@@ -956,7 +992,7 @@
         "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
         "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
         "claims": [
-          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+          "Exact c7d source content accepted by A and dbacf root15 intake accepted by scoped non-author1610a12b; no fresh official/runtime conclusion."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -1010,6 +1046,24 @@
           },
           "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
           "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record real dbacf root intake acceptance; body/identity/status/sourceRefs unchanged",
+          "completePrior": {
+            "kind": "complete-accepted-current-before-signoff-in-fixed-git",
+            "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6c2547b6b7f64a8b2dde4c766d2ec1cc857f37bb",
+            "fileSha256": "a210faa31006474fe95f1bcf6456ccfc30045a1ba24f2cad52fba566cd9aa192",
+            "selector": {
+              "entries.path": "docs/lore/taboos.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "independentAcceptanceSha256": "1610a12b190aecf20e916239fd369afdcce00bee3f7b21529c0bae886322a550",
           "runtimeExecutionPerformed": false
         }
       ],

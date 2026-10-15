@@ -894,3 +894,9 @@ Branch: codex/docs-full-template-proposal
 - Current root administrative/central/catalog/route candidate requires separate non-author review and exact zero gates. Only3baseline migration credit eligible; newcontrol/receipt remain pending increments; remaining6N not released until canonical pilot intake and explicit committed admission. Existing project no-resurrection/T6 constraints do not become new official canon proof; paper1–5/editor6/D19 and phase3 real-time boundaries remain. Full goal active.
 
 - N3 existing lore consistency relation39to39/other38exact updated: project no-resurrection/T5.5/independentT6 remain current constraints despite unverified official-source claims; paper1-5/editor6/phase3 real-time stay separate. Complete old relation and immediate694 matrix current remain retrievable; old README1-63/characters1-360/taboos1-106 evidence labels retained only in prior, new actual N3/primary spans explicit. Prior694 exact8 P-admission accepted (52419e1121a380904826572c73167b450921e63f3d3fee1d80e2a5425e6cf12e), newN bytes separately reviewed.
+
+#### N3 intake accepted; remaining N6 build allowed
+
+- Exact dbacf01f908c181d5a488c74812a90cc1fb13989 的15文件接入获独立closure1610a12b190aecf20e916239fd369afdcce00bee3f7b21529c0bae886322a550；原44390首counter及六份完整prior保留，C-N3-1/2仅在最终候选闭合。实际86工具/model221/strict727/phase184/lint4109 EWI0/diff0，当前216/1838+5增量，不等全量完成。
+- build allowed（本元数据提交clean后）：history_cards_c_tail 仅在原codex/docs-lore-reference-n隔离树自然FF到本提交，修改 versions.md、world-rules.md、world-rules-ghost-realm.md、factions.md、ideas/README.md、ideas/guijie/README.md 和既有 contributor-lore-reference-n-20261016.json 共7文件。遵守冻结N1.0设计；四reference为candidate、两index current，catalog成熟度另轴；完整458源逐篇实读、新五章/原行头表链/日期与项目约束/未知完整保留。
+- 旧三正文只读，回执旧三记录仅可按已接受根正文更新after/保真位置/实际接收时态，先以固定c7d和dbacf完整43字段/Git priors保全；这不授旧三新迁移信用。其余共享central/catalog/routes/matrix/task/四大长稿/dlc/scripts/product/旧tests/coverage/main不写。作者冻结候选不自accept；根与另一非作者逐篇验收后另接账。
