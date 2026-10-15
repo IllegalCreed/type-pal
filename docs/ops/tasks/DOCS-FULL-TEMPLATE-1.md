@@ -756,3 +756,6 @@ Branch: codex/docs-full-template-proposal
 - K49分片后真实consumer：model202/0issues，strict711/0issues；当前分母1967（新增3分片未计迁移），基线198/1838+4增量、当前pending1765，仅候选投影不代独立收口。实际MarkedGFM矩阵一表39行/旧38对象相同；49原文inverse、完整作者snapshot、原标题/622links顺序不变、36历史层、49可达，单篇共享model均0；质量账本3291/229closed/5review/3057pending，非源码语义验收。
 
 - K49独立K1 counter：原图“候选必须实核49/49”及battle/scene原3→1已证观察被复制成当前unresolved，时态不准。根将这三条移入已证graph/dedupe证据，保完整旧current三record/tmp与原author snapshot/history；其它未核工具/caller/raw/执行边界不消除。正文/源/计数不变，待非作者闭合。
+
+- K49实际非作者receipt_review根接入accept，精确59文件proof SHA`924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436`，K1已闭无其它接入counter；实际22组行政语句对/49映射、完整49current/原作者快照、17catalog绑定/112工具归属/唯一3分片/old662+153+38均复核。其独立strict/model/链接/progress/ledger/GFM/diff与根全76工具/lint4099零诊断分开。受审59字节精确保存到`f85e282b936df9c2fb939bc3497ce9a5629f5c04`，本根签收为后续明确新字节，不复用旧SHA签字。
+- 为保完整prior且不再次超1MiB，49当前记录逐一附固定f85+各shard Git blob/whole-file SHA/唯一path selector，根实际gitshow逐条取出完整旧object相等；该提交必须保最终发布可达历史，不能只留/tmp或摘要。小control/matrix旧current仍完整内嵌prior。三新shard自身仍pending增量；实际198/1838+4、current1967/pending1765，49body/原文/links/after完全未改，J配对MD尚未写，goalactive/main未动。本签收最终质量门按后续实际字节跑完才提交。

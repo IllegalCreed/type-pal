@@ -900,7 +900,7 @@
     }
   },
   "k49": {
-    "status": "49 individually authored content accepted; root current administration/central-route integration candidate pending independent review",
+    "status": "49 individually authored navigation migrations and root central integration independently accepted; later root signoff records actual decision, no tool/runtime credit",
     "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
     "sourceManifestSha256": "9ad30d9ed5c2b0ba3efb03c6859681283409366dd59a40407993e200e8f5e609",
     "documents": 49,
@@ -3497,10 +3497,573 @@
           "totalLinks": 622,
           "reachable": 49
         },
-        "independentRootIntake": "pending"
+        "independentRootIntake": "accept exact f85 snapshot; all49 body after SHAs unchanged by root signoff"
       }
     },
-    "independentRootIntegration": "pending receipt_review current49/admin/central/matrix review"
+    "independentRootIntegration": {
+      "status": "accept exact f85 snapshot; root signoff later bytes separate",
+      "reviewer": "receipt_review",
+      "proof": "/tmp/type-pal-k49-independent-central-integration-snapshot-20261016.json",
+      "sha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
+      "reviewedCandidateGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
+      "review": {
+        "kind": "independent-k49-root-central-integration-acceptance-snapshot",
+        "date": "2026-10-16",
+        "reviewer": "receipt_review",
+        "verdict": "accept K49 root administration/central-record/sharding/route/matrix integration at exact59 files; no future metadata acceptance",
+        "baseHEAD": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
+        "files": [
+          {
+            "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            "sha256": "d7f97a391bf76029f0584e146896d8e533f68b5dfa2900ca1beedcd1bb1a6a32",
+            "bytes": 141933,
+            "lines": 758
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "sha256": "9196d2c5bc2b4ebbc29b0f206779f08003cb638638b1e92c051b0ed3121c0603",
+            "bytes": 52720,
+            "lines": 913
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.md",
+            "sha256": "ac62535436f8268d1cd6640e70bd10b939c9548b8de0e2f73b5a706c5a23b154",
+            "bytes": 8878,
+            "lines": 70
+          },
+          {
+            "path": "docs/phase-governance/document-registry.json",
+            "sha256": "eeda9488641068377c1af232cb1e4a6cd93a9dd5012a5e75b8a69ae5e6ca8071",
+            "bytes": 333607,
+            "lines": 8248
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "sha256": "d64e95bdd54995f23de854a5120ce434bf501feb87671d5568cc2d48a2ff4ef9",
+            "bytes": 241466,
+            "lines": 4093
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-1.json",
+            "sha256": "c0408dd8954fd12d780945540bcbe2fdb9f4e1338540beacdc6b76dc6702a7ef",
+            "bytes": 617577,
+            "lines": 10177
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-2.json",
+            "sha256": "ebf46c8f69ff9c1f6aef8f4b351419bf0027f91066fef2950c814a9b0509b4c0",
+            "bytes": 648052,
+            "lines": 10866
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-3.json",
+            "sha256": "7a85cdd5fb2918ad5e4e913ab44cbca1e94ed48d4e4860c9b65c6a519e803a48",
+            "bytes": 630811,
+            "lines": 10695
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-domain-navigation.json",
+            "sha256": "52735c1d2c58129c35e6cd0285cf39d41d5e26b895b98c6ac38c9d51838c846f",
+            "bytes": 217304,
+            "lines": 3873
+          },
+          {
+            "path": "docs/phase-governance/routing.json",
+            "sha256": "e638de6571aa920ebc49d62925ed04790f2562e7376e6feb7e493351dd78d261",
+            "bytes": 32824,
+            "lines": 1000
+          },
+          {
+            "path": "docs/testing/domains/README.md",
+            "sha256": "134d46cee0c810757e03a5221a7af5906bc9e1282dc79640aa5d74c6f3296d79",
+            "bytes": 5047,
+            "lines": 76
+          },
+          {
+            "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+            "sha256": "f756bf1ffbfe4c3b1a12d0eb6e226924f9caeba714cf5f3cf781b2125ba32609",
+            "bytes": 6399,
+            "lines": 98
+          },
+          {
+            "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+            "sha256": "c1fddd55d01953861cc74ebf85a5d11ff78c621f82190f216d4a9796d65bfb43",
+            "bytes": 4235,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+            "sha256": "92be12b33d157d1c4c4a0c366ce821aa5389f74f98bcd005f9e4f4e9321fa05c",
+            "bytes": 4417,
+            "lines": 68
+          },
+          {
+            "path": "docs/testing/domains/content/testing-records/tools/README.md",
+            "sha256": "714cd44182f7e9229326d3672e50b278515ce1fee290f0893030f4221da9b1fc",
+            "bytes": 4353,
+            "lines": 68
+          },
+          {
+            "path": "docs/testing/domains/editor/README.md",
+            "sha256": "9d5675f94294afcef32634ef849ad2d479920a1e31d1bc8ef62a3d1de8893667",
+            "bytes": 2313,
+            "lines": 45
+          },
+          {
+            "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+            "sha256": "dd4e573c6ea7d85f8e1a8d7b2f5d2c5127e8f9645a1cc8692d36ddc66c55166f",
+            "bytes": 4539,
+            "lines": 70
+          },
+          {
+            "path": "docs/testing/domains/editor/battle/tools/README.md",
+            "sha256": "77c9bea2640cd51b9258e74960b0e3c7bd273300f423722cda6548eaf9a68af9",
+            "bytes": 4204,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/editor/commands/README.md",
+            "sha256": "367825041f192a044d01a4b2127e0a09d2bb473b5086e3b6482ead73542abe09",
+            "bytes": 2227,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+            "sha256": "97a4b424e34ba9ac10b212764753d5fdc2a2a22818f0331bd0868fa36ecb1fbd",
+            "bytes": 3999,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+            "sha256": "bc5382967fc1a917ab80edd39e5da52ef3bfbd757f9a570bc72200570be32929",
+            "bytes": 3832,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+            "sha256": "7ab7772edf3a7f15990a4340458322a2048eeb9056903020d8333edfe4fc9135",
+            "bytes": 7528,
+            "lines": 110
+          },
+          {
+            "path": "docs/testing/domains/editor/map/README.md",
+            "sha256": "69c091666c14e1bac7d663550f5396dbd495cbbb861783e7119a600cbb22719c",
+            "bytes": 2227,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+            "sha256": "111884ff0f9904074e97572714525fb2f44eade56600a7d618d469a934d7f555",
+            "bytes": 4035,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+            "sha256": "05e1f44a8e87e7c1356b6f680621c5e4c0c5b16f03066034927ca2d1ffcdab9e",
+            "bytes": 3864,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+            "sha256": "e34262862029dd373832adcf98daf144954d597225c0932166c455c66631dad7",
+            "bytes": 4378,
+            "lines": 68
+          },
+          {
+            "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+            "sha256": "b9b1e84084858b14c9a4188d7b7338564695ee3e6ca7ac1e534f977d85100e8c",
+            "bytes": 4311,
+            "lines": 68
+          },
+          {
+            "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+            "sha256": "a12e4461ca44555d08b606aa2a2db32e1cbffcc51fbf4cf306a4d0476cebfc92",
+            "bytes": 5468,
+            "lines": 84
+          },
+          {
+            "path": "docs/testing/domains/ops/README.md",
+            "sha256": "e80e9083c8cd4c6dacfe97491db469495b6f0f7fcee79d856191c977810003e4",
+            "bytes": 2222,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/ops/testing-governance/README.md",
+            "sha256": "705acdbd667a4fd97952c48ad7561d87a5343e7669623635d1108d57a6d1d22c",
+            "bytes": 2627,
+            "lines": 45
+          },
+          {
+            "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+            "sha256": "40a57d9e28ee6fc6c4c500123944e536cc4d412d4064adf194f287fc4030b987",
+            "bytes": 4579,
+            "lines": 72
+          },
+          {
+            "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+            "sha256": "2f4d8499acc3547d3ed122f3efd330e4f2de3786d61a06beaf12c50a4617e9ce",
+            "bytes": 4208,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/README.md",
+            "sha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+            "bytes": 2202,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+            "sha256": "05ffc390bc381ec461bec12cf30b94702603e521affcc1d278de3caa3ee201bb",
+            "bytes": 2226,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+            "sha256": "d2595134c449d47fa189561d132f8bc4c85a1a7cf8c8a1ab8873351c11e06b06",
+            "bytes": 4070,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+            "sha256": "a4ed4a8d93bb8897767b9a60e1a439166d1191fb75f8b0c82807e198e7d490cb",
+            "bytes": 3816,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+            "sha256": "badcf0b0ca22a6944b9adf8828315f233a74e7c822b8e4a4fa7a7e3a930c54f3",
+            "bytes": 4389,
+            "lines": 68
+          },
+          {
+            "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+            "sha256": "0cbfd7de80027e10d27fdd299a05426c2d870081e89e4906c7c333e127132c05",
+            "bytes": 7288,
+            "lines": 108
+          },
+          {
+            "path": "docs/testing/domains/runtime/README.md",
+            "sha256": "58fd697092cf7f6a0f97641bb0bd3f899ac19a919ef106bb71f8b4b09d10fce3",
+            "bytes": 2515,
+            "lines": 51
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/README.md",
+            "sha256": "f941852eefcbef0d68b2eb29fd41fc186cda9bb14b64def0ee2ad29ac962a666",
+            "bytes": 2608,
+            "lines": 54
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+            "sha256": "140cafb897b5cb0c47a6bab6a68cd18cdc99f8cca0306a3fb7338410845bb25a",
+            "bytes": 4029,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+            "sha256": "64b5738bf649cb93960478a4c9cbce2036fd1f9f39399526c6bb635c9cd23117",
+            "bytes": 3825,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+            "sha256": "5a66f10ee8d10f39f7ee7ee0f086069edf2b2fa7d773bff38dca175084c76b57",
+            "bytes": 4071,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+            "sha256": "71fc9383a92a8acac03f141e0a3097293c1520bb443fdbb61482daff7ac20821",
+            "bytes": 3864,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/tools/README.md",
+            "sha256": "0d77b35fddf3dfa56d6d4b9ba4137a6ee416b8fa2aea8dbc9a8eaa06c561471b",
+            "bytes": 5200,
+            "lines": 80
+          },
+          {
+            "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+            "sha256": "cd9dfab8f5a3eaf39e6cd5ce560218902667eafcbc3a1fd84663c5789b51a120",
+            "bytes": 4188,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+            "sha256": "0efbe71dbe9eb2216de1e1598aebfc8eb0d435b1ed334b76c5b1c580717b5002",
+            "bytes": 6014,
+            "lines": 90
+          },
+          {
+            "path": "docs/testing/domains/runtime/menu/README.md",
+            "sha256": "b6f308841f5bd03e10de831ed9bbeb180ef7061937f7cdbe4bf6dae4f92a422d",
+            "bytes": 2194,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+            "sha256": "d22984bc58ce234cf8148f621e8357bb4e5296cb0a7b12c33f3358406fa19403",
+            "bytes": 3998,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+            "sha256": "7c92505a0be297c30f9f05f386e4d77b14f72af1da625fa5776e66f9ecfae527",
+            "bytes": 3866,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+            "sha256": "f81162062e45825b33bebc3389a92def7c9d2edb4808c422bfe88388bab46369",
+            "bytes": 4227,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/scene/README.md",
+            "sha256": "94a9acfc538552db5d1b2cc310a2b54b7631233f15ee495b1b22f7218c29fe7e",
+            "bytes": 2572,
+            "lines": 52
+          },
+          {
+            "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+            "sha256": "ba01675e7be5e7b9ce99a5cb22097d83a4168e3cbb26acc714720bb5417acf6e",
+            "bytes": 4020,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+            "sha256": "dce555bfb73f3f8ab0c94e7817e55366a0ce5dbf5f5f0a1c21b857c9472c4338",
+            "bytes": 3804,
+            "lines": 64
+          },
+          {
+            "path": "docs/testing/domains/runtime/scene/tools/README.md",
+            "sha256": "5d350ca878ac9b5b2df21d63902cc28795e62d718809c3c8f78cfb80147e7273",
+            "bytes": 4244,
+            "lines": 63
+          },
+          {
+            "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+            "sha256": "ea4861870dae7c7d56ec8f756d51f43b49bee883d721e32a03dfbbedb1dcec6c",
+            "bytes": 4201,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/world/README.md",
+            "sha256": "4bbaa3dbfffde142b6198d4fdea521dc1157d319a5198a8c318ee4fc76695918",
+            "bytes": 2209,
+            "lines": 43
+          },
+          {
+            "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+            "sha256": "821245c0037f9dced6050b3dacf4ebe68934a6eace4dc9424c3ddf761af1d737",
+            "bytes": 4034,
+            "lines": 66
+          },
+          {
+            "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+            "sha256": "c23887a79849bec51c6b512c3ed28134896b0fac5476b99d768066c8a87a730b",
+            "bytes": 3836,
+            "lines": 64
+          }
+        ],
+        "scope": {
+          "bodyDelta": "All49 exact administrative diffs semantically read:22 unique complete before/after line pairs with all49 membership/line maps. No source quote/header/link/date/version edits. Tail fixed-candidate semantic acceptance reused explicitly, not claimed as my new full candidate/report/13080-line sequential reading.",
+          "currentRecords": "All49 current field domains covered using exact-value groups,49 per-path source/blob/after/primary/anchors/line/provenance/history/version/conformity comparisons, whole immutable43/46 field author snapshots,17 catalog bindings and downstream-only caller/input/oracle labels. Repeated provenance/evidence/typed wrappers read once, per-record identity values independently checked.",
+          "controlAndMatrix": "All changed current control scope and K1 resolution read; full immutable K0/admission/root453read/tail snapshots exact-compared. Matrix current39 navigation/current record inspected, previous full current flat prior and all38 machine rows exact. No fresh38-source semantic audit.",
+          "previousSourceReading": "Original49/400 lines fully read in prior K design, fixed Git source bytes same for all49. This run performs full strict inverse but does not claim newly sequentially printing400 source lines.",
+          "tools": "112 current file byte SHA/unique source association/false execution+runner flags verified, no112 script semantic reading or execution; nine associated catalog fields are navigation-bounded, no new full report/product audit.",
+          "taskCard": "Only actual diff appended scope/gate/counter entries read, not a new complete long-card audit."
+        },
+        "closedCounters": [
+          {
+            "id": "K1",
+            "observation": "Current unresolved mixed already-proved31→49 reachability and3→1 links with true remaining tool/raw/runtime unknowns.",
+            "resolution": "Three affected current unresolved arrays now retain only true limits; resolvedSourceGraph and resolvedLinkDuplication separately record actual observations. Original author snapshots/historical boundary text intact.",
+            "preCorrectionRecords": {
+              "path": "/tmp/type-pal-k49-k1-pre-correction-records-20261016.json",
+              "sha256": "30704a7071b03afeaf800ce018c44a22aa11ecbab7ec38df93c15c8074195af5"
+            },
+            "verdict": "closed"
+          }
+        ],
+        "verifiedInvariants": {
+          "authorReceiptSha256": "e7eff800d39d5bbfc5232e9bf755ed7e04395613a61741458d03a4a319e43d1b",
+          "authorCompleteSnapshots": 49,
+          "sourceExactInverse": 49,
+          "currentByteAfterAndLines": 49,
+          "originalOwnersAbsent": 49,
+          "currentHistoricalNavigation": 8,
+          "currentNavigation": 41,
+          "archiveOverlays": 36,
+          "catalogBindings": 17,
+          "catalogDistinctIds": 9,
+          "toolAssociationsHashOnly": 112,
+          "registryPrevious662Exact": true,
+          "registryTotal": 711,
+          "routesPrevious153Exact": true,
+          "routesTotal": 202,
+          "oldMatrix38ObjectsExact": true,
+          "matrixCurrentGFM": {
+            "tables": 1,
+            "rows": 39
+          },
+          "all49OriginalHeadingAnd622LinkOrderUnchanged": true,
+          "currentLiveGraphReachable": 49,
+          "currentBattleAndSceneToolEntries": 1,
+          "sourceAndControlFreezesUnchanged": true,
+          "threeNewShardCandidatesRemainPending": true
+        },
+        "independentExecutedConsumers": {
+          "strictReview": "exit0;711 content-reviewed; zero issues",
+          "documentModel": "exit0;7 routes202 body contracts; zero issues; structure only",
+          "docsLinks": "exit0;1223Markdown7854local links361tasks;content22SAVE12;zero issues",
+          "qualityLedger": "exit0;3291 files229closed5review3057pending; semantic review remains required",
+          "progress": "exit0;198/1838baseline+4incremental;1967current1765pending;zero integrity issues;not full acceptance",
+          "realParser": "622 unchanged link targets/488 unchanged heading lines/live49graph/declared callers valid/Marked1table39rows;issues=[]",
+          "gitDiffCheck": "exit0;zero diagnostics"
+        },
+        "rootFullGatesScope": "Root executed required full gates on the same final59 candidate bytes after K1; independently read actual docs log summary and complete lint log, hashed both.76/76 docs tools0fail/0skip, docs1223/7854/361,model202,testing0,phase184,strict711,lint4099zero error/warning/info. These are root executions, not my rerun; future signoff bytes still require separate gates.",
+        "supportingProofs": [
+          {
+            "path": "/tmp/type-pal-k49-independent-source-mapping-proof-20261016.json",
+            "sha256": "cdec30c1c0ed70d0a9e75a058000eb269de79971dc49efbbb44389e53a4a74ac"
+          },
+          {
+            "path": "/tmp/type-pal-k49-independent-link-graph-gfm-20261016.json",
+            "sha256": "308f1038ae8d485d25a3b7d0b962a3a4034698aa820f65f566836a6a5977aa6c"
+          },
+          {
+            "path": "/tmp/type-pal-k49-independent-progress-20261016.json",
+            "sha256": "11798f074281a5678f6b5da412e0846c06a53c95df6a015c25e0aaee539ecedb"
+          },
+          {
+            "path": "/tmp/type-pal-k49-root-intake-preflight-20261016.json",
+            "sha256": "ae7d16fc3824e74fb4e5319dfb0774c8189714a163f8e7c4f7d08ecf7b3c83b9"
+          },
+          {
+            "path": "/tmp/type-pal-k49-review-sharding-design-20261016.json",
+            "sha256": "08751959b96c3f71c5a6dda56c561166c285cb0f3a75dc11cbb19e6984d681c0"
+          },
+          {
+            "path": "/tmp/type-pal-k49-k1-corrected-docs-20261016.log",
+            "sha256": "0a1a6be08731afa8e04178ae58be802e20bbe83fc7567f6aaf1a1f8352bd417d",
+            "producer": "root Codex; reviewer read actual final summary/lint entire log only",
+            "scope": "Post-K1 final59 candidate full gates, not later signoff metadata"
+          },
+          {
+            "path": "/tmp/type-pal-k49-k1-corrected-lint-20261016.log",
+            "sha256": "3b4afb6de0d7ace35ef339fa4d30d13bcc55c99d1766405175d6c21ec0a56c21",
+            "producer": "root Codex; reviewer read actual final summary/lint entire log only",
+            "scope": "Post-K1 final59 candidate full gates, not later signoff metadata"
+          }
+        ],
+        "futureSignoffDesign": "Complete prior records may be retained by exact fixed candidate Git commit+shard blob+wholeSHA+unique entry.path selector, after asserting these59 byte hashes. This is a design agreement only; future pending-to-accepted fields are later bytes, not covered by these hashes. Keep candidate commit reachable in final published history.",
+        "remaining": "No open K49 integration counter. Whole docs goal active;198/1838+4 is incomplete; machine controls/old tools/downstream business/runtime/E2E/visual/coverage remain outside this acceptance.",
+        "notPerformed": [
+          "repo edits",
+          "product/old tests",
+          "112 historicaltools/old generators",
+          "runtime/browser/E2E/visual/coverage",
+          "raw/screenshot contents replay",
+          "main merge/push",
+          "full13080 raw author-receipt sequential reread"
+        ],
+        "changedInputFilesForK1Only": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-domain-navigation-records-1.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation-records-2.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation.json"
+        ],
+        "fourteenFalsifierReview": [
+          {
+            "id": "K-intake-structural-shape",
+            "observation": "49current records normalized, real strict711 pass; original43/46-key snapshots exact",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-evidence-kind",
+            "observation": "49evidence.kind/path present, actual independent navigation scope",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-current-pending",
+            "observation": "Frozen authorpending remains historical; current root-intake pending names the actual review now being performed, not unresolved author acceptance",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-source-owner",
+            "observation": "All49 original owner headers absent, current doc owner and catalog publication owner separated",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-version-axis",
+            "observation": "9catalog/17bindings keep22/11 and10-04/11-04; original fourSAVE11 and fourdatedSAVE12/source refresh notes preserved",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-history-status",
+            "observation": "8historical/41current navigation matched literal body; no downstream publication-status upgrade",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-tool-credit",
+            "observation": "112 hashes/associations unchanged; false runtime/runner flags and explicit not-performed semantic review, no script execution",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-downstream-contract",
+            "observation": "Current Markdown callers/legal inputs/oracle remain navigation; downstream original contracts labelled referenced-only",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-quote-or-source-drift",
+            "observation": "49quotes strict inverse to real fixed Git and all authorized administrative diffs read",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-graph-false-completion",
+            "observation": "Real current-only graph49/49;622link order/488heading lines unchanged;scene0 remains;battle/scene1currenttoolslink each",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-old-counter-current",
+            "observation": "K1 directly found and closed; old31→49/3→1 facts now historical/resolved evidence and true downstream unknowns retained",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-candidate-hash-laundering",
+            "observation": "OriginalAF42 candidate/blob/SHA/e7eff immutable;49current after/evidence hashes separated and exact",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-denominator-or-matrix",
+            "observation": "Exactly49new paths, old662registry/153routes/38matrixobjects exact; three shard artifacts stillpending and1838baseline fixed",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          },
+          {
+            "id": "K-intake-static-semantic-credit",
+            "observation": "Tail bodyaccept/root453literal/currentrootdelta/actualstaticgates keep separate producer and source scopes; no runtime credit",
+            "method": "Current-field semantic review plus actual source/parser/consumer invariants; not a claim of running14 mutation tests",
+            "result": "checked; K1 closed where applicable"
+          }
+        ]
+      }
+    }
   },
   "artifactRules": {
     "oldWriters": {
@@ -3714,6 +4277,18 @@
       ],
       "scope": "Actual MarkedGFM one table39rows, old38exact,49sourceinverse/link/model controls",
       "retention": "Keep immutable task proof, no execution/raw certification"
+    },
+    "type-pal-k49-independent-central-integration-snapshot-20261016.json": {
+      "path": "/tmp/type-pal-k49-independent-central-integration-snapshot-20261016.json",
+      "sha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
+      "producer": "receipt_review",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Exact f85 candidate59 independently accepted; complete reviewed snapshot and read scopes preserved in k49.independentRootIntegration.review",
+      "retention": "Keep immutable proof and reachable f85 full prior records through final published ancestry; no later-body countersignature."
     }
   },
   "frozenK0DesignSnapshotPolicy": "This entire object is the immutable d126 source/design event including original pre-implementation status. Current code/acceptance only k0Implementation;not retroactivelychanging oldcounts/dates/sourceor approval.",
@@ -3734,7 +4309,7 @@
     }
   },
   "centralIntegration": {
-    "status": "root K49 current administrative/central-route/matrix candidate; independent integration and fullgates pending",
+    "status": "K49 navigation/current-record/route/matrix integration independently accepted at f85; this root signoff records the decision, whole goal remains active",
     "owner": "root Codex",
     "base": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
     "newBaselineMigrations": 49,
@@ -3758,7 +4333,7 @@
       "112 historicaltools/product/oldtests/runtime/E2E/visual/coverage/browser/rawcontents",
       "mainmerge/push"
     ],
-    "nextStep": "Actual202model/711strict/progress/GFM39/fullgates and non-author root current metadata integration review; do not claim whole goal complete.",
+    "nextStep": "Continue full1838+incremental governance, J pairedMD and frozen L producer design; final exact root-signoff static gates are executed before committing these later bytes, not inferred from prior logs.",
     "recordStorage": "49 complete records in3 explicit unique shards; root control has no duplicate entries; three new JSON artifacts add to actual incremental candidate denominator.",
     "actualConsumerObservations": {
       "bodyContracts": 202,
@@ -3769,7 +4344,13 @@
       "currentCandidates": 1967,
       "currentPending": 1765,
       "progressProof": "/tmp/type-pal-k49-root-candidate-progress-20261016.json",
-      "scope": "Observed after3 new JSON shards; content integration independently pending, not whole-goal acceptance"
+      "scope": "Verified on accepted f85 candidate; root-owned later signoff rechecked before commit. Neither is whole-goal acceptance."
+    },
+    "independentAcceptance": {
+      "proof": "/tmp/type-pal-k49-independent-central-integration-snapshot-20261016.json",
+      "sha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
+      "reviewedCandidateGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
+      "scope": "Exact59 files; final root-owned signoff metadata later and distinct"
     }
   },
   "entries": [],
@@ -3797,7 +4378,9 @@
           "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
           "docs/testing/domains/runtime/scene/tools/README.md",
           "docs/testing/domains/runtime/testing-records/tools/README.md"
-        ]
+        ],
+        "currentAfterSha256": "2a6a21ffbe5db6585ada0868236c1dd7a1554d262e250fc1137eff591deeecdb",
+        "fullPriorGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04"
       },
       {
         "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-2.json",
@@ -3821,7 +4404,9 @@
           "docs/testing/domains/runtime/scene/active-scene/README.md",
           "docs/testing/domains/runtime/world/README.md",
           "docs/testing/domains/runtime/world/world-runtime/history/README.md"
-        ]
+        ],
+        "currentAfterSha256": "1991a8b31b15cbb108dfda4dfdd9dda1874e21f193b741bffe17e6f576d3905b",
+        "fullPriorGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04"
       },
       {
         "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-3.json",
@@ -3846,7 +4431,9 @@
           "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
           "docs/testing/domains/runtime/scene/active-scene/history/README.md",
           "docs/testing/domains/runtime/world/world-runtime/README.md"
-        ]
+        ],
+        "currentAfterSha256": "080c4b73b0f2d8be6e127f88d629bdfe52664892514ef1c9bdd537febc940fca",
+        "fullPriorGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04"
       }
     ],
     "coverage": 49,
@@ -3864,10 +4451,2695 @@
       "id": "K1",
       "raisedBy": "receipt_review",
       "issue": "Original graph requirement31→49 and observed3→1 link dedupe copied as current unresolved despite actual proof.",
-      "status": "root corrected three current records; independent closure pending",
+      "status": "closed by independent receipt_review at exact f85 candidate",
       "preservedWrongCurrentRecords": "/tmp/type-pal-k49-k1-pre-correction-records-20261016.json",
       "sha256": "30704a7071b03afeaf800ce018c44a22aa11ecbab7ec38df93c15c8074195af5",
-      "scope": "No body/source/author receipt or migration counts changed; original boundary text stays historical snapshots."
+      "scope": "No body/source/author receipt or migration counts changed; original boundary text stays historical snapshots.",
+      "previousStates": [
+        {
+          "id": "K1",
+          "raisedBy": "receipt_review",
+          "issue": "Original graph requirement31→49 and observed3→1 link dedupe copied as current unresolved despite actual proof.",
+          "status": "root corrected three current records; independent closure pending",
+          "preservedWrongCurrentRecords": "/tmp/type-pal-k49-k1-pre-correction-records-20261016.json",
+          "sha256": "30704a7071b03afeaf800ce018c44a22aa11ecbab7ec38df93c15c8074195af5",
+          "scope": "No body/source/author receipt or migration counts changed; original boundary text stays historical snapshots."
+        }
+      ],
+      "closureProofSha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436"
     }
-  ]
+  ],
+  "k49IntegrationHistory": [
+    {
+      "statusAtEvent": "Full root integration candidate before actual peer decision was recorded",
+      "sourceGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
+      "record": {
+        "status": "49 individually authored content accepted; root current administration/central-route integration candidate pending independent review",
+        "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+        "sourceManifestSha256": "9ad30d9ed5c2b0ba3efb03c6859681283409366dd59a40407993e200e8f5e609",
+        "documents": 49,
+        "centralCoverage": 49,
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlays": 36,
+        "independentDesignReview": "receipt_review/history_cards_c_tail agree actual49source400lines; no candidate implementation accept",
+        "codingOwner": "root Codex for current administration/central integration; history_cards_a authored candidate frozen",
+        "authorWhitelist": "49 frozen README paths plus contributor-domain-navigation-k-20261016.json receipt only; no central/shared scripts/catalog/product writes",
+        "sourceRevisionNote": "Earlier8aa design source and2aeb K0 source have identical49 blobs/SHA manifest, no source drift.",
+        "importedAuthorCandidate": {
+          "authorCommit": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
+          "rootExactImport": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
+          "receiptSha256": "e7eff800d39d5bbfc5232e9bf755ed7e04395613a61741458d03a4a319e43d1b"
+        },
+        "independentContentReview": {
+          "reviewer": "history_cards_c_tail",
+          "proof": "/tmp/type-pal-k-domains-independent-review-20261016.json",
+          "proofSha256": "463526de639fb28fc015663bc9ae941992691fb8738f8602437f52b980ea53c2",
+          "fixedCandidateReview": {
+            "schemaVersion": 1,
+            "kind": "independent-domain-navigation-content-review",
+            "reviewer": "history_cards_c_tail",
+            "author": "history_cards_a",
+            "status": "accept49-of49-fixed-author-candidate; no-open-content-counter; root-integration-pending",
+            "candidate": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
+            "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+            "receipt": {
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
+              "gitObject": "e5b8489582fefeb5c4bd4aba27f82500851b71e0",
+              "sha256": "e7eff800d39d5bbfc5232e9bf755ed7e04395613a61741458d03a4a319e43d1b",
+              "lines": 13080,
+              "bytes": 717026
+            },
+            "sourceManifestSha256": "9ad30d9ed5c2b0ba3efb03c6859681283409366dd59a40407993e200e8f5e609",
+            "candidateManifestSha256": "b189077e50d95aab9e041a7f850c93e3954d8b7188d196d3de6e3e140905d0d6",
+            "frozenDesignSha256": "c037cb924db962999f12119ceb211b2e08cc9deb90f7c68388561c162d38bc77",
+            "readScope": {
+              "original": "All49 original READMEs /400 lines fully read in prior independent design. This run proves every raw source byte/blob/SHA equal fixed2aebe7efd and performs strict inverse for all49 including final LF. No claim of rereading every source line anew.",
+              "candidate": "All49 governance bodies in original order, including every current/history/successor section after the quote, semantically read. Physical total3175 lines; exact400 original quote lines reused; remaining2775 include governance/format/markers. Exact repeated nonblank lines were read once with453 unique literal definitions and explicit49 per-page line-order maps; this is not a heading-only extraction or an assertion that3175 raw lines were separately printed.",
+              "receipt": "Entire13080-line parsed receipt semantically covered: every17 top-level field, all43 common fields of49 entries plus all3 catalog-only extra fields on17 entries, all112 complete tool-association objects. Repeated literal value groups read once with explicit entry membership. Immutable source/blob/hash/line values, full quote inverse, all dependency/dedupe arrays, all tool object fields and selected native layout/catalog fields checked mechanically against real Git/source; not a claim of sequential raw13080-line human output. Truncated large outputs were not accepted as complete: remaining fields/values were reread in bounded grouped outputs, extra catalog fields explicitly union-discovered and read.",
+              "directPrimary": "Nine associated catalog entries: identity, status, phase/engine, ownerMeaning, publication dates/revision, canonical/history pairing, caller/input/oracle fields read. Eight report metadata/version/source-refresh narrow segments and paired JSON id/status narrow fields; legacy-flat audit source-note narrow segment. No full report/product audit. Both current7-line retired writer entries read only, not run.112 script bytes hashed,112 selected original layout records cross-compared, hints/legal inputs/revision/deadline/stop-lines read; no112 full script semantic review or16830-line ledger human audit.",
+              "consumers": "Actual candidate document-model API import (same fixed Git bytes) and shared Markdown dependency read/reused with same-blob checks; actual Marked GFM lexer/walkTokens used. Repository Markdown scanned for links only, no full semantic-read credit.",
+              "readView": {
+                "path": "/tmp/type-pal-k-candidate-lossless-governance-read-20261016.json",
+                "sha256": "11c6e4c23dd7954759676fd151b8b3a588a28b4a9d12057d076002bde551e972"
+              }
+            },
+            "independentChecks": {
+              "consumerProof": {
+                "path": "/tmp/type-pal-k-independent-consumer-result-20261016.json",
+                "sha256": "e6322594d1f8d90404408b41eb77ce1f459818bc951a4fc3a5e7e02036f18d67",
+                "result": "exit0; issues=[]",
+                "summary": {
+                  "documents": 49,
+                  "sourceLines": 400,
+                  "afterLines": 3175,
+                  "models": 49,
+                  "modelIssues": 0,
+                  "archiveOverlays": 36,
+                  "sourceHeads": 49,
+                  "candidateH1": 49,
+                  "sourceLinks": 208,
+                  "allCandidateLinks": 622,
+                  "sourceIncoming": 35,
+                  "candidateIncoming": 113,
+                  "externalIncomingSource": [
+                    {
+                      "from": "docs/testing/README.md",
+                      "to": "docs/testing/domains/README.md",
+                      "fragment": ""
+                    }
+                  ],
+                  "externalIncomingCandidate": [
+                    {
+                      "from": "docs/testing/README.md",
+                      "to": "docs/testing/domains/README.md",
+                      "fragment": ""
+                    }
+                  ],
+                  "fragments": 0,
+                  "graphBefore": 31,
+                  "graphAfter": 49,
+                  "tools": 112,
+                  "distinctTools": 112,
+                  "whitelist": 50
+                }
+              },
+              "receiptFieldCoverage": "43 common +3 catalog-only; all copied catalogBinding values and original caller/input claims equal actual9 catalog records; all112 association objects deep-equal selected native original records plus explicit no-runtime metadata.",
+              "centralCoverageAtFrozenCandidate": {
+                "documentRegistry": {
+                  "records": 659,
+                  "K49": 0
+                },
+                "bodyRouting": {
+                  "records": 150,
+                  "K49": 0
+                }
+              },
+              "diffCheck": "git diff candidate^ candidate --check exit0 /zero diagnostics",
+              "worktree": "HEADaf42cdeb, clean before and after checks",
+              "notRun": [
+                "author73 docs-tool test suite",
+                "author full pnpm lint4095",
+                "full shared strict659 as an independent run",
+                "product tests",
+                "112 historical scripts",
+                "old generators",
+                "runtime/browser/E2E/visual",
+                "coverage",
+                "raw/screenshot replay",
+                "shared generators/main/push"
+              ],
+              "receiptFieldProof": {
+                "path": "/tmp/type-pal-k-independent-receipt-field-proof-20261016.json",
+                "sha256": "6b953669e7f45af15ec8413d24095b1a2e5eabffb5e6a62950cb23183851d575"
+              }
+            },
+            "calibrationHistory": [
+              {
+                "kind": "own temporary verification assumptions corrected, no candidate change",
+                "observation": "First own helper treated receipt.liveLinks as including complete quote and expected dependencies to omit separately included canonical report/evidence. Both assumptions differed from actual documented record meaning.",
+                "resolution": "Directly read actual receipt fields; liveLinks validated against all current sections excluding only complete quote; dependencies validated as original targets + task/registry + actual catalog canonical/evidence, preserving recorded duplicates. Final full real consumer exit0.",
+                "firstResultPath": "/tmp/type-pal-k-independent-consumer-first-calibration-20261016.json",
+                "firstResultSha256": "02bb5efdd4aa990e323b8fa816ef5eb084b2797a412d56a59f16228f20e5a41f"
+              },
+              {
+                "kind": "own field-coverage assertion deliberately required union",
+                "observation": "First entry has43 fields;17 catalog-paired entries add3 fields. Set equality against first shape refused; union enumerated, all3 extra fields fully read and checked against actual catalog. Not a candidate counter or ignored extra."
+              }
+            ],
+            "scopeConclusions": {
+              "all49Type": "governance-index-v1 /1.0.0",
+              "historyOverlay": {
+                "count": 36,
+                "toolNavigation": 20,
+                "historicalPublication": 8,
+                "mixedCurrentPublicationLeaf": 8
+              },
+              "pureNavigation": 13,
+              "originalOwners": "Absent all49; governanceOwner does not invent original author. Catalog Codex is publication responsibility only.",
+              "versions": "Four SAVE11 leaves are October4 publication axis, not mechanically changed to12. Four original October6 SAVE12 source notes and subsequent report source notes remain separate. Phase1 Game does not inherit phase2 save-execution truth.",
+              "graph": "Before31 after49 actual reachable. Root adds20 grouped directories including scene0; battle and scene current tools links3 to1; exact originals retain duplicates.",
+              "sourceArtifacts": "All112 listed scripts unchanged by candidate and unique original layout associations matched. Ten archived unresolved static-import records remain outside lists; retention2026-11-01 is historical, not renewed.",
+              "unknown": "Original producers/callers/raw/screenshots not newly certified; malformed extraction hints are retained as hints.",
+              "receipt": "Author-only candidate receipt is truthful within disclosed static/path/hash/read scope. Author73/150/659 green is not independent semantic or K49 central coverage.",
+              "noOpenCounter": true,
+              "rootWork": "Root must independently integrate49 central source/after/reviewRecord/routing/matrix and review admin delta; no root writes or acceptance of integration done here.",
+              "goal": "DOCS-FULL-TEMPLATE-1 remains build/goal active; no full1838+increment completion or product/runtime quality claim."
+            },
+            "entries": [
+              {
+                "path": "docs/testing/domains/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Four engineering-domain entries retain their distinct purpose; new twenty tool-directory entries include the empty scene page and total112 file associations, with no runner/test credit.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 55
+                  },
+                  "sourceQuoteLines": [65, 76],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "bad0bde937fb6c414df4e0d64661a13310cae935",
+                    "sha256": "130a089f1c748eb71984ef2acc4a145510605b598c2e9dcd7795b04143074e1a",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "130a089f1c748eb71984ef2acc4a145510605b598c2e9dcd7795b04143074e1a",
+                "afterSha256": "f69f075769a32ab5dee0eacc2da168a7f47d793d81359a06aa7ed1c5c491cf68",
+                "candidateGitObject": "69527ff3189f5831073127428322e6508ce32602",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 8,
+                "candidateLines": 76,
+                "originalLinks": 4,
+                "currentLinks": 26,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Sixteen content tools remain historical navigation; the exact invalid node-of-old.statements caller is disclosed as source extraction, not execution authority.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 47,
+                    "历史范围": 53,
+                    "原始结论": 57,
+                    "当时证据": 88,
+                    "当前有效性": 92,
+                    "继任文档": 96
+                  },
+                  "sourceQuoteLines": [61, 86],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "214d33bc14350cd775e91680b07ff57716093628",
+                    "sha256": "49234cf50982e0ced76e5e5553b4029f35062c22bbc70df3b854e3afb07c4a9e",
+                    "lines": "1-22"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "49234cf50982e0ced76e5e5553b4029f35062c22bbc70df3b854e3afb07c4a9e",
+                "afterSha256": "6864503aaa756fe8e6c385ea7309538d8d2d79c1e5280d88b32712c7fe8c3df3",
+                "candidateGitObject": "6d8354bda456add00c9ad408f73445356d92157a",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 22,
+                "candidateLines": 98,
+                "originalLinks": 17,
+                "currentLinks": 22,
+                "toolAssociationCount": 16,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Item-logic witness single-file navigation is distinguished from functional acceptance and retains the old source/deadline without renewal.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "14f977bcc3e16f959af320fe7c03f095c8313113",
+                    "sha256": "b8809bac17badfcbbc1e95275f99d81863089633dafbd152f55094251c8a9a19",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "b8809bac17badfcbbc1e95275f99d81863089633dafbd152f55094251c8a9a19",
+                "afterSha256": "8d6d9cf41b70f41a49c53441b6620c5798877e1e3e767e893ded7d7217078cf1",
+                "candidateGitObject": "9b451d5eb3041ff5a9475dd00615a68c05c3ac07",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Runtime-state witness single-file navigation explicitly discloses compiled.body caller text as a fragment, with no restored runner.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 32,
+                    "历史范围": 38,
+                    "原始结论": 42,
+                    "当时证据": 58,
+                    "当前有效性": 62,
+                    "继任文档": 66
+                  },
+                  "sourceQuoteLines": [46, 56],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "f3f43dd89814b17be5844e615cb2655818960a99",
+                    "sha256": "7e4f57850dfb89db19e3392509a810eb5570a0c9d71eb11c0ec66897babb0f6e",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "7e4f57850dfb89db19e3392509a810eb5570a0c9d71eb11c0ec66897babb0f6e",
+                "afterSha256": "718038618d07df865a94a0283aa206b6a215a5d93b43bb3b6508a1f7d65dcd70",
+                "candidateGitObject": "5108d094aa308cc0907717e56d92ef86180c8151",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 68,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/content/testing-records/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Architecture witness and reference mutant are two historical files, with no inheritance of entire lab acceptance.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 31,
+                    "历史范围": 37,
+                    "原始结论": 41,
+                    "当时证据": 58,
+                    "当前有效性": 62,
+                    "继任文档": 66
+                  },
+                  "sourceQuoteLines": [45, 56],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "9a349be437446d6dae53ad6baada9b89c7a5a53c",
+                    "sha256": "83a979912143314473c8777f6a7cbf59322bafddc6a93c3b7105f29590848f96",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "83a979912143314473c8777f6a7cbf59322bafddc6a93c3b7105f29590848f96",
+                "afterSha256": "be7f351c288ca40b4c1cab6309cf261c16d154488e6cd8f0ca7b193699b0add4",
+                "candidateGitObject": "6ba362e7eedb420e607178ea576ae5025a80cbca",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 8,
+                "candidateLines": 68,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 2,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Editor aggregate routes command families and map sessions to different reports without claiming an editor-wide quality review.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 28
+                  },
+                  "sourceQuoteLines": [38, 45],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "6ab78ac65f425d9d061a8716467a35eb8c605980",
+                    "sha256": "fd6a01186c802b496f83932f10cfe7f70f3686ad16cea0525828b4e0ce3d08ec",
+                    "lines": "1-4"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "fd6a01186c802b496f83932f10cfe7f70f3686ad16cea0525828b4e0ce3d08ec",
+                "afterSha256": "c3c048bee84e62565ce61280cc8d0685e2932e42e25e86ccff3688769e45e3b6",
+                "candidateGitObject": "65cb4787aab7600fb0fcffb20bc260d33720d952",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 4,
+                "candidateLines": 45,
+                "originalLinks": 2,
+                "currentLinks": 4,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Three map pointer/workspace/reference files remain path/hash associations; caller/input/oracle must be independently authorized before execution.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 32,
+                    "历史范围": 38,
+                    "原始结论": 42,
+                    "当时证据": 60,
+                    "当前有效性": 64,
+                    "继任文档": 68
+                  },
+                  "sourceQuoteLines": [46, 58],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "cae0ba6a625f9ce4600bedcc5b7c2ff51072bacf",
+                    "sha256": "13b7ca2143946aafc6422f5bf30c589355a1bf5ad53381940f8d62f2265dfa8e",
+                    "lines": "1-9"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "13b7ca2143946aafc6422f5bf30c589355a1bf5ad53381940f8d62f2265dfa8e",
+                "afterSha256": "772dae2ce56597070994044c08477ef21630f43db6600fc1388c72e3939ac744",
+                "candidateGitObject": "0f621310c4690199ef38f1085e270fc79600f609",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 9,
+                "candidateLines": 70,
+                "originalLinks": 4,
+                "currentLinks": 9,
+                "toolAssociationCount": 3,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/battle/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "S1 battle simulator mutant is a historical single-file tool entry, not a current simulator pass.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "db3cdbc09156da3df8ef0876f04c70c46520cb4b",
+                    "sha256": "badd460527756a2eeebdeca0e1342c95af3b8894d30d83323a7433dc8eaa43f2",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "badd460527756a2eeebdeca0e1342c95af3b8894d30d83323a7433dc8eaa43f2",
+                "afterSha256": "4f9ea2e860deb47565b4cdcc86de85f453e718626922bfcd12a6da1f3e84046c",
+                "candidateGitObject": "c7a167415e1e5d124eac5a8978c0eab490773c11",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/commands/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Command intermediate navigation maintains its single family entry and delegates business conclusions to the report.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "a3ab606503e69e9bc411471998c41468c3069d4f",
+                    "sha256": "e0e1879bc30b459a4802d7d9208897f819400fb469bbbee6e18b938b19c2ba1a",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "e0e1879bc30b459a4802d7d9208897f819400fb469bbbee6e18b938b19c2ba1a",
+                "afterSha256": "dfc61a2e29126f75588bf012b4ded76ddace5955d8249958c9cfde035f3fc663",
+                "candidateGitObject": "ee59a526a0bfa1514a65f8fe910a416069ff4dec",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Command-family report/evidence/history are three distinct sources; October4 content22/SAVE11 publication stays separate from October11 SAVE12 source refresh.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "fc88b85c2d8e5efee76abf76b6ebc4c6d6fa1846",
+                    "sha256": "636aa9ad5109640e4faa17097f83ad1696222838a0384ac64bd9ab951df916bc",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "editor-command-form-families",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "636aa9ad5109640e4faa17097f83ad1696222838a0384ac64bd9ab951df916bc",
+                "afterSha256": "a41f638d7262fbc5205ae57f411aa086373b0e537291a59dee53b88d044d0944",
+                "candidateGitObject": "ee53074cf3288c10b8954961d2b20118da2fe25d",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Command-family history retains original report/evidence and scoped successor; current catalog candidate does not become a new historical execution date.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "8f08019071720cde43d30edd5f9f9c45547e2734",
+                    "sha256": "27ac5ac0011667573ec563bbe4f33af0345aba158bfe2cb37c551f6161956219",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "editor-command-form-families",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "27ac5ac0011667573ec563bbe4f33af0345aba158bfe2cb37c551f6161956219",
+                "afterSha256": "8f7497b27f2cc2686f799e9941bfca6501e9d4993f3556f89b3a429af946ea6e",
+                "candidateGitObject": "677e9475a754b67d7d976d478d5bca5c5108de59",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Twenty-two editor tools retain mixed functions and historical boundaries; malformed original.statements and tree.statements callers are explicitly disclosed.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 53,
+                    "历史范围": 59,
+                    "原始结论": 63,
+                    "当时证据": 100,
+                    "当前有效性": 104,
+                    "继任文档": 108
+                  },
+                  "sourceQuoteLines": [67, 98],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "f911ad211ee8d01f82a7cee86184385193f99696",
+                    "sha256": "2d07191a888df665381a26311f44349ee59b0554f5466d276f28e27e47141d1b",
+                    "lines": "1-28"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "2d07191a888df665381a26311f44349ee59b0554f5466d276f28e27e47141d1b",
+                "afterSha256": "482dcd8d6c46ca99a5ccc6984225e650308143244db80e6e8ed80137cb8ea708",
+                "candidateGitObject": "1eaad6bd9785f070d1998f595850409d1c8cbc36",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 28,
+                "candidateLines": 110,
+                "originalLinks": 23,
+                "currentLinks": 28,
+                "toolAssociationCount": 22,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/map/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Map intermediate navigation maintains the single workspace-session ownership entry without adopting its business assertions.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "4e4ac81589c078f6c869a719a00011cee97f0bf6",
+                    "sha256": "c217a1968758bd7308ce75af26727c68cd121a89ac8e6f2857a17f39fc3f65e4",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "c217a1968758bd7308ce75af26727c68cd121a89ac8e6f2857a17f39fc3f65e4",
+                "afterSha256": "33a03445e537a29d7f3274dd615763f542f0e9ecf5bb6930e332cdf492886227",
+                "candidateGitObject": "3f59d233720f42769b4f4bd3770db9c9eff7f3a4",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Map-session publication22/11 is preserved; October11 source refresh12 does not upgrade old pointer/browser or map execution results.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "a06a95bd14047fb174a19cb309cdbc56d97a81d7",
+                    "sha256": "58588b30fd562de58af1a33285bda177a2598668fec78f93651f8cd3307909b1",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "editor-map-workspace-sessions",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "58588b30fd562de58af1a33285bda177a2598668fec78f93651f8cd3307909b1",
+                "afterSha256": "6a0017a0c4cc35490cc402e90742efabaed3a5c49cdcbe10765785819036a50c",
+                "candidateGitObject": "48b0a859922e62f897bc0627b3bf37ed75097649",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Map-session history keeps original candidate/warnings and current-navigation supersession only; source preservation is byte exact.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "87d60103e9656367bdd5e1a6a3c3f093ab5a2743",
+                    "sha256": "5897c63b8e654af45bced867e3114b7850d303f015e1542a5e31f717f20323de",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "editor-map-workspace-sessions",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "5897c63b8e654af45bced867e3114b7850d303f015e1542a5e31f717f20323de",
+                "afterSha256": "15a28186c745b8d93a66e7a4b4e99d8deb759d0f68585a88ba6e718ab7783ccc",
+                "candidateGitObject": "901e690aba50e45bc7a9b25db3a1f0077873928c",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Two PNG-host/preview review scripts remain import-codec historical navigation, not asset import acceptance.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 31,
+                    "历史范围": 37,
+                    "原始结论": 41,
+                    "当时证据": 58,
+                    "当前有效性": 62,
+                    "继任文档": 66
+                  },
+                  "sourceQuoteLines": [45, 56],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "a7fdf6ccebdb1cb0a58e7f7ecfbac06d851178f0",
+                    "sha256": "7a5060dd8d78e4578e5c54dcab5218b00389ee6f9cb4cb94a59de40df5f11812",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "7a5060dd8d78e4578e5c54dcab5218b00389ee6f9cb4cb94a59de40df5f11812",
+                "afterSha256": "eead4eb429c579959842d990bf91936cad9ccacc1282b8022bf2187d5cf3fe50",
+                "candidateGitObject": "9978683fbf6364d76ee9c9016c75b84cd2038f51",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 8,
+                "candidateLines": 68,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 2,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Nine-intake and nine-rework witnesses remain two distinct historical tools; their names do not grant the nine-package acceptance.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 31,
+                    "历史范围": 37,
+                    "原始结论": 41,
+                    "当时证据": 58,
+                    "当前有效性": 62,
+                    "继任文档": 66
+                  },
+                  "sourceQuoteLines": [45, 56],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "9bca7ca6e97da9c7027c4b62f854bdae1ebbe4cc",
+                    "sha256": "bc60ee069291a56e8a50eefe15efa32513c6f61219ce9bc40eea02b44e646933",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "bc60ee069291a56e8a50eefe15efa32513c6f61219ce9bc40eea02b44e646933",
+                "afterSha256": "ad44aa8cc4df6e1e845378ba3e0f080499216d44346837345faf3221abc50fe4",
+                "candidateGitObject": "77cd0082063d7010d97e53412de74bf4be6568a9",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 8,
+                "candidateLines": 68,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 2,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Ten import/migration/resource files retain original navigation; no migration, publishing, version-compatibility or mutant execution is reauthorized.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 39,
+                    "历史范围": 45,
+                    "原始结论": 49,
+                    "当时证据": 74,
+                    "当前有效性": 78,
+                    "继任文档": 82
+                  },
+                  "sourceQuoteLines": [53, 72],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "2dabe38ca8f5433b148f80e65897b2ddf0492671",
+                    "sha256": "c1158593efd9b29e7e69328d299123ae1863af2180eeb54162106ba21d7d2f2e",
+                    "lines": "1-16"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "c1158593efd9b29e7e69328d299123ae1863af2180eeb54162106ba21d7d2f2e",
+                "afterSha256": "3ba9b43bed4f35573406f832aa5a412e0ee5ba0b14cf3c8ddf0b88eae6477d3e",
+                "candidateGitObject": "c2ce2e71860902cfa1af50b85cdb286e23dd63d2",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 16,
+                "candidateLines": 84,
+                "originalLinks": 11,
+                "currentLinks": 16,
+                "toolAssociationCount": 10,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/ops/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Operations aggregate routes to the testing-governance audit; old census/migration completion is not full1838 content-review completion.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "e5112990fc08deae17833567cf7728d3f5dddbd5",
+                    "sha256": "b172d61a7b02a603656aca14dc48dce2889912003715c71b4f33e2e15a421f01",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "b172d61a7b02a603656aca14dc48dce2889912003715c71b4f33e2e15a421f01",
+                "afterSha256": "bb272c312ac8855a45f12555bf21e32fca0b0e7a8f9d5e9ca6cfed5db0f2a8f1",
+                "candidateGitObject": "e715fba293dd9cb8268175f9a94ecf001803c5a9",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/ops/testing-governance/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Legacy-flat Markdown and JSON remain two unique authority entries; old reviewed classifications do not imply present full-doc governance completion.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 28
+                  },
+                  "sourceQuoteLines": [38, 45],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "8fae5c9554531efaadcb86649cdc9575470b09c1",
+                    "sha256": "c830dfd288a40d5c938d6de7dd15568a0cf9026e54aa3c872f6b168cddfa75ed",
+                    "lines": "1-4"
+                  },
+                  "catalogId": "legacy-flat-audit",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "c830dfd288a40d5c938d6de7dd15568a0cf9026e54aa3c872f6b168cddfa75ed",
+                "afterSha256": "298cc1a893efc16c99d5b4c91f605de0ebc62bc45fdf4ce323af56271a73f0ee",
+                "candidateGitObject": "650a3db04f7bd6d514bc4acfa21541ae728f3331",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 4,
+                "candidateLines": 45,
+                "originalLinks": 2,
+                "currentLinks": 4,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Four game-host/pal-table config and mutant entries preserve their historical grouping without an operations audit pass.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 33,
+                    "历史范围": 39,
+                    "原始结论": 43,
+                    "当时证据": 62,
+                    "当前有效性": 66,
+                    "继任文档": 70
+                  },
+                  "sourceQuoteLines": [47, 60],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "897fd8dbec5876da7ad48800c577f039ff46612e",
+                    "sha256": "4de8afc84bfa1f42183b7ed618d2c8695124e8aca7f51c15c2bfa5785d9105f3",
+                    "lines": "1-10"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "4de8afc84bfa1f42183b7ed618d2c8695124e8aca7f51c15c2bfa5785d9105f3",
+                "afterSha256": "81f10daba6d8c72167a228f2dac7a038eaacff91b64bbc38d2f52cc918231f9b",
+                "candidateGitObject": "28ed90db03b9e6f0919b2910af1365b3d9b626b2",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 10,
+                "candidateLines": 72,
+                "originalLinks": 5,
+                "currentLinks": 10,
+                "toolAssociationCount": 4,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Save-lineage mutant remains one historical entry, with no renewal of old save compatibility or migration behavior.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "7acb047d8f183112670fe00bf82ba2a9e8d53b59",
+                    "sha256": "8890021d49004e415ec8fe0ffc795a48eedc4174ff99ef469c2b32e2865c40fd",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "8890021d49004e415ec8fe0ffc795a48eedc4174ff99ef469c2b32e2865c40fd",
+                "afterSha256": "b01a31522250a8b1e26acf8aa9e485a84ad3cf792c58171519ff78fb98d5f7a7",
+                "candidateGitObject": "93c3a82d9141619c5df90c154bf5828dc7ccc651",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/phase1-runtime/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Phase1 aggregate routes dependency ownership and explicitly prevents phase2 version metadata from certifying Game execution.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "62a9d77e00d4f5188ea649a81b4d7f943fffd39a",
+                    "sha256": "417feab18846d13a87e0aa8540d007717c5ac361f4b19818c94bf5cd807b983c",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "417feab18846d13a87e0aa8540d007717c5ac361f4b19818c94bf5cd807b983c",
+                "afterSha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d",
+                "candidateGitObject": "ecf4bf8922dcd0e61789181ba0b147860079d455",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Phase1 dependency intermediate route delegates to its unique ownership report without a new acceptance claim.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "9b18c863da7a08d91d1b0dff50ddf1dc45f61439",
+                    "sha256": "4dea8de7520a817d812c6d82d16fedff395249c733a28d85758bc0f340e62e62",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "4dea8de7520a817d812c6d82d16fedff395249c733a28d85758bc0f340e62e62",
+                "afterSha256": "d542eb521a0e94c1deaf5fe4a876852ef446c781cc8d66b2117ec2326e8b67fb",
+                "candidateGitObject": "ee9b67afbe5af4bad7eb46679a7f507e723d51ac",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Game ownership report/evidence/history keep phase1 semantics separate; October4 publication11 and October11 cross-project source12 are retained without Game/runtime credit.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "f3d0dd6341a3cb08874898a457423109cedd5073",
+                    "sha256": "5e9fcc490c35702a6eb4ffeb6bf41615b1599c83060df3627207292e113e1994",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "phase1-dependency-ownership",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "5e9fcc490c35702a6eb4ffeb6bf41615b1599c83060df3627207292e113e1994",
+                "afterSha256": "925c0b188c69dd0ee3a1546de459428cd9fa354cb84346244a1d8b03cfbe2c9b",
+                "candidateGitObject": "0df9e0956db108449e7066ddfd750bd0129ec67a",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Phase1 history keeps original report/evidence and candidate context; current publication metadata is not retroactive original identity or execution evidence.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "9f2a19d65a80cd874606eb7657b1439a03def69e",
+                    "sha256": "32e74834b6b35091c8caae96b956022e92b8cfcd1da380ccf5cc3824fd475ab0",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "phase1-dependency-ownership",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "32e74834b6b35091c8caae96b956022e92b8cfcd1da380ccf5cc3824fd475ab0",
+                "afterSha256": "2e986f30e6e48a0c5c77ac52edd5441cc7eb9b1286f4d9ed6ec093437f8e2a80",
+                "candidateGitObject": "bcc0a520029ec6c4f6d022c9b5fb6cdb3d673ad4",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Two phase1 main/player-opcode mutants remain historical navigation and do not certify original-game mechanics.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 31,
+                    "历史范围": 37,
+                    "原始结论": 41,
+                    "当时证据": 58,
+                    "当前有效性": 62,
+                    "继任文档": 66
+                  },
+                  "sourceQuoteLines": [45, 56],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "7664932f08a7bc0c2c6f2720e81ae6b27e78a638",
+                    "sha256": "042c4dbe05dbd6d7e723b594a93ff722f4c3b30d5784ac4614ef2a3d0f853186",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "042c4dbe05dbd6d7e723b594a93ff722f4c3b30d5784ac4614ef2a3d0f853186",
+                "afterSha256": "ce58efc18c83407b516e22413362f3105e50ebdc0c1aa08cc696baa75c64abb0",
+                "candidateGitObject": "5d1565f7aa97951892fa055136237e83b614be5a",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 8,
+                "candidateLines": 68,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 2,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Twenty-one quality/coverage/guard tools are an index rather than quality-gate evidence; the old Git-function caller fragment is disclosed.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 52,
+                    "历史范围": 58,
+                    "原始结论": 62,
+                    "当时证据": 98,
+                    "当前有效性": 102,
+                    "继任文档": 106
+                  },
+                  "sourceQuoteLines": [66, 96],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "a697e1ec43f8426dd25242fcc8186f0010541c7d",
+                    "sha256": "35d60e2a7af9ad1b5b450e82e7d168dfb5ced91eac329c33916fe683dde7bbc5",
+                    "lines": "1-27"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "35d60e2a7af9ad1b5b450e82e7d168dfb5ced91eac329c33916fe683dde7bbc5",
+                "afterSha256": "c27cc692ef5c0c215bc8518a7df48dfe5039aa032cbbbd752281f7bedbcf0417",
+                "candidateGitObject": "4f76fa236b498d9d094511a2e415499e2c1ccd6f",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 27,
+                "candidateLines": 108,
+                "originalLinks": 22,
+                "currentLinks": 27,
+                "toolAssociationCount": 21,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Runtime aggregate separates battle/menu/scene/world ownership; source-audit navigation grants no dynamic results.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 30
+                  },
+                  "sourceQuoteLines": [40, 51],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "7258ad0a011fc0fc74f88d2bb0c8c9ef6bbabbd5",
+                    "sha256": "572f011a519b7c7141d0191ce6141adf95afdd98aa53bec9fa91cc89bbd4d6db",
+                    "lines": "1-8"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "572f011a519b7c7141d0191ce6141adf95afdd98aa53bec9fa91cc89bbd4d6db",
+                "afterSha256": "599713faf2fa01e8d23734bd6d129b06f597b3d020d5354481e7052395c98312",
+                "candidateGitObject": "ce1b0f57d16a40a092761d4b19b9922353d81141",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 8,
+                "candidateLines": 51,
+                "originalLinks": 4,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Battle aggregate has two ownership destinations and one tool destination; current threefold tool duplicate is reduced to one while exact old repeats survive in source quote.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 31
+                  },
+                  "sourceQuoteLines": [41, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "0486a870f8e28ee73a61567ca8bffd739138c934",
+                    "sha256": "a31d69b26d4d64bc8efbd47cb90b8426bc1fa3a1d65e3914580f656caa221ee4",
+                    "lines": "1-10"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "a31d69b26d4d64bc8efbd47cb90b8426bc1fa3a1d65e3914580f656caa221ee4",
+                "afterSha256": "3fb3e8db86f8219fff55a9798ed35748d92879244d3efa506b6503be0c4b993e",
+                "candidateGitObject": "bf73535425f7545167d7fad1cbc6e1f86ab09d36",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 10,
+                "candidateLines": 54,
+                "originalLinks": 5,
+                "currentLinks": 5,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "BattleHost report/evidence/history preserve October6 SAVE12 as source-only; October4 publication11 and earlier launch/cancel/world-commit execution retain their own scope.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "1a362bd0ee969b7b6e30cea27559a026496d70bd",
+                    "sha256": "f849813bfcf444d7a173f9a668b5e55863118bda3113c63c2ce4a94ed15653a3",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "runtime-battle-host",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "f849813bfcf444d7a173f9a668b5e55863118bda3113c63c2ce4a94ed15653a3",
+                "afterSha256": "a945e7adcc9e35b10661941001c9e5c23af7a0073498646f7a1c50d8a5d08338",
+                "candidateGitObject": "0c835bcd478bf5b074d096ef74e0729e66a04417",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "BattleHost history retains original implementation candidate and unresolved observations; successor changes navigation/publication interpretation only.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "36fed25b58996e2b8c082ee32cce7f29ce751368",
+                    "sha256": "27ec8e0cd23198d250cb508bba2ed01aaea0d05a98b757ba95246eb5d5508de6",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "runtime-battle-host",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "27ec8e0cd23198d250cb508bba2ed01aaea0d05a98b757ba95246eb5d5508de6",
+                "afterSha256": "b78e5ff62029c787b0ec8e5f4604137e507ff65a4670c5d77fe104035156169d",
+                "candidateGitObject": "b8c5db4c9877f857a78d74dad6fffe666ae4fc77",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "BattleSession three-source navigation preserves readiness/settlement/selection scope and October6 source12 versus publication11; no new battle execution.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "4b22faaadad49f606bbf82541aa3ac2c92679644",
+                    "sha256": "49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "runtime-battle-session-owners",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8",
+                "afterSha256": "b458233315e0f58cc9638d2dbce1767e2bdd6f30233d7f6a6480f7914cbbaccc",
+                "candidateGitObject": "b5ea90048b6da6476f4dcab12a17298c359828a3",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "BattleSession history keeps original report/evidence and exact source; current catalog identity does not erase old warnings/counters.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "fd9ca9a86996a6f3a00ceab8ad6fbe8e06ce693c",
+                    "sha256": "880d98a26662f8aad0b0efcbc3f3199d223f3cd3a117253589b396e6f3f903ea",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "runtime-battle-session-owners",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "880d98a26662f8aad0b0efcbc3f3199d223f3cd3a117253589b396e6f3f903ea",
+                "afterSha256": "6395b56976ecf1e2cee22a79ecf9ff46f2bf73e3b8f95a1e592d62e8fe04af34",
+                "candidateGitObject": "3af090c1ade38bcfe2ffcbf4e708012c3f77e791",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/battle/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Eight battle host/session/simulator/workflow scripts remain distinct historical files; README entries are not current runner contracts.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 37,
+                    "历史范围": 43,
+                    "原始结论": 47,
+                    "当时证据": 70,
+                    "当前有效性": 74,
+                    "继任文档": 78
+                  },
+                  "sourceQuoteLines": [51, 68],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "ce958ad60eb0e21e443d4d7aec1b55d0777614dc",
+                    "sha256": "d8f7437135805cb7d0ec5c634b957e88182c426174b8479b631b8e2207db609d",
+                    "lines": "1-14"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "d8f7437135805cb7d0ec5c634b957e88182c426174b8479b631b8e2207db609d",
+                "afterSha256": "4e646d852b6bcc766dea218bf40ff49a30509ee517eb8bbcb987524232c17e5c",
+                "candidateGitObject": "3ffe4b04dd627cf2428435cc27d066fc0c8757e5",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 14,
+                "candidateLines": 80,
+                "originalLinks": 9,
+                "currentLinks": 14,
+                "toolAssociationCount": 8,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Menu-session parity remains a historical single-script link; browser/menu execution is expressly outside this candidate.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "944d8bf26945829adaf977f4a8f1e5f4f33fbf70",
+                    "sha256": "ae5e2344ff7a801aea6d69b2511ef87046645b7e87856a5a7570ff8fd4e2052c",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "ae5e2344ff7a801aea6d69b2511ef87046645b7e87856a5a7570ff8fd4e2052c",
+                "afterSha256": "c9fe1f29ff442e33b96511e8e06022af56f6cb15e45626ae14e2ddd5ee91ba27",
+                "candidateGitObject": "0419ef20832f9c1aaa2d271e36b89ea73e3ade56",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Thirteen runtime boundary files retain source/caller/import-cwd caveats and old deadline; no runtime contract is independently reaccepted.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 42,
+                    "历史范围": 48,
+                    "原始结论": 52,
+                    "当时证据": 80,
+                    "当前有效性": 84,
+                    "继任文档": 88
+                  },
+                  "sourceQuoteLines": [56, 78],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "25d905106ab0b4011bc1cac221030fc4be398d92",
+                    "sha256": "fe41e6d12bf20cfe3f6a2a8d6a0ab4b468bd64148e2ecd33544069fd471f394e",
+                    "lines": "1-19"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "fe41e6d12bf20cfe3f6a2a8d6a0ab4b468bd64148e2ecd33544069fd471f394e",
+                "afterSha256": "902774e1def4170dc1d6e9a85f73b4631573c067cfbbc2b8ac993c9ab2aad8de",
+                "candidateGitObject": "63afd159ff75887579c1dac15657276bc99e9899",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 19,
+                "candidateLines": 90,
+                "originalLinks": 14,
+                "currentLinks": 19,
+                "toolAssociationCount": 13,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/menu/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Menu aggregate routes its single ownership record and makes no storage-chain execution claim.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "36c578ba0a8a79c7c4bf5c93d0673248ceeeacfa",
+                    "sha256": "90c989fe01419afc072d3a5b75575291d533791cd9d6c08869893f54f847ad54",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "90c989fe01419afc072d3a5b75575291d533791cd9d6c08869893f54f847ad54",
+                "afterSha256": "d9f23aabd54f8fcfc35a92ff8e30bf72be69ef905aff3458be55677103305658",
+                "candidateGitObject": "dfcb662fdc50be15985382f5857a2bae565b71c6",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Menu/item-session report/evidence/history keep the historical A1 execution and October4 publication11 apart from October11 source12.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "d66d48b54937e00eb8826d0f03113301d59ceee1",
+                    "sha256": "71f873ae75ee2465bcaa86554e9afaec0477fc431744421fd9cae2de657c48cc",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "reforge-menu-session",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "71f873ae75ee2465bcaa86554e9afaec0477fc431744421fd9cae2de657c48cc",
+                "afterSha256": "bc8a28515d47662ed491a131380257c34873fa488accb1bbcf79d3390346b388",
+                "candidateGitObject": "eea8db216eb5bc0018359dc692def7badd5ae150",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Menu history preserves original report/evidence and warnings; the sole design punctuation cleanup does not alter scope or original source bytes.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "f51ed5a46ef0dde0995172fd739886eecd9c4061",
+                    "sha256": "b5b5a118780b539cbf110c1f667f1be48a5e951232999577fc97e6a9f1bef4ec",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "reforge-menu-session",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "b5b5a118780b539cbf110c1f667f1be48a5e951232999577fc97e6a9f1bef4ec",
+                "afterSha256": "545b6ddbcaea151912a265d7f7b4b40bd6fcb27fc09e5be689e756211a5e2fd2",
+                "candidateGitObject": "a1d3ff4449d9eabbc375712e6c7e5f2c94f838e7",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Checkpoint-export mutant remains a historical single-file navigation item, not current save/recovery execution permission.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "2953585fa4f12bca37e2789ecf84b3a177b8d3e3",
+                    "sha256": "a750b5cdd84d710bc64ff8231b4444ca31f6e8534b158ca958164d6942928214",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "a750b5cdd84d710bc64ff8231b4444ca31f6e8534b158ca958164d6942928214",
+                "afterSha256": "aaaf365aaa917f05e0c9b441cd4c9763d318ab93c6a6f94cd08061bc8a6f9175",
+                "candidateGitObject": "51799c77b0281c4705e22874be19be5bf1524bfa",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/scene/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Scene aggregate has ActiveScene plus one empty tool index; three old duplicate tool links reduce to one only in the current layer.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 30
+                  },
+                  "sourceQuoteLines": [40, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "be3db26af6b803781525ca50f0db85fecda30148",
+                    "sha256": "7117a922a8d604dfe549da38f2125574d38724b8237815734e230b6f42de90f7",
+                    "lines": "1-9"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "7117a922a8d604dfe549da38f2125574d38724b8237815734e230b6f42de90f7",
+                "afterSha256": "26ddd1db372aa3da9895e34eef3f7be65fbce680c790344b048a8a23193234d3",
+                "candidateGitObject": "5df35a00fab6932267f536ef0b52c8e43f5eb1fd",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 9,
+                "candidateLines": 52,
+                "originalLinks": 4,
+                "currentLinks": 4,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "ActiveScene navigation keeps October6 SAVE12 source review distinct from old replaceScene tests, which do not prove restoreActions/syncBases recovery.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "c5a209dbd58aade74e65bd7309720efdf1f4cb41",
+                    "sha256": "9bfaa9acd31bd10991d3466b5a742110eb304e61068cdd1e19fb7dc0bfe0706d",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "runtime-active-scene",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "9bfaa9acd31bd10991d3466b5a742110eb304e61068cdd1e19fb7dc0bfe0706d",
+                "afterSha256": "3e3ae972f895d6480f838a06a4c1680976444c835dec72ef3ed1778050ff37ae",
+                "candidateGitObject": "308b73f227a7771b585d0fb7184b9d2a81b6ace6",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "ActiveScene history preserves original report/evidence/candidate; scoped successor does not assert old failure correction or raw replay.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "b405bed5ca7ea81828db29cbdf6342c77c601b14",
+                    "sha256": "5022aaf8a1a71b759639ffdaa2c7f0bd9970c64066a6464152504d36bd73fdca",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "runtime-active-scene",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "5022aaf8a1a71b759639ffdaa2c7f0bd9970c64066a6464152504d36bd73fdca",
+                "afterSha256": "2894673e28a660116da399c8c4af0fb30b48aa1dbf7cc306c53ffcac1e1ed231",
+                "candidateGitObject": "862aab837ec9c55e9740403571ad631c6dc02b6d",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/scene/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Empty scene tools page explicitly has zero scripts and zero execution credit; ten unresolved archived tools are not restored into the list.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 28,
+                    "历史范围": 34,
+                    "原始结论": 38,
+                    "当时证据": 53,
+                    "当前有效性": 57,
+                    "继任文档": 61
+                  },
+                  "sourceQuoteLines": [42, 51],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "e1762fa963331382fd78b735e0d118c5d426f326",
+                    "sha256": "c08aabcf85b929e3d769d14fd85bf3599677d6c2d2352e871fd5e5456a8fccca",
+                    "lines": "1-6"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "c08aabcf85b929e3d769d14fd85bf3599677d6c2d2352e871fd5e5456a8fccca",
+                "afterSha256": "3829780916d5681cfd0d0489e2f84c8ca9efecc2278a5ca3363d21027c11302a",
+                "candidateGitObject": "a8464c96110ef0f6fd4e2f01a0c2f5e0464d9d21",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 63,
+                "originalLinks": 1,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "Skill-trial-premise remains one historical tool entry; neither present skill mechanics nor formula truth is certified.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "88367554bd49eb8603b2c8bb5384c7cb92e1812b",
+                    "sha256": "c1ddf33c5bf98a75bc9730d9c0dd59176c10e2595fb6bb788ae2a703297efddc",
+                    "lines": "1-7"
+                  },
+                  "catalogId": null,
+                  "toolLedger": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+                },
+                "falsifier": "Any tool path/after SHA differs from the unique original layout record, a source fragment is called a legal runner, the old deadline is renewed, or historical execution is claimed current.",
+                "sourceSha256": "c1ddf33c5bf98a75bc9730d9c0dd59176c10e2595fb6bb788ae2a703297efddc",
+                "afterSha256": "c32730a7b445c8b152421494552c32f83219a404374eb4a92ba2b0461a20feb7",
+                "candidateGitObject": "370aa587f29547b05d6aa25d249988a93699a0ae",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 2,
+                "currentLinks": 7,
+                "toolAssociationCount": 1,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/world/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "World aggregate routes its unique motion/presentation ownership record without assuming ActiveScene or full-scene E2E acceptance.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 9,
+                    "范围": 13,
+                    "当前状态": 17,
+                    "入口与责任": 21,
+                    "证据与下一步": 27
+                  },
+                  "sourceQuoteLines": [37, 43],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "17312d27a9a1797ba0bbc315c4c50ad69241f221",
+                    "sha256": "e535ba2eabe34ebd2ea3b034bae5260387cd449a4664116e4e64a84a0204e6f6",
+                    "lines": "1-3"
+                  },
+                  "catalogId": null,
+                  "toolLedger": null
+                },
+                "falsifier": "A previously distinct target is dropped, current battle/scene duplicates persist, one of49 README is unreachable, or aggregate navigation claims business/runtime acceptance.",
+                "sourceSha256": "e535ba2eabe34ebd2ea3b034bae5260387cd449a4664116e4e64a84a0204e6f6",
+                "afterSha256": "ec2a6f70f113253e9ab1f0eaac6a14d199414a965099305745ca0b4098323d08",
+                "candidateGitObject": "5974971edafc8b15a5faedcc62eeeba307904500",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false,
+                "sourceLines": 3,
+                "candidateLines": 43,
+                "originalLinks": 1,
+                "currentLinks": 3,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "World report/evidence/history preserve source12 capture/restore distinction and original publication11; old owner tests remain insufficient for SAVE12 recovery.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 30,
+                    "历史范围": 36,
+                    "原始结论": 40,
+                    "当时证据": 56,
+                    "当前有效性": 60,
+                    "继任文档": 64
+                  },
+                  "sourceQuoteLines": [44, 54],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "6d9d2e8ad0d385d643bdc4ed38b4d1e80a4e4022",
+                    "sha256": "303b9837ff1b5f309ebf4788bfe91ffc50d9c2e8d24407c5e60393bd234a99b0",
+                    "lines": "1-7"
+                  },
+                  "catalogId": "runtime-world-owners",
+                  "toolLedger": null
+                },
+                "falsifier": "Catalog identity/publication date22/11 or report source-refresh date12 is changed or conflated; an absent original Owner is inferred; navigation is promoted to report/runtime acceptance.",
+                "sourceSha256": "303b9837ff1b5f309ebf4788bfe91ffc50d9c2e8d24407c5e60393bd234a99b0",
+                "afterSha256": "eda4560dbff57c3148b469aab5d2fe57dabd36fae2c0f3787ca25992c968cef2",
+                "candidateGitObject": "fd4e61c8ffafbfa5d9e4522ad26468e99e98453b",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 7,
+                "candidateLines": 66,
+                "originalLinks": 3,
+                "currentLinks": 8,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              },
+              {
+                "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+                "verdict": "accept",
+                "scope": "K navigation migration only; root independent integration pending",
+                "semanticObservation": "World history retains report/evidence and current publication candidate as provenance only; historical warnings/counters and raw availability remain unchanged.",
+                "directPrimaryAnchors": {
+                  "candidateSections": {
+                    "目的": 10,
+                    "范围": 14,
+                    "当前状态": 18,
+                    "入口与责任": 22,
+                    "证据与下一步": 29,
+                    "历史范围": 35,
+                    "原始结论": 39,
+                    "当时证据": 54,
+                    "当前有效性": 58,
+                    "继任文档": 62
+                  },
+                  "sourceQuoteLines": [43, 52],
+                  "originalSource": {
+                    "revision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+                    "gitObject": "4e3f766af99146f67cd8f07952714fa083d2b06c",
+                    "sha256": "709f67787c24720de609e5976e0b150b908706f684625398af4a185d7770e006",
+                    "lines": "1-6"
+                  },
+                  "catalogId": "runtime-world-owners",
+                  "toolLedger": null
+                },
+                "falsifier": "Any original quote byte/owner/date/candidate is changed, supersedes is read as a fixed historical failure, or current catalog candidate is assigned as the historical execution date.",
+                "sourceSha256": "709f67787c24720de609e5976e0b150b908706f684625398af4a185d7770e006",
+                "afterSha256": "ed2690e9d167e7def2d54afe15ccd47cdbbe3058c87f178643f048da5b8f26e5",
+                "candidateGitObject": "a4a06366b74ff4251e63f3db27adb91e540db294",
+                "templateId": "governance-index-v1",
+                "templateVersion": "1.0.0",
+                "historyOverlay": true,
+                "sourceLines": 6,
+                "candidateLines": 64,
+                "originalLinks": 3,
+                "currentLinks": 6,
+                "toolAssociationCount": 0,
+                "modelIssues": []
+              }
+            ]
+          },
+          "scope": "Exact authored candidate only, not later root metadata; no tool/runtime acceptance."
+        },
+        "rootReadCoverage": {
+          "kind": "root-actual-K49-content-reading-coverage",
+          "candidate": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "readingAid": "/tmp/type-pal-k-root-literal-review-20261016.json",
+          "readingAidSha256": "c3b476f4057dea2e4c7bef073b2e5f1487a1375f0f1cd4c1f95ed95f589bea85",
+          "sourceReadScope": "All49/400 original lines root read in frozen design context; currentrun strict inverse all49/sourceblob/SHA identical. No claim source lines independently reread anew.",
+          "candidateReadScope": "All453 unique nonblank literal definitions actually read in ranges1-160/161-320/321-453 plus all49 per-page literal-order maps. Exact repeated text reused by identity, not heading-only extraction. Five representative complete pages also printed/read. Total3175 physical candidate lines not claimed separately printed.",
+          "bodyContentCoverage": {
+            "documents": 49,
+            "uniqueDefinitionsRead": 453,
+            "pageMapsRead": 49,
+            "sourceLinesInverse": 400,
+            "physicalCandidateLines": 3175
+          },
+          "receiptScope": "Root parsed receipt entry paths and inspected independent coverage/selected metadata only; not claiming root full13080-line receipt read. Non-author history_cards_c_tail independently covered full receipt semantic structure, all49 fields and112 associations.",
+          "conclusion": "Root found no new body-semantic counter; exact source/date/version/owner/noexecution boundaries align with frozen49design and independent source review. Rootintegration/current administration/fullgates still pending; no addedmigrationcredit yet.",
+          "notPerformed": [
+            "oldtools",
+            "product/oldtests",
+            "runtime/E2E/visual/coverage/browser",
+            "rawcontents replay",
+            "Kroot centralintake or mainpush"
+          ]
+        },
+        "currentAdministration": {
+          "replacements": {
+            "Governance Owner: Codex / history_cards_a（本次文档候选，待非作者独立验收）": 49,
+            "候选等待独立复核。": 12,
+            "非作者逐篇核本页正文、原源与真实链接后，由根线程维护中央记录；本候选不自签接收。": 49,
+            "候选尚待独立验收。": 20,
+            "本候选待非作者验收": 20,
+            "候选待非作者独立复核。": 9,
+            "候选待独立验收。": 16,
+            "非作者独立候选复核尚待完成。": 8
+          },
+          "entries": [
+            {
+              "path": "docs/testing/domains/README.md",
+              "authorAfterSha256": "f69f075769a32ab5dee0eacc2da168a7f47d793d81359a06aa7ed1c5c491cf68",
+              "rootAfterSha256": "134d46cee0c810757e03a5221a7af5906bc9e1282dc79640aa5d74c6f3296d79",
+              "sourceSha256": "130a089f1c748eb71984ef2acc4a145510605b598c2e9dcd7795b04143074e1a",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+              "authorAfterSha256": "6864503aaa756fe8e6c385ea7309538d8d2d79c1e5280d88b32712c7fe8c3df3",
+              "rootAfterSha256": "f756bf1ffbfe4c3b1a12d0eb6e226924f9caeba714cf5f3cf781b2125ba32609",
+              "sourceSha256": "49234cf50982e0ced76e5e5553b4029f35062c22bbc70df3b854e3afb07c4a9e",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+              "authorAfterSha256": "8d6d9cf41b70f41a49c53441b6620c5798877e1e3e767e893ded7d7217078cf1",
+              "rootAfterSha256": "c1fddd55d01953861cc74ebf85a5d11ff78c621f82190f216d4a9796d65bfb43",
+              "sourceSha256": "b8809bac17badfcbbc1e95275f99d81863089633dafbd152f55094251c8a9a19",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+              "authorAfterSha256": "718038618d07df865a94a0283aa206b6a215a5d93b43bb3b6508a1f7d65dcd70",
+              "rootAfterSha256": "92be12b33d157d1c4c4a0c366ce821aa5389f74f98bcd005f9e4f4e9321fa05c",
+              "sourceSha256": "7e4f57850dfb89db19e3392509a810eb5570a0c9d71eb11c0ec66897babb0f6e",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/content/testing-records/tools/README.md",
+              "authorAfterSha256": "be7f351c288ca40b4c1cab6309cf261c16d154488e6cd8f0ca7b193699b0add4",
+              "rootAfterSha256": "714cd44182f7e9229326d3672e50b278515ce1fee290f0893030f4221da9b1fc",
+              "sourceSha256": "83a979912143314473c8777f6a7cbf59322bafddc6a93c3b7105f29590848f96",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/README.md",
+              "authorAfterSha256": "c3c048bee84e62565ce61280cc8d0685e2932e42e25e86ccff3688769e45e3b6",
+              "rootAfterSha256": "9d5675f94294afcef32634ef849ad2d479920a1e31d1bc8ef62a3d1de8893667",
+              "sourceSha256": "fd6a01186c802b496f83932f10cfe7f70f3686ad16cea0525828b4e0ce3d08ec",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+              "authorAfterSha256": "772dae2ce56597070994044c08477ef21630f43db6600fc1388c72e3939ac744",
+              "rootAfterSha256": "dd4e573c6ea7d85f8e1a8d7b2f5d2c5127e8f9645a1cc8692d36ddc66c55166f",
+              "sourceSha256": "13b7ca2143946aafc6422f5bf30c589355a1bf5ad53381940f8d62f2265dfa8e",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/battle/tools/README.md",
+              "authorAfterSha256": "4f9ea2e860deb47565b4cdcc86de85f453e718626922bfcd12a6da1f3e84046c",
+              "rootAfterSha256": "77c9bea2640cd51b9258e74960b0e3c7bd273300f423722cda6548eaf9a68af9",
+              "sourceSha256": "badd460527756a2eeebdeca0e1342c95af3b8894d30d83323a7433dc8eaa43f2",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/commands/README.md",
+              "authorAfterSha256": "dfc61a2e29126f75588bf012b4ded76ddace5955d8249958c9cfde035f3fc663",
+              "rootAfterSha256": "367825041f192a044d01a4b2127e0a09d2bb473b5086e3b6482ead73542abe09",
+              "sourceSha256": "e0e1879bc30b459a4802d7d9208897f819400fb469bbbee6e18b938b19c2ba1a",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+              "authorAfterSha256": "a41f638d7262fbc5205ae57f411aa086373b0e537291a59dee53b88d044d0944",
+              "rootAfterSha256": "97a4b424e34ba9ac10b212764753d5fdc2a2a22818f0331bd0868fa36ecb1fbd",
+              "sourceSha256": "636aa9ad5109640e4faa17097f83ad1696222838a0384ac64bd9ab951df916bc",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+              "authorAfterSha256": "8f7497b27f2cc2686f799e9941bfca6501e9d4993f3556f89b3a429af946ea6e",
+              "rootAfterSha256": "bc5382967fc1a917ab80edd39e5da52ef3bfbd757f9a570bc72200570be32929",
+              "sourceSha256": "27ac5ac0011667573ec563bbe4f33af0345aba158bfe2cb37c551f6161956219",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+              "authorAfterSha256": "482dcd8d6c46ca99a5ccc6984225e650308143244db80e6e8ed80137cb8ea708",
+              "rootAfterSha256": "7ab7772edf3a7f15990a4340458322a2048eeb9056903020d8333edfe4fc9135",
+              "sourceSha256": "2d07191a888df665381a26311f44349ee59b0554f5466d276f28e27e47141d1b",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/map/README.md",
+              "authorAfterSha256": "33a03445e537a29d7f3274dd615763f542f0e9ecf5bb6930e332cdf492886227",
+              "rootAfterSha256": "69c091666c14e1bac7d663550f5396dbd495cbbb861783e7119a600cbb22719c",
+              "sourceSha256": "c217a1968758bd7308ce75af26727c68cd121a89ac8e6f2857a17f39fc3f65e4",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+              "authorAfterSha256": "6a0017a0c4cc35490cc402e90742efabaed3a5c49cdcbe10765785819036a50c",
+              "rootAfterSha256": "111884ff0f9904074e97572714525fb2f44eade56600a7d618d469a934d7f555",
+              "sourceSha256": "58588b30fd562de58af1a33285bda177a2598668fec78f93651f8cd3307909b1",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+              "authorAfterSha256": "15a28186c745b8d93a66e7a4b4e99d8deb759d0f68585a88ba6e718ab7783ccc",
+              "rootAfterSha256": "05e1f44a8e87e7c1356b6f680621c5e4c0c5b16f03066034927ca2d1ffcdab9e",
+              "sourceSha256": "5897c63b8e654af45bced867e3114b7850d303f015e1542a5e31f717f20323de",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+              "authorAfterSha256": "eead4eb429c579959842d990bf91936cad9ccacc1282b8022bf2187d5cf3fe50",
+              "rootAfterSha256": "e34262862029dd373832adcf98daf144954d597225c0932166c455c66631dad7",
+              "sourceSha256": "7a5060dd8d78e4578e5c54dcab5218b00389ee6f9cb4cb94a59de40df5f11812",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+              "authorAfterSha256": "ad44aa8cc4df6e1e845378ba3e0f080499216d44346837345faf3221abc50fe4",
+              "rootAfterSha256": "b9b1e84084858b14c9a4188d7b7338564695ee3e6ca7ac1e534f977d85100e8c",
+              "sourceSha256": "bc60ee069291a56e8a50eefe15efa32513c6f61219ce9bc40eea02b44e646933",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+              "authorAfterSha256": "3ba9b43bed4f35573406f832aa5a412e0ee5ba0b14cf3c8ddf0b88eae6477d3e",
+              "rootAfterSha256": "a12e4461ca44555d08b606aa2a2db32e1cbffcc51fbf4cf306a4d0476cebfc92",
+              "sourceSha256": "c1158593efd9b29e7e69328d299123ae1863af2180eeb54162106ba21d7d2f2e",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/ops/README.md",
+              "authorAfterSha256": "bb272c312ac8855a45f12555bf21e32fca0b0e7a8f9d5e9ca6cfed5db0f2a8f1",
+              "rootAfterSha256": "e80e9083c8cd4c6dacfe97491db469495b6f0f7fcee79d856191c977810003e4",
+              "sourceSha256": "b172d61a7b02a603656aca14dc48dce2889912003715c71b4f33e2e15a421f01",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/ops/testing-governance/README.md",
+              "authorAfterSha256": "298cc1a893efc16c99d5b4c91f605de0ebc62bc45fdf4ce323af56271a73f0ee",
+              "rootAfterSha256": "705acdbd667a4fd97952c48ad7561d87a5343e7669623635d1108d57a6d1d22c",
+              "sourceSha256": "c830dfd288a40d5c938d6de7dd15568a0cf9026e54aa3c872f6b168cddfa75ed",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+              "authorAfterSha256": "81f10daba6d8c72167a228f2dac7a038eaacff91b64bbc38d2f52cc918231f9b",
+              "rootAfterSha256": "40a57d9e28ee6fc6c4c500123944e536cc4d412d4064adf194f287fc4030b987",
+              "sourceSha256": "4de8afc84bfa1f42183b7ed618d2c8695124e8aca7f51c15c2bfa5785d9105f3",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+              "authorAfterSha256": "b01a31522250a8b1e26acf8aa9e485a84ad3cf792c58171519ff78fb98d5f7a7",
+              "rootAfterSha256": "2f4d8499acc3547d3ed122f3efd330e4f2de3786d61a06beaf12c50a4617e9ce",
+              "sourceSha256": "8890021d49004e415ec8fe0ffc795a48eedc4174ff99ef469c2b32e2865c40fd",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/phase1-runtime/README.md",
+              "authorAfterSha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d",
+              "rootAfterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+              "sourceSha256": "417feab18846d13a87e0aa8540d007717c5ac361f4b19818c94bf5cd807b983c",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+              "authorAfterSha256": "d542eb521a0e94c1deaf5fe4a876852ef446c781cc8d66b2117ec2326e8b67fb",
+              "rootAfterSha256": "05ffc390bc381ec461bec12cf30b94702603e521affcc1d278de3caa3ee201bb",
+              "sourceSha256": "4dea8de7520a817d812c6d82d16fedff395249c733a28d85758bc0f340e62e62",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+              "authorAfterSha256": "925c0b188c69dd0ee3a1546de459428cd9fa354cb84346244a1d8b03cfbe2c9b",
+              "rootAfterSha256": "d2595134c449d47fa189561d132f8bc4c85a1a7cf8c8a1ab8873351c11e06b06",
+              "sourceSha256": "5e9fcc490c35702a6eb4ffeb6bf41615b1599c83060df3627207292e113e1994",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+              "authorAfterSha256": "2e986f30e6e48a0c5c77ac52edd5441cc7eb9b1286f4d9ed6ec093437f8e2a80",
+              "rootAfterSha256": "a4ed4a8d93bb8897767b9a60e1a439166d1191fb75f8b0c82807e198e7d490cb",
+              "sourceSha256": "32e74834b6b35091c8caae96b956022e92b8cfcd1da380ccf5cc3824fd475ab0",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+              "authorAfterSha256": "ce58efc18c83407b516e22413362f3105e50ebdc0c1aa08cc696baa75c64abb0",
+              "rootAfterSha256": "badcf0b0ca22a6944b9adf8828315f233a74e7c822b8e4a4fa7a7e3a930c54f3",
+              "sourceSha256": "042c4dbe05dbd6d7e723b594a93ff722f4c3b30d5784ac4614ef2a3d0f853186",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+              "authorAfterSha256": "c27cc692ef5c0c215bc8518a7df48dfe5039aa032cbbbd752281f7bedbcf0417",
+              "rootAfterSha256": "0cbfd7de80027e10d27fdd299a05426c2d870081e89e4906c7c333e127132c05",
+              "sourceSha256": "35d60e2a7af9ad1b5b450e82e7d168dfb5ced91eac329c33916fe683dde7bbc5",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/README.md",
+              "authorAfterSha256": "599713faf2fa01e8d23734bd6d129b06f597b3d020d5354481e7052395c98312",
+              "rootAfterSha256": "58fd697092cf7f6a0f97641bb0bd3f899ac19a919ef106bb71f8b4b09d10fce3",
+              "sourceSha256": "572f011a519b7c7141d0191ce6141adf95afdd98aa53bec9fa91cc89bbd4d6db",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/README.md",
+              "authorAfterSha256": "3fb3e8db86f8219fff55a9798ed35748d92879244d3efa506b6503be0c4b993e",
+              "rootAfterSha256": "f941852eefcbef0d68b2eb29fd41fc186cda9bb14b64def0ee2ad29ac962a666",
+              "sourceSha256": "a31d69b26d4d64bc8efbd47cb90b8426bc1fa3a1d65e3914580f656caa221ee4",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+              "authorAfterSha256": "a945e7adcc9e35b10661941001c9e5c23af7a0073498646f7a1c50d8a5d08338",
+              "rootAfterSha256": "140cafb897b5cb0c47a6bab6a68cd18cdc99f8cca0306a3fb7338410845bb25a",
+              "sourceSha256": "f849813bfcf444d7a173f9a668b5e55863118bda3113c63c2ce4a94ed15653a3",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+              "authorAfterSha256": "b78e5ff62029c787b0ec8e5f4604137e507ff65a4670c5d77fe104035156169d",
+              "rootAfterSha256": "64b5738bf649cb93960478a4c9cbce2036fd1f9f39399526c6bb635c9cd23117",
+              "sourceSha256": "27ec8e0cd23198d250cb508bba2ed01aaea0d05a98b757ba95246eb5d5508de6",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+              "authorAfterSha256": "b458233315e0f58cc9638d2dbce1767e2bdd6f30233d7f6a6480f7914cbbaccc",
+              "rootAfterSha256": "5a66f10ee8d10f39f7ee7ee0f086069edf2b2fa7d773bff38dca175084c76b57",
+              "sourceSha256": "49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+              "authorAfterSha256": "6395b56976ecf1e2cee22a79ecf9ff46f2bf73e3b8f95a1e592d62e8fe04af34",
+              "rootAfterSha256": "71fc9383a92a8acac03f141e0a3097293c1520bb443fdbb61482daff7ac20821",
+              "sourceSha256": "880d98a26662f8aad0b0efcbc3f3199d223f3cd3a117253589b396e6f3f903ea",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/battle/tools/README.md",
+              "authorAfterSha256": "4e646d852b6bcc766dea218bf40ff49a30509ee517eb8bbcb987524232c17e5c",
+              "rootAfterSha256": "0d77b35fddf3dfa56d6d4b9ba4137a6ee416b8fa2aea8dbc9a8eaa06c561471b",
+              "sourceSha256": "d8f7437135805cb7d0ec5c634b957e88182c426174b8479b631b8e2207db609d",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+              "authorAfterSha256": "c9fe1f29ff442e33b96511e8e06022af56f6cb15e45626ae14e2ddd5ee91ba27",
+              "rootAfterSha256": "cd9dfab8f5a3eaf39e6cd5ce560218902667eafcbc3a1fd84663c5789b51a120",
+              "sourceSha256": "ae5e2344ff7a801aea6d69b2511ef87046645b7e87856a5a7570ff8fd4e2052c",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+              "authorAfterSha256": "902774e1def4170dc1d6e9a85f73b4631573c067cfbbc2b8ac993c9ab2aad8de",
+              "rootAfterSha256": "0efbe71dbe9eb2216de1e1598aebfc8eb0d435b1ed334b76c5b1c580717b5002",
+              "sourceSha256": "fe41e6d12bf20cfe3f6a2a8d6a0ab4b468bd64148e2ecd33544069fd471f394e",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/menu/README.md",
+              "authorAfterSha256": "d9f23aabd54f8fcfc35a92ff8e30bf72be69ef905aff3458be55677103305658",
+              "rootAfterSha256": "b6f308841f5bd03e10de831ed9bbeb180ef7061937f7cdbe4bf6dae4f92a422d",
+              "sourceSha256": "90c989fe01419afc072d3a5b75575291d533791cd9d6c08869893f54f847ad54",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+              "authorAfterSha256": "bc8a28515d47662ed491a131380257c34873fa488accb1bbcf79d3390346b388",
+              "rootAfterSha256": "d22984bc58ce234cf8148f621e8357bb4e5296cb0a7b12c33f3358406fa19403",
+              "sourceSha256": "71f873ae75ee2465bcaa86554e9afaec0477fc431744421fd9cae2de657c48cc",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+              "authorAfterSha256": "545b6ddbcaea151912a265d7f7b4b40bd6fcb27fc09e5be689e756211a5e2fd2",
+              "rootAfterSha256": "7c92505a0be297c30f9f05f386e4d77b14f72af1da625fa5776e66f9ecfae527",
+              "sourceSha256": "b5b5a118780b539cbf110c1f667f1be48a5e951232999577fc97e6a9f1bef4ec",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+              "authorAfterSha256": "aaaf365aaa917f05e0c9b441cd4c9763d318ab93c6a6f94cd08061bc8a6f9175",
+              "rootAfterSha256": "f81162062e45825b33bebc3389a92def7c9d2edb4808c422bfe88388bab46369",
+              "sourceSha256": "a750b5cdd84d710bc64ff8231b4444ca31f6e8534b158ca958164d6942928214",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/scene/README.md",
+              "authorAfterSha256": "26ddd1db372aa3da9895e34eef3f7be65fbce680c790344b048a8a23193234d3",
+              "rootAfterSha256": "94a9acfc538552db5d1b2cc310a2b54b7631233f15ee495b1b22f7218c29fe7e",
+              "sourceSha256": "7117a922a8d604dfe549da38f2125574d38724b8237815734e230b6f42de90f7",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+              "authorAfterSha256": "3e3ae972f895d6480f838a06a4c1680976444c835dec72ef3ed1778050ff37ae",
+              "rootAfterSha256": "ba01675e7be5e7b9ce99a5cb22097d83a4168e3cbb26acc714720bb5417acf6e",
+              "sourceSha256": "9bfaa9acd31bd10991d3466b5a742110eb304e61068cdd1e19fb7dc0bfe0706d",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+              "authorAfterSha256": "2894673e28a660116da399c8c4af0fb30b48aa1dbf7cc306c53ffcac1e1ed231",
+              "rootAfterSha256": "dce555bfb73f3f8ab0c94e7817e55366a0ce5dbf5f5f0a1c21b857c9472c4338",
+              "sourceSha256": "5022aaf8a1a71b759639ffdaa2c7f0bd9970c64066a6464152504d36bd73fdca",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/scene/tools/README.md",
+              "authorAfterSha256": "3829780916d5681cfd0d0489e2f84c8ca9efecc2278a5ca3363d21027c11302a",
+              "rootAfterSha256": "5d350ca878ac9b5b2df21d63902cc28795e62d718809c3c8f78cfb80147e7273",
+              "sourceSha256": "c08aabcf85b929e3d769d14fd85bf3599677d6c2d2352e871fd5e5456a8fccca",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+              "authorAfterSha256": "c32730a7b445c8b152421494552c32f83219a404374eb4a92ba2b0461a20feb7",
+              "rootAfterSha256": "ea4861870dae7c7d56ec8f756d51f43b49bee883d721e32a03dfbbedb1dcec6c",
+              "sourceSha256": "c1ddf33c5bf98a75bc9730d9c0dd59176c10e2595fb6bb788ae2a703297efddc",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/world/README.md",
+              "authorAfterSha256": "ec2a6f70f113253e9ab1f0eaac6a14d199414a965099305745ca0b4098323d08",
+              "rootAfterSha256": "4bbaa3dbfffde142b6198d4fdea521dc1157d319a5198a8c318ee4fc76695918",
+              "sourceSha256": "e535ba2eabe34ebd2ea3b034bae5260387cd449a4664116e4e64a84a0204e6f6",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+              "authorAfterSha256": "eda4560dbff57c3148b469aab5d2fe57dabd36fae2c0f3787ca25992c968cef2",
+              "rootAfterSha256": "821245c0037f9dced6050b3dacf4ebe68934a6eace4dc9424c3ddf761af1d737",
+              "sourceSha256": "303b9837ff1b5f309ebf4788bfe91ffc50d9c2e8d24407c5e60393bd234a99b0",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            },
+            {
+              "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+              "authorAfterSha256": "ed2690e9d167e7def2d54afe15ccd47cdbbe3058c87f178643f048da5b8f26e5",
+              "rootAfterSha256": "c23887a79849bec51c6b512c3ed28134896b0fac5476b99d768066c8a87a730b",
+              "sourceSha256": "709f67787c24720de609e5976e0b150b908706f684625398af4a185d7770e006",
+              "sourceInverseExact": true,
+              "rootMetadataOnly": true
+            }
+          ],
+          "sourceQuotesUnchanged": true,
+          "rootCurrentConsumer": {
+            "modelContracts": 202,
+            "modelIssues": 0,
+            "strictRecords": 711,
+            "strictIssues": 0,
+            "per49ModelIssues": 0,
+            "gfmSummary": {
+              "documents": 49,
+              "historyOverlays": 36,
+              "allModelIssues": 0,
+              "sourceLinks": 208,
+              "currentLinks": 414,
+              "totalLinks": 622,
+              "reachable": 49
+            },
+            "independentRootIntake": "pending"
+          }
+        },
+        "independentRootIntegration": "pending receipt_review current49/admin/central/matrix review"
+      }
+    }
+  ],
+  "centralIntegrationHistory": [
+    {
+      "statusAtEvent": "Full root integration candidate before actual peer decision was recorded",
+      "sourceGitRevision": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
+      "record": {
+        "status": "root K49 current administrative/central-route/matrix candidate; independent integration and fullgates pending",
+        "owner": "root Codex",
+        "base": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
+        "newBaselineMigrations": 49,
+        "currentBodyContractsExpected": 202,
+        "centralRecordsExpected": 711,
+        "previous662RegistryAnd153RoutesUnchanged": true,
+        "matrix": {
+          "previousRelations": 38,
+          "newRelations": 39,
+          "old38ObjectsUnchanged": true,
+          "actualGFM": {
+            "machineRows": 39,
+            "gfmTables": 1,
+            "gfmRows": 39,
+            "old38ObjectsUnchanged": true,
+            "jsonSha256": "9196d2c5bc2b4ebbc29b0f206779f08003cb638638b1e92c051b0ed3121c0603",
+            "markdownSha256": "ac62535436f8268d1cd6640e70bd10b939c9548b8de0e2f73b5a706c5a23b154"
+          }
+        },
+        "notRun": [
+          "112 historicaltools/product/oldtests/runtime/E2E/visual/coverage/browser/rawcontents",
+          "mainmerge/push"
+        ],
+        "nextStep": "Actual202model/711strict/progress/GFM39/fullgates and non-author root current metadata integration review; do not claim whole goal complete.",
+        "recordStorage": "49 complete records in3 explicit unique shards; root control has no duplicate entries; three new JSON artifacts add to actual incremental candidate denominator.",
+        "actualConsumerObservations": {
+          "bodyContracts": 202,
+          "strictReviewRecords": 711,
+          "issues": 0,
+          "baselineMigrated": 198,
+          "incrementalMigrated": 4,
+          "currentCandidates": 1967,
+          "currentPending": 1765,
+          "progressProof": "/tmp/type-pal-k49-root-candidate-progress-20261016.json",
+          "scope": "Observed after3 new JSON shards; content integration independently pending, not whole-goal acceptance"
+        }
+      }
+    }
+  ],
+  "rootSignoff": {
+    "date": "2026-10-16",
+    "owner": "Codex",
+    "action": "Record actual non-author acceptance after preserving its exact candidate in Git",
+    "preservedCandidate": "f85e282b936df9c2fb939bc3497ce9a5629f5c04",
+    "fullPriorRecords": 49,
+    "proofSha256": "924fc1f5ccb6862f44fc91c72effc357d1189dba9e016f0d6bf83c79f683e436",
+    "candidateGates": {
+      "docsLog": "/tmp/type-pal-k49-k1-corrected-docs-20261016.log",
+      "lintLog": "/tmp/type-pal-k49-k1-corrected-lint-20261016.log",
+      "docsTools": 76,
+      "modelBodies": 202,
+      "strictReviews": 711,
+      "lintFiles": 4099,
+      "diagnostics": 0
+    },
+    "laterBytePolicy": "All later signoff metadata has distinct Git identity; rerun actual required gates before final signoff commit. This field does not pre-certify future executions.",
+    "notDone": "Whole docs goal, downstream tool/business/runtime/E2E/visual/coverage and main integration remain outside K49 scope."
+  }
 }
