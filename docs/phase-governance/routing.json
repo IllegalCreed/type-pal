@@ -994,6 +994,21 @@
       "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
       "templateId": "governance-index-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

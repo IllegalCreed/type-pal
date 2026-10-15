@@ -776,3 +776,18 @@ Branch: codex/docs-full-template-proposal
 - 根唯一Owner实际读源134与新三具体层，当前draft/非作者whole3及完整record/实际consumer/全门待验，global仍198/1838+4、L仍0/10。作者L隔离13文件不触J/中央；本包无产品、旧测试、coverage、旧工具、raw或浏览器执行，goalactive/main未改。
 
 - J-MD实际canonical consumer：三篇122/100/132行共354，新结构逐篇model0、原134行严格inverse、13原标题live入口/13原出链保留，全部41当前links/新增中文fragment由真实MarkedGFM核目标零问题；wholefile/精确原新L18证wave2旧href时序。首owned proof collector误把context hunk起点当18（实际15、变化行18）导致1假阴性，原script/完整firstproof保留，现改用父/后整文件SHA+唯一第18行和精确两href更严格核，未改任何正文/既有门/原账；corrected proof SHA`78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8`，仍非独立语义或中央信用。完整三preconsumer draft保历史，当前非作者whole3+完整record与全门待。
+
+- J三MD及完整3候选记录已获tail逐篇accept，源134/current354全文+完整3record+completion原48直接读，proof SHA`7665e61e8fe44c0a6a5523fe800764d7d9f3870245e7b93ad868521519db3b32`；固定5受审字节精确存`79dce0162b7febf84c10c1619471ec529df8ff17`。其真实结构模型对三种故意计数混写仍绿，实际候选靠primary直接证伪匹配接收，不将模型绿冒语义。根76工具/所有门/lint4099零另有真实日志，未授本轮原产品运行。
+- 根现只改三段外层行政句/篇（原quote/标题/links/日期/版本不变），三个新current完整record+3registry/route接入候选；历史mdPilotCandidates及最初3draft原样留存并明确时点，每条完整prior可经79Git/blob/SHA/唯一selector回读。原三JSONbody/47native/current3record/J0合同不变；矩阵39保持，只扩既有J一条至native3+MD3、其它38对象不变。实际model205/strict714/GFM39/fullgates和非作者根delta尚待，201/1838+4/1763pending只是预期不作验收宣布；goalactive/main未改。
+
+- J-MD根接入首script在第一篇已知3行政替换后断言失败：旧sourcequote字符offset被错误用于变长后的pre，非quote被改。根实核dirty仅自己第一篇、完整partial恰等79+3授权替换、quote字节完全同源，保fullpartial/proof SHA`a496d1513d6451ab17a5cc29994f05ed1ddd9ac5233f203dddf90c4bc9f3a856`后精确回读恢复自己受审79（无reset/stash/用户覆盖），改为newpre长度且先断言后写，随后完整接入候选实际成功。失败不算门通过；其它文件此前未写，现model/GFM/零全门及非作者待验。
+
+- J-MD根接入当前真实model205/strict714均0；progress实际201/1838+4、current1968/pending1763，仅根候选投影，不先宣布独立接入完成。三current admin后body每篇model0、134sourceinverse/13原liveheadings/41GFMlinks全部保留，proof SHA`a983dee086c588480de4379c568bb9ee37cf40e1dcd1666a36ef553719905f1b`；矩阵实际Marked一表39行，仅existingJupdated、其它38JSON对象相同，proof SHA`a550117ec7ace18591fd0b6c4d1129257724b4947824e49d96f3e0ba65a4966e`。当前完整全门与独立规范化/中央/路由/行政/矩阵delta仍待。
+
+- J-MD根接入候选校准状态按实际观察同步：已核model205/strict714、134行原文逆还原、13原live标题/41链接及39行GFM；旧builder阶段pending描述完整保留为draft历史。此处仅纠正当前时间范围，根delta非作者验收及同字节全门仍待，不追授先前候选签字。
+
+- JMD-C1非作者发现两模板入口仍说三配对MD待治理，和79逐篇内容accept矛盾。原10文件完整docs门实跑76/0fail/0skip、model205/strict714为修正前历史，不能续授新字节。两入口各仅一段同步固定79内容接收/根中央接入另核，旧current全字段存prior、当前完整结论/oracle/source/after/适用范围同步；扩为14文件，0新入口迁移、不改机器1.5/native3。修正后完整门和非作者closure待实跑。
+
+- JMD-C2非作者发现根三current共用phase1一句将continuation的D2/Game来源镜像给Cursor24/wave2。根重读固定33cc两源完整28/56行：Cursor24无D2/Game/phase1，wave2仅49行列D2为其它仍待队列；据此只收窄两个current.phaseAnchors.phase1，正文/after/native3不动，完整错误current存prior并记录修正，非作者closure仍待。C1后14快照零门保历史，新两记录字节不冒旧门。
+
+- JMD-C2伴随范围复核：两Cursor卡的phase2也按实际editor职责收窄，Cursor24为声明/控件与其原共享门，wave2为九组命令与其原集成门；全仓共享门不授reforge/content正文阅读或实现信用。两完整前current存prior，continuation八队列范围保留。此前C2-phase1快照docs0为历史，最终14快照另核全门/非作者。

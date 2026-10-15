@@ -336,9 +336,9 @@
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current index reread; actual three fixed-source/native/envelope canonical pilot acceptances and exact body snapshots directly received; original underlying scopes retained, no generic JSON or new runtime audit.",
+      "readMethod": "Root full current 49-line index read; exact single paragraph correction from fixed79 source and received tail full134-source/354-candidate Markdown plus complete records acceptance7665. Existing J3 machine/canonical source scopes reused unchanged, not freshly recertified. Root expanded intake delta remains non-author pending.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "17类型和既有入口不变；machine1.5三种固定历史集成native15/10/22键各已获完整来源/真实consumer/非作者canonical pilot接收。J0旧15仅声明对齐0新增迁移；三配对MD/其它JSON/全docs仍待逐篇，不授运行信用。",
+      "coreConclusion": "17类型与机器1.5/native15/10/22合同及既有入口保持；固定79三配对MD内容已获非作者逐篇接收，根中央/route/matrix接入以单独受审快照核验。其它未读JSON/全docs不继承接收或运行信用。",
       "truthAnchors": [
         "docs/phase-governance/templates/registry.json:1",
         "docs/phase-governance/templates/registry-proposal-20261011.md:1",
@@ -356,20 +356,20 @@
         "docs/testing/catalog.json",
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
-      "applicability": "Current17-type navigation; machine1.5 exact three historical integration pilots accepted individually, oldcontracts/pilots retained; remainingpairedMD/otherobjects do not inherit acceptance.",
+      "applicability": "Current17-type template navigation; fixed J3 native formats accepted and pairedMD3 source-scoped content accepted at79. Expanded root intake is separately reviewed; no unread object inherits approval.",
       "publicEntry": "docs/testing/_templates/README.md",
       "counterReworkBlocked": {
-        "migration": "Three canonical native pilots and current central/navigation intake independently accepted; no current migration counter.",
+        "migration": "JMD-C1 stale pairedMD pending wording corrected in candidate; non-author expanded root delta review still required. Previous source-scoped JSON/MD acceptances unchanged.",
         "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
         "deferred": [
           "全testing逐篇迁移、artifact归属和旧模板示例补齐尚未完成，本入口不授予完成状态。"
         ]
       },
       "unresolved": [
-        "J three paired historical MD and other current candidates/artifact ownership remain pending; three fixed-source JSON canonical pilots accepted only.",
+        "Other current candidates/artifact ownership and whole-doc consistency remain pending. J3 native pilots and fixed79 pairedMD content have source-scoped acceptances; expanded root intake requires separate non-author review.",
         "Explicit36historical references observed absent by non-author exists-only scope; no rawcontents/oldrunners reverified, otheravailability unknown."
       ],
-      "nextStep": "继续三配对历史MD、已独立候选K49及全量逐篇治理/真实跨域关系核对；原动态/诊断/raw边界不以本次接收关闭。",
+      "nextStep": "独立核扩大后的J根接入与本两入口同步delta并跑同字节零全门；继续L十索引/M阶段及全量候选，不重计既有入口或原机器/运行信用。",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -419,13 +419,17 @@
           "result": "J3 root central/navigation/matrix intake accept",
           "snapshotSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
           "scope": "Exact prior14file snapshot verified; this root metadata signoff is later bytes, body unchanged."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Root full current index read and JMD-C1 one-paragraph synchronization; independent expanded root intake pending, prior acceptance retained as history."
         }
       ],
       "sourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
-      "reviewedSourceSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+      "reviewedSourceSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "200a235627d59db7cd0d5a917fd59085db614772",
-      "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+      "afterSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -442,7 +446,7 @@
         "assertions": [
           "17types/oldlinks/default/threeoldvariants unchanged; three newvariants do not add types.",
           "Exact approved33cc native15/10/22-key objects and distinct historical governance passed real source/consumer and non-author canonical pilots; no invented schema/status/owner or olddiagnostic cleanup.",
-          "Old15declaration roll0newmigration, three pairedMD stillpending; othermachine shapes/controlJSON require actual design/read/review.",
+          "Old15declaration roll0newmigration; fixed79 pairedMD3 have actual source-scoped non-author content acceptance; root intake separate. Othermachine shapes/controlJSON require actual design/read/review.",
           "No template or pilot acceptance certifies runtime/E2E/visual/coverage or whole docs completion."
         ]
       },
@@ -458,7 +462,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+        "implementationSha": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -475,15 +479,33 @@
             "sourceSha256": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
             "afterSha256": "86526058a9e3d1c4ae738390b006084def1f655ed1d9f2d2efa756dae0b2a8eb",
             "newMigrationCredit": 0
+          },
+          {
+            "date": "2026-10-16",
+            "action": "JMD-C1 synchronize paired historical Markdown content acceptance; root intake separate",
+            "sourceGitRevision": "79dce0162b7febf84c10c1619471ec529df8ff17",
+            "sourceGitObject": "9206d59794dee23a563e97134f9a7ab4770a0abc",
+            "sourceSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+            "afterSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
+            "newMigrationCredit": 0,
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
         "kind": "static-catalog-consumer-and-semantic-reading",
         "path": "docs/phase-governance/templates/registry.json",
-        "sourceSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
-        "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
-        "lineCount": 49
+        "sourceSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+        "afterSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
+        "lineCount": 49,
+        "rootSynchronization": {
+          "counter": "JMD-C1",
+          "result": "candidate correction; independent expanded root intake pending",
+          "reviewedCandidate": "79dce0162b7febf84c10c1619471ec529df8ff17",
+          "contentAcceptanceSha256": "7665e61e8fe44c0a6a5523fe800764d7d9f3870245e7b93ad868521519db3b32",
+          "newMigrationCredit": 0,
+          "runtimeExecutionPerformed": false
+        }
       },
       "history": [
         {
@@ -549,16 +571,26 @@
           "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "JMD-C1 synchronize paired historical Markdown content acceptance; root intake separate",
+          "sourceGitRevision": "79dce0162b7febf84c10c1619471ec529df8ff17",
+          "sourceGitObject": "9206d59794dee23a563e97134f9a7ab4770a0abc",
+          "sourceSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+          "afterSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
+          "newMigrationCredit": 0,
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
       "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
-      "userVisibleBeforeAfter": "Same current17-type navigation now names the actual three individually accepted historical-native pilots; pairedMD/otherformats and all-docs remain pending.",
+      "userVisibleBeforeAfter": "两入口保留全部17type/机器合同与旧link，只将J三配对MD从旧待治理改为固定79内容已接收/根接入另核；0新迁移。",
       "reviewedLines": "1-49",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.0.0",
-        "method": "Same concrete governance-index body; three fixed-source canonical pilots/current navigation/root integration independently accepted, no generic JSON or runtime acceptance."
+        "method": "Same complete governance-index contract; exact one-paragraph JMD-C1 current-status synchronization preserves all old headings/links. Root expanded delta non-author acceptance separate."
       },
       "priorReadings": [
         {
@@ -1840,9 +1872,244 @@
             "method": "Concrete governance-index body with current three source-bound canonical pilot acceptance; real body consumer and root intake independent review separate, no generic format/runtime acceptance."
           },
           "reviewedSourceGitRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3"
+        },
+        {
+          "path": "docs/testing/_templates/README.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "governance-index",
+          "templateId": "governance-index-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/governance-index.md",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full current index reread; actual three fixed-source/native/envelope canonical pilot acceptances and exact body snapshots directly received; original underlying scopes retained, no generic JSON or new runtime audit.",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "17类型和既有入口不变；machine1.5三种固定历史集成native15/10/22键各已获完整来源/真实consumer/非作者canonical pilot接收。J0旧15仅声明对齐0新增迁移；三配对MD/其它JSON/全docs仍待逐篇，不授运行信用。",
+          "truthAnchors": [
+            "docs/phase-governance/templates/registry.json:1",
+            "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+            "docs/phase-governance/reviews/20261016-architecture-integration-history.json:1"
+          ],
+          "primarySource": [
+            "docs/phase-governance/templates/registry.json:1",
+            "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+            "docs/phase-governance/reviews/20261016-architecture-integration-history.json:1"
+          ],
+          "documentStatus": "current-publication-or-navigation; no execution acceptance",
+          "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
+          "dependencies": [
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/catalog.json",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": "Current17-type navigation; machine1.5 exact three historical integration pilots accepted individually, oldcontracts/pilots retained; remainingpairedMD/otherobjects do not inherit acceptance.",
+          "publicEntry": "docs/testing/_templates/README.md",
+          "counterReworkBlocked": {
+            "migration": "Three canonical native pilots and current central/navigation intake independently accepted; no current migration counter.",
+            "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
+            "deferred": [
+              "全testing逐篇迁移、artifact归属和旧模板示例补齐尚未完成，本入口不授予完成状态。"
+            ]
+          },
+          "unresolved": [
+            "J three paired historical MD and other current candidates/artifact ownership remain pending; three fixed-source JSON canonical pilots accepted only.",
+            "Explicit36historical references observed absent by non-author exists-only scope; no rawcontents/oldrunners reverified, otheravailability unknown."
+          ],
+          "nextStep": "继续三配对历史MD、已独立候选K49及全量逐篇治理/真实跨域关系核对；原动态/诊断/raw边界不以本次接收关闭。",
+          "phase": "testing",
+          "module": "catalog-and-template-navigation",
+          "owner": "Codex",
+          "provenance": [
+            "full original document read",
+            "frozen 1.1.0 design",
+            "manual JSON/Markdown semantic migration",
+            "real publication consumers",
+            {
+              "date": "2026-10-16",
+              "scope": "Full current template-index reread plus I1.4 navigation/source/acceptance boundary; original lower-level documents not fully re-audited."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "receipt_review I0implementation accept/I1closed; metadata-only next-step signoff leaves actual template-index body/afterSHA unchanged."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "I r10 native canonical pilot independently accepted; this index updates one current pilot sentence; root central delta review separate."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "I4 all current non-history fields reread, stale pending/over-narrow schema2 input corrected; exact prior wrong current retained."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "receipt_review independent I14 central/matrix37/index current-scope accept; I2/I3/I4 closed. Later root-only signoff does not change accepted body/afterSHA."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "J1.5 exact contract/old15 declaration-only navigation; full current index read; canonical Jpilots pending, not oldr10 pilot reopened."
+            },
+            {
+              "date": "2026-10-16",
+              "reviewer": "receipt_review",
+              "result": "J0 implementation/navigation accept",
+              "snapshotSha256": "ab96580d5aa846bf528e17470bbd8625d77aa0b6a8de0ac31835c4300f351516",
+              "scope": "Root metadata-only acceptance writeback; body SHA unchanged; not a new canonical Jpilot."
+            },
+            {
+              "reviewer": "receipt_review",
+              "scope": "Three exactnative canonical pilot acceptance received; currentindex root update is later intake metadata/body bytes",
+              "snapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346"
+            },
+            {
+              "reviewer": "receipt_review",
+              "result": "J3 root central/navigation/matrix intake accept",
+              "snapshotSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+              "scope": "Exact prior14file snapshot verified; this root metadata signoff is later bytes, body unchanged."
+            }
+          ],
+          "sourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
+          "reviewedSourceSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+          "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+          "sourceGitObject": "200a235627d59db7cd0d5a917fd59085db614772",
+          "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+          "publicCallers": [
+            "node scripts/docs/check-document-model.mjs",
+            "node scripts/docs/check-testing.mjs",
+            "node scripts/docs/generate-testing-index.mjs"
+          ],
+          "legalInputs": [
+            "Existing schemaVersion2 catalog-publication/default execution and labelled examples retain exact own contracts.",
+            "Nine-key r10 original native contract introduced1.4 remains accepted under parent1.5; no fabricated schema/id/status.",
+            "J three approved fixed33cc native integration payloads15/10/22 keys plus historical governance are individually accepted fixed-source pilots only, not arbitrary same-shaped producers.",
+            "Real stable paths and dated source/version axes; no invented execution input or blanket JSON acceptance."
+          ],
+          "businessOracle": {
+            "type": "template-navigation-fixed-native-contract-and-pilot-scope",
+            "assertions": [
+              "17types/oldlinks/default/threeoldvariants unchanged; three newvariants do not add types.",
+              "Exact approved33cc native15/10/22-key objects and distinct historical governance passed real source/consumer and non-author canonical pilots; no invented schema/status/owner or olddiagnostic cleanup.",
+              "Old15declaration roll0newmigration, three pairedMD stillpending; othermachine shapes/controlJSON require actual design/read/review.",
+              "No template or pilot acceptance certifies runtime/E2E/visual/coverage or whole docs completion."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/testing/catalog.json",
+              "docs/testing/indexes",
+              "docs/phase-governance/templates/registry.json",
+              "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json"
+            ],
+            "notes": "Unique registry and catalog responsibilities retained; J three fixed native formats/old r10 introduced1.4/default/publication are distinct contracts, no duplicated runtime/test credit."
+          },
+          "revision": {
+            "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+            "implementationSha": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+            "contentVersion": "N/A-doc-publication; original candidate versions retained",
+            "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual catalog pilot or navigation alignment",
+                "sourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
+                "afterSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "native-r10-pilot-acceptance-navigation-only",
+                "sourceSha256": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
+                "afterSha256": "86526058a9e3d1c4ae738390b006084def1f655ed1d9f2d2efa756dae0b2a8eb",
+                "newMigrationCredit": 0
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "static-catalog-consumer-and-semantic-reading",
+            "path": "docs/phase-governance/templates/registry.json",
+            "sourceSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+            "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+            "lineCount": 49
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "beforeAfter": "三starter与统一类型平铺 → 五节模板路由与责任，旧样例入口保留而不重复计数。",
+              "sourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
+              "afterSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
+              "previousAfterSha256": null
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-route-readers-to-separate-publication-and-execution-contracts",
+              "sourceSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
+              "afterSha256": "4ab1fbb1d0a843f7c83879e77f6e39bc76f49c754109a086532288a398988c54",
+              "beforeAfter": "Add status-axis navigation to frozen registry and C1 design; no parallel vocabulary, no publication/execution status changes."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "I1.4 native machine variant navigation and explicit pilot boundary",
+              "sourceSha256": "4ab1fbb1d0a843f7c83879e77f6e39bc76f49c754109a086532288a398988c54",
+              "afterSha256": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            },
+            {
+              "date": "2026-10-16",
+              "action": "I0independent-implementation-accept",
+              "scope": "Two index metadata next steps now reflect accepted I0; canonical native pilot pending;0new migration/execution."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "native-r10-pilot-acceptance-navigation-only",
+              "sourceSha256": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
+              "afterSha256": "86526058a9e3d1c4ae738390b006084def1f655ed1d9f2d2efa756dae0b2a8eb",
+              "newMigrationCredit": 0
+            },
+            {
+              "date": "2026-10-16",
+              "action": "I4 current native-pilot remaining-scope and legal-input correction",
+              "finding": "Current unresolved still claimed pending r10 pilot and legalInputs excluded non-schema2 native payload, contrary to updated core/body/oracle.",
+              "resolution": "Current unresolved/legalInputs/applicability/oracle type/dedupe cover accepted fixed-source nine-key native and distinct publication/default/template axes; raw/full-docs/other-shape limits retained.",
+              "bodyChanged": false
+            },
+            {
+              "date": "2026-10-16",
+              "action": "J1.5 fixed-native-three-shape navigation, independent implementation review pending",
+              "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+              "sourceSha256": "86526058a9e3d1c4ae738390b006084def1f655ed1d9f2d2efa756dae0b2a8eb",
+              "afterSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            },
+            {
+              "date": "2026-10-16",
+              "action": "J0 independent implementation accepted; root metadata next-step writeback",
+              "bodyChanged": false,
+              "newMigrationCredit": 0
+            },
+            {
+              "date": "2026-10-16",
+              "action": "J three canonical machine pilots acceptance navigation",
+              "sourceSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+              "afterSha256": "71e2940409b4c095378f8b939a1e2103b798a2e4440b1dea9aa1a277ca82cb63",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
+          "userVisibleBeforeAfter": "Same current17-type navigation now names the actual three individually accepted historical-native pilots; pairedMD/otherformats and all-docs remain pending.",
+          "reviewedLines": "1-49",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.0.0",
+            "method": "Same concrete governance-index body; three fixed-source canonical pilots/current navigation/root integration independently accepted, no generic JSON or runtime acceptance."
+          },
+          "reviewedSourceGitRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3"
         }
       ],
-      "reviewedSourceGitRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3"
+      "reviewedSourceGitRevision": "79dce0162b7febf84c10c1619471ec529df8ff17",
+      "reviewedSourceGitObject": "9206d59794dee23a563e97134f9a7ab4770a0abc"
     },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/report.md",

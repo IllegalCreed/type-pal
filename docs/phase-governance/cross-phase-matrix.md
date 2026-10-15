@@ -58,7 +58,7 @@ Template: governance-index-v1 / 1.0.0
 | 架构准备包 ↔ 正式接入信用 | 42候选/41正式/75账/109针与拆分组数各自排重 | guarded | 材料accept不授产品build，未证视觉与非零诊断保留 |
 | Lab逐轮counter ↔ 后继接收 | r9窄候选、r10整批counter、completion正式41分时点 | guarded | 不倒写反证，不把42/41/75或共享门重复计本包 |
 | 历史原生复核 ↔ 本轮文档审计 | 原九字段不变，固定来源与currentAudit=false | guarded | 不补造出版schema/status，不以exit0或模板通过授运行信用 |
-| 历史集成口径 ↔ 当前原生治理 | 9573/9081、共享8707/8215与wave2另时点；三fixed-source native pilot各接收 | guarded | 109未重跑、原诊断/raw/视觉/CI边界保留，不把coverage总量或路径fingerprint当测试/rawhash |
+| 历史集成口径 ↔ 当前文档治理 | 三原生JSON与三配对历史MD分格式接收；9573/9081、共享8707/8215与wave2各守时点 | guarded | 109未重跑、原诊断/raw/视觉/CI边界保留，不把coverage总量或路径fingerprint当测试/rawhash |
 | 域导航 ↔ 出版与历史工具 | 49页可达、36历史层；22/11出版与源12分轴，112工具只归属旧账 | guarded | 不倒填原Owner、不续期、不把路径/SHA或regex caller当工具/运行验收 |
 
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。

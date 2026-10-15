@@ -856,14 +856,17 @@
       "from": [
         "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
         "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json"
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+        "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md"
       ],
       "to": [
         "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
         "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
         "docs/testing/governance.md"
       ],
-      "relationship": "原八项9573/957与9081/728分母分开，109分项针未重跑；Cursor24/GLM41正式共享8707/8215/686且29=25+4不重复归因，wave2的8740/8248/701与15judge+5针另时点。三原生格式的本轮currentAudit=false/来源保真接收不更新历史status/owner/警告或关闭配对MD/其它任务。",
+      "relationship": "原八项9573/957与9081/728分母分开，109分项针未重跑；Cursor24/GLM41正式共享8707/8215/686且29=25+4不重复归因，wave2的8740/8248/701与15judge+5针另时点。三JSON currentAudit=false与三配对MD历史层各自已接收文档来源/模板范围，不刷新原status/owner/诊断或关闭其它任务；machine1.5与evidence-receipt/archive1.0各守格式。",
       "status": "guarded",
       "evidence": [
         "docs/phase-governance/reviews/20261016-architecture-integration-history.json:1",

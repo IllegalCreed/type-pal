@@ -1,7 +1,7 @@
 # Cursor 九组编辑命令拆分 · 最终接收
 
 Status: historical
-Governance Owner: Codex（本轮历史文档候选；尚待非作者接收）
+Governance Owner: Codex（历史文档治理；作者正文及完整候选记录已获非作者验收）
 Last reviewed: 2026-10-16
 Template: evidence-receipt-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -52,7 +52,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 历史范围
 
-以上原日期、候选、版本与未证轴属于原集成时点。归档层用于保存旧结论和责任，不把原done、免手动验证、push/清理许可变成今天授权；本轮候选不自签received/completed。
+以上原日期、候选、版本与未证轴属于原集成时点。归档层用于保存旧结论和责任，不把原done、免手动验证、push/清理许可变成今天授权；本轮作者候选已由非作者独立接收，仅限文档内容；原执行授权不恢复。
 
 ## 原始结论
 
@@ -125,7 +125,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。本文当前候选仅保留并解释原历史接收，尚待非作者逐篇语义及完整review record验收；未发生新产品build、执行、视觉或coverage验证。治理current记录与原status/owner/provenance分层，任何模板或结构绿门均不能授全docs完成信用。
+historical。本文历史正文与完整候选记录已获非作者history_cards_c_tail语义验收；根同步文档治理记录，不授原运行、产品、视觉或coverage新信用。治理current记录与原status/owner/provenance分层，任何模板或结构绿门均不能授全docs完成信用。
 
 ## 继任文档
 

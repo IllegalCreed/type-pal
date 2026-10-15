@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 711,
+    "total": 714,
     "byPhase": {
       "ops": 417,
       "lore": 14,
@@ -14,13 +14,13 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 103
+      "testing": 106
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 17,
       "audit-report": 66,
-      "evidence-receipt": 46,
+      "evidence-receipt": 49,
       "design-spec": 43,
       "governance-index": 76,
       "task-card": 333,
@@ -36,10 +36,10 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 711
+      "content-reviewed": 714
     },
     "templateCompliance": {
-      "template-compliant": 202,
+      "template-compliant": 205,
       "governed-legacy": 509
     }
   },
@@ -8242,6 +8242,45 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-domain-navigation-records-2.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
