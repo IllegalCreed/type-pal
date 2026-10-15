@@ -762,6 +762,238 @@
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-command-integration-v1"
+    },
+    {
+      "path": "docs/testing/domains/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/content/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/battle/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/map/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/ops/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

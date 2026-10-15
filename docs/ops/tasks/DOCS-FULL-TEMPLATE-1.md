@@ -744,3 +744,15 @@ Branch: codex/docs-full-template-proposal
 - J3中央首次真实全门未过：76工具/model153/progress149+4均绿，但strict662三条evidence incomplete，因新current.evidence漏kind；原失败log/完整错误三record已封存，不能用前面绿项宣布通过。根只补真实独立fixed-source canonical-pilot evidence.kind，不改body/规则/计数。非作者另counter继承preaudit.pending无历史标签，当前改成 dated preaudit/acceptanceAtPreaudit，旧draft/完整prior原句保留；matrix读域37明确baseline。两中央counter待独立闭合，修后重跑全部门。
 
 - J3中央接入非作者receipt_review accept，两中央counter（evidence.kind缺失、preaudit/current时态）依真实strict/current元数据闭合，精确14文件快照SHA`6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca`。根corrected全门76工具0fail/skip、1223MD/7440links/361tasks、model153/7routes/strict662/testing0/phase184、lint4095零error/warning/info/diff0；首轮失败log/旧错误current完整留存。实际149/1838+4、1963current/1810pending，仍非全量完成。根本次签收/日志为后续元数据，三body/2indexbody/matrixbody不再改，提交前最后全门按最终字节跑；main未动/goalactive。K49已获tail49/49内容accept、稳定af42候选与e7eff回执保留，根后续另接；三J配对MD仍原文待治理。
+
+#### K49根当前行政/中央接入候选
+
+- 根稳定J3`1589b0378372822b4a8a79af2f4ef3e093aacb5c`后，精确导入作者af42的49README+immutable回执50文件为`7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c`；49body/回执e7eff全字节相同。postimport真实76工具/model153/strict662/7854links、lint4096零诊断/diff0；彼时49尚无中央信用。
+- 作者49/49已获非作者history_cards_c_tail内容accept，完整proof SHA`463526de639fb28fc015663bc9ae941992691fb8738f8602437f52b980ea53c2`；原400行此前全文读、此次同blob/严格inverse。根实际读全部453新literal定义及49顺序map，重复字面按相等复用，不冒3175行逐行重印或root全文13080回执；读域proof SHA`cc53a43479cb569f728042edb542f3cb8647115c74e5692f7927b0f28ffab142`。
+- 根唯一Owner本次只同步49外层GovOwner/作者候选已accept行政措辞，不改原quote/links/原标题/版本/日期/保留期；每篇新current完整review与原43/46键作者snapshot分时态，evidence.kind/历史array/真实source-after/owner/合法输入/oracle/排重/停止线齐备。中央49/route49接入候选，矩阵38→39只添一guarded（旧38对象不变）；K0整对象/冻结设计未变。实际202body/711中央/GFM39/完整全门及非作者receipt根delta仍待，不宣称全量或112工具/运行验收。原作者回执与tail49原after快照均不倒写；三J配对MD仍待、L仅只读设计、goalactive/main未改。
+
+- K49真实格式门counter：首个2.0MiB完整中央候选超过既有1MiB门，未通过。保留原候选/tmp与真实失败日志，不改Biome规则或删审查字段；改为3个<850000bytes独立同schema记录分片，唯一49路径/registry引用明确，原K0/冻结设计及author快照不变。新3控制JSON全部追加当前候选分母，尚不计其自身已迁移。
+
+- K49分片后真实consumer：model202/0issues，strict711/0issues；当前分母1967（新增3分片未计迁移），基线198/1838+4增量、当前pending1765，仅候选投影不代独立收口。实际MarkedGFM矩阵一表39行/旧38对象相同；49原文inverse、完整作者snapshot、原标题/622links顺序不变、36历史层、49可达，单篇共享model均0；质量账本3291/229closed/5review/3057pending，非源码语义验收。
+
+- K49独立K1 counter：原图“候选必须实核49/49”及battle/scene原3→1已证观察被复制成当前unresolved，时态不准。根将这三条移入已证graph/dedupe证据，保完整旧current三record/tmp与原author snapshot/history；其它未核工具/caller/raw/执行边界不消除。正文/源/计数不变，待非作者闭合。

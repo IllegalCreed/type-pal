@@ -1,6 +1,6 @@
 # 战斗会话 readiness、结算与指令选择
 
-Governance Owner: Codex / history_cards_a（本次文档候选，待非作者独立验收）
+Governance Owner: Codex（文档治理；作者 history_cards_a，非作者 history_cards_c_tail 已验收作者候选）
 Last reviewed: 2026-10-16
 Template: governance-index-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -17,7 +17,7 @@ BattleSession报告/evidence/历史导航；10-06源审计与10-04出版11及旧
 
 ## 当前状态
 
-本页导航状态为 current，仅投影 catalog 的 current 出版入口。catalog 的 lastVerified=2026-10-04、reviewBy=2026-11-04 与 revision content22/minimumSave11 保持原范围，不更新成今天或本轮实跑。候选待非作者独立复核。原 README 的 2026-10-06 content22/SAVE12 是当次源核验注记；10-04 出版 22/11 和更早动态验收各保原轴，不升格为 SAVE12 运行通过。
+本页导航状态为 current，仅投影 catalog 的 current 出版入口。catalog 的 lastVerified=2026-10-04、reviewBy=2026-11-04 与 revision content22/minimumSave11 保持原范围，不更新成今天或本轮实跑。作者导航候选已获非作者独立验收，不更新 catalog 出版或执行日期。原 README 的 2026-10-06 content22/SAVE12 是当次源核验注记；10-04 出版 22/11 和更早动态验收各保原轴，不升格为 SAVE12 运行通过。
 
 ## 入口与责任
 
@@ -31,7 +31,7 @@ BattleSession报告/evidence/历史导航；10-06源审计与10-04出版11及旧
 
 本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `4b22faaadad49f606bbf82541aa3ac2c92679644`，SHA256 `49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
 
-K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。非作者逐篇核本页正文、原源与真实链接后，由根线程维护中央记录；本候选不自签接收。
+K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 
 ## 历史范围
 
@@ -59,7 +59,7 @@ K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它
 
 ## 当前有效性
 
-本页仍用于 current 出版导航；source audit 不是 runtime/E2E/视觉/coverage 验收。原版本句在其时点有效，不把旧 SAVE11 当今天执行版本，也不把源注 SAVE12 当通过。候选待独立验收。
+本页仍用于 current 出版导航；source audit 不是 runtime/E2E/视觉/coverage 验收。原版本句在其时点有效，不把旧 SAVE11 当今天执行版本，也不把源注 SAVE12 当通过。作者导航候选已获非作者独立验收。
 
 ## 继任文档
 

@@ -874,6 +874,32 @@
         "仅36明确旧路径exists-only缺席被记录，未重验内容；其它raw可用性unknown。"
       ],
       "stopLine": "不把coverage四维total当测试增量、不把路径数组fingerprint当raw内容SHA、不恢复旧授权/兼容/清理命令；不得将历史accept当当前运行验收。"
+    },
+    {
+      "id": "domain-navigation-vs-publication-and-historical-tool-execution",
+      "from": [
+        "docs/testing/domains/README.md",
+        "docs/testing/domains/runtime/README.md",
+        "docs/testing/domains/phase1-runtime/README.md",
+        "docs/testing/domains/ops/testing-governance/README.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "49导航/36历史层各守来源；9catalog出版22/11与原10-06或10-11 SAVE12源注分轴，原Owner缺席不由catalog Codex倒填。原README图31→49、18无入链工具页由20目录入口可达；112域内脚本只按path/SHA关联旧122账，另10归档未决不恢复，不从名称/regex caller推合法runner。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json:1"
+      ],
+      "unresolved": [
+        "原工具producer/caller/input/oracle及raw/截图当前完整性未由导航治理重认证。",
+        "原2026-11-01保留期限/catalog日期不续期，phase1不继承phase2版本执行信用。"
+      ],
+      "stopLine": "导航可达/模板/source归属不等于报告、112工具业务语义、runtime/E2E/视觉/coverage或全量docs完成；旧失败和版本按原时点保留。"
     }
   ],
   "acceptance": {

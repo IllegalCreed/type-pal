@@ -1,6 +1,6 @@
 # Testing tools: domains/ops/testing-records/tools
 
-Governance Owner: Codex / history_cards_a（本次文档候选，待非作者独立验收）
+Governance Owner: Codex（文档治理；作者 history_cards_a，非作者 history_cards_c_tail 已验收作者候选）
 Last reviewed: 2026-10-16
 Template: governance-index-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -17,7 +17,7 @@ game-host与pal-tables四份历史config/mutant入口，不把清单当ops审计
 
 ## 当前状态
 
-导航状态为 current；工具正文和结果仍属其历史范围。112 个域内脚本与旧 122 条工具记录分开：另 10 条是归档未决输入。此页不是质量门或执行回执，候选尚待独立验收。
+导航状态为 current；工具正文和结果仍属其历史范围。112 个域内脚本与旧 122 条工具记录分开：另 10 条是归档未决输入。此页不是质量门或执行回执，作者导航候选已获非作者独立验收，不增加工具执行信用。
 
 ## 入口与责任
 
@@ -34,7 +34,7 @@ game-host与pal-tables四份历史config/mutant入口，不把清单当ops审计
 
 本页原源为 10 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `897fd8dbec5876da7ad48800c577f039ff46612e`，SHA256 `4de8afc84bfa1f42183b7ed618d2c8695124e8aca7f51c15c2bfa5785d9105f3`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
 
-K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。非作者逐篇核本页正文、原源与真实链接后，由根线程维护中央记录；本候选不自签接收。
+K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 
 ## 历史范围
 
@@ -65,7 +65,7 @@ K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它
 
 ## 当前有效性
 
-历史清单继续用于溯源；当前文件仍在目录不授执行权。本页列出的 4 份工具保持原字节，使用前须单独核准。本候选待非作者验收，不把旧账 reviewed 或静态门当本次运行通过。
+历史清单继续用于溯源；当前文件仍在目录不授执行权。本页列出的 4 份工具保持原字节，使用前须单独核准。本页作者导航候选已获非作者验收，不把旧账 reviewed 或静态门当本次运行通过。
 
 ## 继任文档
 

@@ -1,6 +1,6 @@
 # 战斗宿主启动、取消与世界提交 · 历史
 
-Governance Owner: Codex / history_cards_a（本次文档候选，待非作者独立验收）
+Governance Owner: Codex（文档治理；作者 history_cards_a，非作者 history_cards_c_tail 已验收作者候选）
 Last reviewed: 2026-10-16
 Template: governance-index-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -17,7 +17,7 @@ BattleHost报告/evidence/历史导航；保存原报告/原机账、警告与�
 
 ## 当前状态
 
-本页导航状态为 historical，保留原出版入口。关联 current catalog 指向当前报告，但不能覆盖这里原报告的日期、候选、告警、失败或未证项；本次没有复跑历史执行。候选待独立验收。
+本页导航状态为 historical，保留原出版入口。关联 current catalog 指向当前报告，但不能覆盖这里原报告的日期、候选、告警、失败或未证项；本次没有复跑历史执行。作者导航候选已获非作者独立验收。
 
 ## 入口与责任
 
@@ -30,7 +30,7 @@ BattleHost报告/evidence/历史导航；保存原报告/原机账、警告与�
 
 本页原源为 6 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `36fed25b58996e2b8c082ee32cce7f29ce751368`，SHA256 `27ec8e0cd23198d250cb508bba2ed01aaea0d05a98b757ba95246eb5d5508de6`。逐篇来源、after 和限制见[本包作者回执](../../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
 
-K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。非作者逐篇核本页正文、原源与真实链接后，由根线程维护中央记录；本候选不自签接收。
+K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 
 ## 历史范围
 
@@ -57,7 +57,7 @@ K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它
 
 ## 当前有效性
 
-本页为 historical 导航，不能把原测试通过、warnings/counter 或历史“当前”升格为今天事实；当前业务和执行状态回到各自报告与 catalog。非作者独立候选复核尚待完成。
+本页为 historical 导航，不能把原测试通过、warnings/counter 或历史“当前”升格为今天事实；当前业务和执行状态回到各自报告与 catalog。作者历史导航候选已获非作者独立验收，原执行状态与限制保留。
 
 ## 继任文档
 
