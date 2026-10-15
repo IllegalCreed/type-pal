@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
-      "afterSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
+      "sourceSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
+      "afterSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
+        "implementationSha": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1099,13 +1099,22 @@
           "afterSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
           "scope": "Own diagnostic first slice review only; 67 clean targeted, three valid counters, global diagnostics remain; no closure or merge.",
           "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "c8ad9416f",
+          "action": "editor-three-file-complete-window-delta",
+          "previousAfterSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
+          "afterSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
+          "scope": "First slice review only; local C01 clean, global diagnostics remain, no closure or merge; other tasks preserved.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-21",
-      "reviewNotes": "Editor first slice review; source/production scope preserved, global zero-diagnostic gate not passed.",
+      "reviewNotes": "Editor first slice full gates executed; exact retirement protected; global zero-diagnostic gate not passed; all unrelated task verdicts preserved.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

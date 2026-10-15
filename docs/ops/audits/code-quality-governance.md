@@ -9,7 +9,7 @@
 
 ## 2026-10-15 editor三文件首片
 
-生命周期604→200→0、三oracle有效反控、三重复精简，67定向0诊断。相邻54带231条act，完整门待本窗口；
+生命周期604→200→0、三oracle有效反控、三重复精简，67定向0诊断。相邻54带231条act，完整check/确认版ratchet/protected数值通过但全仓诊断仍未清；
 不合main、不关闭文件。机器3284/229closed/48review/3007pending；[首片证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md)。
 三个已读文件仅列review，未核相邻/其它helper caller域仍待审。
 

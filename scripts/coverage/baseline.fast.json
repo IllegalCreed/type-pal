@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-15T06:22:24.755Z",
+  "generatedAt": "2026-10-15T07:27:58.000Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 736,
-  "testCount": 19865,
+  "testCount": 19862,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6901,7 +6901,7 @@
       ],
       "scopeDigest": "714747a53e2a4641a7b8c1099aa9a962b2012de0217f2d05a2ccb979350489a4",
       "fastTests": {
-        "testCount": 4789,
+        "testCount": 4786,
         "testFileCount": 612,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -10165,8 +10165,8 @@
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
-            "testCount": 70,
-            "identityDigest": "46baea1df50d2f6a042bf0921c9e8d1bb1316a3a85a872893003acc20ba90386"
+            "testCount": 67,
+            "identityDigest": "c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
@@ -10579,9 +10579,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "36d8a254b3d4fbedc86748acee591a2b8ed1584ff29822085283a08c6c32b573",
+        "identityDigest": "cd8bf640049588ea5d57ab80bd2f538cd062171c762a3b2a32a13e1b20c79a85",
         "duplicateIdentityCount": 8,
-        "executionDigest": "3698a1f5611673a9a8511bd8a4ebac27c72402f9f4c604cad3873df68464ba19"
+        "executionDigest": "ded3cc97f33f6170139140a6680d44ccf26a372f33a5831bc266483996d00e92"
       },
       "metrics": {
         "statements": {

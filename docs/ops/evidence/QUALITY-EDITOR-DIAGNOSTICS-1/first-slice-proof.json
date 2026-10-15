@@ -66,7 +66,6 @@
       "navigation": 0,
       "testSummary": [],
       "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
-      "VITEST_MAX_WORKERS": 1,
       "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"]
     }
   ],

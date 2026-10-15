@@ -311,9 +311,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/save/indexed-db.ts` | product | review | 用户批准后c81f469e3修复：put/delete等transaction complete；success后abort拒绝并保留旧槽，真实Save调用回归通过 | GAME-SAVE-IDB-COMMIT-1仍review等完整门；连接/失败缓存未决不关闭 |
 | `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | 用户批准事务修复的新三条真实Save→IDB回归：提交时机/正常存读删、覆盖abort保旧槽、删除abort保旧槽；完整typed GameState，独立IDBFactory及连接/global/spy清理 | 作者自验，尚未独立闭合；不以3绿或覆盖率升高关闭文件 |
 | `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState/feedback and listener balance verified in quick-save.test.ts; approved Save commit fix verified; open/connection/input contracts remain review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
-| `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；相邻带诊断/完整门待续，不关闭 |
-| `packages/editor/src/__tests__/cursor-asset-r1/kit.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；相邻带诊断/完整门待续，不关闭 |
-| `packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；相邻带诊断/完整门待续，不关闭 |
+| `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；完整门带外部诊断/其它caller待核，不关闭 |
+| `packages/editor/src/__tests__/cursor-asset-r1/kit.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；完整门带外部诊断/其它caller待核，不关闭 |
+| `packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；完整门带外部诊断/其它caller待核，不关闭 |
 
 2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。
 
@@ -346,3 +346,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 [完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。所有状态保持；3284/229closed/45review/3010pending，0新关闭。
 
 2026-10-15 editor首片：三个既有文件仅从pending转review；229closed/48review/3007pending，库存3284不变。生命周期定向70通过且诊断0，typecheck通过；oracle、相邻与完整模块门待续，0新关闭。
+
+2026-10-15 editor首片完整窗口：c8ad9416f，67定向0诊断、3有效反控、精简3严格重复；七包20271与typecheck通过。
+check/确认版ratchet/普通protected均exit0，但未包act3001/3009/2955、各577环境/2导航，零诊断门不通过，未合main。
+首跑ratchet确认门exit1原件保留，官方基线736/19862且所有覆盖计数完全不变。
+[逐文件/读取边界及全部原件](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。3284/229closed/48review/3007pending，0文件关闭。

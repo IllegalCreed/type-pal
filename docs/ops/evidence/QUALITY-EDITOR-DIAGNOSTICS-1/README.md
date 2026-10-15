@@ -3,7 +3,15 @@
 本片单一Coding Owner=Codex，用户授权三文件，隔离治理分支；只改测试，不改变生产/资产/规则。
 当前首片review，0文件关闭、未合main；作者自验不冒称独立验收。
 
-## 首片第二提交（当前）
+## 完整模块窗口（当前）
+
+[最终窗口回执](window-review.md)：源码c8ad9416f，完整check、确认版ratchet、普通protected均exit0；
+但未包act分别3001/3009/2955，另各577环境/2导航诊断，统一门不通过，未合main。
+首跑ratchet因精确70→67删除需显式确认而exit1，完整原件保留；pre-confirmation-scope与普通protected双重核实，无规则改变。
+官方基线736源文件/19862tests，所有覆盖计数完全不变；五份源码/支持文件在全门期间未变。
+当前3284/229closed/48review/3007pending，0文件关闭；全部原件SHA/执行集合、读取边界与独立重建mutant见window-proof/read-boundaries/oracle-rebuild。
+
+## 首片第二提交（c8ad9416f快照）
 
 C01最终67/67、未包act/环境/导航均0；editor typecheck通过。相邻6files/54tests通过，但其它相邻测试仍有231条act，
 不算干净统一门。记录见first-slice-proof.json；完整模块门尚待本次稳定候选集中执行。
@@ -40,7 +48,7 @@ kit新增的历史驱动只返回真实session undo/redo结果，调用方精确
 ## 待完成
 
 上述三个弱oracle已补强并经有效反控；其它未核合同不因此升级通过。
-全部70条不因告警为0升级逐文件accept；相邻oracle/排重未知仍review，未删除任何用例。
+现行67条不因告警为0升级逐文件accept；相邻oracle/排重未知仍review，未删除任何用例。
 定向/相邻/typecheck与完整check、官方ratchet、protected fast、lint-zero、ledger将在本模块窗口集中完成。
 完整门仍有本片以外诊断时保留CODE94 rework，不合main。
 
