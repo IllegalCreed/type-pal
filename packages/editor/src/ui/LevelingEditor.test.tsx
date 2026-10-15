@@ -1,77 +1,45 @@
 // @vitest-environment jsdom
 
-import type { ActorDef } from '@type-pal/content'
+import type { SkillData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
+import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import { LevelingEditor } from './LevelingEditor.js'
 
 let host: HTMLDivElement
 let root: Root
 
-function actor(id: string): ActorDef & { battler: NonNullable<ActorDef['battler']> } {
-  return {
-    id,
-    name: `name.${id}`,
-    spriteId: `${id}-sprite`,
-    battler: {
-      battleSprite: `${id}-battle`,
-      baseStats: {
-        level: 1,
-        hp: 10,
-        maxHP: 10,
-        mp: 5,
-        maxMP: 5,
-        attack: 1,
-        defense: 1,
-        magicAttack: 1,
-        speed: 1,
-        luck: 1,
-      },
-      initialEquipment: {},
-      initialMagic: [],
+async function editorState(): Promise<EditorState> {
+  const { state: base } = await loadLegalUiProject('leveling-field-commit')
+  const hero = base.actors.find((candidate) => candidate.id === 'hero')
+  if (!hero?.battler) throw new Error('blank project battler hero missing')
+  const skill: SkillData = {
+    id: 'skill-a',
+    name: '技能 A',
+    desc: '',
+    cost: { mp: 0 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 0xffff },
+  }
+  const state: EditorState = {
+    ...base,
+    actors: [...base.actors, { ...hero, id: 'a' }, { ...hero, id: 'b' }],
+    skills: [...base.skills, skill],
+    levelUp: {
+      ...base.levelUp,
+      a: [{ level: 2, skillId: skill.id }],
+      b: [{ level: 7, skillId: skill.id }],
     },
   }
-}
-
-function editorState(): EditorState {
-  const actors = [actor('a'), actor('b')]
-  return {
-    manifest: {
-      id: 'test',
-      name: 'test',
-      contentVersion: 22,
-      minimumSaveVersion: 12,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    actors,
-    levelUp: {
-      a: [{ level: 2, skillId: 'skill-a' }],
-      b: [{ level: 7, skillId: 'skill-a' }],
-    },
-    skills: [{ id: 'skill-a', name: '技能 A' }],
-    scenes: [],
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-  } as unknown as EditorState
+  assertProjectSaveValid(state)
+  return state
 }
 
 function Harness(props: { session: EditSession; actorId: string }) {
@@ -80,12 +48,13 @@ function Harness(props: { session: EditSession; actorId: string }) {
     () => props.session.getVersion(),
   )
   const state = props.session.getState()
-  const current = state.actors.find((candidate) => candidate.id === props.actorId)!
+  const current = state.actors.find((candidate) => candidate.id === props.actorId)
+  if (!current?.battler) throw new Error(`battler ${props.actorId} missing`)
   return (
     <LevelingEditor
-      actor={current as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+      actor={{ ...current, battler: current.battler }}
       levelUpRows={state.levelUp[props.actorId] ?? []}
-      skills={{ 'skill-a': { id: 'skill-a', name: '技能 A' } } as never}
+      skills={Object.fromEntries(state.skills.map((skill) => [skill.id, skill]))}
       session={props.session}
       onEditCurve={() => undefined}
     />
@@ -99,19 +68,26 @@ function setInput(input: HTMLInputElement, value: string): void {
 }
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  installBrowserHardwarePorts()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 describe('LevelingEditor field commit boundary', () => {
   test('升级学技能使用与同排默认控件等高的危险删除图标按钮', async () => {
-    const session = new EditSession(editorState())
+    const session = new EditSession(await editorState())
     await act(async () => root.render(<Harness session={session} actorId="a" />))
 
     const remove = host.querySelector<HTMLButtonElement>(
@@ -128,25 +104,25 @@ describe('LevelingEditor field commit boundary', () => {
   })
 
   test('连续输入只保留草稿，blur/Enter 各至多一条命令，Escape 不提交', async () => {
-    const session = new EditSession(editorState())
+    const session = new EditSession(await editorState())
     await act(async () => root.render(<Harness session={session} actorId="a" />))
     let input = host.querySelector<HTMLInputElement>('.entry-n input')!
     const initialHistory = session.getHistoryVersion()
     await act(async () => {
       input.focus()
-      for (let index = 0; index < 100; index += 1) setInput(input, String(index + 3))
+      for (const value of ['4', '9', '12']) setInput(input, value)
     })
     expect(session.getHistoryVersion()).toBe(initialHistory)
     expect(session.getState().levelUp.a![0]!.level).toBe(2)
     await act(async () => input.blur())
     expect(session.getHistoryVersion()).toBe(initialHistory + 1)
-    expect(session.getState().levelUp.a![0]!.level).toBe(102)
+    expect(session.getState().levelUp.a![0]!.level).toBe(12)
 
     input = host.querySelector<HTMLInputElement>('.entry-n input')!
     const enterHistory = session.getHistoryVersion()
     await act(async () => {
       input.focus()
-      setInput(input, '103')
+      setInput(input, '13')
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     })
     expect(session.getHistoryVersion()).toBe(enterHistory + 1)
@@ -161,11 +137,12 @@ describe('LevelingEditor field commit boundary', () => {
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
     })
     expect(session.getHistoryVersion()).toBe(escapeHistory)
-    expect(session.getState().levelUp.a![0]!.level).toBe(103)
+    expect(session.getState().levelUp.a![0]!.level).toBe(13)
+    expect(input.value).toBe('13')
   })
 
   test('切换角色会丢弃旧对象草稿，不串到新对象或切回后的旧对象', async () => {
-    const session = new EditSession(editorState())
+    const session = new EditSession(await editorState())
     await act(async () => root.render(<Harness session={session} actorId="a" />))
     const input = host.querySelector<HTMLInputElement>('.entry-n input')!
     await act(async () => {

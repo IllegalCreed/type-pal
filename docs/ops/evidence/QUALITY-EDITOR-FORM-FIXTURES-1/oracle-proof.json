@@ -1,0 +1,332 @@
+{
+  "sourceCandidate": "36cabd699 + three scoped tests",
+  "testPath": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+  "sourceSha256": "6d1400fae00e9cb7084bfc0f4ebcc41c0df60e0887d10a90849813246367a9e1",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm",
+  "noWorkingTreeProductMutation": true,
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipe": {
+    "target": "packages/editor/src/ui/CasualtyEditor.tsx",
+    "find": "if (next === undefined) delete nextCasualty[slot]",
+    "replace": "if (next === undefined) nextCasualty[slot] = undefined"
+  },
+  "runs": [
+    {
+      "label": "oracle-old-own-undefined",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/CasualtyEditor.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm/oracle-old-own-undefined.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 14531,
+      "rawSha256": "85a92ca37962bc4247648fffb5119b4a14a80634ca2734d948f3f472fcc4d5bc",
+      "runnerBytes": 4147,
+      "runnerSha256": "8460933b3a29d1578bc9117ffa74cd19f69ad2e3d49d70630dad8eadd4e1f339",
+      "testSha256": "f38b041c520d26380ee80b9e7ce0522f91b250929564f4f4ecc16469889b6718",
+      "executedProductSha256": "66078142ed47821a19d00ac5dab1ef6ecc57566945ad4254dc582a2a868a350e",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 渲染槽位数据:gates 概率 + fallback 分支",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 选中概率门 → 右列显示该分支台词;台词预览解析 locale",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除概率门 → 选中态回退 fallback(K1)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) ＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 未配置槽 → ＋配置 创建默认空脚本(G3)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 概率门可键盘选择，概率/增益输入只在 blur 时各写入一次整数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 台词文本保持本地草稿，Enter + blur 只产生一条命令，Escape 不提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 编辑两个同内容概率门中的一项时，选中态不会跳到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) [reorder-family:actor-initial-casualty] 概率门同值移动零命令，有效移动单命令并可 undo/redo",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除选中项之前的同值概率门时安全回退，undo/redo 不会把选择串到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 101,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-new-own-undefined",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/CasualtyEditor.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm/oracle-new-own-undefined.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2715,
+      "rawSha256": "87b5275bb6a4b3bfe88c21edd375ef55bdf1ebd2126e4247a3ae9200b6303ae7",
+      "runnerBytes": 4552,
+      "runnerSha256": "f8f157a899b4e8448e2e4e2d8b640a667e2da68636c6a6f29e05ad23223fe5b1",
+      "testSha256": "cc300cf80dd6d14d1e2a020421c8d3f6813ad7359ffdfc5cedd8e72f194d0a82",
+      "executedProductSha256": "66078142ed47821a19d00ac5dab1ef6ecc57566945ad4254dc582a2a868a350e",
+      "passed": 9,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 渲染槽位数据:gates 概率 + fallback 分支",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 选中概率门 → 右列显示该分支台词;台词预览解析 locale",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除概率门 → 选中态回退 fallback(K1)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) ＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm/packages/editor/src/ui/CasualtyEditor.test.tsx:156:92\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 未配置槽 → ＋配置 创建默认空脚本(G3)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 概率门为可聚焦按钮，概率/增益输入只在 blur 时各写入一次整数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 台词文本保持本地草稿，Enter + blur 只产生一条命令，Escape 不提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 编辑两个同内容概率门中的一项时，选中态不会跳到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) [reorder-family:actor-initial-casualty] 概率门同值移动零命令，有效移动单命令并可 undo/redo",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除选中项之前的同值概率门时安全回退，undo/redo 不会把选择串到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/CasualtyEditor.test.tsx",
+        "src/ui/LevelingEditor.test.tsx",
+        "src/ui/LevelCurveEditor.ui.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c06-oracle-jiipnpgm",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 578,
+      "rawSha256": "056a9e3041fa036a3728576e098f39fc59b32779aa44c9164751ce7897a00595",
+      "runnerBytes": 6147,
+      "runnerSha256": "8af46932b486279b29dd1b37336c57f304ef6a9671282e21b7b198b17a0908e6",
+      "testSha256": "cc300cf80dd6d14d1e2a020421c8d3f6813ad7359ffdfc5cedd8e72f194d0a82",
+      "executedProductSha256": "6d1400fae00e9cb7084bfc0f4ebcc41c0df60e0887d10a90849813246367a9e1",
+      "passed": 14,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 渲染槽位数据:gates 概率 + fallback 分支",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 选中概率门 → 右列显示该分支台词;台词预览解析 locale",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除概率门 → 选中态回退 fallback(K1)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) ＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 未配置槽 → ＋配置 创建默认空脚本(G3)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 概率门为可聚焦按钮，概率/增益输入只在 blur 时各写入一次整数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 台词文本保持本地草稿，Enter + blur 只产生一条命令，Escape 不提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 编辑两个同内容概率门中的一项时，选中态不会跳到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) [reorder-family:actor-initial-casualty] 概率门同值移动零命令，有效移动单命令并可 undo/redo",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "name": "CasualtyEditor (E18-1) 删除选中项之前的同值概率门时安全回退，undo/redo 不会把选择串到另一 occurrence",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+          "name": "LevelCurveEditor field commit boundary 级数连续输入不改 canonical，blur 一次提交，undo/redo 回显 canonical",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/LevelingEditor.test.tsx",
+          "name": "LevelingEditor field commit boundary 升级学技能使用与同排默认控件等高的危险删除图标按钮",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/LevelingEditor.test.tsx",
+          "name": "LevelingEditor field commit boundary 连续输入只保留草稿，blur/Enter 各至多一条命令，Escape 不提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/LevelingEditor.test.tsx",
+          "name": "LevelingEditor field commit boundary 切换角色会丢弃旧对象草稿，不串到新对象或切回后的旧对象",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ]
+}

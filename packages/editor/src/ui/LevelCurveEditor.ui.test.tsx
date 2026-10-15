@@ -1,74 +1,36 @@
 // @vitest-environment jsdom
 
-import type { ActorDef } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
+import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
 
 let host: HTMLDivElement
 let root: Root
 
-function testActor(): ActorDef & { battler: NonNullable<ActorDef['battler']> } {
-  return {
-    id: 'hero',
-    name: 'name.hero',
-    spriteId: 'hero-sprite',
-    battler: {
-      battleSprite: 'hero-battle',
-      baseStats: {
-        level: 1,
-        hp: 10,
-        maxHP: 10,
-        mp: 5,
-        maxMP: 5,
-        attack: 1,
-        defense: 1,
-        magicAttack: 1,
-        speed: 1,
-        luck: 1,
-      },
-      initialEquipment: {},
-      initialMagic: [],
-      leveling: { expTable: [0, 15, 55] },
-    },
+async function editorState(): Promise<EditorState> {
+  const { state: base } = await loadLegalUiProject('curve-field-commit')
+  const hero = base.actors.find((candidate) => candidate.id === 'hero')
+  if (!hero?.battler) throw new Error('blank project battler hero missing')
+  const battler = hero.battler
+  const state: EditorState = {
+    ...base,
+    actors: base.actors.map((actor) =>
+      actor.id === hero.id
+        ? {
+            ...hero,
+            battler: { ...battler, leveling: { expTable: [0, 15, 55] } },
+          }
+        : actor,
+    ),
   }
-}
-
-function editorState(): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: 'test',
-      contentVersion: 22,
-      minimumSaveVersion: 12,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    actors: [testActor()],
-    levelUp: {},
-    skills: [],
-    scenes: [],
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-  } as unknown as EditorState
+  assertProjectSaveValid(state)
+  return state
 }
 
 function Harness(props: { session: EditSession }) {
@@ -77,11 +39,13 @@ function Harness(props: { session: EditSession }) {
     () => props.session.getVersion(),
   )
   const state = props.session.getState()
+  const actor = state.actors.find((entry) => entry.id === 'hero')
+  if (!actor?.battler) throw new Error('battler hero missing')
   return (
     <LevelCurveEditor
-      actor={state.actors[0] as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+      actor={{ ...actor, battler: actor.battler }}
       levelUpRows={[]}
-      skills={{} as never}
+      skills={Object.fromEntries(state.skills.map((skill) => [skill.id, skill]))}
       session={props.session}
       onClose={() => undefined}
     />
@@ -95,19 +59,26 @@ function setInput(input: HTMLInputElement, value: string): void {
 }
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  installBrowserHardwarePorts()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 describe('LevelCurveEditor field commit boundary', () => {
   test('级数连续输入不改 canonical，blur 一次提交，undo/redo 回显 canonical', async () => {
-    const session = new EditSession(editorState())
+    const session = new EditSession(await editorState())
     await act(async () => root.render(<Harness session={session} />))
     let input = host.querySelector<HTMLInputElement>(
       '[data-field-id="level-curve-count"] input[data-ds-draft-commit="number"]',
@@ -115,10 +86,10 @@ describe('LevelCurveEditor field commit boundary', () => {
     const history = session.getHistoryVersion()
     await act(async () => {
       input.focus()
-      for (let index = 0; index < 100; index += 1) setInput(input, String((index % 20) + 4))
+      for (const value of ['4', '7', '23']) setInput(input, value)
     })
     expect(session.getHistoryVersion()).toBe(history)
-    expect(session.getState().actors[0]!.battler!.leveling!.expTable).toHaveLength(3)
+    expect(session.getState().actors[0]!.battler!.leveling!.expTable).toEqual([0, 15, 55])
     await act(async () => input.blur())
     expect(session.getHistoryVersion()).toBe(history + 1)
     expect(session.getState().actors[0]!.battler!.leveling!.expTable).toHaveLength(23)

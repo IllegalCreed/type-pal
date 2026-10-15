@@ -1,0 +1,6 @@
+{
+  "exitCode": 2,
+  "bytes": 3938,
+  "sha256": "c53d3a912b7a91106884fe4879cafe676d6499e8db439f196f59dfe2efeffd4d",
+  "cause": "Type narrowing of mutable hero.battler property is not preserved inside map callback; fix by capturing narrowed value, no assertion or rule change."
+}

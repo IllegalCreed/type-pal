@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG、音乐音源与IDB事务回归）：3,284。
-当前已闭合核验：229；已读但待审：58；尚未逐文件核验：2,997；合计未闭合：3,055。
+当前已闭合核验：229；已读但待审：62；尚未逐文件核验：2,993；合计未闭合：3,055。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -324,6 +324,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-4；全文读取与复用caller见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) | 本片仅头注改为测试复用，未改构造实现；输入防御与全库caller未逐项闭合 |
 | `packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx` | test | review | QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1；全文/真实事件/caller见[证据](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md) | native 1→0，六例保留；public helper无生产caller与统一门仍待核，不关闭 |
 | `packages/reforge/src/main.host-lifecycle-1.test.ts` | test | review | QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1；全文/真实reload与旧绿新红见[证据](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md) | native 1→0，八例保留；音频端口/其它故障与统一门未清，不关闭 |
+| `packages/editor/src/ui/LevelingEditor.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |
+| `packages/editor/src/ui/LevelCurveEditor.ui.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |
+| `packages/editor/src/ui/CasualtyEditor.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |
+| `packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |
 
 2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。
 

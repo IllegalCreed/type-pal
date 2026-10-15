@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
-      "afterSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
+      "sourceSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
+      "afterSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "384f068ee",
+        "implementationSha": "36cabd699",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -918,6 +918,14 @@
             "previousAfterSha256": "4450b6c9cfbad6516e1cebc5366f742142a1896ae8b2246cdb6d0abc339fda50",
             "afterSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
             "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
+            "afterSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
           }
         ]
       },
@@ -1218,8 +1226,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
-      "afterSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
+      "sourceSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
+      "afterSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1253,7 +1261,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "384f068ee",
+        "implementationSha": "36cabd699",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1503,6 +1511,14 @@
             "previousAfterSha256": "40d1963c36fdcfc839f6d9754f5e966c2e23b2171965695957d17925270a6be3",
             "afterSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
             "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
+            "afterSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2255,8 +2271,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
-      "afterSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
+      "sourceSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
+      "afterSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2292,7 +2308,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "384f068ee",
+        "implementationSha": "36cabd699",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2636,6 +2652,14 @@
             "previousAfterSha256": "395f84c9cbfba61236d9d38c82e3abd49467828907ff8197d6cb9576587efbdf",
             "afterSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
             "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
+            "afterSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
           }
         ]
       },

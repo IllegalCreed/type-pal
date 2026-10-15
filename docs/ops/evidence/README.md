@@ -80,3 +80,5 @@
 - [Kimi战斗精灵工作流治理](QUALITY-EDITOR-DIAGNOSTICS-4/README.md)（六例398→0、三反控；统一门待续，0关闭）。
 
 - [测试宿主原生导航](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)（两例来源各1→0；其它输出与统一门待核，0关闭）。
+
+- [数值表单合法夹具与生命周期](QUALITY-EDITOR-FORM-FIXTURES-1/README.md)（四文件16/相邻78例，K4反控；统一门待核，0关闭）。
