@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、12partial/71pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、13partial/70pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h PNG测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -217,3 +217,21 @@ Codex premise verified/design agree/build allowed白名单只三现有源：spri
 [逐文件/反证/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md)：四次真实临时CLI运行，其中OUT根/data父链接两场景删除另一自有临时树marker；子项链接目标保留对照明确，首个探针setup失败单列。正式CLI未改，输出策略转[高风险卡](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)draft等裁决；仅更正字形测试一条码点注释，body/身份/fixture保持。
 
 五CLI+三BDF实际41通过、0失败/跳过/运行时诊断，extract typecheck通过；完整包未重复执行，上一c2同源432原件沿用。CLI旧关闭转rework，三测试pending→review，0新关闭；机器已重新确认3289/203closed/241review/2845pending。全83卡12partial/71pending/0整卡accept；静态门按本片gates实测，统一check/ratchet/protected及editor诊断仍未收口，不合main。输出策略只暂停该实现，其他3h assets/shell与94–102/editor目标继续；无下一位Agent提示词，Codex单Agent推进。
+
+## CODE3h PNG 测试质量切片准入
+
+最新46fb9d5fe、main=f98d0ddd8，唯一codex/code-quality-3y。全文读旧3h卡及六生产源、PNG三测试/P10和配置硬件适配、真实loader/dialog/drawSprite/framebuffer与现有RGBA fixture encoder；bootstrap仅所列caller片段。产品png.ts保持只读，RLE格式/共享输出两停线卡不因本片解除。
+
+Codex premise verified/design agree/build allowed仅四现有测试：assets/png.test.ts、png-decode.grok-r1.test.ts、png.glm-phase1-leaves.test.ts和present/__tests__/grok-present/p10-indexed-png.test.ts。独立RGBA字节fixture复用现有小型encoder，不引入核心mock或新配置。Grok cause例以默认透传spy观察真实createImageBitmap Promise，核原始失败对象身份；3×2例核完整有序indices/opaque；主例明确保留高位索引200。P10把draw/getImageData失败拆独立合同，成功close并入原有真实Framebuffer正向例，finally恢复全部硬件观测/故障端口，不新增强转。
+
+两bad-Blob弱重复（Grok A04、GLM坏输入摘要）及P10混合例中的同一坏Blob摘要并到保留的cause/完整上下文例；先原10例完整反控，再新9例同样完整运行。两新缺口候选为合法palette index1丢失、cause替换；须各证旧10绿/新8绿1指定AssertionError。错误前缀与close故障仅作原oracle转移，完整失败集合另列，不计新针。所有临时源/测试副本、原生JSON/raw、执行集合/exit/signal/spawn和SHA及精确清理保留。
+
+Grok5→4、GLM2→1只有在原生list/三快照与当前SHA精确确认后，才可为两文件追加退役数据并将固定表计数27/net62同步到29/net64；旧27项、matcher/拒绝合同、baseline和规则不改。P10 2→3是合同拆分/合并后的实际身份变化，不伪称原数量或用数量领信用。局部真实V8复测后执行定向/相邻/typecheck/静态门；完整check/official ratchet/protected在稳定窗口集中，0新增关闭，3h仍partial，全83卡/94–102/editor原范围持续。
+
+### CODE3h PNG 本片结果
+
+[逐文件/primary/caller/oracle与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)：两故障旧10绿/新各8绿1指定AssertionError，正常9绿；完整平面与真实原始cause身份补证。坏Blob oracle由4→1、close由2→4的转移诊断单列，不冒充新针。四测试10→9，复用现有独立PNG encoder、去错误caller注释和canvas强转，生产六源/资源/规则/baseline不变。
+
+原生list和main/旧3y/基点三快照确认两精确退役，29项/net64、旧27与matcher/拒绝合同不变；真实png.ts局部V8 20/20 statements、2/2 functions、4/4 branches保持。相邻game17/107、extract4/16、coverage工具74、game typecheck通过，0运行时诊断。初轮探针分类/首次resume表示错误保留，原四native回执未重跑；另进程只读重建10轮反控与4轮list/V8。
+
+四测试仅pending→review，0新增关闭；全83卡13partial/70pending/0整卡accept，原94–102/editor目标保留。机器计数、docs/lint/diff最终以本片gates实际回执为准；统一check/official ratchet/protected未新跑，editor诊断未清，不合main。下一片3h bootstrap-resources两测试及fetch-retry边界，先合法fixture/真实caller/排重，不触碰bootstrap.ts或CLI未决策略。无下一位Agent提示词，Codex单Agent继续全部83卡。

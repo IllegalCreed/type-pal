@@ -432,7 +432,7 @@
       "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
       "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -492,7 +492,8 @@
           "text": "输出要求：给出每个白名单文件的 verified/review/blocked 结论、候选与反证；运行定向/相邻、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；通过后提交并推送，未完成项保留待核。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md"
     },
     {
       "id": "3i",
@@ -3903,10 +3904,10 @@
       "scopeConfirmed": false
     }
   ],
-  "reviewCheckpointBase": "c2fee5a9eb56bf827ac253dcbdb4a4c86b28a30b",
+  "reviewCheckpointBase": "46fb9d5fe254e337143914324edba1a3ab36eced",
   "currentReviewCounts": {
-    "partial": 12,
-    "pending": 71,
+    "partial": 13,
+    "pending": 70,
     "accept": 0
   }
 }

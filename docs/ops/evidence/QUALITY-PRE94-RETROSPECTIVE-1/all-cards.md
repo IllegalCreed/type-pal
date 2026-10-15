@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-16，基点bea19f80c；77历史done/1build/4review/1draft。本轮accept=0，partial=12，pending=71。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
+2026-10-16，结构基点bea19f80c、当前检查点基点46fb9d5fe；77历史done/1build/4review/1draft。本轮accept=0，partial=13，pending=70。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -13,7 +13,7 @@
 | [CODE-QUALITY-3d](../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) | done | partial | [PNG四文件](3d/README.md)：两height旧绿新红、输入合同2→6独立、primary/排重注释校正；其它出口/统一门待续 |
 | [CODE-QUALITY-3f](../../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | partial | [标注与symbols](3-annotate/README.md)：六有效反控，四重复转移；CLI/raw假绿/统一门待续 |
 | [CODE-QUALITY-3g](../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) | done | partial | [CLI四目标/全链context](3g/README.md)：root/父链接清理反证停线draft；41相邻零诊断，注释窄修，统一门待续 |
-| [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-3h](../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) | done | partial | [PNG四测试](3h/README.md)：两旧绿新红/重复精简10→9；其它assets/shell整域与统一门仍待 |
 | [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

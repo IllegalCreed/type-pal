@@ -1,0 +1,57 @@
+[
+  {
+    "name": "evidence-verify",
+    "command": ["python3", "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/verify.py"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 0.346,
+    "rawSha256": "fcb81ed2c07ffaf1fe9b0bf59b6addf4f81f401a757e32c8fd7065d6eac5f1c7",
+    "outputTail": "PASS: 10 native counter runs, 4 collection runs, unchanged production, exact retirement data and cleanup"
+  },
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 1.359,
+    "rawSha256": "240156065af9c47a1ca51ab833196276a5f80046c0610dee8545439b40784399",
+    "outputTail": "docs: 1375 Markdown / 7507 local links / 444 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n\n> type-pal@ check:testing-docs /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/docs/check-testing.mjs\n\ntesting docs: PASS (0 issues)\nphase/lore governance: PASS (184 documents)\ncontent review: PASS (570 documents; {\"content-reviewed\":570})"
+  },
+  {
+    "name": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 1.363,
+    "rawSha256": "e6f2e19fa6ddce6c27793a62b1d49a68d9a21eee2fddf181757816d564c7e1b3",
+    "outputTail": "code-quality ledger: PASS — 3289 files; 203 closed / 245 review / 2841 pending; semantic review still required"
+  },
+  {
+    "name": "diff-check",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 0.025,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputTail": ""
+  },
+  {
+    "name": "lint-zero",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 2.202,
+    "rawSha256": "82385973f17850d12aad153c7b33daf10c5ce28e1d9c18be8cebf86b59a896f5",
+    "outputTail": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 4538 files; 0 errors / 0 warnings / 0 infos; complete report"
+  }
+]

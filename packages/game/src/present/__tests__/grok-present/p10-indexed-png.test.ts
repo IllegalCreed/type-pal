@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { decodePngToIndices } from '../../../assets/png.js'
 import { drawSprite, toSpriteImages } from '../../draw-sprite.js'
 import { createFramebuffer } from '../../framebuffer.js'
@@ -40,81 +40,90 @@ function installBitmapProbe(): {
   }
 }
 
-describe('P10 PNG消费与释放', () => {
-  it('P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer', async () => {
-    const decoded = await decodePngToIndices(pngBlob())
-    expect(decoded.width).toBe(2)
-    expect(decoded.height).toBe(2)
-    expect(Array.from(decoded.indices)).toEqual([0, 0, 12, 7])
-    expect(Array.from(decoded.opaque)).toEqual([1, 0, 1, 1])
-    const sprites = toSpriteImages([decoded])
-    expect(sprites[0]?.indices).toBe(decoded.indices)
-    expect(sprites[0]?.opaque).toBe(decoded.opaque)
-    expect(sprites[0]?.anchorX).toBe(1)
-    expect(sprites[0]?.anchorY).toBe(2)
-    const fb = createFramebuffer()
-    fillSentinel(fb)
-    const before = cloneInputs({ bitmap: decoded })
-    drawSprite(fb, sprites[0]!, 10, 20)
-    expect(cloneInputs({ bitmap: decoded })).toEqual(before)
-    expect(sprites[0]?.indices).toBe(decoded.indices)
-    expect(pixel(fb, 9, 18)).toBe(0)
-    expect(pixel(fb, 10, 18)).toBe(SENTINEL)
-    expect(pixel(fb, 9, 19)).toBe(12)
-    expect(pixel(fb, 10, 19)).toBe(7)
-  })
-
-  it('P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭', async () => {
-    const probe = installBitmapProbe()
-    const originalGetContext = HTMLCanvasElement.prototype.getContext
-    const patchContext = (mutate: (ctx: CanvasRenderingContext2D) => void): void => {
-      HTMLCanvasElement.prototype.getContext = function getContext(
+async function withBitmapProbe(
+  check: (probe: ReturnType<typeof installBitmapProbe>) => Promise<void>,
+  fault?: { method: 'getImageData' | 'drawImage'; error: Error },
+): Promise<void> {
+  const probe = installBitmapProbe()
+  let restoreContext: (() => void) | undefined
+  try {
+    if (fault) {
+      const originalGetContext = HTMLCanvasElement.prototype.getContext
+      const context = vi.spyOn(HTMLCanvasElement.prototype, 'getContext')
+      restoreContext = () => context.mockRestore()
+      context.mockImplementation(function getContext(
         this: HTMLCanvasElement,
         type: string,
         options?: unknown,
       ) {
-        const ctx = originalGetContext.call(
-          this,
-          type as '2d',
-          options as CanvasRenderingContext2DSettings | undefined,
-        )
-        if (type === '2d' && ctx && 'getImageData' in ctx) mutate(ctx as CanvasRenderingContext2D)
+        const ctx = originalGetContext.call(this, type, options)
+        if (type === '2d' && ctx && 'getImageData' in ctx) {
+          ctx[fault.method] = () => {
+            throw fault.error
+          }
+        }
         return ctx
-      } as typeof HTMLCanvasElement.prototype.getContext
+      })
     }
+    await check(probe)
+  } finally {
     try {
-      await expect(
-        decodePngToIndices(new Blob([Uint8Array.from([1, 2, 3])], { type: 'image/png' })),
-      ).rejects.toThrow(/decodePngToIndices: failed to decode PNG blob/)
-      expect(probe.created()).toBe(0)
-      expect(probe.closes()).toBe(0)
-
-      patchContext((ctx) => {
-        ctx.getImageData = () => {
-          throw new Error('injected getImageData failure')
-        }
-      })
-      await expect(decodePngToIndices(pngBlob())).rejects.toThrow('injected getImageData failure')
-      expect(probe.created()).toBe(1)
-      expect(probe.closes()).toBe(1)
-
-      patchContext((ctx) => {
-        ctx.drawImage = () => {
-          throw new Error('injected drawImage failure')
-        }
-      })
-      await expect(decodePngToIndices(pngBlob())).rejects.toThrow('injected drawImage failure')
-      expect(probe.created()).toBe(2)
-      expect(probe.closes()).toBe(2)
-
-      HTMLCanvasElement.prototype.getContext = originalGetContext
-      const ok = await decodePngToIndices(pngBlob())
-      expect(ok.indices[2]).toBe(12)
-      expect(probe.created()).toBe(3)
-      expect(probe.closes()).toBe(3)
+      restoreContext?.()
     } finally {
-      HTMLCanvasElement.prototype.getContext = originalGetContext
       probe.restore()
     }
+  }
+}
+
+describe('P10 PNG消费与释放', () => {
+  it('P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer', async () => {
+    await withBitmapProbe(async (probe) => {
+      const decoded = await decodePngToIndices(pngBlob())
+      expect(decoded.width).toBe(2)
+      expect(decoded.height).toBe(2)
+      expect(Array.from(decoded.indices)).toEqual([0, 0, 12, 7])
+      expect(Array.from(decoded.opaque)).toEqual([1, 0, 1, 1])
+      expect(probe.created()).toBe(1)
+      expect(probe.closes()).toBe(1)
+      const sprites = toSpriteImages([decoded])
+      expect(sprites[0]?.indices).toBe(decoded.indices)
+      expect(sprites[0]?.opaque).toBe(decoded.opaque)
+      expect(sprites[0]?.anchorX).toBe(1)
+      expect(sprites[0]?.anchorY).toBe(2)
+      const fb = createFramebuffer()
+      fillSentinel(fb)
+      const before = cloneInputs({ bitmap: decoded })
+      drawSprite(fb, sprites[0]!, 10, 20)
+      expect(cloneInputs({ bitmap: decoded })).toEqual(before)
+      expect(sprites[0]?.indices).toBe(decoded.indices)
+      expect(pixel(fb, 9, 18)).toBe(0)
+      expect(pixel(fb, 10, 18)).toBe(SENTINEL)
+      expect(pixel(fb, 9, 19)).toBe(12)
+      expect(pixel(fb, 10, 19)).toBe(7)
+    })
+  })
+
+  it('P10 getImageData失败仍关闭本次bitmap', async () => {
+    const error = new Error('injected getImageData failure')
+    await withBitmapProbe(
+      async (probe) => {
+        await expect(decodePngToIndices(pngBlob())).rejects.toThrow(error.message)
+        expect(probe.created()).toBe(1)
+        expect(probe.closes()).toBe(1)
+      },
+      { method: 'getImageData', error },
+    )
+  })
+
+  it('P10 drawImage失败仍关闭本次bitmap', async () => {
+    const error = new Error('injected drawImage failure')
+    await withBitmapProbe(
+      async (probe) => {
+        await expect(decodePngToIndices(pngBlob())).rejects.toThrow(error.message)
+        expect(probe.created()).toBe(1)
+        expect(probe.closes()).toBe(1)
+      },
+      { method: 'drawImage', error },
+    )
   })
 })

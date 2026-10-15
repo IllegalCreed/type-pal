@@ -1,0 +1,24 @@
+[
+  {
+    "name": "evidence-verify",
+    "command": ["python3", "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/verify.py"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 0.234,
+    "rawSha256": "fcb81ed2c07ffaf1fe9b0bf59b6addf4f81f401a757e32c8fd7065d6eac5f1c7",
+    "outputTail": "PASS: 10 native counter runs, 4 collection runs, unchanged production, exact retirement data and cleanup"
+  },
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 0.959,
+    "rawSha256": "3f370bdeb2180b7080f29a78f7142812e338a12fc3250b91fc2e7a1197a45624",
+    "outputTail": "# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 99.951916\ndocs: 1375 Markdown / 7505 local links / 444 tasks / content22 SAVE12\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md:1: 子目录未进入导航：docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h\ndocs: FAIL (1 issues)\n ELIFECYCLE  Command failed with exit code 1."
+  }
+]

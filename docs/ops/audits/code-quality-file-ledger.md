@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：203；已读但待审：241；尚未逐文件核验：2,845；合计未闭合：3,086。
+当前已闭合核验：203；已读但待审：245；尚未逐文件核验：2,841；合计未闭合：3,086。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -213,6 +213,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/shell/fetch-retry.ts` | product | 已验证 | CODE-QUALITY-3h；main.ts 唯一生产安装 caller；GET/HTTP/非幂等合同、定向测试与 invalid-options negative control | 非法 retries 不再零次请求后 `throw undefined`；非法 backoff 不再交给平台钳制；有效配置行为不变 |
 | `packages/game/src/shell/bootstrap-resources.ts` | product | 已验证 | CODE-QUALITY-3h；bootstrap.ts 真实 soundfont/resourcesReady caller、并发屏障和 rejection/degradation tests | soundfont 原始 rejection 与 settle barrier 分离；glyph 仅显式 tofu 降级；未发现直接缺陷 |
 | `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3h；无效配置合同、HTTP/method/backoff/最终身份反例；删除 guard 的 mutant 失败 | 高判别力输入合同，不以数量验收 |
+| `packages/game/src/assets/png.test.ts` | test | review | [CODE3h当前全文/真实PNG/高位200 oracle](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 唯一高位索引与完整遮罩保留，复用独立encoder；pending→review，统一门未收，0关闭 |
+| `packages/game/src/assets/png-decode.grok-r1.test.ts` | test | review | [CODE3h完整平面/真实cause身份/释放与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 两旧10绿新各指定AssertionError；A04弱摘要转A05，5→4精确退役；生产未改，统一门待续 |
+| `packages/game/src/assets/png.glm-phase1-leaves.test.ts` | test | review | [CODE3h alpha边界/排重与注释事实](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 保留alpha0/200和opaque index0，坏Blob弱摘要转A05，2→1精确退役；不虚报dialog caller，0关闭 |
+| `packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts` | test | review | [CODE3h真实解码到Framebuffer/输入ownership与独立close轴](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 混合故障拆开、成功close归正例，2→3；去强转/finally恢复宿主，0关闭，浏览器实际释放未验 |
 | `packages/game/src/assets/dialog-assets.ts` | product | 已验证 | CODE-QUALITY-3i；portrait/icon manifest callers、PNG/RLE adapters、dialog-assets/host tests 与 game typecheck | 资产缺失按现行空 map 降级；不伪造 manifest 帧，不改资源格式 |
 | `packages/game/src/shell/precache-client.ts` | product | 已验证 | CODE-QUALITY-3i；main/bootstrap SW caller、ready/start/pause/resume/unavailable tests | onPlayable 前不启动 precache，ready race 仅缓冲 start；现行 SW 协议保留 |
 | `packages/game/src/shell/precache-ui.ts` | product | 已验证 | CODE-QUALITY-3i；DOM widget/unified phase tests、host boundary 20 contracts、功能性 DOM 状态 | 两段进度单调/clamp、进入/完成/失败生命周期已有合同；未发现直接缺陷 |
@@ -477,8 +481,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/sell-menu.test.ts` | test | review | CODE-QUALITY-93；typed Item/GameState、公共导航/选择/意图与 cash/inventory ownership oracle；确认默认重置反控 | 已移除强转，独立导航/取消/意图合同；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | CODE-QUALITY-93；inUse 等值、confirm 期四键逐次不变、等长/空/增表与非零 cursor oracle；2 精确反控 | typed fixture；独立输入轴与快照不别名；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-93；真实公共入口进入 confirm，空库存与重复选择/确认合同 | 已删与主测试重复的缩表用例；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `scripts/coverage/approved-test-retirements.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 |
-| `scripts/coverage/approved-test-retirements.test.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 CODE3h两精确PNG退役后29项/net64，旧27与matcher/拒绝合同不变、74工具通过；[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)。 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 CODE3h两精确PNG退役后29项/net64，旧27与matcher/拒绝合同不变、74工具通过；[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)。 |
 | `packages/game/src/core/menu/primitives.ts` | product | review | Codex takeover: page helpers remain test-only/unknown; false SDL page anchor and selectable guarantees corrected; no API or behavior change | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/item-select.ts` | product | review | Codex takeover: equip bit and Important approximation comments corrected; production matchesFilter retained; factory cleanup remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/opening-menu.ts` | product | review | Codex R3: choice dedupe accepted; title cancel fixed in driver after user approval, real chain/browser verified; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |

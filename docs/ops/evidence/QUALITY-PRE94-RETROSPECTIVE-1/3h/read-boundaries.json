@@ -1,0 +1,196 @@
+{
+  "base": "46fb9d5fe254e337143914324edba1a3ab36eced",
+  "fullReads": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+      "lines": 72,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md",
+      "sha256": "7cd1a746a5410376108d06752121debabebe67bc2f7656a8aa48f4922cb7ee7b",
+      "lines": 183,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "sha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
+      "lines": 23,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md",
+      "sha256": "e029ad42d11060c6e84063804f503e7738d4a9aa5729513f3b3d708f3ed0c6d9",
+      "lines": 110,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+      "lines": 501,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+      "lines": 150,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "lines": 49,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "dd44cc5c0975856221bec3edc40f0fcecf9e5f40cb6c8b70a6592972cca9b7c1",
+      "lines": 19,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+      "lines": 71,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "lines": 67,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "sha256": "d2cbb355eb350011a8f0a810308adcf4cf8c874aa0ef146f3e93e9782b8c9894",
+      "lines": 15,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "f5f9376a910a8ca5942e6339f1a5037029d02e9a732be47e3429df6601e75c15",
+      "lines": 88,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+      "sha256": "5b087d2c8d8d530a3a5d8b636de3289354441b84abc95da121563eb51ab61428",
+      "lines": 17,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "sha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "lines": 129,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "dc450aedcaaa14e83422a28ba0d650867cdf8ac9be27aaa927bd0285ada88927",
+      "lines": 79,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+      "lines": 114,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+      "lines": 118,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+      "lines": 49,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "lines": 49,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f",
+      "lines": 439,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "lines": 34,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0",
+      "lines": 122,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "7aabf543cdc9cc8354e39b06da23281881e6a9b5666a290e217680d37c400f7f",
+      "lines": 288,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "6375e5d3d50f74baa8087f8a047196e3c3cb9aec88188a7b2397a6730de7015a",
+      "lines": 73,
+      "boundary": "Full read during this slice including pre-compaction context; source reading is not whole-file acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "ranges": ["152-194"],
+      "boundary": "cloneInputs only; not whole helper review",
+      "sha256": "ba8e6bd98cb558cc2955391bfc86e69d030634bb5f4d6c6cf27e857dbcc83072",
+      "lines": 188
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "ranges": ["232-254", "536-557", "634-653"],
+      "boundary": "resource/cached-sprite call sites only; active owner implementation remains read-only",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "ranges": ["1-72"],
+      "boundary": "Previously read in full in 3d at the same source SHA; this slice reread transport encoder. Not a new closure.",
+      "sha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "lines": 95
+    }
+  ],
+  "primary": [
+    {
+      "url": "https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-installerrorcause",
+      "boundary": "InstallErrorCause uses the supplied cause value, supporting error identity rather than instanceof-only oracle."
+    }
+  ],
+  "notClaimed": [
+    "Whole bootstrap/world helper review",
+    "Full browser native memory release or visual verification",
+    "Whole-card or new file acceptance",
+    "Independent third-party review"
+  ]
+}

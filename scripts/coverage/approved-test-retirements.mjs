@@ -250,6 +250,23 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f',
       fileSha256: 'ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5',
     },
+    // Codex CODE3h: A04 and L23 bad-Blob subsets move to the full native cause oracle.
+    {
+      file: 'packages/game/src/assets/png-decode.grok-r1.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '978aefb40b45b58a493b116319599673c4c3443a5efc0dedb7153100215f0e39',
+      currentIdentityDigest: '16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290',
+      fileSha256: 'f5f9376a910a8ca5942e6339f1a5037029d02e9a732be47e3429df6601e75c15',
+    },
+    {
+      file: 'packages/game/src/assets/png.glm-phase1-leaves.test.ts',
+      previous: 2,
+      current: 1,
+      previousIdentityDigest: 'ae803708fa9f8fe2f30bff06fe7b74aaf02172f3db26a5f2bad4749e71370018',
+      currentIdentityDigest: 'd7224527d2ccf4893eefb5ec6fad84b84b1d11824e99ecd7b6e5092affd7bd86',
+      fileSha256: '5b087d2c8d8d530a3a5d8b636de3289354441b84abc95da121563eb51ab61428',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

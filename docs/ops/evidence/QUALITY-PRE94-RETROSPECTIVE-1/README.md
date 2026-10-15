@@ -4,9 +4,11 @@
 
 ## 2026-10-16 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；主线f98d0ddd8，0behind，未合main。全83卡12partial/71pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；主线f98d0ddd8，0behind，未合main。全83卡13partial/70pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
+
+最新[3h PNG测试切片](3h/README.md)：完整平面与真实cause两个旧绿新红，重复精简10→9；game相邻107、extract16和coverage工具74零诊断。四测试仅review、0新增关闭，下一片3h启动/重试测试；CLI未决策略与全83卡、94–102/editor及统一门继续待收口。
 
 ## 统一候选后的范围更正
 
