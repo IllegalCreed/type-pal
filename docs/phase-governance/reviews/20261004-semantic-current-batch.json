@@ -826,7 +826,9 @@
             "revision": "8f5d17ff1",
             "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
-            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance.",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+          },
+          {
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
@@ -1334,7 +1336,9 @@
             "action": "codex-r2-evidence-navigation-merge",
             "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
             "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
-            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept.",
+            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
+          },
+          {
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
@@ -2401,7 +2405,9 @@
             "revision": "8f5d17ff1",
             "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
-            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance.",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+          },
+          {
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
