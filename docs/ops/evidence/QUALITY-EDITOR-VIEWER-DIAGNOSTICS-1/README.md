@@ -15,3 +15,5 @@ G03-10只返回测试宿主缺record占位，产品组件根本未调用。临�
 当前官方baseline尚未改变：f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790。下一稳定窗口与C07等合跑check、官方ratchet及protected fast；这次只有精确单例退役需要现有allow-scope-removal路径，不能扩展为范围豁免，必须核原生scope与覆盖率。旧cae26b1c7窗口不能代表本候选。
 
 账本3284/229closed/71review/2984pending，0新关闭。四源review，支持表全域历史快照/相邻排重仍待核，不将回归当作整个helper语义审核。产品、schema/save/接口/资产管线、生成物、规则、主工作树均未改；不合main。下一片Viewer Kimi与上传宿主仍待核；另按用户新增要求回溯94前卡片与风险。无下一位Agent提示词，Codex继续。
+
+2026-10-16续[C09 K02真实编辑工作流](c09/README.md)：复用宿主后56→44act，再核真实解码/提交/revision与迟到读取后五例0诊断；两枚反控旧/新各4绿1指定业务红，恢复5绿，身份保留。相邻80通过但其它63act，editor typecheck通过；0关闭，唯一3y未合main。

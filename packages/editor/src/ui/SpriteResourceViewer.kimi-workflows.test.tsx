@@ -1,32 +1,13 @@
 // @vitest-environment jsdom
 /**
- * TEST-KIMI-EDITOR-WORKFLOWS-1 K02：SpriteResourceViewer 真实帧编辑工作流补测。
- *
- * 旧 file/title → 已证合同 → 本组缺口：
- * - SpriteResourceViewer.test.tsx「一次解码后显示真实帧数、全部帧及可切换的大图」：
- *   loadEditorSprite/loadStandardPalette/bakeFrame 全部 mock，session/assetReader 为
- *   {} as never——已证 DOM 布局与 onLoaded 形状；未证真实 PNG→量化→encode→gzip→
- *   ReplaceSpriteAssetCommand 入库链、catalog sha/bytes/path、blob、undo。
- * - SpriteResourceViewer.test.tsx「快速切换资源时不会显示较晚返回的旧资源」：
- *   用 mock loadSprite 的 deferred 证明组件 alive 标志；未证真实 reader/SpriteAssetCache/
- *   磁盘端口链路的 proof 归属与缓存落地。本组用 gatedFileSource 在磁盘 I/O 端口造迟到。
- * - SpriteResourceViewer.test.tsx「加载失败仍保留同一 canonical workspace 与 content owner」：
- *   mock 拒绝；未证真实解码失败（sha/bytes 校验）后编辑保持禁用与重试归属。
- * - SpriteResourceViewer.test.tsx「多帧源容器的默认布局只解释 #0…」：语义分组展示，不涉及编辑。
- * - SpriteFrameDeletion.test.ts：planWorldSpriteFrameDeletion 纯函数（四向阻断/姿势前移/loop 收缩）
- *   已证；未证删除按钮到 commitFrames 的真实接线（confirm 冲击清单、修复事务随替换原子提交、
- *   undo 连字节带姿势还原）。loop 布局已不可经当前 loader 合法播种（validateSprites 只放行
- *   directional/static），loop 修复臂维持纯函数已证，不在 UI 层复制。
- * - core/sprite-commands.glm-boundaries.test.ts：ReplaceSpriteAssetCommand 过期证明/消费者漂移/
- *   缩帧修复/undo 的命令级边界已证；本组不重复命令级断言，只经真实 UI 入口驱动。
- *
- * 唯一替身：kit 的浏览器硬件端口（createImageBitmap 真实解码 PNG）与 gatedFileSource 磁盘闸门；
- * reader/cache/命令全部真实。姿势编辑对话框（SpriteActionEditorDialog）属 K03 目标，本组不测。
+ * K02：经真实 Viewer UI 证明源帧追加/替换/删除、原子姿势修复、取消与迟到归属。
+ * 使用正式 loader 自证合法项目，PNG 为真实可解码字节；reader/cache/session/命令不替换。
+ * 共享宿主跟随 session 提供 revision/consumers，硬件端口和磁盘闸门只控制外部 IO。
+ * 编码算法由 codec 测试负责；本组验证 UI 到 catalog/blob/undo 的接线及字段保全。
  */
 
 import type { AssetId } from '@type-pal/content'
 import {
-  type AssetBase,
   compressGzip,
   decodeWorldSpriteAssetBytes,
   encodeSpriteChunk,
@@ -35,13 +16,16 @@ import {
   quantizeToRleFrame,
   type RleFrame,
 } from '@type-pal/reforge'
-import { act, type ReactElement, useSyncExternalStore } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
+import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import {
+  type MountedViewer,
+  mountViewer as mountSharedViewer,
+  unmountHost,
+  waitForSpriteViewerResources,
+} from '../__tests__/cursor-asset-r1/upload-harness.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddSpriteDefinitionCommand } from '../core/commands.js'
-import { EditSession } from '../core/edit-session.js'
-import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import {
   clickButton,
@@ -59,122 +43,37 @@ import {
   solidAtlasPng,
   solidRgba,
 } from './__tests__/kimi-editor-workflows/kit.js'
-import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
-import { type SpriteResourceLoadProof, SpriteResourceViewer } from './SpriteResourceViewer.js'
+import type { SpriteResourceLoadProof } from './SpriteResourceViewer.js'
 
 const FRAME = 8
 const STARTER_ASSET = 'sprite.generated.starter'
 const STARTER_PATH = 'assets/generated/sprites/starter.rle'
 
-type Notice = { kind: 'info' | 'error'; message: string } | undefined
-
-interface MountedViewer {
-  project: K02Project
-  session: EditSession
-  reader: EditorAssetReader
-  proofs: Array<SpriteResourceLoadProof | undefined>
-  framesLog: Array<readonly SpriteFrameView[]>
-  notices: Notice[]
-  /** 用同一组稳定 callback 身份重渲染（viewer effect 依赖 onLoaded/onFramesLoaded）。 */
-  render: (asset: AssetId, label: string) => ReactElement
-}
-
-let root: Root
 let host: HTMLDivElement
+let activeViewer: MountedViewer | undefined
 
 beforeEach(() => {
   useActEnvironment()
   installBrowserHardwarePorts()
-  host = document.createElement('div')
-  document.body.append(host)
-  root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
+  try {
+    if (activeViewer) await unmountHost(activeViewer)
+  } finally {
+    activeViewer = undefined
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
-function ViewerHarness(props: {
-  session: EditSession
-  assetBase: AssetBase
-  reader: EditorAssetReader
-  asset: AssetId
-  label: string
-  onLoaded: (proof: SpriteResourceLoadProof | undefined) => void
-  onFramesLoaded: (frames: readonly SpriteFrameView[]) => void
-  onStatusNotice: (notice: Notice) => void
-}) {
-  useSyncExternalStore(
-    (callback) => props.session.subscribe(callback),
-    () => props.session.getVersion(),
-  )
-  const current = props.session.getState()
-  const record = current.assetCatalog.assets[props.asset]
-  const consumers = current.sprites.filter((entry) => entry.asset === props.asset)
-  if (!record) return null
-  return (
-    <SpriteResourceViewer
-      assetBase={props.assetBase}
-      assetReader={props.reader}
-      asset={props.asset}
-      revision={record.sha256}
-      label={props.label}
-      consumers={consumers}
-      session={props.session}
-      onLoaded={props.onLoaded}
-      onFramesLoaded={props.onFramesLoaded}
-      onStatusNotice={props.onStatusNotice}
-    />
-  )
-}
-
-/** 直接挂载真实 SpriteResourceViewer：revision/consumers 由订阅中的 session 实时推导。 */
 async function mountViewer(
   project: K02Project,
-  input: { asset: AssetId; label: string; source?: FileSource },
+  input: { asset: AssetId; label: string; source?: FileSource; waitForResource?: boolean },
 ): Promise<MountedViewer> {
-  const session = new EditSession(project.state)
-  const reader = createEditorAssetReader(input.source ?? project.source, () => session.getState())
-  const proofs: MountedViewer['proofs'] = []
-  const framesLog: MountedViewer['framesLog'] = []
-  const notices: MountedViewer['notices'] = []
-  const onLoaded = (proof: SpriteResourceLoadProof | undefined): void => {
-    proofs.push(proof)
-  }
-  const onFramesLoaded = (frames: readonly SpriteFrameView[]): void => {
-    framesLog.push(frames)
-  }
-  const onStatusNotice = (notice: Notice): void => {
-    notices.push(notice)
-  }
-  const render = (asset: AssetId, label: string) => (
-    <ViewerHarness
-      session={session}
-      assetBase={project.assetBase}
-      reader={reader}
-      asset={asset}
-      label={label}
-      onLoaded={onLoaded}
-      onFramesLoaded={onFramesLoaded}
-      onStatusNotice={onStatusNotice}
-    />
-  )
-  await act(async () => {
-    root.render(render(input.asset, input.label))
-    await Promise.resolve()
-  })
-  return {
-    project,
-    session,
-    reader,
-    proofs,
-    framesLog,
-    notices,
-    render,
-  }
+  activeViewer = await mountSharedViewer(project, input)
+  host = activeViewer.host
+  return activeViewer
 }
 
 /** 以当前 catalog/blob/磁盘真实解码（含 sha256/bytes/gzip 校验），不绕过产品校验。 */
@@ -187,34 +86,51 @@ async function decodeCurrent(mounted: MountedViewer, asset: AssetId) {
 }
 
 async function waitMeta(frames: number, consumers: number): Promise<void> {
-  await vi.waitFor(() => {
-    expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
-  })
+  await waitForSpriteViewerResources(host)
+  expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
 }
 
-/**
- * 重读见证（反控安全）：等到 viewer 最新 proof 追踪当前 catalog sha——这一等待在注入缺陷的
- * 运行中同样成立（重读发生但内容错误），随后对帧数/字节等内容的同步断言才是 AssertionError，
- * 而不是超时。
- */
+/** 等真实读取完成，再独立断言 proof 归属；错误结果不能被轮询当作尚未完成。 */
 async function waitProofTracking(
   mounted: MountedViewer,
   asset: AssetId,
 ): Promise<SpriteResourceLoadProof> {
-  await vi.waitFor(() => {
-    const sha = mounted.session.getState().assetCatalog.assets[asset]?.sha256
-    expect(sha).toBeDefined()
-    expect(mounted.proofs.at(-1)).toEqual(expect.objectContaining({ asset, revision: sha }))
-  })
-  await act(async () => Promise.resolve())
+  await waitForSpriteViewerResources(mounted.host, asset)
+  const sha = mounted.session.getState().assetCatalog.assets[asset]?.sha256
+  expect(sha).toBeDefined()
+  expect(mounted.proofs.at(-1)).toEqual(expect.objectContaining({ asset, revision: sha }))
   return mounted.proofs.at(-1)!
 }
 
-/** 源帧编辑结果消息：成功/失败都先等其出现，再断言文本与 kind。 */
-async function rawEditorMessage(): Promise<HTMLElement> {
-  await vi.waitFor(() => {
-    expect(host.querySelector('.sprite-raw-editor-message')).not.toBeNull()
+/** 透传观察实际 PNG 解码，不另行启动解码或猜测宏任务次数。 */
+async function pickImage(input: HTMLInputElement, file: File): Promise<void> {
+  const bitmap = vi.spyOn(globalThis, 'createImageBitmap')
+  try {
+    await act(async () => {
+      await loadFilesIntoInput(input, [file])
+      expect(bitmap).toHaveBeenCalledExactlyOnceWith(file)
+      const result = bitmap.mock.results[0]
+      if (!result || result.type !== 'return') throw new Error('PNG decode did not start')
+      await result.value
+    })
+  } finally {
+    bitmap.mockRestore()
+  }
+}
+
+/** 状态通知是实际提交/错误出口；等待期间保持 act，再等 revision 的真实重读。 */
+async function editAndWait(mounted: MountedViewer, interact: () => Promise<void>): Promise<void> {
+  const mark = mounted.notices.length
+  await act(async () => {
+    await interact()
+    await vi.waitFor(() => expect(mounted.notices.length).toBeGreaterThan(mark))
   })
+  await waitForSpriteViewerResources(mounted.host)
+}
+
+/** 读取已完成交互的反馈，文本与 kind 由业务断言核实。 */
+function rawEditorMessage(): HTMLElement {
+  expect(host.querySelector('.sprite-raw-editor-message')).not.toBeNull()
   return host.querySelector<HTMLElement>('.sprite-raw-editor-message')!
 }
 
@@ -228,7 +144,7 @@ async function selectFrameCell(index: number): Promise<void> {
   await act(async () => cell!.click())
 }
 
-/** 独立计算追加/替换后的期望字节：同一调色板量化 + encode + gzip + sha256。 */
+/** 从编辑前帧与显式像素构建期望容器，检验接线，不重复证明编码算法。 */
 async function expectedAssetBytes(frames: RleFrame[]) {
   const gzip = await compressGzip(encodeSpriteChunk(frames))
   const bytes = gzip.buffer.slice(gzip.byteOffset, gzip.byteOffset + gzip.byteLength) as ArrayBuffer
@@ -258,24 +174,16 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
     await clickButton(host, '追加帧')
     const atlas = solidAtlasPng(FRAME, FRAME, appendedColors)
-    await loadFilesIntoInput(hiddenImageInputs()[1]!, [pngFileOf('追加两帧.png', atlas.bytes)])
-    await vi.waitFor(() => {
-      expect(host.textContent).toContain('将 16×8 图片切为')
-    })
+    await pickImage(hiddenImageInputs()[1]!, pngFileOf('追加两帧.png', atlas.bytes))
+    expect(host.textContent).toContain('将 16×8 图片切为')
     const panel = host.querySelector<HTMLElement>('.sprite-raw-append-panel')!
     await setInputValue(panel.querySelectorAll<HTMLInputElement>('input')[0]!, '2')
-    await vi.waitFor(() => {
-      expect(panel.textContent).toContain('2 帧，每帧 8×8')
-    })
+    expect(panel.textContent).toContain('2 帧，每帧 8×8')
     const historyBefore = mounted.session.getHistoryVersion()
-    await clickButton(host, '确认追加')
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith('追加 2 帧会更新 1 个用途共享的源帧容器。继续吗？')
-    })
+    await editAndWait(mounted, () => clickButton(host, '确认追加'))
+    expect(confirm).toHaveBeenCalledWith('追加 2 帧会更新 1 个用途共享的源帧容器。继续吗？')
     // 成功消息随 revision 重载被 viewer 清空，持久证据是状态栏通知与 catalog/blob。
-    await vi.waitFor(() => {
-      expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '追加源帧 ×2；可撤销。' })
-    })
+    expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '追加源帧 ×2；可撤销。' })
     expect(mounted.session.getHistoryVersion()).toBeGreaterThan(historyBefore)
 
     const record = mounted.session.getState().assetCatalog.assets[STARTER_ASSET]!
@@ -324,6 +232,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
       expected.sha256,
     )
+    expect((await waitProofTracking(mounted, STARTER_ASSET)).actualFrameCount).toBe(14)
     const redone = await decodeCurrent(mounted, STARTER_ASSET)
     expect(redone.frames).toHaveLength(14)
   })
@@ -367,29 +276,27 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     // 取消侧：真实解码与量化已发生，但 confirm=false → 零提交、零消息、零重读。
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     const historyBefore = mounted.session.getHistoryVersion()
+    const proofCount = mounted.proofs.length
+    const frameDeliveryCount = mounted.framesLog.length
     await clickButton(host, '替换当前帧')
-    await loadFilesIntoInput(hiddenImageInputs()[0]!, [
-      pngFileOf('单帧替换.png', replacement.bytes),
-    ])
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith('替换源帧 #5 会同时影响 2 个用途。继续吗？')
-    })
+    await pickImage(hiddenImageInputs()[0]!, pngFileOf('单帧替换.png', replacement.bytes))
+    expect(confirm).toHaveBeenCalledWith('替换源帧 #5 会同时影响 2 个用途。继续吗？')
     expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
     expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
       recordBefore.sha256,
     )
     expect(host.querySelector('.sprite-raw-editor-message')).toBeNull()
     expect(mounted.proofs.at(-1)?.revision).toBe(recordBefore.sha256)
+    expect(mounted.proofs).toHaveLength(proofCount)
+    expect(mounted.framesLog).toHaveLength(frameDeliveryCount)
 
     // 放行侧：ReplaceSpriteAssetCommand 真实入库，两个用途定义逐字段不动。
     confirm.mockReturnValue(true)
     await clickButton(host, '替换当前帧')
-    await loadFilesIntoInput(hiddenImageInputs()[0]!, [
-      pngFileOf('单帧替换.png', replacement.bytes),
-    ])
-    await vi.waitFor(() => {
-      expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '替换源帧 #5；可撤销。' })
-    })
+    await editAndWait(mounted, () =>
+      pickImage(hiddenImageInputs()[0]!, pngFileOf('单帧替换.png', replacement.bytes)),
+    )
+    expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '替换源帧 #5；可撤销。' })
 
     const record = mounted.session.getState().assetCatalog.assets[STARTER_ASSET]!
     expect(record.sha256).toBe(expected.sha256)
@@ -410,6 +317,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     expect(mounted.session.getState().assetCatalog.assets[STARTER_ASSET]?.sha256).toBe(
       recordBefore.sha256,
     )
+    expect((await waitProofTracking(mounted, STARTER_ASSET)).actualFrameCount).toBe(12)
     const restored = await decodeCurrent(mounted, STARTER_ASSET)
     expect(restored.frames[5]).toEqual(decodedBefore.frames[5])
     expect(mounted.session.getState().sprites).toEqual(spritesBefore)
@@ -454,9 +362,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     const historyBefore = mounted.session.getHistoryVersion()
     await clickButton(host, '删除当前帧')
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith(expect.stringContaining('删除源帧 #2？'))
-    })
+    expect(confirm).toHaveBeenCalledWith(expect.stringContaining('删除源帧 #2？'))
     expect(confirm).toHaveBeenCalledWith(expect.stringContaining('同步修复'))
     expect(confirm).toHaveBeenCalledWith(
       expect.stringContaining('K02SixMain·闪烁：[1, 4, 5] → [1, 3, 4]'),
@@ -470,10 +376,8 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
 
     // 放行侧：缩帧修复事务与资源替换同一命令提交。
     confirm.mockReturnValue(true)
-    await clickButton(host, '删除当前帧')
-    await vi.waitFor(() => {
-      expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '删除源帧 #2；可撤销。' })
-    })
+    await editAndWait(mounted, () => clickButton(host, '删除当前帧'))
+    expect(mounted.notices.at(-1)).toEqual({ kind: 'info', message: '删除源帧 #2；可撤销。' })
 
     const expected = await expectedAssetBytes(seeded.frames.filter((_, index) => index !== 2))
     const record = mounted.session.getState().assetCatalog.assets['sprite.authored.k02six']!
@@ -510,6 +414,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
       seeded.sha256,
     )
     expect(mounted.session.getState().sprites).toEqual(spritesBefore)
+    expect((await waitProofTracking(mounted, 'sprite.authored.k02six')).actualFrameCount).toBe(6)
     const restored = await decodeCurrent(mounted, 'sprite.authored.k02six')
     expect(restored.frames).toHaveLength(6)
     expect(restored.frames[2]).toEqual(seeded.frames[2])
@@ -530,7 +435,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
     const historyBefore = mounted.session.getHistoryVersion()
     await clickButton(host, '删除当前帧')
-    const message = await rawEditorMessage()
+    const message = rawEditorMessage()
     expect(message.classList.contains('error')).toBe(true)
     expect(message.textContent).toBe(
       '帧 #0 属于“占位主角”的四向行走结构；单独删除会打乱方向分组，请先在布局中调整每向帧数。',
@@ -547,10 +452,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     expect(decoded.frames).toHaveLength(12)
 
     // 单帧容器：删除按钮随真实帧数禁用（loaded.sprite.frames.length <= 1 守卫）。
-    await act(async () => {
-      root.render(mounted.render('sprite.authored.k02one', 'K02One'))
-      await Promise.resolve()
-    })
+    await mounted.setAsset('sprite.authored.k02one', 'K02One')
     await waitMeta(1, 1)
     const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.trim() === '删除当前帧',
@@ -578,6 +480,7 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
       asset: STARTER_ASSET,
       label: '甲精灵',
       source: gate.source,
+      waitForResource: false,
     })
     // 进入见证：starter 的磁盘读取已进入但未放行；加载中不得冒充就绪。
     expect(gate.calls).toContain(STARTER_PATH)
@@ -587,20 +490,14 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     expect(mounted.proofs.filter(Boolean)).toHaveLength(0)
 
     // 切换到 B：真实解码完成并交付 proof；A 仍在途。
-    await act(async () => {
-      root.render(mounted.render('sprite.authored.k02b', '乙精灵'))
-      await Promise.resolve()
-    })
-    await vi.waitFor(() => {
-      expect(mounted.proofs.at(-1)).toEqual(
-        expect.objectContaining({
-          asset: 'sprite.authored.k02b',
-          actualFrameCount: 6,
-          revision: project.seeded.get('sprite.authored.k02b')!.sha256,
-        }),
-      )
-    })
-    await act(async () => Promise.resolve())
+    await mounted.setAsset('sprite.authored.k02b', '乙精灵')
+    expect(mounted.proofs.at(-1)).toEqual(
+      expect.objectContaining({
+        asset: 'sprite.authored.k02b',
+        actualFrameCount: 6,
+        revision: project.seeded.get('sprite.authored.k02b')!.sha256,
+      }),
+    )
     expect(host.textContent).toContain('6 帧 · 1 个用途定义')
     expect(host.textContent).toContain('乙精灵')
     expect(mounted.framesLog.at(-1)).toHaveLength(6)
@@ -608,10 +505,9 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     // 放行迟到的 A：读取真实完成（退出见证），但归属已失效，不得产生任何新 proof/帧交付。
     const mark = mounted.proofs.length
     const framesMark = mounted.framesLog.length
-    hold.resolve()
     await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0))
-      await new Promise((resolve) => setTimeout(resolve, 0))
+      hold.resolve()
+      await waitForSpriteViewerResources(host, STARTER_ASSET)
     })
     expect(gate.completed).toContain(STARTER_PATH)
     expect(mounted.proofs.slice(mark).filter(Boolean)).toHaveLength(0)
@@ -622,17 +518,14 @@ describe('K02 SpriteResourceViewer 真实帧编辑工作流', () => {
     expect(host.textContent).toContain('乙精灵')
     expect(host.textContent).not.toContain('12 帧 · 1 个用途定义')
 
-    // 主动切回 A：迟到的读取已落入真实 SpriteAssetCache，proof 归 A 本人。
-    await act(async () => {
-      root.render(mounted.render(STARTER_ASSET, '甲精灵'))
-      await Promise.resolve()
-    })
-    await vi.waitFor(() => {
-      expect(mounted.proofs.at(-1)).toEqual(
-        expect.objectContaining({ asset: STARTER_ASSET, actualFrameCount: 12 }),
-      )
-    })
-    await act(async () => Promise.resolve())
+    // 主动切回 A：迟到的读取已落入真实 SpriteAssetCache，无第二次磁盘读且 proof 归 A。
+    const starterReads = gate.calls.filter((path) => path === STARTER_PATH).length
+    expect(starterReads).toBe(1)
+    await mounted.setAsset(STARTER_ASSET, '甲精灵')
+    expect(gate.calls.filter((path) => path === STARTER_PATH)).toHaveLength(starterReads)
+    expect(mounted.proofs.at(-1)).toEqual(
+      expect.objectContaining({ asset: STARTER_ASSET, actualFrameCount: 12 }),
+    )
     expect(host.textContent).toContain('12 帧 · 1 个用途定义')
     expect(host.textContent).toContain('甲精灵')
   })

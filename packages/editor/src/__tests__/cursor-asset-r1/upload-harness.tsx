@@ -173,13 +173,16 @@ class PaletteReadObserver extends AssetResolver {
   }
 }
 
-const viewerResourceWaiters = new WeakMap<HTMLElement, () => Promise<void>>()
+const viewerResourceWaiters = new WeakMap<HTMLElement, (asset?: AssetId) => Promise<void>>()
 
-/** Observe the viewer's real cache/palette calls without starting substitute reads. */
-export async function waitForSpriteViewerResources(host: HTMLElement): Promise<void> {
+/** Observe real IO; an explicit asset also waits for a released, retired selection. */
+export async function waitForSpriteViewerResources(
+  host: HTMLElement,
+  asset?: AssetId,
+): Promise<void> {
   const wait = viewerResourceWaiters.get(host)
   if (!wait) throw new Error('SpriteResourceViewer host is not mounted')
-  await wait()
+  await wait(asset)
 }
 
 function ViewerHarness(props: {
@@ -283,11 +286,11 @@ export async function mountViewer(
     viewerResourceWaiters.delete(host)
     cacheLoad.mockRestore()
   }
-  viewerResourceWaiters.set(host, async () => {
+  viewerResourceWaiters.set(host, async (asset = currentAsset) => {
     await act(async () => {
       const sprites = cacheLoad.mock.results.flatMap((result, index) =>
         cacheLoad.mock.calls[index]?.[0] === reader &&
-        cacheLoad.mock.calls[index]?.[1] === currentAsset &&
+        cacheLoad.mock.calls[index]?.[1] === asset &&
         result.type === 'return'
           ? [result.value]
           : [],

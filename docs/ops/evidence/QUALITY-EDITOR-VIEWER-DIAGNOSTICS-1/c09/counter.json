@@ -1,0 +1,437 @@
+{
+  "candidate": "c858f4840bfbe4444acf16c370dbd457aa0728c7",
+  "scratch": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+  "product": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+  "test": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+  "helper": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+  "productSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+  "oldTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+  "newTestSha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+  "helperSha256": "27284e31d8892cc636830e432570efef0d3a5910135c92860e88e6e441380772",
+  "recipes": [
+    {
+      "name": "append-selection",
+      "needle": "      selectFrame(loaded.sprite.frames.length)\n",
+      "replacement": "      selectFrame(0)\n",
+      "expectedFailure": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+      "mutantSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e"
+    },
+    {
+      "name": "late-alive",
+      "needle": "      .then(([sprite, palette]) => {\n        if (!alive) return\n",
+      "replacement": "      .then(([sprite, palette]) => {\n",
+      "expectedFailure": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+      "mutantSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5"
+    }
+  ],
+  "runs": [
+    {
+      "label": "counter-before",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-before.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 0,
+      "seconds": 2.81,
+      "executedProductSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "executedTestSha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+      "rawSha256": "b25d98d8a4d6f86910eb327a6f805077f49b60a47b73dfd496326e18ff15c386",
+      "runnerSha256": "bf605a075f3ab6eaa520f0f32a7253aab0bac864dde0dd85fe136bfbf33eab87",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    },
+    {
+      "label": "counter-append-selection-old",
+      "variant": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-append-selection-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 1,
+      "seconds": 2.85,
+      "executedProductSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e",
+      "executedTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+      "rawSha256": "a8f800fdb5a0cf6b7d505fe56c751cb633af1541b339138654a9bd36a0b3fb50",
+      "runnerSha256": "4c4aa26835e015ee48150643907d954d979cac25b319dbdfb5f792dfe15d65bc",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '大世界精灵占位主角sprite.generated.starter集中管理…' to contain '已选择源帧 12，共 14 帧'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:298:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 52,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    },
+    {
+      "label": "counter-append-selection-new",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-append-selection-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 1,
+      "seconds": 2.63,
+      "executedProductSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e",
+      "executedTestSha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+      "rawSha256": "f698df7ae5ffdc9bbc9a6515f7795359337298419b99a24b357ef5ebbdf9def3",
+      "runnerSha256": "ad97d2cdca357666a17b9a43c22b83b365732b8f60168d71b803f6386881521a",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '大世界精灵占位主角sprite.generated.starter集中管理…' to contain '已选择源帧 12，共 14 帧'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:206:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    },
+    {
+      "label": "counter-late-alive-old",
+      "variant": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-late-alive-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 1,
+      "seconds": 2.8,
+      "executedProductSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5",
+      "executedTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+      "rawSha256": "c0bff83460b5d67323db8da60fd3729c0394cf1de2b6d652fb879398f2a9eca1",
+      "runnerSha256": "667679ecaf015334308a58866295ba6f8d9e80c477ebed3d78319f243d31e76a",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ { …(3) } ] to have a length of +0 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:617:56\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 56,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    },
+    {
+      "label": "counter-late-alive-new",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-late-alive-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 1,
+      "seconds": 2.61,
+      "executedProductSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5",
+      "executedTestSha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+      "rawSha256": "81379911ad7685955b7433d3d91aebf5a338e7722bbaf6605968f3efd3c4de01",
+      "runnerSha256": "912377a26aa997c1740a6acb760f309ebab1b80dbbf53c2a3da1615f5883a408",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ { …(3) } ] to have a length of +0 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:513:56\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    },
+    {
+      "label": "counter-recovery",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h/counter-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-m029j_0h",
+      "exit": 0,
+      "seconds": 2.56,
+      "executedProductSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "executedTestSha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+      "rawSha256": "8855336e0e420c1a9a6f985e431a783580bb43717f3b573e70896553b8fe8925",
+      "runnerSha256": "e1397e8055bb51802837a792c9216f5a35d0d55a7e0cf7a33e690c14d00b0f75",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 追加源帧：真实量化编码入库、共享用途逐字段保全、reader 重读 14 帧、undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 替换当前帧：双用途 confirm 取消侧零提交、放行侧真实重编码且双定义保全、undo 还原字节",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 删除源帧：姿势修复随替换原子提交、confirm 列精确冲击清单、取消零提交、undo 全还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 四向行走前缀内删帧被真实规划器阻断（错误反馈零提交）；单帧容器删除按钮禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer 真实帧编辑工作流 迟到磁盘读取归属：闸门内旧资源完成后不得盖掉已切换的新选择，缓存结果归原资产",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawUnhandledRuntimeDiagnostics": 0
+    }
+  ],
+  "inputManifestSha256": "d877ac5f99e50618bcbe5ff1ab06c006e1e27f56ec7c696c91903db3211c5730",
+  "inputManifestFiles": 2166,
+  "result": "two business counters retained by old and new tests; full recovery green; live files unchanged",
+  "scratchRemoved": true
+}

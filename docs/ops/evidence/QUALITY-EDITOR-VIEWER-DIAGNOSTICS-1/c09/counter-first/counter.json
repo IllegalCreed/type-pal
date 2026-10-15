@@ -1,0 +1,419 @@
+{
+  "candidate": "c858f4840bfbe4444acf16c370dbd457aa0728c7",
+  "scratch": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+  "product": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+  "test": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+  "helper": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+  "productSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+  "oldTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+  "newTestSha256": "479bee4ca536542a0413af9b22f1a5337ec7af3b040b21e006411bd8f62c6194",
+  "helperSha256": "27284e31d8892cc636830e432570efef0d3a5910135c92860e88e6e441380772",
+  "recipes": [
+    {
+      "name": "append-selection",
+      "needle": "      selectFrame(loaded.sprite.frames.length)\n",
+      "replacement": "      selectFrame(0)\n",
+      "expectedFailure": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+      "mutantSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e"
+    },
+    {
+      "name": "late-alive",
+      "needle": "      .then(([sprite, palette]) => {\n        if (!alive) return\n",
+      "replacement": "      .then(([sprite, palette]) => {\n",
+      "expectedFailure": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+      "mutantSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5"
+    }
+  ],
+  "runs": [
+    {
+      "label": "counter-before",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-before.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 0,
+      "seconds": 2.7,
+      "executedProductSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "executedTestSha256": "479bee4ca536542a0413af9b22f1a5337ec7af3b040b21e006411bd8f62c6194",
+      "rawSha256": "cd0154bce592684da3fa882601a1dca5a412f98c1fc5185d1cf5fb0619db8a1f",
+      "runnerSha256": "1196ac3aa8788db74dd085f5a9644871db7f2f88d7b0efccd111518097a8b947",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-append-selection-old",
+      "variant": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-append-selection-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 1,
+      "seconds": 2.68,
+      "executedProductSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e",
+      "executedTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+      "rawSha256": "09e370442a75357748482662729adc479ac8f114554866453aa8a45d6f4de9ff",
+      "runnerSha256": "c2f8df859b2f4caa64d9fbb33f28d5524eccbd8136964c005ce64519765261d8",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '\u5927\u4e16\u754c\u7cbe\u7075\u5360\u4f4d\u4e3b\u89d2sprite.generated.starter\u96c6\u4e2d\u7ba1\u7406\u2026' to contain '\u5df2\u9009\u62e9\u6e90\u5e27 12\uff0c\u5171 14 \u5e27'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:298:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 52,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-append-selection-new",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-append-selection-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 1,
+      "seconds": 2.62,
+      "executedProductSha256": "9948ffd4702181417b091baecec3bc1488d6d2d4c40c53efd8eaeaacbd40753e",
+      "executedTestSha256": "479bee4ca536542a0413af9b22f1a5337ec7af3b040b21e006411bd8f62c6194",
+      "rawSha256": "6349c574f2692df3b38cd5af1039fd1e50d53071fb4b9dbd9a96c9511ac28e61",
+      "runnerSha256": "69ffd3dcaf7a0de43ee63bf2a702515bed919ffcf2cde5469a7f2a31b9aa5bc7",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '\u5927\u4e16\u754c\u7cbe\u7075\u5360\u4f4d\u4e3b\u89d2sprite.generated.starter\u96c6\u4e2d\u7ba1\u7406\u2026' to contain '\u5df2\u9009\u62e9\u6e90\u5e27 12\uff0c\u5171 14 \u5e27'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:206:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-late-alive-old",
+      "variant": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-late-alive-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 1,
+      "seconds": 2.71,
+      "executedProductSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5",
+      "executedTestSha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b",
+      "rawSha256": "1c16da2dff4c2656b20f577033b3dfcff5bf881357077628588432c432015122",
+      "runnerSha256": "42ffe4127db4990e03aa97f9242ed06cded79618feb4e5b9a614b6edb305df1c",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ { \u2026(3) } ] to have a length of +0 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:617:56\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 56,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-late-alive-new",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-late-alive-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 1,
+      "seconds": 2.65,
+      "executedProductSha256": "41abd02f0aa9c77cfb4233b72171db124760d4a5e4af59413cd4ebd73fe6dee5",
+      "executedTestSha256": "479bee4ca536542a0413af9b22f1a5337ec7af3b040b21e006411bd8f62c6194",
+      "rawSha256": "27762ff3fdf283ef8c1d0e856c6154871c1101bc310ef804340a35e49a44e99f",
+      "runnerSha256": "47951c1d6e11a919db57323c251bc3706555a58f026f1855c9108f579681771b",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ { \u2026(3) } ] to have a length of +0 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx:513:56\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "counter-recovery",
+      "variant": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy/counter-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c09-oracle-f3gsbbiy",
+      "exit": 0,
+      "seconds": 3.0,
+      "executedProductSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "executedTestSha256": "479bee4ca536542a0413af9b22f1a5337ec7af3b040b21e006411bd8f62c6194",
+      "rawSha256": "d49b7617e00c56693287f3a2b495fae907392deec2ebbced3770e2a8502eab66",
+      "runnerSha256": "70e663b053d3205fe4bf16278a45a0c93446a12c1c2dd50c2144cba60f0be433",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8ffd\u52a0\u6e90\u5e27\uff1a\u771f\u5b9e\u91cf\u5316\u7f16\u7801\u5165\u5e93\u3001\u5171\u4eab\u7528\u9014\u9010\u5b57\u6bb5\u4fdd\u5168\u3001reader \u91cd\u8bfb 14 \u5e27\u3001undo/redo \u5bf9\u79f0",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u66ff\u6362\u5f53\u524d\u5e27\uff1a\u53cc\u7528\u9014 confirm \u53d6\u6d88\u4fa7\u96f6\u63d0\u4ea4\u3001\u653e\u884c\u4fa7\u771f\u5b9e\u91cd\u7f16\u7801\u4e14\u53cc\u5b9a\u4e49\u4fdd\u5168\u3001undo \u8fd8\u539f\u5b57\u8282",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u5220\u9664\u6e90\u5e27\uff1a\u59ff\u52bf\u4fee\u590d\u968f\u66ff\u6362\u539f\u5b50\u63d0\u4ea4\u3001confirm \u5217\u7cbe\u786e\u51b2\u51fb\u6e05\u5355\u3001\u53d6\u6d88\u96f6\u63d0\u4ea4\u3001undo \u5168\u8fd8\u539f",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u56db\u5411\u884c\u8d70\u524d\u7f00\u5185\u5220\u5e27\u88ab\u771f\u5b9e\u89c4\u5212\u5668\u963b\u65ad\uff08\u9519\u8bef\u53cd\u9988\u96f6\u63d0\u4ea4\uff09\uff1b\u5355\u5e27\u5bb9\u5668\u5220\u9664\u6309\u94ae\u7981\u7528",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+          "fullName": "K02 SpriteResourceViewer \u771f\u5b9e\u5e27\u7f16\u8f91\u5de5\u4f5c\u6d41 \u8fdf\u5230\u78c1\u76d8\u8bfb\u53d6\u5f52\u5c5e\uff1a\u95f8\u95e8\u5185\u65e7\u8d44\u6e90\u5b8c\u6210\u540e\u4e0d\u5f97\u76d6\u6389\u5df2\u5207\u6362\u7684\u65b0\u9009\u62e9\uff0c\u7f13\u5b58\u7ed3\u679c\u5f52\u539f\u8d44\u4ea7",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ],
+  "inputManifestSha256": "947bb10a76f155fc1bedb2ade85e050c6e841c50860f80fa21b322192d9f6083",
+  "inputManifestFiles": 2166,
+  "result": "two business counters retained by old and new tests; full recovery green; live files unchanged",
+  "scratchRemoved": true
+}

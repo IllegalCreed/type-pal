@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
-      "afterSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
+      "sourceSha256": "def18f6baf87695d1b375ad7524eecbefc22620b855f9eb5806936aafc432f95",
+      "afterSha256": "def18f6baf87695d1b375ad7524eecbefc22620b855f9eb5806936aafc432f95",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1614,6 +1614,16 @@
           "afterSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
           "scope": "First slice review only; local C01 clean, global diagnostics remain, no closure or merge; other tasks preserved.",
           "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md"
+        },
+        {
+          "date": "2026-10-16",
+          "revision": "c858f4840 + C09 working tree",
+          "action": "viewer-c09-local-checkpoint-only",
+          "previousAfterSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
+          "afterSha256": "def18f6baf87695d1b375ad7524eecbefc22620b855f9eb5806936aafc432f95",
+          "reviewedRanges": ["36-36"],
+          "scope": "Only own Viewer governance row: five clean local cases; full editor still has diagnostics; zero file closures and no merge. Other task states unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md"
         }
       ],
       "supersedes": [],
