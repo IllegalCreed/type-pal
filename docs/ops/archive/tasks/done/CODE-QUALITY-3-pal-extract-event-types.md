@@ -93,3 +93,9 @@ BFS 可达集、shared 强制归属、goto 改写或注释字段。
 ## 下一位 Agent 提示词
 
 无；本批由 Codex 继续实现与独立验收。
+
+## 2026-10-16 当前成果复审（历史done保留，本轮partial）
+
+原type收紧没有改变BFS控制流；当前slice与48b623d66字节相同，annotate后续多出3f symbols IO准入。全文/生产caller与测试读取边界见[当前证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md)。三枚隔离变异旧28例全部绿；本片只补两测试的A2/reset/EO oracle，原28身份保持，新各精确1个业务AssertionError。定向45、extract72文件434/typecheck、shared16文件126/typecheck恢复绿且无运行时诊断。
+
+发现人读元数据伪BFS边与非零计数goto遗漏续行，已停线[控制流真值专卡](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)draft，不改产品/公共接口/生成物。当前raw完整43503条roundtrip绿不能证明切片正确；game默认全局all.json，不能据局部差异宣布游戏表现故障。两旧关闭转review、一待核测试登记review、0新关闭；annotation排重/合法oracle与统一门继续，83卡当前accept仍0。无下一位Agent提示词，Codex单Agent继续。

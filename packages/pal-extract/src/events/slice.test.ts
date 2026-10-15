@@ -7,7 +7,7 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number): import('../
     scriptOnEnter,
     scriptOnTeleport: 0,
     eventObjectIndex,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, scriptOnEnter, 0, eventObjectIndex]),
   }
 }
 
@@ -94,7 +94,7 @@ describe('sliceByScene', () => {
           spritePtrOffset: 0,
           nSpriteFramesAuto: 0,
           scriptIdleFrameCountAuto: 0,
-          raw: new Uint16Array(),
+          raw: new Uint16Array([0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
         },
       ],
     )
@@ -142,15 +142,21 @@ describe('sliceByScene', () => {
     const result = sliceByScene(
       [
         { op: 'end' }, // 0: padding
-        { op: 'end', reset: true, resetTo: 3, idleFrames: 0 }, // 1: scene 0 entry → 跳 3 + i+1=2
+        { op: 'end', reset: true, resetTo: 3, idleFrames: 30 }, // 1: 未满计数跳 3；计数满后推进 2
         { op: 'end' }, // 2: fall-through 续行
         { label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] }, // 3: resetTo 目标,必须被收
+        { op: 'end' }, // 4: resetTo 路径终点
       ],
       [makeScene(1, 0)],
       [],
     )
     const cmds = result.scenes[0]!.segments[0]!.commands
-    expect(cmds).toContainEqual({ label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] })
+    expect(cmds).toEqual([
+      { op: 'end', reset: true, resetTo: 3, idleFrames: 30 },
+      { op: 'end' },
+      { label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] },
+      { op: 'end' },
+    ])
   })
 
   // ── 条件跳转 opcode 目标收集(2026-05-28 A2)──────────────────────────────────
@@ -174,17 +180,22 @@ describe('sliceByScene', () => {
       [
         { op: 'end' }, // 0 padding
         { op: 'raw', opcode: 0xa2, operands: [3, 0, 0] }, // 1 entry — 目标 i+1..i+3 = 2,3,4
-        { op: 'raw', opcode: 0x35, operands: [1, 0, 0] }, // 2
-        { op: 'raw', opcode: 0x35, operands: [2, 0, 0] }, // 3
-        { op: 'raw', opcode: 0x35, operands: [3, 0, 0] }, // 4
+        { label: 'L_2', op: 'end' }, // 2: 阻断普通续行，不能靠顺序执行覆盖其后两个随机目标
+        { label: 'L_3', op: 'end' }, // 3: 仅由随机边到达
+        { label: 'L_4', op: 'raw', opcode: 0x35, operands: [3, 0, 0] }, // 4: 仅由随机边到达
         { op: 'end' }, // 5
       ],
       [makeScene(1, 0)],
       [],
     )
     const cmds = result.scenes[0]!.segments[0]!.commands
-    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [2, 0, 0] }) // i+2 收集
-    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [3, 0, 0] }) // i+3 收集
+    expect(cmds).toEqual([
+      { op: 'raw', opcode: 0xa2, operands: [3, 0, 0] },
+      { label: 'L_2', op: 'end' },
+      { label: 'L_3', op: 'end' },
+      { label: 'L_4', op: 'raw', opcode: 0x35, operands: [3, 0, 0] },
+      { op: 'end' },
+    ])
   })
 
   // L29:13 个条件跳转 opcode 的跳转目标(rgwOperand[N])此前不在 JUMP_TARGET_OPERAND 表,

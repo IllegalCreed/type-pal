@@ -13,6 +13,8 @@
  * - globalEntries 越界 ip 与重复入口被跳过（:132）；global BFS 的 end advance/reset
  *   变体（:137-141）、goto 跟随与非 L_ 标签不跟随（:145-147）、字符串字段扫描
  *   L_N 命中/未命中（:150-153）。
+ * 2026-10-16复审：字符串扫描末例只是现行行为观察，原fixture还可顺序到达目标，不能证明
+ * text应当是控制流；已转QUALITY-EVENT-SLICE-CONTROL-TRUTH-1，不据此接受生产语义。
  * 不覆盖（ledger）：0xA2 `operands[0] ?? 0`（:35，RawCommand operands 为定长三元组，
  * typed/真实 disasm 输入不可缺）、shared predicate `sceneCount[i] ?? 0`（:193，
  * sceneCount 与 commands 同长，构造上不可达）。
@@ -29,7 +31,7 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number, teleport = 0
     scriptOnEnter,
     scriptOnTeleport: teleport,
     eventObjectIndex,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, scriptOnEnter, teleport, eventObjectIndex]),
   }
 }
 
@@ -51,7 +53,7 @@ function makeEo(triggerScript: number, autoScript: number): EventObject {
     spritePtrOffset: 0,
     nSpriteFramesAuto: 0,
     scriptIdleFrameCountAuto: 0,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, 0, 0, 0, triggerScript, autoScript, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
   }
 }
 
@@ -83,14 +85,14 @@ describe('KIMI-R1 sliceByScene scene BFS 残余分支', () => {
       { op: 'end' }, // 1 不可达
       { op: 'end' }, // 2 不可达
       { op: 'end' }, // 3 不可达
-      { op: 'end' }, // 4 ← eo1.autoScript
+      { op: 'end', label: 'L_4' }, // 4 ← eo1.autoScript；身份必须区别于错误入口1的end
     ]
     const result = sliceByScene(
       commands,
       [makeScene(0, 0), makeScene(0, 5)],
       [makeEo(0, 0), makeEo(0, 4)],
     )
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_4' }])
     expect(result.scenes[1]!.segments[0]!.commands).toEqual([])
     expect(result.shared.segments[0]!.commands).toEqual([])
   })

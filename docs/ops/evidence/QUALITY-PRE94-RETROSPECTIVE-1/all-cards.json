@@ -177,7 +177,7 @@
       "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -205,7 +205,9 @@
           "text": "- 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
+      "findings": "three old-green/new-single-AssertionError slice oracles; 28 identities unchanged; native raw roundtrip exact; control/metadata risks stopped in draft; production unchanged; annotation/unified gates pending; no new closure"
     },
     {
       "id": "3b",

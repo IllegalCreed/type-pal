@@ -1,0 +1,36 @@
+{
+  "productionUnchanged": true,
+  "beforeSnapshotsVerified": true,
+  "twentyEightOriginalIdentitiesPreserved": true,
+  "exactMutantsAndCopyHashesReconstructed": true,
+  "rawRunnerAndCurrentInputHashesVerified": true,
+  "singleBusinessFailures": [
+    {
+      "mutation": "random",
+      "file": "slice.test.ts",
+      "fullName": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "reset",
+      "file": "slice.test.ts",
+      "fullName": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "auto",
+      "file": "slice.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口",
+      "type": "AssertionError"
+    }
+  ],
+  "temporaryCopiesRemoved": true,
+  "baselineAndRetirementRulesUnchanged": true,
+  "strictProbeTypecheckPassed": true,
+  "controlProbeReplayedAfterTypeGuards": true,
+  "noPalExeExecution": true,
+  "currentRawMetadataProjectionEqual": true,
+  "realNonzeroDelayGotoCount": 17,
+  "wholeCardAcceptance": false,
+  "finalControlProbeSha256": "2862ddd6ceb7dc1db9155272819933fd1236e9c519f0af82cf3b9588f6e9cffa"
+}

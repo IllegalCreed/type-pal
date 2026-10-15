@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3c动画清理已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -111,3 +111,13 @@ Codex premise verified/design agree/build allowed限三个现有测试：yj2.bou
 ### CODE3c本片结果
 
 原1身份加强活动timer卸载，三针各精确1个业务AssertionError、恢复正常1绿；生产与规则/baseline未动。editor模块36绿但6act，reforge相邻22零诊断、editor typecheck通过；全仓门未新跑，不合main。原两条关闭转review、0新关闭，当前机器已确认213closed/211review/2863pending。3c本轮partial；全部83卡accept仍0，7卡partial/76pending，下一片CODE3 extraction event/type模块。
+
+## CODE3切分测试有限补证准入
+
+全文读取slice/annotate实现、四slice测试/两annotation测试、disasm/recompile/roundtrip、shared事件类型、SSS/WORD/MSG解析，真实CLI入口收集/事件写出片段及SDLPal相关case。原卡纯类型收紧未改变BFS，当前annotate另含3f parseSymbols增量。人读元数据伪边与带计数goto遗漏续行已停线QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 draft，生产算法/重复BFS抽取与生成物冻结。
+
+隔离三针（删A2随机边、resetTo有值时漏续行、EO auto入口错定为1），原四文件28例均绿，证明对应旧断言不能判别。Codex premise verified/design agree/build allowed白名单仅slice.test.ts及slice.kimi-r1.test.ts：原A2例用end隔断普通fall-through并核完整有序集合；原reset例用非零idleFrames与完整目标/续行oracle；原EO auto例区分目标身份，修正现有fixture raw字段布局、相关注释。保持28身份，不新增测试、ignore、弱断言、规则/runner或生成物；先新三针各指定AssertionError再恢复定向/相邻/typecheck。Kimi字符串扫描旧例仅保留历史行为观察，不能作为正确控制流真值；不借补证实施高风险算法修复。
+
+### CODE3本片结果
+
+三针旧28绿/新各27绿1指定业务红，恢复定向45、extract72/434+typecheck、shared16/126+typecheck均零诊断。仅两测试补证，生产/规则/baseline与资源未改；控制流/元数据风险专卡draft继续，不借此抽重复BFS。机器已确认211closed/214review/2862pending，0新关闭；全83卡8partial/75pending/0accept。下一片继续CODE3 annotation测试质量，之后3b；94–102与editor返工保留，统一门未清不合main。

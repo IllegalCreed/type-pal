@@ -1,0 +1,862 @@
+{
+  "phase": "after",
+  "head": "6055857521f5f9b35f38761534edb632e6ce62f6",
+  "sourceSha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4",
+  "testSha256": {
+    "slice.test.ts": "841447bcf388d2dda305f3b04e4fc281de53de78dd80de8d1cdcf9038f0945a9",
+    "slice.boundaries.test.ts": "c893778cedbcfced389912954470a40b4343184ea81b2a2d8a498831dc8ed452",
+    "slice.glm-runtime-resource.test.ts": "5f7a14bef834cb3b4063aee64d692447662614e53a754041217fdb1b69aaeab9",
+    "slice.kimi-r1.test.ts": "8646977267536d15cc612a2c857a9036b997785edec24747750e27011e4878e8"
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-slice-after-control-slice.test.ts",
+        "src/events/pre94-slice-after-control-slice.boundaries.test.ts",
+        "src/events/pre94-slice-after-control-slice.glm-runtime-resource.test.ts",
+        "src/events/pre94-slice-after-control-slice.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-slice-5s1rt6dp/control.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.679,
+      "passed": 28,
+      "failed": 0,
+      "pending": 0,
+      "assertions": [
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 循环（goto 回自身）只收一次，不重复",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 越界与重复入口被跳过：ip>=commands.length 与 visited 去重",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 goto：L_N 跟随；shared#L_N 等非本地标签不跟随",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "42eb99799d2e0886000fcbad25fabca7fab23681e56135d3b46264ab8a930284",
+      "runnerSha256": "a84c7cd37e0bbca1dd6ee08a521354ae754df388991291a2efdb48ba86d81038",
+      "moduleSha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4",
+      "testCopySha256": {
+        "pre94-slice-after-control-slice.test.ts": "c28e75af103920b8ebb20de58b3bee129a05104b3e0592d7a8c380aeb005d07f",
+        "pre94-slice-after-control-slice.boundaries.test.ts": "67231873e5904ba6b9c4e66da8f76c83814525c4ba515e416fc0d57e991b801b",
+        "pre94-slice-after-control-slice.glm-runtime-resource.test.ts": "bb5ee420ce513fc3e529c889e7100edabec02f18287f9b0969fcf07275a46190",
+        "pre94-slice-after-control-slice.kimi-r1.test.ts": "2d86c5082be4c83e5c013ad5da6c85b982d61a1f0db734b43146de91bec82f1c"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "random",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-slice-after-random-slice.test.ts",
+        "src/events/pre94-slice-after-random-slice.boundaries.test.ts",
+        "src/events/pre94-slice-after-random-slice.glm-runtime-resource.test.ts",
+        "src/events/pre94-slice-after-random-slice.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-slice-5s1rt6dp/random.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.705,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "assertions": [
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 循环（goto 回自身）只收一次，不重复",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 越界与重复入口被跳过：ip>=commands.length 与 visited 去重",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 goto：L_N 跟随；shared#L_N 等非本地标签不跟随",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ …(2) ] to deeply equal [ …(5) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-slice-after-random-slice.test.ts:192:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "819cac1eba63ebc4790ab670377b9439fd2939c67251a94928766ff9c45009c9",
+      "runnerSha256": "de9cada4f5a1a4cf9915f23edd4a51350192b92e1c38e5d3f7636febdcaa2ab2",
+      "moduleSha256": "4c16f3202242485e53821309b7d0f5212e1a9998a97c22e42b207c74584e56e8",
+      "testCopySha256": {
+        "pre94-slice-after-random-slice.test.ts": "2f20a3d82187c5c01b63e6130e2c3047f347809f59b257edc39376296d762707",
+        "pre94-slice-after-random-slice.boundaries.test.ts": "6b6129781f624c298ad8ab18bd47a4a0bb1086d9845a73347c222e914e8eace6",
+        "pre94-slice-after-random-slice.glm-runtime-resource.test.ts": "95b0e58a0b45fac2a1f0560a984bdc8bf852bd121bfc34f2180eedd21025ab1c",
+        "pre94-slice-after-random-slice.kimi-r1.test.ts": "45329e09ab8c5e0f2aac82b0d601fb0aae9ce37dc145d26c70de55da8cde8e8f"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "reset",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-slice-after-reset-slice.test.ts",
+        "src/events/pre94-slice-after-reset-slice.boundaries.test.ts",
+        "src/events/pre94-slice-after-reset-slice.glm-runtime-resource.test.ts",
+        "src/events/pre94-slice-after-reset-slice.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-slice-5s1rt6dp/reset.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.693,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "assertions": [
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 循环（goto 回自身）只收一次，不重复",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 越界与重复入口被跳过：ip>=commands.length 与 visited 去重",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 goto：L_N 跟随；shared#L_N 等非本地标签不跟随",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ …(3) ] to deeply equal [ …(4) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-slice-after-reset-slice.test.ts:154:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "b9185181ee1834170fa3ab7173af749e17e1d2c72e8a0ce17248a2462766bb8c",
+      "runnerSha256": "7829df9b28240917544390aed544d09a5448df0585c8e8a869f7574efd01f9df",
+      "moduleSha256": "cdd0c4ff3a1ba3f134e55e58ea107a637427d1f38237ab4cf550c65445c76af7",
+      "testCopySha256": {
+        "pre94-slice-after-reset-slice.test.ts": "c99dfa04acdf93155e1d73cd5ff17ed0fa9652fce3988b0f8ca45286db0c6dc5",
+        "pre94-slice-after-reset-slice.boundaries.test.ts": "dab9d62ef3f72a0c1a2ec3a72816b66e75f8baedf113b82fb8994f548d1de780",
+        "pre94-slice-after-reset-slice.glm-runtime-resource.test.ts": "df1abfbd61792de495a91c1456b7cdd3dab280767c400fb7bd0aae43bf541bda",
+        "pre94-slice-after-reset-slice.kimi-r1.test.ts": "3a9b66df295bba6a152db102caaf7cfe3ad92d325099c50484ff03ce7e100686"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "auto",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-slice-after-auto-slice.test.ts",
+        "src/events/pre94-slice-after-auto-slice.boundaries.test.ts",
+        "src/events/pre94-slice-after-auto-slice.glm-runtime-resource.test.ts",
+        "src/events/pre94-slice-after-auto-slice.kimi-r1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-slice-5s1rt6dp/auto.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.745,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "assertions": [
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 循环（goto 回自身）只收一次，不重复",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 最后 scene 的 EO 段开区间到 eventObjects 末尾；enter/teleport 双入口都可达",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.boundaries.test.ts",
+          "name": "R06 sliceByScene globalEntries 归属 跨文件 goto 改写 shared#L_N；raw 数字 operand 不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.glm-runtime-resource.test.ts",
+          "name": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'end' } ] to deeply equal [ { op: 'end', label: 'L_4' } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-slice-after-auto-slice.kimi-r1.test.ts:95:53\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene scene BFS 残余分支 end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 越界与重复入口被跳过：ip>=commands.length 与 visited 去重",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 goto：L_N 跟随；shared#L_N 等非本地标签不跟随",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.kimi-r1.test.ts",
+          "name": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "slice.test.ts",
+          "name": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "8d129f22af9e7163647a74718414ca952a302c9d6d1261b49ab6f4af112dce28",
+      "runnerSha256": "eda398d824e4516a3e412657cfbbd510709a541f784e72edfba793243c91916a",
+      "moduleSha256": "0cc02c40ba4bb6abd51e47008ed4288eb49eb028aba1232058fbaf7b7098ca54",
+      "testCopySha256": {
+        "pre94-slice-after-auto-slice.test.ts": "173e6d65543019c6a4e168c1cf9ab32a8e316a2242f8689aee3156f532dec6f1",
+        "pre94-slice-after-auto-slice.boundaries.test.ts": "4e94c5f07758d3b2e62f6c26abc121994e924c05297a96fb8936a413bd23b5e4",
+        "pre94-slice-after-auto-slice.glm-runtime-resource.test.ts": "c8eeb8972335ff37a6bc3e58dca20307433cbc29ec37dc55ef75a867b144a328",
+        "pre94-slice-after-auto-slice.kimi-r1.test.ts": "c64c841a50f2517e6b30d70ee4e4e5b1511d2611e3e379561825db537cbda5b0"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "productionUnchanged": true,
+  "originalTestsUnchangedDuringProbe": true,
+  "temporaryCopiesRemoved": true
+}

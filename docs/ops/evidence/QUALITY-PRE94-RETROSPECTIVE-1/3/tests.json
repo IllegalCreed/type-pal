@@ -1,0 +1,95 @@
+{
+  "runs": [
+    {
+      "name": "extract-targeted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/slice.test.ts",
+        "src/events/slice.boundaries.test.ts",
+        "src/events/slice.glm-runtime-resource.test.ts",
+        "src/events/slice.kimi-r1.test.ts",
+        "src/events/annotate.test.ts",
+        "src/events/annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-events-recovery-p2wdv9cq/extract-targeted.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.858,
+      "rawSha256": "130b47270ab9587eb68920dfe5f6b63d40d96ea47fb418aa950fd8f1a93a3cea",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 45,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "bb091f84d520724cecfe2bed110e609bab74b63b9fda91238747e586656088d7"
+    },
+    {
+      "name": "extract-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/pal-extract", "run", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.02,
+      "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "extract-package",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-events-recovery-p2wdv9cq/extract-package.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 44.963,
+      "rawSha256": "c1836853827bd64e2fbf6de22a82cd6f04d5bba6ef39edc8e4f7cac7e514c6cc",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 434,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "0f6df44fe74f98de2f8ba51c6cb755c2a078d9d1bf6cbeb8996c74d939a9d073"
+    },
+    {
+      "name": "shared-adjacent-check",
+      "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.382,
+      "rawSha256": "9f89b99fc2aca298861b2cb0dfc51960851cb633b48e82b621858554b3d2de36",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "fullCoverageGate": false
+}

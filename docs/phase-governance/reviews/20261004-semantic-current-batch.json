@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "92319ccf969019238239bd9ebee6a18ebe32cc048bbf1d9ad0ba908450503230",
-      "afterSha256": "92319ccf969019238239bd9ebee6a18ebe32cc048bbf1d9ad0ba908450503230",
+      "sourceSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
+      "afterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1427,6 +1427,15 @@
             "previousAfterSha256": "b113f6cde3dd435df1f1c4519d97fe4b54382d6746ebafb4d2755573931f651f",
             "afterSha256": "92319ccf969019238239bd9ebee6a18ebe32cc048bbf1d9ad0ba908450503230",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "605585752",
+            "action": "pre94-CODE3-slice-oracles-and-control-truth-stop-line",
+            "scope": "docs/ops/board.md own retrospective/risk-card navigation only; 0 new closures; other owners unchanged",
+            "previousAfterSha256": "92319ccf969019238239bd9ebee6a18ebe32cc048bbf1d9ad0ba908450503230",
+            "afterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
           }
         ]
       },
@@ -1737,8 +1746,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "d4e29d39393c09af5e1250214454d74fd20f2ec5e9f565ba6c95089d5114cf73",
-      "afterSha256": "d4e29d39393c09af5e1250214454d74fd20f2ec5e9f565ba6c95089d5114cf73",
+      "sourceSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
+      "afterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2264,6 +2273,15 @@
             "previousAfterSha256": "a15a89110e22683420c01fa799c0b8d6dc8935e80c21c724831afd948d1aed64",
             "afterSha256": "d4e29d39393c09af5e1250214454d74fd20f2ec5e9f565ba6c95089d5114cf73",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "605585752",
+            "action": "pre94-CODE3-slice-oracles-and-control-truth-stop-line",
+            "scope": "docs/ops/evidence/README.md own retrospective/risk-card navigation only; 0 new closures; other owners unchanged",
+            "previousAfterSha256": "d4e29d39393c09af5e1250214454d74fd20f2ec5e9f565ba6c95089d5114cf73",
+            "afterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -3016,8 +3034,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
-      "afterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
+      "sourceSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
+      "afterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -3879,6 +3897,15 @@
             "previousAfterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
             "afterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "605585752",
+            "action": "pre94-CODE3-slice-oracles-and-control-truth-stop-line",
+            "scope": "docs/ops/tasks/index.md own retrospective/risk-card navigation only; 0 new closures; other owners unchanged",
+            "previousAfterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
+            "afterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
           }
         ]
       },

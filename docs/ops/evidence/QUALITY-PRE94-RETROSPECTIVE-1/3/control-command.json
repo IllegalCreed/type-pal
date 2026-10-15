@@ -1,0 +1,24 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/control-probe.mts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 2.085,
+  "rawSha256": "ebabecaaf36c2b1fcdccf6ab94cda93cbfa988f5e49aaa802e49c5273b2b6297",
+  "scriptSha256": "2862ddd6ceb7dc1db9155272819933fd1236e9c519f0af82cf3b9588f6e9cffa",
+  "inputHashesBefore": {
+    "data/raw/SSS.MKF": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "data/raw/WORD.DAT": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "data/raw/M.MSG": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+  },
+  "inputHashesAfter": {
+    "data/raw/SSS.MKF": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "data/raw/WORD.DAT": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "data/raw/M.MSG": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+  },
+  "temporaryCallerRemoved": true
+}

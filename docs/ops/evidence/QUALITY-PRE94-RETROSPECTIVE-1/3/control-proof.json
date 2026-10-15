@@ -1,0 +1,520 @@
+{
+  "callerBlockSha256": "8ef48d51cfae24d35f2c9c235a883ddba3b99c35cdf16514c019f491cee6d0d1",
+  "callerBlockStartLine": 220,
+  "callerBlockEndLine": 260,
+  "inputs": [
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/raw/WORD.DAT",
+      "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf"
+    },
+    {
+      "path": "data/raw/M.MSG",
+      "sha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+    }
+  ],
+  "symbolsInput": {
+    "path": "data/symbols.json",
+    "exists": false,
+    "sha256": null
+  },
+  "raw": {
+    "instructions": 43503,
+    "scenes": 295,
+    "eventObjects": 5077,
+    "globalEntries": 694,
+    "entryIps": 6767,
+    "exactByteRoundtrip": true,
+    "metadataProjectionEqual": true,
+    "projectionSha256": "f63cd94ffee27260fdabe0f3c72df2dbf1075553563ba328ce53d4c28de885d7",
+    "maskedProjectionSha256": "f63cd94ffee27260fdabe0f3c72df2dbf1075553563ba328ce53d4c28de885d7",
+    "nonzeroDelayGotos": [
+      {
+        "ip": 193,
+        "to": "L_191",
+        "frameDelay": 4
+      },
+      {
+        "ip": 205,
+        "to": "L_203",
+        "frameDelay": 4
+      },
+      {
+        "ip": 2616,
+        "to": "L_2615",
+        "frameDelay": 9
+      },
+      {
+        "ip": 2621,
+        "to": "L_2620",
+        "frameDelay": 9
+      },
+      {
+        "ip": 5573,
+        "to": "L_5572",
+        "frameDelay": 10
+      },
+      {
+        "ip": 7340,
+        "to": "L_7339",
+        "frameDelay": 140
+      },
+      {
+        "ip": 16513,
+        "to": "L_16512",
+        "frameDelay": 12
+      },
+      {
+        "ip": 32097,
+        "to": "L_32095",
+        "frameDelay": 8
+      },
+      {
+        "ip": 32209,
+        "to": "L_32207",
+        "frameDelay": 8
+      },
+      {
+        "ip": 33696,
+        "to": "L_33694",
+        "frameDelay": 3
+      },
+      {
+        "ip": 33770,
+        "to": "L_33768",
+        "frameDelay": 9
+      },
+      {
+        "ip": 33964,
+        "to": "L_33962",
+        "frameDelay": 3
+      },
+      {
+        "ip": 33972,
+        "to": "L_33970",
+        "frameDelay": 4
+      },
+      {
+        "ip": 34313,
+        "to": "L_34311",
+        "frameDelay": 15
+      },
+      {
+        "ip": 34779,
+        "to": "L_34778",
+        "frameDelay": 320
+      },
+      {
+        "ip": 35054,
+        "to": "L_35052",
+        "frameDelay": 3
+      },
+      {
+        "ip": 35062,
+        "to": "L_35060",
+        "frameDelay": 4
+      }
+    ]
+  },
+  "synthetic": [
+    {
+      "kind": "text",
+      "owner": "scene",
+      "input": [
+        0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0
+      ],
+      "before": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": [
+                  {
+                    "op": "showDialog",
+                    "messageIndex": 0,
+                    "text": "message",
+                    "label": "L_1"
+                  },
+                  {
+                    "op": "end"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": []
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "after": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": [
+                  {
+                    "op": "showDialog",
+                    "messageIndex": 0,
+                    "text": "L_3",
+                    "label": "L_1"
+                  },
+                  {
+                    "op": "end"
+                  },
+                  {
+                    "op": "end",
+                    "label": "L_3"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": []
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "sameRecompiledBytes": true
+    },
+    {
+      "kind": "text",
+      "owner": "global",
+      "input": [
+        0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0
+      ],
+      "before": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": []
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": [
+                {
+                  "op": "showDialog",
+                  "messageIndex": 0,
+                  "text": "message",
+                  "label": "L_1"
+                },
+                {
+                  "op": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "after": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": []
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": [
+                {
+                  "op": "showDialog",
+                  "messageIndex": 0,
+                  "text": "L_3",
+                  "label": "L_1"
+                },
+                {
+                  "op": "end"
+                },
+                {
+                  "op": "end",
+                  "label": "L_3"
+                }
+              ]
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "sameRecompiledBytes": true
+    },
+    {
+      "kind": "annotation",
+      "owner": "scene",
+      "input": [
+        0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 61, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 3, 0, 3, 0, 0, 0, 0, 0
+      ],
+      "before": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": [
+                  {
+                    "op": "giveItem",
+                    "itemId": 61,
+                    "count": 1,
+                    "label": "L_1",
+                    "_item": "观音符"
+                  },
+                  {
+                    "op": "end"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": []
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "after": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": [
+                  {
+                    "op": "giveItem",
+                    "itemId": 61,
+                    "count": 1,
+                    "label": "L_1",
+                    "_item": "L_3"
+                  },
+                  {
+                    "op": "end"
+                  },
+                  {
+                    "op": "end",
+                    "label": "L_3"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": []
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "sameRecompiledBytes": true
+    },
+    {
+      "kind": "annotation",
+      "owner": "global",
+      "input": [
+        0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 61, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 3, 0, 3, 0, 0, 0, 0, 0
+      ],
+      "before": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": []
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": [
+                {
+                  "op": "giveItem",
+                  "itemId": 61,
+                  "count": 1,
+                  "label": "L_1",
+                  "_item": "观音符"
+                },
+                {
+                  "op": "end"
+                }
+              ]
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "after": {
+        "scenes": [
+          {
+            "scene": 0,
+            "segments": [
+              {
+                "name": "scene-0.entries",
+                "commands": []
+              }
+            ]
+          }
+        ],
+        "shared": {
+          "segments": [
+            {
+              "name": "shared",
+              "commands": [
+                {
+                  "op": "giveItem",
+                  "itemId": 61,
+                  "count": 1,
+                  "label": "L_1",
+                  "_item": "L_3"
+                },
+                {
+                  "op": "end"
+                },
+                {
+                  "op": "end",
+                  "label": "L_3"
+                }
+              ]
+            }
+          ]
+        },
+        "objects": {
+          "segments": []
+        }
+      },
+      "sameRecompiledBytes": true
+    }
+  ],
+  "delayedGoto": {
+    "input": [
+      0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 4, 0, 2, 0, 0, 0, 71, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    "disassembled": [
+      {
+        "op": "end"
+      },
+      {
+        "op": "goto",
+        "to": "L_4",
+        "frameDelay": 2,
+        "label": "L_1"
+      },
+      {
+        "op": "raw",
+        "opcode": 71,
+        "operands": [42, 0, 0]
+      },
+      {
+        "op": "end"
+      },
+      {
+        "op": "end",
+        "label": "L_4"
+      }
+    ],
+    "sliced": {
+      "scenes": [
+        {
+          "scene": 0,
+          "segments": [
+            {
+              "name": "scene-0.entries",
+              "commands": [
+                {
+                  "op": "goto",
+                  "to": "L_4",
+                  "frameDelay": 2,
+                  "label": "L_1"
+                },
+                {
+                  "op": "end",
+                  "label": "L_4"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "shared": {
+        "segments": [
+          {
+            "name": "shared",
+            "commands": []
+          }
+        ]
+      },
+      "objects": {
+        "segments": []
+      }
+    },
+    "missingBySdlSource": [2, 3],
+    "source": "script.c:3239-3258 / 3550-3571",
+    "limitation": "SDL source verified; pal.exe and real runtime impact not executed"
+  },
+  "productionAndInputsWritten": false
+}

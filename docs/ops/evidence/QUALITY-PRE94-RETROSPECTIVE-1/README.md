@@ -60,3 +60,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 [CODE2b YJ2复审](2b/README.md)：原函数native2626段对拍、四混合合同转规范、raw长度smoke换完整字节oracle；0新关闭，续CODE3c。
 
 2026-10-16 [CODE3c动画与清理复审](3c/README.md)：原1例补活动timer卸载，三有效反控；editor模块36绿仍6act，reforge22零诊断/typecheck通过。两旧关闭转review，0新关闭；全83卡0accept/7partial/76pending，下一片CODE3 extraction。
+
+2026-10-16 [CODE3切分复审](3/README.md)：两测试补三oracle/三旧绿新红，extract434/shared126恢复绿；控制流伪边/计数goto风险停线draft，生产/资源未动。0新关闭；83卡0accept/8partial/75pending，续CODE3 annotation。
