@@ -43,7 +43,7 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 采用 statusPolicy 的域报告/document-audit 按唯一 catalog id 校验发布状态，默认机器 execution 按执行状态校验。historical-review-payload-v1 在1.4引入并通过九键 r10 原生保真独立 pilot；它保留原 counter/MISSED/诊断，治理 lifecycle 固定 historical、本轮执行 false，不造 catalog 身份或把 verdict 当状态。
 
-机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。新三格式仍须分别通过真实 consumer/来源反例和 canonical 单篇独立 pilot，登记格式不等于接收正文。版本与边界见设计提案 C1/C2/I/J。
+机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。三份固定源格式已分别通过真实 consumer/来源反例和 canonical 单篇非作者独立 pilot；只接收这三份原生机器文档，三配对历史 MD 及其它未读 JSON 仍须逐篇治理，不能由登记格式外推。版本与边界见设计提案 C1/C2/I/J。
 
 ## 证据与下一步
 

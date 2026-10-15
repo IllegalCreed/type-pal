@@ -39,7 +39,7 @@ Template: governance-index-v1 / 1.0.0
 
 历史九字段 r10 的 historical-review-payload-v1 在1.4引入并已获固定源/真实 consumer/非作者独立 pilot 接收；原 counter/MISSED/诊断/exit 保持，治理 historical、本轮 false，不补造 schema2/id/status。
 
-机器父版本1.5增加 continuation/intake/command 三种历史集成变体（15/10/22原生键），精确名称与固定33cc源见统一 registry 和冻结 J 设计。原 default 与三个变体保持，既有15份只滚治理版本，0新增迁移/运行。新三格式 canonical 单篇独立 pilot 尚待；原历史 status/verdict/警告/非执行项不改，不能把集成沿用针数当新执行或套 catalog 发布词表。
+机器父版本1.5增加 continuation/intake/command 三种历史集成变体（15/10/22原生键），精确名称与固定33cc源见统一 registry 和冻结 J 设计。原 default 与三个变体保持，既有15份只滚治理版本，0新增迁移/运行。三份固定源 canonical 单篇非作者独立 pilot 均已接收，三配对历史 MD 与其它未读机器对象仍待逐篇治理；原历史 status/verdict/警告/非执行项不改，不能把集成沿用针数当新执行或套 catalog 发布词表。
 
 ## 证据与下一步
 

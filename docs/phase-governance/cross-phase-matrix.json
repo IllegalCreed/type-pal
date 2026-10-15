@@ -850,6 +850,30 @@
         "历史/tmp/截图/raw未新查可用性，不补造运行；该原生模板只适用于已批准九键合同，其它机器shape仍须设计和pilot。"
       ],
       "stopLine": "不补造schema2/catalog状态，不改原九字段/失败/警告；联合换标签或刷review SHA不得绕过固定原生源，格式通过不关闭全量或产品验收。"
+    },
+    {
+      "id": "historical-integration-denominators-vs-current-native-governance",
+      "from": [
+        "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+        "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "原八项9573/957与9081/728分母分开，109分项针未重跑；Cursor24/GLM41正式共享8707/8215/686且29=25+4不重复归因，wave2的8740/8248/701与15judge+5针另时点。三原生格式的本轮currentAudit=false/来源保真接收不更新历史status/owner/警告或关闭配对MD/其它任务。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json:1",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md:1"
+      ],
+      "unresolved": [
+        "原62/53/55warnings及各6infos保持；原有视觉/zoom/boot/组合/远端CI未证不因静态模板关闭。",
+        "仅36明确旧路径exists-only缺席被记录，未重验内容；其它raw可用性unknown。"
+      ],
+      "stopLine": "不把coverage四维total当测试增量、不把路径数组fingerprint当raw内容SHA、不恢复旧授权/兼容/清理命令；不得将历史accept当当前运行验收。"
     }
   ],
   "acceptance": {

@@ -747,6 +747,21 @@
       "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-review-payload-v1"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-continuation-integration-v1"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-intake-completion-v1"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-command-integration-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -730,3 +730,17 @@ Branch: codex/docs-full-template-proposal
 
 - J0非作者receipt_review独立implementation accept，无counter；精确29文件快照SHA`ab96580d5aa846bf528e17470bbd8625d77aa0b6a8de0ac31835c4300f351516`，其真实11/11/model150/strict659/7440links/ledger/progress/diff与根全76工具/lint4095零分开。原native1436行不因此冒称本轮独立全文复审。根签收/current入口review接受字段是后续元数据；15正文/旧合同/两入口body不再改，最后门按最终字节实跑后稳定提交。J0仍0新增迁移。
 - J6 build allowed（仅J0稳定提交后root实际开工）：根Codex唯一Owner；白名单为上述已全文读的三历史JSON（逐份canonical pilot：continuation15键/intake10键/wave2command22键）及其三配对历史MD，另本卡/J控制/必要中央registry、routing、matrix与review；非作者receipt_review负责全文原生1436+配对134及新治理层/来源/完整review验收，不能用J0配置接收替代。三JSON仅原位追加_governance1.5，native全对象deepEqual/prefix/source33cc pin不变；三MD evidence-receipt1.0+archive1.0，具体结论/历史5章/原quote可逆及原标题/链接。原9573/957与9081/728、共享8707/8215/686/29=25+4、8740/8248/701、109未重跑/62-53-55warnings及各6infos、raw/视觉/CI未证等完整保留；wave2 storedSHA旧href时序不刷历史账。不得产品/旧tests/coverage/raw运行或替旧授权生效；每篇当前完整字段/after/source/独立真读后才计迁移。K49贡献者白名单独立不碰，先三个JSON实际pilot验收再合其余正文接入。
+
+- J0稳定根`9e3fb825426960c8b7d1914a52625a9bdc17b9a3`后，根只写J三JSON canonical pilot候选；原1436行native的全部47顶层字段/嵌套值deepEqual固定33cc，整个原prefix除外层闭括号保字节，只追加各自具体_governance1.5。三current草稿fullreview含47逐键来源含义，先放J控制pilotCandidates，不进entries/中央/route、不增加迁移信用；三配对MD尚未改。非作者receipt_review正在实际全文原1436+配对134，候选来源/完整consumer/逐篇独立pilot仍待。
+
+- J3根自审发现wave2草稿逐键解释把native.total误写成11测试文件/16项/13模块；实际对象是四维covered/total（61306/80643、43284/63178、11409/15058、55193/70600）。已直接回读并纠正当前解释，完整错误draft留prior；三body/native/source未变、未曾授accepted或计迁移。来源/结构consumer绿不代表该语义正确，列J3反例待非作者闭合。
+
+- J3非作者实际逐键审另counter：wave2 native.logs仅6个路径字符串，草稿“路径与hash”会混淆基线hash/本轮数组fingerprint与原raw内容SHA；已窄改明确未提供逐log内容SHA。另continuation unchanged当前解释精确列8个true保护boolean，content20/SAVE8标来自配对MD40而非该字段。两完整错误draft均入prior；三body/native原样、未accepted/计数，待非作者复核闭合。
+
+- J3最后窄修按非作者源审：三goV仅rawAvailability一值改中性指向source-scoped review，区别未读内容与已证缺席；native/prefix不变。非作者确切36明确旧路径exists-only均缺席，逐篇关联自身native/配对MD匹配路径，不泛化全部raw缺失、不伪造内容hash/执行。其实际补读I completion原48行直接支持共享8707/8215/686/29=25+4/41vs42归因；当前pilot draft加真实primary/provenance与完整旧稿prior，仍待canonical逐篇finalaccept。
+
+- J三JSON canonical pilot均获非作者receipt_review分别accept，精确snapshot SHA`df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346`；其1436+134+I48实际全文/47键语义/3正控9指定变造与两字段counter/rawscope闭合完整留存。根不改三body，接中央3/route3、两模板入口当前accept范围及矩阵37→38一条guarded（旧37对象不变）；当前acceptedentries从冻结draft复制+完整prior，原draft快照不倒写。此为根接入候选，实际GFM38/全门/非作者中央delta仍待；三配对MD仍未改、总目标active。
+
+- J3中央首次真实全门未过：76工具/model153/progress149+4均绿，但strict662三条evidence incomplete，因新current.evidence漏kind；原失败log/完整错误三record已封存，不能用前面绿项宣布通过。根只补真实独立fixed-source canonical-pilot evidence.kind，不改body/规则/计数。非作者另counter继承preaudit.pending无历史标签，当前改成 dated preaudit/acceptanceAtPreaudit，旧draft/完整prior原句保留；matrix读域37明确baseline。两中央counter待独立闭合，修后重跑全部门。
+
+- J3中央接入非作者receipt_review accept，两中央counter（evidence.kind缺失、preaudit/current时态）依真实strict/current元数据闭合，精确14文件快照SHA`6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca`。根corrected全门76工具0fail/skip、1223MD/7440links/361tasks、model153/7routes/strict662/testing0/phase184、lint4095零error/warning/info/diff0；首轮失败log/旧错误current完整留存。实际149/1838+4、1963current/1810pending，仍非全量完成。根本次签收/日志为后续元数据，三body/2indexbody/matrixbody不再改，提交前最后全门按最终字节跑；main未动/goalactive。K49已获tail49/49内容accept、稳定af42候选与e7eff回执保留，根后续另接；三J配对MD仍原文待治理。

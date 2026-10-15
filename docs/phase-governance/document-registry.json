@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 659,
+    "total": 662,
     "byPhase": {
       "ops": 417,
       "lore": 14,
@@ -14,7 +14,7 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 51
+      "testing": 54
     },
     "byType": {
       "guide-runbook": 15,
@@ -30,16 +30,16 @@
       "plan-status": 64,
       "test-e2e-stage": 2,
       "test-run-report": 2,
-      "test-machine-evidence": 15,
+      "test-machine-evidence": 18,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 659
+      "content-reviewed": 662
     },
     "templateCompliance": {
-      "template-compliant": 150,
+      "template-compliant": 153,
       "governed-legacy": 509
     }
   },
@@ -7563,6 +7563,48 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateVariant": "historical-continuation-integration-v1",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateVariant": "historical-intake-completion-v1",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateVariant": "historical-command-integration-v1",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-architecture-integration-history.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

@@ -257,5 +257,93 @@
     "activeCwdProcesses": 0,
     "mainAssetsPreserved": true,
     "historyRecoverableFromMain": true
+  },
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "historical-command-integration-v1",
+    "lastReviewed": "2026-10-16",
+    "owner": "Codex (current documentation governance only; original native identity unchanged)",
+    "provenance": [
+      "Fixed approved33cc Git payload; full native/source semantic reading, no historical commands replayed.",
+      "原native owner为Cursor、reviewer为Codex，verdict accept/task保持；本轮Codex为文档治理，不冒作原实现者。"
+    ],
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+    "sourceSha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c",
+    "scope": "2026-09-26九组编辑命令wave2历史accept/R1-R3闭合；11新测试文件16项/13生产模块和旧688保留，8740/8248/701分口径；15judge自测加5业务针非20产品合同，55warnings/6infos/四维coverage不变及远端CI未证保留。",
+    "lifecycle": "historical",
+    "currentAudit": {
+      "runtimeExecutionPerformed": false,
+      "scope": "documentation template/source governance only",
+      "independentAcceptance": "Consult the current central review; this envelope alone grants no independent or execution acceptance.",
+      "rawAvailability": "No raw contents reopened/regenerated; see source-scoped review for existence observations"
+    },
+    "primarySource": [
+      {
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+        "sha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c"
+      },
+      {
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+        "revision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "scope": "paired dated historical integration narrative; full134 lines across three pairs read, not runtime replay"
+      }
+    ],
+    "phaseAnchors": {
+      "historical": "原phase2/editor F2九命令族；A3/B1/B2/B3/C1/D2/E1/F1各原队列分开，当前不授权产品实现。",
+      "current": "docs/testing/governance.md and docs/ops/agent-workflow.md; no product build or old compatibility revived"
+    },
+    "publicCallers": [
+      "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "scripts/docs/document-model.mjs with actual approved Git reader",
+      "scripts/docs/report-governance-progress.mjs only after central review/route intake; old native references remain dated"
+    ],
+    "legalInputs": [
+      "固定33cc同路径原22键对象，无schemaVersion/id/status，不补成schema2发布证据。",
+      "原2022acc3/产品6952ffee/集成96e9d3c1，C1正式seed→loader→toEditorState及6019自有lab-v4属于当时合法输入。"
+    ],
+    "businessOracle": {
+      "type": "fixed-native-object-preservation-and-dated-integration-semantics",
+      "assertions": [
+        "After removing only _governance, the complete native object must deepEqual approved33cc source; every original key/type/nested value remains.",
+        "原90声明/119出口/62运行绑定与13新模块是领域搬移；16新增测试不等于覆盖行/分支提升。",
+        "原8740完整check、8248strict/701生产文件、688旧文件+13新增，四维coverage及baseline25a9...保持。",
+        "原15judge自测与5真实业务针分开，quality.biome.errors0/warnings55/infos6与远端CI unknown不改。"
+      ]
+    },
+    "dedupe": {
+      "result": "one historical integration payload; no new run/test/coverage credit",
+      "against": [
+        "本原机账与配对MD同一wave2集成；15judge自测不归产品测试增量。",
+        "前批Cursor24/GLM共享8707/8215与本批8740/8248不同时间；旧688与新增13不能当701新增。"
+      ]
+    },
+    "dependencies": [
+      "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "docs/phase-governance/templates/registry.json",
+      "scripts/docs/git-document-source.mjs",
+      "scripts/docs/frozen-document-source.mjs"
+    ],
+    "applicability": {
+      "historicalDate": "2026-09-26; explicit native date only where originally present, otherwise from paired narrative",
+      "nativeShape": "22 original keys plus governance only",
+      "templateVersion": "1.5.0",
+      "currentExecution": false
+    },
+    "history": [
+      {
+        "date": "2026-10-16",
+        "action": "Append source-pinned historical governance envelope; original native payload and all old dates/claims/diagnostics unchanged",
+        "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "executionPerformed": false
+      }
+    ],
+    "supersedes": [],
+    "beforeAfter": "Original native historical integration object → same complete native fields plus distinct historical governance/source/limits; no prose replacement or invented publication identity.",
+    "stopLine": "Any native/source/type/dated result change, source drift, current execution promotion or old authorization revival requires rework. Keep original nonzero diagnostics and unknown raw/CI axes.",
+    "nextStep": "Use source-bound current central review for documentation acceptance; continue full-docs governance without rerunning historical tools or inferring product/runtime/E2E/visual/coverage."
   }
 }

@@ -731,5 +731,93 @@
     "E1": ["additional end-to-end globalScriptAliases/profile/reference combinations"],
     "environment": ["native browser zoom125/150 unavailable; viewport not proxy for zoom"]
   },
-  "activeSceneArchitectureWipIncluded": false
+  "activeSceneArchitectureWipIncluded": false,
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "historical-intake-completion-v1",
+    "lastReviewed": "2026-10-16",
+    "owner": "Codex (current documentation governance only; original native identity unchanged)",
+    "provenance": [
+      "Fixed approved33cc Git payload; full native/source semantic reading, no historical commands replayed.",
+      "原JSON没有owner/status/id字段；Cursor贡献/Codex验收来自配对MD，治理Owner不补造原身份。"
+    ],
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+    "sourceSha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d",
+    "scope": "2026-09-26 Cursor24组与GLM准备包的历史统一接收；Cursor25新增/32模块与GLM4新增分属贡献，共享8707/8215/686只计一轮，GLM42候选/41正式/75账分母不同；53warnings/6infos及B1/E1/zoom未证原样。",
+    "lifecycle": "historical",
+    "currentAudit": {
+      "runtimeExecutionPerformed": false,
+      "scope": "documentation template/source governance only",
+      "independentAcceptance": "Consult the current central review; this envelope alone grants no independent or execution acceptance.",
+      "rawAvailability": "No raw contents reopened/regenerated; see source-scoped review for existence observations"
+    },
+    "primarySource": [
+      {
+        "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+        "sha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d"
+      },
+      {
+        "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+        "revision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "scope": "paired dated historical integration narrative; full134 lines across three pairs read, not runtime replay"
+      }
+    ],
+    "phaseAnchors": {
+      "historical": "原phase2 Cursor editor24组/GLM准备与共享集成；phase1只按原引用，当前不新增机制结论。",
+      "current": "docs/testing/governance.md and docs/ops/agent-workflow.md; no product build or old compatibility revived"
+    },
+    "publicCallers": [
+      "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "scripts/docs/document-model.mjs with actual approved Git reader",
+      "scripts/docs/report-governance-progress.mjs only after central review/route intake; old native references remain dated"
+    ],
+    "legalInputs": [
+      "固定33cc原schema1/date2026-09-26的10键对象；不得补owner/status/id/catalog身份。",
+      "原6017冻结GLM和6018集成候选自有lab-v4内存输入分开；未触用户存档，原file/表单/乱序证据只按当时范围。"
+    ],
+    "businessOracle": {
+      "type": "fixed-native-object-preservation-and-dated-integration-semantics",
+      "assertions": [
+        "After removing only _governance, the complete native object must deepEqual approved33cc source; every original key/type/nested value remains.",
+        "Cursor24报告/8judge自测/25新增/32模块与GLM42候选/41正式/75账/6针属于不同口径。",
+        "共享8707全check/8215strict/686生产文件、29=25+4与I completion是同一轮，不能重加。",
+        "原unifiedGates.fullOrQ1Q2=false、activeSceneArchitectureWipIncluded=false、visual.userProjectSavesWritten=false及53warnings/6infos保留。"
+      ]
+    },
+    "dedupe": {
+      "result": "one historical integration payload; no new run/test/coverage credit",
+      "against": [
+        "与I lab completion共享统一机账与8707/8215/686，非又一轮产品测试。",
+        "24组judge自测8不是8新增产品合同，75证据账也不是75新正式测试。"
+      ]
+    },
+    "dependencies": [
+      "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "docs/phase-governance/templates/registry.json",
+      "scripts/docs/git-document-source.mjs",
+      "scripts/docs/frozen-document-source.mjs"
+    ],
+    "applicability": {
+      "historicalDate": "2026-09-26; explicit native date only where originally present, otherwise from paired narrative",
+      "nativeShape": "10 original keys plus governance only",
+      "templateVersion": "1.5.0",
+      "currentExecution": false
+    },
+    "history": [
+      {
+        "date": "2026-10-16",
+        "action": "Append source-pinned historical governance envelope; original native payload and all old dates/claims/diagnostics unchanged",
+        "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "executionPerformed": false
+      }
+    ],
+    "supersedes": [],
+    "beforeAfter": "Original native historical integration object → same complete native fields plus distinct historical governance/source/limits; no prose replacement or invented publication identity.",
+    "stopLine": "Any native/source/type/dated result change, source drift, current execution promotion or old authorization revival requires rework. Keep original nonzero diagnostics and unknown raw/CI axes.",
+    "nextStep": "Use source-bound current central review for documentation acceptance; continue full-docs governance without rerunning historical tools or inferring product/runtime/E2E/visual/coverage."
+  }
 }
