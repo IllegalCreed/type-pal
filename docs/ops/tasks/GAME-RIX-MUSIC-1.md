@@ -110,3 +110,5 @@ Branch: codex/game-rix-music
 - 发布只读复核发现并修正：中英文README补实际WASM构建与第三方来源；四个改编LGPL源码补修改日期/说明并重算source-manifest与完整补丁；deploy.sh固化COPYFILE_DISABLE=1。注释变更后严格重编核二进制一致，独立复核后再提交。
 
 - 发布修正独立复核accept：四份补丁可精确重建、16项来源hash匹配；EMSDK_PYTHON明确使用3.13后严格重编exit0/零诊断，WASM仍40c1a1df…6815c13。首轮Python环境失败与JSON格式诊断保留原件，最终lint4024文件零error/warning/info；文档门通过，最终覆盖率另行落盘。见 [发布验证](../evidence/game-rix-music-1/release-verification.json)。
+
+- 最终发布候选重算：19857测试/736生产文件全绿，Statements70871/79014、Branches51532/61704、Functions13436/15038、Lines63318/69150；较上一候选4项覆盖指标提升、0范围变化、无下降。基线按实测上调，完整原件为 [release-coverage.raw.gz](../evidence/game-rix-music-1/release-coverage.raw.gz)，不是复用原样式前报告。

@@ -13,7 +13,8 @@
     "scripts/deploy.sh": "9c657ad18b76f8a69e4c0e8cdf2c21382db6f6289868ee6630217d624dfcf4d5",
     "packages/game/vendor/rix/source-manifest.json": "3f1363a2908f292c63ca66daf376550cfc9eec21488029f9c8138e31f075c523",
     "packages/game/vendor/rix/browser-adapter.patch.gz": "e62673fb9ab0de3b6351c70e8f4c96afc1fe8e16e2fd2bf632632faa56a39d53",
-    "packages/game/src/tools/tools-panel.ts": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1"
+    "packages/game/src/tools/tools-panel.ts": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+    "scripts/coverage/baseline.fast.json": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088"
   },
   "logs": {
     "release-wasm-environment-failure.raw.gz": {
@@ -44,5 +45,35 @@
       "sha256": "6641080e7ca55d2361f6d735756f8fcb44c44df49e1d6da4a9e97f5cc5ea1ba9",
       "uncompressedSha256": "76898cfb557b49cf980ccc12bb5a72777c44dde390ac70d70044648e4408b594"
     }
+  },
+  "coverage": {
+    "command": "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:ratchet",
+    "exitCode": 0,
+    "testCount": 19857,
+    "sourceFileCount": 736,
+    "metrics": {
+      "statements": {
+        "covered": 70871,
+        "total": 79014
+      },
+      "branches": {
+        "covered": 51532,
+        "total": 61704
+      },
+      "functions": {
+        "covered": 13436,
+        "total": 15038
+      },
+      "lines": {
+        "covered": 63318,
+        "total": 69150
+      }
+    },
+    "improvedMetrics": 4,
+    "scopeChanges": 0,
+    "log": "release-coverage.raw.gz",
+    "logSha256": "55d7f2b5ed24da6a5e610aadd7075c25292ba608e20e88c0cddad794b7c934b8",
+    "rawLogSha256": "415ac258a852e79cabc1fded66dccda70c90ed8ef3eb39a98321eac6fedf7a1e",
+    "baselineSha256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088"
   }
 }

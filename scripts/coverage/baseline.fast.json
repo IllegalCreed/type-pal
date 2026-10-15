@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-14T17:19:47.912Z",
+  "generatedAt": "2026-10-15T01:23:10.725Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -6567,8 +6567,8 @@
       },
       "metrics": {
         "statements": {
-          "covered": 13817,
-          "total": 15821
+          "covered": 13818,
+          "total": 15822
         },
         "branches": {
           "covered": 9032,
@@ -6579,8 +6579,8 @@
           "total": 1904
         },
         "lines": {
-          "covered": 12338,
-          "total": 13877
+          "covered": 12339,
+          "total": 13878
         }
       }
     },
@@ -10599,8 +10599,8 @@
   },
   "total": {
     "statements": {
-      "covered": 70870,
-      "total": 79013
+      "covered": 70871,
+      "total": 79014
     },
     "branches": {
       "covered": 51532,
@@ -10611,8 +10611,8 @@
       "total": 15038
     },
     "lines": {
-      "covered": 63317,
-      "total": 69149
+      "covered": 63318,
+      "total": 69150
     }
   }
 }
