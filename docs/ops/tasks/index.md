@@ -28,6 +28,7 @@
 | [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |

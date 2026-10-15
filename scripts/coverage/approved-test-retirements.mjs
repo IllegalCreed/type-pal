@@ -181,6 +181,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157',
       fileSha256: '43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13',
     },
+    // Codex 2026-10-15 C08: G03-10 only rendered a test-host placeholder.
+    // Actual viewer call-through positive/absence traces retained; exact snapshot only.
+    {
+      file: 'packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2',
+      currentIdentityDigest: '4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da',
+      fileSha256: 'b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

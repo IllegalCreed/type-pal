@@ -1,0 +1,6 @@
+{
+  "source": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+  "sha256": "f51be135f767a44b819d7c56ad7199538ca4d7615c7c8be2b14877b40f6d323e",
+  "positiveControl": "g03-01 calls actual SpriteResourceViewer",
+  "retirement": "g03-10 calls no actual SpriteResourceViewer; upload-harness returns its own no-record placeholder"
+}

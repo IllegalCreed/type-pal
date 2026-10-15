@@ -1,0 +1,260 @@
+{
+  "base": "4f4b236df",
+  "recipe": {
+    "target": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+    "find": "const selectedFrame = props.selectedFrame ?? internalSelectedFrame",
+    "replace": "const selectedFrame = internalSelectedFrame"
+  },
+  "sourceSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+  "mutantSha256": "b3bc929cc4353be4199d0b41839ecdad3ec3d4d9b6b1c9c1e0588808fdaafd24",
+  "testPath": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf",
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "noWorkingTreeProductMutation": true,
+  "runs": [
+    {
+      "label": "controlled-oracle-mutant",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf/controlled-oracle-mutant.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2607,
+      "rawSha256": "010bd0f77a96462feb7c180f33127ea784ab09caa3c6e73b5968fb76c3356a27",
+      "runnerBytes": 4336,
+      "runnerSha256": "9802b0cfb40343dda5a13c23125ff26d104cc1bf4eb50ad3c05ef4e6fdfebeb6",
+      "testSha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5",
+      "executedProductSha256": "b3bc929cc4353be4199d0b41839ecdad3ec3d4d9b6b1c9c1e0588808fdaafd24",
+      "passed": 8,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-01 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-02 工具栏「下一帧」从 #0 到 #1，读数与 canvas aria-label 同步",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-03 源帧网格点选：selectedLog 记录且大图切到对应帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-04 受控 selectedFrame：外部 setFrame 只更新回显，不伪造选择回调或重载",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected null not to be null\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf/packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx:127:79\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-06 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-07 语义 shelf 展示两用途默认定格行与默认 #0 提示",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-08 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-09 「下一帧」从 #0 进入 #1",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "controlled-oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf/controlled-oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c08-counter-_x6megnf",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 585,
+      "rawSha256": "786f634922c14b22c0dc59172636db08c22cd58808c04186a41b08aacbd3479f",
+      "runnerBytes": 7754,
+      "runnerSha256": "3256740b15995fdd539d69be2efc9a33c6d2e175a2d3a6a7c96ec204eb68a78b",
+      "testSha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5",
+      "executedProductSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "passed": 19,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-01 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-02 工具栏「下一帧」从 #0 到 #1，读数与 canvas aria-label 同步",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-03 源帧网格点选：selectedLog 记录且大图切到对应帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-04 受控 selectedFrame：外部 setFrame 只更新回显，不伪造选择回调或重载",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-06 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-07 语义 shelf 展示两用途默认定格行与默认 #0 提示",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-08 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "name": "C03-G03 真实解码与切帧 C03-G03-09 「下一帧」从 #0 进入 #1",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-01 磁盘 readBytes 迟到：先切走资源，旧读完成不覆盖新资源帧数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-02 损坏字节真实解码失败：role=alert 且 onLoaded 末次为 undefined",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-03 失败后切到合法资源：清 alert 并给出 proof",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-04 增帧 Replace 后会话 revision 更新且 viewer 读到 3 帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-05 解码在途卸载：不抛错且末次 proof 为 undefined",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-06 色盘 I/O 迟到：放行后才出现帧网格与 proof",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-07 依次等待加载后切换 A→B→A：最终 proof 仍指向 A 且帧数 3",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-08 失败后再切仍失败：alert 更新为第二次错误文案",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-09 追加帧选非 PNG 字节：editor message 报错且零历史",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+          "name": "C03-G04 迟到、失败与恢复 C03-G04-10 合法资源加载后 framesLog 与网格 aria 数一致",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ]
+}

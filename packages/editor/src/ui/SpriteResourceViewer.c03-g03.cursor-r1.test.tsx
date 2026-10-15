@@ -1,15 +1,13 @@
 // @vitest-environment jsdom
 /**
- * TEST-CURSOR-ASSET-UI-LARGE-1 C03-G03：SpriteResourceViewer 真实解码、切帧与切资源。
- * 排重：SpriteResourceViewer.test 在 mock loadEditorSprite 下已证 DOM/onLoaded 形状与
- * 「一次解码后切帧」；本组经真实 reader/cache/色盘链补：帧元数据、共享用途计数、
- * 工具栏/网格切帧、受控 selectedFrame、onFramesLoaded 与 definition 选择回调。
+ * C03-G03：经真实 reader/cache/色盘核验元数据、切帧、受控回显和切资源。
+ * 外部受控更新不触发选择回调或重读；其它未知重复候选保留待核。
+ * 原 G03-10 只执行测试宿主的缺记录占位，已按精确身份退役；见 C08 证据。
  */
 import type { AssetId } from '@type-pal/content'
 import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { installBrowserHardwarePorts } from '../__tests__/cursor-asset-r1/image-ports.js'
-import { useActEnvironment } from '../__tests__/cursor-asset-r1/kit.js'
 import { loadCursorSpriteProject } from '../__tests__/cursor-asset-r1/sprite-fixtures.js'
 import {
   type MountedViewer,
@@ -46,15 +44,18 @@ const VIEW_SPECS = [
 let mounted: MountedViewer | undefined
 
 beforeEach(async () => {
-  useActEnvironment()
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   await installBrowserHardwarePorts()
 })
 
 afterEach(async () => {
-  if (mounted) await unmountHost(mounted)
-  mounted = undefined
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
+  try {
+    if (mounted) await unmountHost(mounted)
+  } finally {
+    mounted = undefined
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 describe('C03-G03 真实解码与切帧', () => {
@@ -79,7 +80,7 @@ describe('C03-G03 真实解码与切帧', () => {
     expect(m().host.textContent).toContain('由 2 个用途共享')
   })
 
-  test('C03-G03-02 工具栏「下一帧」循环读数与 canvas aria-label 同步', async () => {
+  test('C03-G03-02 工具栏「下一帧」从 #0 到 #1，读数与 canvas aria-label 同步', async () => {
     const project = await loadCursorSpriteProject('c03-g03-02', VIEW_SPECS)
     mounted = await mountViewer(project, {
       asset: 'sprite.view.alpha',
@@ -108,8 +109,9 @@ describe('C03-G03 真实解码与切帧', () => {
     expect(frameCell(m().host, 3).classList.contains('selected')).toBe(true)
   })
 
-  test('C03-G03-04 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调', async () => {
+  test('C03-G03-04 受控 selectedFrame：外部 setFrame 只更新回显，不伪造选择回调或重载', async () => {
     const project = await loadCursorSpriteProject('c03-g03-04', VIEW_SPECS)
+    const paletteRead = vi.spyOn(project.assetBase.assetResolver, 'readRoleText')
     mounted = await mountViewer(project, {
       asset: 'sprite.view.alpha',
       label: 'Alpha 显示',
@@ -117,11 +119,12 @@ describe('C03-G03 真实解码与切帧', () => {
       initialFrame: 0,
     })
     await waitMeta(m().host, 4, 2)
+    const previousReads = paletteRead.mock.calls.length
+    const previousSelected = [...m().selectedLog]
     await m().setFrame(2)
-    expect(m().selectedLog.at(-1)).toBe(2)
-    await vi.waitFor(() => {
-      expect(mounted!.host.querySelector('canvas[aria-label="Alpha 显示 第 2 帧"]')).not.toBeNull()
-    })
+    expect(paletteRead).toHaveBeenCalledTimes(previousReads)
+    expect(m().selectedLog).toEqual(previousSelected)
+    expect(m().host.querySelector('canvas[aria-label="Alpha 显示 第 2 帧"]')).not.toBeNull()
   })
 
   test('C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta', async () => {
@@ -207,17 +210,5 @@ describe('C03-G03 真实解码与切帧', () => {
     await vi.waitFor(() => {
       expect(mounted!.host.querySelector('canvas[aria-label="Beta 显示 第 1 帧"]')).not.toBeNull()
     })
-  })
-
-  test('C03-G03-10 catalog 无记录时 harness 显示占位且不触发 proof', async () => {
-    const project = await loadCursorSpriteProject('c03-g03-10', VIEW_SPECS)
-    mounted = await mountViewer(project, {
-      asset: 'sprite.missing.asset' as AssetId,
-      label: '缺失',
-    })
-    await vi.waitFor(() => {
-      expect(mounted!.host.querySelector('[data-testid="viewer-no-record"]')).not.toBeNull()
-    })
-    expect(m().proofs).toEqual([])
   })
 })

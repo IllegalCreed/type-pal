@@ -84,3 +84,5 @@
 - [数值表单合法夹具与生命周期](QUALITY-EDITOR-FORM-FIXTURES-1/README.md)（四文件16/相邻78例，K4反控；完整窗口已测但诊断未清，0关闭）。
 
 - [大世界精灵宿主与字节oracle](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)（9身份保留/121相邻，204act→0；两枚有效反控与被拒弱oracle均留证，0关闭）。
+
+- [C03查看器真实生命周期](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)（20例先清51act；精确退役1纯宿主用例；相邻仍63act，完整门待续）。
