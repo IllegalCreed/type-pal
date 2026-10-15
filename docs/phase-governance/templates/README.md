@@ -41,9 +41,9 @@ Template: governance-index-v1 / 1.0.0
 
 Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、evidenceFields 和 historyRule 是结构合同。JSON 另由 requiredFields 定义机器字段；不能用 Markdown 章节检查替代 schema/consumer 验证。
 
-采用 statusPolicy 的域报告/document-audit按唯一catalog id校验发布状态，默认机器execution按执行状态校验。机器1.4新增historical-review-payload-v1保留九字段lab复核原对象，治理lifecycle独立固定historical、本轮执行false，不造catalog身份或把verdict当状态。各轴不互换，版本设计与pilot边界见设计提案C1/C2/I补充。
+采用 statusPolicy 的域报告/document-audit 按唯一 catalog id 校验发布状态，默认机器 execution 按执行状态校验。historical-review-payload-v1 在1.4引入并通过九键 r10 原生保真独立 pilot；它保留原 counter/MISSED/诊断，治理 lifecycle 固定 historical、本轮执行 false，不造 catalog 身份或把 verdict 当状态。
 
-1.4仅扩展既有test-machine-evidence类型，不新增第18类；原三个变体合同保持。十四份已接收JSON仅治理版本对齐，历史九字段r10已分别通过固定源/真实consumer/反例与非作者独立pilot验收；旧类型pilot仍不授其它新格式自动接受。
+机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。新三格式仍须分别通过真实 consumer/来源反例和 canonical 单篇独立 pilot，登记格式不等于接收正文。版本与边界见设计提案 C1/C2/I/J。
 
 ## 证据与下一步
 

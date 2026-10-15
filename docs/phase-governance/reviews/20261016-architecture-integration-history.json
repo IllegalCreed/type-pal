@@ -1,0 +1,787 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "J0 exact historical integration machine contracts; J6 migration and whole-goal completion not accepted.",
+  "contractDesign": {
+    "frozenAt": "ea9368e2d76988ec736da0e2477caa509e77c6b4",
+    "implementationBase": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+    "proposedVersion": "test-machine-evidence-v1/1.5.0",
+    "designStatus": "independently frozen; implementation candidate pending actual tests/acceptance",
+    "designReviewer": "history_cards_c_tail",
+    "proposal": "docs/phase-governance/templates/registry-proposal-20261011.md",
+    "fullDraftSha256": "f7c2502460941b1d1e2c96d143671dda0c5778751f72b0d301ec9be3848e3278",
+    "variants": {
+      "historical-continuation-integration-v1": {
+        "format": "json",
+        "requiredFields": [
+          "schemaVersion",
+          "status",
+          "owner",
+          "candidate",
+          "protectedBase",
+          "validatedImplementation",
+          "queues",
+          "priorCompleted",
+          "logDirectory",
+          "gates",
+          "coverage",
+          "negativeControls",
+          "unchanged",
+          "notClaimed",
+          "remoteCi",
+          "_governance"
+        ],
+        "requiredValues": {
+          "schemaVersion": 1,
+          "status": "accepted; all local integration gates passed",
+          "negativeControls.scope": "previous per-slice evidence, not rerun during integration",
+          "_governance.lifecycle": "historical",
+          "_governance.currentAudit.runtimeExecutionPerformed": false
+        },
+        "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+        "preservedSource": {
+          "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+        }
+      },
+      "historical-intake-completion-v1": {
+        "format": "json",
+        "requiredFields": [
+          "schemaVersion",
+          "date",
+          "integrationBase",
+          "cursor",
+          "glm",
+          "unifiedGates",
+          "baseline",
+          "visual",
+          "followups",
+          "activeSceneArchitectureWipIncluded",
+          "_governance"
+        ],
+        "requiredValues": {
+          "schemaVersion": 1,
+          "date": "2026-09-26",
+          "activeSceneArchitectureWipIncluded": false,
+          "unifiedGates.fullOrQ1Q2": false,
+          "visual.userProjectSavesWritten": false,
+          "_governance.lifecycle": "historical",
+          "_governance.currentAudit.runtimeExecutionPerformed": false
+        },
+        "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+        "preservedSource": {
+          "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+        }
+      },
+      "historical-command-integration-v1": {
+        "format": "json",
+        "requiredFields": [
+          "task",
+          "candidate",
+          "productHead",
+          "integration",
+          "protectedBase",
+          "owner",
+          "reviewer",
+          "verdict",
+          "closedCounters",
+          "counts",
+          "total",
+          "baselineHash",
+          "addedSources",
+          "selfTests",
+          "cases",
+          "mechanical",
+          "quality",
+          "scope",
+          "visual",
+          "logs",
+          "limits",
+          "retirement",
+          "_governance"
+        ],
+        "requiredValues": {
+          "task": "ARCH-F2-CURSOR-BATCH-2",
+          "verdict": "accept",
+          "scope.glmCandidateIncluded": false,
+          "scope.allCoverageMetricsUnchanged": true,
+          "visual.userProjectWrites": false,
+          "_governance.lifecycle": "historical",
+          "_governance.currentAudit.runtimeExecutionPerformed": false
+        },
+        "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+        "preservedSource": {
+          "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+        }
+      }
+    },
+    "sourcePins": [
+      {
+        "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+        "sha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b",
+        "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+        "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+      },
+      {
+        "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+        "sha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d",
+        "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+        "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+      },
+      {
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+        "sha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c",
+        "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+        "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+      }
+    ],
+    "oldMachineContract": {
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateVersion": "1.4.0",
+      "requiredSections": [
+        "Machine envelope",
+        "Execution identity",
+        "Steps and hashes",
+        "Exit and cleanup",
+        "Limits"
+      ],
+      "purpose": "机器执行身份、步骤与退出清理",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "json",
+      "requiredFields": [
+        "schemaVersion",
+        "id",
+        "status",
+        "execution",
+        "sourceRefs",
+        "publicCallers",
+        "legalInputs",
+        "businessOracle",
+        "dedupe",
+        "steps",
+        "hashes",
+        "artifacts",
+        "failures",
+        "cleanup",
+        "history"
+      ],
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "variant",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "scope",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "variants": {
+        "document-audit-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          }
+        },
+        "historical-execution-publication-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": true,
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "requiredValues": {
+              "schemaVersion": 2,
+              "kind": "document-audit",
+              "runtimeExecution.performed": true
+            }
+          }
+        },
+        "historical-review-payload-v1": {
+          "format": "json",
+          "requiredFields": [
+            "candidate",
+            "candidateBase",
+            "reviewedMain",
+            "verdict",
+            "checks",
+            "g01",
+            "v01ActorName",
+            "g06AuthorGuard",
+            "g08DropOutput",
+            "_governance"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        }
+      },
+      "statusPolicy": {
+        "axis": "execution"
+      }
+    },
+    "oldDefaultAndThreeVariantsUnchanged": true,
+    "consumerCodeChanged": false,
+    "frozenBaselineChanged": false,
+    "declaredVersionRoll": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-001.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
+        "afterSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+        "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+        "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+        "afterSha256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+        "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+        "afterSha256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+        "afterSha256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+        "afterSha256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+        "afterSha256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-contract.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+        "afterSha256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-route.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+        "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+        "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+        "afterSha256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-006.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+        "variant": "historical-execution-publication-v2",
+        "beforeSha256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
+        "afterSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-testing-lab-history.json",
+        "variant": "historical-review-payload-v1",
+        "beforeSha256": "271f776f962925609b3bcca786d88614fc123e037acf3376c868c35e33bbfe98",
+        "afterSha256": "7f6f2e5d9d8ec172472cae411839b8d44259090fcb6edce3ac54bb1305759bbf",
+        "exactSingleVersionValueChange": true,
+        "inverseObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      }
+    ],
+    "templateNavigation": [
+      {
+        "path": "docs/phase-governance/templates/README.md",
+        "beforeSha256": "4c852a59ce39195fe0e6a9a5e3aaca4129479fd14e57960c4a50f3bf3af09023",
+        "afterSha256": "f15eccc3accd09218f18ad787ae98bc7fade9a2476904c132c52f4bebef82f60",
+        "newMigrationCredit": 0,
+        "readScope": "Full current index text; underlying source scopes separately stated."
+      },
+      {
+        "path": "docs/testing/_templates/README.md",
+        "beforeSha256": "86526058a9e3d1c4ae738390b006084def1f655ed1d9f2d2efa756dae0b2a8eb",
+        "afterSha256": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+        "newMigrationCredit": 0,
+        "readScope": "Full current index text; underlying source scopes separately stated."
+      }
+    ],
+    "readScope": "Root final223-line Jdesign and original6source1570 lines read earlier; fullcurrent2indexes and15 one-value inverse/source-current review metadata; not new15 whole semantic audit. Non-author actual scope separate.",
+    "acceptance": "pending focused real source/model/progress tests, whole static gates and independent implementation review",
+    "notRun": [
+      "product source",
+      "old product tests",
+      "historical tools/runner/raw",
+      "runtime/E2E/visual/coverage",
+      "main merge/push"
+    ]
+  },
+  "entries": [],
+  "implementation": {
+    "status": "J0 independently accepted; root actual whole gate zero; final signoff metadata precommit rerun required",
+    "owner": "root Codex",
+    "newMigrationCredit": 0,
+    "focusedChecks": {
+      "command": "node --test scripts/docs/historical-execution-source.test.mjs",
+      "testSha256": "f77356ab202a4d35f817a5b494d0759692f3b6e00f40258c1be3091fc5099af0",
+      "log": "/tmp/type-pal-j0-focused-source-20261016.log",
+      "logSha256": "11cdd817d49d96a587ec3ce4023f2fafca7f36140ab36fcc38499d9d3fd269a4",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skip": 0,
+      "newTopLevelContracts": 3,
+      "actualScope": [
+        "3 real fixedGit/native model/progress positives",
+        "47 native key deletion cases via real complete consumer and progress",
+        "109-to110/53-to0/55-to0 preserved-result mutations rejected with source mismatch",
+        "lifecycle/currentAudit/source provenance mutations rejected",
+        "006 jointly retagged route/pin/envelope/review and three native-filled forgeries rejected",
+        "same three native-filled forgeries pass only when preservedSource removed in owned fixtures; actual registry guards intact"
+      ],
+      "limits": "Tests use isolated Git/document fixtures; not canonical Jpilot acceptance or old business runner execution."
+    },
+    "rootProofs": {
+      "exactBodySingleValueRoll": 15,
+      "oldDefaultAndThreeVariantsDeepEqual": true,
+      "existingPinsUnchanged": true,
+      "bodyModel": "150/7routes/0issues",
+      "strict": "659/0issues",
+      "lint": {
+        "files": 4095,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "log": "/tmp/type-pal-j0-candidate-lint-20261016.log",
+        "sha256": "b2f83985a24f334e391a2d3f6fc454076db59d6ae0fd14a3c7c1bdc964e72dee"
+      }
+    },
+    "independentReview": {
+      "reviewer": "receipt_review",
+      "result": "independent J0 implementation accept, no remaining counter; no J3canonical pilot acceptance",
+      "snapshot": "/tmp/type-pal-j0-independent-reviewed-snapshot-20261016.json",
+      "snapshotSha256": "ab96580d5aa846bf528e17470bbd8625d77aa0b6a8de0ac31835c4300f351516",
+      "reviewedSnapshot": {
+        "kind": "non-author-J0-implementation-reviewed-snapshot",
+        "reviewer": "receipt_review",
+        "baseHEAD": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+        "sourceSHA256": {
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "edd0e4afb0f46123b15b72c541441c73536c0893386b823f30b826f503468717",
+          "docs/phase-governance/document-registry.json": "306fb26795da21a3fdc50be1bf426eb818bfaae05e0bbd2a7489cfe98eb812e7",
+          "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json": "4f0cf9375bc1f2fd067e5f0cdb4874a03c63f44f2322c6773a4952c4472c30d7",
+          "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json": "7b4b548573076e79b18c0da14cd356f302e0dbca0b762efc14132b081583c765",
+          "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
+          "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+          "docs/phase-governance/reviews/20261016-historical-execution-pilot.json": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json": "9e9cf18a2d19620e69c406d82801e77e9bd247a0e381fb3baf05845cff9eb5c7",
+          "docs/phase-governance/templates/README.md": "f15eccc3accd09218f18ad787ae98bc7fade9a2476904c132c52f4bebef82f60",
+          "docs/phase-governance/templates/registry.json": "a777a2a666907080645f148fb1151c29faee62f7a1594bd8c744f5df264cfe51",
+          "docs/testing/_templates/README.md": "3453b47431bdad4b0cac4ea03d7e32b1dbee7e8cfed71db22afc691d44b78c12",
+          "docs/testing/_templates/test-machine-evidence.json": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json": "7f6f2e5d9d8ec172472cae411839b8d44259090fcb6edce3ac54bb1305759bbf",
+          "docs/testing/domains/editor/commands/command-form-families/evidence.json": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
+          "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
+          "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+          "docs/testing/domains/runtime/battle/battle-host/evidence.json": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+          "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
+          "docs/testing/domains/runtime/menu/menu-session/evidence.json": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
+          "docs/testing/domains/runtime/scene/active-scene/evidence.json": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+          "docs/testing/domains/runtime/world/world-runtime/evidence.json": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+          "docs/testing/e2e/evidence/e2e-001.json": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+          "docs/testing/e2e/evidence/e2e-006.json": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+          "docs/testing/e2e/evidence/e2e-common-issues.json": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+          "docs/testing/e2e/evidence/e2e-contract.json": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
+          "docs/testing/e2e/evidence/e2e-route.json": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+          "scripts/docs/historical-execution-source.test.mjs": "f77356ab202a4d35f817a5b494d0759692f3b6e00f40258c1be3091fc5099af0",
+          "docs/phase-governance/reviews/20261016-architecture-integration-history.json": "04cb38f024ea4328c57d6a8bac6f172ce8e113b740d4b91f51416797f1d57562"
+        },
+        "versionRoll": [
+          {
+            "path": "docs/testing/e2e/evidence/e2e-001.json",
+            "beforeSHA256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
+            "afterSHA256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+            "beforeSHA256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+            "afterSHA256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+            "beforeSHA256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+            "afterSHA256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+            "beforeSHA256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+            "afterSHA256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+            "beforeSHA256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+            "afterSHA256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+            "beforeSHA256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+            "afterSHA256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+            "beforeSHA256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+            "afterSHA256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+            "beforeSHA256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+            "afterSHA256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+            "beforeSHA256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+            "afterSHA256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/e2e/evidence/e2e-contract.json",
+            "beforeSHA256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+            "afterSHA256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/e2e/evidence/e2e-route.json",
+            "beforeSHA256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+            "afterSHA256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+            "beforeSHA256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+            "afterSHA256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+            "beforeSHA256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+            "afterSHA256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
+            "routeVariant": "document-audit-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/e2e/evidence/e2e-006.json",
+            "beforeSHA256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
+            "afterSHA256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+            "routeVariant": "historical-execution-publication-v2",
+            "allCurrentVersionHashFieldsMatch": true
+          },
+          {
+            "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+            "beforeSHA256": "271f776f962925609b3bcca786d88614fc123e037acf3376c868c35e33bbfe98",
+            "afterSHA256": "7f6f2e5d9d8ec172472cae411839b8d44259090fcb6edce3ac54bb1305759bbf",
+            "routeVariant": "historical-review-payload-v1",
+            "allCurrentVersionHashFieldsMatch": true
+          }
+        ],
+        "readScope": "Frozen J section/contracts/pins; full appended153-line newtests plus shared real source/fixture/CLI helpers; old8 tests unchanged prefix and independently rerun. Both complete current template-index bodies, all current changed review fields and oldcurrent/prior exact preservation;15declaration byte inverse, current versions/dualconformity/hash/evidence/revision/unique routes; all source pin Git/blob/SHA/fixedbaseline identity and native key/result observations. Does not claim whole1436 native source semantic audit, full original15 document reread, J3canonical pilot, K49 body review or linked product/raw execution.",
+        "actualIndependentChecks": {
+          "focusedSourceTools": "11/11 PASS,0fail/skip;actualmodel/progress positives, native/source mutations, joint006retag and fixture-only sourceguard removal calibration",
+          "model": "150body/7routes/0issues",
+          "strict": "659/0issues",
+          "links": "1223MD/7440links/361tasks/content22SAVE12/0issues",
+          "ledger": "3291files/229closed/5review/3057pending;0issues",
+          "progress": "146of1838 baseline+4incremental,current1963/pending1813/issues0",
+          "diff": "0"
+        },
+        "acceptance": "J0 implementation/declaration/current navigation maintenance accept;0newmigration,J3canonical pilots pending and require separate admission. Root full pnpm/lint evidence separately executed by root; later root signoff/newmetadata bytes must remain distinguished."
+      },
+      "laterMaintenance": "This root signoff/current navigation review metadata and next admission are later bytes, not retroactively part of the exact29 file snapshot."
+    },
+    "fullGates": {
+      "runner": "root Codex",
+      "docs": {
+        "log": "/tmp/type-pal-j0-candidate-docs-20261016.log",
+        "sha256": "7504e5d6358623715d74ae4a76e975c08837661a8a0cd909810827609635e01a",
+        "tests": 76,
+        "fail": 0,
+        "skip": 0,
+        "markdown": 1223,
+        "links": 7440,
+        "tasks": 361,
+        "bodyContracts": 150,
+        "centralReviews": 659,
+        "issues": 0
+      },
+      "lint": {
+        "files": 4095,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "log": "/tmp/type-pal-j0-candidate-lint-20261016.log",
+        "sha256": "b2f83985a24f334e391a2d3f6fc454076db59d6ae0fd14a3c7c1bdc964e72dee"
+      },
+      "diffCheck": "exit0",
+      "ledger": "3291/229closed/5review/3057pending;0issues",
+      "progress": "146/1838+4;1963current/1813pending;0issues",
+      "limits": "Candidate before final root metadata; final precommit checks separate. No product/oldtests/coverage/old runner execution."
+    },
+    "counterReworkBlocked": [],
+    "stopLine": "No J3native body acceptance or 1.5 canonical pilot credit before independent stable J0 and separate admission; no product/oldtests/coverage execution.",
+    "nextStep": "Final metadata zero gates then stable J0 commit; root separately admitted six historical integration docs with three JSON canonical pilots; do not count them before non-author semantic/source acceptance."
+  },
+  "artifactRules": {
+    "type-pal-j0-focused-source-20261016.log": {
+      "path": "/tmp/type-pal-j0-focused-source-20261016.log",
+      "sha256": "11cdd817d49d96a587ec3ce4023f2fafca7f36140ab36fcc38499d9d3fd269a4",
+      "producer": "root Codex actual docs/source tooling",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual11/11 focused source tests including3new docs contracts and guarded fixture calibration",
+      "retention": "Immutable task evidence during active goal; never overwrite or rerun old business sources to recreate raw."
+    },
+    "type-pal-j0-candidate-lint-20261016.log": {
+      "path": "/tmp/type-pal-j0-candidate-lint-20261016.log",
+      "sha256": "b2f83985a24f334e391a2d3f6fc454076db59d6ae0fd14a3c7c1bdc964e72dee",
+      "producer": "root Codex actual docs/source tooling",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual root4095file lint zero diagnostics before final signoff metadata",
+      "retention": "Immutable task evidence during active goal; never overwrite or rerun old business sources to recreate raw."
+    },
+    "type-pal-j0-independent-reviewed-snapshot-20261016.json": {
+      "path": "/tmp/type-pal-j0-independent-reviewed-snapshot-20261016.json",
+      "sha256": "ab96580d5aa846bf528e17470bbd8625d77aa0b6a8de0ac31835c4300f351516",
+      "producer": "receipt_review",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Exact29-file J0 non-author accepted implementation snapshot; later signoff metadata separately labelled",
+      "retention": "Keep exact immutable evidence through active goal/source history; no old producer replay."
+    },
+    "type-pal-j0-candidate-docs-20261016.log": {
+      "path": "/tmp/type-pal-j0-candidate-docs-20261016.log",
+      "sha256": "7504e5d6358623715d74ae4a76e975c08837661a8a0cd909810827609635e01a",
+      "producer": "root Codex actual docs gate",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual root76 docs-tool tests/150body/659central/7440links zero before signoff",
+      "retention": "Keep exact immutable evidence through active goal/source history; no old producer replay."
+    }
+  },
+  "contractDesignSnapshotPolicy": "contractDesign preserves the original implementation-candidate event including its pending state; actual current acceptance is implementation, not a retroactive design snapshot rewrite."
+}

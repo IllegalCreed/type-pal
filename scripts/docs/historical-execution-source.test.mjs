@@ -536,3 +536,156 @@ test('publication cannot bypass its old contract by jointly retagging the route,
   assert(result.report.issues.some((issue) => issue.includes('baseline working tree drift')))
   assert.equal(runModel(f).status, 1)
 })
+
+const integrationTargets = [
+  {
+    path: 'docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json',
+    variant: 'historical-continuation-integration-v1',
+    nativeKeys: 15,
+    alterHistoricalResult: (value) => (value.negativeControls.detected = 110),
+  },
+  {
+    path: 'docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json',
+    variant: 'historical-intake-completion-v1',
+    nativeKeys: 10,
+    alterHistoricalResult: (value) => (value.unifiedGates.warnings = 0),
+  },
+  {
+    path: 'docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json',
+    variant: 'historical-command-integration-v1',
+    nativeKeys: 22,
+    alterHistoricalResult: (value) => (value.quality.biome.warnings = 0),
+  },
+]
+
+function integrationFixture(t, target) {
+  const pin = readJson(registryPath).historicalSourcePins.find(
+    (source) => source.path === target.path,
+  )
+  const original = JSON.parse(readGitDocumentSource(root, pin).text)
+  return fixture(t, {
+    ...target,
+    candidate: {
+      ...original,
+      _governance: {
+        ...readJson('docs/testing/_templates/test-machine-evidence.json')._governance,
+        variant: target.variant,
+        lastReviewed: '2026-10-16',
+        owner: 'Docs integration source-proof fixture',
+        provenance: ['fixed original integration payload; historical commands not replayed'],
+        scope: 'Three specific historical integration contracts; not a canonical pilot acceptance',
+        lifecycle: 'historical',
+        currentAudit: { runtimeExecutionPerformed: false },
+        beforeAfter: 'Unchanged native integration object plus historical governance only',
+        stopLine: 'Keep original diagnostics, execution scope and source identity',
+        nextStep: 'Exercise real model/progress consumers in the owned fixture',
+      },
+    },
+  })
+}
+
+test('three historical integration shapes preserve native objects through real model and progress CLIs', (t) => {
+  for (const target of integrationTargets) {
+    const f = integrationFixture(t, target)
+    assert.equal(Object.keys(f.original).length, target.nativeKeys)
+    const { _governance, ...native } = f.candidate
+    assert.deepEqual(native, f.original)
+    assert.equal(_governance.currentAudit.runtimeExecutionPerformed, false)
+    assert.deepEqual(f.check(), [])
+    assert.equal(runModel(f).status, 0)
+    const result = runProgress(f)
+    assert.equal(result.code, 0)
+    assert.equal(result.report.cohortMigrated, 1)
+    assert.deepEqual(result.report.issues, [])
+  }
+})
+
+test('integration native keys, old results and current audit boundaries cannot be reapproved by refreshing review hashes', (t) => {
+  for (const target of integrationTargets) {
+    const f = integrationFixture(t, target)
+    for (const key of Object.keys(f.original)) {
+      const value = structuredClone(f.candidate)
+      delete value[key]
+      f.publishCandidate(value)
+      const issue = `missing machine field: ${key}`
+      assert(f.check().includes(issue), `${target.variant}/${key}`)
+      const result = runProgress(f)
+      assert.equal(result.code, 1)
+      assert.equal(result.report.cohortMigrated, 0)
+      assert(result.report.issues.some((text) => text.includes(issue)))
+    }
+    const changed = structuredClone(f.candidate)
+    target.alterHistoricalResult(changed)
+    f.publishCandidate(changed)
+    assert(f.check().some((issue) => issue.includes('original machine fields changed')))
+    let result = runProgress(f)
+    assert.equal(result.code, 1)
+    assert.equal(result.report.cohortMigrated, 0)
+    assert(result.report.issues.some((issue) => issue.includes('original machine fields changed')))
+    assert.equal(runModel(f).status, 1)
+
+    for (const mutate of [
+      (value) => (value._governance.lifecycle = 'current'),
+      (value) => (value._governance.currentAudit.runtimeExecutionPerformed = true),
+      (value) => (value._governance.sourceSha256 = '0'.repeat(64)),
+    ]) {
+      const value = structuredClone(f.candidate)
+      mutate(value)
+      f.publishCandidate(value)
+      assert.notDeepEqual(f.check(), [])
+      result = runProgress(f)
+      assert.equal(result.code, 1)
+      assert.equal(result.report.cohortMigrated, 0)
+      assert(result.report.issues.length > 0)
+    }
+  }
+})
+
+test('each integration contract rejects a jointly retagged publication, with a calibrated native-source guard', (t) => {
+  for (const target of integrationTargets) {
+    const f = fixture(t)
+    const pin = readJson(registryPath).historicalSourcePins.find(
+      (source) => source.path === target.path,
+    )
+    const native = JSON.parse(readGitDocumentSource(root, pin).text)
+    f.document.variant = target.variant
+    f.pin.variant = target.variant
+    f.json(registryPath, f.registry)
+    f.json('docs/phase-governance/routing.json', f.routing)
+    const value = structuredClone(f.candidate)
+    Object.assign(value._governance, { variant: target.variant, lifecycle: 'historical' })
+    f.publishCandidate(value)
+    let result = runProgress(f)
+    assert.equal(result.code, 1)
+    assert.equal(result.report.cohortMigrated, 0)
+    assert(result.report.issues.some((issue) => issue.includes('missing machine field:')))
+
+    Object.assign(value, native)
+    f.publishCandidate(value)
+    const entry = JSON.parse(f.read('docs/phase-governance/document-registry.json')).entries[0]
+    const route = JSON.parse(f.read('docs/phase-governance/routing.json')).migratedDocuments[0]
+    const review = JSON.parse(f.read('docs/phase-governance/reviews/fixture.json')).entries[0]
+    assert.equal(entry.templateVariant, target.variant)
+    assert.equal(route.variant, target.variant)
+    assert.equal(value._governance.variant, target.variant)
+    assert.equal(f.pin.variant, target.variant)
+    assert.equal(review.afterSha256, digest(f.read(path)))
+    assert.deepEqual(f.check(), ['historical original machine fields changed'])
+    result = runProgress(f)
+    assert.equal(result.code, 1)
+    assert.equal(result.report.cohortMigrated, 0)
+    assert(result.report.issues.some((issue) => issue.includes('original machine fields changed')))
+    assert.equal(runModel(f).status, 1)
+
+    // Only this owned fixture loses the source guard, proving why the same
+    // field-complete forgery is rejected rather than relying on an identity typo.
+    const contract = f.registry.types.find((type) => type.templateId === f.document.templateId)
+      .variants[target.variant]
+    delete contract.preservedSource
+    f.json(registryPath, f.registry)
+    result = runProgress(f)
+    assert.equal(result.code, 0)
+    assert.equal(result.report.cohortMigrated, 1)
+    assert.equal(runModel(f).status, 0)
+  }
+})

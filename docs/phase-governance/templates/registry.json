@@ -394,7 +394,7 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "../../testing/_templates/test-machine-evidence.json",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "requiredSections": [
         "Machine envelope",
         "Execution identity",
@@ -563,6 +563,108 @@
           "preservedSource": {
             "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
           }
+        },
+        "historical-continuation-integration-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "status",
+            "owner",
+            "candidate",
+            "protectedBase",
+            "validatedImplementation",
+            "queues",
+            "priorCompleted",
+            "logDirectory",
+            "gates",
+            "coverage",
+            "negativeControls",
+            "unchanged",
+            "notClaimed",
+            "remoteCi",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "status": "accepted; all local integration gates passed",
+            "negativeControls.scope": "previous per-slice evidence, not rerun during integration",
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        },
+        "historical-intake-completion-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "date",
+            "integrationBase",
+            "cursor",
+            "glm",
+            "unifiedGates",
+            "baseline",
+            "visual",
+            "followups",
+            "activeSceneArchitectureWipIncluded",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "date": "2026-09-26",
+            "activeSceneArchitectureWipIncluded": false,
+            "unifiedGates.fullOrQ1Q2": false,
+            "visual.userProjectSavesWritten": false,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        },
+        "historical-command-integration-v1": {
+          "format": "json",
+          "requiredFields": [
+            "task",
+            "candidate",
+            "productHead",
+            "integration",
+            "protectedBase",
+            "owner",
+            "reviewer",
+            "verdict",
+            "closedCounters",
+            "counts",
+            "total",
+            "baselineHash",
+            "addedSources",
+            "selfTests",
+            "cases",
+            "mechanical",
+            "quality",
+            "scope",
+            "visual",
+            "logs",
+            "limits",
+            "retirement",
+            "_governance"
+          ],
+          "requiredValues": {
+            "task": "ARCH-F2-CURSOR-BATCH-2",
+            "verdict": "accept",
+            "scope.glmCandidateIncluded": false,
+            "scope.allCoverageMetricsUnchanged": true,
+            "visual.userProjectWrites": false,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
         }
       },
       "statusPolicy": {
@@ -623,6 +725,30 @@
       "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
       "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
       "approvedBy": "Codex root and independent history_cards_c_tail source/design review 2026-10-16; exact nine-key contract frozen at fd504255",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+      "sha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+      "sha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+      "sha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
       "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
     }
   ]

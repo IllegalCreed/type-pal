@@ -180,7 +180,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -268,10 +268,10 @@
       "reviewedSourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
-      "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+      "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+        "implementationSha": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -309,7 +309,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
-        "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+        "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
         "lineCount": 155
       },
       "history": [
@@ -362,6 +362,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+          "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -373,10 +383,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -596,6 +606,224 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/reforge/src/main.ts:407-414",
+            "packages/reforge/src/main.ts:448-455",
+            "packages/reforge/src/active-scene.ts:65-94",
+            "packages/reforge/src/active-scene.test.ts:53-77",
+            "packages/reforge/src/world-camera.test.ts:108-125",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+            "packages/reforge/src/main.ts:407-414",
+            "packages/reforge/src/main.ts:448-455",
+            "packages/reforge/src/active-scene.ts:65-94",
+            "packages/reforge/src/active-scene.test.ts:53-77",
+            "packages/reforge/src/world-camera.test.ts:108-125",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/reforge",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/runtime/scene/active-scene/evidence.json"
+          ],
+          "applicability": "ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。",
+          "publicEntry": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+          "legalInputs": [
+            "正式 ScenePreparer.prepare 产出的 ActiveScenePlan",
+            "GridPos 与 live bounds callbacks",
+            "当前 runner AbortSignal"
+          ],
+          "publicCallers": [
+            "bootGame → ActiveScene.commit(plan)",
+            "bootGame → WorldCamera.update/pan/advance/reset",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "无恢复快照的换场清旧 action/baseline/wave 并兑现旧 waiter",
+              "新资源在 boundary cue 前发布，room/bounds 时机保留",
+              "pre-abort 不取代旧 pan；reset 不提前采样像素位置",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/runtime/scene/active-scene/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "历史A3未完成与53 warning/6 info按09-25快照；17旧回归、80 AST函数、2560步对照不计新业务测试。",
+              "旧清场测试只覆盖replaceScene分支，不证明restoreActions/syncBases的SAVE12恢复；历史raw未随checkout入库。"
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "历史A3未完成与53 warning/6 info按09-25快照；17旧回归、80 AST函数、2560步对照不计新业务测试。",
+            "旧清场测试只覆盖replaceScene分支，不证明restoreActions/syncBases的SAVE12恢复；历史raw未随checkout入库。"
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+          "reviewedSourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
+          "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+            "originalPublicationRevision": {
+              "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+                "afterSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+                "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+            "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+            "lineCount": 155
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+              "afterSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
+              "afterSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+              "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+              "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-155",
+          "phase": "testing",
+          "module": "runtime-active-scene",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -774,7 +1002,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -860,10 +1088,10 @@
       "reviewedSourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
-      "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+      "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+        "implementationSha": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -901,7 +1129,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
-        "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+        "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
         "lineCount": 146
       },
       "history": [
@@ -954,6 +1182,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+          "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -965,10 +1203,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1186,6 +1424,222 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/reforge/src/main.ts:1242-1261",
+            "packages/reforge/src/battle/battle-host.ts:53-67",
+            "packages/reforge/src/battle/battle-host.ts:156-160",
+            "packages/reforge/src/battle/battle-host.test.ts:13-36",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+            "packages/reforge/src/main.ts:1242-1261",
+            "packages/reforge/src/battle/battle-host.ts:53-67",
+            "packages/reforge/src/battle/battle-host.ts:156-160",
+            "packages/reforge/src/battle/battle-host.test.ts:13-36",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/reforge",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/runtime/battle/battle-host/evidence.json"
+          ],
+          "applicability": "BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。",
+          "publicEntry": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+          "legalInputs": [
+            "当前 loader 验证的 team/world/content",
+            "真实准备资源端口",
+            "runner signal 与 captureScriptOwner 身份门"
+          ],
+          "publicCallers": [
+            "bootGame → BattleHost.start/cancel/active",
+            "BattleHost.start → BattleLaunchPreparation.prepare → commit → BattleSession",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "await 准备完成后提交拍读取 world snapshot",
+              "旧 finally 只释放自身 active session",
+              "释放 active 与 finishWorld 同一 continuation",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/runtime/battle/battle-host/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "旧57794d15/348a50d1已被46287966取代；strict7972、旧warnings和H9随机输入校正保留原范围。",
+              "本轮不重新执行PAL战斗、反控或覆盖基线；source anchor核读不是新战斗通过。"
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "旧57794d15/348a50d1已被46287966取代；strict7972、旧warnings和H9随机输入校正保留原范围。",
+            "本轮不重新执行PAL战斗、反控或覆盖基线；source anchor核读不是新战斗通过。"
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+          "reviewedSourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
+          "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+            "originalPublicationRevision": {
+              "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+                "afterSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+                "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+            "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+            "lineCount": 146
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+              "afterSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
+              "afterSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+              "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+              "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-146",
+          "phase": "testing",
+          "module": "runtime-battle-host",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -1367,7 +1821,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -1456,10 +1910,10 @@
       "reviewedSourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "f3f39bb9dea26be0aa0d14fda1c8904c1db0193f",
-      "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+      "afterSha256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+        "implementationSha": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -1497,7 +1951,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
-        "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+        "afterSha256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
         "lineCount": 154
       },
       "history": [
@@ -1550,6 +2004,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+          "afterSha256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -1561,10 +2025,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1785,6 +2249,225 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/reforge/src/battle/battle-session.ts:209-211",
+            "packages/reforge/src/battle/battle-session.ts:361-372",
+            "packages/reforge/src/battle/battle-session.ts:1162-1171",
+            "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+            "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+            "packages/reforge/src/battle/battle-session.ts:209-211",
+            "packages/reforge/src/battle/battle-session.ts:361-372",
+            "packages/reforge/src/battle/battle-session.ts:1162-1171",
+            "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+            "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/reforge",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
+          ],
+          "applicability": "BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。",
+          "publicEntry": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+          "legalInputs": [
+            "当前 BattleContent 与 typed PlayerRuntime 投影",
+            "五敌槽与存活目标集合",
+            "真实 pressed key Set 与明确 dtMs"
+          ],
+          "publicCallers": [
+            "BattleSession constructor → readiness/settlement owners",
+            "BattleSession.tick → command selection and settlement",
+            "BattleSession.playTimeline → action scheduler",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "取消后迟到 prepare 无法提交",
+              "结算每屏 300ms 与 terminated 同拍边界",
+              "指令 LIFO 与 scripted playback 清理保持区别",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/runtime/battle/battle-session-owners/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "四owner的35条历史回归及三人成型最小试打不覆盖完整胜败/存档/剧情E2E。",
+              "直接读到battle-turn-readiness.test.ts:46的as unknown as BattleState；其最小snapshot fixture是否满足现行测试质量输入规则须独立测试卡判断，本次不改旧测试、不宣称其质量accept。"
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "四owner的35条历史回归及三人成型最小试打不覆盖完整胜败/存档/剧情E2E。",
+            "直接读到battle-turn-readiness.test.ts:46的as unknown as BattleState；其最小snapshot fixture是否满足现行测试质量输入规则须独立测试卡判断，本次不改旧测试、不宣称其质量accept。"
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+          "reviewedSourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "f3f39bb9dea26be0aa0d14fda1c8904c1db0193f",
+          "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+            "originalPublicationRevision": {
+              "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+                "afterSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+                "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+            "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+            "lineCount": 154
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+              "afterSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
+              "afterSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+              "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+              "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-154",
+          "phase": "testing",
+          "module": "runtime-battle-session-owners",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -1966,7 +2649,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -2055,10 +2738,10 @@
       "reviewedSourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aaaf2adab425fc1bdfc2e3a3ae9ec1e41ed3646a",
-      "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+      "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+        "implementationSha": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -2096,7 +2779,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
-        "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+        "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
         "lineCount": 156
       },
       "history": [
@@ -2149,6 +2832,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+          "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -2160,10 +2853,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -2384,6 +3077,225 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "WorldMotionRuntime管外围节拍/生命周期，MotionRuntimeCoordinator管authority/slot，presentation管绘制；不能与ActiveScene重复计整场景E2E。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/reforge/src/main.ts:434-445",
+            "packages/reforge/src/world-motion-runtime.ts:167-193",
+            "packages/reforge/src/world-scene-presentation.ts:71-88",
+            "packages/reforge/src/world-motion-runtime.test.ts:7-30",
+            "packages/reforge/src/world-scene-presentation.test.ts:82-105",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+            "packages/reforge/src/main.ts:434-445",
+            "packages/reforge/src/world-motion-runtime.ts:167-193",
+            "packages/reforge/src/world-scene-presentation.ts:71-88",
+            "packages/reforge/src/world-motion-runtime.test.ts:7-30",
+            "packages/reforge/src/world-scene-presentation.test.ts:82-105",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/reforge",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/runtime/world/world-runtime/evidence.json"
+          ],
+          "applicability": "WorldMotionRuntime管外围节拍/生命周期，MotionRuntimeCoordinator管authority/slot，presentation管绘制；不能与ActiveScene重复计整场景E2E。",
+          "publicEntry": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+          "legalInputs": [
+            "当前 scene session/authority/runner lineage",
+            "production MotionRuntimeCoordinator 与合法 GridPos",
+            "typed scene/renderer draw snapshot"
+          ],
+          "publicCallers": [
+            "bootGame → WorldMotionRuntime + WorldScenePresentation",
+            "advanceMoves → canonical endpoint/live position/touch",
+            "render → scene presentation snapshot",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "WorldMotionRuntime管外围节拍/生命周期，MotionRuntimeCoordinator管authority/slot，presentation管绘制；不能与ActiveScene重复计整场景E2E。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "endpoint 先落 canonical，live 提交后 touch，再唤醒 continuation",
+              "party/实体取消释放监听器与 waiter",
+              "每帧自身锚点与 frame priority/shake/wave 保留",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/runtime/world/world-runtime/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "旧最小浏览器未读取console，不倒填console零错误；119项定向记录属于原主任务，不代替本报告整体验收。",
+              "save capture/restore、离场恢复与完整剧情另须真实任务证据；暂态命令frame不是实际renderer选帧。"
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "旧最小浏览器未读取console，不倒填console零错误；119项定向记录属于原主任务，不代替本报告整体验收。",
+            "save capture/restore、离场恢复与完整剧情另须真实任务证据；暂态命令frame不是实际renderer选帧。"
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+          "reviewedSourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "aaaf2adab425fc1bdfc2e3a3ae9ec1e41ed3646a",
+          "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+            "originalPublicationRevision": {
+              "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+                "afterSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+                "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+            "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+            "lineCount": 156
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+              "afterSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
+              "afterSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+              "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+              "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-156",
+          "phase": "testing",
+          "module": "runtime-world-owners",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -2392,7 +3304,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -2478,10 +3390,10 @@
       "reviewedSourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "5b4221079752c043124ea7e4fc1bc5bcea9f6c4f",
-      "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+      "afterSha256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+        "implementationSha": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -2519,7 +3431,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
-        "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+        "afterSha256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
         "lineCount": 141
       },
       "history": [
@@ -2572,6 +3484,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+          "afterSha256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -2583,10 +3505,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -2804,6 +3726,222 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "phase2/editor：B3 source publication，不是Reforge游戏执行；kind dialect、family shape、shared controls为原声明义务。历史统一集成、旧counter/strict计数、工具legacy叙述各受原日期限制。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/editor/src/ui/CommandForm.tsx:82-93",
+            "packages/editor/src/ui/command-form-contract.ts:98-113",
+            "packages/editor/src/ui/command-form-family-ownership.test.ts:11-34",
+            "packages/editor/src/ui/command-form-contract.test.ts:8-25",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+            "packages/editor/src/ui/CommandForm.tsx:82-93",
+            "packages/editor/src/ui/command-form-contract.ts:98-113",
+            "packages/editor/src/ui/command-form-family-ownership.test.ts:11-34",
+            "packages/editor/src/ui/command-form-contract.test.ts:8-25",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/editor",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/editor/commands/command-form-families/evidence.json"
+          ],
+          "applicability": "phase2/editor：B3 source publication，不是Reforge游戏执行；kind dialect、family shape、shared controls为原声明义务。历史统一集成、旧counter/strict计数、工具legacy叙述各受原日期限制。",
+          "publicEntry": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+          "legalInputs": [
+            "current typed AuthorCommand/SharedAuthorCommand",
+            "current editor project guards",
+            "family-specific form props and author bridge"
+          ],
+          "publicCallers": [
+            "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
+            "CommandForm → dialogue/actor/world/control typed subforms",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "phase2/editor：B3 source publication，不是Reforge游戏执行；kind dialect、family shape、shared controls为原声明义务。历史统一集成、旧counter/strict计数、工具legacy叙述各受原日期限制。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "kind dialect cannot drift across bridge",
+              "family owner emits legal command shape",
+              "shared controls remain single implementation",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/editor/commands/command-form-families/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "原candidate2aed、content22/SAVE11、source-backed claim、空artifacts、performed=false全部保留；当前源常量12不成为本批新UI或SAVE12通过。",
+              "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "原candidate2aed、content22/SAVE11、source-backed claim、空artifacts、performed=false全部保留；当前源常量12不成为本批新UI或SAVE12通过。",
+            "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+          "reviewedSourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "5b4221079752c043124ea7e4fc1bc5bcea9f6c4f",
+          "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+            "originalPublicationRevision": {
+              "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+                "afterSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+                "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+            "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+            "lineCount": 141
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+              "afterSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
+              "afterSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+              "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+              "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-141",
+          "phase": "testing",
+          "module": "editor-command-form-families",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -2812,7 +3950,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -2900,10 +4038,10 @@
       "reviewedSourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "bef4af6281531c85585b6672e78947cf2ff1841e",
-      "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+      "afterSha256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+        "implementationSha": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -2941,7 +4079,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
-        "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+        "afterSha256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
         "lineCount": 150
       },
       "history": [
@@ -2994,6 +4132,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+          "afterSha256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -3005,10 +4153,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -3228,6 +4376,224 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        },
+        {
+          "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "phase2/editor：B2 pointer/session身份与过期确认的source publication；原最小浏览器不保证原生clipboard或完整视觉矩阵，MapMode输入不按Reforge剧情runner验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/editor/src/ui/MapMode.tsx:403-420",
+            "packages/editor/src/ui/map-pointer-gesture-session.ts:36-59",
+            "packages/editor/src/ui/map-pointer-gesture-session.test.tsx:31-48",
+            "packages/editor/src/ui/map-transform-session.test.ts:37-54",
+            "packages/editor/src/ui/map-workspace-view-session.test.tsx:30-47",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+            "packages/editor/src/ui/MapMode.tsx:403-420",
+            "packages/editor/src/ui/map-pointer-gesture-session.ts:36-59",
+            "packages/editor/src/ui/map-pointer-gesture-session.test.tsx:31-48",
+            "packages/editor/src/ui/map-transform-session.test.ts:37-54",
+            "packages/editor/src/ui/map-workspace-view-session.test.tsx:30-47",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase2/editor",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json"
+          ],
+          "applicability": "phase2/editor：B2 pointer/session身份与过期确认的source publication；原最小浏览器不保证原生clipboard或完整视觉矩阵，MapMode输入不按Reforge剧情runner验收。",
+          "publicEntry": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+          "legalInputs": [
+            "current MapMode project/map revision",
+            "trusted pointer session and pointerId",
+            "typed map command plan with revision guard"
+          ],
+          "publicCallers": [
+            "MapMode → pointer gesture session",
+            "MapMode → transform/view/stamp sessions → reducered command dispatch",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "phase2/editor：B2 pointer/session身份与过期确认的source publication；原最小浏览器不保证原生clipboard或完整视觉矩阵，MapMode输入不按Reforge剧情runner验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "pointer cancel/lost capture has zero command writes",
+              "clipboard/session state respects map and EditSession identity",
+              "stale structure confirmation cannot commit",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/editor/map/map-workspace-sessions/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "pointerId、map/EditSession/revision义务与原source-backed claim保留；空raw/artifacts、performed=false、旧candidate/SAVE11不改，不造完整视觉结果。",
+              "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "pointerId、map/EditSession/revision义务与原source-backed claim保留；空raw/artifacts、performed=false、旧candidate/SAVE11不改，不造完整视觉结果。",
+            "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+          "reviewedSourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "bef4af6281531c85585b6672e78947cf2ff1841e",
+          "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+            "originalPublicationRevision": {
+              "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+                "afterSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+                "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+            "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+            "lineCount": 150
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+              "afterSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
+              "afterSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+              "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+              "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-150",
+          "phase": "testing",
+          "module": "editor-map-workspace-sessions",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
         }
       ]
     },
@@ -3236,7 +4602,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -3330,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+      "afterSha256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+        "implementationSha": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -3371,7 +4737,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+        "afterSha256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
         "lineCount": 177
       },
       "history": [
@@ -3424,6 +4790,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+          "afterSha256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -3435,10 +4811,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.4.0",
+        "templateVersion": "1.5.0",
         "sourceSpecificBodyOrEnvelope": true,
         "historyAndCurrentScopeSeparated": true,
-        "version": "1.4.0"
+        "version": "1.5.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -3653,6 +5029,230 @@
             "sourceSpecificBodyOrEnvelope": true,
             "historyAndCurrentScopeSeparated": true,
             "version": "1.3.0"
+          },
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
+        },
+        {
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+          "truthAnchors": [
+            "packages/game/src/core/script-catalog.ts:33-40",
+            "packages/game/src/core/inventory-state.ts:10-23",
+            "packages/game/src/core/equipment-state.ts:6-13",
+            "packages/game/src/core/player-poison-state.ts:12-19",
+            "packages/game/src/core/scene-identity.ts:6-13",
+            "packages/game/src/core/menu/menu-stack.ts:12-19",
+            "packages/game/src/core/dependency-ownership.test.ts:26-45",
+            "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "primarySource": [
+            "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+            "packages/game/src/core/script-catalog.ts:33-40",
+            "packages/game/src/core/inventory-state.ts:10-23",
+            "packages/game/src/core/equipment-state.ts:6-13",
+            "packages/game/src/core/player-poison-state.ts:12-19",
+            "packages/game/src/core/scene-identity.ts:6-13",
+            "packages/game/src/core/menu/menu-stack.ts:12-19",
+            "packages/game/src/core/dependency-ownership.test.ts:26-45",
+            "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            "phase1/game",
+            "docs/testing/catalog.json",
+            "docs/ops/agent-workflow.md"
+          ],
+          "documentStatus": "current-publication/source-scope; original execution and history axes unchanged",
+          "owner": "Codex（本次文档迁移，不代替原任务作者/独立产品验收）",
+          "provenance": [
+            "full original bytes/text/JSON fields read",
+            "source Git blob",
+            "manual content-specific template migration",
+            "actual paired publication consumer"
+          ],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
+          ],
+          "applicability": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。",
+          "publicEntry": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+          "legalInputs": [
+            "current GameState",
+            "current event/battle/menu typed commands",
+            "PAL runtime data and synchronous scene identity"
+          ],
+          "publicCallers": [
+            "game event/scene/equipment/battle/menu consumers → single lower owner modules",
+            "dependency-ownership and cross-module boundary tests",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "businessOracle": {
+            "type": "semantic-template-migration-with-original-business-oracle-preserved",
+            "assertions": [
+              "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
+              "static runtime SCC is zero",
+              "old exports and function bodies retain contracts",
+              "inventory/poison/equipment/scene/menu state has one owner",
+              "Original business obligations are not reexecuted or quality-accepted by this static migration."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
+            ],
+            "notes": "原owner职责/历史回执与当前source出版分开；保留每项原业务oracle，不将AST、步数或旧测试数字重复计作新业务执行。"
+          },
+          "counterReworkBlocked": {
+            "migration": "source/consumer/form contracts checked; no current migration blocker",
+            "productAndTestBoundaries": [
+              "publication versions.content22/minimumSave11属于原统一审计元数据，不能推导一阶段SAVE合同/兼容；performed=false、缺raw、空artifacts和全部候选/原history保留。",
+              "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+            ],
+            "notClosed": [
+              "runtime/E2E/visual/coverage acceptance",
+              "historical product task counters",
+              "whole-docs governance"
+            ]
+          },
+          "unresolved": [
+            "publication versions.content22/minimumSave11属于原统一审计元数据，不能推导一阶段SAVE合同/兼容；performed=false、缺raw、空artifacts和全部候选/原history保留。",
+            "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+          ],
+          "nextStep": "继续配对history/index/artifact逐篇核读；动态或测试质量问题在有授权的原任务独立处理，不从本批static通过继承。",
+          "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+          "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+          "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+          "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
+          "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+          "revision": {
+            "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+            "implementationSha": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+            "originalPublicationRevision": {
+              "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+              "versions": {
+                "content": 22,
+                "minimumSave": 11
+              },
+              "history": [
+                {
+                  "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+                  "date": "2026-10-04",
+                  "action": "source-and-publication-audit",
+                  "notRun": ["runtime", "E2E", "coverage"]
+                }
+              ]
+            },
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "actual-full-text-domain-pair-semantic-migration",
+                "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+                "afterSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
+                "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+                "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-source-preservation-and-real-domain-publication-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+            "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+            "lineCount": 177
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "action": "actual-full-text-domain-pair-semantic-migration",
+              "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+              "afterSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
+              "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
+              "afterSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+              "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+              "previousConformity": {
+                "result": "template-compliant",
+                "templateId": "test-machine-evidence-v1",
+                "templateVersion": "1.1.0",
+                "sourceSpecificBodyOrEnvelope": true,
+                "historyAndCurrentScopeSeparated": true,
+                "version": "1.3.0"
+              },
+              "currentTemplateVersion": "1.3.0",
+              "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+              "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
+          "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
+          "reviewedLines": "1-177",
+          "phase": "testing",
+          "module": "phase1-dependency-ownership",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.4.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.4.0"
           },
           "templateVariant": "document-audit-v2",
           "statusContractReview": {
@@ -3998,7 +5598,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -4078,10 +5678,10 @@
       "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "a8faff546ddfa9d2a5543e0b232964618bc643d7",
-      "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+      "afterSha256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+        "implementationSha": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
         "history": [
           {
             "date": "2026-10-15",
@@ -4101,7 +5701,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
-        "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+        "afterSha256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
         "lineCount": 141
       },
       "history": [
@@ -4127,6 +5727,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+          "afterSha256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4138,7 +5748,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       },
       "priorReadings": [
@@ -4280,6 +5890,155 @@
             "version": "1.3.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
+        },
+        {
+          "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "templateVariant": "document-audit-v2",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+          "documentStatus": "current / catalog-publication only",
+          "owner": "Codex（文档治理，未重签原动态证据）",
+          "provenance": [
+            "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "a8faff546ddfa9d2a5543e0b232964618bc643d7",
+            "full JSON field reading",
+            "actual source ranges and paired consumer"
+          ],
+          "primarySource": [
+            "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+            "docs/testing/domains/runtime/menu/menu-session/report.md",
+            "packages/reforge/src/menu/menu-session.ts:105-128",
+            "packages/reforge/src/menu/item-use-session.ts:2-19",
+            "packages/reforge/src/menu/menu-session.test.ts:9-32",
+            "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "truthAnchors": [
+            "packages/reforge/src/menu/menu-session.ts:105-128",
+            "packages/reforge/src/menu/item-use-session.ts:2-19",
+            "packages/reforge/src/menu/menu-session.test.ts:9-32",
+            "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [["phase2"], "docs/testing/catalog.json", "docs/testing/governance.md"],
+          "dependencies": [
+            "docs/testing/domains/runtime/menu/menu-session/report.md",
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json"
+          ],
+          "applicability": "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+          "publicEntry": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+          "publicCallers": [
+            "main menu input → MenuSession",
+            "main item action → ItemUseSession → world/save ports"
+          ],
+          "legalInputs": [
+            "typed menu input",
+            "current world/save port",
+            "AbortSignal and canonical item/skill/actor inputs"
+          ],
+          "businessOracle": {
+            "type": "machine-audit-field-and-scope-preservation",
+            "assertions": [
+              "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+              "cancelled item use remains owned until settle",
+              "menu pop restores the correct view",
+              "save/load completion is observed through real port events",
+              "Existing assertions remain original publication obligations, not new executed proof."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "domains/runtime/menu/menu-session/history/report.md"
+            ],
+            "notes": "A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate. Pairing does not count the unread canonical body or linked ledgers as migrated."
+          },
+          "counterReworkBlocked": {
+            "migration": "none-open",
+            "originalScopeGapsRetained": [
+              "只核JSON全部字段、五个来源范围及已迁移报告，不复跑PAL菜单/storage链。",
+              "rawArtifacts缺失与artifacts空数组原样保留；取消后pending合同未以本次实跑重新认证。"
+            ]
+          },
+          "unresolved": [
+            "只核JSON全部字段、五个来源范围及已迁移报告，不复跑PAL菜单/storage链。",
+            "rawArtifacts缺失与artifacts空数组原样保留；取消后pending合同未以本次实跑重新认证。"
+          ],
+          "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+          "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+          "sourceGitObject": "a8faff546ddfa9d2a5543e0b232964618bc643d7",
+          "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+          "revision": {
+            "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "implementationSha": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "field-preserving-audit-envelope",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+                "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+            "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+            "lineCount": 141
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+              "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+              "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+              "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+              "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+          "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+          "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+          "reviewedLines": "1-141",
+          "phase": "testing",
+          "module": "publication-machine-audits",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.4.0",
+            "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+          }
         }
       ]
     },
@@ -4288,7 +6047,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -4369,10 +6128,10 @@
       "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "ad861a2af42b628a5d5637dd842869deed704282",
-      "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+      "afterSha256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+        "implementationSha": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
         "history": [
           {
             "date": "2026-10-15",
@@ -4392,7 +6151,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
-        "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+        "afterSha256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
         "lineCount": 113
       },
       "history": [
@@ -4418,6 +6177,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+          "afterSha256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4429,7 +6198,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       },
       "priorReadings": [
@@ -4572,6 +6341,156 @@
             "version": "1.3.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-contract.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "templateVariant": "document-audit-v2",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+          "documentStatus": "current / catalog-publication only",
+          "owner": "Codex（文档治理，未重签原动态证据）",
+          "provenance": [
+            "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "ad861a2af42b628a5d5637dd842869deed704282",
+            "full JSON field reading",
+            "actual source ranges and paired consumer"
+          ],
+          "primarySource": [
+            "docs/testing/e2e/evidence/e2e-contract.json",
+            "docs/testing/e2e/contract.md",
+            "scripts/e2e/opening-both.mjs:2-9",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "truthAnchors": [
+            "scripts/e2e/opening-both.mjs:2-9",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            ["phase1", "phase2"],
+            "docs/testing/catalog.json",
+            "docs/testing/governance.md"
+          ],
+          "dependencies": [
+            "docs/testing/e2e/contract.md",
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json"
+          ],
+          "applicability": "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+          "publicEntry": "docs/testing/e2e/evidence/e2e-contract.json",
+          "publicCallers": [
+            "pnpm e2e:001:both",
+            "pnpm e2e:002:both",
+            "pnpm e2e:003:both",
+            "pnpm e2e:004:both",
+            "pnpm e2e:005:both"
+          ],
+          "legalInputs": [
+            "current canonical project",
+            "engine-owned checkpoint",
+            "verify or capture profile"
+          ],
+          "businessOracle": {
+            "type": "machine-audit-field-and-scope-preservation",
+            "assertions": [
+              "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+              "正文/说话人/状态变化来自真实 caller",
+              "结束 checkpoint 可被同引擎正式恢复",
+              "capture 不冒充 verify",
+              "Existing assertions remain original publication obligations, not new executed proof."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/e2e/stages/*/report.md",
+              "docs/testing/legacy-flat-classification.json"
+            ],
+            "notes": "合同只定义共用门，不重复阶段报告的执行结论。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+          },
+          "counterReworkBlocked": {
+            "migration": "none-open",
+            "originalScopeGapsRetained": [
+              "原publicCallers列001至005，不因模板增加006或新runner能力声明。",
+              "原findings的SAVE12与NPC规则是各日期源码/准则范围，不改candidate/versions或历史未运行状态。"
+            ]
+          },
+          "unresolved": [
+            "原publicCallers列001至005，不因模板增加006或新runner能力声明。",
+            "原findings的SAVE12与NPC规则是各日期源码/准则范围，不改candidate/versions或历史未运行状态。"
+          ],
+          "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+          "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+          "sourceGitObject": "ad861a2af42b628a5d5637dd842869deed704282",
+          "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+          "revision": {
+            "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "implementationSha": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "field-preserving-audit-envelope",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+                "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+            "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+            "lineCount": 113
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+              "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+              "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+              "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+              "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+          "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+          "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+          "reviewedLines": "1-113",
+          "phase": "testing",
+          "module": "publication-machine-audits",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.4.0",
+            "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+          }
         }
       ]
     },
@@ -4580,7 +6499,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -4647,10 +6566,10 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+      "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+        "implementationSha": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
         "history": [
           {
             "date": "2026-10-15",
@@ -4670,7 +6589,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
-        "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+        "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
         "lineCount": 100
       },
       "history": [
@@ -4696,6 +6615,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+          "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4707,7 +6636,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       },
       "priorReadings": [
@@ -4836,6 +6765,142 @@
             "version": "1.3.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-route.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "templateVariant": "document-audit-v2",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+          "documentStatus": "proposal / catalog-publication only",
+          "owner": "Codex（文档治理，未重签原动态证据）",
+          "provenance": [
+            "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
+            "full JSON field reading",
+            "actual source ranges and paired consumer"
+          ],
+          "primarySource": [
+            "docs/testing/e2e/evidence/e2e-route.json",
+            "docs/testing/e2e/route-proposal.md",
+            "scripts/e2e/inn-contract.mjs:67-111",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "truthAnchors": [
+            "scripts/e2e/inn-contract.mjs:67-111",
+            "packages/content/src/character.ts:168-170"
+          ],
+          "phaseAnchors": [
+            ["phase1", "phase2"],
+            "docs/testing/catalog.json",
+            "docs/testing/governance.md"
+          ],
+          "dependencies": [
+            "docs/testing/e2e/route-proposal.md",
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json"
+          ],
+          "applicability": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+          "publicEntry": "docs/testing/e2e/evidence/e2e-route.json",
+          "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+          "legalInputs": ["fresh current project", "current-version checkpoint only"],
+          "businessOracle": {
+            "type": "machine-audit-field-and-scope-preservation",
+            "assertions": [
+              "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+              "每段有明确前驱/终止条件",
+              "路线失败不能被跳场景隐藏",
+              "Existing assertions remain original publication obligations, not new executed proof."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": ["e2e/stages/*/README.md"],
+            "notes": "方案不宣称任何阶段已运行通过。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+          },
+          "counterReworkBlocked": {
+            "migration": "none-open",
+            "originalScopeGapsRetained": [
+              "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
+              "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
+            ]
+          },
+          "unresolved": [
+            "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
+            "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
+          ],
+          "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+          "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+          "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
+          "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+          "revision": {
+            "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "implementationSha": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "field-preserving-audit-envelope",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+                "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+            "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+            "lineCount": 100
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+              "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+              "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+              "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+              "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+          "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+          "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+          "reviewedLines": "1-100",
+          "phase": "testing",
+          "module": "publication-machine-audits",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.4.0",
+            "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+          }
         }
       ]
     },
@@ -4844,7 +6909,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -4935,10 +7000,10 @@
       "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
-      "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+      "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+        "implementationSha": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
         "history": [
           {
             "date": "2026-10-15",
@@ -4958,7 +7023,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
-        "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+        "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
         "lineCount": 156
       },
       "history": [
@@ -4984,6 +7049,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+          "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4995,7 +7070,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       },
       "priorReadings": [
@@ -5148,6 +7223,166 @@
             "version": "1.3.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "templateVariant": "document-audit-v2",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+          "documentStatus": "current / catalog-publication only",
+          "owner": "Codex（文档治理，未重签原动态证据）",
+          "provenance": [
+            "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
+            "full JSON field reading",
+            "actual source ranges and paired consumer"
+          ],
+          "primarySource": [
+            "docs/testing/e2e/evidence/e2e-common-issues.json",
+            "docs/testing/e2e/cross-stage/common-issues.md",
+            "scripts/e2e/errand-contract.mjs:346-376",
+            "scripts/e2e/kitchen-contract.mjs:497-518",
+            "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+            "scripts/e2e/npc-transition-contract.mjs:262-338",
+            "scripts/e2e/opening-trace-plugin.mjs:164-178",
+            "scripts/e2e/opening-trace.test.mjs:515-630"
+          ],
+          "truthAnchors": [
+            "scripts/e2e/errand-contract.mjs:346-376",
+            "scripts/e2e/kitchen-contract.mjs:497-518",
+            "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+            "scripts/e2e/npc-transition-contract.mjs:262-338",
+            "scripts/e2e/opening-trace-plugin.mjs:164-178",
+            "scripts/e2e/opening-trace.test.mjs:515-630"
+          ],
+          "phaseAnchors": [
+            ["phase1", "phase2"],
+            "docs/testing/catalog.json",
+            "docs/testing/governance.md"
+          ],
+          "dependencies": [
+            "docs/testing/e2e/cross-stage/common-issues.md",
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json"
+          ],
+          "applicability": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+          "publicEntry": "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "publicCallers": [
+            "pnpm e2e:002:both",
+            "pnpm e2e:003:both",
+            "pnpm e2e:004:both",
+            "pnpm e2e:005:both"
+          ],
+          "legalInputs": [
+            "each stage's current same-engine predecessor",
+            "normal input/navigation",
+            "isolated browser storage"
+          ],
+          "businessOracle": {
+            "type": "machine-audit-field-and-scope-preservation",
+            "assertions": [
+              "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+              "公共根因按族收敛",
+              "路线/演出/存档失败分开归因",
+              "源码核读不计作实跑",
+              "Existing assertions remain original publication obligations, not new executed proof."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "e2e/stages/001-opening/report.md",
+              "e2e/stages/002-inn-guests-and-reward/report.md",
+              "e2e/stages/003-kitchen/report.md",
+              "e2e/stages/004-meal/report.md",
+              "e2e/stages/005-shrimp/report.md"
+            ],
+            "notes": "只汇总问题族，不复制各阶段通过数字。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+          },
+          "counterReworkBlocked": {
+            "migration": "none-open",
+            "originalScopeGapsRetained": [
+              "本JSON performed=false且无raw；canonical后续10-11声称的六份acceptance/新headed验收是另一个来源时点，本次未重验。",
+              "只全文读该JSON及所列source范围，canonical仅前80行导航/历史核读，不计整篇迁移或动态反控复验。"
+            ]
+          },
+          "unresolved": [
+            "本JSON performed=false且无raw；canonical后续10-11声称的六份acceptance/新headed验收是另一个来源时点，本次未重验。",
+            "只全文读该JSON及所列source范围，canonical仅前80行导航/历史核读，不计整篇迁移或动态反控复验。"
+          ],
+          "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+          "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+          "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
+          "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+          "revision": {
+            "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "implementationSha": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "field-preserving-audit-envelope",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+                "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+            "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+            "lineCount": 156
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+              "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+              "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+              "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+              "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+          "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+          "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+          "reviewedLines": "1-156",
+          "phase": "testing",
+          "module": "publication-machine-audits",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.4.0",
+            "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+          }
         }
       ]
     },
@@ -5156,7 +7391,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.4.0",
+      "templateVersion": "1.5.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -5245,10 +7480,10 @@
       "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
-      "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+      "afterSha256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+        "implementationSha": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
         "history": [
           {
             "date": "2026-10-15",
@@ -5268,7 +7503,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
-        "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+        "afterSha256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
         "lineCount": 182
       },
       "history": [
@@ -5294,6 +7529,16 @@
           "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.4-to1.5",
+          "sourceRevision": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
+          "beforeSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+          "afterSha256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
+          "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -5305,7 +7550,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       },
       "priorReadings": [
@@ -5457,6 +7702,167 @@
           "templateConformity": {
             "result": "template-compliant",
             "version": "1.3.0",
+            "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+          }
+        },
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.4.0",
+          "templateVariant": "document-audit-v2",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+          "documentStatus": "current / catalog-publication only",
+          "owner": "Codex（文档治理，未重签原动态证据）",
+          "provenance": [
+            "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
+            "full JSON field reading",
+            "actual source ranges and paired consumer"
+          ],
+          "primarySource": [
+            "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+            "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+            "scripts/docs/classify-testing-legacy.mjs:24-45",
+            "docs/testing/legacy-flat.json:1-20",
+            "packages/content/src/character.ts:168-170",
+            "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+            "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+            "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+          ],
+          "truthAnchors": [
+            "scripts/docs/classify-testing-legacy.mjs:24-45",
+            "docs/testing/legacy-flat.json:1-20",
+            "packages/content/src/character.ts:168-170",
+            "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+            "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+            "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+          ],
+          "phaseAnchors": [
+            ["phase1", "phase2", "ops"],
+            "docs/testing/catalog.json",
+            "docs/testing/governance.md"
+          ],
+          "dependencies": [
+            "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+            "docs/testing/catalog.json",
+            "docs/phase-governance/templates/registry.json"
+          ],
+          "applicability": "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+          "publicEntry": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+          "publicCallers": [
+            "node scripts/docs/classify-testing-legacy.mjs",
+            "pnpm check:testing-docs"
+          ],
+          "legalInputs": [
+            "tracked docs/testing root files",
+            "legacy-flat.json entries and retired records",
+            "source path references embedded in report bodies"
+          ],
+          "businessOracle": {
+            "type": "machine-audit-field-and-scope-preservation",
+            "assertions": [
+              "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+              "every legacy path has domain/module/capability/provenance/sourceSha/inventory",
+              "migrated files have retired SHA and canonical target",
+              "retained files have explicit reason and review status",
+              "Agent names do not leak into canonical targets",
+              "Existing assertions remain original publication obligations, not new executed proof."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": [
+              "docs/testing/legacy-flat-classification.json",
+              "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
+              "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+              "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+              "docs/testing/catalog.json"
+            ],
+            "notes": "The closeout plan is the complete 331-item decision ledger; archive moves preserve source SHA, while tools remain only with explicit stop lines. Pairing does not count the unread canonical body or linked ledgers as migrated."
+          },
+          "counterReworkBlocked": {
+            "migration": "none-open",
+            "originalScopeGapsRetained": [
+              "完整读取分类器发现reviewed=Boolean(options.movedTo || closeout)，本次不继承其深审信用，也不重跑生成器覆盖旧账。",
+              "三份migration计划与legacy manifest只读声明范围/头部，未全文审核其所有条目；原current发布与source-backed claims不授予全量深审完成。",
+              "artifacts四个结构化账本仍是独立候选文档，不能作为700类raw/artifact归属已完成。"
+            ]
+          },
+          "unresolved": [
+            "完整读取分类器发现reviewed=Boolean(options.movedTo || closeout)，本次不继承其深审信用，也不重跑生成器覆盖旧账。",
+            "三份migration计划与legacy manifest只读声明范围/头部，未全文审核其所有条目；原current发布与source-backed claims不授予全量深审完成。",
+            "artifacts四个结构化账本仍是独立候选文档，不能作为700类raw/artifact归属已完成。"
+          ],
+          "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+          "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+          "sourceGitObject": "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
+          "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+          "revision": {
+            "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+            "implementationSha": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "field-preserving-audit-envelope",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+                "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+            "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+            "lineCount": 182
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+              "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+              "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+              "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "machine-parent-declaration-only1.3-to1.4",
+              "beforeSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+              "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+              "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+              "newMigrationCredit": 0,
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+          "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+          "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+          "reviewedLines": "1-182",
+          "phase": "testing",
+          "module": "publication-machine-audits",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.4.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
         }

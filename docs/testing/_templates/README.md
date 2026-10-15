@@ -37,7 +37,9 @@ Template: governance-index-v1 / 1.0.0
 
 域报告与 document-audit 的状态是 catalog 发布状态的投影，必须按唯一 id 配对；默认 execution 回执使用独立执行状态合同。具体版本和词表取统一注册表，发布 current/verified 不能授予本次执行信用。
 
-机器证据1.4新增historical-review-payload-v1用于原九字段lab独立复核：只加_governance，原counter/MISSED/诊断/退出码保持，治理lifecycle为historical、本轮执行false。它不属于catalog发布对象，不能补造id/status；固定Git源深等与九字段门均须通过。已接收14份机器回执只同步治理版本，不增加迁移或运行信用；该r10单篇原生保真pilot已获独立语义/来源/真实consumer验收；这不接受其它未读机器shape，也不增加本轮运行信用。
+历史九字段 r10 的 historical-review-payload-v1 在1.4引入并已获固定源/真实 consumer/非作者独立 pilot 接收；原 counter/MISSED/诊断/exit 保持，治理 historical、本轮 false，不补造 schema2/id/status。
+
+机器父版本1.5增加 continuation/intake/command 三种历史集成变体（15/10/22原生键），精确名称与固定33cc源见统一 registry 和冻结 J 设计。原 default 与三个变体保持，既有15份只滚治理版本，0新增迁移/运行。新三格式 canonical 单篇独立 pilot 尚待；原历史 status/verdict/警告/非执行项不改，不能把集成沿用针数当新执行或套 catalog 发布词表。
 
 ## 证据与下一步
 
