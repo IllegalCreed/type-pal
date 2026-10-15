@@ -49,7 +49,7 @@ Template: governance-index-v1 / 1.0.0
 
 | A7音乐角色 ↔ 后继勘误 | 四→五角色与1326/13→1327/12分时点，G5错误归因不恢复 | guarded | binding/网络链不等走场/听觉；O2缺口保留 |
 | A7静态图像 ↔ raw face后继 | 6/10392旧stub被5/10324及absence取代，portrait保留 | guarded | 旧accept不等当前真值；本轮不重解码raw或运行 |
-| A7过场旧设计/审计 ↔ C1–C5 | skip旧accept撤回，后继默认不可跳；共享两源待明确勘误 | guarded | s059邻域不等s066全路，OPFS不等原生OS UI |
+| A7过场旧设计/审计 ↔ C1–C5 | skip旧accept撤回，后继默认不可跳；共享两源已明确撤回旧信用并保留原文 | guarded | s059邻域不等s066全路，OPFS不等原生OS UI |
 | A7瓦片许可失败 ↔ 字节修复 | 原222/1/1保留，后继恢复OFL字节；两种合法RLE容器均接受 | guarded | 不回填零、不添来源拒绝、不授今天法律/动态信用 |
 
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。

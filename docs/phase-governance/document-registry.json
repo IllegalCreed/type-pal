@@ -19,15 +19,15 @@
     "byType": {
       "guide-runbook": 15,
       "archive-record": 17,
-      "audit-report": 58,
-      "evidence-receipt": 44,
+      "audit-report": 56,
+      "evidence-receipt": 45,
+      "design-spec": 43,
       "governance-index": 24,
       "task-card": 306,
       "quality-gate": 1,
       "reference-canon": 16,
       "narrative-idea": 2,
       "plan-status": 63,
-      "design-spec": 42,
       "test-e2e-stage": 2,
       "test-run-report": 2,
       "test-machine-evidence": 14,
@@ -39,8 +39,8 @@
       "content-reviewed": 616
     },
     "templateCompliance": {
-      "template-compliant": 91,
-      "governed-legacy": 525
+      "template-compliant": 96,
+      "governed-legacy": 520
     }
   },
   "entries": [
@@ -226,13 +226,15 @@
     {
       "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
       "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
@@ -5147,24 +5149,28 @@
     {
       "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
@@ -5172,10 +5178,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
@@ -5491,10 +5499,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/e6-position-authority-design.md",

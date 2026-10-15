@@ -452,6 +452,31 @@
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
       "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

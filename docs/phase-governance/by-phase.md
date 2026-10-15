@@ -90,9 +90,9 @@
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) | archive | archived | Codex |
-| [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) | archive | archived | Codex |
-| [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) | archive | archived | Codex |
+| [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) | archive | archived | Codex（文档治理；不代签历史执行） |
+| [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) | archive | archived | Codex（文档治理；不代签历史执行） |
+| [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) | archive | archived | Codex（文档治理；不代签历史执行） |
 | [资产 / 提取 / 迁移 八单元 三方逐函数对照审计(MKF / 精灵 / 字节码 / 资产管线 / manifest / 投掷物 / 战斗物品 / 数据 bug 补丁台账)](../phase2/archive/audits/am-asset-migrate-audit.md) | archive | archived | Codex |
 | [攻击 / 法术系统 四单元 三方逐函数对照审计(物理攻击 / 法术攻击 / 召唤 / 混乱打友)](../phase2/archive/audits/b-attack-magic-audit.md) | archive | archived | Codex |
 | [战斗核心逻辑三方逐函数审计(公式 / 状态机 / 回合队列 / 结算)](../phase2/archive/audits/b-core-audit.md) | archive | archived | Codex |
@@ -121,7 +121,7 @@
 | [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) | archive | archived | Codex |
 | [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) | archive | archived | Codex |
 | [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) | archive | archived | Codex |
-| [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) | archive | archived | Codex |
+| [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) | archive | archived | Codex（文档治理；不代签历史执行） |
 | [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) | archive | archived | Codex |
 | [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) | archive | archived | Codex |
 | [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) | archive | archived | Codex |

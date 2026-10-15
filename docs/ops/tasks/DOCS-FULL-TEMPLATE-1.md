@@ -367,3 +367,35 @@ Branch: codex/docs-full-template-proposal
 - 两design具体问题/真值/方案/风险/验收：过场完整帧作者模型与TPFS codec、BGM分层、32帧原型/正式字节和默认不可跳；G0版本轴、disposition/allowlist、PERF-B failed rewind与characterization是原准入，不代表已实施。归档发布状态使用superseded仅表示不能作为当前准入/旧时点断语被后继取代，明确不宣布全部技术设计废弃，也不以“读旧写新codec”恢复产品epoch兼容。
 - 原标题入口/完整UTF-8 quote逐字节可逆，全部原日期/结论/历史计数/命令保留。新具体五型章节+五历史章节，全文root新旧/consumer/fragment/状态/证据约束独立核后接收，不把wrapper或substring通过当语义accept。六截图root/main实际均不存在，producer/原caller/关联任务/保留与停止线写清missing-not-recovered，不能补签视觉。
 - 四向前提：primary为固定原五blob及A7后继卡明确纠错；phase1 raw解码属旧记录，不重新认证；phase2现行READ-FIRST当前canonical与分层规则；目标仅历史文档真值/导航治理。若直接后继证明skip未被撤回、6face仍属有效raw或G0处置是当前消费者合同，则停受影响正文重核；不由数量/全绿猜真值。原始素材/产品/旧测试/coverage/browser/E2E均禁止新执行或改动。
+
+
+### 2026-10-16 包E正文候选待独立接收
+
+- 根完成5篇具体模板正文和五节历史wrapper，旧1293行全部保留；五份源blob/source/after与完整inverse实际通过，91旧标题、86出站fragment及tracked入链扫描经实际Marked GFM/本地slug验证零问题（入链数含自链接，不冒称外部86条或全仓fragment已通过）。两设计Status superseded明确只限定当前准入权/旧时点主张、Validity historical，原done/G0不动、不废弃全部技术设计。
+- 首轮diff拒绝音乐源第3/4行原MD硬换行双空格，已精确两行转为CommonMark反斜杠硬换行并记录逆映射，严格还原原双空格；其余原文字节不变，不降git门。候选当前5typed+history模型和check.mjs1223/7142/361均零问题；旧中央5条after漂移仍待非作者实际接收后写回，不计迁移/不豁免。
+- 源/候选/保留/六截图missing-not-recovered与producer/caller/retention、全部真实读域写入既有20261016-historical-cards-c.json.sharedSourcesCandidate，避免新增平行状态文档。原报告执行candidate未知仍unknown，未新跑产品/旧测试/coverage/浏览器/听音或raw复算。
+
+
+- 包E增量E3：根在已接收A7-2新增层发现item277与icon0连写为item2770；原卡quote232/314/363及static原131明确item277旧icon=0。receipt_review独立确认仅清晰化文字，不改原文/产品/计数，白名单窄扩该卡新增一处及after账；原受审record进priorReadings，不新增迁移计数。新SHA与最终delta另核。
+- 包D实际门前提更正：作者直接核12路径均0/12在旧中央616 registry/review，因此strict616 PASS完全不覆盖D，原设计预期“12SHA漂移”被事实推翻。根接收时应新增12记录/registry/route，不移动不存在的旧记录，也不将旧PASS当D验收。
+
+
+### 2026-10-16 包E独立接收与共享写回
+
+- receipt_review全文核5源1293行（同blob旧读与本轮新增完整354设计分开记录）和所有新正文/导航/完整候选，逐篇accept。E1把15-transition/927-file PB4 proof误归失败候选，已收窄为失败的是current-v4 rebuild；E2标题截图只有report caller，删去虚构task引用，六图逐张拍摄者/candidate未知且root/main均missing；E3卡item277旧icon0连写清晰化独立accept，0新增迁移。原错误/返工历史保留。
+- 五篇template+archive真实consumer、91原标题/86outgoing、本地GFM与原文字节逆回读独立通过；music仅原3/4硬换行双空格↔反斜杠映射且解析HTML一致，不能说纯quote无例外。tracked外部incoming0，原incoming86全是五页自身导航，元数据已明确口径；未在线点击/运行产品。
+- 中央5原结构化记录进priorReadings，绑定纠为2receipt/1audit/2design，添加实际deep-semantic/afterSHA/routing。phasecatalog仅4对应phase2 entry同提交同步，旧倒置/错位自动code源范围完整入priorReadings，不冒称今天核了生产源码；其它180entry未改。生成器仅投影视图未改catalog，不授全catalog/生成页全文迁移信用。
+- A7-3仅2新章节段落将“共享来源待治理”更新为已独立接收，旧quote不动，原source/after与记录历史均保留。矩阵同关系明确撤回旧skip与证据误路由，同时保留真正过门/原生OS/raw动态缺口guarded；一个重复证据引用已按独立复核删除，history.before不动。
+- 真实当前投影92/1838基线+4增量，1952候选中1856待迁移；616账本=96compliant+520governed-legacy，不代表616篇完成。当前strict616/model96/phase184/progress完整性0/diff0；E中央/catalog/矩阵集成定向复核与全门最后补齐，main未写，goalactive/任务build。
+- 包D作者fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143精确12卡+专属回执、非作者history_cards_c_tail已全文943原行/1209新层/2040回执独立逐篇accept；其68作者工具/lint不冒作非作者执行，central0/12确证。本根尚未cherry-pick/未新增中央12行/未计迁移；下一步单独接收，不以旧616PASS代替。
+
+
+- E集成当前记录返工E4/E5：C3 current successor仍写共享源待根治理，矩阵MD current core/oracle/beforeAfter还写旧14/12/11→12而实际25条。已分别同步精确继任正文、明确既有25导航/Eonly1row与其它24JSONrow实测不变，旧当前对象/字段完整入flatten priorReadings/history；不由新增history掩盖当前矛盾，也不借25数声称本轮重审所有关系。候选5正文与C2/C3正文SHA未因此改变。
+- 后续每次共享写回须逐项核当前review的core/oracle/beforeAfter/successor/unresolved/nextStep/provenance与实际正文/范围，不能只刷afterSHA及追加历史；当前数字/待办/版本必须明确旧时点或同步新事实。E4/E5最后定向复核及全门后收本轮，D12仍独立候选不计当前92/1838+4。
+
+
+### 2026-10-16 包E最终集成接受
+
+- receipt_review最终integration accept，E4 current successor/E5当前矩阵数量与读域以及重复证据排重均独立闭合；5篇/4catalog/其余180entry不变/唯一路由/原文回读/C3两段及矩阵1row边界真实核过。受审维护快照SHA写入E集成回执，后续根签收/门维护不冒称旧SHA等于新record字节。
+- 实际完整check:docs：68工具0fail/0skip、1223Markdown/7142links/361tasks、96正文合同、testing0、phase184、review616均通过；lint4083files零error/warning/info、diff0。静态全门不改变原raw/真正过门/原生OS/视觉或OFL历史矛盾的范围。
+- 当前92/1838基线+4增量已迁移、1856当前候选待迁移、520governed-legacy无保留豁免；所有未审控制JSON/视图/附件继续计入，不以本批接收代替全量done。root候选分支收本轮，main仍未写，目标active；D12已独立accept待根接入，F12只读1229行设计及0/12旧中央覆盖已完成，未实现/未计数。

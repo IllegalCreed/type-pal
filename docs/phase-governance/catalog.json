@@ -9400,67 +9400,189 @@
       "capability": "phase2-archive-audits-a7-0-music-resource-closure-report",
       "status": "archived",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "action": "full-original/new-source semantic migration independently accepted",
+          "scope": "Only this source; old automatically collected unrelated/inverted code ranges retained in priorReadings, not renewed current code claims"
+        }
+      ],
       "sourceSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
-      "afterSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
+      "afterSha256": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
           "lines": "1-1",
-          "anchor": "A7-0 音乐资源闭包报告",
-          "role": "document-source",
-          "sha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714"
+          "anchor": "# A7-0 音乐资源闭包报告",
+          "role": "reviewed-historical-document",
+          "sha256": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e"
         }
       ],
-      "publicCallers": ["git JSON baseline，"],
+      "publicCallers": [
+        "node scripts/docs/check-phase-lore-governance.mjs",
+        "Agents following stable A7/task archive references"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:1-1"
+        "Pinned full historical source, dated successor corrections and original byte-preservation proof; not current runtime input"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "content-specific-historical-source-correction-and-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "固定音乐批次的文件/引用/编辑与MG2结果，不是全部A7通过或当前运行认证；四角色错误由第五标题菜单角色纠正。",
+          "All original dates/statuses/numbers/counters and commands recover exactly;music2hardbreak exceptions explicitly mapped",
+          "Withdraw oldskip/face/current-version claims only within proven successor scope; preserve unknown raw and original all-green/OFL contradiction",
+          "Actual typed sections+five archive sections express concrete evidence/constraints; no wrapper-only or currentruntime acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "reviewed-no-additional-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+          "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md"
+        ],
+        "notes": "Result receipt, audit, design, G0admission and task status have distinct responsibilities; no new side-by-side canonical report."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+        "implementationSha": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "actual-specific-template-and-history-body-migration",
+            "reviewer": "receipt_review",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independent-full-shared-source-semantic-migration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-c.json",
         "sourceSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e",
+        "lineCount": 182,
+        "originalPreservation": {
+          "method": "Quote prefix plus exactly2 reversible CommonMark hard-break encodings; original lines3/4 each restored to2 trailing spaces",
+          "sourceBytes": 5398,
+          "exactInverse": true,
+          "sourceFinalNewline": true,
+          "originalHeadings": [
+            "A7-0 音乐资源闭包报告",
+            "1. 单一链路",
+            "2. 文件闭包",
+            "3. 引用闭包",
+            "4. 运行与编辑闭环",
+            "5. 迁移与所有权",
+            "A7-0A 勘误（2026-07-16）",
+            "6. 未闭合范围"
+          ],
+          "hardBreakReencoding": [
+            {
+              "sourceLine": 3,
+              "trailingSpaces": 2,
+              "encoding": "CommonMark hard break with backslash"
+            },
+            {
+              "sourceLine": 4,
+              "trailingSpaces": 2,
+              "encoding": "CommonMark hard break with backslash"
+            }
+          ]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-template-migration-and-scoped-source-reference-reconciliation",
+          "afterSha256": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e",
+          "originalCatalogEntryPreserved": "priorReadings",
+          "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "Do not discard original dates/bytes/failed results, guess away OFL contradiction, expandPB4failure attribution, fabricate screenshot caller/producer, revive oldprompt/epoch compatibility, or claim current runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "Original mixed chronology/authority → concreteevidence-receiptsections and explicit corrections/successors plus full reversible original; old status/date retained.",
+      "lastReviewed": "2026-10-16",
+      "priorReadings": [
+        {
+          "id": "docs-phase2-archive-audits-a7-0-music-resource-closure-report",
+          "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+          "title": "A7-0 音乐资源闭包报告",
+          "phase": "phase2",
+          "module": "archive",
+          "capability": "phase2-archive-audits-a7-0-music-resource-closure-report",
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
+          "afterSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
+          "sourceRefs": [
+            {
+              "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+              "lines": "1-1",
+              "anchor": "A7-0 音乐资源闭包报告",
+              "role": "document-source",
+              "sha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714"
+            }
+          ],
+          "publicCallers": ["git JSON baseline，"],
+          "legalInputs": [
+            "current repository documentation",
+            "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:1-1"
+          ],
+          "businessOracle": {
+            "type": "phase-lore-document-governance",
+            "assertions": [
+              "the document has one explicit phase/lore/module responsibility",
+              "historical or draft material is not silently promoted to current canonical truth",
+              "source references and version claims remain auditable from the current repository"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
+            "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+          },
+          "revision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "document-audit",
+            "sourceSha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714",
+            "claims": ["phase/lore ownership and status inventory"]
+          },
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "action": "catalogued",
+              "status": "archived"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+          "userVisibleBeforeAfter": null,
+          "lastReviewed": "2026-10-04"
+        }
+      ]
     },
     {
       "id": "docs-phase2-archive-audits-a7-2-static-images-engine-chrome-report",
@@ -9471,86 +9593,198 @@
       "capability": "phase2-archive-audits-a7-2-static-images-engine-chrome-report",
       "status": "archived",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "action": "full-original/new-source semantic migration independently accepted",
+          "scope": "Only this source; old automatically collected unrelated/inverted code ranges retained in priorReadings, not renewed current code claims"
+        }
+      ],
       "sourceSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
-      "afterSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
+      "afterSha256": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12",
       "sourceRefs": [
         {
-          "path": "packages/reforge/src/engine-chrome/registry.ts",
+          "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
           "lines": "1-1",
-          "anchor": "type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
-          "role": "body-source-reference",
-          "sha256": "02bb8bdcfd46edc48a6ea731acc8ed176017c52a9d565b143194f1e524f95792"
-        },
-        {
-          "path": "packages/migrate/scripts/bake-assets.mts",
-          "lines": "1-1",
-          "anchor": "/**",
-          "role": "body-source-reference",
-          "sha256": "c42589048215ba97a70f4d1bfb1e690d101f50fbd0dd5ae3225c2e44bca5604e"
+          "anchor": "# A7-2 静态图闭包与 engine chrome 自包含结果报告",
+          "role": "reviewed-historical-document",
+          "sha256": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12"
         }
       ],
       "publicCallers": [
-        "pnpm --filter @type-pal/content run check",
-        "pnpm --filter @type-pal/reforge run check",
-        "pnpm --filter @type-pal/editor run check",
-        "pnpm --filter @type-pal/migrate run check",
-        "pnpm --filter @type-pal/migrate run migrate:content",
-        "pnpm --filter @type-pal/migrate run bake",
-        "pnpm --filter @type-pal/reforge exec vite build --base=/a7/",
-        "pnpm --filter @type-pal/editor exec vite build --base=/a7/editor/",
-        "git diff --check",
-        "`pnpm check"
+        "node scripts/docs/check-phase-lore-governance.mjs",
+        "Agents following stable A7/task archive references"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "packages/reforge/src/engine-chrome/registry.ts:1-1",
-        "packages/migrate/scripts/bake-assets.mts:1-1"
+        "Pinned full historical source, dated successor corrections and original byte-preservation proof; not current runtime input"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "content-specific-historical-source-correction-and-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "保存工程静态图与engine chrome互斥归属；旧六face和早期全绿主张有后继纠错，历史数据与矛盾不抹除。",
+          "All original dates/statuses/numbers/counters and commands recover exactly;music2hardbreak exceptions explicitly mapped",
+          "Withdraw oldskip/face/current-version claims only within proven successor scope; preserve unknown raw and original all-green/OFL contradiction",
+          "Actual typed sections+five archive sections express concrete evidence/constraints; no wrapper-only or currentruntime acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "reviewed-no-additional-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+          "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+          "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+          "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md"
+        ],
+        "notes": "Result receipt, audit, design, G0admission and task status have distinct responsibilities; no new side-by-side canonical report."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+        "implementationSha": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "actual-specific-template-and-history-body-migration",
+            "reviewer": "receipt_review",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independent-full-shared-source-semantic-migration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-c.json",
         "sourceSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12",
+        "lineCount": 201,
+        "originalPreservation": {
+          "method": "full quote with only reversible line prefixes",
+          "sourceBytes": 6928,
+          "exactInverse": true,
+          "sourceFinalNewline": true,
+          "originalHeadings": [
+            "A7-2 静态图闭包与 engine chrome 自包含结果报告",
+            "1. 结果",
+            "2. 冻结数据",
+            "3. 项目模型与升级",
+            "4. 图像语义与编辑器",
+            "5. Engine chrome",
+            "6. 验证证据",
+            "7. 明确保留到 A7-4 的缺口"
+          ]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-template-migration-and-scoped-source-reference-reconciliation",
+          "afterSha256": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12",
+          "originalCatalogEntryPreserved": "priorReadings",
+          "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "Do not discard original dates/bytes/failed results, guess away OFL contradiction, expandPB4failure attribution, fabricate screenshot caller/producer, revive oldprompt/epoch compatibility, or claim current runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "Original mixed chronology/authority → concreteevidence-receiptsections and explicit corrections/successors plus full reversible original; old status/date retained.",
+      "lastReviewed": "2026-10-16",
+      "priorReadings": [
+        {
+          "id": "docs-phase2-archive-audits-a7-2-static-images-engine-chrome-report",
+          "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+          "title": "A7-2 静态图闭包与 engine chrome 自包含结果报告",
+          "phase": "phase2",
+          "module": "archive",
+          "capability": "phase2-archive-audits-a7-2-static-images-engine-chrome-report",
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
+          "afterSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
+          "sourceRefs": [
+            {
+              "path": "packages/reforge/src/engine-chrome/registry.ts",
+              "lines": "1-1",
+              "anchor": "type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
+              "role": "body-source-reference",
+              "sha256": "02bb8bdcfd46edc48a6ea731acc8ed176017c52a9d565b143194f1e524f95792"
+            },
+            {
+              "path": "packages/migrate/scripts/bake-assets.mts",
+              "lines": "1-1",
+              "anchor": "/**",
+              "role": "body-source-reference",
+              "sha256": "c42589048215ba97a70f4d1bfb1e690d101f50fbd0dd5ae3225c2e44bca5604e"
+            }
+          ],
+          "publicCallers": [
+            "pnpm --filter @type-pal/content run check",
+            "pnpm --filter @type-pal/reforge run check",
+            "pnpm --filter @type-pal/editor run check",
+            "pnpm --filter @type-pal/migrate run check",
+            "pnpm --filter @type-pal/migrate run migrate:content",
+            "pnpm --filter @type-pal/migrate run bake",
+            "pnpm --filter @type-pal/reforge exec vite build --base=/a7/",
+            "pnpm --filter @type-pal/editor exec vite build --base=/a7/editor/",
+            "git diff --check",
+            "`pnpm check"
+          ],
+          "legalInputs": [
+            "current repository documentation",
+            "packages/reforge/src/engine-chrome/registry.ts:1-1",
+            "packages/migrate/scripts/bake-assets.mts:1-1"
+          ],
+          "businessOracle": {
+            "type": "phase-lore-document-governance",
+            "assertions": [
+              "the document has one explicit phase/lore/module responsibility",
+              "historical or draft material is not silently promoted to current canonical truth",
+              "source references and version claims remain auditable from the current repository"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
+            "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+          },
+          "revision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "document-audit",
+            "sourceSha256": "8ff2bbea5a51c9d57b89cc192388d69bddba207c89187f9f1c002911915fcbf6",
+            "claims": ["phase/lore ownership and status inventory"]
+          },
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "action": "catalogued",
+              "status": "archived"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+          "userVisibleBeforeAfter": null,
+          "lastReviewed": "2026-10-04"
+        }
+      ]
     },
     {
       "id": "docs-phase2-archive-audits-a7-resource-closure-audit",
@@ -9561,220 +9795,361 @@
       "capability": "phase2-archive-audits-a7-resource-closure-audit",
       "status": "archived",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "action": "full-original/new-source semantic migration independently accepted",
+          "scope": "Only this source; old automatically collected unrelated/inverted code ranges retained in priorReadings, not renewed current code claims"
+        }
+      ],
       "sourceSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
-      "afterSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
+      "afterSha256": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f",
       "sourceRefs": [
         {
-          "path": "packages/content/src/character.ts",
-          "lines": "59-84",
-          "anchor": "| {",
-          "role": "body-source-reference",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
-        },
-        {
-          "path": "packages/reforge/src/file-source.ts",
-          "lines": "4-18",
-          "anchor": "* rel = 当前工程根下的规范相对路径；所有内容和资源都必须位于工程闭包内。",
-          "role": "body-source-reference",
-          "sha256": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2"
-        },
-        {
-          "path": "packages/editor/src/core/clone.ts",
-          "lines": "37-38",
-          "anchor": "const bytes = await seed.readBytes(file.src)",
-          "role": "body-source-reference",
-          "sha256": "765db3ef21bb059a4105eae28b367fea591581b9dada6f0ddca073a99769c3fe"
-        },
-        {
-          "path": "packages/editor/src/core/seed.ts",
-          "lines": "173-223",
-          "anchor": "version: 1,",
-          "role": "body-source-reference",
-          "sha256": "d5b0be5b56e512346907a2b7eaf955b38425bd6012bce7fae3b8f31990eeedde"
-        },
-        {
-          "path": "packages/content/src/index.ts",
-          "lines": "18-26",
-          "anchor": "packages/content/src/index.ts",
-          "role": "body-source-reference",
-          "sha256": "5115b11a723821755cb015acb5b31ad1aaec401d33c639c96603d4610222d2d4"
-        },
-        {
-          "path": "packages/migrate/src/pal-derived-content.ts",
-          "lines": "170-13",
-          "anchor": "packages/migrate/src/pal-derived-content.ts",
-          "role": "body-source-reference",
-          "sha256": "b5b8083a0d967e37a9022fa5f3e0eb97a68d5e26fa8c815e050a99e006912c4f"
-        },
-        {
-          "path": "packages/reforge/src/main.ts",
-          "lines": "1370-1373",
-          "anchor": "return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)",
-          "role": "body-source-reference",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
-        },
-        {
-          "path": "packages/reforge/src/assets.ts",
-          "lines": "102-144",
-          "anchor": "asset: AssetId,",
-          "role": "body-source-reference",
-          "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
-        },
-        {
-          "path": "packages/reforge/src/assets.ts",
-          "lines": "29-62",
-          "anchor": "import type { AssetResolver } from './asset-resolver.js'",
-          "role": "body-source-reference",
-          "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
-        },
-        {
-          "path": "packages/reforge/src/audio/bgm.ts",
-          "lines": "32-32",
-          "anchor": "resume(): void",
-          "role": "body-source-reference",
-          "sha256": "904c5bcd62e5c2dab1e1295ff187e25df09d7e062f57e4dda03ee91bcf787fce"
-        },
-        {
-          "path": "packages/reforge/src/audio/bgm.ts",
-          "lines": "85-98",
-          "anchor": "const { Sequencer } = await import('spessasynth_lib')",
-          "role": "body-source-reference",
-          "sha256": "904c5bcd62e5c2dab1e1295ff187e25df09d7e062f57e4dda03ee91bcf787fce"
-        },
-        {
-          "path": "packages/reforge/src/audio/sfx.ts",
-          "lines": "17-17",
-          "anchor": "readonly budget: number,",
-          "role": "body-source-reference",
-          "sha256": "46f2a0e752b79f23f2fbe1f6ccb0a588c5ae30adb1d32cea963f6e357de15e29"
-        },
-        {
-          "path": "packages/reforge/src/text/glyph.ts",
-          "lines": "40-42",
-          "anchor": "// ── loadGlyphs(browser 环境,bundler-owned Unifont BDF) ───────────────",
-          "role": "body-source-reference",
-          "sha256": "8338a9af967ad9f0cb723ec3592cdd15b60b53b1d78203a6aa1aa8c8665accea"
-        },
-        {
-          "path": "packages/reforge/src/dialog/dialog-assets.ts",
-          "lines": "47-66",
-          "anchor": "if (opaque[i]) {",
-          "role": "body-source-reference",
-          "sha256": "013ef479f31d86045b579712ca156e5b6d7feaf4b77a94d9f68711ca605e21f8"
-        },
-        {
-          "path": "packages/reforge/src/menu/menu-box.ts",
-          "lines": "352-352",
-          "anchor": "}",
-          "role": "body-source-reference",
-          "sha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
-        },
-        {
-          "path": "packages/reforge/src/main.ts",
-          "lines": "229-229",
-          "anchor": "'wu-hou',",
-          "role": "body-source-reference",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
-        },
-        {
-          "path": "packages/reforge/src/main.ts",
-          "lines": "1513-1513",
-          "anchor": "source: EntityMoveSource,",
-          "role": "body-source-reference",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
-        },
-        {
-          "path": "packages/reforge/src/main.ts",
-          "lines": "1743-1745",
-          "anchor": "if (dist <= 1) {",
-          "role": "body-source-reference",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
-        },
-        {
-          "path": "packages/content/src/validate-refs.ts",
+          "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
           "lines": "1-1",
-          "anchor": "/**",
-          "role": "body-source-reference",
-          "sha256": "ab74aa28715acd21a4e50bbe6463254233d93e8490041a98cfbcd27c87fc6977"
-        },
-        {
-          "path": "packages/reforge/src/fsa-source.ts",
-          "lines": "50-51",
-          "anchor": "throwIfAborted(signal)",
-          "role": "body-source-reference",
-          "sha256": "ab4562bf8feadc464f0fbe689d4b23963c84a1e7e55a656c8a2872e3bc600eea"
-        },
-        {
-          "path": "packages/reforge/src/engine-chrome/registry.ts",
-          "lines": "1-1",
-          "anchor": "type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
-          "role": "body-source-reference",
-          "sha256": "02bb8bdcfd46edc48a6ea731acc8ed176017c52a9d565b143194f1e524f95792"
+          "anchor": "# A7/R7 工程资源闭包与稳定资源注册表审计",
+          "role": "reviewed-historical-document",
+          "sha256": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f"
         }
       ],
       "publicCallers": [
-        "`pnpm --filter @type-pal/migrate run migrate:content -- --write",
-        "`pnpm check"
+        "node scripts/docs/check-phase-lore-governance.mjs",
+        "Agents following stable A7/task archive references"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "packages/content/src/character.ts:59-84",
-        "packages/reforge/src/file-source.ts:4-18",
-        "packages/editor/src/core/clone.ts:37-38",
-        "packages/editor/src/core/seed.ts:173-223",
-        "packages/content/src/index.ts:18-26",
-        "packages/migrate/src/pal-derived-content.ts:170-13",
-        "packages/reforge/src/main.ts:1370-1373",
-        "packages/reforge/src/assets.ts:102-144",
-        "packages/reforge/src/assets.ts:29-62",
-        "packages/reforge/src/audio/bgm.ts:32-32",
-        "packages/reforge/src/audio/bgm.ts:85-98"
+        "Pinned full historical source, dated successor corrections and original byte-preservation proof; not current runtime input"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "content-specific-historical-source-correction-and-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "A7总审计是多时点审计链；旧未闭包与后继catalog-only分域，skip/face/版本和证据误路由须显式解释。",
+          "All original dates/statuses/numbers/counters and commands recover exactly;music2hardbreak exceptions explicitly mapped",
+          "Withdraw oldskip/face/current-version claims only within proven successor scope; preserve unknown raw and original all-green/OFL contradiction",
+          "Actual typed sections+five archive sections express concrete evidence/constraints; no wrapper-only or currentruntime acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "reviewed-no-additional-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+          "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+          "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+          "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+          "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+          "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+          "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+          "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md"
+        ],
+        "notes": "Result receipt, audit, design, G0admission and task status have distinct responsibilities; no new side-by-side canonical report."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+        "implementationSha": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "actual-specific-template-and-history-body-migration",
+            "reviewer": "receipt_review",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independent-full-shared-source-semantic-migration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-c.json",
         "sourceSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f",
+        "lineCount": 805,
+        "originalPreservation": {
+          "method": "full quote with only reversible line prefixes",
+          "sourceBytes": 39711,
+          "exactInverse": true,
+          "sourceFinalNewline": true,
+          "originalHeadings": [
+            "A7/R7 工程资源闭包与稳定资源注册表审计",
+            "1. 结论",
+            "2. 已拍板边界",
+            "2.1 工程自包含的含义",
+            "2.2 版权与可再生产物",
+            "3. A7-0 前历史证据(保留作回归基线)",
+            "3.1 PAL 工程仍指向外部目录",
+            "3.2 “复制全部”不等于“按引用闭包复制”",
+            "3.3 `music.json` 没有承担资源索引职责",
+            "3.4 资源双轨与隐式路径",
+            "3.5 绕过 `FileSource` 的主要读取点",
+            "3.6 现有闭包校验缺口",
+            "3.7 A7-0 落地后的音乐族证据",
+            "3.8 A7-3 落地后的视频/帧动画证据",
+            "3.9 A7-1 落地后的 SFX 证据",
+            "3.10 A7-2 完成后的静态图与 engine chrome 证据",
+            "3.11 A7-3T 瓦片集闭包实现证据（2026-07-19，done）",
+            "3.12 A7-3W 大世界精灵闭包实现证据（2026-07-19，done）",
+            "3.13 A7-3B 战斗精灵闭包实现证据（2026-07-21，done）",
+            "4. 终态数据契约",
+            "4.1 单一物理资产注册表",
+            "4.2 manifest 用显式迁移债务区跨切片,终态只保留 catalog/roles",
+            "4.3 路径规则",
+            "4.4 引用与音乐语义",
+            "4.5 `AssetResolver` 与 URL 生命周期",
+            "4.6 迁移所有权与 MG2",
+            "5. 闭包门禁",
+            "5.1 引用闭包",
+            "5.2 文件闭包",
+            "5.3 克隆与导出",
+            "6. 执行分期",
+            "7. A7-0 验证基线",
+            "8. 剩余风险"
+          ]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-template-migration-and-scoped-source-reference-reconciliation",
+          "afterSha256": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f",
+          "originalCatalogEntryPreserved": "priorReadings",
+          "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "Do not discard original dates/bytes/failed results, guess away OFL contradiction, expandPB4failure attribution, fabricate screenshot caller/producer, revive oldprompt/epoch compatibility, or claim current runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "Original mixed chronology/authority → concreteaudit-reportsections and explicit corrections/successors plus full reversible original; old status/date retained.",
+      "lastReviewed": "2026-10-16",
+      "priorReadings": [
+        {
+          "id": "docs-phase2-archive-audits-a7-resource-closure-audit",
+          "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+          "title": "A7/R7 工程资源闭包与稳定资源注册表审计",
+          "phase": "phase2",
+          "module": "archive",
+          "capability": "phase2-archive-audits-a7-resource-closure-audit",
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
+          "afterSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
+          "sourceRefs": [
+            {
+              "path": "packages/content/src/character.ts",
+              "lines": "59-84",
+              "anchor": "| {",
+              "role": "body-source-reference",
+              "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+            },
+            {
+              "path": "packages/reforge/src/file-source.ts",
+              "lines": "4-18",
+              "anchor": "* rel = 当前工程根下的规范相对路径；所有内容和资源都必须位于工程闭包内。",
+              "role": "body-source-reference",
+              "sha256": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2"
+            },
+            {
+              "path": "packages/editor/src/core/clone.ts",
+              "lines": "37-38",
+              "anchor": "const bytes = await seed.readBytes(file.src)",
+              "role": "body-source-reference",
+              "sha256": "765db3ef21bb059a4105eae28b367fea591581b9dada6f0ddca073a99769c3fe"
+            },
+            {
+              "path": "packages/editor/src/core/seed.ts",
+              "lines": "173-223",
+              "anchor": "version: 1,",
+              "role": "body-source-reference",
+              "sha256": "d5b0be5b56e512346907a2b7eaf955b38425bd6012bce7fae3b8f31990eeedde"
+            },
+            {
+              "path": "packages/content/src/index.ts",
+              "lines": "18-26",
+              "anchor": "packages/content/src/index.ts",
+              "role": "body-source-reference",
+              "sha256": "5115b11a723821755cb015acb5b31ad1aaec401d33c639c96603d4610222d2d4"
+            },
+            {
+              "path": "packages/migrate/src/pal-derived-content.ts",
+              "lines": "170-13",
+              "anchor": "packages/migrate/src/pal-derived-content.ts",
+              "role": "body-source-reference",
+              "sha256": "b5b8083a0d967e37a9022fa5f3e0eb97a68d5e26fa8c815e050a99e006912c4f"
+            },
+            {
+              "path": "packages/reforge/src/main.ts",
+              "lines": "1370-1373",
+              "anchor": "return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)",
+              "role": "body-source-reference",
+              "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+            },
+            {
+              "path": "packages/reforge/src/assets.ts",
+              "lines": "102-144",
+              "anchor": "asset: AssetId,",
+              "role": "body-source-reference",
+              "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
+            },
+            {
+              "path": "packages/reforge/src/assets.ts",
+              "lines": "29-62",
+              "anchor": "import type { AssetResolver } from './asset-resolver.js'",
+              "role": "body-source-reference",
+              "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
+            },
+            {
+              "path": "packages/reforge/src/audio/bgm.ts",
+              "lines": "32-32",
+              "anchor": "resume(): void",
+              "role": "body-source-reference",
+              "sha256": "904c5bcd62e5c2dab1e1295ff187e25df09d7e062f57e4dda03ee91bcf787fce"
+            },
+            {
+              "path": "packages/reforge/src/audio/bgm.ts",
+              "lines": "85-98",
+              "anchor": "const { Sequencer } = await import('spessasynth_lib')",
+              "role": "body-source-reference",
+              "sha256": "904c5bcd62e5c2dab1e1295ff187e25df09d7e062f57e4dda03ee91bcf787fce"
+            },
+            {
+              "path": "packages/reforge/src/audio/sfx.ts",
+              "lines": "17-17",
+              "anchor": "readonly budget: number,",
+              "role": "body-source-reference",
+              "sha256": "46f2a0e752b79f23f2fbe1f6ccb0a588c5ae30adb1d32cea963f6e357de15e29"
+            },
+            {
+              "path": "packages/reforge/src/text/glyph.ts",
+              "lines": "40-42",
+              "anchor": "// ── loadGlyphs(browser 环境,bundler-owned Unifont BDF) ───────────────",
+              "role": "body-source-reference",
+              "sha256": "8338a9af967ad9f0cb723ec3592cdd15b60b53b1d78203a6aa1aa8c8665accea"
+            },
+            {
+              "path": "packages/reforge/src/dialog/dialog-assets.ts",
+              "lines": "47-66",
+              "anchor": "if (opaque[i]) {",
+              "role": "body-source-reference",
+              "sha256": "013ef479f31d86045b579712ca156e5b6d7feaf4b77a94d9f68711ca605e21f8"
+            },
+            {
+              "path": "packages/reforge/src/menu/menu-box.ts",
+              "lines": "352-352",
+              "anchor": "}",
+              "role": "body-source-reference",
+              "sha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1"
+            },
+            {
+              "path": "packages/reforge/src/main.ts",
+              "lines": "229-229",
+              "anchor": "'wu-hou',",
+              "role": "body-source-reference",
+              "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+            },
+            {
+              "path": "packages/reforge/src/main.ts",
+              "lines": "1513-1513",
+              "anchor": "source: EntityMoveSource,",
+              "role": "body-source-reference",
+              "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+            },
+            {
+              "path": "packages/reforge/src/main.ts",
+              "lines": "1743-1745",
+              "anchor": "if (dist <= 1) {",
+              "role": "body-source-reference",
+              "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+            },
+            {
+              "path": "packages/content/src/validate-refs.ts",
+              "lines": "1-1",
+              "anchor": "/**",
+              "role": "body-source-reference",
+              "sha256": "ab74aa28715acd21a4e50bbe6463254233d93e8490041a98cfbcd27c87fc6977"
+            },
+            {
+              "path": "packages/reforge/src/fsa-source.ts",
+              "lines": "50-51",
+              "anchor": "throwIfAborted(signal)",
+              "role": "body-source-reference",
+              "sha256": "ab4562bf8feadc464f0fbe689d4b23963c84a1e7e55a656c8a2872e3bc600eea"
+            },
+            {
+              "path": "packages/reforge/src/engine-chrome/registry.ts",
+              "lines": "1-1",
+              "anchor": "type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
+              "role": "body-source-reference",
+              "sha256": "02bb8bdcfd46edc48a6ea731acc8ed176017c52a9d565b143194f1e524f95792"
+            }
+          ],
+          "publicCallers": [
+            "`pnpm --filter @type-pal/migrate run migrate:content -- --write",
+            "`pnpm check"
+          ],
+          "legalInputs": [
+            "current repository documentation",
+            "packages/content/src/character.ts:59-84",
+            "packages/reforge/src/file-source.ts:4-18",
+            "packages/editor/src/core/clone.ts:37-38",
+            "packages/editor/src/core/seed.ts:173-223",
+            "packages/content/src/index.ts:18-26",
+            "packages/migrate/src/pal-derived-content.ts:170-13",
+            "packages/reforge/src/main.ts:1370-1373",
+            "packages/reforge/src/assets.ts:102-144",
+            "packages/reforge/src/assets.ts:29-62",
+            "packages/reforge/src/audio/bgm.ts:32-32",
+            "packages/reforge/src/audio/bgm.ts:85-98"
+          ],
+          "businessOracle": {
+            "type": "phase-lore-document-governance",
+            "assertions": [
+              "the document has one explicit phase/lore/module responsibility",
+              "historical or draft material is not silently promoted to current canonical truth",
+              "source references and version claims remain auditable from the current repository"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
+            "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+          },
+          "revision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "document-audit",
+            "sourceSha256": "e43e1190cacb9787ee64c9644dce4ccefe3d8265a605f8f53eec4bba2decdab1",
+            "claims": ["phase/lore ownership and status inventory"]
+          },
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "action": "catalogued",
+              "status": "archived"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+          "userVisibleBeforeAfter": null,
+          "lastReviewed": "2026-10-04"
+        }
+      ]
     },
     {
       "id": "docs-phase2-archive-audits-am-asset-migrate-audit",
@@ -12785,67 +13160,203 @@
       "capability": "phase2-archive-designs-cutscene-asset-workbench-design",
       "status": "archived",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex（文档治理；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "action": "full-original/new-source semantic migration independently accepted",
+          "scope": "Only this source; old automatically collected unrelated/inverted code ranges retained in priorReadings, not renewed current code claims"
+        }
+      ],
       "sourceSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
-      "afterSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
+      "afterSha256": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
           "lines": "1-1",
-          "anchor": "过场资源工作台与工程闭包设计",
-          "role": "document-source",
-          "sha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e"
+          "anchor": "# 过场资源工作台与工程闭包设计",
+          "role": "reviewed-historical-document",
+          "sha256": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "node scripts/docs/check-phase-lore-governance.mjs",
+        "Agents following stable A7/task archive references"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/designs/cutscene-asset-workbench-design.md:1-1"
+        "Pinned full historical source, dated successor corrections and original byte-preservation proof; not current runtime input"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "content-specific-historical-source-correction-and-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "保存过场完整帧作者模型/codec分层；仅旧时点准入权与skip错误主张被后继接管，不宣布全部技术设计废弃。",
+          "All original dates/statuses/numbers/counters and commands recover exactly;music2hardbreak exceptions explicitly mapped",
+          "Withdraw oldskip/face/current-version claims only within proven successor scope; preserve unknown raw and original all-green/OFL contradiction",
+          "Actual typed sections+five archive sections express concrete evidence/constraints; no wrapper-only or currentruntime acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "reviewed-no-additional-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+          "docs/phase2/READ-FIRST.md"
+        ],
+        "notes": "Result receipt, audit, design, G0admission and task status have distinct responsibilities; no new side-by-side canonical report."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+        "implementationSha": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "actual-specific-template-and-history-body-migration",
+            "reviewer": "receipt_review",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independent-full-shared-source-semantic-migration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-c.json",
         "sourceSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424",
+        "lineCount": 542,
+        "originalPreservation": {
+          "method": "full quote with only reversible line prefixes",
+          "sourceBytes": 20025,
+          "exactInverse": true,
+          "sourceFinalNewline": true,
+          "originalHeadings": [
+            "过场资源工作台与工程闭包设计",
+            "1. 目标",
+            "2. 现状证据",
+            "2.1 当前页面不是创作闭环",
+            "2.2 数据规模",
+            "2.3 真彩编码体积实测",
+            "3. 核心决策",
+            "3.1 作者模型只保留“视频”和“帧动画”",
+            "3.2 画面资产不绑定 BGM",
+            "3.3 不把 paletteId 带回作者模型",
+            "3.4 完整帧编辑与存储压缩严格分层",
+            "4. 数据契约",
+            "4.1 资源记录",
+            "4.2 TPFS v1 单文件容器",
+            "4.3 脚本命令",
+            "5. 迁移与工程闭包",
+            "5.1 PAL 视频",
+            "5.2 PAL RNG",
+            "5.3 作者所有权",
+            "6. 工作台 UI",
+            "6.1 三栏布局",
+            "6.2 视频工作区",
+            "6.3 帧动画工作区",
+            "6.4 导入向导",
+            "6.5 右侧引用与删除",
+            "7. 运行时与编辑器边界",
+            "8. 分期",
+            "A7-3A 契约与依赖",
+            "A7-3B PAL 迁移与运行时",
+            "A7-3C 编辑器工作台",
+            "A7-3D 断外链验收",
+            "9. 验收门禁",
+            "10. 明确不做",
+            "11. 实现结果(2026-07-16)"
+          ]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-template-migration-and-scoped-source-reference-reconciliation",
+          "afterSha256": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424",
+          "originalCatalogEntryPreserved": "priorReadings",
+          "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "Do not discard original dates/bytes/failed results, guess away OFL contradiction, expandPB4failure attribution, fabricate screenshot caller/producer, revive oldprompt/epoch compatibility, or claim current runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "Original mixed chronology/authority → concretedesign-specsections and explicit corrections/successors plus full reversible original; old status/date retained.",
+      "lastReviewed": "2026-10-16",
+      "priorReadings": [
+        {
+          "id": "docs-phase2-archive-designs-cutscene-asset-workbench-design",
+          "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+          "title": "过场资源工作台与工程闭包设计",
+          "phase": "phase2",
+          "module": "archive",
+          "capability": "phase2-archive-designs-cutscene-asset-workbench-design",
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
+          "afterSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
+          "sourceRefs": [
+            {
+              "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+              "lines": "1-1",
+              "anchor": "过场资源工作台与工程闭包设计",
+              "role": "document-source",
+              "sha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e"
+            }
+          ],
+          "publicCallers": ["docs navigation"],
+          "legalInputs": [
+            "current repository documentation",
+            "docs/phase2/archive/designs/cutscene-asset-workbench-design.md:1-1"
+          ],
+          "businessOracle": {
+            "type": "phase-lore-document-governance",
+            "assertions": [
+              "the document has one explicit phase/lore/module responsibility",
+              "historical or draft material is not silently promoted to current canonical truth",
+              "source references and version claims remain auditable from the current repository"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
+            "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+          },
+          "revision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "document-audit",
+            "sourceSha256": "df409b5752cc21e6fbf3293d1083076699f28e945ac979c48f6d6c298fac2b8e",
+            "claims": ["phase/lore ownership and status inventory"]
+          },
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "action": "catalogued",
+              "status": "archived"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+          "userVisibleBeforeAfter": null,
+          "lastReviewed": "2026-10-04"
+        }
+      ]
     },
     {
       "id": "docs-phase2-archive-designs-e6-position-authority-design",

@@ -23,7 +23,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-原portrait88/768,841B/2365引用，face6/10,392B/6引用，icons233/262,667B，background52/4,422,281B（FBP6–57）分母保留。item2770缺图用absence并排除18份raw；78 FBP槽中76非空、5/58缺失，0–5与59–77不强塞战场。320×200背景RGB索引及alpha255保留nibble shift，RGBA上传确定性量化成索引对；作者MG2整体所有权不能被重迁覆盖。
+原portrait88/768,841B/2365引用，face6/10,392B/6引用，icons233/262,667B，background52/4,422,281B（FBP6–57）分母保留。item277的旧icon=0缺图用absence并排除18份raw；78 FBP槽中76非空、5/58缺失，0–5与59–77不强塞战场。320×200背景RGB索引及alpha255保留nibble shift，RGBA上传确定性量化成索引对；作者MG2整体所有权不能被重迁覆盖。
 
 ## 验收
 

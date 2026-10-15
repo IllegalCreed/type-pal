@@ -477,16 +477,40 @@
         "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
         "docs/phase2/archive/audits/a7-resource-closure-audit.md"
       ],
-      "relationship": "旧设计末§11/总审计§3.8的s066空格跳过PASS与A7-3后续C1–C5撤签返工冲突；后继C3默认不可跳取代旧accept，旧两源待正文治理追加勘误。",
+      "relationship": "旧设计§11/总审计§3.8的s066空格跳过PASS已由A7-3 C1–C5撤回；两共享来源现经真实模板迁移/非作者accept明确撤回旧信用并正确指向A7-3卡，原错误完整留历史，不再双重有效。",
       "status": "guarded",
       "evidence": [
         "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:1",
         "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
       ],
       "unresolved": [
-        "共享设计与总审计尚未正文迁移；s059 active wave邻域验证未走s066到s059完整门路线，原raw/原生OS picker仍缺。"
+        "s059 activewave邻域验证未走真正s066→s059全路；旧raw/原生OS picker/当前视觉未复验，静态文档纠正不替代动态证据。"
       ],
-      "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。"
+      "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
+            "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+            "to": [
+              "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+              "docs/phase2/archive/audits/a7-resource-closure-audit.md"
+            ],
+            "relationship": "旧设计末§11/总审计§3.8的s066空格跳过PASS与A7-3后续C1–C5撤签返工冲突；后继C3默认不可跳取代旧accept，旧两源待正文治理追加勘误。",
+            "status": "guarded",
+            "evidence": [
+              "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:1",
+              "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+            ],
+            "unresolved": [
+              "共享设计与总审计尚未正文迁移；s059 active wave邻域验证未走s066到s059完整门路线，原raw/原生OS picker仍缺。"
+            ],
+            "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。"
+          },
+          "change": "Shared design/audit now semantically migrated with explicitwithdrawal andcorrected A7-3 evidence navigation; dynamicgap remains guarded"
+        }
+      ]
     },
     {
       "id": "a7-tileset-ofl-failure-and-later-byte-restoration",
