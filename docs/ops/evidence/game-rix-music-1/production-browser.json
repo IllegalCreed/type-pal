@@ -1,0 +1,27 @@
+{
+  "url": "https://pal.illegalscreed.cn/?skip-intro=1",
+  "initialSource": "midi",
+  "fm": {
+    "retryHidden": true,
+    "source": "rix",
+    "status": ""
+  },
+  "scope": "Actual production browser UI; audio PCM from production bytes is recorded separately, no browser analyser measurement",
+  "midi": {
+    "retryHidden": true,
+    "source": "midi",
+    "status": ""
+  },
+  "fmReturn": {
+    "retryHidden": true,
+    "source": "rix",
+    "status": ""
+  },
+  "afterReload": {
+    "retryHidden": true,
+    "source": "rix",
+    "status": ""
+  },
+  "logs": [],
+  "verifiedAt": "2026-10-15T01:53:20.319Z"
+}

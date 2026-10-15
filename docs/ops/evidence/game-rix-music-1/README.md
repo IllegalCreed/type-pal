@@ -1,6 +1,6 @@
 # GAME-RIX-MUSIC-1 验证证据
 
-本目录对应 [任务卡](../../tasks/GAME-RIX-MUSIC-1.md)。日期为2026-10-15（日本时间）；Git分支为codex/game-rix-music。最终文件摘要、执行命令、退出码和候选映射见 [verification-manifest.json](verification-manifest.json)。原始机器输出保留字节，不修改失败记录；含终端尾随空格的原件使用`.raw.gz`无损压缩，可用`gzip -dc`查看，其余使用`.raw`。
+本目录对应 [任务卡](../../archive/tasks/done/GAME-RIX-MUSIC-1.md)。日期为2026-10-15（日本时间）；Git分支为codex/game-rix-music。实现阶段候选的文件摘要、执行命令、退出码和映射见 [verification-manifest.json](verification-manifest.json)；后续正式发布以 [production-release.json](production-release.json) 为准。原始机器输出保留字节，不修改失败记录；含终端尾随空格的原件使用`.raw.gz`无损压缩，可用`gzip -dc`查看，其余使用`.raw`。
 
 ## 真源与编译
 
@@ -12,7 +12,7 @@
 
 [all-tracks.json](all-tracks.json) 是全部86首在44100/48000Hz各渲染10秒的实测原件，全部有非零PCM。可用`pnpm exec tsx docs/ops/evidence/game-rix-music-1/scan-tracks.mjs`复核。此测试证明可解码与输出，不证明每首听感。
 
-## 真实浏览器与缓存
+## 本地真实浏览器与缓存（发布前）
 
 [browser-smoke.mjs](browser-smoke.mjs) 从仓库根以Node运行，启动独立HTTP preview6007并在finally清理服务，使用已安装Chrome的真实AudioContext、AudioWorklet、WASM。音频分析器只接在真实音乐gain后；没有替换合成输出。临时挂钩用于记录真实Context和RIX意图，SFX Context不计为音乐实例。
 
@@ -20,7 +20,7 @@
 
 最初真实浏览器显示SW缓存有mus.mkf、assets为空，见browser-cache-before.raw。实际SW handler的响应被客户端消费后，延迟执行的clone失败，导致按需资源未入库。修复为先clone并用waitUntil保活，响应不等待缓存写入。最终缓存实际包含WASM、worklet和曲库；杀掉preview6007并确认HTTP连接失败，再设置browser offline、从MIDI切回FM，峰值0.157727，单一活音乐Context、pageerrors为0，见browser-final.raw及browser-smoke.json。这里验证的是已打开页面重新初始化FM；既有SW策略不缓存导航/index.html，不声称离线首次开页或离线刷新。
 
-[桌面截图](fm-desktop.png) 为1200×800，[窄屏截图](fm-mobile.png) 为375×667；音源设置可达且无横向裁切。仅Chrome已实际验证，没有Safari/Firefox或远端部署证据。
+[桌面截图](fm-desktop.png) 为1200×800，[窄屏截图](fm-mobile.png) 为375×667；音源设置可达且无横向裁切。这些本地报告只验证Chrome，不包含Safari/Firefox或远端部署；后续生产浏览器和部署证据见文末Production release，Safari/Firefox仍未实测。
 
 ## 回归与反控
 
@@ -47,4 +47,10 @@
 
 ## Release verification (2026-10-15)
 
-User accepted the feature and style. [Preflight](release-preflight.json) records the all-target deployment and additive resource delta. [Final release verification](release-verification.json) records README/license/deploy-script corrections, independent acceptance, byte-identical strict WASM rebuild and static gates; original compiler environment and JSON-format failures are retained separately from successful runs. The original verification manifest above describes its earlier candidate. CI, production verification and issue closure are recorded after they actually complete.
+User accepted the feature and style. [Preflight](release-preflight.json) records the all-target deployment and additive resource delta. [Final release verification](release-verification.json) records README/license/deploy-script corrections, independent acceptance, byte-identical strict WASM rebuild and static gates; original compiler environment and JSON-format failures are retained separately from successful runs. The original verification manifest above describes its earlier candidate. Completed CI, production verification and issue closure are recorded in the Production release section below.
+
+## Production release
+
+Feature PR [#5](https://github.com/IllegalCreed/type-pal/pull/5) passed CI at 517dc8571 and merged as 8f5d17ff1. The all-target release is live at https://pal.illegalscreed.cn/ and [issue #4 is replied and closed](https://github.com/IllegalCreed/type-pal/issues/4#issuecomment-6182581943).
+
+[Release receipt](production-release.json), [production file/PCM verification](production-verification.json), [browser smoke](production-browser.json), [screenshot](production-rix.png), [issue closure](issue-closure.json), and [branch cleanup](branch-cleanup.json) distinguish deployed source, infrastructure corrections, original failures and successful checks. `production-verify.mjs.raw` is the exact executed local verification program. Full CI, original MIME rejection, tar messages, nginx validation and successful clean extraction remain losslessly compressed. No second application swap replaced the original rollback build.
