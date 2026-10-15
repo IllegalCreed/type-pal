@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：206；已读但待审：233；尚未逐文件核验：2,850；合计未闭合：3,083。
+当前已闭合核验：204；已读但待审：237；尚未逐文件核验：2,848；合计未闭合：3,085。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -117,8 +117,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rng.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 精确退役一条弱重复delta，7→6；保留full-plane oracle及转移反控；三父旧digest/新SHA精确登记，统一门待续 |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
 | `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 9规范合同精确承接短头/零长尾随/重复固定值；七项变异业务红集合保持；树归约独立向量仍待证，统一门待续 |
-| `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
-| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
+| `packages/pal-extract/src/resources/sprite.ts` | product | review | [CODE3d当前caller/primary/职责/逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | 错误primary/运输说明注释已校，算法不变；无production caller候选/其它出口待核，旧关闭撤回review |
+| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | review | [CODE3d合法PNG输入/真实错误oracle/两有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | height两盲点旧9绿/新各指定AssertionError，2混合→6独立合同；统一门待续，旧关闭撤回review |
+| `packages/pal-extract/src/resources/sprite.test.ts` | test | review | [CODE3d全文/caller/oracle与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | 真实空组/缺id helper；生成物sanity不调用CLI，warn失败收尾/可选早退仍待核；本片未改；0关闭 |
+| `packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts` | test | review | [CODE3d全文/caller/oracle与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | RGBA/alpha、多帧/多id实际业务执行；只校错误排重说明，测试body不变，未知ownership/全域排重待核；0关闭 |
 | `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | CODE3c当前复审；[动画切片/真实caller/边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | 原实现未改；单branch与门不能覆盖684行整文件，picker/拖拽/其它生命周期仍待验，统一门未过 |
 | `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | review | CODE3c当前复审；[像素/时序/三反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | cleanup变异旧绿/新指定业务红，原1身份保留；生产未改，相邻36绿仍6act，统一门待续 |
 | `packages/pal-extract/src/resources/parsers/_utils.ts` | product | 已验证 | 直接读取 layout 常量与 u16/s16 helper；所有 parser callers、typecheck | 纯布局 helper |
@@ -588,3 +590,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 CODE3b两原盘测试9→2：SSS完整独立struct摘要、MSG五固定raw文本/精确条数和输入ownership；五新单例反控及两原oracle1→1。35相邻/extract428/shared126/TC/71工具零stderr，规则/baseline/产品未改；两文件继续review，MSG全正文/fixup待核，0关闭。机器3289/206/230/2853不变；83卡仍10partial/73pending/0accept，统一门未新跑。
 
 2026-10-16 C10恢复检查点：同30身份先清2act，再有证精简28；四测试/驱动review，新增登记三条，其余review保留，0关闭。完整editor4943绿仍624act/243环境/1表单告警，统一门拒绝；机器已重新核对3289/206closed/233review/2850pending。前94全部83卡仍10partial/73pending/0整卡accept；保存本片后回3d/3g。
+
+2026-10-16 CODE3d当前复审：两height旧绿新单例AssertionError；boundary混轴2→6独立，错误primary与排重注释校正，生产算法不变。两旧关闭转review、两测试pending→review，0新增关闭；机器已重新确认3289/204closed/237review/2848pending。extract432/game8/TC零stderr，统一门与editor仍未清，不合main；全83卡11partial/72pending/0整卡accept。

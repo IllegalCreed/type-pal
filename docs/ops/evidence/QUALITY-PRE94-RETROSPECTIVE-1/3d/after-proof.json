@@ -1,0 +1,380 @@
+{
+  "phase": "after",
+  "base": "65c375e06fa5859dc5121519eb3507589813be35",
+  "formalSha256": {
+    "sprite.ts": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+    "sprite.boundaries.test.ts": "a1fb4b2867d8e5c9474b7a9c3c90552091afacc13dd600fa83f9ef26976c2846",
+    "sprite.test.ts": "be8a95d5e98feada634ef12735e52f2c7f74a15784a615fe8158bc55c8c14e99",
+    "sprite.glm-runtime-resource.test.ts": "6ccd95ba1fb17c57787645dbda3b52741f8855a4fadaf81adfd817885bc5b351"
+  },
+  "variants": {
+    "control": [],
+    "height-integer": [[" || !Number.isInteger(height)", ""]],
+    "height-positive": [[" || height <= 0", ""]]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-after-control-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-after-control-sprite.test.ts",
+        "src/resources/pre94-3d-after-control-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-kqc2pcy3/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.693,
+      "moduleSha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-after-control-sprite.ts": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+        "packages/pal-extract/src/resources/pre94-3d-after-control-sprite.boundaries.test.ts": "f0be2adb7f68170dc006b3312df6502c935483722d1d2ca014383697544a3f05",
+        "packages/pal-extract/src/resources/pre94-3d-after-control-sprite.test.ts": "4429ad02d7242487b38bfd6ef544049d843541b62f0c75400a3094c55deaf179",
+        "packages/pal-extract/src/resources/pre94-3d-after-control-sprite.glm-runtime-resource.test.ts": "8cdaaaf7ba55229151083c6d5a2acfad087bb3534a035e09f02b512cb72d988b"
+      },
+      "rawSha256": "cb47b9d4767ae2586f07604699a2514e6df09c3612cbd44052904486b376424a",
+      "runnerSha256": "b7b12fe2033f34930c499ad275d7b18fcfd124e8337cffa5820cab41a09a96a8",
+      "passed": 13,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为正数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为整数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为正数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为整数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "height-integer",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-after-height-integer-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-after-height-integer-sprite.test.ts",
+        "src/resources/pre94-3d-after-height-integer-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-170fulyh/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.686,
+      "moduleSha256": "cdcbaeff78af73fddfde3f27a1e520bd4405ada5bc30cd68a2a7413d737530f9",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-after-height-integer-sprite.ts": "cdcbaeff78af73fddfde3f27a1e520bd4405ada5bc30cd68a2a7413d737530f9",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-integer-sprite.boundaries.test.ts": "cb5bf27a52a0dc79b93804cef72d23f7976ac94643ff58a47cd81cb1884d4ae4",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-integer-sprite.test.ts": "18d3b34ebd4fd22c11d1fd3e96f6c84a8245cd180cf317c28e0acfabf894b98f",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-integer-sprite.glm-runtime-resource.test.ts": "2edd95a22ba840c181e67e560ee9b3c5b430d5378e231ce3c8161d52b6b52744"
+      },
+      "rawSha256": "f5a6ffc466c1fcbfab597044c03671b55cc50adc3112471632d933c57fd7ee13",
+      "runnerSha256": "bc33e2beb94be957cfc342e4abf715e77739244ebef7ac1dda4c815ee4d17040",
+      "passed": 12,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为正数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为整数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为正数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为整数",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-3d-after-height-integer-sprite.boundaries.test.ts:24:63\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "height-positive",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-after-height-positive-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-after-height-positive-sprite.test.ts",
+        "src/resources/pre94-3d-after-height-positive-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-7q0h01fk/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.684,
+      "moduleSha256": "93eb84440a03b8f7d2ef544f2ed4cf916ef10ec6f11a5a0fee16f4a83098c25e",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-after-height-positive-sprite.ts": "93eb84440a03b8f7d2ef544f2ed4cf916ef10ec6f11a5a0fee16f4a83098c25e",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-positive-sprite.boundaries.test.ts": "6b919f7e0e9a877fd14203fc062029a4b7acf47362d5c6727a0e978a20c58604",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-positive-sprite.test.ts": "908009adc2098e58066d43812f794947b01925a3bf2804928b1eb5e7d60d1e24",
+        "packages/pal-extract/src/resources/pre94-3d-after-height-positive-sprite.glm-runtime-resource.test.ts": "247e4c4829756f2154ab52b1b22c47d743d4cd3e7ec191d0560e3b33587b8c33"
+      },
+      "rawSha256": "4128af521f10c42dd432169e6328ee83b6f985cfc103895c156a672e31934938",
+      "runnerSha256": "bf3c7dc9e4e40dd8598858904b8d97fe3f6406397de1cbbbfcaaa370ac146e03",
+      "passed": 12,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为正数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 width 必须为整数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为正数",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/pre94-3d-after-height-positive-sprite.boundaries.test.ts:18:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 height 必须为整数",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

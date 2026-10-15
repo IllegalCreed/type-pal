@@ -1,0 +1,15 @@
+{
+  "reviewer": "Codex separate process; not third party",
+  "completeProbeRuns": 6,
+  "oldCases": 9,
+  "newCases": 13,
+  "oldGreenNewSingleAssertionErrorPins": 2,
+  "boundaryCases": "2 -> 6 independent contracts",
+  "productionImplementationUnchanged": true,
+  "glmTestBodyUnchanged": true,
+  "originalMainTestUnchanged": true,
+  "noNewRetirementOrBaselineChange": true,
+  "exactTemporaryCleanup": true,
+  "wholeFilesClosed": 0,
+  "wholeCardAccepted": false
+}

@@ -1,7 +1,8 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R04（pal-extract/resources/sprite.ts）。
- * 去重账：sprite.test 覆盖 PNG 魔数、parseSpriteChunk 基础、framesToOut 首帧、
- * extractCharacterSprites 空 chunk/缺 id warn。本文件只做未占用合同：
+ * 当前相邻合同：sprite.boundaries.test 核尺寸及短输入拒绝；sprite.test 核
+ * extractCharacterSprites 空组/缺 id warn，以及已有生成物路径的场景 union sanity。
+ * 后者没有调用 CLI，不证明实际提取或去重执行。本文件直接核：
  * encodeIndexedPng 的 opaque mask 与缺省 mask 用 pngjs 真解码逐像素核对
  * （透明 alpha 0 / opaque palette-0 alpha 255 / RGB 三通道复制）、
  * framesToOut 多帧 index/尺寸/像素、extractCharacterSprites 多 id 顺序与逐帧 PNG。

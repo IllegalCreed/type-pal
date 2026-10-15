@@ -1,6 +1,7 @@
 /**
  * 精灵 chunk 解析与索引位图 PNG 编码。
- * 参考 reference/sdlpal/sprite.c::PAL_LoadSprite。
+ * 容器帧索引参考 reference/sdlpal/palcommon.c::PAL_SpriteGetFrame；
+ * 解码复用 shared，PNG 的 R/A 传输合同由 game/assets/png.ts 消费。
  */
 
 import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
@@ -11,7 +12,7 @@ import { PNG } from 'pngjs'
 export { parseSpriteChunk }
 
 /**
- * 把索引位图编码为 PNG。M1 用 RGBA 三通道复制法(R=G=B=调色板下标,A=opaque mask)。
+ * 把索引位图编码为 RGBA PNG(R=G=B=调色板下标,A=opaque mask)。
  * 运行时 game 包加载时:R 通道 = palette index,A 通道 = opaque(>0 即 opaque)。
  * 不烤色;运行时查调色板填色。
  *
@@ -19,9 +20,9 @@ export { parseSpriteChunk }
  * 与 opaque palette-0 都丢失区分;运行时 blit `idx === 0 continue` 把所有 palette-0
  * 像素当透明 → scene 16 通道 dense tile + 角色 sprite 头发暗部都半透明。
  *
- * `opaque` 不传时全 opaque(向后兼容 — 比如战斗背景 320×200 raw bitmap 无 RLE)。
+ * `opaque` 不传时全 opaque；CLI 的 320×200 FBP raw 背景没有 RLE mask。
  *
- * 磁盘代价 ×4 但实现简单;M3 视情况优化。
+ * 四通道像素由 pngjs 压缩；PNG 字节大小不等于原始下标平面的四倍。
  */
 export function encodeIndexedPng(
   width: number,

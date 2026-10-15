@@ -326,7 +326,7 @@
       "sha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
       "lines": 65,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -350,7 +350,8 @@
           "text": "- Review：Codex 确认实现范围和 caller 保真；accept。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
     },
     {
       "id": "3f",
@@ -3900,5 +3901,11 @@
       ],
       "scopeConfirmed": false
     }
-  ]
+  ],
+  "reviewCheckpointBase": "65c375e06fa5859dc5121519eb3507589813be35",
+  "currentReviewCounts": {
+    "partial": 11,
+    "pending": 72,
+    "accept": 0
+  }
 }

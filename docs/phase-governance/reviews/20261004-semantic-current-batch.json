@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
-      "afterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
+      "sourceSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
+      "afterSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1499,6 +1499,15 @@
             "previousAfterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
             "afterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "65c375e06",
+            "action": "pre94-CODE3d-PNG-contract-and-comment-review",
+            "scope": "own retrospective navigation only; all83 11partial/72pending/0accept; no other owner changes",
+            "previousAfterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
+            "afterSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
           }
         ]
       },
@@ -1809,8 +1818,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
-      "afterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
+      "sourceSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
+      "afterSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2408,6 +2417,15 @@
             "previousAfterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
             "afterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "65c375e06",
+            "action": "pre94-CODE3d-PNG-contract-and-comment-review",
+            "scope": "own retrospective navigation only; all83 11partial/72pending/0accept; no other owner changes",
+            "previousAfterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
+            "afterSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

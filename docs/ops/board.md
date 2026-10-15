@@ -35,7 +35,7 @@
 | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 | [大世界精灵真实宿主](tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | Codex / 待下一稳定窗口 | 9定向/121相邻零诊断，两枚旧绿新红；0关闭 |
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 回3d PNG，再3g CLI逐卡复审 | 全83卡10partial/73pending/0整卡accept；全部成果均在范围内，editor及94–102原返工保留 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 3d两height盲点补证，续3g CLI | 全83卡11partial/72pending/0整卡accept；extract432零stderr，0关闭；editor及94–102原返工保留 |
 | QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | Codex / C2证据已落，回编号卡复审 | 完整extract431零stderr、七有效反控；两个测试review，0关闭 |
 | QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | draft | Codex / 算法冻结，核真实影响域 | 更名伪边/计数goto分歧；raw17站点，默认全局runtime，不冒称游戏故障 |
 | QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |

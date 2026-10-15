@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、10partial/73pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、11partial/72pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -191,3 +191,17 @@ Codex premise verified/design agree/build allowed：只改io/sss.test.ts与io/ms
 
 
 用户再次重申全部83卡成果均须复审。C10恢复仅保存测试检查点：Wizard28零诊断，editor4943通过仍624act/243环境/1表单告警，0文件关闭、未合main。下一片回CODE3d PNG完整caller/alpha/输入合同，再3g；不继续以editor余诊断替代全量83卡队列。原10partial/73pending/0accept未变，94–102/editor返工与稳定窗口统一门仍保留。
+
+
+## CODE3d PNG 有限复审与测试准入
+
+全文读取原3d卡、sprite.ts及boundary/main/GLM三测试、BALL/RGM/FIRE/RNG PNG wrapper和game PNG consumer；真实CLI仅353–391/603–631/835–864，SDL palcommon仅RLE写入和SpriteGetFrame原函数范围，不冒充CLI/SDL整文件验收。PNG是type-pal运输合同，SDL本身不编码PNG；alpha区分来自RLE跳过与写像素、game R/A读取。旧头引用不存在的sprite.c::PAL_LoadSprite；GLM头声称主测试覆盖PNG魔数/首帧等，当前主测试没有这些调用。尺寸旧反例仅width0/小数，height分支判别力须隔离核实。
+
+Codex premise verified/design agree/build allowed白名单只三现有源：sprite.boundaries.test.ts拆开width非正/非整数、height非正/非整数、pixels短、opaque短六独立合同；sprite.ts只更正primary引用、RGBA压缩运输说明与无mask的实际FBP caller注释；sprite.glm-runtime-resource.test.ts只校正职责/排重事实头，测试body保持。先证两height guard变异旧9绿，再新各一指定AssertionError及正常恢复；源图/原件/身份/清理完整保存，不以测试数量当质量。PNG算法/签名/资源/RLE高位语义/生成物/旧compat均不得改；超大尺寸域与generated-only原测试仍待，不借本片扩张接口或资源政策。全仓统一门随稳定窗口集中，非零editor诊断不合main，不关闭文件或整卡。
+
+
+### CODE3d 本片结果
+
+[PNG逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)：两height guard变异旧9例均绿，补证后各12绿1指定AssertionError，恢复13零诊断；boundary两混合例拆六独立合同，原四断言保留、补两个height轴。sprite.ts仅改错误primary/运输/FBP caller注释，GLM仅校排重事实头；实现与GLM测试body逐字节不变，资源/规则/退役/基线未动。
+
+实际相邻六文件47、完整extract72文件432、game PNG三文件8和extract typecheck通过，0stderr。相邻命令两不存在路径未计为执行；完整包原件已确认真正BALL/RGM文件。两旧关闭撤回review、另两测试pending→review，0新关闭；机器已重跑确认3289/204closed/237review/2848pending。3d整卡partial，全部83卡11partial/72pending/0accept；下一片3g CLI IO，94–102/editor及当前统一门仍未收口、不合main。无下一位Agent提示词，Codex单Agent继续。
