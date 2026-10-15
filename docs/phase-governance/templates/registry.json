@@ -228,7 +228,7 @@
       "docType": "test-catalog",
       "templateId": "test-catalog-v1",
       "template": "../../testing/_templates/test-catalog.json",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "requiredSections": [],
       "purpose": "机器索引与依赖的事实源",
       "statuses": ["current", "draft", "rework"],
@@ -260,6 +260,23 @@
         "sourceGitObject",
         "primarySource",
         "scope",
+        "history",
+        "supersedes",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "entryReadingsField": "_governance.entryReadings",
+      "defaultRequiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "primarySource",
+        "scope",
         "publicationRules",
         "entryReadings",
         "history",
@@ -268,7 +285,59 @@
         "stopLine",
         "nextStep"
       ],
-      "entryReadingsField": "_governance.entryReadings"
+      "variants": {
+        "frozen-document-binding-baseline-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "status",
+            "denominator",
+            "registry",
+            "policy",
+            "summary",
+            "entries",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "id": "docs-full-template-binding-baseline-20261011",
+            "status": "baseline-pending-semantic-review",
+            "denominator": 1838,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.kind": "static-document-governance",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lastReviewed",
+            "owner",
+            "provenance",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "primarySource",
+            "scope",
+            "lifecycle",
+            "currentAudit",
+            "captureReading",
+            "history",
+            "supersedes",
+            "beforeAfter",
+            "stopLine",
+            "nextStep"
+          ],
+          "statuses": ["baseline-pending-semantic-review"],
+          "statusPolicy": {
+            "axis": "frozen-binding-capture"
+          },
+          "preservedSource": {
+            "kind": "frozen-document-binding-root-view-v1"
+          }
+        }
+      }
     },
     {
       "docType": "test-contract",

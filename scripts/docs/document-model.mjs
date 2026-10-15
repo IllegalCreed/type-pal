@@ -2,7 +2,13 @@ import { createHash } from 'node:crypto'
 import { dirname, posix } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { parseTestingFrontMatter } from './check-testing.mjs'
-import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
+import {
+  frozenBindingTemplate,
+  frozenDocumentBaseline,
+  inspectFrozenBaselineView,
+  inspectFrozenDocumentBaseline,
+  readFrozenBaselineRoot,
+} from './frozen-document-source.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 
 function documentStatus(text, contract) {
@@ -125,7 +131,9 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
       if (actual !== expected) issues.push(`machine field mismatch: ${path}`)
     }
     for (const key of new Set([
-      ...(template.requiredGovernanceFields ?? []),
+      ...(!variant && template.defaultRequiredGovernanceFields
+        ? template.defaultRequiredGovernanceFields
+        : (template.requiredGovernanceFields ?? [])),
       ...(contract.requiredGovernanceFields ?? []),
     ]))
       if (value._governance?.[key] === undefined || value._governance[key] === '')
@@ -172,7 +180,8 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
   return issues
 }
 
-function preservedSourceIssues(text, doc, registry, contract, read, readSource) {
+function preservedSourceIssues(text, doc, registry, contract, read, options) {
+  const { readSource } = options
   if (!contract?.preservedSource) return []
   let value
   try {
@@ -199,7 +208,7 @@ function preservedSourceIssues(text, doc, registry, contract, read, readSource) 
     )
       return ['historical source pin is outside the independently frozen snapshot']
     if (!readSource) return ['approved historical Git source unavailable']
-    const baseline = inspectFrozenDocumentBaseline(read, readSource)
+    const baseline = inspectFrozenDocumentBaseline(read, readSource, options)
     if (baseline.issues.length) return baseline.issues
     const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
     if (bindings.length !== 1 || bindings[0].sourceSha256 !== pin.sha256)
@@ -242,8 +251,34 @@ function preservedSourceIssues(text, doc, registry, contract, read, readSource) 
   return issues
 }
 
+function bindingBaselineIssues(doc, template, contract, options) {
+  if (
+    doc.path !== frozenDocumentBaseline.path &&
+    doc.variant !== frozenBindingTemplate.variant &&
+    contract?.preservedSource?.kind !== frozenBindingTemplate.sourceKind
+  )
+    return undefined
+  if (
+    doc.path !== frozenDocumentBaseline.path ||
+    doc.templateId !== frozenBindingTemplate.templateId ||
+    doc.variant !== frozenBindingTemplate.variant ||
+    template.format !== 'json' ||
+    contract?.format !== 'json' ||
+    contract?.preservedSource?.kind !== frozenBindingTemplate.sourceKind
+  )
+    return ['frozen baseline requires its unique path and typed JSON binding']
+  if (typeof options.readBuffer !== 'function' || typeof options.readSourceBuffer !== 'function')
+    return ['frozen baseline requires real Buffer readers']
+  const root = readFrozenBaselineRoot(options.readSourceBuffer)
+  if (root.issues.length) return root.issues
+  const view = inspectFrozenBaselineView(options.readBuffer(doc.path), root)
+  return view.state === 'governed'
+    ? view.issues
+    : [...view.issues, 'frozen baseline migration requires governed view']
+}
+
 /** The same complete per-document checks serve routing and completion accounting. */
-export function checkMigratedDocument(doc, registry, read, { readSource } = {}) {
+export function checkMigratedDocument(doc, registry, read, options = {}) {
   const text = read(doc.path)
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
@@ -260,8 +295,12 @@ export function checkMigratedDocument(doc, registry, read, { readSource } = {}) 
   const contract = doc.variant ? template.variants?.[doc.variant] : template
   if (contract) {
     issues.push(...publicationIssues(text, contract, read))
-    issues.push(...preservedSourceIssues(text, doc, registry, contract, read, readSource))
+    const baselineIssues = bindingBaselineIssues(doc, template, contract, options)
+    issues.push(
+      ...(baselineIssues ?? preservedSourceIssues(text, doc, registry, contract, read, options)),
+    )
   }
+  if (!contract) issues.push(...(bindingBaselineIssues(doc, template, contract, options) ?? []))
   if (template.format === 'json') {
     let metadata
     try {

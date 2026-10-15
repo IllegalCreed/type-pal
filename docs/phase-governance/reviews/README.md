@@ -32,3 +32,5 @@
 - [固定 binding baseline JSON 合同冻结设计](20261016-binding-baseline-design.md)：test-catalog父1.2.0专用frozen-capture变体，固定33cc原生八字段保全、旧default行为不变；现2.0.1含22项必要写域，实施/canonical接收另验，设计自身pending。
 
 - [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
+
+- [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：entries为空，完整pilotCandidate待独立代码/正文接收；typed route只做结构验证，未给baseline增迁移信用。

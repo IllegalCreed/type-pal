@@ -5,14 +5,26 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const read = (path) => readFileSync(resolve(root, path), 'utf8')
+const readBuffer = (path) => {
+  try {
+    return readFileSync(resolve(root, path))
+  } catch {
+    return undefined
+  }
+}
+const read = (path) => readBuffer(path)?.toString('utf8')
 const json = (path) => JSON.parse(read(path))
 const digest = (text) => createHash('sha256').update(text).digest('hex')
-const sourceOptions = { readSource: (pin) => readGitDocumentSource(root, pin) }
-const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource)
+const sourceOptions = {
+  readSource: (pin) => readGitDocumentSource(root, pin),
+  readBuffer,
+  readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+}
+const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
 const cohort = new Set(baseline.entries.map((entry) => entry.path))
 const candidates = execFileSync(
   'git',
@@ -73,9 +85,10 @@ for (const entry of registry.entries) {
     Boolean(routes[0].historyOverlay) !== Boolean(document.historyOverlay)
   )
     bodyIssues.push('completed review requires one matching migrated route')
-  if (digest(text) !== record.afterSha256 || bodyIssues.length) {
-    if (digest(text) !== record.afterSha256)
-      issues.push(`${entry.path}: completed review SHA drift`)
+  const afterBytes = entry.path === frozenDocumentBaseline.path ? readBuffer(entry.path) : text
+  const afterDigest = afterBytes === undefined ? undefined : digest(afterBytes)
+  if (afterDigest !== record.afterSha256 || bodyIssues.length) {
+    if (afterDigest !== record.afterSha256) issues.push(`${entry.path}: completed review SHA drift`)
     issues.push(...bodyIssues.map((issue) => `${entry.path}: ${issue}`))
     continue
   }

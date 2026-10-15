@@ -41,6 +41,11 @@ Template: governance-index-v1 / 1.0.0
 
 机器父版本1.5增加 continuation/intake/command 三种历史集成变体（15/10/22原生键），精确名称与固定33cc源见统一 registry 和冻结 J 设计。原 default 与三个变体保持，既有15份只滚治理版本，0新增迁移/运行。三份固定源 canonical 单篇非作者独立 pilot 均已接收，三配对历史 MD 已在固定候选 `79dce016` 获逐篇非作者内容接收；根中央记录、路由及矩阵接入须另依当前 [J 分批 review](../../phase-governance/reviews/20261016-architecture-integration-history.json) 与实际受审快照核验。其它未读机器对象仍待逐篇治理；原历史 status/verdict/警告/非执行项不改，不能把集成沿用针数当新执行或套 catalog 发布词表。
 
+catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
+新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
+不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；
+新baseline canonical候选与实现仍待非作者独立接收，见[F1专属记录](../../phase-governance/reviews/20261016-binding-baseline-contract.json)；不能由source/结构绿或作者自验授迁移完成。
+
 ## 证据与下一步
 
 以[注册表](../../phase-governance/templates/registry.json)和[冻结设计](../../phase-governance/templates/registry-proposal-20261011.md)

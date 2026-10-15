@@ -837,3 +837,14 @@ Branch: codex/docs-full-template-proposal
 - 上述F1/N exact4 designfreeze/admin非作者A accept proof`514e5b4266df89c45eb99400c5bc7699ebf45dc5e2116fb81d6816869d2ea836`，根完整proof已读；actual82docs/1227MD/7920links/model215/strict724/lint4102zero/diff0/current1973pending1758，gate`217fd42c7133b8fd7f9c5e98522d598328ab7077526a8ad0f43123042721076f`，已精确提交`82f0e0bc71992e8f5ad884aa8bdb17020f3720d2`；2design新增pending无迁移信用。
 - F1准备Owner只读发现原21遗漏templates/README唯一current record，registry确指`20261015-agent-first-routing-batch.json`。根实际核唯一entry/当前afterSHA，现冻结修2.0.1：**仅窄增该1review文件，合22路径**，只该README current与完整prior/source/after/版本同步，其它entries exact；原21/旧设计body在82f0完整Git保留、原187行quote不改。此维护counter不是source/schema/产品合同变化，绝不以漏记after或挪record过门。
 - newGitreader与newfocusedtest均进入实际qualityinventory，所有实际新增源码只pending，动态枚举不写死仅加1或3294，不复审旧代码。F1暂未实现；必须这3精确文件新scope独立核/零门并实际提交后，根将clean新worktree快进精确新commit、内部明确build allowed22，原82f0不授权越域。M既有pilot与N设计/未来四filepilot不变，F2仍仅/tmp设计，wholegoalactive。
+
+
+#### F1 isolated implementation candidate (author receipt_review)
+
+- Exact ec2 cleanbase / design2.0.1 /22whitelist; isolatedcodex/docs-binding-baseline-f1 only. Git Buffer reader→fixedroot/view→typed JSON/hardpath→model/progress; olddefault16ordered/entryreading/literals/ID职责与machine1.5六variant五pin保全，baseline原8/1838/summary15/unread保持。
+- [F1专属候选](../../phase-governance/reviews/20261016-binding-baseline-contract.json)保完整pilotCandidate与每个旧current的固定ec2 Git/blob/wholeSHA/唯一selector；entries=[]，baseline仅typed route不入compliantregistry，作者不自签canonical/implementationaccept，actualprogress需独立实测仍不提前加信用。
+- 新reader/tool与focusedtest各pending，实际inventory3294/229closed/5review/3060pending；246旧live整行/273sourcefence不变，原accepted代码/测试不复审。原catalog和示例只gov.version1.1→1.2；两入口当前与after/fullprior同步，agent-first其它entries精确不动。
+- Focused首2pass2fail/格式后3pass1fail真实留日志与counter：raw无gov错误由测试oracle精确区分，新baseline after改原Buffer避免损失解码；格式改变ownedguardanchor则改精确唯一regex，不减生产门。最终actualfocused/全docs/lint/diff另按同字节跑，失败不倒填绿。无产品/旧tests/coverage/raw/browser/T/CI/main写入，后续非作者完整源码/原捕获边界和新增治理semantic pilot审后才决定接收。
+- F1首全docs86实际84pass2fail是原source反例旧drift诊断回归，拒绝/count0仍有效；组合层保原drift+具体strict原因，未改旧test。首lint三organizeImports错误真实修；ownedmissingview进度无JSON失败保留，安全读/缺Buffer/hash缺席处理后须重新实跑结构exit1/count0。详见F1counterHistory，未用旧4green覆盖后来实现。
+- 最后F1 focused4/4、0fail/skip实际通过（final-focused日志；包含missingview结构化拒绝、真实Gitcommit/tree/tag/symlink/gitlink、nativeguard-only/hardpath-only临时校准与完整default18旧行为）。actualmodel216/strict724/库存3294零问题，作者91source/prior/scope检查零问题；全docs/lint最终日志按冻结输入另产生，不把这些结果冒充非作者接收或全量完成。
+- F1首零全门86tools/model216/strict724/1227MD7926links/lint4105零另保旧snapshot75db，随后author直接反证primarySource非callableincludes/lastReviewed非可转换object会TypeError；窄加显式array/string/readerfunction守卫，正式两CLI structured拒绝已4focused全通过。新字节全门另跑，原绿仅历史，不授这次修正或非作者accept。

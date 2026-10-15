@@ -3025,9 +3025,9 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Prior accepted G/K0 whole-source and ledger-consumer scopes retained. L root reads only the new pending-row/count/intro delta and verifies all245 former live rows plus complete273-line original source unchanged. Actual tracked inventory consumer separate. No fresh product/old-test source audit or code-quality closure.",
-      "coreConclusion": "Current3292/229closed/5review/3058pending/3063unclosed; only L1 new test pending. Old245 live rows and complete273-line source remain exact. G7/K0one/Lone do not add code-quality or product execution credit.",
-      "documentStatus": "current",
+      "readMethod": "F1 author reads exact ec2 predecessor/current body and changed contract/current administrative fields; original earlier semantic/product/18entry review scopes retained in complete fixedGit prior. Current full body read; no underlying product/raw/oldtest re-audit.",
+      "coreConclusion": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+      "documentStatus": "current publication/navigation; F1 author maintenance awaiting independent exact-byte reception",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
         {
@@ -3057,38 +3057,24 @@
         {
           "date": "2026-10-16",
           "scope": "Root L exact implementation import plus one pending inventory row only; no product/old source re-audit or quality closure."
+        },
+        {
+          "date": "2026-10-16",
+          "author": "receipt_review",
+          "scope": "F1 exact predecessor/current maintenance only; canonical baseline/implementation and these later metadata bytes pending independent reception, not a reused old signature."
         }
       ],
       "primarySource": [
-        {
-          "path": "docs/ops/audits/code-quality-file-ledger.md",
-          "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
-          "lines": "1-273",
-          "reading": "Full fixed original/new semantic review by root and receipt_review; body independently accepted, no product execution claim"
-        },
-        {
-          "path": "scripts/quality/code-quality-ledger.mjs",
-          "reading": "full root source; no execution claim"
-        },
-        {
-          "path": "scripts/quality/code-quality-inventory.mjs",
-          "reading": "full root source; no execution claim"
-        },
-        {
-          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
-          "reading": "full root source; no execution claim"
-        },
-        {
-          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
-          "reading": "full root source; no execution claim"
-        }
+        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/ops/audits/code-quality-file-ledger.md",
+        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/frozen-document-source.mjs"
       ],
       "truthAnchors": [
-        "docs/ops/audits/code-quality-file-ledger.md:1",
-        "docs/ops/agent-workflow.md",
-        "docs/phase-governance/templates/registry.json",
-        "scripts/quality/code-quality-ledger.mjs",
-        "scripts/quality/code-quality-inventory.mjs"
+        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/ops/audits/code-quality-file-ledger.md",
+        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/frozen-document-source.mjs"
       ],
       "phaseAnchors": [
         "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
@@ -3101,7 +3087,7 @@
         "scripts/quality/code-quality-ledger.mjs",
         "scripts/quality/code-quality-inventory.mjs"
       ],
-      "applicability": "Current record/inventory maintenance at2026-10-16; G3290 and original3283 snapshots retain their event dates. New tool test stayspending; no product/current runtime acceptance.",
+      "applicability": "F1 source-specific document/contract maintenance only; no current product/runtime or whole-doc acceptance. Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
       "publicEntry": "docs/ops/audits/code-quality-file-ledger.md",
       "publicCallers": [
         "docs/ops/audits/README.md",
@@ -3110,44 +3096,39 @@
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
       "legalInputs": [
-        "真实inventory路径集合；唯一live汇总及连续5列表、允许类别与中文状态；未显式行缺省pending。"
+        "Actual tracked inventory and unique continuous live table; new reader/test pending only, all246 old rows/order and273 source fence exact."
       ],
       "businessOracle": {
-        "type": "source-specific-quality-governance-and-machine-consumer-preservation",
+        "type": "F1-source-specific-maintenance-and-no-new-credit",
         "assertions": [
-          "Actual auditCodeQualityLedger must have0issues and3292/229closed/5review/3058pending; only one Ltest pending added, old245 live rows/order exact.",
-          "Full original273-line source fence unchanged; G7/K0one/Lone remain separate historical inventory events, Q3k source not rewritten.",
-          "Index writer/CLI contracts and inventory completeness do not certify product runtime, coverage, old tests or full-code semantic acceptance."
+          "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+          "All new baseline implementation/pilot reception remains explicitly non-author pending; version roll/document navigation does not certify runtime/E2E/visual/coverage."
         ]
       },
       "dedupe": {
-        "result": "reviewed-no-new-product-test-or-runtime-credit",
+        "result": "source-specific-maintenance-no-new-migration",
         "against": [
-          "docs/ops/agent-workflow.md",
+          "docs/ops/audits/code-quality-file-ledger.md",
           "docs/phase-governance/templates/registry.json",
-          "scripts/quality/code-quality-ledger.mjs",
-          "scripts/quality/code-quality-inventory.mjs"
+          "docs/phase-governance/reviews/20261016-binding-baseline-contract.json"
         ],
-        "notes": "只有唯一live表/汇总；旧原文fenced不被parser读；已读/已验证身份不按本次文档或inventory默认状态重置。"
+        "notes": "Existing unique source/current record retained; baseline candidate exists only in pilotCandidate, not duplicated centralentries or1838 membership."
       },
       "counterReworkBlocked": {
-        "migration": "Prior G/K0 accepted; L one-pending-row/current-review maintenance independent root delta separately required.",
-        "historicalLimits": [
-          "CODE-QUALITY still has pending files;229closed/5review retain their original registered meaning, new docs test only pending.",
-          "Original product/old tests/raw/coverage gain no new credit from index-generator and doc-tool test acceptance."
-        ]
+        "F1": "Author static verification only; independent implementation/canonical baseline and maintenance-byte review pending.",
+        "priorAcceptance": "Previous accepted body/record remains exactly retrievable at fixedGit; old acceptances do not cover newF1 bytes."
       },
       "unresolved": [
-        "CODE-QUALITY still has pending files;229closed/5review retain their original registered meaning, new docs test only pending.",
-        "Original product/old tests/raw/coverage gain no new credit from index-generator and doc-tool test acceptance."
+        "Independent F1 implementation/canonical pilot and current maintenance-byte reception pending.",
+        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
       ],
-      "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
-      "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
-      "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
-      "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+      "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+      "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
+      "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
       "revision": {
-        "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
-        "implementationSha": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+        "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+        "implementationSha": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
         "history": [
           {
             "date": "2026-10-16",
@@ -3184,15 +3165,37 @@
             "currentLiveRows": 246,
             "newClosedCredit": 0,
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-16",
+            "action": "F1-source-specific-author-maintenance-pending-independent-reception",
+            "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+            "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+            "newMigrationCredit": 0,
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "static-pending-inventory-row-and-complete-prior-source-preservation",
-        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
-        "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
-        "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
-        "lineCount": 584,
+        "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
+        "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+        "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+        "lineCount": 586,
+        "sourceScope": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "gitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
+          "fileSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+          "selector": {
+            "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        "independentReception": "pending exact-byte/code/canonical review",
         "originalPreservation": {
           "originalPreserved": true,
           "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
@@ -3202,21 +3205,19 @@
           "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
           "exactRoundTrip": true
         },
-        "maintenanceSourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
-        "maintenanceRecord": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-        "originalLiveRowsUnchanged": 245,
-        "currentLiveRows": 246,
-        "newPendingTest": "scripts/docs/testing-index-governance.test.mjs",
-        "actualInventoryConsumer": {
-          "path": "/tmp/type-pal-l-root-import-ledger-20261016.log",
-          "sha256": "ce88c41b5f11612531578322b6b1da1a7331293a3b208c5b4ed200c04c5288e2",
-          "exitCode": 0,
-          "files": 3292,
+        "originalLiveRowsUnchanged": 246,
+        "currentLiveRows": 248,
+        "newPendingPaths": [
+          "scripts/docs/git-document-snapshot.mjs",
+          "scripts/docs/frozen-binding-baseline.test.mjs"
+        ],
+        "actualInventory": {
+          "files": 3294,
           "closed": 229,
           "review": 5,
-          "pending": 3058,
-          "issues": 0,
-          "scope": "Actual tracked inventory completeness only; no new code semantic closure."
+          "pending": 3060,
+          "unclosed": 3065,
+          "scope": "Actual inventory integrity only, no semantic closure."
         }
       },
       "history": [
@@ -3261,6 +3262,26 @@
           "currentLiveRows": 246,
           "newClosedCredit": 0,
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "event": "F1 author maintenance; full predecessor/current independently distinguishable",
+          "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+          "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+          "priorSource": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "gitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
+            "fileSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+            "selector": {
+              "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "independentReception": "pending",
+          "newMigrationCredit": 0
         }
       ],
       "supersedes": [
@@ -3271,13 +3292,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Independent root L implementation import/pending-inventory delta and exact zero gates; ten Markdown bodies still need separate central records/routes. Continue code-quality through its own later task.",
+      "nextStep": "Root/non-author review of exact F1 candidate and real default/source/native/CLI proofs; then decide baseline incremental reception separately. Preserve original catalog deadlines/statuses and all other pending work.",
       "userVisibleBeforeAfter": {
-        "before": "Accepted K0 inventory3291/229closed/5review/3057pending/3062unclosed,245live rows.",
-        "after": "Current3292/229closed/5review/3058pending/3063unclosed; only L1 new test pending. Old245 live rows and complete273-line source remain exact. G7/K0one/Lone do not add code-quality or product execution credit.",
-        "semanticChange": "One new pending doc-tool-test inventory row only; no code-quality closure, body migration credit, product/old-test/coverage change."
+        "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
+        "after": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+        "semanticChange": "Documentation/contract declaration or pending-inventory maintenance only; independent F1 acceptance still required."
       },
-      "reviewedLines": "1-584",
+      "reviewedLines": "1-586",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -3285,7 +3306,8 @@
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0",
         "historyOverlay": "archive-record-v1/1.0.0",
-        "method": "Same accepted governance-index/archive body; only L pending row and counts/intro changed. Old245live/source273 exact; actual consumer and independent root inventory delta separate."
+        "method": "Current actual contract/body consumer and source-specific author review; independent F1 byte acceptance pending, no oldsignature reuse.",
+        "version": "1.0.0"
       },
       "priorReadings": [
         {
@@ -3946,9 +3968,23 @@
           "reviewedSourceGitRevision": "ea9368e2d76988ec736da0e2477caa509e77c6b4"
         }
       ],
-      "reviewedSourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
-      "reviewedSourceGitRevision": "f7a44863763b808a636c4656826ca065f76d1ab3",
-      "reviewedSourceGitObject": "c24914dda2c9c34fbdf59e55a9b367989119efe5"
+      "reviewedSourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+      "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+      "reviewedSourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "gitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
+          "fileSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+          "selector": {
+            "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
+      ]
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

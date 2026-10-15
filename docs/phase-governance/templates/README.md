@@ -45,6 +45,11 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。三份固定源格式已分别通过真实 consumer/来源反例和 canonical 单篇非作者独立 pilot；三配对历史 MD 已在固定候选 `79dce016` 获逐篇非作者内容接收；根中央记录、路由及矩阵接入须另依当前 [J 分批 review](../reviews/20261016-architecture-integration-history.json) 与实际受审快照核验。其它未读 JSON 仍须逐篇治理，不能由登记格式外推。版本与边界见设计提案 C1/C2/I/J。
 
+catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
+新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
+不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；
+新baseline canonical候选与实现仍待非作者独立接收，见[F1专属记录](../reviews/20261016-binding-baseline-contract.json)；不能由source/结构绿或作者自验授迁移完成。
+
 ## 证据与下一步
 
 - [已批准的设计提案](registry-proposal-20261011.md)保留 2026-10-11 的范围与大纲，适配流程见[项目文档模型](../../ops/guides/documentation-model.md)。
