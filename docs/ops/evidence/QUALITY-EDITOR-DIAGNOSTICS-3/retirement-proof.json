@@ -1,0 +1,39 @@
+{
+  "approval": {
+    "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+    "previous": 10,
+    "current": 9,
+    "previousIdentityDigest": "eb92a404a3d7f85c7e94297d886cf65acbe67907cd105149f07b1e4d6212f315",
+    "currentIdentityDigest": "941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157",
+    "fileSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13"
+  },
+  "removed": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用"
+  ],
+  "added": [],
+  "oracleTransfer": "Original G01-03 misses retained draft label; original 02 and merged 03 fail with the same product mutant. All 02 pre/post label, apply status and history oracles moved into 03; same authored 12→10 asset/consumer input axis.",
+  "oldIdentities": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务拒绝，字节与 catalog 不变",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不符拒绝且保留外部改动",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒且零污染，新证明可提交",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排槽位，撤销整体还原",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧"
+  ],
+  "currentIdentities": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务拒绝，字节与 catalog 不变",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不符拒绝且保留外部改动",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒且零污染，新证明可提交",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排槽位，撤销整体还原",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx :: project root :: C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧"
+  ],
+  "ruleChanges": false
+}

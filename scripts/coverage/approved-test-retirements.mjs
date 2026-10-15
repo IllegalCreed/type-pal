@@ -171,6 +171,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e',
       fileSha256: 'e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927',
     },
+    // Codex 2026-10-15: G01-02 draft-reset oracles merged into G01-03.
+    // Same external shrink input; oracle-transfer mutants recorded in diagnostics-3.
+    {
+      file: 'packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: 'eb92a404a3d7f85c7e94297d886cf65acbe67907cd105149f07b1e4d6212f315',
+      currentIdentityDigest: '941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157',
+      fileSha256: '43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C02-G01：共享帧源 ABI 迟到保护。
- * 排重：BattleSpriteLibrary.test.tsx 已证引用 fail-closed / 缩短帧收紧（mock 预览）；
- * kimi-workflows K01 已证单资产 PNG 导入、替换/追加/删帧、敌人分段修复、增帧/缩帧替换；
- * commands.test.ts / glm-boundaries 已证命令级证明过期。本文件只补：真实 EditSession 上
- * 「外部迟到操作者」与 UI 草稿/证明/消费者快照的交错——proof 重绑、草稿保留/丢弃、
- * 确认窗口期内消费者漂移 fail-closed、玩家共享用途同事务重排。
+ * 真实 EditSession 上的外部操作者与 UI 草稿/证明/消费者快照交错：
+ * proof 重绑、草稿回流、确认窗口内消费者漂移拒绝与共享用途同事务重排。
+ * pending 窗口由真实 reader IO 闸门控制；消费者与资源仍走生产命令和解码。
  */
 import type { BattleSpriteProfile, PlayerFighterBattleSpriteProfile } from '@type-pal/content'
 import { act } from 'react'
@@ -16,6 +14,10 @@ import {
   decodeBattleAsset,
   loadCursorBattleProject,
 } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
+import {
+  type MountedBattleSpriteLibrary,
+  waitForBattleSpriteResources,
+} from '../__tests__/cursor-asset-r1/battle-sprite-harness.js'
 import {
   A_SHARED,
   applyAppearance,
@@ -35,6 +37,7 @@ import {
   waitProof,
 } from '../__tests__/cursor-asset-r1/battle-sprite-ui.js'
 import { atlasColors, pngFileOf, solidAtlasPng } from '../__tests__/cursor-asset-r1/image-ports.js'
+import { deferred } from '../__tests__/cursor-asset-r1/kit.js'
 import { UpdateBattleSpriteDefinitionCommand } from '../core/commands.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 
@@ -47,6 +50,40 @@ function profileOf(
   const profile = state.battleSprites.find((entry) => entry.id === id)?.profile
   if (profile?.kind !== 'player-fighter') throw new Error(`${id} 不是玩家战斗精灵`)
   return profile
+}
+
+/** Hold byte-read delivery after the real read captured its pending-aware snapshot. */
+function holdSpriteRead(mounted: MountedBattleSpriteLibrary, asset: string) {
+  const gate = deferred<void>()
+  const read = mounted.reader.readBytes.bind(mounted.reader)
+  let started = 0
+  let delivered = 0
+  const spy = vi.spyOn(mounted.reader, 'readBytes').mockImplementation(async (...args) => {
+    if (args[0] !== asset) return read(...args)
+    started++
+    const bytes = await read(...args)
+    await gate.promise
+    delivered++
+    return bytes
+  })
+  return {
+    get started() {
+      return started
+    },
+    get delivered() {
+      return delivered
+    },
+    async release() {
+      try {
+        await act(async () => {
+          gate.resolve()
+          await waitForBattleSpriteResources(mounted.host)
+        })
+      } finally {
+        spy.mockRestore()
+      }
+    },
+  }
 }
 
 test('C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交', async () => {
@@ -63,10 +100,17 @@ test('C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应
     13,
     5,
   )
-  await act(async () => {
-    m.session.dispatch(command)
-  })
-  expect(applyButton(m.host).disabled).toBe(true)
+  const held = holdSpriteRead(m, A_SHARED)
+  try {
+    await act(async () => {
+      expect(m.session.dispatch(command)).toBe(true)
+    })
+    expect(held.started).toBeGreaterThan(0)
+    expect(held.delivered).toBe(0)
+    expect(applyButton(m.host).disabled).toBe(true)
+  } finally {
+    await held.release()
+  }
   await waitProof(m.host, 13, 2)
   expect(applyButton(m.host).disabled).toBe(false)
   expect(usageNameInput(m.host)?.value).toBe('甲·草稿')
@@ -80,32 +124,11 @@ test('C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应
   assertProjectSaveValid(m.session.getState())
 })
 
-test('C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用', async () => {
-  const m = await suite.mount('c02-g01-02', { focus: 'shared-fighter-a' })
-  await waitProof(m.host, 12, 2)
-  await renameUsage(m.host, '甲·将被丢弃')
-  expect(applyButton(m.host).disabled).toBe(false)
-
-  const { command } = await buildExternalReplace(
-    m.session,
-    m.reader,
-    m.project.palette,
-    A_SHARED,
-    10,
-    5,
-  )
-  await act(async () => {
-    m.session.dispatch(command)
-  })
-  await waitProof(m.host, 10, 2)
-  expect(usageNameInput(m.host)?.value).toBe('甲战士')
-  expect(applyButton(m.host).disabled).toBe(true)
-  expect(m.session.getHistoryVersion()).toBe(1)
-})
-
 test('C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧', async () => {
   const m = await suite.mount('c02-g01-03', { focus: 'shared-fighter-a' })
   await waitProof(m.host, 12, 2)
+  await renameUsage(m.host, '甲·将被丢弃')
+  expect(applyButton(m.host).disabled).toBe(false)
   await chooseActionRow(m.host, '偷窃')
   await selectSourceFrame(m.host, 11)
   await act(async () => {
@@ -126,8 +149,10 @@ test('C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿�
     m.session.dispatch(command)
   })
   await waitProof(m.host, 10, 2)
+  expect(usageNameInput(m.host)?.value).toBe('甲战士')
   expect(m.host.querySelector('[aria-label="动作列表"]')?.textContent).not.toContain('#11')
   expect(applyButton(m.host).disabled).toBe(true)
+  expect(m.session.getHistoryVersion()).toBe(1)
   const profile = profileOf(m.session.getState(), 'shared-fighter-a')
   expect(profile.frames.steal).toBeUndefined()
 })
@@ -299,10 +324,17 @@ test('C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿�
   })
   await waitProof(m.host, 13, 2)
   await renameUsage(m.host, '甲·撤销后')
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
-  expect(applyButton(m.host).disabled).toBe(true)
+  const held = holdSpriteRead(m, A_SHARED)
+  try {
+    await act(async () => {
+      expect(m.session.undo()).toBe(true)
+    })
+    expect(held.started).toBeGreaterThan(0)
+    expect(held.delivered).toBe(0)
+    expect(applyButton(m.host).disabled).toBe(true)
+  } finally {
+    await held.release()
+  }
   await waitProof(m.host, 12, 2)
   expect(usageNameInput(m.host)?.value).toBe('甲·撤销后')
   expect(applyButton(m.host).disabled).toBe(false)

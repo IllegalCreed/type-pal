@@ -12,29 +12,31 @@
     {
       "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
       "beforeSha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
-      "currentSha256": "c7540c442d470574eee17d4b3b4d3c21f3981aa8da4500d0b36de99ee909b7cc",
-      "lines": 375,
+      "currentSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "lines": 407,
       "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
       "status": "review only; no closure"
     },
     {
       "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
       "beforeSha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
-      "currentSha256": "0f8ef862dcd04ab4cf810569508fd659e22655545356bfd612660e88fa1a120a",
-      "lines": 292,
+      "currentSha256": "ee216c72cb9df2265852e347a122818b3a8f45021725647e0cf7f41779f894d2",
+      "lines": 290,
       "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
       "status": "review only; no closure"
     },
     {
       "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
       "beforeSha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
-      "currentSha256": "2c2ff9ffb243fd447d44d8cc1dbcd7853fd5edf863daef5b815797f8cd4248d2",
-      "lines": 272,
+      "currentSha256": "3d74f378b3d3dd7483e7f63fdda0c5d2bc1f92a8c289961138a823bd5a9a0b03",
+      "lines": 270,
       "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
       "status": "review only; no closure"
     }
   ],
   "priorReads": "QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json and read-boundaries.json",
-  "remaining": "G01 pending assertions need controlled IO; G05 unknown-profile cast and header novelty claims need precision review; historical pending navigation domain of host remains unverified",
-  "oldWaitRawMessageCallers": "Only G01/G05; global search preceded removal. New raw helper returns its fresh DOM result after real notice."
+  "remaining": "Host historical pending-promise navigation and failure cleanup fault injection remain unverified; unknown cross-file duplicates retained; full window pending. No closure.",
+  "oldWaitRawMessageCallers": "Only G01/G05; global search preceded removal. New raw helper returns its fresh DOM result after real notice.",
+  "precisionBase": "51215be62098796d298d1172a4738d6f8ccf5339",
+  "precisionReads": "G01 full current text and all changed G02/G05 text read; prior full G02/G05/product/caller reads reused only after exact SHA comparison before edits; content battle-sprite.ts full read for canonical discriminated union."
 }

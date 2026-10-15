@@ -1,9 +1,7 @@
 // @vitest-environment jsdom
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C02-G02：导入取消 / 失败 / 恢复。
- * 排重：kimi K01 已证「10 帧 PNG 一次导入」入库字节链与 undo/redo；uploader.glm-next-wave 已证
- * 帧宽不整除失败与取消零提交（仅 uploader 组件级）；import.boundaries 已证命名/复用核。
- * 本文件补库级导入生命周期：取消后重开为空、玩家 9 帧经库失败后同面板恢复、损坏文件恢复、
+ * 库级导入生命周期：取消后重开为空、玩家 9 帧经库失败后同面板恢复、损坏文件恢复、
  * 单帧敌人 profile、同字节异用途复用 AssetId 与撤销链、id 递增、非 ASCII 前缀回退、
  * 导入后 undo/redo 的选择归属、面板字段在取消后保留。
  */

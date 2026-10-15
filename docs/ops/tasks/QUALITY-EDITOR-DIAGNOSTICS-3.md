@@ -52,3 +52,18 @@ bitmap-only 30/30、535条act，未降低告警；撤回图片主因解释与额
 新的premise verified / design agree，build allowed：当前四文件范围不变；下面继续pending窗口/强转/精简核验，0关闭，不冒称独立accept。
 
 本检查点原30例与相邻78例均完整0skip/0诊断；editor typecheck/docs/lint0/0/0、ledger通过。3284/229closed/54review/3001pending，0关闭。继续精度提交后统一全门，不以当前结果替代逐文件验收。
+
+## 精度与精简支持准入
+
+51215be62生命周期检查点已提交推送，fresh main仍f98d0ddd8、0behind。原30例0诊断后再处理精度。
+G01-01/08用真实reader完成交付闸门证明pending窗口与解除（字节由真实reader先捕获，不造核心结果）；G05改为canonical BattleSpriteProfile判别联合，无unknown强转；三个头注撤回未经全库核实的新颖性声明。
+G01-02的改名草稿/应用状态/history全部迁入03，与越界steal草稿同属一次外部12→10缩帧后的整组回流；两者都是authored同资产同消费者，仅项目名与无像素oracle的配色不同，非独立输入轴。未知相邻重叠不删。
+必要支持白名单：approved-test-retirements.mjs仅本文件精确10→9数据行，及其test固定账本数量；判据/拒绝用例/规则不变，baseline仅官方工具更新。
+Codex：premise verified / design agree，build allowed；需以隔离产品mutant验证pending守卫和原02→现03的oracle转移，恢复完整29例再收口本片。
+
+## 精度检查点（完整门待续）
+
+隔离反控已完成：移除proofReady按钮守卫，G01-01/08分别恰一AssertionError；草稿复位mutant下原03仍绿、原02及合并后03均因改名未复位而红。生产源码未改，临时工作区严格清理后重新从生产字节独立构造mutant并核所有raw/runner SHA。完整恢复29例0skip/0诊断。
+实际精简仅G01-02→03，10→9；三个文件总30→29，精确身份/文件SHA支持已登记，判据与拒绝用例不变。G05以canonical判别联合取代强转；头注只声明直接覆盖的合同。
+相邻首次命令两个文件过滤名写错，实际只运行7文件69例，原件保留且不冒充全相邻；纠正为真实registry与command文件后9文件77例0skip/0诊断。coverage工具65/65与editor typecheck通过。
+本片仍build等待稳定模块全门，账本仍3284/229closed/54review/3001pending，0关闭；不是独立验收或全仓完成。

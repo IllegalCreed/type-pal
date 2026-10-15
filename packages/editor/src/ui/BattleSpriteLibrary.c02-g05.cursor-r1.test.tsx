@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C02-G05：经 EditSession.undo/redo 驱动的 UI 再同步。
- * 排重：glm-ui-wave 已证改名 undo 与删除用途 undo（mock 预览）；kimi K01 已证导入/替换/追加/删帧
- * 的 undo 字节还原；glm-m 已证待机毫秒草稿的 undo/redo。本文件补：改名/特效基帧经 undo/redo 后
- * 输入框与应用按钮的回流、新增用途撤销后的选择与重做、删除用途撤销的列表顺序、草稿遇外部 undo、
- * 线性三步历史逐级快照、新提交清空 redo、替换源文件 undo/redo 的预览重绑、追加帧撤销后源帧选择收紧、
- * 撤销后重新新增得到同一用途 id。
+ * 改名/特效基帧的表单回流、新增/删除用途的选择与顺序、外部 undo 覆盖草稿、
+ * 三步历史的精确逆序复原、新提交清空 redo、真实源字节替换/追加后的预览重绑与帧选择收紧。
  */
+import type { BattleSpriteProfile } from '@type-pal/content'
 import { act } from 'react'
 import { expect, test, vi } from 'vitest'
 import { decodeBattleAsset } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
@@ -45,12 +43,12 @@ function label(
 }
 
 function castBase(
-  state: { battleSprites: ReadonlyArray<{ id: string; profile: unknown }> },
+  state: { battleSprites: ReadonlyArray<{ id: string; profile: BattleSpriteProfile }> },
   id: string,
 ): number {
-  return (
-    state.battleSprites.find((entry) => entry.id === id)!.profile as { castEffectBase: number }
-  ).castEffectBase
+  const profile = state.battleSprites.find((entry) => entry.id === id)?.profile
+  if (profile?.kind !== 'player-fighter') throw new Error(`${id} 不是玩家战斗精灵`)
+  return profile.castEffectBase
 }
 
 function choiceTitles(host: HTMLElement): string[] {
