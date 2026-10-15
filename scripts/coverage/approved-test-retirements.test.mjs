@@ -23,12 +23,12 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
-  // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条。
-  assert.equal(approvedTestRetirements.length, 22)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 22)
+  // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条；CODE2退役1条重复delta。
+  assert.equal(approvedTestRetirements.length, 23)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 23)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    51,
+    52,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
@@ -47,7 +47,7 @@ for (const approval of approvedTestRetirements) {
 const exact = proof(approvedTestRetirements[0])
 const refusals = [
   [
-    '未知第六文件',
+    '未批准的其它文件',
     { ...exact, removal: { ...exact.removal, value: 'packages/migrate/src/other.test.ts' } },
   ],
   ['test-file删除不是计数退役', { ...exact, removal: { ...exact.removal, kind: 'test-file' } }],

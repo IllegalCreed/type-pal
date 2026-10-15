@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
-      "afterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
+      "sourceSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
+      "afterSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1400,6 +1400,15 @@
             "previousAfterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
             "afterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "c727bc81e",
+            "action": "pre94-CODE2-test-precision-native-parity-and-exact-retirement-review",
+            "scope": "docs/ops/board.md own retrospective navigation only; no other owner changes, no new file/card closure",
+            "previousAfterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
+            "afterSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md"
           }
         ]
       },
@@ -1710,8 +1719,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
-      "afterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
+      "sourceSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
+      "afterSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2210,6 +2219,15 @@
             "previousAfterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
             "afterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "c727bc81e",
+            "action": "pre94-CODE2-test-precision-native-parity-and-exact-retirement-review",
+            "scope": "docs/ops/evidence/README.md own retrospective navigation only; no other owner changes, no new file/card closure",
+            "previousAfterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
+            "afterSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

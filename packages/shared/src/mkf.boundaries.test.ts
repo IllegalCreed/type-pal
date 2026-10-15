@@ -1,7 +1,8 @@
 /**
  * TEST-FOUNDATION-COVERAGE-1 A1：MKF 归档边界（合同见 mkf.ts:1-5）。
  * 头为 N+1 个 u32 LE 偏移；子文件数 = (head[0] - 4) / 4；chunk i = [offsets[i], offsets[i+1])。
- * 已定义错误：头过小 / 首偏移非 4 倍数 / count<0。越界损坏偏移为未定义行为，不设合同（仅注释）。
+ * openMkf 拒绝不完整表、越界与倒序 offset；readChunk 只消费该入口产出的 Mkf，
+ * 拒绝越界或非整数索引，返回借用原输入 buffer 的视图。
  */
 import { describe, expect, it } from 'vitest'
 import { mkMkf } from './__tests__/glm-foundation-fixtures.js'
@@ -80,7 +81,8 @@ describe('readChunk 边界', () => {
     expect(Array.from(readChunk(mkf, 2))).toEqual([7, 8])
     const view = readChunk(mkf, 0)
     expect(view).toBeInstanceOf(Uint8Array)
-    expect(view.byteOffset).toBeGreaterThan(0)
+    expect(view.buffer).toBe(mkf.buffer.buffer)
+    expect(view.byteOffset).toBe(mkf.buffer.byteOffset + mkf.offsets[0]!)
   })
 
   it('空 chunk（相邻偏移相等）：长度 0 视图，非错误', () => {
@@ -88,11 +90,12 @@ describe('readChunk 边界', () => {
     expect(empty.byteLength).toBe(0)
   })
 
-  it('索引越界（-1 与 count）：已定义拒绝且消息含 count', () => {
+  it('越界、非整数与 NaN 索引均拒绝且消息含 count', () => {
     expect(() => readChunk(mkf, -1)).toThrow(/chunk -1 out of range \(count=3\)/)
     expect(() => readChunk(mkf, 3)).toThrow(/chunk 3 out of range \(count=3\)/)
+    expect(() => readChunk(mkf, 0.5)).toThrow(/chunk 0.5 out of range \(count=3\)/)
+    expect(() => readChunk(mkf, Number.NaN)).toThrow(/chunk NaN out of range \(count=3\)/)
   })
 
-  // 未定义行为（不设合同）：偏移指向 buffer 之外或乱序时 subarray 会截断/返回空，
-  // 与已定义头错误不同类；原版对损坏 MKF 亦无契约（palcommon.c 只读头不校验体）。
+  // offset 合法性由 openMkf 统一核定；不绕过真实入口伪造 Mkf 来替 readChunk 发明错误合同。
 })

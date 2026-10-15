@@ -202,6 +202,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da',
       fileSha256: 'b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5',
     },
+    // Codex 2026-10-16 CODE2 rereview: the small-surface delta case is covered by
+    // the full-plane preservation oracle in rng.boundaries.test.ts; exact snapshot only.
+    {
+      file: 'packages/shared/src/rng.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e',
+      currentIdentityDigest: '641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2',
+      fileSha256: '5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

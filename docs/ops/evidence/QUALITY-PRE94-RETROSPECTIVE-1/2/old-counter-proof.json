@@ -1,0 +1,65 @@
+{
+  "runs": [
+    {
+      "name": "mkf",
+      "mutation": {
+        "needle": "!Number.isInteger(index) || ",
+        "replacement": ""
+      },
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-mkf-counter.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-pre94-mkf-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "f73712d534284ee538fb6f263bd50a555a82f5a38fb7038611bc63fd6fd70307",
+      "runnerSha256": "70a4a37ecbb16c95d3c5a60640ed05e042c642e1fae283854c5458e34fa83897",
+      "passed": 11,
+      "failed": 0,
+      "pending": 0,
+      "sourceSha256": "6f654d1b361a2e979d9b12b14c1e1f0f4b2aeffc9784e228fe8b30776b9947f1",
+      "testBeforeSha256": "ff365d575d71ed7f97ec349e5ee7ac95c4ced1386c4d187b65c91775bcc45999"
+    },
+    {
+      "name": "rng",
+      "mutation": {
+        "needle": "    } catch {\n      continue",
+        "replacement": "    } catch {\n      surface.fill(0)\n      continue"
+      },
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-rng-counter.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-pre94-rng-old.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "1005103e7b34c173bca249b958dbf41b6ca3c8e9a305a80925e8f002d0801328",
+      "runnerSha256": "7dd7d7b183d19088e1ea0d8f20b8d4492e55113485374ca3916b47cb03f2fb8a",
+      "passed": 16,
+      "failed": 0,
+      "pending": 0,
+      "sourceSha256": "2196d3266b5d9a5a91cb4d4778c35eb0df640d28975e2833b3b2e26d88fde1c7",
+      "testBeforeSha256": "0f9f2d9a43672f629c3d1577cdebdd3f2f8847a22f4b00838a42a91eae946e43"
+    }
+  ],
+  "temporaryCopiesRemoved": true
+}

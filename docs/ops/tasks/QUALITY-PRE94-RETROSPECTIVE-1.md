@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0；6a四文件已全文读，正核CLI副作用与测试合同。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -71,3 +71,21 @@ Codex build allowed补证白名单仅两份现有测试：ledger.test.mjs新增�
 ### CODE1本片结果
 
 只补主RLE测试一例，54身份保持，rethrow反控旧54绿→新53绿1业务红，恢复shared typecheck/131例与game21/extract6/reforge20通过。decoder/主测试/boundary三旧关闭撤回review；高位literal格式真值专卡draft，未改算法或资源。GOP67715成功帧结构trace未见分类分歧，不等同SDL native像素对比。全83卡accept仍0、统一门待续；下一片CODE2 MKF/RNG。
+
+## CODE2 MKF/RNG补证准入（2026-10-16）
+
+全文读mkf.ts、rng.ts、两boundary测试与rng主测试；核共享fixture/barrel、extract MKF重导出及RNG PNG wrapper、game rng-player caller全文件，SDLPal对应MKF/RNG函数。当前没有生产实现缺陷证据。隔离删整数guard，MKF旧11例仍绿；YJ2失败catch错误清空surface，RNG旧16例仍绿。原注释还把已拒绝的offset越界写成未定义，与实现/现有反例矛盾。
+
+Codex premise verified/design agree/build allowed白名单仅两现有测试：mkf.boundaries.test.ts校正注释、在同一索引拒绝例加入NaN/非整数并明确共享视图ownership；rng.boundaries.test.ts把坏YJ2例加强为正常帧→坏帧→后续delta，直接核旧画面保持和最终完整plane。保持例数，不改mkf/rng/YJ2实现、公共API、错误政策或资源。原例标题必要时精确更名，映射落证据，不伪造旧身份相同；官方baseline仅后续真实ratchet生成。先旧反控存活→新精确单例红→恢复定向/相邻与必要typecheck。
+
+同时只读核真实MKF区间与RNG当前解码结果；若运行native源码则记录原函数SHA/给定解压payload的比较边界，不把它冒充YJ2或pal.exe验证。无新产品取舍，不借本片解除RLE格式draft或接管CODE53等活动实现。
+
+### CODE2 B段：已证重复精简准入
+
+A段保持例数的两项补证已通过旧绿/新单例红与恢复绿。全文排重确认rng.test.ts的“delta累加”与rng.boundaries.test.ts“连续帧基面保留”均是literal写前两字节→0x02跳过→写后两字节；后者还精确约束全320×200未触区域。小零面与大MARK面在该调用无尺寸/像素值分支，前者断言是后者合同的弱子集，真实caller面为320×200；其它小面/越界合同仍在，不能因文件短保留重复。
+
+按用户测试少而精规则，Codex build allowed B段只退役rng.test.ts该一例（7→6）并核oracle转移反控；A段两测试保留。仅必要时新增approved-test-retirements.mjs精确7→6/双身份digest/源SHA条目，更新固定表测试23项/净52；matcher、拒绝合同、scope规则及baseline比例不改。原生Vitest list身份与三父快照比对后再登记，baseline只由后续官方ratchet生成。无产品/算法变化，统一门未跑不合main。
+
+### CODE2当前结果
+
+两项补证各有旧绿/新单例AssertionError；精确退役一条重复delta并验证oracle转移。生产MKF/RNG及YJ2字节未改；原始15MKF/2373chunks区间一致，给定相同解压payload的native SDL1464帧逐像素/索引一致。最终33定向、shared130+typecheck、game13/extract17与coverage-tools68通过。三测试旧关闭转review、0新关闭，统一门仍待续；全83卡accept仍0，下一片CODE2b YJ2。

@@ -1,0 +1,57 @@
+{
+  "runs": [
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/rng-blob-snapshot.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-code2-adjacent-game.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "f9f928a242abb82c132dd99fd3846d310fb1bfce19ee3219f6704f1f907fcf6f",
+      "runnerSha256": "f931aa2666df802132e59d09d7ca50dfa5e0f6fbf0d9852cfec837759551ec55",
+      "passed": 13,
+      "failed": 0,
+      "pending": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/mkf.test.ts",
+        "src/resources/parsers/rng-frames.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-code2-adjacent-extract.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "0362a3d5b8632066f5b1ae49c8b86e4cedcf550401d73ed0c71ad70b269edaba",
+      "runnerSha256": "6711fe87d610d8e69bc283d8e9632ccbca2964c7aa228500da7cc1073c68f410",
+      "passed": 17,
+      "failed": 0,
+      "pending": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    }
+  ]
+}

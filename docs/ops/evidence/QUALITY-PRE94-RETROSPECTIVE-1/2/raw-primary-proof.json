@@ -1,0 +1,376 @@
+{
+  "archives": [
+    {
+      "name": "ABC.MKF",
+      "inputSha256": "f9685ba8d22e851a4be492c6b74fbc671d89112d64394e7af86ec7a23751529c",
+      "chunks": 154,
+      "chunkStreamSha256": "1009b24734a6bd1ddc5f54a3e642accfe104e9f312dcb15d1646b4006fe5e51d",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "BALL.MKF",
+      "inputSha256": "b9925833a9d921aa6bea9d0d199dbbe170968716d951036a142c1dd303f99bd0",
+      "chunks": 252,
+      "chunkStreamSha256": "baf776c19f22134ed483596fd01ad9b1d8b1f6340077aecfe9996cb9184bd026",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "DATA.MKF",
+      "inputSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+      "chunks": 15,
+      "chunkStreamSha256": "abf81879fa015e7b6ae759203c06c9c4a73b5599a302d2ccf1af536c1bfb82c1",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "F.MKF",
+      "inputSha256": "eb492e6dcd0eefb6fbc1751d775bc8667b46d3cd5231974caa1eef309f3152d7",
+      "chunks": 19,
+      "chunkStreamSha256": "726f212f48ecf9baafb04106cc43e5fde920d389a1c773c765c3bb303db4119e",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "FBP.MKF",
+      "inputSha256": "29bbc71c10c58a555e5b45b853dfeef3fa0d299ceeb8e7556b6c1d6bc40c4d84",
+      "chunks": 78,
+      "chunkStreamSha256": "2d974e4de9c49ecfd3218c2dbfc9cb6acea0802e4a60a31cf8e461ce1da4f1b0",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "FIRE.MKF",
+      "inputSha256": "5a23940d3daab5bfa95efd3b92b4d1ae481fc4f7ad38374ec66b16c7e7d5d9cf",
+      "chunks": 55,
+      "chunkStreamSha256": "af316823c24da06094d5408b37688dbd2d6dda17a20e45f462fb9cc9612438d5",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "GOP.MKF",
+      "inputSha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b",
+      "chunks": 226,
+      "chunkStreamSha256": "a1c833b45b9a34fcb4666e7a7aae929b55c5a91b25b955cb0a21d9d2792d63d0",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "MAP.MKF",
+      "inputSha256": "bef63043ffcbe9b6de6cbe295891134d7cea74952cb6701b5566049d0eb015e2",
+      "chunks": 226,
+      "chunkStreamSha256": "1a14cc6e65c64f8a26b4843cf757d16c4e97839619d38195db008c7b8a8ff25d",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "MGO.MKF",
+      "inputSha256": "0df639e22da1cf766c821de0b07d8c0bb58602c50ff5a2eea233a9e3c9f6e789",
+      "chunks": 637,
+      "chunkStreamSha256": "eceeda8b0fa05f4061364299c4683e72fc0989eaa09b3e8e6b4f45a5ff87b988",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "PAT.MKF",
+      "inputSha256": "b2d6a3db53a3e80106a4c041c7f94dfaf9dcb065517fce79b1ff3d413494d997",
+      "chunks": 9,
+      "chunkStreamSha256": "106d06504f30f2041059c454c5446ae1d0fb4df72a402f0b2b325646663b7ca0",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "RGM.MKF",
+      "inputSha256": "fbeb7cbafd374af8c07088ab18996edcadd6ec52b8bb0a0af644c2cee4e26bac",
+      "chunks": 92,
+      "chunkStreamSha256": "e83704909a6e14acbbce85d1f2fa3e5d9e9f239e90ea70b9d9752b6d7c35a7bb",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "RNG.MKF",
+      "inputSha256": "5d62cad87b330d2e1ec00d7c1acc4de96b8324e547fa8095aab0f64a9811d7bd",
+      "chunks": 12,
+      "chunkStreamSha256": "ce67560e5d0bf1e1b3bc82d2464187eca43dc2c5857085c6b1d5e2d5eb1a0bf8",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "SOUNDS.MKF",
+      "inputSha256": "039a5cc64be937168ce458c8288fbd61fb3d2854e9445a775ab67f6af2276e01",
+      "chunks": 505,
+      "chunkStreamSha256": "68803ea7ce9328f18f9f973e760dca8c35e66f1eff0daf5ebb831ca437d97c3f",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "SSS.MKF",
+      "inputSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+      "chunks": 5,
+      "chunkStreamSha256": "2dba1582a7e8e3d8a74048df173898754f077fad18f9accedb30d52da2b9e667",
+      "independentRawSliceComparison": true
+    },
+    {
+      "name": "mus.mkf",
+      "inputSha256": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+      "chunks": 88,
+      "chunkStreamSha256": "2838600797a6e44af7e600f3c15e374decee124d17194226e7850bee548aeba6",
+      "independentRawSliceComparison": true
+    }
+  ],
+  "animations": [
+    {
+      "animation": 0,
+      "frames": 64,
+      "inputSha256": "40bebbf7b8b7d1d87ee6996043ac312d224f1b5416d21d9b414e6ccddd409441",
+      "expectedSha256": "7acf5d5e9293efd1e6c81c7f141053263a3452db1da3b324e564e7bcb6d740bf",
+      "nativeSha256": "7acf5d5e9293efd1e6c81c7f141053263a3452db1da3b324e564e7bcb6d740bf",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 1,
+      "frames": 410,
+      "inputSha256": "b7eeba6afafcf55117f6db72f50c8726188a0307d1c5cc881ccfa365c16e08db",
+      "expectedSha256": "12d6d105a44803884a1cbbaab39b14c7c1b27e5ceaf88f3be6abd53720e2424b",
+      "nativeSha256": "12d6d105a44803884a1cbbaab39b14c7c1b27e5ceaf88f3be6abd53720e2424b",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 2,
+      "frames": 93,
+      "inputSha256": "b00325f6b19abd085ae6e162112f902b82e458e7cdd9c1c4d0f1bd593c483f08",
+      "expectedSha256": "cb7427ca55267e9c4cf21bcc98d76c4d36486c54cd79daaf3350eb2349ef7749",
+      "nativeSha256": "cb7427ca55267e9c4cf21bcc98d76c4d36486c54cd79daaf3350eb2349ef7749",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 3,
+      "frames": 140,
+      "inputSha256": "f6e1df179b49fee51d9debd7271b321750469e849f56093f9f9ec7cc151c23fc",
+      "expectedSha256": "7771b8fe741b32aefcd7646b73125f10b220d90f21850ef1c3c743f8a62e6755",
+      "nativeSha256": "7771b8fe741b32aefcd7646b73125f10b220d90f21850ef1c3c743f8a62e6755",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 4,
+      "frames": 40,
+      "inputSha256": "ba673af676af695f9d925e25f4ecf9ed5ef8c847fde5f512cdc42b6588a3e10f",
+      "expectedSha256": "c3d5856e94964bdf9fc1254ebc762c35827691bb899c86276f03af6ee441595c",
+      "nativeSha256": "c3d5856e94964bdf9fc1254ebc762c35827691bb899c86276f03af6ee441595c",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 5,
+      "frames": 82,
+      "inputSha256": "863527c6f438b63682c1e8159091ad21a7072cea2c1b2b22a84b52d67d49003b",
+      "expectedSha256": "3f223e4dd953d0de2c067e6c034ee4a361f79e844832f7d2151ec57691eb7d4a",
+      "nativeSha256": "3f223e4dd953d0de2c067e6c034ee4a361f79e844832f7d2151ec57691eb7d4a",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 6,
+      "frames": 54,
+      "inputSha256": "eb3f41b8e6973b55995217de7765a7cd7f99beffca6ee91ab48ea39409dc5b3b",
+      "expectedSha256": "8cb66b208216762216a2e3cf5fe54d49a9e9314a680df1af8abf35c83d81aad1",
+      "nativeSha256": "8cb66b208216762216a2e3cf5fe54d49a9e9314a680df1af8abf35c83d81aad1",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 7,
+      "frames": 70,
+      "inputSha256": "246b2705ccb601d325bc204c321648dad1f68cfb07907fe94c70dca9ce566203",
+      "expectedSha256": "0ac2e7e2f6b1ec995ca7b18942eb0217759896cedb558f4a433c5c16b3caa21d",
+      "nativeSha256": "0ac2e7e2f6b1ec995ca7b18942eb0217759896cedb558f4a433c5c16b3caa21d",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 8,
+      "frames": 33,
+      "inputSha256": "4eac0389289715de1a4dcfa3845f58903aff769c53b81acfe018f0547e507502",
+      "expectedSha256": "497f433477cc5f8666945349f071a4d13ba69b8921f492731257532c616f6f3d",
+      "nativeSha256": "497f433477cc5f8666945349f071a4d13ba69b8921f492731257532c616f6f3d",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 9,
+      "frames": 256,
+      "inputSha256": "00a5771c3fafca808b9d3ee4bf6ca388fe88d022b05da9facfe44bbf1f91923f",
+      "expectedSha256": "1078a6083c65bcf05da5c20b44995771a05338d010933bf6070fe6928531789a",
+      "nativeSha256": "1078a6083c65bcf05da5c20b44995771a05338d010933bf6070fe6928531789a",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 10,
+      "frames": 42,
+      "inputSha256": "52ce3ea0d0b2e33b99ca3b0d7e2823dc9a11fe9b4494c2a360c3387f7c737d2a",
+      "expectedSha256": "e30ce7a801e3d160448df7eddd463d6fc1c69756892d6981bb076f02567e220a",
+      "nativeSha256": "e30ce7a801e3d160448df7eddd463d6fc1c69756892d6981bb076f02567e220a",
+      "allFrameIndicesAndPixelsIdentical": true
+    },
+    {
+      "animation": 11,
+      "frames": 180,
+      "inputSha256": "2d70ecdc8bac0eed4613b7d92c43e32c3cd3238810cacbd5d8c5df3c2ca37abb",
+      "expectedSha256": "626c88daf25aa56e42e1b72cb02d03122f18d7bc1061785d4e62d32be4587ef4",
+      "nativeSha256": "626c88daf25aa56e42e1b72cb02d03122f18d7bc1061785d4e62d32be4587ef4",
+      "allFrameIndicesAndPixelsIdentical": true
+    }
+  ],
+  "sourceSha256": "3fd4066442ea41352737d30ea3f41d05082137ae788e7d1ac792a62cf6f4e1f1",
+  "functionSha256": "b8b6763d4161071315d55a40d1af2407d59ec13b795adc243087c1f3863722e4",
+  "functionUnmodified": true,
+  "runs": [
+    {
+      "label": "native-compile",
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O0",
+        "-Werror",
+        "-fsanitize=address",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "raw-node",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "--eval",
+        "\nimport { readFileSync, readdirSync, writeFileSync } from 'node:fs';\nimport { join } from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { openMkf, readChunk, chunkCount } from './packages/shared/src/mkf.ts';\nimport { decodeRngFrames } from './packages/shared/src/rng.ts';\nimport { decompressYj2 } from './packages/shared/src/yj2.ts';\nconst directory=process.argv[1], digest=(bytes)=>createHash('sha256').update(bytes).digest('hex');\nconst archives=[];\nfor(const name of readdirSync('data/raw').filter((name)=>name.toLowerCase().endsWith('.mkf')).sort()) {\n const bytes=new Uint8Array(readFileSync(join('data/raw',name))), mkf=openMkf(bytes), hash=createHash('sha256');\n for(let index=0;index<chunkCount(mkf);index++) {\n  const chunk=readChunk(mkf,index), size=Buffer.alloc(4); size.writeUInt32LE(chunk.length);\n  hash.update(size); hash.update(chunk);\n }\n archives.push({name,inputSha256:digest(bytes),chunks:chunkCount(mkf),chunkStreamSha256:hash.digest('hex')});\n}\nconst raw=new Uint8Array(readFileSync('data/raw/RNG.MKF')), mkf=openMkf(raw), animations=[];\nfor(let animation=0;animation<chunkCount(mkf);animation++) {\n const bytes=readChunk(mkf,animation), frames=decodeRngFrames(bytes), stream=[], expected=[];\n if(bytes.length) {\n  const nested=openMkf(bytes);\n  for(let index=0;index<chunkCount(nested);index++) {\n   const compressed=readChunk(nested,index); if(!compressed.length) continue;\n   let payload; try { payload=decompressYj2(compressed); } catch { continue; }\n   const header=Buffer.alloc(8);header.writeUInt32LE(index);header.writeUInt32LE(payload.length,4);\n   stream.push(header,payload);\n  }\n }\n for(const frame of frames) {const index=Buffer.alloc(4);index.writeUInt32LE(frame.index);expected.push(index,frame.pixels);}\n const input=Buffer.concat(stream), output=Buffer.concat(expected);\n writeFileSync(join(directory,animation+'.input'),input);writeFileSync(join(directory,animation+'.expected'),output);\n animations.push({animation,frames:frames.length,inputSha256:digest(input),expectedSha256:digest(output)});\n}\nconsole.log(JSON.stringify({archives,animations}));\n",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "0aa3b1cfcd825c4f856de7414c63be0968ba44a3d0d3fd134b58a8806faf4948"
+    },
+    {
+      "label": "native-animation-0",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/0.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/0.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-1",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/1.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/1.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-2",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/2.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/2.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-3",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/3.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/3.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-4",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/4.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/4.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-5",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/5.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/5.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-6",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/6.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/6.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-7",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/7.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/7.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-8",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/8.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/8.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-9",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/9.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/9.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-10",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/10.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/10.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "native-animation-11",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/rng-primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/11.input",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-code2-primary-84px0d41/11.native"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "temporaryDirectoryRemoved": true,
+  "limits": "SDLPal delta function with zero initial surface per animation and identical shared YJ2 payloads. Does not verify YJ2, pal.exe, rendering/timing, or generated assets."
+}

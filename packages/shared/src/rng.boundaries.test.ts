@@ -176,8 +176,14 @@ describe('decodeRngFrames（合成 sub-MKF 容器链路）', () => {
   })
 
   it('非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧', () => {
-    const chunk = mkMkf([Uint8Array.from([0x00, 0x01]), YJ2_RNG_PAIR])
+    const chunk = mkMkf([YJ2_RNG_PAIR, Uint8Array.from([0x00, 0x01]), YJ2_RNG_SKIP_THEN_PAIR])
     const frames = decodeRngFrames(chunk)
-    expect(frames.map((f) => f.index)).toEqual([1])
+    expect(frames.map((f) => f.index)).toEqual([0, 2])
+    const expectedFirst = new Uint8Array(RNG_WIDTH * RNG_HEIGHT)
+    expectedFirst.set([0xaa, 0xbb])
+    expect(frames[0]!.pixels).toEqual(expectedFirst)
+    const expectedLast = new Uint8Array(RNG_WIDTH * RNG_HEIGHT)
+    expectedLast.set([0xaa, 0xbb, 0xcc, 0xdd])
+    expect(frames[1]!.pixels).toEqual(expectedLast)
   })
 })

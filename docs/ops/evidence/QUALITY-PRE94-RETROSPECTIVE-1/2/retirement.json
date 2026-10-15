@@ -1,0 +1,66 @@
+{
+  "approval": {
+    "file": "packages/shared/src/rng.test.ts",
+    "previous": 7,
+    "current": 6,
+    "previousIdentityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e",
+    "currentIdentityDigest": "641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2",
+    "fileSha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+  },
+  "input": {
+    "removal": {
+      "kind": "test-count",
+      "value": "packages/shared/src/rng.test.ts",
+      "previous": 7,
+      "current": 6
+    },
+    "previous": {
+      "file": "packages/shared/src/rng.test.ts",
+      "testCount": 7,
+      "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+    },
+    "current": {
+      "file": "packages/shared/src/rng.test.ts",
+      "testCount": 6,
+      "identityDigest": "641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2"
+    },
+    "fileSha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+  },
+  "previousSnapshots": [
+    {
+      "ref": "HEAD",
+      "previous": {
+        "file": "packages/shared/src/rng.test.ts",
+        "testCount": 7,
+        "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+      }
+    },
+    {
+      "ref": "origin/main",
+      "previous": {
+        "file": "packages/shared/src/rng.test.ts",
+        "testCount": 7,
+        "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+      }
+    },
+    {
+      "ref": "d4cf7f57d",
+      "previous": {
+        "file": "packages/shared/src/rng.test.ts",
+        "testCount": 7,
+        "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+      }
+    }
+  ],
+  "identities": [
+    "packages/shared/src/rng.test.ts :: project root :: decodeRngFrames > 空 chunk → 空帧数组",
+    "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > 0x00 end frame:不再写",
+    "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > 0x02 skip 2 bytes 后再写",
+    "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > 0x06 写 1 个 2-byte literal pair",
+    "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > 0x0d 同 2-byte 重复 2 次",
+    "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > 未知 opcode 抛错"
+  ],
+  "retiredIdentity": "packages/shared/src/rng.test.ts :: project root :: rngBlitDelta (RLE delta opcodes) > delta 累加:第二次 blit 基于已有 surface(不清零)",
+  "rejectedBeforeRegistration": true,
+  "identityMethod": "native vitest list; project fallback root exactly as run.mjs; old digest validated against all three references"
+}

@@ -1,0 +1,45 @@
+{
+  "oldAndNewCounterRawHashesVerified": true,
+  "transferAllFailuresAreAssertions": true,
+  "actualProductionSourcesUnchanged": true,
+  "retirementMatcherUnchanged": true,
+  "nativeProofRawAndInputHashesVerified": true,
+  "ownedTemporaryCopiesRemoved": true,
+  "sourceFiles": [
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "lines": 55,
+      "sha256": "6f654d1b361a2e979d9b12b14c1e1f0f4b2aeffc9784e228fe8b30776b9947f1"
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "lines": 222,
+      "sha256": "2196d3266b5d9a5a91cb4d4778c35eb0df640d28975e2833b3b2e26d88fde1c7"
+    },
+    {
+      "path": "packages/shared/src/mkf.boundaries.test.ts",
+      "lines": 101,
+      "sha256": "de38c450fdec7cabcbade50ec93b88f3e6724e29aadff537fdb473b747343f2e"
+    },
+    {
+      "path": "packages/shared/src/rng.boundaries.test.ts",
+      "lines": 189,
+      "sha256": "f5d78d54d03e85f75f1aa70010d11b1f9d0e3afe634d9902e953403af0f50312"
+    },
+    {
+      "path": "packages/shared/src/rng.test.ts",
+      "lines": 40,
+      "sha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "lines": 233,
+      "sha256": "4ca6df1440b48833b309cd655ff378f59ae65046f19f0a470c443b35e0eec502"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "lines": 72,
+      "sha256": "641cbcf18d7263c5e2011f36c4b5053d9537000a4a96d95569b73ff7ffca2c04"
+    }
+  ]
+}

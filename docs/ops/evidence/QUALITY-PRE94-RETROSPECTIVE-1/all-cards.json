@@ -93,7 +93,7 @@
       "sha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
       "lines": 95,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -117,7 +117,9 @@
           "text": "- 修改白名单：`packages/shared/src/mkf.ts`、`packages/shared/src/rng.ts`、同域 tests、此卡、看板/索引、必要 coverage baseline。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
+      "findings": "two test discrimination gaps repaired, one duplicate retired with exact oracle transfer; native RNG1464 frame parity and raw MKF2373 chunk equality; current unified gates pending; no new closures"
     },
     {
       "id": "2b",

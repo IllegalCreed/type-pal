@@ -31,13 +31,6 @@ describe('rngBlitDelta (RLE delta opcodes)', () => {
   it('未知 opcode 抛错', () => {
     expect(() => rngBlitDelta(new Uint8Array([0x7f]), new Uint8Array(4))).toThrow(/unknown opcode/)
   })
-
-  it('delta 累加:第二次 blit 基于已有 surface(不清零)', () => {
-    const s = new Uint8Array(8)
-    rngBlitDelta(new Uint8Array([0x06, 0xaa, 0xbb]), s) // [aa bb ..]
-    rngBlitDelta(new Uint8Array([0x02, 0x06, 0xcc, 0xdd]), s) // skip2, 写 cc dd
-    expect(Array.from(s.slice(0, 4))).toEqual([0xaa, 0xbb, 0xcc, 0xdd])
-  })
 })
 
 describe('decodeRngFrames', () => {

@@ -93,3 +93,7 @@ MKF/RNG 解码器只接受能够在声明边界内完成的容器和 delta 指�
 ## 下一位 Agent 提示词
 
 无；本批由 Codex 继续实现与独立验收。
+
+## 2026-10-16 当前成果复审（历史done保留）
+
+全文核MKF/RNG两实现、三份测试与真实caller/primary，当前实现未发现缺陷；两项测试反控旧全绿→补证后各精确一红，修正MKF过期注释与view ownership，RNG中间坏帧保持完整基面。精简一条被full-plane oracle覆盖的delta测试，转移反控失败集合精确保留；精确退役条目不改matcher/阈值。实际15 MKF/2373chunks原字节一致，给定同一YJ2 payload时native SDL RNG1464帧全像素/索引一致；不能当YJ2/pal.exe/播放时序证明。定向33/shared130+typecheck/相邻30/coverage-tools68通过，统一门未重跑，当前partial、三测试review、0新关闭。[当前逐文件证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)。

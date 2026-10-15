@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：219；已读但待审：204；尚未逐文件核验：2,864；合计未闭合：3,068。
+当前已闭合核验：216；已读但待审：207；尚未逐文件核验：2,864；合计未闭合：3,071。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -63,6 +63,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-16 CODE1 RLE四文件复审：主测试catch合同已补证，54身份不变；native SDL高位literal分歧停线draft，boundary描述问题待核修。三条旧关闭精确撤回review，0新增关闭；机器已确认3287/219/204/2864。当前统一门未重跑，editor诊断未清。
 
+2026-10-16 CODE2复审：两项测试补证、一条重复delta退役，原实现未改；15MKF/2373chunks与给定YJ2 payload的native RNG1464帧对拍通过。定向33/shared130+typecheck/相邻30/coverage-tools68；三份测试旧关闭转review，0新关闭，机器已确认3287/216/207/2864。统一check/ratchet/protected仍待续。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
@@ -71,9 +73,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rle.boundaries.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 标题/注释声称header轴但实际尺寸非法、1长度正控实际2；直接证据待窄修，不把描述当已验证 |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-1；真实 runtime resource caller | 宽容入口合同 |
 | `packages/shared/src/mkf.ts` | product | 已验证 | CODE-QUALITY-2；raw 2,373 chunks、shared 全包、全仓门 | offset table 边界 |
-| `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；截断/越界/倒序 offset | 纯 codec 合同 |
+| `packages/shared/src/mkf.boundaries.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 旧整数guard反控11绿→补证10绿1红；纠正过期注释及借用view，11例/一标题更名；统一门待续 |
 | `packages/shared/src/rng.ts` | product | 已验证 | CODE-QUALITY-2；raw 1,464 frames、shared 全包、全仓门 | payload/surface 边界 |
-| `packages/shared/src/rng.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；opcode payload/surface 反例 | 不扩展 runtime 语义 |
+| `packages/shared/src/rng.boundaries.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 旧坏YJ2清面反控16绿→补证15绿1红；真实中间坏帧保留完整plane，16例不变；统一门待续 |
 | `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
 | `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | CODE-QUALITY-3a + Q3f；typed annotation 与 symbols sidecar boundary、全仓 gates | Q3f done |
 | `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | CODE-QUALITY-3a；annotation 合同 | 纯转换输出 |
@@ -106,7 +108,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | encoder/decoder roundtrip、128KB guard | 合法输入合同 |
 | `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |
-| `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |
+| `packages/shared/src/rng.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 精确退役一条弱重复delta，7→6；保留full-plane oracle及转移反控；三父旧digest/新SHA精确登记，统一门待续 |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
 | `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
