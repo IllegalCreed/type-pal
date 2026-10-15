@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
-      "afterSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
+      "sourceSha256": "b113f6cde3dd435df1f1c4519d97fe4b54382d6746ebafb4d2755573931f651f",
+      "afterSha256": "b113f6cde3dd435df1f1c4519d97fe4b54382d6746ebafb4d2755573931f651f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1409,6 +1409,15 @@
             "previousAfterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
             "afterSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8bac3254d",
+            "action": "pre94-CODE2b-native-YJ2-and-test-oracle-consolidation-review",
+            "scope": "docs/ops/board.md own retrospective navigation; no other task owner changes, 0 new closures",
+            "previousAfterSha256": "8631dbd258cc6077f3da7c20dc8709b0114edfc0db83fde1650942f91f174028",
+            "afterSha256": "b113f6cde3dd435df1f1c4519d97fe4b54382d6746ebafb4d2755573931f651f",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md"
           }
         ]
       },
@@ -1719,8 +1728,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
-      "afterSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
+      "sourceSha256": "a15a89110e22683420c01fa799c0b8d6dc8935e80c21c724831afd948d1aed64",
+      "afterSha256": "a15a89110e22683420c01fa799c0b8d6dc8935e80c21c724831afd948d1aed64",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2228,6 +2237,15 @@
             "previousAfterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
             "afterSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8bac3254d",
+            "action": "pre94-CODE2b-native-YJ2-and-test-oracle-consolidation-review",
+            "scope": "docs/ops/evidence/README.md own retrospective navigation; no other task owner changes, 0 new closures",
+            "previousAfterSha256": "c9f33a8e308ef3e3be0ea5cd14ba4337fc369efe08b750d32024cfe52af4cd7b",
+            "afterSha256": "a15a89110e22683420c01fa799c0b8d6dc8935e80c21c724831afd948d1aed64",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

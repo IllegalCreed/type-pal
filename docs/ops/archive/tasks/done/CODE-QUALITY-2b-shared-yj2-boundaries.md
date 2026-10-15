@@ -82,3 +82,7 @@ early-EOS 零填充合同保持不变。
 ## 下一位 Agent 提示词
 
 无；本批由 Codex 继续实现与独立验收。
+
+## 2026-10-16 当前成果复审（历史done保留）
+
+YJ2两端实现/真实caller/规范和混合测试全文复核，native SDL真实2626段/34367608B逐字节一致；纠正空窗口待证的过期注释。四混合弱重复合同完整转移规范边界，extract两smoke整合为native MGO20段完整字节oracle；变异旧extract2绿→新1红、共享失败集合转移前后七项相同。定向34/shared126+typecheck/相邻18+typecheck/coverage-tools69通过。原算法和重导出未改，树归约独立向量仍未知，统一门未重跑；本轮partial，测试review、0新关闭。见[当前逐文件证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)。

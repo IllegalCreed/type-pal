@@ -212,6 +212,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2',
       fileSha256: '5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a',
     },
+    // Codex 2026-10-16 CODE2b: four YJ2 cases move from this mixed file to the
+    // stronger canonical byte/negative/determinism oracles; RLE bodies stay unchanged.
+    {
+      file: 'packages/shared/src/rle.glm-o.test.ts',
+      previous: 13,
+      current: 9,
+      previousIdentityDigest: '2bdb40b1ccfa60356eb0170a3115e9316fd93362296be501bd400ea6478f9400',
+      currentIdentityDigest: '8fd8702977aa55db3bc17df8f85d0574cb9193e3390b5a94f828bdb7025bf848',
+      fileSha256: 'b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

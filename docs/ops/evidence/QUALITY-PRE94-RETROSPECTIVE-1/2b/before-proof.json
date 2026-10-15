@@ -1,0 +1,64 @@
+{
+  "mutation": "returns zero-initialized declared length; only preserves too-short rejection, so seven canonical malformed/value oracles must fail",
+  "sourceSha256": "878b3fb48427f20aede9c660c7030cbd0a74db09c5cb1f01979541a7c192343f",
+  "runs": [
+    {
+      "label": "before-shared",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-yj2.boundaries.test.ts",
+        "src/pre94-rle.glm-o.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-before-shared.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "total": 22,
+      "passed": 15,
+      "failed": [
+        "decompressYj2 已定义头错误 非空输出没有任何 Huffman 位流时显式失败",
+        "decompressYj2 已定义头错误 完整回引 symbol 后缺少位置参数时显式失败",
+        "decompressYj2 非空字面向量 三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+        "decompressYj2 回引向量 字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+        "decompressYj2 回引向量 提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+        "decompressYj2 回引向量 回引长度超过目标输出剩余空间时显式失败",
+        "decompressYj2 回引向量 第一条指令回引尚未产生的输出时显式失败"
+      ],
+      "rawSha256": "c2b39093741b70add1e072ca1be911bed731b2e57d69d28590de39152a497276",
+      "runnerSha256": "49d365d0b8975b161e2e858c4518fd4bc8e9e0c47cd7c1393b4d23d842e41598"
+    },
+    {
+      "label": "before-extract",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-yj2.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-before-extract.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "total": 2,
+      "passed": 2,
+      "failed": [],
+      "rawSha256": "8252ff44c08d767d80aece00e4b913d4a08fedba9dbf5d1764cb6c389e2f2d5a",
+      "runnerSha256": "09736a6548b0fa63f46f7e16e1f8ca9695e13c91a19ddd2f27a3a6e0611d1fac"
+    }
+  ],
+  "temporaryCopiesRemoved": true
+}

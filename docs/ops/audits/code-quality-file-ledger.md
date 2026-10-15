@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：216；已读但待审：207；尚未逐文件核验：2,864；合计未闭合：3,071。
+当前已闭合核验：215；已读但待审：209；尚未逐文件核验：2,863；合计未闭合：3,072。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -65,8 +65,11 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-16 CODE2复审：两项测试补证、一条重复delta退役，原实现未改；15MKF/2373chunks与给定YJ2 payload的native RNG1464帧对拍通过。定向33/shared130+typecheck/相邻30/coverage-tools68；三份测试旧关闭转review，0新关闭，机器已确认3287/216/207/2864。统一check/ratchet/protected仍待续。
 
+2026-10-16 CODE2b复审：native SDL2626段/34367608B一致；四混合YJ2合同转规范boundary、extract两smoke整合独立native字节oracle。混合测试旧关闭转review、extract测试pending→review，规范boundary保持review；0新关闭。机器3287/215closed/209review/2863pending，统一门待续。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/pal-extract/src/io/yj2.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 旧长度smoke零输出变异2绿，新MGO20段native完整字节oracle1红；2→1，既有fast不含本文件；从pending登记review |
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/shared/src/rle.ts` | product | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | SDLPal高位literal与当前TS格式域存在分歧，转QUALITY-RLE-COMMAND-TRUTH-1 draft；禁止直接改算法，旧关闭撤回review |
 | `packages/shared/src/rle.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 原坏帧fixture绕过catch，现有身份补证；反控旧54绿/新53绿1红，恢复shared131及相邻47；统一门待续 |
@@ -107,10 +110,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rle-encode.boundaries.test.ts` | test | 已验证 | 126/127/128 byte oracle、pad/offset | 高判别力反控 |
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | encoder/decoder roundtrip、128KB guard | 合法输入合同 |
-| `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |
+| `packages/shared/src/rle.glm-o.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 四弱重复YJ2合同转规范boundary，13→9，RLE测试体不变；精确旧关闭撤回review，未知RLE轴不关闭 |
 | `packages/shared/src/rng.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 精确退役一条弱重复delta，7→6；保留full-plane oracle及转移反控；三父旧digest/新SHA精确登记，统一门待续 |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
-| `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
+| `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 9规范合同精确承接短头/零长尾随/重复固定值；七项变异业务红集合保持；树归约独立向量仍待证，统一门待续 |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
 | `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |

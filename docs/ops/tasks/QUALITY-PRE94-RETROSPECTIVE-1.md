@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -89,3 +89,15 @@ A段保持例数的两项补证已通过旧绿/新单例红与恢复绿。全文
 ### CODE2当前结果
 
 两项补证各有旧绿/新单例AssertionError；精确退役一条重复delta并验证oracle转移。生产MKF/RNG及YJ2字节未改；原始15MKF/2373chunks区间一致，给定相同解压payload的native SDL1464帧逐像素/索引一致。最终33定向、shared130+typecheck、game13/extract17与coverage-tools68通过。三测试旧关闭转review、0新关闭，统一门仍待续；全83卡accept仍0，下一片CODE2b YJ2。
+
+## CODE2b YJ2有限测试精度准入
+
+全文读取shared/yj2.ts、边界测试、rle.glm-o.test.ts与固定fixture，extract/io/yj2.ts及测试、resources/map.ts，SDLPal YJ2类型/查表/建树/调整/位读/解压原函数；核shared/rng完整caller沿CODE2源hash，CLI分段定位。当前无算法修改授权。原注释仍否认已存在的空窗口反例；extract两例仅核预分配长度；GLM-o的YJ2四例由规范边界合同覆盖，固定向量两次自比不能证明字节真值。
+
+Codex premise verified/design agree/build allowed限三个现有测试：yj2.boundaries.test.ts校注释并承接精确异常、零长尾随payload和两次独立固定expected输出；rle.glm-o.test.ts只移除YJ2四例/专用imports并修文件职责说明，RLE测试体不改；extract/io/yj2.test.ts把两个smoke整合为真实MGO前20chunk的独立native冻结字节digest。只在未改SDL原函数与真实raw对拍/合法输入前提确认后写golden，不用当前TS结果自制oracle。精确退役所需table数据/固定计数可同步，matcher/规则/基线不改，源实现与资源只读。
+
+先隔离length-only解压变异证明旧测试盲点，再原生oracle/转移反控/恢复；混合文件13→9需原生list旧/新digest与源SHA精确登记，extract raw测试不在fast inventory则不伪造退役豁免。未知树归约独立fixture仍pending，不用raw数量冒充该轴已证。若真实native/raw有分歧立即停线专卡，不直接实现。
+
+### CODE2b当前结果
+
+原算法/重导出未改，native SDL2626段/34367608B对拍一致；规范9例承接四条混合YJ2合同并纠正注释，混合13→9、extract2弱例→1独立native字节oracle。共享变异七个失败集合完整保留，extract旧2绿/新1业务红。恢复34定向/shared126+typecheck/相邻18+typecheck/coverage-tools69通过。树归约独立向量仍待证，统一门未跑，0新关闭；下一片CODE3c工程runner，再回CODE3。

@@ -129,7 +129,7 @@
       "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
       "lines": 84,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -165,7 +165,9 @@
           "text": "- 2026-10-04 Codex：shared 逐文件复核后定位 YJ2 `bt` 与回引边界为剩余可执行风险；resources/tables/events/input/index/rle-encode 先按直接类型/合同证据核验，不扩大实现范围。Next: 增加坏位流与坏回引反例，保持合法 raw。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
+      "findings": "native2626 chunks exact bytes; four contracts moved to canonical tests; raw length smoke replaced with independent native golden; unified gates and independent weight-reduction vector pending; no new closure"
     },
     {
       "id": "3",

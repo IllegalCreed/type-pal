@@ -1,0 +1,46 @@
+{
+  "coreAndReexportUnchanged": true,
+  "rleTestBodiesUnchanged": true,
+  "retirementMatcherUnchanged": true,
+  "nativeAndCounterRawHashesVerified": true,
+  "inputsUnchanged": true,
+  "retiredFourCoveredByCanonicalCases": true,
+  "temporaryCopiesRemoved": true,
+  "sourceFiles": [
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "lines": 211,
+      "sha256": "878b3fb48427f20aede9c660c7030cbd0a74db09c5cb1f01979541a7c192343f"
+    },
+    {
+      "path": "packages/shared/src/yj2.boundaries.test.ts",
+      "lines": 73,
+      "sha256": "08c505fb5d2e5c0555854938e2437cd7528b64108dacda623182ea15f958d68e"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "lines": 180,
+      "sha256": "b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc"
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.ts",
+      "lines": 6,
+      "sha256": "b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0"
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.test.ts",
+      "lines": 33,
+      "sha256": "597ec5e65d42105a76e23c1cae4abca602a4143b5843b9355834feafd1c978dd"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "lines": 243,
+      "sha256": "8afc0174a99b52f758868939f49a0216a49aad3d5118d417428f6d9fcd94e7ad"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "lines": 72,
+      "sha256": "7d830f28ac533f6e22b5dfc5f198201ba6b3e7921ac75676ce661e535c33f6c2"
+    }
+  ]
+}

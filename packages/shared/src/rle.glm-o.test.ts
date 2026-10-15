@@ -1,16 +1,10 @@
-/** TEST-GLM-WAVE-O-1 O10：shared 索引 RLE/YJ2 残余合同（真实公开解码/编码入口）。
- *  旧证：rle.test.ts / boundaries / glm-runtime-resource 覆盖主干；本卡按 gap-map 直击
- *  未覆盖臂：strict 容器的 sentinel/offset/尺寸轴、legacy 坏尾三轴（空洞拒绝、纯
- *  sentinel 拒绝、坏尾后仍可解拒绝）、encode 上限、YJ2 位流轴。全部合成字节。
+/** TEST-GLM-WAVE-O-1 O10：shared 索引 RLE 容器与空容器边界。
+ * strict sentinel/offset/尺寸、legacy 坏尾和空编码容器使用真实公开入口。
+ * YJ2 合同统一由 yj2.boundaries.test.ts 的固定字节 oracle 与重复调用断言保护。
  */
 import { describe, expect, test } from 'vitest'
-import {
-  YJ2_BACKREF_OVERLAP as YJ2_BACKREF_OVERLAP_VECTOR,
-  YJ2_THREE_LITERALS as YJ2_THREE_LITERALS_VECTOR,
-} from './__tests__/glm-foundation-fixtures.js'
 import { parseIndexedRleChunk, parseSpriteChunkStrict, type RleFrame } from './rle.js'
 import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
-import { decompressYj2 } from './yj2.js'
 
 /** 手工组装 strict 容器：offsetTable + 偶对齐帧数据；sentinel 追加可选。 */
 function chunkOf(frames: readonly RleFrame[], options: { sentinel?: boolean } = {}): Uint8Array {
@@ -182,34 +176,5 @@ describe('O10 encodeSpriteChunk：上限与空容器', () => {
     expect(out).toEqual(new Uint8Array(2))
     expect(() => parseSpriteChunkStrict(out)).toThrow('sprite chunk 不含帧')
     expect(() => parseIndexedRleChunk(out, 'legacy-migrated')).toThrow('sprite chunk 不含帧')
-  })
-})
-
-describe('O10 decompressYj2：头部与位流轴（真实解码入口）', () => {
-  test('过短源 → 拒绝', () => {
-    expect(() => decompressYj2(Uint8Array.from([1, 2, 3]))).toThrow('YJ2: source too small')
-  })
-
-  test('uncompLen=0 → 空输出（不读位流）', () => {
-    const out = decompressYj2(Uint8Array.from([0, 0, 0, 0, 0xff]))
-    expect(out).toEqual(new Uint8Array(0))
-  })
-
-  test('非空字面向量：三字面位流按序输出（复用冻结判定向量，不复述旧断言）', () => {
-    const out = decompressYj2(YJ2_THREE_LITERALS_VECTOR)
-    expect(out.byteLength).toBeGreaterThan(0)
-    // 契约轴：输出长度 = 头部 uncompLen，且解压确定性（同输入两次一致）。
-    expect(out.byteLength).toBe(
-      YJ2_THREE_LITERALS_VECTOR[0]! | (YJ2_THREE_LITERALS_VECTOR[1]! << 8),
-    )
-    expect(decompressYj2(YJ2_THREE_LITERALS_VECTOR)).toEqual(out)
-  })
-
-  test('回引向量：重叠回引复制不越界且长度由头部封顶（冻结判定向量）', () => {
-    const out = decompressYj2(YJ2_BACKREF_OVERLAP_VECTOR)
-    expect(out.byteLength).toBe(
-      YJ2_BACKREF_OVERLAP_VECTOR[0]! | (YJ2_BACKREF_OVERLAP_VECTOR[1]! << 8),
-    )
-    expect(decompressYj2(YJ2_BACKREF_OVERLAP_VECTOR)).toEqual(out)
   })
 })

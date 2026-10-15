@@ -56,3 +56,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 [CODE1 RLE四文件复审](rle/README.md)：原catch测试补证，native格式分歧停线draft；三旧关闭转review，0新关闭。当前219closed/204review/2864pending，续CODE2 MKF/RNG。
 
 2026-10-16 [CODE2 MKF/RNG复审](2/README.md)：两测试补证、一条重复精简、15MKF与native1464帧实际比对；三测试review，0新关闭。机器216closed/207review/2864pending，续CODE2b YJ2。
+
+2026-10-16 [CODE2b YJ2复审](2b/README.md)：原函数native2626段对拍、四混合合同转规范、raw长度smoke换完整字节oracle；0新关闭，续CODE3c。
