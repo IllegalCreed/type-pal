@@ -17,6 +17,8 @@ CODE94/97–102当前counter/rework，CODE95仅三份fixture局部accept、仍re
 [IDB事务](../tasks/GAME-SAVE-IDB-COMMIT-1.md)三张draft卡，无build allowed，不得直接实现。
 先完成有限测试/注释返工，再按完整模块窗口统一跑全门；不将包绿当作逐文件完成。
 
+同步origin/main=8f5d17ff1后，当前机器口径为3283/229closed/44review/3010pending；新增16项音乐记录保持pending。上方3267仅为1f验收快照，R2结论不变，未集成main。
+
 ## 边界与当前责任
 
 本专项按工程 → 模块 → 功能 → 文件推进，Coding Owner 为 Codex，单批单一写入者；不接管

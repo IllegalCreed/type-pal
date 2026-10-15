@@ -51,7 +51,7 @@
 - TypeScript 事件字节码解释器驱动对话、过场、场景切换和战斗触发。
 - 320×200 索引色软件帧缓冲：位图存调色板下标，blit 时上色。
 - 回合制战斗：行动队列、伤害公式、法术、状态、敌方 AI、动画时间线。
-- 原版 MIDI 在浏览器里用 SpessaSynth 合成。音色库是 TimGM6mb，许可见下文。
+- 音乐默认使用 SpessaSynth + TimGM6mb 合成 MIDI，也可在「工具 → 系统 → 音频 → 音源」选择 DOS FM（RIX）。RIX 通过 WebAssembly + AudioWorklet 实时合成，选择会在浏览器中记住；第三方来源与许可见下文。
 
 第二阶段已经落地的部分（细节以 [能力地图](docs/phase2/capability-map.md) 和 [任务看板](docs/ops/board.md) 为准）：
 
@@ -62,7 +62,9 @@
 
 ## 和 sdlpal 的 WebAssembly 移植有什么不同
 
-[`reference/sdlpal/`](reference/sdlpal) 是 [sdlpal](https://github.com/sdlpal/sdlpal) 的 C 源码副本，只作引擎逻辑的参考规格，在本仓库里不编译、不运行。解包、脚本虚拟机、320×200 调色板渲染、战斗系统和编辑器都是 TypeScript 实现。原版数据和行为是第一阶段的首要事实来源；sdlpal 是参考实现。
+[`reference/sdlpal/`](reference/sdlpal) 是 [sdlpal](https://github.com/sdlpal/sdlpal) 的 C 源码副本，只作引擎逻辑的参考规格，不作为整套引擎编译或运行。解包、脚本虚拟机、320×200 调色板渲染、战斗系统和编辑器都是 TypeScript 实现。原版数据和行为是第一阶段的首要事实来源；sdlpal 是参考实现。
+
+DOS FM 音源单独使用改编的 RIX 播放器及 Nuked OPL 内核，编译为 WebAssembly；这部分 C/C++ 源码、补丁、许可和重建说明在 [`packages/game/vendor/rix/`](packages/game/vendor/rix)。
 
 ## 快速开始
 
@@ -143,6 +145,7 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 | [`reference/sdlpal/`](reference/sdlpal) | GPL-3.0（[`LICENSE`](reference/sdlpal/LICENSE)） | 上游源码副本，只作参考。 |
 | `reference/sdlpal/timidity/` | [`COPYING`](reference/sdlpal/timidity/COPYING) 是 Artistic License；同目录 README 写明上游允许在 GPL、LGPL、Artistic 中选择 | 只在参考树里，不参与本仓库的构建。 |
 | `reference/sdlpal/adplug/` | [`NOTES/COPYING`](reference/sdlpal/adplug/NOTES/COPYING) 为 LGPL-2.1 | 说明文字写的是随附的旧版 LGPL OPL 模拟器。同一份说明提到的、限制商业再分发的较新 MAME 许可版本，不是这份副本所附的那一版。 |
+| [`packages/game/vendor/rix/`](packages/game/vendor/rix) | AdPlug LGPL-2.1-or-later；SDLPAL 部分 GPL-3.0-or-later；Nuked GPL-2.0-or-later | 实际构建的 DOS FM 内核。来源、修改补丁、随附许可与重建方式见该目录 README。 |
 | `reference/sdlpal/overlay/` | CC BY 4.0（[`COPYING`](reference/sdlpal/overlay/COPYING)） | libretro 叠层素材，只在参考树里。 |
 | GNU Unifont | OFL-1.1，或 GPL-2.0-or-later 加字体嵌入例外 | 见 [`PROVENANCE.md`](packages/reforge/src/engine-chrome/assets/PROVENANCE.md)、[`OFL-1.1.txt`](packages/reforge/src/engine-chrome/assets/licenses/OFL-1.1.txt)、[`COPYING`](packages/reforge/src/engine-chrome/assets/licenses/COPYING)。 |
 | TimGM6mb 音色库 | 仓库内说明写的是 GPL-2，并链接 GPL version 2 文本，没有 “or later” | [`packages/game/public/soundfont-LICENSE.txt`](packages/game/public/soundfont-LICENSE.txt) 与 Reforge 里的同文副本。音色库仍按该说明分发，根目录 GPL-3.0 不把它改成 GPL-3.0。 |

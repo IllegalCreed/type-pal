@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-14T15:08:53.106Z",
+  "generatedAt": "2026-10-15T01:23:10.725Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 731,
-  "testCount": 19822,
+  "sourceFileCount": 736,
+  "testCount": 19857,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1171,7 +1171,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 38,
+      "sourceFileCount": 39,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1203,6 +1203,7 @@
         "packages/pal-extract/src/resources/parsers/items.ts",
         "packages/pal-extract/src/resources/parsers/player-roles.ts",
         "packages/pal-extract/src/resources/parsers/rgm.ts",
+        "packages/pal-extract/src/resources/parsers/rix.ts",
         "packages/pal-extract/src/resources/parsers/rng-frames.ts",
         "packages/pal-extract/src/resources/parsers/sounds.ts",
         "packages/pal-extract/src/resources/parsers/spells.ts",
@@ -1212,10 +1213,10 @@
         "packages/pal-extract/src/resources/tables.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
+      "scopeDigest": "3db86b821bd1077315bbaf201384a269c23fd534ee29c66f3ea256b2af8762e7",
       "fastTests": {
-        "testCount": 272,
-        "testFileCount": 59,
+        "testCount": 276,
+        "testFileCount": 60,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1261,6 +1262,7 @@
           "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
@@ -1499,6 +1501,11 @@
             "identityDigest": "354759d605031561d84211c4168e7364d6371709e60c8be9df66284b5ad903a5"
           },
           {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+            "testCount": 4,
+            "identityDigest": "caca06440521c0210544b8088f93e5f0d6747607dd9410d8c488c3524e535515"
+          },
+          {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
             "testCount": 1,
             "identityDigest": "b04fe30263c5d745e7e04da469ff94257be712c1cb829d0777af87637a545ce7"
@@ -1574,26 +1581,26 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "7d3ab96ad748204fe12f033a9543df05d1a2471d3dcd1d8f0f66e1dd0d60abcc",
-        "duplicateIdentityCount": 0,
-        "executionDigest": "7c9a4cccf0a351b853b98a6635008ddf94515e60be8e54c73d03499495c52e8c"
+        "identityDigest": "f0b9c033cb6468d8b51e2385f37e0ee1d31814ea04ba77166b1a0aaa07f8054b",
+        "duplicateIdentityCount": 1,
+        "executionDigest": "eeebe5a786486c359e9cd6b2032e4b333628bb94f360185d41d5d0a66439949a"
       },
       "metrics": {
         "statements": {
-          "covered": 1058,
-          "total": 1521
+          "covered": 1069,
+          "total": 1535
         },
         "branches": {
-          "covered": 455,
-          "total": 577
+          "covered": 462,
+          "total": 584
         },
         "functions": {
-          "covered": 110,
-          "total": 138
+          "covered": 111,
+          "total": 139
         },
         "lines": {
-          "covered": 935,
-          "total": 1345
+          "covered": 944,
+          "total": 1357
         }
       }
     },
@@ -4531,7 +4538,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 136,
+      "sourceFileCount": 140,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4636,6 +4643,7 @@
         "packages/game/src/present/screen-shake.ts",
         "packages/game/src/present/screen-wave.ts",
         "packages/game/src/shell/audio-midi.ts",
+        "packages/game/src/shell/audio-rix.ts",
         "packages/game/src/shell/audio-volume.ts",
         "packages/game/src/shell/audio.ts",
         "packages/game/src/shell/avi-player.ts",
@@ -4647,8 +4655,11 @@
         "packages/game/src/shell/fetch-retry.ts",
         "packages/game/src/shell/input.ts",
         "packages/game/src/shell/main-loop.ts",
+        "packages/game/src/shell/music-source.ts",
         "packages/game/src/shell/precache-client.ts",
         "packages/game/src/shell/precache-ui.ts",
+        "packages/game/src/shell/rix-worklet.ts",
+        "packages/game/src/shell/rix/kernel.ts",
         "packages/game/src/shell/rng-player.ts",
         "packages/game/src/shell/splash-fallback.ts",
         "packages/game/src/shell/trademark-fallback.ts",
@@ -4670,10 +4681,10 @@
         "packages/game/src/tools/toast.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
+      "scopeDigest": "c989cc3144e11a587080f7bba5c6c04db8d4d4c321e9e409c9018733fb0cd058",
       "fastTests": {
-        "testCount": 3497,
-        "testFileCount": 307,
+        "testCount": 3528,
+        "testFileCount": 312,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4909,6 +4920,8 @@
           "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
           "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
           "packages/game/src/present/screen-wave.test.ts",
+          "packages/game/src/shell/audio-midi.test.ts",
+          "packages/game/src/shell/audio-rix.test.ts",
           "packages/game/src/shell/audio-volume.boundaries.test.ts",
           "packages/game/src/shell/audio-volume.test.ts",
           "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
@@ -4937,10 +4950,13 @@
           "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
           "packages/game/src/shell/main-loop.test.ts",
           "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+          "packages/game/src/shell/music-source.test.ts",
           "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
           "packages/game/src/shell/precache-client.test.ts",
           "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
           "packages/game/src/shell/precache-ui.test.ts",
+          "packages/game/src/shell/rix-worklet.test.ts",
+          "packages/game/src/shell/rix/kernel.test.ts",
           "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
           "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
           "packages/game/src/shell/rng-player.test.ts",
@@ -5546,13 +5562,13 @@
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
-            "testCount": 3,
-            "identityDigest": "d70b368939285cdaa6eed7dfda219036d42007e80cbfc748607d3681cf6f34b5"
+            "testCount": 2,
+            "identityDigest": "b689ab2fdb1fc55593083cfea04a6926eaddf2fbcf866e65fc8154b2f2debb09"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
-            "testCount": 5,
-            "identityDigest": "39367a1492bcc0484daeb76f6c034fa328638f709683a7fe8a965f6cbf4c714a"
+            "testCount": 4,
+            "identityDigest": "9e486b1673bf71174d835eaa1d96bba62372659ae79fd27669ee8ce4c7d7111d"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.test.ts",
@@ -5572,7 +5588,7 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
             "testCount": 3,
-            "identityDigest": "bff54bf56e997a7921515d8ea94c0aa9dfa2731b88122a42f8937afa6d65b67f"
+            "identityDigest": "4cb2c0015ee0b566f67941be430c474d63ed429b539dbd846a480672ff25be27"
           },
           {
             "file": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
@@ -5582,7 +5598,7 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.test.ts",
             "testCount": 23,
-            "identityDigest": "9d059a4497c84faf46c46c91976bbde1fb4d91556d609707954feb45604b263d"
+            "identityDigest": "91f4d4f295197df69f612ec80eb7717bf888a25ad04a5d19bf28d777327b509f"
           },
           {
             "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
@@ -6155,6 +6171,16 @@
             "identityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7"
           },
           {
+            "file": "packages/game/src/shell/audio-midi.test.ts",
+            "testCount": 12,
+            "identityDigest": "818ba52c42b4d3a3c692ff6c9505b73912a96b8bfe0d7fdd337c4b4f76d35912"
+          },
+          {
+            "file": "packages/game/src/shell/audio-rix.test.ts",
+            "testCount": 4,
+            "identityDigest": "54217320857d9e490091350d06697d65915e2b0b50fae666c5746467bee68d79"
+          },
+          {
             "file": "packages/game/src/shell/audio-volume.boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "35268c5c6a4e07481fff6d6e5afbde4e9abcf8d752bfd8d5f22e68a56cccb6e6"
@@ -6166,8 +6192,8 @@
           },
           {
             "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
-            "testCount": 3,
-            "identityDigest": "6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7"
+            "testCount": 2,
+            "identityDigest": "4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5"
           },
           {
             "file": "packages/game/src/shell/audio.test.ts",
@@ -6216,8 +6242,8 @@
           },
           {
             "file": "packages/game/src/shell/bootstrap-resources.test.ts",
-            "testCount": 3,
-            "identityDigest": "d2837c8efbc5aa534a83d8ac84604b7536b1cc4573ccff97c079c86d83ed183f"
+            "testCount": 4,
+            "identityDigest": "820efc27ef15c3c737fb37250049bcc193e09461862305b53dd1cd415ad22d24"
           },
           {
             "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
@@ -6295,6 +6321,11 @@
             "identityDigest": "02491409d29d4c065b9c2882884b4768a8a70434759bd1f5b7743cdfa7e51327"
           },
           {
+            "file": "packages/game/src/shell/music-source.test.ts",
+            "testCount": 8,
+            "identityDigest": "beee415df99bbc24f4dda70844def74b6031167144e676451bc07b1bac807c1c"
+          },
+          {
             "file": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
             "testCount": 2,
             "identityDigest": "9fa0085a93536699ce589564f03b6e71870cb1d4f1e27f54ea7324272d3b2fd3"
@@ -6313,6 +6344,16 @@
             "file": "packages/game/src/shell/precache-ui.test.ts",
             "testCount": 7,
             "identityDigest": "4c8a642621e0bc5dc4168d39c42ccaaa893e0567b5bb2b8ce5a41b317669ae48"
+          },
+          {
+            "file": "packages/game/src/shell/rix-worklet.test.ts",
+            "testCount": 2,
+            "identityDigest": "ebf9b306963142370ebcacd6daae3fe39bdbf9ad5b7408c600307757c2ed8cce"
+          },
+          {
+            "file": "packages/game/src/shell/rix/kernel.test.ts",
+            "testCount": 6,
+            "identityDigest": "b5ba170ec6164aa6c01159db84a53553e5b2d2114233f9ae2276b6e1b812b5cf"
           },
           {
             "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
@@ -6516,30 +6557,30 @@
           },
           {
             "file": "packages/game/src/tools/tools-panel.test.ts",
-            "testCount": 15,
-            "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
+            "testCount": 16,
+            "identityDigest": "e537b3aa3bfb413bbe52098ea9ada8727e52e38f41de757334faeb9eda0e9973"
           }
         ],
-        "identityDigest": "8e5a287d005ab4813a0601f03bb6036c4fb035394f9e7c5609d36526242ad837",
+        "identityDigest": "276c6c6ef7c30227898e28d119a88d07b595d84aedccf1dc1fe565776264a3a5",
         "duplicateIdentityCount": 0,
-        "executionDigest": "845cba901494cf8f1956e2b43f6fa4828b53e00f6fa07a463d09691b5dbcf398"
+        "executionDigest": "8cb352a0c781b322104611ab529186b54405ca2e314792adaa1c74aa64e156d1"
       },
       "metrics": {
         "statements": {
-          "covered": 13490,
-          "total": 15526
+          "covered": 13818,
+          "total": 15822
         },
         "branches": {
-          "covered": 8883,
-          "total": 11296
+          "covered": 9032,
+          "total": 11452
         },
         "functions": {
-          "covered": 1517,
-          "total": 1853
+          "covered": 1570,
+          "total": 1904
         },
         "lines": {
-          "covered": 12049,
-          "total": 13629
+          "covered": 12339,
+          "total": 13878
         }
       }
     },
@@ -10558,20 +10599,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70532,
-      "total": 78704
+      "covered": 70871,
+      "total": 79014
     },
     "branches": {
-      "covered": 51376,
-      "total": 61541
+      "covered": 51532,
+      "total": 61704
     },
     "functions": {
-      "covered": 13382,
-      "total": 14986
+      "covered": 13436,
+      "total": 15038
     },
     "lines": {
-      "covered": 63019,
-      "total": 68889
+      "covered": 63318,
+      "total": 69150
     }
   }
 }

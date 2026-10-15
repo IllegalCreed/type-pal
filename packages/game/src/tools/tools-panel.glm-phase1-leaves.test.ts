@@ -10,6 +10,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
+import { createMusicSourceController } from '../shell/music-source.js'
 import { __resetSpeedrunForTest } from './speedrun/index.js'
 import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
 
@@ -31,6 +32,7 @@ function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
       setPercent: vi.fn(),
       toggleFullscreen: vi.fn(),
     },
+    musicSource: createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi'),
     audioVolume: mkVol(),
     sfxVolume: mkVol(),
     videoVolume: mkVol(),

@@ -1,0 +1,29 @@
+RESTORED {
+  peak: 0.16834717988967896,
+  gain: 0.800000011920929,
+  activeContexts: 1
+} {
+  messages: [ { type: 'play', track: 31, loop: true } ],
+  audio: [
+    { state: 'running', gains: [Array] },
+    { state: 'running', gains: [Array] }
+  ],
+  stored: '0'
+}
+CACHE {
+  controller: true,
+  keys: [ 'type-pal-7b0cf09680554792' ],
+  allAssets: [],
+  music: [ 'http://localhost:6007/extracted/music/mus.mkf' ]
+}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 30000ms exceeded.
+    at /Users/zhangxu/illegal/type-pal/build/game-rix-music/browser-smoke.mjs:78:12 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v22.23.2

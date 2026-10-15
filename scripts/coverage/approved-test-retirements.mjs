@@ -113,6 +113,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23',
       fileSha256: 'ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc',
     },
+    // 2026-10-15 Codex verified GAME-RIX-MUSIC-1 under the standing test-quality rule.
+    // Deleted global setBgmVolume API; its notThrow-only case has no observable oracle.
+    // Instance gain, queued initialization and source switching are tested via actual callers.
+    {
+      file: 'packages/game/src/shell/audio.glm-phase1-leaves.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: '6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7',
+      currentIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',
+      fileSha256: '3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

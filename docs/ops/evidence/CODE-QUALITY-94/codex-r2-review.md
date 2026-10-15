@@ -146,3 +146,19 @@ caller补读范围：bootstrap:1080-1125/1620-1788，scene-system快捷键入口
 本轮验收完成前再次fetch，origin/main前进到8f5d17ff1（音乐功能3提交）；原候选此时3behind/12ahead。先提交推送本review检查点，再同步主线；上述3525全包结果严格属于1f8bcd468候选，不冒充同步后全门。合并同步后的新账本和验证另追加，不更改历史3267口径。
 
 回执展示文本仅规范行尾空白；同名raw.json保存完整原始combined output、SHA、字节数与真实exit，未过滤诊断。机械诊断统计取GLM未改原件。
+
+## 同步最新主线后的候选（2026-10-15）
+
+验收检查点25d2d3c42已先推送两条治理/验收分支，再合并origin/main=8f5d17ff1到隔离分支，未把治理合入main。保留音乐卡、两边证据/任务历史与逐文件review；当前ledger **3283 inventory /229 closed /44 review /3010 pending**，新增16项音乐记录均pending，0新闭合。旧3267数字仅属于1f快照。
+
+coverage baseline存在双边生成结果冲突：采用**当前origin/main的canonical baseline完整原字节**作为未验证候选的比较起点，没有手工拼计数/hash或导入旧治理baseline。新候选尚未官方ratchet/真正protected通过，必须重新跑官方工具；此处理不授予覆盖率通过或恢复文件闭合。CODE93/96旧分支没有整条引入。
+
+当前packages中本review未添加实现；音乐修改只来自main同步。原菜单30路径与1f逐SHA比对保持不变；同步后另跑game全包、game typecheck、新增RIX提取/CLI定向与coverage工具回归，结果以codex-r2-sync-*原件为准。全部check/ratchet/protected仍未干净通过，不合main。GLM从当前远端治理分支继续，先核最新main，不回旧detached工作树。
+
+### 同步后实际终态
+
+- game全包 **317files /3558tests，0skip，exit0**；提取器 **5files /28tests，exit0**；coverage工具 **59/59，exit0**；game typecheck exit0。各原件无act/导航诊断。
+- lint **4073files，0errors /0warnings /0infos**；docs 48测试及1249文档/380任务导航PASS；版本/phase-lore/content-review均PASS；ledger **3283/229/44/3010**。
+- CODE94的30条及额外实际完整读取文件共57份，与1f逐SHA复比全部未变；bootstrap音源增量与当前quick-save接线补读，Save链未改。回执SHA见sync-source-proof/sync-validation.json。
+- 全仓check/official ratchet/真正protected：本轮未重跑；旧回执仍带已证诊断，新合并候选覆盖率未验证，**不得宣布统一门或阶段集成通过**。当前只把main同步到治理分支，不把治理合main。
+- 先推送25d2d3c42再同步main；最终同步提交推送到同两分支。下一步GLM先修C5有限测试/注释，三个高风险卡先核build准入；本轮验收不自动继续全仓实现。

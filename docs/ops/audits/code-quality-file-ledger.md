@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含编辑器预览集成与第一阶段 RNG 回归）：3,267。
-当前已闭合核验：229；已读但待审：44；尚未逐文件核验：2,994；合计未闭合：3,038。
+起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG与音乐音源）：3,283。
+当前已闭合核验：229；已读但待审：44；尚未逐文件核验：3,010；合计未闭合：3,054。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -26,6 +26,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-14 酒剑仙传功修复新增 `event-rng-scene-restore.test.ts`，tracked inventory 增加一项并计入待核。
 专项四合同、像素回归与反控见[修复证据](../evidence/game-rng-scene-restore-1/README.md)，不自动增加本账本治理闭合数量。
+
+2026-10-15 第一阶段音乐音源与缓存回归新增16项tracked记录，均计入待核；功能/独立复核不自动增加本专项语义治理闭合数。精确路径见[新增机器清单](../evidence/game-rix-music-1/release-inventory-delta.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -322,3 +324,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 同次caller复核追加CODE95 counter：inventory-menu.test以applyToAll=true物品直接进单体目标层，违背menu-driver/SDLPal实际picker前提；typed字段修正不等于真实调用域成立。CODE95同样返工；没有新增关闭，所有原review计数不变，详见CODE94/codex-review.md R4。
 
 2026-10-15 Codex R2独立再验收：候选1f8bcd468，CODE94/97–102 counter/rework；CODE95三份fixture局部accept、状态review，完整门未收。30条manifest源码与额外97–102范围逐文件全文读取，实际caller段落、SDLPal/W3C及反证详见[evidence/CODE-QUALITY-94/codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。所有既有review/pending保持，0新关闭；3267/229closed/44review/2994pending，不借36files/323tests或包绿关闭。三份GAME高风险draft卡仅登记，未改产品/schema/save/公共接口。原GLM的完整门声明被counter覆盖，旧原件保留。
+
+2026-10-15 Codex R2同步最新main 8f5d17ff1：保留本候选44条review与主线新增16条音乐pending；3283/229closed/44review/3010pending。没有新closed，没有把治理合main；此前3267口径仅历史候选。

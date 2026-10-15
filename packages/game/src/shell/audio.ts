@@ -17,12 +17,17 @@
 
 /** BGM 播放后端(M6b 注入:MIDI synth 或预渲染 OGG)。M6a 缺省 no-op。 */
 export interface MusicBackend {
+  /** Initialization errors are reported by the source selector. */
+  ready?: Promise<void>
   /** 播 track(looped);track 同号重复调应幂等(已在播则不重启)。 */
   play(track: number, loop: boolean): void
   /** 停(可选淡出)。 */
   stop(fadeMs?: number): void
   /** 用户手势后 resume 后端自己的 AudioContext(autoplay policy)。后端若自管 ctx 须实现此。 */
   resume?(): void
+  setVolume?(value: number): void
+  dispose?(): void
+  setErrorHandler?(handler: (error: unknown) => void): void
 }
 
 export interface AudioManager {
@@ -280,7 +285,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
         pendingSounds.length = 0
       }
       // ② BGM:track 变化即切(0 = 停)
-      if (music.track !== curMusicTrack) {
+      if (music.track !== curMusicTrack || music.loop !== curMusicLoop) {
         curMusicTrack = music.track
         curMusicLoop = music.loop // L47:记真实 loop,供补播(开关音乐/注入后端)还原
         if (!musicEnabled) return
@@ -307,6 +312,9 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, curMusicLoop) // L47:用真实 loop(非循环场景曲开关音乐不被强制循环)
     },
     setMusicBackend(backend) {
+      if (musicBackend === backend) return
+      musicBackend?.stop()
+      musicBackend?.dispose?.()
       musicBackend = backend
       // 注入后端时若已有当前 track → 立即起播(覆盖 M6a no-op 期间漏播的 BGM)。
       if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, curMusicLoop) // L47:用真实 loop

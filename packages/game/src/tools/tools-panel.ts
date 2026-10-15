@@ -9,6 +9,7 @@ import {
 } from '../core/inspect/battle-inspect.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
+import type { MusicSourceController } from '../shell/music-source.js'
 import type { DisplayScaleController } from './display-scale.js'
 import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { getMapName } from './map-names.js'
@@ -43,6 +44,7 @@ export interface ToolsPanelDeps {
   displayScale: DisplayScaleController
   /** BGM(音乐:MIDI + OGG)音量。 */
   audioVolume: AudioVolumeController
+  musicSource: MusicSourceController
   /** 音效(SFX:sounds/*.wav)音量,独立于 BGM。 */
   sfxVolume: AudioVolumeController
   /** 视频(过场 mp4)音量,独立通道。三路共用同一静音键 → 主静音一键全覆盖。 */
@@ -79,16 +81,18 @@ export function injectToolsPanelStyles(): void {
   style.textContent = `
 #tp-tools-panel {
   --tp-gold:#d8b365; --tp-cream:#f0e0b0; --tp-crimson:#8a2a2a; --tp-crimson-dark:#5a1414;
-  --tp-slot:#2a1515; --tp-border:#553322; --tp-text:#cbb890; --tp-text-dim:#6b5a3e;
+  --tp-slot:#2a1515; --tp-border:#553322; --tp-text:#cbb890; --tp-text-dim:#a38f70;
   --tp-error:#e06c5a; --tp-glow:rgba(160,30,30,0.5);
-  position:fixed; top:16px; left:16px; width:430px; max-height:84vh; z-index:30;
+  --tp-control-height:32px; --tp-control-font-size:14px; --tp-control-radius:5px;
+  --tp-control-gap:8px; --tp-control-padding:10px;
+  position:fixed; top:16px; left:16px; width:min(430px,calc(100vw - 32px)); max-height:84vh; z-index:30;
   display:flex; background:rgba(17,17,17,0.93); backdrop-filter:blur(7px);
   border:1px solid var(--tp-gold); border-radius:8px;
   box-shadow:0 0 22px var(--tp-glow), 0 6px 26px rgba(0,0,0,0.62);
   font:14px/1.6 "Songti SC","SimSun",serif; color:var(--tp-text);
   overflow:hidden; animation:tp-panel-in .18s ease; }
 @keyframes tp-panel-in { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
-#tp-tools-panel[hidden] { display:none; }
+#tp-tools-panel[hidden], #tp-tools-panel [hidden] { display:none; }
 .tp-tabbar { flex:0 0 88px; display:flex; flex-direction:column; padding:14px 0;
   background:rgba(0,0,0,0.25); border-right:1px solid var(--tp-border); }
 .tp-tab { font:16px/1 "Songti SC","SimSun",serif; color:var(--tp-text-dim);
@@ -103,51 +107,71 @@ export function injectToolsPanelStyles(): void {
   padding:13px 18px 12px; border-bottom:1px solid var(--tp-border); }
 .tp-title { color:var(--tp-gold); font-size:17px; letter-spacing:5px;
   text-shadow:0 0 10px rgba(160,30,30,0.45); }
-.tp-title-wrap { display:flex; align-items:baseline; gap:12px; }
+.tp-title-wrap { display:flex; align-items:baseline; flex-wrap:wrap; min-width:0; gap:4px 12px; }
 .tp-gh-link { color:var(--tp-text-dim); font-size:12px; text-decoration:none;
   border-bottom:1px dotted var(--tp-text-dim); transition:color .12s, border-color .12s; }
 .tp-gh-link:hover { color:var(--tp-gold); border-bottom-color:var(--tp-gold); }
 .tp-close { background:transparent; border:none; color:var(--tp-text-dim);
-  font-size:20px; line-height:1; cursor:pointer; padding:0 4px; transition:color .12s; }
+  display:inline-flex; align-items:center; justify-content:center;
+  width:var(--tp-control-height); height:var(--tp-control-height); flex:0 0 var(--tp-control-height);
+  font-size:20px; line-height:1; cursor:pointer; padding:0; transition:color .12s; }
 .tp-close:hover { color:var(--tp-cream); }
-/* 点击后不留浏览器默认 focus 轮廓(active tab 自带金色态,默认环冗余);对齐 .tp-input 既有惯例。 */
+/* Pointer clicks use themed states; keyboard navigation keeps a shared visible focus ring. */
 .tp-tab:focus, .tp-btn:focus, .tp-close:focus { outline:none; }
-.tp-body { flex:1 1 auto; overflow-y:auto; padding:6px 18px 18px; }
+.tp-body { flex:1 1 auto; overflow-y:auto; overscroll-behavior:contain; padding:6px 18px 18px; }
 .tp-body::-webkit-scrollbar { width:8px; }
 .tp-body::-webkit-scrollbar-track { background:var(--tp-slot); }
 .tp-body::-webkit-scrollbar-thumb {
   background:linear-gradient(180deg, var(--tp-crimson), var(--tp-gold)); border-radius:4px; }
 .tp-row { display:flex; align-items:baseline; gap:10px; padding:4px 0; }
 .tp-row-label { color:var(--tp-text-dim); flex:0 0 auto; min-width:84px; }
-.tp-row-value { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; font-size:13px; }
+.tp-row-value { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; font-size:13px;
+  min-width:0; overflow-wrap:anywhere; }
 .tp-section-title { color:var(--tp-cream); font-size:15px; letter-spacing:2px;
   margin:20px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--tp-border); }
 .tp-section-title:first-child { margin-top:4px; }
-.tp-ctrl-row { display:flex; align-items:center; gap:13px; margin-bottom:4px; }
+.tp-ctrl-row { display:flex; align-items:center; gap:var(--tp-control-gap);
+  min-height:var(--tp-control-height); margin-bottom:var(--tp-control-gap); }
 .tp-ctrl-label { color:var(--tp-text-dim); flex:0 0 auto; min-width:40px; }
 .tp-ctrl-val { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; font-size:13px;
   flex:0 0 auto; min-width:54px; text-align:right; }
-.tp-btn { font:14px/1 "Songti SC","SimSun",serif; color:var(--tp-cream);
+.tp-btn, .tp-input { box-sizing:border-box; height:var(--tp-control-height);
+  border-radius:var(--tp-control-radius);
+  font:var(--tp-control-font-size)/20px "Songti SC","SimSun",serif; }
+.tp-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:0 var(--tp-control-padding); white-space:nowrap; color:var(--tp-cream);
   background:linear-gradient(180deg, var(--tp-crimson), var(--tp-crimson-dark));
-  border:1px solid var(--tp-gold); border-radius:5px; padding:8px 20px; cursor:pointer;
-  letter-spacing:2px; box-shadow:0 0 7px var(--tp-glow); transition:transform .1s, filter .1s; }
-.tp-btn:hover { transform:translateY(-1px); filter:brightness(1.12); }
-.tp-btn:active { transform:translateY(0); }
-.tp-btn + .tp-btn { margin-left:10px; }
-.tp-range { accent-color:var(--tp-gold); flex:1 1 auto; min-width:0; height:5px; cursor:pointer; }
+  border:1px solid var(--tp-gold); cursor:pointer; letter-spacing:1px;
+  box-shadow:0 0 7px var(--tp-glow); transition:transform .1s, filter .1s; }
+.tp-btn:not(:disabled):hover { transform:translateY(-1px); filter:brightness(1.12); }
+.tp-btn:not(:disabled):active { transform:translateY(0); }
+.tp-btn:disabled, .tp-input:disabled { opacity:.5; cursor:not-allowed; }
+.tp-body > .tp-btn { margin-top:var(--tp-control-gap); }
+.tp-range { accent-color:var(--tp-gold); flex:1 1 auto; min-width:0;
+  height:var(--tp-control-height); margin:0; cursor:pointer; }
 .tp-input { background:var(--tp-slot); color:var(--tp-cream); border:1px solid var(--tp-border);
-  border-radius:5px; padding:7px 11px; font:14px/1.4 "Songti SC","SimSun",serif; width:100%;
-  box-sizing:border-box; }
+  padding:0 var(--tp-control-padding); width:100%; min-width:0; color-scheme:dark; }
+.tp-input:hover { border-color:var(--tp-gold); }
 .tp-input:focus { outline:none; border-color:var(--tp-gold); }
 .tp-input::placeholder { color:var(--tp-text-dim); }
+select.tp-input { appearance:none; flex:1 1 auto; padding-right:34px; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%23d8b365' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; }
+.tp-input:focus-visible, .tp-btn:focus-visible, .tp-tab:focus-visible,
+.tp-close:focus-visible, #tp-tools-launcher:focus-visible {
+  outline:2px solid var(--tp-gold, #d8b365); outline-offset:2px; }
+.tp-tab:focus-visible { outline-offset:-3px; }
 .tp-muted { color:var(--tp-text-dim); }
 .tp-dialog-line { padding:6px 0; border-bottom:1px solid var(--tp-border); line-height:1.55; }
 .tp-unit { border:1px solid var(--tp-border); border-radius:6px; padding:9px 12px 7px;
   margin-bottom:11px; background:rgba(0,0,0,0.18); }
 .tp-unit-head { display:flex; justify-content:space-between; align-items:baseline;
+  flex-wrap:wrap; min-width:0; gap:4px var(--tp-control-gap);
   margin-bottom:7px; padding-bottom:6px; border-bottom:1px solid rgba(85,51,34,0.55); }
-.tp-unit-name { color:var(--tp-cream); font-size:15px; letter-spacing:1px; }
-.tp-unit-hp { font-family:ui-monospace,Menlo,monospace; font-size:13px; }
+.tp-unit-name { color:var(--tp-cream); font-size:15px; letter-spacing:1px;
+  min-width:0; overflow-wrap:anywhere; }
+.tp-unit-hp { font-family:ui-monospace,Menlo,monospace; font-size:13px;
+  min-width:0; overflow-wrap:anywhere; }
 .tp-stat-line { font-size:13px; line-height:1.85; display:flex; align-items:baseline; }
 .tp-stat-line .k { color:var(--tp-text-dim); margin-right:8px; flex:0 0 3.2em; }
 .tp-stat-chips { display:flex; flex-wrap:wrap; flex:1 1 0; min-width:0; }
@@ -178,11 +202,17 @@ export function injectToolsPanelStyles(): void {
   width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
   border:1px solid #d8b365; border-radius:7px; font:21px/1 system-ui,"Segoe UI Symbol",sans-serif;
   cursor:pointer; opacity:0.5; transition:opacity .15s, box-shadow .15s; }
-.tp-save-row { display:flex; align-items:center; gap:12px; padding:8px 0;
+.tp-action-row { display:flex; align-items:center; flex-wrap:wrap;
+  gap:var(--tp-control-gap); margin:8px 0; min-width:0; }
+.tp-action-row > .tp-btn { flex:1 1 auto; }
+.tp-action-row > .tp-input { flex:1 1 144px; width:auto; }
+.tp-time-row .tp-ctrl-label { flex:1 1 0; min-width:0; overflow-wrap:anywhere; }
+.tp-time-row .tp-input { flex:0 0 120px; width:120px; max-width:50%;
+  font-family:ui-monospace,Menlo,monospace; font-variant-numeric:tabular-nums; }
+.tp-save-row { display:flex; align-items:center; gap:var(--tp-control-gap); padding:8px 0;
   border-bottom:1px solid rgba(85,51,34,0.35); }
-.tp-save-label { color:var(--tp-text); flex:0 0 auto; min-width:60px; font-size:13.5px; }
-.tp-save-row .tp-btn { flex:1 1 0; padding:5px 0; font-size:13px; box-shadow:none; letter-spacing:1px; }
-.tp-save-row .tp-btn + .tp-btn { margin-left:0; }
+.tp-save-label { color:var(--tp-text); flex:0 0 auto; min-width:60px; font-size:14px; }
+.tp-save-row .tp-btn { flex:1 1 0; min-width:0; }
 #tp-tools-launcher:hover { opacity:1; box-shadow:0 0 12px rgba(160,30,30,0.5); }
 .tp-key-row { display:flex; align-items:flex-start; gap:12px; padding:6px 0;
   border-bottom:1px solid rgba(85,51,34,0.3); }
@@ -192,6 +222,16 @@ export function injectToolsPanelStyles(): void {
   color:var(--tp-cream); background:var(--tp-slot); border:1px solid var(--tp-border);
   border-bottom-width:2px; border-radius:4px; padding:3px 6px; white-space:nowrap; }
 .tp-key-desc { flex:1 1 auto; color:var(--tp-text); font-size:13.5px; line-height:1.5; padding-top:2px; }
+@media (max-width:420px) {
+  .tp-key-row { flex-direction:column; gap:6px; }
+  .tp-key-caps { flex:0 0 auto; }
+  .tp-key-desc { padding-top:0; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #tp-tools-panel { animation:none; }
+  .tp-tab, .tp-btn, .tp-close, .tp-gh-link, #tp-tools-launcher { transition:none; }
+  .tp-btn:not(:disabled):hover { transform:none; }
+}
 `
   document.head.appendChild(style)
 }
@@ -255,6 +295,7 @@ function sliderRow(
   const slider = document.createElement('input')
   slider.type = 'range'
   slider.className = 'tp-range'
+  slider.setAttribute('aria-label', label)
   slider.min = String(opts.min)
   slider.max = String(opts.max)
   if (opts.step !== undefined) slider.step = String(opts.step)
@@ -580,8 +621,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     ds.setPercent(posToPct(Number(scaleSlider.value)))
     syncScale()
   })
-  const fsBtn = button(parent, '全屏', () => ds.toggleFullscreen())
-  fsBtn.style.marginTop = '6px'
+  button(parent, '全屏', () => ds.toggleFullscreen())
   toggleRow(parent, '左上角显示 FPS', isFpsEnabled(), (v) => setFpsEnabled(v))
 
   // ── 音频(音乐 BGM / 音效 SFX / 视频 mp4 各自独立音量;静音为一键覆盖三路的主开关) ──
@@ -602,6 +642,39 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     })
   }
   addVolRow('音乐', deps.audioVolume)
+  const sourceRow = document.createElement('label')
+  sourceRow.className = 'tp-ctrl-row'
+  const sourceLabel = document.createElement('span')
+  sourceLabel.className = 'tp-ctrl-label'
+  sourceLabel.textContent = '音源'
+  const sourceSelect = document.createElement('select')
+  sourceSelect.id = 'tp-music-source'
+  sourceSelect.className = 'tp-input'
+  sourceSelect.setAttribute('aria-label', '音乐音源')
+  for (const [value, text] of [
+    ['midi', 'MIDI（当前音色）'],
+    ['rix', 'DOS FM（RIX）'],
+  ] as const) {
+    const option = document.createElement('option')
+    option.value = value
+    option.textContent = text
+    sourceSelect.appendChild(option)
+  }
+  sourceSelect.addEventListener('change', () => {
+    deps.musicSource.setSource(sourceSelect.value === 'rix' ? 'rix' : 'midi')
+  })
+  sourceRow.append(sourceLabel, sourceSelect)
+  parent.appendChild(sourceRow)
+  const status = document.createElement('div')
+  status.id = 'tp-music-source-status'
+  status.className = 'tp-muted'
+  status.setAttribute('role', 'status')
+  parent.appendChild(status)
+  const retry = button(parent, '重试音乐加载', () => {
+    deps.musicSource.setSource(deps.musicSource.getState().source)
+  })
+  retry.id = 'tp-music-source-retry'
+  updateMusicSourceUi(parent, deps.musicSource)
   addVolRow('音效', deps.sfxVolume)
   addVolRow('视频', deps.videoVolume)
   // 主静音:一键静音/恢复 音乐+音效+视频。三路控制器共用同一静音 localStorage 键(见 bootstrap),
@@ -613,7 +686,6 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     for (const c of muteChannels) c.setMuted(next)
     muteBtn.textContent = muteLabel()
   })
-  muteBtn.style.marginTop = '6px'
 
   // ── 存档(5 个存档位各自导入/导出) ──
   sectionTitle(parent, '存档导入导出')
@@ -670,6 +742,23 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   }
 }
 
+function updateMusicSourceUi(parent: HTMLElement, controller: MusicSourceController): void {
+  const state = controller.getState()
+  const select = parent.querySelector<HTMLSelectElement>('#tp-music-source')
+  const status = parent.querySelector<HTMLElement>('#tp-music-source-status')
+  const retry = parent.querySelector<HTMLElement>('#tp-music-source-retry')
+  if (select) select.value = state.source
+  if (status) {
+    status.textContent =
+      state.status === 'loading'
+        ? '正在加载音乐…'
+        : state.status === 'error'
+          ? `音乐加载失败：${state.error}`
+          : ''
+  }
+  if (retry) retry.hidden = state.status !== 'error'
+}
+
 /** 对话 tab:搜索框 + 按「进入场景」分组(时序倒序:新在上、旧在下,场景名标题) + 行列表。 */
 function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   const history = gs.dialogHistory ?? []
@@ -680,6 +769,8 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   const search = document.createElement('input')
   search.type = 'text'
   search.className = 'tp-input'
+  search.setAttribute('aria-label', '搜索对话')
+  search.autocomplete = 'off'
   search.placeholder = '搜索对话…'
   parent.appendChild(search)
   const list = document.createElement('div')
@@ -728,7 +819,7 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
 
   sectionTitle(parent, '操作')
   const ops = document.createElement('div')
-  ops.className = 'tp-save-row'
+  ops.className = 'tp-action-row'
   button(ops, '重置本局', () => {
     resetSpeedrun()
     showToast('计时器已重置', { type: 'success' })
@@ -751,10 +842,10 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
   muted(parent, '读档后选目标节点跳过去,从该段起测检测(计时器本身严格按顺序;跳过的节点不计)')
   const curStep = getSpeedrunRun().stepIndex
   const jumpRow = document.createElement('div')
-  jumpRow.className = 'tp-save-row'
+  jumpRow.className = 'tp-action-row'
   const sel = document.createElement('select')
   sel.className = 'tp-input'
-  sel.style.maxWidth = '180px'
+  sel.setAttribute('aria-label', '计时器跳转节点')
   CHECKPOINTS.forEach((cp, i) => {
     const opt = document.createElement('option')
     opt.value = String(i)
@@ -775,14 +866,14 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
   const bests = getSpeedrunBests()
   for (const cp of CHECKPOINTS) {
     const row = document.createElement('div')
-    row.className = 'tp-ctrl-row'
+    row.className = 'tp-ctrl-row tp-time-row'
     const label = document.createElement('span')
     label.className = 'tp-ctrl-label'
-    label.style.minWidth = '74px'
     label.textContent = cp.name
     const input = document.createElement('input')
     input.className = 'tp-input'
-    input.style.maxWidth = '130px'
+    input.setAttribute('aria-label', `${cp.name}最佳时间`)
+    input.autocomplete = 'off'
     input.placeholder = 'H:MM:SS'
     const b = bests[cp.id]
     input.value = b != null ? formatHms(b) : ''
@@ -969,6 +1060,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   }
   root.append(tabbar, main)
   document.body.appendChild(root)
+  deps.musicSource.subscribe(() => updateMusicSourceUi(body, deps.musicSource))
 
   const launcher = document.createElement('button')
   launcher.id = 'tp-tools-launcher'

@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+      "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -805,6 +805,28 @@
             "reviewedRanges": ["14-30"],
             "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "working-tree",
+            "action": "game-rix-music-technical-accept-navigation-delta-review",
+            "previousAfterSha256": "9b1dd0d163bfadc62c69ca775f09a884481e973e1ca5aa5595bc3a41065d4036",
+            "afterSha256": "ba004ff685ebdded7008e7d03a16a1c79623f77c12e4f97b93eae41be23c4d78",
+            "scope": "RIX卡build→review；Codex技术accept，用户试听未完成；360卡索引对应当前卡顶部状态，不把技术通过当部署或用户验收。",
+            "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted; CI and release pending; no other task status changed"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-r2-sync-main-music-preserving-both-histories",
+            "revision": "8f5d17ff1",
+            "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
           }
         ]
       },
@@ -1002,12 +1024,29 @@
           "reviewedRanges": ["14-30"],
           "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "rix-music-feature-navigation-review",
+          "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+          "afterSha256": "9b1dd0d163bfadc62c69ca775f09a884481e973e1ca5aa5595bc3a41065d4036",
+          "scope": "新增GAME-RIX-MUSIC-1：用户批准第一阶段MIDI/DOS FM可选音源，当前build；原有任务状态不变。",
+          "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "codex-r2-sync-main-music-preserving-both-histories",
+          "revision": "8f5d17ff1",
+          "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+          "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-20",
+      "reviewedLines": "1-21",
       "reviewNotes": "Codex R2 delta review: CODE95 fixture-local accept only; CODE94/97-102 counter; 3 high-risk draft cards; original other task statuses preserved.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1053,7 +1092,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+      "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1267,6 +1306,24 @@
             "afterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
             "scope": "CODE-QUALITY-102 证据目录导航登记。",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "working-tree",
+            "action": "game-rix-music-evidence-navigation-delta-review",
+            "previousAfterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+            "afterSha256": "e2ee8c2dd74b21882c82f446d6d57cc80e650985f6e48ffb29a996d03b894b66",
+            "reviewedRanges": ["9-11"],
+            "scope": "新增第一阶段音源选择证据入口；核真实Chrome PCM、停服离线重新初始化、独立参考与反控；保留本地实现待用户试听及未部署边界。",
+            "evidence": "docs/ops/evidence/game-rix-music-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "8f5d17ff1",
+            "action": "codex-r2-evidence-navigation-merge",
+            "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+            "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1393,6 +1450,14 @@
           "reviewedRanges": ["9-9"],
           "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "8f5d17ff1",
+          "action": "codex-r2-evidence-navigation-merge",
+          "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+          "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+          "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
         }
       ],
       "supersedes": [],
@@ -2004,7 +2069,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
+      "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2282,6 +2347,31 @@
             "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
             "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "working-tree",
+            "action": "game-rix-music-technical-accept-navigation-delta-review",
+            "previousAfterSha256": "63686654d29b1d608b8c0e83eb75077fc931a3f0302fb491ecf63072ca7df1a2",
+            "afterSha256": "69639ff6f028fe932f3e1cb90b0a94c13f63cb8bdc48ba958367ce07fc36ed20",
+            "scope": "RIX卡build→review；Codex技术accept，用户试听未完成；360卡索引对应当前卡顶部状态，不把技术通过当部署或用户验收。",
+            "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "working-tree",
+            "action": "generated-index-eof-normalization",
+            "previousAfterSha256": "69639ff6f028fe932f3e1cb90b0a94c13f63cb8bdc48ba958367ce07fc36ed20",
+            "afterSha256": "ef0e77926063b146d7c7171a8ed04a54ddc361e1dcfb8d93716b9652f1f0b1aa",
+            "scope": "删除生成输出末尾冗余空行；360卡内容、状态与排序不变。"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-r2-sync-main-music-preserving-both-histories",
+            "revision": "8f5d17ff1",
+            "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
           }
         ]
       },
@@ -2527,12 +2617,29 @@
           "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
           "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "rix-music-feature-navigation-review",
+          "previousAfterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+          "afterSha256": "63686654d29b1d608b8c0e83eb75077fc931a3f0302fb491ecf63072ca7df1a2",
+          "scope": "官方生成器新增GAME-RIX-MUSIC-1活动入口，共360张任务卡；其它任务状态不变。",
+          "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "codex-r2-sync-main-music-preserving-both-histories",
+          "revision": "8f5d17ff1",
+          "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+          "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-379",
+      "reviewedLines": "1-381",
       "reviewNotes": "Codex R2 delta review: CODE95 fixture-local accept only; CODE94/97-102 counter; 3 high-risk draft cards; original other task statuses preserved.",
       "integrationReview": {
         "reviewer": "Codex",

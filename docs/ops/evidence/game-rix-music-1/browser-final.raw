@@ -1,0 +1,36 @@
+RESTORED {
+  peak: 0.16834717988967896,
+  gain: 0.800000011920929,
+  activeContexts: 1
+} {
+  messages: [ { type: 'play', track: 31, loop: true } ],
+  audio: [
+    { state: 'running', gains: [Array] },
+    { state: 'running', gains: [Array] }
+  ],
+  stored: '0'
+}
+CACHE {
+  controller: true,
+  keys: [ 'type-pal-7b0cf09680554792' ],
+  allAssets: [
+    'http://localhost:6007/assets/rix-DvAflSRQ.wasm',
+    'http://localhost:6007/assets/rix-worklet-8yZToAqI.js',
+    'http://localhost:6007/assets/index-B2voJEXe.js',
+    'http://localhost:6007/assets/audio-T8kdK6_l.js'
+  ],
+  music: [
+    'http://localhost:6007/assets/rix-DvAflSRQ.wasm',
+    'http://localhost:6007/extracted/music/mus.mkf',
+    'http://localhost:6007/assets/rix-worklet-8yZToAqI.js'
+  ]
+}
+{
+  text: '显示缩放100%全屏左上角显示 FPS音频音乐80%音源MIDI（当前音色）DOS FM（RIX）重试音乐加载音效80%视频80%🔊 静音存档导入导出每个存档位可单独导出为文件、或从文件导入(导入后在读档菜单载入)存档位 1导出导入存档位 2导出导入存档位 3导出导入存档位 4导出导入存档位 5导出导入',
+  audio: [
+    { state: 'closed', rate: 48000, gains: [Array] },
+    { state: 'running', rate: 48000, gains: [Array] },
+    { state: 'closed', rate: 48000, gains: [Array] },
+    { state: 'running', rate: 48000, gains: [Array] }
+  ]
+}

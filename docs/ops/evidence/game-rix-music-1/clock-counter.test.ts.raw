@@ -1,0 +1,14 @@
+// @vitest-environment node
+import { readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { it, expect } from 'vitest'
+import { rixFixture } from '../../__tests__/rix-fixture.js'
+import { createRixKernel } from './kernel.js'
+it('48000Hz looping PCM retains the exact reference clock', () => {
+ const module=new WebAssembly.Module(readFileSync(new URL('./rix.wasm',import.meta.url)))
+ const kernel=createRixKernel(module,rixFixture(),48000);kernel.play(1,true)
+ const samples=new Float32Array(192000)
+ for(let done=0;done<96000;){const count=Math.min(128,96000-done);samples.set(kernel.render(count),done*2);done+=count}
+ kernel.dispose()
+ expect(createHash('sha256').update(new Uint8Array(samples.buffer)).digest('hex')).toBe('2786ab8a1b592e927299c58f80651ece9d093c204a184c2cd4b7faff8cfa8bd6')
+})

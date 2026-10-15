@@ -53,7 +53,7 @@ Phase 1, from the [v1.0.0 release notes](https://github.com/IllegalCreed/type-pa
 - A TypeScript bytecode interpreter drives dialogue, cutscenes, scene changes, and battle triggers.
 - A 320×200 indexed-color software framebuffer. Bitmaps store palette indexes and are colored at blit time.
 - Turn-based battles: action queue, damage formulas, spells, status, enemy AI, and animation timelines.
-- Original MIDI music is synthesized in the browser with SpessaSynth. The bank is TimGM6mb; see the license notes below.
+- Music defaults to MIDI synthesized with SpessaSynth and TimGM6mb. Choose DOS FM (RIX) under Tools → System → Audio → Music source for live WebAssembly + AudioWorklet synthesis. The browser remembers the selection; see the source and license notes below.
 
 Phase 2 pieces that are already in the tree (live detail is the [capability map](docs/phase2/capability-map.md) and the [task board](docs/ops/board.md)):
 
@@ -64,7 +64,9 @@ Phase 2 pieces that are already in the tree (live detail is the [capability map]
 
 ## How this differs from sdlpal compiled to WebAssembly
 
-[`reference/sdlpal/`](reference/sdlpal) is a copy of the [sdlpal](https://github.com/sdlpal/sdlpal) C sources. It is a reference spec. This repo does not compile or run it. Unpacking, the script VM, the 320×200 palette renderer, the battle system, and the editor are TypeScript. For phase 1, original game data and observed behavior come first; sdlpal is the reference implementation.
+[`reference/sdlpal/`](reference/sdlpal) is a copy of the [sdlpal](https://github.com/sdlpal/sdlpal) C sources. It is a reference spec. It is not compiled or run as a complete engine. Unpacking, the script VM, the 320×200 palette renderer, the battle system, and the editor are TypeScript. For phase 1, original game data and observed behavior come first; sdlpal is the reference implementation.
+
+The DOS FM option separately compiles an adapted RIX player and Nuked OPL core to WebAssembly. Its C/C++ sources, patches, licenses, and rebuild instructions are in [`packages/game/vendor/rix/`](packages/game/vendor/rix).
 
 ## Quickstart
 
@@ -146,6 +148,7 @@ For a takedown or other rights request, open a [GitHub issue](https://github.com
 | [`reference/sdlpal/`](reference/sdlpal) | GPL-3.0 ([`LICENSE`](reference/sdlpal/LICENSE)) | Upstream snapshot, reference only. |
 | `reference/sdlpal/timidity/` | [`COPYING`](reference/sdlpal/timidity/COPYING) is the Artistic License; the README in that directory says the upstream author also allows GPL or LGPL | Reference tree only. Not built by this repo. |
 | `reference/sdlpal/adplug/` | [`NOTES/COPYING`](reference/sdlpal/adplug/NOTES/COPYING) is LGPL-2.1 | The notes describe the bundled older LGPL OPL emulator. They also mention a newer MAME-licensed emulator that restricts commercial redistribution; that newer emulator is not the copy included here. |
+| [`packages/game/vendor/rix/`](packages/game/vendor/rix) | AdPlug LGPL-2.1-or-later; SDLPAL portions GPL-3.0-or-later; Nuked GPL-2.0-or-later | Built DOS FM kernel. Its README links the sources, adaptation patch, bundled licenses, and rebuild instructions. |
 | `reference/sdlpal/overlay/` | CC BY 4.0 ([`COPYING`](reference/sdlpal/overlay/COPYING)) | libretro overlay art, reference tree only. |
 | GNU Unifont | OFL-1.1, or GPL-2.0-or-later with the font embedding exception | See [`PROVENANCE.md`](packages/reforge/src/engine-chrome/assets/PROVENANCE.md), [`OFL-1.1.txt`](packages/reforge/src/engine-chrome/assets/licenses/OFL-1.1.txt), and [`COPYING`](packages/reforge/src/engine-chrome/assets/licenses/COPYING). |
 | TimGM6mb soundfont | The in-repo notice says GPL-2 and links the GPL version 2 text, with no “or later” grant | [`packages/game/public/soundfont-LICENSE.txt`](packages/game/public/soundfont-LICENSE.txt) and the same file under Reforge. The bank stays under that notice. This repository’s GPL-3.0 does not relicense it. |

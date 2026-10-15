@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-15",
+  "review": "state_plan_review independently accepted all three release corrections; original setup failures retained",
+  "wasmRebuild": {
+    "command": "EMSDK_PYTHON=/opt/homebrew/bin/python3.13 RIX_EMXX=/tmp/type-pal-emsdk/upstream/emscripten/em++ node scripts/audio/build-rix.mjs",
+    "exitCode": 0,
+    "sha256": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+    "diagnostics": 0
+  },
+  "candidate": {
+    "README.md": "46e0c916f178411cadc1862b43315b64f238a3c2777fbefc68d3d003bb14dafc",
+    "README.en.md": "7bb1f65c7122a55906940d543519292f2a0b0f35b3aec4549788c8f2ac2086b4",
+    "scripts/deploy.sh": "9c657ad18b76f8a69e4c0e8cdf2c21382db6f6289868ee6630217d624dfcf4d5",
+    "packages/game/vendor/rix/source-manifest.json": "3f1363a2908f292c63ca66daf376550cfc9eec21488029f9c8138e31f075c523",
+    "packages/game/vendor/rix/browser-adapter.patch.gz": "e62673fb9ab0de3b6351c70e8f4c96afc1fe8e16e2fd2bf632632faa56a39d53",
+    "packages/game/src/tools/tools-panel.ts": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+    "scripts/coverage/baseline.fast.json": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088"
+  },
+  "logs": {
+    "release-wasm-environment-failure.raw.gz": {
+      "sha256": "192300df4159e4d7eebbc00e575fe9ac04f18794e0b97161460bc028a5ead12c",
+      "uncompressedSha256": "6114a779d23c50a7bad4849e352856d5d99152bf6856afb1ed3b219b7f71b46f"
+    },
+    "release-wasm-path-failure.raw.gz": {
+      "sha256": "4ff5311779559294794cd07e9c8bf9bb93876f6df1b64474914e324736e6c964",
+      "uncompressedSha256": "14b89012a9438097330284f31e638511606cd2fed09256d33f8b1e5a2bba8a7a"
+    },
+    "release-wasm-confirmed.raw.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "release-docs.raw.gz": {
+      "sha256": "f28be0135d8bebc7385ede0afdb86f6a51c8f1568b385d8340eea9a4743bf6cf",
+      "uncompressedSha256": "6b77ee2df3484e9ae324758ecc07fe3bd9ec0c2a7bf62c7f5e91c72224d1d5cf"
+    },
+    "release-lint-format-failure.raw.gz": {
+      "sha256": "9ecb691e3e4b3cc3363653cc394062cc93b8f61e22a3da0d71c46dddccc7b332",
+      "uncompressedSha256": "ca39869b05674256091c511b8ee291cae9206f37471a9f42e16759ef02b4036c"
+    },
+    "release-lint-confirmed.raw.gz": {
+      "sha256": "e46f276518d9a7dc6f882b5f801a3433dd371ec15dd7a00b30f82bc5c7c29b9c",
+      "uncompressedSha256": "43a579921074747d40812d89af567313cd0a53d26cbf0ecde7667d5b424a0e07"
+    },
+    "release-old-app-sha256.raw.gz": {
+      "sha256": "6641080e7ca55d2361f6d735756f8fcb44c44df49e1d6da4a9e97f5cc5ea1ba9",
+      "uncompressedSha256": "76898cfb557b49cf980ccc12bb5a72777c44dde390ac70d70044648e4408b594"
+    }
+  },
+  "coverage": {
+    "command": "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:ratchet",
+    "exitCode": 0,
+    "testCount": 19857,
+    "sourceFileCount": 736,
+    "metrics": {
+      "statements": {
+        "covered": 70871,
+        "total": 79014
+      },
+      "branches": {
+        "covered": 51532,
+        "total": 61704
+      },
+      "functions": {
+        "covered": 13436,
+        "total": 15038
+      },
+      "lines": {
+        "covered": 63318,
+        "total": 69150
+      }
+    },
+    "improvedMetrics": 4,
+    "scopeChanges": 0,
+    "log": "release-coverage.raw.gz",
+    "logSha256": "55d7f2b5ed24da6a5e610aadd7075c25292ba608e20e88c0cddad794b7c934b8",
+    "rawLogSha256": "415ac258a852e79cabc1fded66dccda70c90ed8ef3eb39a98321eac6fedf7a1e",
+    "baselineSha256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088"
+  }
+}

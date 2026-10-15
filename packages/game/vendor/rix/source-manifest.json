@@ -1,0 +1,54 @@
+{
+  "referenceTree": "ee23013943973ad9eb67e1d272e56ed6dff67ce0",
+  "compiler": "Emscripten 4.0.23",
+  "sources": [
+    {
+      "upstream": "reference/sdlpal/adplug/rix.cpp",
+      "vendored": "packages/game/vendor/rix/rix.cpp",
+      "upstreamSha256": "8cfdb260642634f0461b0da0e1c39fbd98b7372127504033497ac52ad55fe4e9",
+      "vendoredSha256": "35e3ec967a45ce1d6b79e7c056b42ae63d21e2e1d6099afc251d53f681d16ee1"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/rix.h",
+      "vendored": "packages/game/vendor/rix/rix.h",
+      "upstreamSha256": "67636fe33cb954ebf2e5df7db6485553683c2e5cd622185d292e9b84ac9a5073",
+      "vendoredSha256": "be1668331a9cc649abcd7e2fffda7dd069a36c398c55ec95bf98a015152b3a15"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/player.cpp",
+      "vendored": "packages/game/vendor/rix/player.cpp",
+      "upstreamSha256": "34885f3b2c10d54958c4109dd4db29e6ba47c80811b3a90872564ff348df7ed9",
+      "vendoredSha256": "4aa5119a53ec5520f2a08260159435f72c88e225c627f9ab34d77c6cd6f1077f"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/player.h",
+      "vendored": "packages/game/vendor/rix/player.h",
+      "upstreamSha256": "35f42542e15560de8edd1dee2f648c44ea7c3e9170ea54902eb521a39e362842",
+      "vendoredSha256": "4d25618796117bf86d254a3419e95c5f17ed676f07c612b285c1e3fc7e1f48a0"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/opl.h",
+      "vendored": "packages/game/vendor/rix/opl.h",
+      "upstreamSha256": "039c70225168bc0f949c2f8caa35484a5ae101d185618e0ad1aad119ec8e8da2",
+      "vendoredSha256": "039c70225168bc0f949c2f8caa35484a5ae101d185618e0ad1aad119ec8e8da2"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/opltypes.h",
+      "vendored": "packages/game/vendor/rix/opltypes.h",
+      "upstreamSha256": "365c580f63fe33b5ce6d62c483e49f34b6ab46129f1f7340310624f6f792e3b3",
+      "vendoredSha256": "365c580f63fe33b5ce6d62c483e49f34b6ab46129f1f7340310624f6f792e3b3"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/nuked/opl3.c.h",
+      "vendored": "packages/game/vendor/rix/nuked/opl3.c.h",
+      "upstreamSha256": "74ae48b68cac8602ae00686bfb461be79096e81a5adde076ac862f70bbb01a60",
+      "vendoredSha256": "74ae48b68cac8602ae00686bfb461be79096e81a5adde076ac862f70bbb01a60"
+    },
+    {
+      "upstream": "reference/sdlpal/adplug/nuked/opl3.h",
+      "vendored": "packages/game/vendor/rix/nuked/opl3.h",
+      "upstreamSha256": "de85ea1afe034d5461e9bb7518e569c5cbc5da59133f49242916dc68d70f4e11",
+      "vendoredSha256": "de85ea1afe034d5461e9bb7518e569c5cbc5da59133f49242916dc68d70f4e11"
+    }
+  ]
+}
