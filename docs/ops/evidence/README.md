@@ -87,7 +87,7 @@
 
 - [C03查看器真实生命周期](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)（20例先清51act；精确退役1纯宿主用例；相邻仍63act，完整门待续）。
 
-- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（全83卡13partial/70pending/0accept；[3h启动测试](QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md)两补证/精简13→12、真实IO收尾/相邻129零诊断；[3h PNG测试](QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)两旧绿新红、精简10→9/相邻123零诊断；[3g CLI IO](QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md)输出ownership反证、产品修复draft；[3d PNG复审](QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)两height补证/注释校正；[3b原盘补证](QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md)9→2/五新反控，[原盘执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)六假绿已修；全文/统一门/editor未收口，原36/8仅历史抽样）。
+- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（全83卡14partial/69pending/0accept；[fetch/旧71复审](QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md)三补证/族19、相邻156；真实取消与game17块诊断待修；[3h启动测试](QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md)两补证/精简13→12、真实IO收尾/相邻129零诊断；[3h PNG测试](QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)两旧绿新红、精简10→9/相邻123零诊断；[3g CLI IO](QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md)输出ownership反证、产品修复draft；[3d PNG复审](QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)两height补证/注释校正；[3b原盘补证](QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md)9→2/五新反控，[原盘执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)六假绿已修；全文/统一门/editor未收口，原36/8仅历史抽样）。
 
 - [CODE-QUALITY-96 精确测试退役保护账](CODE-QUALITY-96/README.md)（已证重复删重的旧/新身份/count/SHA；门槛与生产范围不变，最终门待补）。
 - [CODE-QUALITY-93 game sell menu state contract](CODE-QUALITY-93/README.md)（四文件逐文件核验；测试排重、真实入口与 3 针精确反控通过，等待全仓质量门）。

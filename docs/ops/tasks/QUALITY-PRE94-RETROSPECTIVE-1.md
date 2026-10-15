@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、13partial/70pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h PNG测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、14partial/69pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -253,3 +253,23 @@ Codex premise verified/design agree/build allowed仅bootstrap-resources.test.ts�
 三轮原生list核清main/基点4+9、旧3y3+9（未有FM例）的真实差异，精确批准仅当前4→3且旧digest等于官方baseline记录。表30/net65、旧29/matcher/拒绝合同不变；真实源局部V8 statements12/13、functions6/7、branches6/6保持，不虚称全覆盖。相邻22文件129例、game typecheck、75覆盖工具通过，零运行时诊断；另进程重建10业务/转移轮、3 IO轮与5 list/V8。collector历史快照差异停机和verifier相同hook错误分组误判保留，原生回执未重跑/改写。
 
 三文件仅pending→review，0新关闭，全83卡仍13partial/70pending/0整卡accept。最新机器与静态门以本片gates回执为准；全仓check/official ratchet/protected未新跑，editor诊断未清，不合main。下一片fetch-retry三测试，优先不同attempt Error身份、真实卸载/重装及method/取消/退避边界，逐合同补证和排重；bootstrap.ts/CLI策略与活跃Owner实现继续只读。无下一位Agent提示词，单Agent继续全部83卡与94–102/editor。
+
+## CODE3h/CODE71 fetch三测试有限准入
+
+dfd03a811基点，fresh fetch main仍f98d0ddd8，0behind；机器3289/203closed/248review/2838pending。全文读fetch-retry源/三测试、main/boot-loading/audio-midi/ending-avi-host与历史71卡；新[取消生命周期卡](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)draft记录真实Node原生fetch/HTTP的退避未取消、Request自定义reason重复attempt，生产立即停线只读。本卡不得把历史71的done当build授权，也不把3条底层调用写成3条HTTP请求。
+
+Codex premise verified/design agree/build allowed独立白名单仅fetch-retry.test.ts、fetch-retry.boundaries.test.ts、fetch-retry.glm-phase1-leaves.test.ts：去现有fetch强转、最后网络错误用每attempt不同对象/默认重试数，终态503核原Response身份，卸载例实际使用原flaky并核恢复引用；重装例实测网络失败后的真实重试。保留AbortError IO合同，补当前已正确支持的“init.signal已取消但reason为非AbortError”合同；Request/退避取消风险不在本片实现或断言成正确行为。
+
+main耗尽弱例的消息/默认次数oracle转入boundary不同错误身份例；main混合503/404拆两独立轴，预计main仍6但身份改变、boundary10→11、GLM2保留，族18→19须以原生list实际确认，不能凭净数假装无精简。没有测试文件计数下降时不改精确退役表/规则/baseline。先完整旧族反控：保留第一错误、卸载不恢复fetch、删init.signal guard，候选末503 clone另按实际区分旧已保护/新缺口；再补证各指定业务AssertionError。原有默认次数/404等oracle转移单列，不把已保护项领新信用。
+
+测试finally/afterEach必须消费实际promise、恢复自己拥有的global/timer/mock，不让被测卸载故障污染后续例；不得靠测试收尾恢复假称产品恢复正确。生产、取消高风险策略、所有公共接口与资产保持；CODE71当前开始成果复审但无整卡accept，全部83卡及94–102/editor继续。定向/相邻/typecheck与局部V8后走静态门，统一check/ratchet/protected在稳定窗口集中，0新增关闭。
+
+### CODE3h/CODE71 本片结果与候选域修正
+
+[逐文件/primary/caller/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md)：保留首错、卸载不恢复fetch、删除init.signal guard三个变异旧18全绿，最终各18绿1指定AssertionError；正常19绿。clone终态Response原已一红，默认次数/404原oracle各一对一转移，不计新缺口。main弱耗尽转boundary、混合503/404拆轴，实际6/11/2，数量/身份变化公开；没有文件计数下降，精确退役表/规则/baseline未改。
+
+初始新增例要求已取消init必须调用一次底层，合法预检reference使其一红；最终改成实际请求开始后取消，精确一次调用保留，同reference19绿。初始after和一次完整game原件保留且归属清楚；最终七轮/正常对照、list/V8/相邻重跑，旧before七轮未改。真实源局部V8旧/新33/33 statements、5/5 functions、41/41 branches保持；三个测试缺口在旧100%覆盖下仍存活，不能据此关闭文件。
+
+最终25文件156例、game typecheck、75工具均零运行时诊断通过。完整game按三片合跑一次：初始候选320文件3605 passed/0pending，但17块stderr涉及14测试，包质量不通过；输出/源SHA见[诊断](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md)，未全文核14文件、不静音、不改写旧日志。生产取消两个真实IO counter归[生命周期卡](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)draft；旧71已有“不等退避”策略，需失败反例/独立实现准入，不重复让用户选既定策略。
+
+fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保持review，0新关闭。全83卡14partial/69pending/0整卡accept；机器与静态门以本片gates实际回执为准。统一check/official ratchet/protected未新跑，game与editor诊断未清，不合main。下一片取消生命周期反例与准入，随后game17块/editor余诊断稳定窗口；全部83卡/94–102/editor原目标保留。已知boundary“网关耗尽拒绝”过期注释留待取消实现片校正，未声称整文件注释清零。无下一位Agent提示词，单Agent继续。

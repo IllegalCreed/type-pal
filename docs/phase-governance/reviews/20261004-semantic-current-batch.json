@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
-      "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
+      "afterSha256": "712fdef96ec10610b1c23ce95cc9f328146f584496f9628394257b41eff910ad",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1535,6 +1535,15 @@
             "previousAfterSha256": "6778cac33d3fba65d0bd43e2d8d169970242febc65e2e4ece9a0db39ee9fea69",
             "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+            "action": "pre94-CODE3h-CODE71-fetch-retry-oracle-review-and-stop-lines",
+            "scope": "Only own retrospective row/evidence link and two new draft cards; all83 14partial/69pending/0accept, two old closures reopened, no product implementation or other-owner acceptance.",
+            "previousAfterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
+            "afterSha256": "712fdef96ec10610b1c23ce95cc9f328146f584496f9628394257b41eff910ad",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md"
           }
         ]
       },
@@ -1563,7 +1572,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
+        "afterSha256": "712fdef96ec10610b1c23ce95cc9f328146f584496f9628394257b41eff910ad",
         "currentReading": {
           "date": "2026-10-14",
           "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
@@ -1846,7 +1855,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
-      "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
+      "afterSha256": "9cda563ccec49a46aafbd8075a94365686efb2eb0c1a10184119c8ed17bba94c",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2480,6 +2489,15 @@
             "previousAfterSha256": "3dbe31db9c7169cd4e8cd8991d6fc2dc2ec000b863d7f0ca661c2f2cd6175dbd",
             "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+            "action": "pre94-CODE3h-CODE71-fetch-retry-oracle-review-and-stop-lines",
+            "scope": "Only own retrospective row/evidence link and two new draft cards; all83 14partial/69pending/0accept, two old closures reopened, no product implementation or other-owner acceptance.",
+            "previousAfterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
+            "afterSha256": "9cda563ccec49a46aafbd8075a94365686efb2eb0c1a10184119c8ed17bba94c",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2502,7 +2520,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
+        "afterSha256": "9cda563ccec49a46aafbd8075a94365686efb2eb0c1a10184119c8ed17bba94c",
         "currentReading": {
           "date": "2026-10-14",
           "sha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
@@ -3233,7 +3251,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
-      "afterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
+      "afterSha256": "0326ca60768600bec079240024afcf582757a392642785e582878b3f48535ae9",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -4131,6 +4149,15 @@
             "previousAfterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
             "afterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+            "action": "pre94-CODE3h-CODE71-fetch-retry-oracle-review-and-stop-lines",
+            "scope": "Only own retrospective row/evidence link and two new draft cards; all83 14partial/69pending/0accept, two old closures reopened, no product implementation or other-owner acceptance.",
+            "previousAfterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
+            "afterSha256": "0326ca60768600bec079240024afcf582757a392642785e582878b3f48535ae9",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md"
           }
         ]
       },
@@ -4163,7 +4190,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+        "afterSha256": "0326ca60768600bec079240024afcf582757a392642785e582878b3f48535ae9",
         "currentReading": {
           "date": "2026-10-14",
           "sha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",

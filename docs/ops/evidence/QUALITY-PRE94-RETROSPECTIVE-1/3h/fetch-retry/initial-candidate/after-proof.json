@@ -1,0 +1,1165 @@
+{
+  "phase": "after",
+  "base": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+  "formalSha256": {
+    "shell/fetch-retry.ts": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+    "shell/fetch-retry.test.ts": "b5f12b9b3d7d8fbdc52e08b4e45596b40e71c04336d923da762ee8727e57c332",
+    "shell/fetch-retry.boundaries.test.ts": "e9141c690db28cbf794031e2c3c5388eff28ae6996137d6f50cb3fbdc3f2d7a8",
+    "shell/fetch-retry.glm-phase1-leaves.test.ts": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb"
+  },
+  "variants": {
+    "control": [],
+    "first-error-retained": [["lastErr = err //", "lastErr ??= err //"]],
+    "uninstall-no-restore": [["  globalThis.fetch = restoreTo\n", ""]],
+    "init-abort-guard-removed": [["          init?.signal?.aborted ||\n", ""]],
+    "terminal-response-cloned": [
+      ["        return res\n", "        return res.status === 503 ? res.clone() : res\n"]
+    ],
+    "transfer-default-retries": [["opts.retries ?? 2", "opts.retries ?? 1"]],
+    "transfer-404": [["res.status === 504)", "res.status === 504 || res.status === 404)"]]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-control-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-control-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-control-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-mtaydewi/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.845,
+      "moduleSha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-control-fetch-retry.ts": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+        "packages/game/src/shell/pre94-3h-retry-after-control-fetch-retry.test.ts": "98c27900577043c4f02242f9a05c7296cc8844fb492b407db517db9fb80acce7",
+        "packages/game/src/shell/pre94-3h-retry-after-control-fetch-retry.boundaries.test.ts": "636003df258cc9a7d9a10abfaa0a75472cbe1a5d3e03b0bf70c8766ad8371ee6",
+        "packages/game/src/shell/pre94-3h-retry-after-control-fetch-retry.glm-phase1-leaves.test.ts": "a2071bd09061f39cfc82d8e6165419cd78a604037e398b35da755da13f7e844e"
+      },
+      "rawSha256": "bc1bb870c96ace8e884f7450cce3b463bafb3cb78cbc5ae0b040df569424863a",
+      "runnerSha256": "066e76512af392ecb619440f8d1e9d41ec64d5d395bc206473241ddf122ea5fc",
+      "passed": 19,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "first-error-retained",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-3ikucpp4/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.542,
+      "moduleSha256": "03198f0f858310931c55feb31704b7c06d58368a415e3f4290c45e3ef5728fd2",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.ts": "03198f0f858310931c55feb31704b7c06d58368a415e3f4290c45e3ef5728fd2",
+        "packages/game/src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.test.ts": "448cee61a753d0bb7c3d3897eac821c9c9db809e1592096a4fb1f4e4f20eb048",
+        "packages/game/src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.boundaries.test.ts": "a476f897089929226efabd17a967f8dc14b1cf0e86de92f53e992478bae831e1",
+        "packages/game/src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.glm-phase1-leaves.test.ts": "6291d25a4e2d40d7a8843c033489772a14a4e6e976f6fc423c11417fe0f0a4de"
+      },
+      "rawSha256": "49f25caf1af1c3ec6a2bb787bacdbe218e2e6eb4e054425de2fa6a39da0594ff",
+      "runnerSha256": "ebc50f638ae37adf4ec44d397534877b6d4a1fb4275ec18daa4528ca3163994c",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected TypeError: first network failure to be TypeError: Failed to fetch // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-first-error-retained-fetch-retry.boundaries.test.ts:131:45\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "uninstall-no-restore",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-0tnk4kn0/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.63,
+      "moduleSha256": "49df26e515612f53c0bb830dcf006e932e4afcf46ac66fdd9ca0981ff416a586",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.ts": "49df26e515612f53c0bb830dcf006e932e4afcf46ac66fdd9ca0981ff416a586",
+        "packages/game/src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.test.ts": "f3d929d4f80b39d32a61203e1d04ac5c11cdbb5d7a75f077ab3630aab40b894c",
+        "packages/game/src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.boundaries.test.ts": "a8aa760e331a190822890f2dd884e943c2e902c18d355083ec72bccb664d9370",
+        "packages/game/src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.glm-phase1-leaves.test.ts": "ec82784d3a76654b626d52ac6a1c9fa826b7ccedac37765bd08eeed02de758c6"
+      },
+      "rawSha256": "a61a069b30ab8e40a2a91b39cd73cc3c59a67e35dec2982371cdb0d56dfe669f",
+      "runnerSha256": "9ea641e37753a63ae52e4deee8a15cdbd0e24b6932889c0fe905b0cecd8d4074",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [AsyncFunction] to be [Function Mock] // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-uninstall-no-restore-fetch-retry.glm-phase1-leaves.test.ts:30:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "init-abort-guard-removed",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-r_d5v7gh/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.58,
+      "moduleSha256": "0b9c42d10f0969398b0c21ed6be74c06f6284f46fe43007799145d0693d88ade",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.ts": "0b9c42d10f0969398b0c21ed6be74c06f6284f46fe43007799145d0693d88ade",
+        "packages/game/src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.test.ts": "b229df478f9c1e0dd2b1eb65ddf2660b2717dfaf8b2555135bf4413cc09cbb78",
+        "packages/game/src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.boundaries.test.ts": "5a2f556a17a74790e8e0b2618fef1d7ebc632e05d395f9d478f642c751fb201d",
+        "packages/game/src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.glm-phase1-leaves.test.ts": "0b2476a608680470f360a61b406671c79132a08e7e0b25b69143b0f07cba1ecc"
+      },
+      "rawSha256": "d9839ef7e7fac6f0dffe486c5e837f384254d215ab00a0cce76a9cabbcd90f08",
+      "runnerSha256": "93426257bdce3188d50961525aa948922949425925d07886afedade7ebb30644",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected \"vi.fn()\" to be called 1 times, but got 3 times\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-init-abort-guard-removed-fetch-retry.boundaries.test.ts:150:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "terminal-response-cloned",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-xry50s1j/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.58,
+      "moduleSha256": "1e4cb16e080bdf90d6868231b9aa79b66fc602642fc5f11d18dd2cd2d0a4a5c8",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.ts": "1e4cb16e080bdf90d6868231b9aa79b66fc602642fc5f11d18dd2cd2d0a4a5c8",
+        "packages/game/src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.test.ts": "b821a2b56da66327959f9652d3ffb2cb7400c97273b91d20cd626467637dd6ea",
+        "packages/game/src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.boundaries.test.ts": "0ef221cfa19990574198d7cb1b1687bbfe9ac366103fb609e8470d07a9e48b4d",
+        "packages/game/src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.glm-phase1-leaves.test.ts": "91ea2df3c77db3b6c00135abfd17a29a45af99122a9afedae30907db77ea9d34"
+      },
+      "rawSha256": "1de63ab2397389bef850a764833edb139f6c2f634f6ba453dc7bc71d4d01bb96",
+      "runnerSha256": "52460b3c7ec807fd0eba9071e047b4f96ae72a110803d2adadb113c120793a66",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected Response { status: 503, statusText: '', headers: Headers { 'content-type': 'text/plain;charset=UTF-8' }, body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true }, bodyUsed: false, ok: false, redirected: false, type: 'default', url: '' } to be Response { status: 503, statusText: '', headers: Headers { 'content-type': 'text/plain;charset=UTF-8' }, body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true }, bodyUsed: false, ok: false, redirected: false, type: 'default', url: '' } // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-terminal-response-cloned-fetch-retry.boundaries.test.ts:111:55\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "transfer-default-retries",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-zm3iuo46/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.543,
+      "moduleSha256": "a2f6d7a4f4339bcabee5ad16710bb7298ce0b0544a891444e963acdf7ad55d65",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.ts": "a2f6d7a4f4339bcabee5ad16710bb7298ce0b0544a891444e963acdf7ad55d65",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.test.ts": "fe9dd7c7b27c05610a14aa05ab64dfb7abbcf99d01547376c18affb1a5af0a01",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.boundaries.test.ts": "dc5d82b6682576277f3eab0d15129fa07ac898409cdbdb04de9e5e87b6c99893",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.glm-phase1-leaves.test.ts": "8a4eb4fa412c42e0c8cee2ad6032f172f6452591382f5dee88a2443aa494b0f0"
+      },
+      "rawSha256": "e9bcbc8516b48e31de3714a700d2ac2e6aabe69d28db741a12c00e279e341313",
+      "runnerSha256": "30c35dbf8f075ef24062ced7de21c59685dff6c59ec0cc514ef2a8973be3b4f6",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected TypeError: second network failure to be TypeError: Failed to fetch // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-transfer-default-retries-fetch-retry.boundaries.test.ts:131:45\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "transfer-404",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-n287q2mb/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.543,
+      "moduleSha256": "2b1701e93c10b22e434f8038d760edf0888cae5dbb9508d51f4538bffd6106dc",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.ts": "2b1701e93c10b22e434f8038d760edf0888cae5dbb9508d51f4538bffd6106dc",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.test.ts": "b2f71fb2f7d7d1d0ce533524cd668d1b84b79a492b9a44b80e74de1e76bc3aa0",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.boundaries.test.ts": "722091439caf44e97373ce47406d784664d0747e17928164060ed4205552eb2b",
+        "packages/game/src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.glm-phase1-leaves.test.ts": "4631bf52d8c9b0223a8eaad06b0b2ac045b6a2113392763900423797b46aedc3"
+      },
+      "rawSha256": "6e45b45021c8fb7f84011350893403ed5aafbcfb22d5a4e98ea41b8a53302fac",
+      "runnerSha256": "3443bb9f7366bf38e0bc3e97c85b32bc09c2291b125eb0d16b510dc8fdbebd56",
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.boundaries.test.ts",
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.glm-phase1-leaves.test.ts",
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected \"vi.fn()\" to be called once with arguments: [ '/b', undefined ]\n\nReceived:\n\n  1st vi.fn() call:\n\nCompared values have no visual difference.\n\n  2nd vi.fn() call:\n\nCompared values have no visual difference.\n\n  3rd vi.fn() call:\n\nCompared values have no visual difference.\n\n\nNumber of calls: 3\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1504:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-after-transfer-404-fetch-retry.test.ts:52:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "fetch-retry.test.ts",
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "errorName": "AssertionError"
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

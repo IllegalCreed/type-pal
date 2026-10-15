@@ -2567,7 +2567,7 @@
       "sha256": "fe17aaa1063aa5020c62fb38249b59773b6bca27f31761d87775d806fefde3ee",
       "lines": 51,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2591,7 +2591,8 @@
           "text": "- 不改变 retry 次数、状态码白名单、公共 API 或非 GET 行为。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md"
     },
     {
       "id": "72",
@@ -3904,10 +3905,10 @@
       "scopeConfirmed": false
     }
   ],
-  "reviewCheckpointBase": "f2529c5fa65ba0abd4a737fcb32577888d391335",
+  "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 13,
-    "pending": 70,
+    "partial": 14,
+    "pending": 69,
     "accept": 0
   }
 }

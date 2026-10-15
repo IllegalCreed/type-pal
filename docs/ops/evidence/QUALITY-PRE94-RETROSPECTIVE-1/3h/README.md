@@ -4,6 +4,8 @@
 
 后续[启动屏障与fixture切片](bootstrap/README.md)：两个旧绿新红、弱重复13→12、默认端口真实Promise收尾；三文件仍review，fetch-retry留下一有限片，整3h与统一门未收口。
 
+最新[fetch-retry/旧71成果复审](fetch-retry/README.md)：三个旧18绿新单例红，正常族19；真实取消域counter转专卡，完整game3605 passed仍17块stderr。旧source/boundary关闭撤回，当前全83卡14partial/69pending/0accept，不合main。
+
 ## 逐文件结论与真实消费链
 
 实际全文/分段读取和SHA见[读取边界](read-boundaries.json)，不把grep、执行过相邻测试或导入helper写成全文验收。生产png.ts、loader/tileset-blob/rle-decode、fetch-retry/bootstrap-resources六文件已全文读取，后五文件整域caller/异步/排重仍待后续切片；本片只补PNG测试证据。bootstrap.ts只读所列调用段，不触碰活跃57实现。

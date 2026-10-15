@@ -1,0 +1,45 @@
+[
+  {
+    "name": "evidence-verify",
+    "command": [
+      "python3",
+      "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/verify.py"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.291,
+    "rawSha256": "28fc89c34dc1c86c2a113d1416173b136e4edd80be1a54b6af616bbd96d6a17c"
+  },
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.332,
+    "rawSha256": "a9d3974cca751788402f3bcb282f03b38bc51e3f79a06f30dd757f4d8de22ef6"
+  },
+  {
+    "name": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.461,
+    "rawSha256": "bb1227b9ae19267148eab616ff5b9f058dc20be01e2ca0648cef52d99526d544"
+  },
+  {
+    "name": "diff-check",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.025,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "lint",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 2.543,
+    "rawSha256": "fdc7ee5948851bfc9b6751e1643bbf32cf5a4618a1622835de767adaa7ff3f18"
+  }
+]

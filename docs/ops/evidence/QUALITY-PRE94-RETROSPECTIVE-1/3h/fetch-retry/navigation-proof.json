@@ -1,0 +1,22 @@
+{
+  "base": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+  "ownedEntries": [
+    {
+      "path": "docs/ops/board.md",
+      "previousAfterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
+      "afterSha256": "712fdef96ec10610b1c23ce95cc9f328146f584496f9628394257b41eff910ad"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "previousAfterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
+      "afterSha256": "9cda563ccec49a46aafbd8075a94365686efb2eb0c1a10184119c8ed17bba94c"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "previousAfterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
+      "afterSha256": "0326ca60768600bec079240024afcf582757a392642785e582878b3f48535ae9"
+    }
+  ],
+  "otherEntriesStructurallyUnchanged": 18,
+  "scope": "Navigation deltas only, not fresh review or acceptance of other task content."
+}

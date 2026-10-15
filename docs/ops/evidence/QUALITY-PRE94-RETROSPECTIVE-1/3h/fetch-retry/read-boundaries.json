@@ -1,0 +1,102 @@
+{
+  "base": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+  "fullReads": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+      "lines": 71,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "b5f12b9b3d7d8fbdc52e08b4e45596b40e71c04336d923da762ee8727e57c332",
+      "lines": 83,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "b58d0abe1ba8f2cb1935f4ece662061c2f9c3647a741447651fdf54b91831d45",
+      "lines": 203,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+      "lines": 52,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "lines": 83,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "lines": 149,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "lines": 242,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "sha256": "06be431b333ea02d4bbd3033efd7f2381bf44135dd6ea8913caeb1a6542e8c6d",
+      "lines": 178,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+      "sha256": "fe17aaa1063aa5020c62fb38249b59773b6bca27f31761d87775d806fefde3ee",
+      "lines": 51,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2",
+      "lines": 61,
+      "boundary": "Full read; no whole-file acceptance follows merely from reading or executing tests."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "e3ba09b218b40a529fad94e5b1d42d059e13a84b9b882e0a43ce89c009003291",
+      "lines": 329,
+      "ranges": ["1-98", "265-329"],
+      "boundary": "Documented read-only --print-task-index CLI and renderer; not a new tool acceptance."
+    }
+  ],
+  "reusedFullReads": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+      "lines": 72,
+      "previousEvidence": "../read-boundaries.json",
+      "boundary": "Full original card read in parent PNG slice; current file SHA unchanged."
+    }
+  ],
+  "primary": [
+    {
+      "url": "https://fetch.spec.whatwg.org/#fetch-methods",
+      "readBoundary": "Fetch method steps: pre-aborted request signal, abort steps and rejection reason."
+    },
+    {
+      "url": "https://fetch.spec.whatwg.org/#abort-fetch",
+      "readBoundary": "Promise rejection with original abort reason and body cancellation."
+    },
+    {
+      "url": "https://dom.spec.whatwg.org/#aborting-ongoing-activities",
+      "readBoundary": "AbortController reason and unsettled operations."
+    }
+  ],
+  "notClaimed": [
+    "Fourteen game diagnostic test files were not fully read; only native outputs/SHA identified",
+    "Complete browser or deployed production verification",
+    "Whole-card acceptance, new file closure, or separate reviewer independence"
+  ]
+}

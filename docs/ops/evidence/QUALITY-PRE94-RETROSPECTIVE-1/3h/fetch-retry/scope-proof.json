@@ -1,0 +1,102 @@
+{
+  "base": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+  "formalSha256": {
+    "fetch-retry.ts": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+    "fetch-retry.test.ts": "b5f12b9b3d7d8fbdc52e08b4e45596b40e71c04336d923da762ee8727e57c332",
+    "fetch-retry.boundaries.test.ts": "b58d0abe1ba8f2cb1935f4ece662061c2f9c3647a741447651fdf54b91831d45",
+    "fetch-retry.glm-phase1-leaves.test.ts": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb"
+  },
+  "runs": [
+    {
+      "phase": "initial",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-scope-initial-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-scope-initial-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-scope-initial-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-retry-scope-az4c2o6_/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "passed": 18,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "status": "failed",
+          "title": "已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+          "duration": 2.1329580000000306,
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to be called 1 times, but got 0 times\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-retry-scope-initial-fetch-retry.boundaries.test.ts:150:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "rawSha256": "604d6c8072e138760c3a381f6d4af8681e34f13d3572899dba6459767f23ca41",
+      "runnerSha256": "ea52cb76d58a83ff63dfa64a88dfebdbc970de8ce36b573d9b5d1eff5cce4380",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-scope-initial-fetch-retry.ts": "1a839d9a51a7edce108f212b98e1dbfb65df2ebbf34a2238efb7f0e3d61870cd",
+        "packages/game/src/shell/pre94-3h-retry-scope-initial-fetch-retry.test.ts": "75fdca9c2b5ba66144224197a00ce428961106891f709d45a327335cc94b074d",
+        "packages/game/src/shell/pre94-3h-retry-scope-initial-fetch-retry.boundaries.test.ts": "1953fe82a113c84909a5b3b45da778001c00b8950afa68daf73380415a6f6a13",
+        "packages/game/src/shell/pre94-3h-retry-scope-initial-fetch-retry.glm-phase1-leaves.test.ts": "a5a5ffc8c849953d9af80e3b5e42b4aed3e5804c4f42441c1352478761283604"
+      },
+      "stderrBlocks": 0
+    },
+    {
+      "phase": "final",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-scope-final-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-scope-final-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-scope-final-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-retry-scope-4ofmz8e9/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "passed": 19,
+      "failed": 0,
+      "pending": 0,
+      "failures": [],
+      "rawSha256": "5251f1173c84a3aa3105a81152e76a170be1e5d92982b2e5d60e02507d39726b",
+      "runnerSha256": "a543cef38ee355075a1a7677d38938a2a31b4a517d466499549a2a713f8b2987",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-scope-final-fetch-retry.ts": "1a839d9a51a7edce108f212b98e1dbfb65df2ebbf34a2238efb7f0e3d61870cd",
+        "packages/game/src/shell/pre94-3h-retry-scope-final-fetch-retry.test.ts": "6ac6f8afb951da97fc566aec700d549e7f8531efdde2000b3aad63eda7c60b94",
+        "packages/game/src/shell/pre94-3h-retry-scope-final-fetch-retry.boundaries.test.ts": "cc2ea806cd2b9b0f87f3f21384768d94f41e48f6ad5a0b3143beed77741412da",
+        "packages/game/src/shell/pre94-3h-retry-scope-final-fetch-retry.glm-phase1-leaves.test.ts": "df9ae7d0db484c8b27a1440f88bcab25906c5ca41d819bdb896299739f3d213f"
+      },
+      "stderrBlocks": 0
+    }
+  ],
+  "referenceReplacement": [
+    "    let lastErr: unknown\n",
+    "    if (init?.signal?.aborted) throw init.signal.reason\n    let lastErr: unknown\n"
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

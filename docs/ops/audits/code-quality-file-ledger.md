@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：203；已读但待审：248；尚未逐文件核验：2,838；合计未闭合：3,086。
+当前已闭合核验：201；已读但待审：250；尚未逐文件核验：2,838；合计未闭合：3,088。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -210,9 +210,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
 | `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |
-| `packages/game/src/shell/fetch-retry.ts` | product | 已验证 | CODE-QUALITY-3h；main.ts 唯一生产安装 caller；GET/HTTP/非幂等合同、定向测试与 invalid-options negative control | 非法 retries 不再零次请求后 `throw undefined`；非法 backoff 不再交给平台钳制；有效配置行为不变 |
+| `packages/game/src/shell/fetch-retry.ts` | product | rework | [CODE3h/71当前全文与真实HTTP/原生fetch反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 退避不响应取消，Request自定义reason重复attempt；旧关闭撤回，QUALITY-FETCH-ABORT-LIFECYCLE-1 draft，生产未改 |
 | `packages/game/src/shell/bootstrap-resources.ts` | product | 已验证 | CODE-QUALITY-3h；bootstrap.ts 真实 soundfont/resourcesReady caller、并发屏障和 rejection/degradation tests | soundfont 原始 rejection 与 settle barrier 分离；glyph 仅显式 tofu 降级；未发现直接缺陷 |
-| `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3h；无效配置合同、HTTP/method/backoff/最终身份反例；删除 guard 的 mutant 失败 | 高判别力输入合同，不以数量验收 |
+| `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | review | [CODE3h/71不同attempt错误/真实取消/合法预检reference](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 两旧18绿缺口各新单例红；10→11，旧关闭撤回；过期网关拒绝注释待校正，统一门未过，0新关闭 |
 | `packages/game/src/assets/png.test.ts` | test | review | [CODE3h当前全文/真实PNG/高位200 oracle](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 唯一高位索引与完整遮罩保留，复用独立encoder；pending→review，统一门未收，0关闭 |
 | `packages/game/src/assets/png-decode.grok-r1.test.ts` | test | review | [CODE3h完整平面/真实cause身份/释放与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 两旧10绿新各指定AssertionError；A04弱摘要转A05，5→4精确退役；生产未改，统一门待续 |
 | `packages/game/src/assets/png.glm-phase1-leaves.test.ts` | test | review | [CODE3h alpha边界/排重与注释事实](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 保留alpha0/200和opaque index0，坏Blob弱摘要转A05，2→1精确退役；不虚报dialog caller，0关闭 |
@@ -226,8 +226,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/shell/audio-volume.ts` | product | 已验证 | CODE-QUALITY-3i；bootstrap 三通道 caller、storage/key tests、NaN negative control | 修复 NaN 音量进入 sink/localStorage；有限/0..1 合法行为不变 |
 | `packages/game/src/shell/trademark-fallback.ts` | product | 已验证 | CODE-QUALITY-3i；reference/sdlpal main.c:197-203、rng-player caller、trademark/splash framebuffer/timing tests | 只纠正过时 skipKeys 注释；DOS chunk 6/1000ms/600ms 行为未改 |
 | `packages/game/src/shell/audio-volume.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3i；NaN/0/default/三通道共享 mute 合同；删除 NaN guard 的 mutant 失败 | 直接 setter/storage/sink oracle，不重复 clamp 主干 |
-| `packages/game/src/shell/fetch-retry.test.ts` | test | review | CODE-QUALITY-71；GET/HTTP/POST/idempotent/AbortError 主 oracle；6 tests | 取消不重复请求；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-71；uninstall/重新安装生命周期 oracle；2 tests | 还原后不再重试；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
+| `packages/game/src/shell/fetch-retry.test.ts` | test | review | [CODE3h/71 typed fetch/原错误与Response/原子HTTP轴](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 耗尽弱例转boundary，503/404拆独立；仍6但身份改变，默认次数/404 oracle转移均一对一，统一门未清 |
+| `packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts` | test | review | [CODE3h/71真实卸载恢复引用/重装网络重试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 原卸载例换新fetch假证明，故障旧18绿/新单例AssertionError；2身份保留、去强转，真实恢复断言先于测试收尾，0关闭 |
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | CODE-QUALITY-3j；canvas/localStorage/fullscreen callers、scale tests；NaN negative control | 修复 NaN 百分比写入 NaN CSS/storage；有限百分比 clamp/居中形态不变 |
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | CODE-QUALITY-3j；tools-panel/rAF caller、启停/采样/DOM tests | module sampling state 在停用时清零；非法持久值仅 `'1'` 开启 |
 | `packages/game/src/tools/toast.ts` | product | 已验证 | CODE-QUALITY-3j；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整，未发现直接缺陷 |
