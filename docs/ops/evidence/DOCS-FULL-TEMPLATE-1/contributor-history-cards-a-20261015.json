@@ -1,0 +1,1037 @@
+{
+  "schemaVersion": 1,
+  "id": "DOCS-FULL-TEMPLATE-1-contributor-history-cards-a-20261015",
+  "kind": "governance-contribution-candidate",
+  "status": "candidate",
+  "owner": "Codex contributor / history-cards-a",
+  "governanceTask": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+  "branch": "codex/docs-history-cards-a",
+  "scope": "Ten explicitly assigned historical task cards; no central registry/routing/catalog/board/index, product source, old tests, or coverage writes.",
+  "independentAcceptance": "pending-root-Codex",
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "coreConclusion": "启动与资源测试只保留有限历史接收：19 例当时可接入的现行回归；三份产品源未变；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Grok（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "617225dfad1f9793a16000458769863542a12995",
+      "sourceSha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
+      "afterSha256": "d41d4a264e176a567d886ebdb5bbc10aedcc50c0f9b966b3ac3a1968ac36d6dd",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase1；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "publicCallers": [
+        "启动与资源候选须执行当时真实业务 caller；本卡仅汇总 19 例与三产品源不变，具体 caller、合法 fixture 与断言需下钻统一机账。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 d03cba2c23c858526bc514a5389347177794861c；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "启动与资源候选须执行当时真实业务 caller；本卡仅汇总 19 例与三产品源不变，具体 caller、合法 fixture 与断言需下钻统一机账。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "19 是有限接收的回归数，原卡未提供逐合同净新账；不得补足旧配额或从数量推导净新。",
+      "counterReworkBlocked": [
+        "原卡没有列出逐针身份或独立 raw 路径；错误反控统一不计有效，本次不补造启动/资源反控。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "coreConclusion": "渲染与宿主测试只保留有限历史接收：400 例当时现行回归；46 份产品源 byte-exact，40 份有效三态原证据获当时复核；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Grok（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "c7bb3d562cca7499ecd6ed48eb424ce84420879d",
+      "sourceSha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
+      "afterSha256": "a90295442c21411c7f2c34e81911264362bbfaefcd0537831f2648671e6caa55",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase1；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "publicCallers": [
+        "历史 46 份产品源 byte-exact 是保护条件，像素/宿主测试的实际输出 oracle 仍以原机账为准；本卡没有逐条 typed 输入和 fullName。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 f4665f7ac51b80cae5620e4c08bd62f607881f73；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "历史 46 份产品源 byte-exact 是保护条件，像素/宿主测试的实际输出 oracle 仍以原机账为准；本卡没有逐条 typed 输入和 fullName。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "400 例不能自动等同净新合同；渲染/宿主同 fixture 也须按 caller 与业务 oracle 排重，原数量预算不恢复。",
+      "counterReworkBlocked": [
+        "40 是旧三态证据的历史复核数。本次没有执行 mutant、像素 readback 或宿主流程，不能据此宣称当前 40 针有效。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "coreConclusion": "资源与编辑器界面测试只保留有限历史接收：717 例当时现行回归；54 针的产品/测试字节与重建 mutant hash 对应；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Cursor（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "32998f147597f3a0f1b84aa2ad08c4c82c27a7f2",
+      "sourceSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
+      "afterSha256": "372b6fc0fbd9f306bf53d953a847531593815585d322ed8487e1b64587f37f11",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "publicCallers": [
+        "二阶段资源/UI 的合法输入必须来自当时公开 typed caller；本卡未列单用例输入、组件行为断言或视觉回执，不能仅由 717/54 推导覆盖。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 fefab931c4174f0755e0d7766a8757490194a067；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "二阶段资源/UI 的合法输入必须来自当时公开 typed caller；本卡未列单用例输入、组件行为断言或视觉回执，不能仅由 717/54 推导覆盖。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "原 700 预算终止；702 净新估算被明确拒绝，717 仅为历史有限回归数，不能改写为 717 净新。",
+      "counterReworkBlocked": [
+        "54 针的字节/hash 对应是原卡裁决；本轮不复跑反控，不把重建 mutant hash 单独转换成现行运行信用。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "coreConclusion": "脚本生命周期测试只保留有限历史接收：16 例当时现行回归；定向与相邻 50/50，当时全包已含该交付；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Kimi（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "9e4a82feb8aa90335251e288e288574c1b6316f7",
+      "sourceSha256": "ffdfa79443199bcc466a0e101aa300f9ef1c20df66cae6924dd2a180f52978af",
+      "afterSha256": "2266ef807e1cb66ec565b55f1d957226f551b7b68700f1d1d6413866a2c69ad4",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "publicCallers": [
+        "脚本生命周期的实际结算结果须由真实 caller 观察；原卡只给 M01 结算 counter 结论与 50/50 汇总，逐身份输入/oracle 不在卡内。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 42b3d303de3f2178e249b4ccbabf967e0affd194；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "脚本生命周期的实际结算结果须由真实 caller 观察；原卡只给 M01 结算 counter 结论与 50/50 汇总，逐身份输入/oracle 不在卡内。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "50/50 包含 16 例与相邻测试，不应相加为新合同；不按旧预算补案例。",
+      "counterReworkBlocked": [
+        "原 M01 真实结算 counter 已按历史裁决闭合，不再交作者返工；不把此结算闭合扩张为所有生命周期边界或当前执行通过。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "coreConclusion": "脚本编辑与预览测试只保留有限历史接收：32 例当时现行回归；两个状态机合同退出，六针在当时当前版本重采三态并核定单一 AssertionError 与临时树清理；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Cursor（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "498c76643caed9e650033072fac0df0f520e3090",
+      "sourceSha256": "279c26dba33afc2ac19ac5d03d18e656eda4d345461f0fb26574bc4cb684f224",
+      "afterSha256": "2007b79128ea7788032b4ee637f69cc2126db11efdea27a95a48141744299a43",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "publicCallers": [
+        "当时六针须恰一指定业务 AssertionError 并恢复全绿；逐 file×fullName、typed 输入与 command/cwd/raw 须回原证据，不从 32 例汇总补造。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 ad10eaf88608fe84c35f08cb5d0a2c7c1fcae685；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "当时六针须恰一指定业务 AssertionError 并恢复全绿；逐 file×fullName、typed 输入与 command/cwd/raw 须回原证据，不从 32 例汇总补造。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "两个退出的状态机合同不恢复；32 例和六针分别是回归与反控维度，不能累加为 38 净新。",
+      "counterReworkBlocked": [
+        "六针的指定单红/恢复与清理是历史复核结果；本次没有运行预览、反控或浏览器，不代表现行编辑器起点已验。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "coreConclusion": "当前续跑模型测试只保留有限历史接收：24 例当时现行回归；八个旧模型合同退出，两有效针按当时源重采 61 身份、单红和恢复绿，两个已删除 API 目标退休；旧待办由2026-10-04统一封板承接，数量不是净新或当前执行证明。",
+      "originalStatus": "done",
+      "originalOwner": "Kimi（作者交付已冻结）",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "a3d3343ecdf6264e12dee3360cf5638fbdf6a0a1",
+      "sourceSha256": "3afb1930ca8b431dbfa2dddc3a65db08acb5611b535235fa598a4057481d4783",
+      "afterSha256": "f42674aa6cb287d64aaccc8a12adfeee2212830daf3763deeeec68d2780be8bc",
+      "beforeAfter": "短卡中的接收裁决/封板前下一步混排 → 具体目标、保护范围、准入与验收拆开；完整原文保留，旧待办显式历史化，原done/Owner/路径不变。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md:1-23 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1-60 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2；phase1测试按第一阶段caller/真值核；phase2不得从旧模型恢复兼容或API。此卡仅历史文档迁移。",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "publicCallers": [
+        "续跑须观察真实当前 caller 的状态推进；本卡只汇总两针单红/恢复绿和 61 身份，具体合法 fixture、输出与排重映射仍在历史机账。",
+        "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
+      ],
+      "legalInputs": [
+        "原卡指定作者 43a3849bae2cbe02c43a28287fb0945e5d03ac4f；仅当时合法新测试/专属fixture；具体typed输入原短卡缺失。"
+      ],
+      "businessOracle": [
+        "续跑须观察真实当前 caller 的状态推进；本卡只汇总两针单红/恢复绿和 61 身份，具体合法 fixture、输出与排重映射仍在历史机账。",
+        "回归/反控/CI汇总均为历史观察，文档结构通过不代表其当前执行。"
+      ],
+      "dedupe": "八个旧模型合同及两个删除 API 目标保持退休；24 与 61 是不同历史集合，不能相加或视为语义净新。",
+      "counterReworkBlocked": [
+        "两针与 61 身份是当时源下的证据范围，不授权复活删除的 API 或旧模型；本次未重采当前续跑证据。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ],
+      "history": [
+        "2026-10-03用户要求全部已交付测试有限收口；原数量预算停止。",
+        "2026-10-04原卡Closed Evidence与统一卡终态；旧18683不替代后续19204。",
+        "2026-10-15仅内容治理，历史日期/CI IDs/作者SHA/数字不改。"
+      ],
+      "supersedes": ["本次解释将封板前下一步定位为中间态；不替代原执行证据或产品合同。"],
+      "versionAndApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
+      "stopLine": "不得把有限回归数当净新/配额兑现；不得从历史done执行当前退休或复活旧API；输入/oracle/反控不明时停止新增测试信用。",
+      "nextStep": "根线程独立验收本卡与回执后写中央review/SHA；若要重验产品，另钉当前源码与合法caller，不重开旧作者交付。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 23,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "coreConclusion": "A5历史交付是磁盘工程整树ZIP与另存为资产闭包修复；无句柄菜单/内存mock通过不覆盖顶部明确保留的真实FSA用户点验。",
+      "originalStatus": "done(FSA 真导出留用户点验:工程菜单 → 🗜 导出 zip → 得 <id>.zip)",
+      "originalOwner": "Opus(作者之旅收尾环:游戏做好了得能打包分享)",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "3d36ffad1cbc8210deda1fa8afae04ad10bdfc54",
+      "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+      "afterSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+      "beforeAfter": "设计/落地/验证/次日修复短卡 → 目标、范围、准入、真实/模拟验收边界及用户点验缺口；完整原文保留。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/A5-project-export-zip.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2作者编辑器；第一阶段原版不提供该分发UI真值；资产约定仍按二阶段规则。",
+      "dependencies": ["docs/phase2/READ-FIRST.md", "docs/ops/agent-workflow.md"],
+      "publicEntry": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "publicCallers": [
+        "历史工程菜单导出→core/export-zip.ts→buildZip；源短卡没有完整packages路径或源码行锚。",
+        "历史saveProjectAs→copyDirRecursive；本次未核当前调用链。"
+      ],
+      "legalInputs": [
+        "有FSA目录句柄的磁盘工程；未保存编辑需dirty提醒。",
+        "dev种子无句柄仅用于禁用检查；内存FSA mock是另存为单测输入。"
+      ],
+      "businessOracle": [
+        "ZIP中文+二进制逐字节roundtrip、CRC已知值、STORE择优、同内容同字节。",
+        "真实FSA用户解包后逐文件与磁盘原工程相同；原卡仍待点验。"
+      ],
+      "dedupe": "4个ZIP断言轴、2个另存为内存FSA测试和菜单禁用检查属不同层；不相加为实际用户导出通过，也不新增覆盖率信用。",
+      "counterReworkBlocked": [
+        "未给日期、实现SHA、打包产物或用户点验回执。",
+        "顶部done保留FSA待用户点验，不能静默升级完成。"
+      ],
+      "history": [
+        "原设计、四测及无句柄Playwright原样保留。",
+        "原文次日另存为修复不改写为当前缺陷或新修复。"
+      ],
+      "supersedes": [],
+      "versionAndApplicability": "原文未标content/SAVE或源码revision；不推断为当前版本。",
+      "stopLine": "无真实目录/ZIP/逐文件对照时不得关闭FSA验收缺口；文档迁移不授权产品/资产管线改动。",
+      "nextStep": "根线程独立验收文档；如需补真实FSA结论，另钉当前入口与产物、保留用户验收边界。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 31,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "coreConclusion": "历史任务建立测试catalog与固定报告结构；done和候选分支待main/CI字段同时保留，未提供的最终合入证据明确缺失，工具39/39不代表当前E2E通过。",
+      "originalStatus": "done",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "485da5a3081c9c4d94e7457b20f31ee1cca78357",
+      "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+      "afterSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+      "beforeAfter": "用户目标/交付/历史命令短卡 → 分层职责、事实权、准入反例和main/CI证据缺口；全部原文保留。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/governance.md @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/phase-governance/templates/README.md @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "ops / testing治理，涉及各阶段元数据但不证明任何阶段游戏行为。",
+      "dependencies": [
+        "docs/testing/governance.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "publicCallers": [
+        "node scripts/docs/check-testing.mjs；node scripts/docs/check.mjs；生成索引器，原卡未列生成命令。"
+      ],
+      "legalInputs": [
+        "当时catalog、testing-meta、阶段页、legacy-flat、relocation plan与Markdown链接。"
+      ],
+      "businessOracle": [
+        "catalog/路径/依赖/reviewBy/元数据/生成索引一致，旧路径引用更新且源SHA可回读。",
+        "报告模板存在不推导测试状态verified。"
+      ],
+      "dedupe": "catalog唯一事实源；indexes投影、001–006各自固定report，不新建平行r1/r2报告或手工索引真相。",
+      "counterReworkBlocked": [
+        "顶部done与Closed Evidence待合入main/CI并存；本卡没有最终SHA/CI身份，本轮保留明确缺口。",
+        "39/39与877/4654是历史数字，不复用为本次全仓结果。"
+      ],
+      "history": [
+        "旧三份starter只是原交付，不重命名为17类全部已完成。",
+        "2026-10-15治理不追溯修改原状态或执行记录。"
+      ],
+      "supersedes": [],
+      "versionAndApplicability": "原卡未标执行日期、版本或candidateSHA；仅有候选分支，适用当时文档架构任务。",
+      "stopLine": "缺main/CI凭据不得补造封板证明；不能用历史文档门宣称全量迁移、runtime或E2E完成。",
+      "nextStep": "根线程核本卡后写回中央记录；如要补最终合入凭据必须另取真实Git/CI身份。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 34,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "coreConclusion": "历史功能UI修复保留行为与原视觉/静态证据；首次登记失败、覆盖不变及E2E-001/002排除范围显式保留，旧6010操作不成为当前视觉通过。",
+      "originalStatus": "done",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "41feabcb3db944de9bd03daf2f1fcbca71bfbb40",
+      "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+      "afterSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+      "beforeAfter": "验收在前、范围在后的短卡 → 用户问题、调用链根因、保护范围、历史验收与E2E排除边界重排；完整原文保留。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md:1-47 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "phase2作者UI；第一阶段/原版N/A，依据截图与组件caller，不改游戏行为。",
+      "dependencies": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "publicCallers": [
+        "历史CanonicalScriptFlowEditor与PreviewCanvas普通确认按钮；DsButton/DsPressable选择面。",
+        "组件原选择、详情、继续回调应保持，当前源码未重新核验。"
+      ],
+      "legalInputs": [
+        "原用户截图、当时正式6010 s001页面、步骤1选中hover/步骤2未选中和Tab/Enter往返。"
+      ],
+      "businessOracle": [
+        "整卡背景连续、10px圆角、标题/数量分组、明确继续动作；选择/详情/继续回调不漂移。",
+        "旧两文件27/27和10,176/9,715为历史执行，不作为本次通过。"
+      ],
+      "dedupe": "功能性最小UI验证与剧情E2E分开；不新增平行报告、不重复原截图流程，不宣称覆盖率增长。",
+      "counterReworkBlocked": [
+        "首轮两条nowrap登记失败和一处格式问题已据原回执修正；不抹除首次失败。",
+        "原本地截图/临时日志未在本轮重取；UI历史收口不关闭E2E-001/002。"
+      ],
+      "history": ["2026-09-28用户截图→修复→真实6010→review/done，保留统计与1529f97e。"],
+      "supersedes": [],
+      "versionAndApplicability": "2026-09-28基点1529f97e；旧源码行锚仅历史身份，不当当前组件定位。",
+      "stopLine": "不能从旧视觉/全绿报告推当前页面或剧情验收；用户形态变化、选择回调漂移或E2E扩范围另开任务。",
+      "nextStep": "根线程核原卡与配对历史回执后独立接收文档；当前UI如需验证另钉当前代码/页面。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 31,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "coreConclusion": "历史布局任务接收根白名单与122工具/652文件迁移；当时accept不继承为当前逐项runner、SHA或附件归属通过，未知工具停止线继续明确。",
+      "originalStatus": "done",
+      "originalOwner": null,
+      "originalCodingOwner": "Codex",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "23fff034a1946d5a57d66958a8d587574fb1582b",
+      "sourceSha256": "97c022d58368f151c5e1d25425e5f15d3600a6c4b7d13806d67ad042c27ca453",
+      "afterSha256": "8a174f4c0e3e3c2d826bd87b3ca7ca208c0c23dfc126c0e841758519bcad8c56",
+      "beforeAfter": "目标/严格验收/范围/历史accept短卡 → 实际结构问题、迁移保护和未知caller停止线拆分，旧统计与用户接受保持历史范围，原文完整保留。",
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md:1-36 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-108 header and one example only @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/governance.md @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "phaseAnchor": "ops / testing布局；涉及文件归属，不证明phase1/2产品行为。",
+      "dependencies": [
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "docs/testing/legacy-flat.json",
+        "docs/testing/legacy-flat-classification.json",
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "publicCallers": [
+        "历史公开工具runner、相对imports/cwd；具体逐工具caller在布局计划，本轮未全读或执行。"
+      ],
+      "legalInputs": [
+        "历史sourceRevision 12247f7e389bad300e3b20388ae8a9196386e191 的布局清点；当前checkout不自动等同该输入。"
+      ],
+      "businessOracle": [
+        "根非白名单0；工具relativeimport/cwd/runner/temporarytree/cleanup保持且source/after SHA不漂移。",
+        "有不可解析caller或runner须保留原文件并记录blocked/截止日，不按数量或移动成功判定。"
+      ],
+      "dedupe": "布局计划是历史迁移机账，catalog是测试索引，生成indexes不另维护状态；652项不计新增运行测试。",
+      "counterReworkBlocked": [
+        "本轮只读布局计划头部/示例，不把旧accept转换为652逐项审核。",
+        "原卡没有raw命令路径/最终commit；当前断链与附件归属须全量另核。"
+      ],
+      "history": [
+        "原Reviewer accept与用户接受保留；原卡没有执行日期，计划日期不补成卡完成日期。",
+        "原122/652/50+保留原范围，与1838基线分开。"
+      ],
+      "supersedes": [],
+      "versionAndApplicability": "布局计划sourceRevision 12247f7e389bad300e3b20388ae8a9196386e191；原卡本身无candidate/content/save，历史结构审查。",
+      "stopLine": "未核caller/import/cwd/runner/temporarycleanup不得迁移/删除未知工具或标当前完成；不能继承旧652项accept授予全量治理通过。",
+      "nextStep": "根线程独立验收本卡；其余652项布局机账与artifact归属按全量目标另逐项审查，不由本包越界修改。",
+      "provenance": {
+        "contributor": "Codex contributor / history-cards-a",
+        "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "readDate": "2026-10-15",
+        "reading": "complete source document and explicit linked sources listed in primarySource; no path classifier verdict"
+      },
+      "templateConformity": {
+        "authorAssessment": "candidate-template-compliant",
+        "requiredSections": [
+          "目标",
+          "范围",
+          "前提与证据",
+          "验收",
+          "状态与交接",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ],
+        "independentAcceptance": "pending-root-Codex"
+      },
+      "originalPreservation": {
+        "method": "entire source UTF-8 document quoted line-by-line; blank quote lines are >; exact source blob retained",
+        "sourceLineCount": 36,
+        "linkDestinationChanges": [],
+        "whitespaceChanges": [],
+        "inverseQuoteCheck": "pass: exact original bytes, including final newline, SHA and Git blob"
+      },
+      "execution": {
+        "performed": false,
+        "notRun": [
+          "product tests",
+          "runtime",
+          "E2E",
+          "browser/visual",
+          "coverage",
+          "historical CI rerun"
+        ]
+      }
+    }
+  ],
+  "checks": [
+    {
+      "command": "checkTemplateBody task-card-v1 + archive-record additionalSections for all ten paths",
+      "result": "pass",
+      "issues": 0,
+      "scope": "body structure only; author candidate, not semantic independent acceptance"
+    },
+    {
+      "command": "markdownLinks target resolution for all ten paths",
+      "result": "pass",
+      "missingTargets": 0
+    },
+    {
+      "command": "inverse entire quoted source against git show 85a419afa17793e13b9700b7064bd8d818d57118:path; SHA/blob and header comparisons",
+      "result": "pass",
+      "documents": 10,
+      "sourceByteChanges": 0,
+      "topStatusOwnerTitleChanges": 0
+    },
+    {
+      "command": "git cat-file -t six historical author SHAs and d8a81d4c21a32efa3c140fb5858c83465b01bc5e",
+      "result": "pass",
+      "objects": 7,
+      "types": ["commit"],
+      "limits": "Object existence does not rerun or validate historical tests/CI."
+    },
+    {
+      "command": "node --test scripts/docs/*.test.mjs",
+      "result": "pass",
+      "tests": 60,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "command": "node scripts/docs/check.mjs",
+      "result": "pass",
+      "markdown": 1223,
+      "localLinks": 6978,
+      "tasks": 361,
+      "issues": 0
+    },
+    {
+      "command": "node scripts/docs/check-testing.mjs",
+      "result": "pass",
+      "issues": 0
+    },
+    {
+      "command": "node scripts/docs/check-phase-lore-governance.mjs",
+      "result": "pass",
+      "documents": 184
+    },
+    {
+      "command": "node scripts/docs/check-content-review.mjs --strict",
+      "result": "expected-fail-pending-integration",
+      "afterShaDrifts": 10,
+      "limits": "Exactly ten assigned card after SHA values await root independent acceptance and central review update. Contributor has no central-ledger write permission and did not refresh hashes."
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass",
+      "limits": "Recheck staged diff after formatting new receipt."
+    },
+    {
+      "command": "node scripts/docs/check-document-model.mjs",
+      "result": "pass",
+      "routes": 7,
+      "existingRegisteredBodyContracts": 31,
+      "limits": "The ten new candidates use direct task+archive checks until root writes routing; not counted as root acceptance."
+    },
+    {
+      "command": "root-worktree node_modules/.bin/biome check contributor-history-cards-a-20261015.json from contributor cwd",
+      "result": "pass",
+      "files": 1,
+      "diagnostics": 0,
+      "limits": "Contributor checkout has no node_modules; this is candidate receipt formatting/lint only. Full pnpm lint and integrated pnpm check:docs remain root integration gates."
+    },
+    {
+      "command": "exact git status whitelist; all target after SHA values; git diff --cached --check; product/scripts/lockfile diff exclusion",
+      "result": "pass",
+      "ownedFiles": 11,
+      "cards": 10,
+      "candidateReceipts": 1,
+      "productOrTestOrCoverageChanges": 0
+    }
+  ],
+  "unresolved": [
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "issue": "original real FSA user verification still not evidenced; preserved, no new product assertion"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "issue": "original done plus Closed Evidence pending main/CI; final SHA/run absent, explicitly retained"
+    }
+  ],
+  "stopLine": "Author candidate is not root acceptance or full-docs completion. No runtime/E2E/visual/coverage execution in this package.",
+  "nextStep": "Root Codex directly reads originals/diffs, accepts or requests rework, then updates central reviews, registry/routing/SHA and integration gates in its isolated checkout. Contributor does not merge/push main or remove worktrees.",
+  "resolvedFindings": [
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "initialSuspicion": "../../../migrations/legacy-full-closeout-plan.json was incorrectly suspected to resolve into absent docs/testing/migrations.",
+      "falsifyingObservation": "dirname README plus ../../../migrations normalizes to docs/testing/archive/migrations/legacy-full-closeout-plan.json; actual exists=true.",
+      "decision": "Original suspicion disproven; existing link is correct, no link or shared-file change required."
+    }
+  ]
+}
