@@ -13,9 +13,9 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 50,
+      "current": 57,
       "draft": 50,
-      "archived": 84
+      "archived": 77
     }
   },
   "entries": [
@@ -12469,42 +12469,80 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-audits-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/audits/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
-      "afterSha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
+      "afterSha256": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/README.md",
-          "lines": "1-1",
-          "anchor": "历史专项审计",
-          "role": "document-source",
-          "sha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f"
+          "lines": "1-33",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
+          "anchor": "历史专项审计"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/audits/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "检索25份时点审计、普查与复核，帮助读者把旧基线发现和当前修复台账分开。",
+          "Source 2 headings/25 members/26 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页为 current 导航，报告保持历史时点。“三方逐函数”“复核”“普查”等标签不代表本轮重新读其源码、新三签、运行时或coverage通过；已接收材料仍只在其实际固定范围有效。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/audits/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/audits/README.md",
+          "20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -12513,25 +12551,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/audits/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/audits/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "未核子报告或raw不得登记源码/执行新信用；本页治理不能替代实际审计、质量门或产品通过。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; audit-report old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-audits-script-census",
@@ -14538,42 +14621,80 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-designs-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/designs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
-      "afterSha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
+      "afterSha256": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/designs/README.md",
-          "lines": "1-1",
-          "anchor": "历史设计与规范快照",
-          "role": "document-source",
-          "sha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a"
+          "lines": "1-30",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
+          "anchor": "历史设计与规范快照"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/designs/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "检索22份原始设计与混合规范快照，保留旧字段、取舍和增量记录的来源入口。",
+          "Source 2 headings/22 members/23 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页为 current 导航，集合按历史来源阅读。“已评审”、用户定调日期和混合规范标签只描述旧目标当时文字，不是本轮新reviewed/build/实现签字，也不表示所有技术设计被废弃。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/designs/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/designs/README.md",
+          "20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -14582,25 +14703,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/designs/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/designs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "不得将 E6旧评审或旧Schema标签升格为今天批准；本页全文阅读不等22篇设计全文重审。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; design-spec old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-designs-save-system-design",
@@ -15067,42 +15233,81 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-mockups-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/mockups/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
-      "afterSha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
+      "afterSha256": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/mockups/README.md",
-          "lines": "1-1",
-          "anchor": "历史界面草案",
-          "role": "document-source",
-          "sha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e"
+          "lines": "1-11",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
+          "anchor": "历史界面草案"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/mockups/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown",
+        "Exactly three historical HTML targets; no HTML execution/semantic acceptance"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "找到三份历史 HTML界面草案，并把草案检索与当前界面合同的事实权分开。",
+          "Source 2 headings/3 members/4 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页为 current 导航，三份 HTML仍为历史草案及待逐篇治理的正文候选。它们没有因归档或附件命名而退出全量正文范围。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/mockups/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/mockups/README.md",
+          "20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -15111,25 +15316,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/mockups/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/mockups/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "不能从链接存在推断 HTML全文已审、脚本已执行、视觉通过或当前编辑器行为符合草案；三目标的治理信用不计入本包。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; archive-record old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-plans-actor-c0-plan",
@@ -17027,42 +17277,80 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-plans-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/plans/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
-      "afterSha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
+      "afterSha256": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/plans/README.md",
-          "lines": "1-1",
-          "anchor": "历史实施计划",
-          "role": "document-source",
-          "sha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2"
+          "lines": "1-32",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
+          "anchor": "历史实施计划"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/plans/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "按原计划名称检索过去的推进与验证安排，同时防止旧计划入口被当作当前待办池。",
+          "Source 2 headings/24 members/25 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页为 current 导航，计划集合仍历史。给 GLM、给 GLM 开工和“现在能做”等标题保留为旧名称，不恢复旧提示、固定三签或当前build授权，也不从标签猜done。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/plans/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/plans/README.md",
+          "20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -17071,25 +17359,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/plans/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/plans/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "旧 Agent提示或计划状态不能替代本轮范围、Owner和验收证据；导航迁移不提供新运行或coverage通过。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; plan-status old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-plans-render-foundation-plan",
@@ -18076,39 +18409,85 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
-      "afterSha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
+      "afterSha256": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/README.md",
-          "lines": "1-1",
-          "anchor": "第二阶段历史归档",
-          "role": "document-source",
-          "sha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2"
+          "lines": "1-14",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
+          "anchor": "第二阶段历史归档"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase2/archive/README.md:1-1"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/README.md",
+        "docs/phase2/archive/audits/README.md",
+        "docs/phase2/archive/designs/README.md",
+        "docs/phase2/archive/mockups/README.md",
+        "docs/phase2/archive/plans/README.md",
+        "docs/phase2/archive/slices/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
+      "legalInputs": [
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "让读者按审计、设计、界面草案、实施计划和早期切片五种职责检索历史材料，同时找到阶段现行入口。",
+          "Source 2 headings/5 members/6 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/README.md",
+          "20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -18117,25 +18496,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "旧提示、历史签字或旧状态不能因当前导航而恢复授权。未核目标正文、raw或执行结果时，不登记新的 reviewed/completed。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; archive-record old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-slices-indoor-guijie-minju",
@@ -18418,42 +18842,81 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-slices-indoor-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/indoor/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-      "afterSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
+      "afterSha256": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/slices/indoor/README.md",
-          "lines": "1-1",
-          "anchor": "室内切片历史",
-          "role": "document-source",
-          "sha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1"
+          "lines": "1-15",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
+          "anchor": "室内切片历史"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/slices/README.md",
+        "docs/phase2/archive/slices/indoor/plan.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "检索鬼界民居与室内切片的四份设计、旧计划，说明旧方案和后续切片验证之间的适用边界。",
+          "Source 3 headings/4 members/5 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页为 current 导航，目标材料保持历史。源第3行关于早期图片退出、验收提交仍在Git的说法没有具体路径或提交；本轮没有核这些图片的存在性、内容或旧验收commit。WebGL/MMO旧方案与后来的切片通过仍须分开理解。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/indoor/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/slices/indoor/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -18462,25 +18925,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/slices/indoor/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/indoor/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "不能把后来的切片通过当作 WebGL/MMO旧方案全部实施，也不能把原泛称当作今天对旧图/验收提交的复核。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; archive-record old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-archive-slices-indoor-spec",
@@ -18564,42 +19072,81 @@
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-slices-readme",
-      "status": "archived",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-      "afterSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
+      "afterSha256": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/slices/README.md",
-          "lines": "1-1",
-          "anchor": "历史垂直切片",
-          "role": "document-source",
-          "sha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16"
+          "lines": "1-9",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
+          "anchor": "历史垂直切片"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/archive/README.md",
+        "docs/phase2/archive/slices/indoor/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/README.md:1-1"
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "找到项目起步时室内垂直切片的资料与旧验证证据，避免把早期切片结构混入现行模块分类。",
+          "Source 2 headings/1 members/2 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "本页作为 current 导航服务历史集合。目录仍可达不表示切片今天重新运行，也不表示所有原版本继续适用。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/archive/slices/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -18608,25 +19155,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/archive/slices/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "archived"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "没有具体原验收引用时不能补造提交、证据可用性或产品通过；本页仅证明静态路由及原导航语义。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; archive-record old binding; central governed-legacy; catalog archived",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-capability-map",
@@ -19250,37 +19842,78 @@
       "capability": "phase2-guides-readme",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/guides/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-      "afterSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
+      "afterSha256": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/README.md",
-          "lines": "1-1",
-          "anchor": "第二阶段使用指南",
-          "role": "document-source",
-          "sha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7"
+          "lines": "1-14",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
+          "anchor": "第二阶段使用指南"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase2/guides/README.md:1-1"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
+      "legalInputs": [
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "按作者要完成的操作，把人物、战场、内容发布、调试、场景入场和共享脚本六类指南放在同一入口。",
+          "Source 2 headings/6 members/7 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "current 表示操作导航有效。“D13-1 首刀”保留为原调试文档标签，不表示本轮重跑或核验其旧实现。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/guides/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/guides/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -19289,25 +19922,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/guides/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/guides/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "缺少具体操作前提时回对应指南核实，不能从本页标题推断产品行为、发布或迁移工具已经实跑。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; guide-runbook old binding; central governed-legacy; catalog current",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-scene-entry-authoring",
@@ -19600,37 +20278,86 @@
       "capability": "phase2-readme",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-      "afterSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
+      "afterSha256": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
       "sourceRefs": [
         {
           "path": "docs/phase2/README.md",
-          "lines": "1-1",
-          "anchor": "第二阶段 · Reforge 文档",
-          "role": "document-source",
-          "sha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9"
+          "lines": "1-20",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
+          "anchor": "第二阶段 · Reforge 文档"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase2/README.md:1-1"],
+      "publicCallers": [
+        "docs/README.md",
+        "docs/phase-governance/README.md",
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase1/README.md",
+        "docs/phase2/archive/README.md",
+        "docs/phase2/guides/README.md",
+        "docs/phase2/reference/README.md",
+        "docs/phase2/specs/README.md",
+        "docs/phase3/README.md",
+        "docs/phase3/backlog.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
+      "legalInputs": [
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "把第二阶段的开工原则、产品方向和进度入口，与规范、操作、知识参考、历史材料分开。读者先选职责，再进入承担事实权的文档。",
+          "Source 3 headings/9 members/10 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "current 表示这个阶段总导航继续使用。开工规则归 READ-FIRST，进度归 capability-map，决策、议题与路线分别回到各自文档；链接标签不代替目标正文审查。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -19639,25 +20366,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "若目录与目标的职责发生冲突，先核目标的真实适用范围再改路由；本页不能代替下游内容、运行时、E2E或视觉验收。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; governance-index old binding; central governed-legacy; catalog current",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-reference-dialogue-presentation",
@@ -19886,37 +20658,78 @@
       "capability": "phase2-reference-readme",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/reference/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-      "afterSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
+      "afterSha256": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
       "sourceRefs": [
         {
           "path": "docs/phase2/reference/README.md",
-          "lines": "1-1",
-          "anchor": "第二阶段知识参考",
-          "role": "document-source",
-          "sha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5"
+          "lines": "1-10",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
+          "anchor": "第二阶段知识参考"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase2/reference/README.md:1-1"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
+      "legalInputs": [
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "为可移植的一阶段知识和呈现考证提供来源入口，帮助读者把参考资料与当前实施规则分开。",
+          "Source 2 headings/2 members/3 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "current 表示知识参考导航仍在使用。原“spec for Claude”只是旧目标的标题文字，不恢复旧席位、提示词或一阶段保真方针。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/reference/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/reference/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -19925,25 +20738,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/reference/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/reference/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "导航阅读不证明一阶段机制、原版行为或当前二阶段产品已核实；没有直接来源时保持 unknown，不从参考文档名称推结论。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; reference-canon old binding; central governed-legacy; catalog current",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-roadmap",
@@ -20422,37 +21280,78 @@
       "capability": "phase2-specs-readme",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Content-proven navigation/type correction only; original22/11 captures not runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/specs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-      "afterSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
+      "afterSha256": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
       "sourceRefs": [
         {
           "path": "docs/phase2/specs/README.md",
-          "lines": "1-1",
-          "anchor": "第二阶段现行规范",
-          "role": "document-source",
-          "sha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc"
+          "lines": "1-14",
+          "role": "fixed-complete-original-navigation",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "sha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
+          "anchor": "第二阶段现行规范"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/phase2/specs/README.md:1-1"],
+      "publicCallers": [
+        "docs/phase-governance/by-phase.md",
+        "docs/phase-governance/by-status.md",
+        "docs/phase2/README.md",
+        "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
+      ],
+      "legalInputs": [
+        "Original navigation prose and ordered parent/member labels/hrefs, not all downstream product inputs",
+        "Fixed source Git bytes and actual candidate Markdown/metadata",
+        "Static local navigation paths; unknown old image/acceptance references remain unknown"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "定位当前内容、编辑器、设计系统、工程生命周期、存档和脚本合同，明确现行规范与历史推导的维护位置。",
+          "Source 2 headings/6 members/7 href occurrences preserved; these are per-document, not batch24/107/118.",
+          "current 只表示现行合同的路由职责。原“现行”标签保留，不构成本轮对六份规范全文、产品实现或零缺陷状态的新认证。",
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/specs/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "documentPaths": 1,
+        "authorEntryPaths": 1,
+        "existingRegistryMembership": 1,
+        "existingMigratedRoutes": 1,
+        "newTypeOrVariant": 0,
+        "historyOverlay": false,
+        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "targets": "Original indexed targets are not new migration or execution credit.",
+        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "against": [
+          "docs/phase2/specs/README.md",
+          "20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/catalog.json"
+        ]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
+        "currentSha": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+        "implementationSha": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20461,25 +21360,70 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Static current-navigation migration; preserved22/11 are dated45d inventory capture",
+            "source": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "independently-read-navigation-source-reception",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
         "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
+        "claims": [
+          "fixed121ff source independently accepted; root current delta separately pending"
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+          "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+          "selector": {
+            "entries.path": "docs/phase2/specs/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Only this navigation is current; historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "f84ef3756e00cf2205af876357e0ca2c2e69e9b7",
+            "fileSha256": "555f0fc0075a53d5c91871abe6e015e52ffaccf531f6872f32bd5130aa7dd50c",
+            "selector": {
+              "entries.path": "docs/phase2/specs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "若规范与实现存在差异，登记具体来源和适用版本；不能把本次索引治理当作 schema/save切换、代码修复或运行时通过。",
+      "userVisibleBeforeAfter": {
+        "before": {
+          "before": "Unstructured source navigation; design-spec old binding; central governed-legacy; catalog current",
+          "after": "Substantive five-section current navigation candidate with source-specific authority boundaries, all original live entries and exact source preservation; root integration pending"
+        },
+        "after": "Same accepted121ff navigation semantics plus reception/old axis clarification, unique source-specific current record and truthful type/status/route projections."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-specs-save-system",

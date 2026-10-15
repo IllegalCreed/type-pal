@@ -25,7 +25,6 @@
 - [事件 / 脚本系统三方逐函数审计(事件解释器 / autoScript / 触发器 / 走位骑乘相机 / 页切换状态机)](../phase2/archive/audits/n-event-script-audit.md) · phase2/archive
 - [N1-1 对话控制码退役审计](../phase2/archive/audits/n1-dialogue-migration-audit.md) · phase2/archive
 - [第一阶段深度审计跟踪表](../phase2/archive/audits/phase1-audit-tracker.md) · phase2/archive
-- [历史专项审计](../phase2/archive/audits/README.md) · phase2/archive
 - [原版事件脚本字节码普查(M3 设计输入,2026-07-02)](../phase2/archive/audits/script-census.md) · phase2/archive
 - [字体 / 调色板 / 屏幕特效 — 三方逐函数对照审计](../phase2/archive/audits/w-font-palette-audit.md) · phase2/archive
 - [渲染地基三方逐函数审计(瓦片 / 精灵 / 场景合成)](../phase2/archive/audits/w-render-audit.md) · phase2/archive
@@ -47,14 +46,12 @@
 - [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) · phase2/archive
 - [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) · phase2/archive
 - [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) · phase2/archive
-- [历史设计与规范快照](../phase2/archive/designs/README.md) · phase2/archive
 - [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) · phase2/archive
 - [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) · phase2/archive
 - [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) · phase2/archive
 - [剧情脚本系统](../phase2/archive/designs/script-system-design.md) · phase2/archive
 - [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) · phase2/archive
 - [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) · phase2/archive
-- [历史界面草案](../phase2/archive/mockups/README.md) · phase2/archive
 - [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) · phase2/archive
 - [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) · phase2/archive
 - [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) · phase2/archive
@@ -71,7 +68,6 @@
 - [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) · phase2/archive
 - [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) · phase2/archive
 - [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) · phase2/archive
-- [历史实施计划](../phase2/archive/plans/README.md) · phase2/archive
 - [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) · phase2/archive
 - [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) · phase2/archive
 - [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) · phase2/archive
@@ -80,13 +76,10 @@
 - [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) · phase2/archive
 - [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) · phase2/archive
 - [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) · phase2/archive
-- [第二阶段历史归档](../phase2/archive/README.md) · phase2/archive
 - [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) · phase2/archive
 - [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) · phase2/archive
 - [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) · phase2/archive
-- [室内切片历史](../phase2/archive/slices/indoor/README.md) · phase2/archive
 - [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) · phase2/archive
-- [历史垂直切片](../phase2/archive/slices/README.md) · phase2/archive
 - [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) · phase3/reference
 
 ## current
@@ -117,6 +110,13 @@
 - [Opcode Status · type-pal](../phase1/status/opcode-status.md) · phase1/status
 - [docs/phase1/status/ — 第一阶段覆盖快照](../phase1/status/README.md) · phase1/status
 - [Resource Status · type-pal](../phase1/status/resource-status.md) · phase1/status
+- [历史专项审计](../phase2/archive/audits/README.md) · phase2/archive
+- [历史设计与规范快照](../phase2/archive/designs/README.md) · phase2/archive
+- [历史界面草案](../phase2/archive/mockups/README.md) · phase2/archive
+- [历史实施计划](../phase2/archive/plans/README.md) · phase2/archive
+- [第二阶段历史归档](../phase2/archive/README.md) · phase2/archive
+- [室内切片历史](../phase2/archive/slices/indoor/README.md) · phase2/archive
+- [历史垂直切片](../phase2/archive/slices/README.md) · phase2/archive
 - [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) · phase2/governance
 - [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) · phase2/governance
 - [人物预制与场景实体创作说明](../phase2/guides/actor-presets.md) · phase2/guides

@@ -911,3 +911,9 @@ Branch: codex/docs-full-template-proposal
 
 - Exact dc2dde84e16e917678c7281375e0970f6ac0ecf8 的14文件获8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c独立根行政/中央层接收；C-M6-root-1/2/3在该候选闭合，dd024首counter与七完整prior保留。source六篇的实际接受权仍是tail21d/777，不由原作者自签。
 - 实际86工具/227body/733strict/phase184/lint4109 EWI0/diff0；完成222/1838+5增量，current1979/pending1752；旧002不重计、control/receipt仍pending。此次四文件只写真实接受事件与当前时态，不改source/body/native/after/registry/routes/matrix，不冒另一次外部metadata签字。继续P11及所有剩余docs/artifacts，不收口全目标或main。
+
+#### P11 source accepted; root current intake candidate
+
+- Exact121ff original202/current888 and11complete43-field semantic records independently accepted by A0dac8386cd5dd635815639d039ab078210ea6d1df332bbfd04e3be389424d407. Root full823report/486delivery read; no newly claimed107target bodies or HTML/raw/product/oldtests. Original four memory controls are source/navigation oracle checks, not generalmodel semantic coverage.
+- Eleven unique current records replace old same-path legacy entries with complete reachable Git/blob/wholeSHA/unique priors;10wrongtypes corrected after content reading,7archive-navigation statuses only become current, target history unchanged. Registry total unchanged,11newroutes, phasecatalog other173 exact. All202source byte inverse and107live members/118oldhref/24heading aliases retained.
+- Actual phase producer must render both views from the authoritative catalog, new root delta requires independent exact-byte reception and zero docs/lint/diff gates. Newcontrol/receipt stay pending increments; original author fullgate/strict11driftFAIL retained, no fake runtime/HTML/oldsignature acceptance.

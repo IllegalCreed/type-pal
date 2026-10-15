@@ -383,106 +383,6 @@
       "reviewedLines": "1-1352"
     },
     {
-      "path": "docs/phase2/archive/slices/indoor/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "室内切片历史：这是 archive-record，当前文档状态为 historical。全文 16 行、3 个标题；摘要/首段为「鬼界民居与室内切片的设计、旧计划。早期调试图片已退出工作树，原验收提交仍在 Git；WebGL/MMO 旧方案被重新聚焦取代，不能将后来的切片通过等同于旧方案全部实施。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/phase2/archive/slices/indoor/README.md:1",
-        "1:室内切片历史",
-        "7:分类入口",
-        "10:文档与附件"
-      ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-indoor-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-      "afterSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-      "publicCallers": [
-        "docs/phase2/archive/slices/indoor/README.md → ../README.md",
-        "docs/phase2/archive/slices/indoor/README.md → guijie-minju.md",
-        "docs/phase2/archive/slices/indoor/README.md → npc-collision-plan.md",
-        "docs/phase2/archive/slices/indoor/README.md → plan.md",
-        "docs/phase2/archive/slices/indoor/README.md → spec.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/README.md"
-      ],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/phase2/archive/slices/indoor/README.md",
-          "docs/phase-governance/templates/archive-record.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/archive/slices/indoor/README.md",
-        "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
-        "lineCount": 16,
-        "headings": [
-          {
-            "line": 1,
-            "text": "室内切片历史"
-          },
-          {
-            "line": 7,
-            "text": "分类入口"
-          },
-          {
-            "line": 10,
-            "text": "文档与附件"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-16"
-    },
-    {
       "path": "docs/phase2/archive/slices/indoor/spec.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
@@ -664,91 +564,6 @@
       "stopLine": "do not promote historical claims to current truth without a current source or user decision",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-278"
-    },
-    {
-      "path": "docs/phase2/archive/slices/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "历史垂直切片：这是 archive-record，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「保存项目起步时的切片资料与验证证据，不与现行模块分类混放。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/phase2/archive/slices/README.md:1", "1:历史垂直切片", "7:分类入口"],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-      "afterSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-      "publicCallers": [
-        "docs/phase2/archive/slices/README.md → ../README.md",
-        "docs/phase2/archive/slices/README.md → indoor/README.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/archive/slices/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/phase2/archive/slices/README.md",
-          "docs/phase-governance/templates/archive-record.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/archive/slices/README.md",
-        "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
-        "lineCount": 10,
-        "headings": [
-          {
-            "line": 1,
-            "text": "历史垂直切片"
-          },
-          {
-            "line": 7,
-            "text": "分类入口"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-10"
     },
     {
       "path": "docs/phase2/capability-map.md",
@@ -1502,96 +1317,6 @@
       "reviewedLines": "1-310"
     },
     {
-      "path": "docs/phase2/guides/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "guide-runbook",
-      "templateId": "guide-runbook-v1",
-      "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "第二阶段使用指南：这是 guide-runbook，当前文档状态为 current。全文 15 行、2 个标题；摘要/首段为「面向实际操作：人物、战场、场景入场、共享脚本、调试与内容发布。格式和界面约束统一引用 specs，不在指南中另造一套模型。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": ["docs/phase2/guides/README.md:1", "1:第二阶段使用指南", "7:文档与附件"],
-      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
-      "phase": "phase2",
-      "module": "guides",
-      "capability": "phase2-guides-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-      "afterSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-      "publicCallers": [
-        "docs/phase2/guides/README.md → ../README.md",
-        "docs/phase2/guides/README.md → actor-presets.md",
-        "docs/phase2/guides/README.md → battlefield-authoring.md",
-        "docs/phase2/guides/README.md → content-publication.md",
-        "docs/phase2/guides/README.md → debug-tools.md",
-        "docs/phase2/guides/README.md → scene-entry-authoring.md",
-        "docs/phase2/guides/README.md → shared-script-author-guide.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/guides/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/phase2/guides/README.md",
-          "docs/phase-governance/templates/guide-runbook.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/guides/README.md",
-        "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
-        "lineCount": 15,
-        "headings": [
-          {
-            "line": 1,
-            "text": "第二阶段使用指南"
-          },
-          {
-            "line": 7,
-            "text": "文档与附件"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-15"
-    },
-    {
       "path": "docs/phase2/READ-FIRST.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
@@ -1731,105 +1456,6 @@
         "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
         "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
       }
-    },
-    {
-      "path": "docs/phase2/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "第二阶段 · Reforge 文档：这是 governance-index，当前文档状态为 draft。全文 21 行、3 个标题；摘要/首段为「顶层只维护开工原则、产品方向与进度。查当前合同进入 specs，查操作方法进入 guides，查一阶段知识进入 reference；历史设计、计划与审计统一在 archive。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/phase2/README.md:1",
-        "1:第二阶段 · Reforge 文档",
-        "7:分类入口",
-        "14:文档与附件"
-      ],
-      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
-      "phase": "phase2",
-      "module": "README.md",
-      "capability": "phase2-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-      "afterSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-      "publicCallers": [
-        "docs/phase2/README.md → ../README.md",
-        "docs/phase2/README.md → archive/README.md",
-        "docs/phase2/README.md → guides/README.md",
-        "docs/phase2/README.md → reference/README.md",
-        "docs/phase2/README.md → specs/README.md",
-        "docs/phase2/README.md → READ-FIRST.md",
-        "docs/phase2/README.md → capability-map.md",
-        "docs/phase2/README.md → decisions.md",
-        "docs/phase2/README.md → design-backlog.md",
-        "docs/phase2/README.md → roadmap.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase2/README.md", "docs/phase-governance/templates/governance-index.md"],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/README.md",
-        "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
-        "lineCount": 21,
-        "headings": [
-          {
-            "line": 1,
-            "text": "第二阶段 · Reforge 文档"
-          },
-          {
-            "line": 7,
-            "text": "分类入口"
-          },
-          {
-            "line": 14,
-            "text": "文档与附件"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-21"
     },
     {
       "path": "docs/phase2/reference/dialogue-presentation.md",
@@ -2460,92 +2086,6 @@
         "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
         "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
       }
-    },
-    {
-      "path": "docs/phase2/reference/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "第二阶段知识参考：这是 reference-canon，当前文档状态为 current。全文 11 行、2 个标题；摘要/首段为「保存可移植的一阶段知识和呈现考证。每条按来源与当时场景理解；实施规则先读 READ-FIRST，字段合同以 specs 为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": ["docs/phase2/reference/README.md:1", "1:第二阶段知识参考", "7:文档与附件"],
-      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
-      "phase": "phase2",
-      "module": "reference",
-      "capability": "phase2-reference-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-      "afterSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-      "publicCallers": [
-        "docs/phase2/reference/README.md → ../README.md",
-        "docs/phase2/reference/README.md → dialogue-presentation.md",
-        "docs/phase2/reference/README.md → phase1-knowledge-harvest.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/reference/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/phase2/reference/README.md",
-          "docs/phase-governance/templates/reference-canon.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/reference/README.md",
-        "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
-        "lineCount": 11,
-        "headings": [
-          {
-            "line": 1,
-            "text": "第二阶段知识参考"
-          },
-          {
-            "line": 7,
-            "text": "文档与附件"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-11"
     },
     {
       "path": "docs/phase2/roadmap.md",
@@ -3835,96 +3375,6 @@
       }
     },
     {
-      "path": "docs/phase2/specs/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "第二阶段现行规范：这是 design-spec，当前文档状态为 current。全文 15 行、2 个标题；摘要/首段为「这里是当前内容、脚本、存档、编辑器与工作区合同。历史推导和旧版本保留在 archive，只有本目录承担现行规范维护。已知实现缺陷见当前代码审计，不因规范整理而视为已修复。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": ["docs/phase2/specs/README.md:1", "1:第二阶段现行规范", "7:文档与附件"],
-      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
-      "phase": "phase2",
-      "module": "specs",
-      "capability": "phase2-specs-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-      "afterSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-      "publicCallers": [
-        "docs/phase2/specs/README.md → ../README.md",
-        "docs/phase2/specs/README.md → content-schema.md",
-        "docs/phase2/specs/README.md → editor-architecture.md",
-        "docs/phase2/specs/README.md → editor-design-system.md",
-        "docs/phase2/specs/README.md → project-lifecycle.md",
-        "docs/phase2/specs/README.md → save-system.md",
-        "docs/phase2/specs/README.md → script-system.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/specs/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/phase2/specs/README.md",
-          "docs/phase-governance/templates/design-spec.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
-      },
-      "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/phase2/specs/README.md",
-        "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
-        "lineCount": 15,
-        "headings": [
-          {
-            "line": 1,
-            "text": "第二阶段现行规范"
-          },
-          {
-            "line": 7,
-            "text": "文档与附件"
-          }
-        ],
-        "unresolvedSignals": []
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-15"
-    },
-    {
       "path": "docs/phase2/specs/save-system.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "design-spec",
@@ -4526,6 +3976,116 @@
         "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
         "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
       }
+    }
+  ],
+  "currentRecordTransfers": [
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
+    },
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/guides/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/guides/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
+    },
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/specs/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/specs/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
+    },
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/reference/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/reference/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
+    },
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/archive/slices/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/archive/slices/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
+    },
+    {
+      "date": "2026-10-16",
+      "path": "docs/phase2/archive/slices/indoor/README.md",
+      "destination": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "completePrior": {
+        "kind": "complete-prior-current-in-reachable-fixed-git",
+        "revision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "gitObject": "1378f4a6eb2d8f38c2a3208fb3c59756ea162059",
+        "fileSha256": "420cc8016b774a710da7e1df02f22e62f5686ab9bee735a8fe62130b7664e336",
+        "selector": {
+          "entries.path": "docs/phase2/archive/slices/indoor/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Move unique current membership, not erase original audit history"
     }
   ]
 }

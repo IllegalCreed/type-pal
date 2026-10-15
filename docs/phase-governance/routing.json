@@ -1099,6 +1099,50 @@
     {
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",
       "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/phase2/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/guides/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/specs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/reference/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/slices/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/mockups/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/designs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/plans/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/README.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
