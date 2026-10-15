@@ -3934,7 +3934,1959 @@
           "raw",
           "runtime/E2E/visual/coverage",
           "old business tests"
-        ]
+        ],
+        "narrowHeadingOccurrenceRepair": {
+          "counter": "C-N6-1",
+          "status": "author repaired exact occurrence locator; candidate pending separate non-author closure, not author accept/done",
+          "authority": "Root explicit internal narrow admission on2026-10-16 after full first independent report: one receipt only, unique versions originalHeadingIDs[8].afterLine100->108 plus complete prior/counter history; nine Markdown bodies locked",
+          "priorLocator": {
+            "revision": "133bf41b05f8b52d1230cb00802ddce20442645c",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+            "gitObject": "aaadab9f4dc3a1c986c29d84b223a626d112764a",
+            "fileSha256": "1712522e3e4267e35c353831a4460c0e9cc3cc7eb9299dc347d3a77e653b07fd",
+            "selector": {
+              "entries.path": "docs/lore/versions.md",
+              "uniqueMatches": 1
+            },
+            "fieldCount": 43,
+            "completeObjectRetrievedAndCompared": true
+          },
+          "completePriorRecord": {
+            "path": "docs/lore/versions.md",
+            "sourceRevision": "4079482759bddd1c941b92e92eba21c891f571a0",
+            "sourceGitObject": "62cf091770775a34edc8936e7605d0e2262903c6",
+            "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+            "afterSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+            "sourceLines": 106,
+            "afterLines": 240,
+            "sourceReadScope": "余六原文458行本build逐篇完整实读；实际新五章/原live标题与采集表/完整quote作者全文核，source inverse逐字节。旧三224原/545已接受正文不本轮重读或重计；只按非作者e78与rootdbacf接受事件更新回执。四大稿仅primarySource明确窄域，不冒全文/外站/原游戏核验。",
+            "coreConclusion": "四项版本分歧与五项作者待办完整保留；月如主干继续T5.5项目约束，呈现A/B、用珠人、五珠、影视/生育官说仍待核或待作者。characters王小虎与逍遥/忆如的库内三记述并列，不认证新官方第三答案。",
+            "originalIdentity": {
+              "ownerFields": [],
+              "absentFields": ["Owner", "Coding Owner", "Author", "Status", "Last reviewed"],
+              "dateFields": ["### 分歧 1：林月如结局（2026-06-25 部分坐实 + 修订）"],
+              "authorWording": "原作者/你字样保持；无原AI作者名，不倒填治理Owner",
+              "historicalCatalogOwner": "旧Codex是catalog/review治理Owner，非原source作者",
+              "note": "原✅/⚠/❓与官方/查证自述保持原采集时点；本轮无外站认证"
+            },
+            "governanceOwner": "Codex: 文档治理/最终接收责任；history_cards_c_tail: 唯一候选作者，不能独立接收自己实现",
+            "status": {
+              "document": "candidate",
+              "meaning": "参考资料candidate，已登记项目约束继续、未核官设/未选内容不升格；catalog成熟度另轴",
+              "originalLiteralOwner": null,
+              "originalLiteralStatus": null,
+              "independentReview": "pending for actual new6 candidate"
+            },
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "templateVersion": "1.0.0",
+            "family": "version-specific source disagreements and author-only canon decisions",
+            "historyOverlay": false,
+            "historyOverlayTemplateId": null,
+            "historyOverlayVersion": null,
+            "phaseAnchor": "lore跨阶段资料/创作治理；phase1不重判原版canon，D12技术demo/D19纸面并行不授完整DLC；backlog110真时间仍phase3，当前只docs。",
+            "versionAxes": {
+              "templateVersion": "1.0.0",
+              "originalCollectionDates": ["### 分歧 1：林月如结局（2026-06-25 部分坐实 + 修订）"],
+              "oldReviewRevision": {
+                "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "implementationSha": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                    "date": "2026-10-04",
+                    "action": "content-deep-review-batch-1",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "originalSource": {
+                "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+                "sha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2"
+              },
+              "buildBase": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+              "productVersions": "No runtime/content/save version change; old22/SAVE11 only dated catalog capture, never refreshed to current product versions"
+            },
+            "primarySource": [
+              "docs/lore/versions.md:1-106 @4079482 (fresh full source)",
+              "docs/lore/characters.md:1-76 @d564 (fresh necessary range; original source identity checked)",
+              "docs/lore/taboos.md original105 @407 and accepted root current constraints; prior pilot actual read reused"
+            ],
+            "dependencies": [
+              "frozen N1.0 SHA078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+              "existing reference-canon/governance-index1.0 legal statuses and real model APIs; no new shared schema",
+              "actual d564 committed remainingN6 admission; source/external decisions not generalized beyond their scope"
+            ],
+            "publicCallers": [
+              "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+              "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+            ],
+            "legalInputs": [
+              "fixed original source bytes and historical source/date/confidence",
+              "explicit author project constraints and unresolved options kept separate",
+              "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+            ],
+            "businessOracle": {
+              "type": "specific lore source/authority/succession content contract",
+              "assertions": [
+                "四项版本分歧与五项作者待办完整保留；月如主干继续T5.5项目约束，呈现A/B、用珠人、五珠、影视/生育官说仍待核或待作者。characters王小虎与逍遥/忆如的库内三记述并列，不认证新官方第三答案。",
+                "Exact original 106 source lines inverse, one originalH1, 12 live original headings and 5 original href occurrences; whole9 total76 not per-document",
+                "All original table subjects/cells preserved as historical claims; ghost final table first3cells exact and explicit fourth succession scope. Required five chapters contain actual boundaries, not copy-only migration."
+              ],
+              "counter": [
+                "月如A/B、谁用珠、五珠处理、影视排除、生育官说明五项作者待办未勾",
+                "所有原URL未打开；王小虎仅库内冲突记述，不是新官核",
+                "Steam若有差异保待登记，不推断产品存在"
+              ]
+            },
+            "dedupe": {
+              "result": "author new6 candidate pending non-author review; no acceptance or migration count from self-check",
+              "against": [
+                "same-path fixed source/legacy current record",
+                "already accepted old3 N content (no recount)",
+                "already governed dlc and four long lore sources (no new full-reading credit)"
+              ],
+              "notes": "single theme source; source confidence/author decision/product execution separate; no duplicate canon or test/coverage credit"
+            },
+            "counterReworkBlocked": [
+              "月如A/B、谁用珠、五珠处理、影视排除、生育官说明五项作者待办未勾",
+              "所有原URL未打开；王小虎仅库内冲突记述，不是新官核",
+              "Steam若有差异保待登记，不推断产品存在"
+            ],
+            "history": {
+              "originalStatusAndOwnerAbsent": true,
+              "completePriorLegacyCurrent": {
+                "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+                "gitObject": "bf252182db5e7a9b65517fb60db7b0b207f647a9",
+                "fileSha256": "dc42b1b2dbf5dc6828df69bf6140f85eb20c168396969ec22fd90337d50929bf",
+                "selector": {
+                  "entries.path": "docs/lore/versions.md",
+                  "uniqueMatches": 1
+                },
+                "completeObjectRetrievedAndCompared": true,
+                "fieldCount": 30
+              },
+              "priorLegacyRecord": {
+                "path": "docs/lore/versions.md",
+                "contentReviewStatus": "content-reviewed",
+                "coreConclusion": "Registers cross-version conflicts and correctly blocks expansion choices until Yueru resurrection user choice, Five Orb handling, TV exclusion, and Nuwa death interpretation are decided.",
+                "truthAnchors": [
+                  "Yueru main chain is treated as settled but resurrection actor/presentation remains open",
+                  "Pal 1 is the preferred expansion frame",
+                  "author—not AI memory—makes canon choices"
+                ],
+                "unresolved": [
+                  "four explicit decision checkboxes remain open",
+                  "Steam/remaster and NPC dialogue differences are not catalogued"
+                ],
+                "nextStep": "Keep dependent expansion docs blocked on the open choices; create author decision records before canonizing.",
+                "phase": "lore",
+                "module": "versions.md",
+                "capability": "lore-versions",
+                "owner": "Codex",
+                "provenance": ["source-document", "repository-history"],
+                "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+                "afterSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+                "publicCallers": ["docs navigation"],
+                "legalInputs": ["current repository documentation", "docs/lore/versions.md"],
+                "businessOracle": {
+                  "type": "content-review",
+                  "assertions": [
+                    "core conclusion is grounded in the read body",
+                    "unresolved claims remain explicitly blocked"
+                  ]
+                },
+                "dedupe": {
+                  "result": "reviewed",
+                  "against": ["docs/phase-governance/catalog.json", "docs/lore/versions.md"],
+                  "notes": "Content review record; no runtime/E2E/coverage credit."
+                },
+                "revision": {
+                  "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "implementationSha": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+                  "contentVersion": 22,
+                  "minimumSaveVersion": 11,
+                  "history": [
+                    {
+                      "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                      "date": "2026-10-04",
+                      "action": "content-deep-review-batch-1",
+                      "notRun": ["runtime", "E2E", "coverage"]
+                    }
+                  ]
+                },
+                "evidence": {
+                  "kind": "content-reading",
+                  "path": "docs/lore/versions.md",
+                  "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2"
+                },
+                "history": [
+                  {
+                    "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                    "action": "read-and-reviewed",
+                    "contentReviewStatus": "content-reviewed"
+                  }
+                ],
+                "supersedes": [],
+                "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+                "userVisibleBeforeAfter": null,
+                "reviewedLines": "1-107",
+                "docType": "reference-canon",
+                "templateId": "reference-canon-v1",
+                "template": "docs/phase-governance/templates/reference-canon.md",
+                "templateCompliance": "governed-legacy",
+                "readMethod": "full-text-read",
+                "reviewDepth": "deep-semantic"
+              },
+              "priorCentralClassification": {
+                "path": "docs/lore/versions.md",
+                "phase": "lore",
+                "docType": "reference-canon",
+                "templateId": "reference-canon-v1",
+                "template": "docs/phase-governance/templates/reference-canon.md",
+                "templateCompliance": "governed-legacy",
+                "reviewStatus": "content-reviewed",
+                "reviewDepth": "deep-semantic",
+                "reviewRecord": "20261004-lore-phase3-batch1.json"
+              },
+              "frozenDesignAndPriorPilot": "Original N design graph entity error and pilot D19 multiplicity/old3 after-drift failures retained in fixed c7d/dbacf receipts; no rewrite as first pass",
+              "thisN6Failures": {
+                "observerGitArgFailure": {
+                  "path": "/tmp/type-pal-n6-canonical-proof-first-20261016.log",
+                  "sha256": "a12a20157b9a963676b73bdc129ba1cd39144febcc9fcac45944e719fbc59493",
+                  "bytes": 1975
+                },
+                "firstCompleteCanonicalCounter": {
+                  "path": "/tmp/type-pal-n6-canonical-proof-final-20261016.json",
+                  "sha256": "e8f7cf03ec2e457998d2b3743304e075864f9bb13a5d704836612d414079ec11",
+                  "bytes": 375217
+                },
+                "reason": "First observer passed an invalid argument to hash-object; corrected observer then found missing fourth-column delimiters in ghost live succession table. Source inverse/model/heading/link checks were already green; table consumer correctly countered. Five delimiter lines repaired without loosening check.",
+                "repair": {
+                  "path": "/tmp/type-pal-n6-ghost-live-table-repair-20261016.json",
+                  "sha256": "0ff7b2f8fdbf53d4f847dfc54fbdbbe3052b7f40a727f9edeba10f6b30679d3a",
+                  "bytes": 1915
+                },
+                "tableOccurrenceAudit": {
+                  "path": "/tmp/type-pal-n6-table-position-audit-20261016.json",
+                  "sha256": "9bf25d3be43079fe1355f6b0171b91d688ac4ae2e49efb216ef0fe7a3a14e75a",
+                  "priorIncreasingAssertion": "original table row occurrences must have strictly increasing distinct after positions",
+                  "aliasCount": 1,
+                  "scope": "Raw source/live row cells were already correct; initial firstIndex lookup assigned repeated separator rows to an earlier table. Fixed by actual GFM table token sequential ranges, every row occurrence now has distinct ordered afterLine. Body bytes unchanged."
+                }
+              },
+              "notReplayed": [
+                "external websites",
+                "raw",
+                "runtime/E2E/visual/coverage",
+                "old business tests"
+              ]
+            },
+            "supersedes": [
+              "同路径原资料的现行使用边界由本次五章明确；原A/五珠推荐仍为建议，未替代作者未决选择"
+            ],
+            "supersessionScope": "Only explicit same-path authority or precise source-backed decision succession; original dated claims/author constraints preserved; no new product/canon authorization",
+            "beforeAfter": "按reference五章分开作品/资料等级/项目主干/未决/使用边界；原四表与待办全保",
+            "userVisibleBeforeAfter": "Documentation source/constraint/unknown/navigation becomes explicit; no product/UI/character destiny/time-system behavior change",
+            "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+            "nextStep": "A/root independently read all6 original/current five chapters and complete43 fields each, plus exact old3 receipt refresh vs fixed priors; return accept/counter. Root alone updates current central/catalog/routes/matrix after real acceptance and zero gates. Author does not selfaccept/done/main.",
+            "templateCompliance": {
+              "authorCheck": "actual current checkMigratedDocument + explicit existing registry statuses, no schema change",
+              "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"],
+              "actualIssues": [],
+              "independentAcceptance": "pending"
+            },
+            "toolAssociations": [],
+            "runtimeExecutionPerformed": false,
+            "candidateSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+            "candidateGitObject": "a0711af4901f663085a9f576686fc3fb969637fc",
+            "originalPreservation": {
+              "quote": true,
+              "completeOriginalIncluded": true,
+              "method": "whole inert text fence longer than any source backtick run; fixed Git source and strict byte inverse",
+              "sourceFenceLength": 4,
+              "completeOriginalReadBackSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+              "sourceBlobReadBackExact": true,
+              "sourceToAfterLineMapping": [
+                {
+                  "sourceLine": 1,
+                  "afterLine": 134,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "291c1e88ce730098589d33642ae44732dd02dae1eafca2346a2947bcaeaa5111"
+                },
+                {
+                  "sourceLine": 2,
+                  "afterLine": 135,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 3,
+                  "afterLine": 136,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "711b76930a39edb1d97c787fd53e9b1bc317ef1586873e45d0552fcc614240c1"
+                },
+                {
+                  "sourceLine": 4,
+                  "afterLine": 137,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "62b67e1f685b7fef51102005dddd27774be3fee38c42965c53aab035d0b6b221"
+                },
+                {
+                  "sourceLine": 5,
+                  "afterLine": 138,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "f4ad55bb87426825dedc69cd6a2fcc31cd35161510e6800fdc9219c08ffc4176"
+                },
+                {
+                  "sourceLine": 6,
+                  "afterLine": 139,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 7,
+                  "afterLine": 140,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "a7494272c31b2495f5c0c9182c86ad885d9cbe68e220a55a8117d06ddd9e4280"
+                },
+                {
+                  "sourceLine": 8,
+                  "afterLine": 141,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 9,
+                  "afterLine": 142,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "a631ea73832dd14f7abab97affea4b48efbad8b01086e352d979bc7aa5fca234"
+                },
+                {
+                  "sourceLine": 10,
+                  "afterLine": 143,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "754c29f0dbdefe37e68561e187506370fee504b6c0618813a39576df32417f1b"
+                },
+                {
+                  "sourceLine": 11,
+                  "afterLine": 144,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "a93e42f5e1675c6e19bd05b68283d4df7541427fb9b44ac4f30fdb7b965e3351"
+                },
+                {
+                  "sourceLine": 12,
+                  "afterLine": 145,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "bec32c35b5b984ff9f22985c5910a53bf4d637162e29206819da34914b29063c"
+                },
+                {
+                  "sourceLine": 13,
+                  "afterLine": 146,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 14,
+                  "afterLine": 147,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "11c8f754e097eccc81139a8efcf656c7f1ab0205a19103fe03ea07de1aa94067"
+                },
+                {
+                  "sourceLine": 15,
+                  "afterLine": 148,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 16,
+                  "afterLine": 149,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 17,
+                  "afterLine": 150,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 18,
+                  "afterLine": 151,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "7771be87762239eee73f78c0645758e4016cb70e0f28cd869eafec151f5c3c01"
+                },
+                {
+                  "sourceLine": 19,
+                  "afterLine": 152,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 20,
+                  "afterLine": 153,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "11d15b11179e09a1da75e232559d2747c65f193d27ffcc81f9b714ab411061d8"
+                },
+                {
+                  "sourceLine": 21,
+                  "afterLine": 154,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 22,
+                  "afterLine": 155,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "ea462eff49b6ff1ac51c119a0b71bfb81952be0c9705b443a8edb3528dc7f7ab"
+                },
+                {
+                  "sourceLine": 23,
+                  "afterLine": 156,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "96725397b5b437f954e46f075485931a5d0150af96e92d546063947fe2fe6097"
+                },
+                {
+                  "sourceLine": 24,
+                  "afterLine": 157,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "213e5b29898e1b47bcd45f49242fe502177f07e96e196478dda0ea0cb17a639d"
+                },
+                {
+                  "sourceLine": 25,
+                  "afterLine": 158,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 26,
+                  "afterLine": 159,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "5e7fea85c26783b1d95adb2e4945ac17dc2f17afc06c02f2382bb51e3284888c"
+                },
+                {
+                  "sourceLine": 27,
+                  "afterLine": 160,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 28,
+                  "afterLine": 161,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "5291f5eb043d2c40c95c0d3904821328121ecdd5b555f5f8ffe8623c51e71a05"
+                },
+                {
+                  "sourceLine": 29,
+                  "afterLine": 162,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
+                },
+                {
+                  "sourceLine": 30,
+                  "afterLine": 163,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cdc16addd84351eac46a23090cda2f4037315f5b7657b5695de3388101877617"
+                },
+                {
+                  "sourceLine": 31,
+                  "afterLine": 164,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "2233fd61ac7f3a8cea5c7ac1f1e52f031df3fbb37b01ff18b9783850c9111b0e"
+                },
+                {
+                  "sourceLine": 32,
+                  "afterLine": 165,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 33,
+                  "afterLine": 166,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "fb69e2168cae210cb370450ab4c29b7aff7aa4350ee8a23ceb9a0b8b90bfac75"
+                },
+                {
+                  "sourceLine": 34,
+                  "afterLine": 167,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 35,
+                  "afterLine": 168,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "5f883256eed3ba703a0b2a38079f5b943bdef0466b9628aa3e7985c8e7672a8e"
+                },
+                {
+                  "sourceLine": 36,
+                  "afterLine": 169,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43"
+                },
+                {
+                  "sourceLine": 37,
+                  "afterLine": 170,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "64ec5cb8cf5b2d3093c62b0d9366cb2a539ecf5145ad1c99baf765c0320115f2"
+                },
+                {
+                  "sourceLine": 38,
+                  "afterLine": 171,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "b70398a9b20897ce80f78ca31adbb804c333b3b660f62534eca9d23f5dbc99e8"
+                },
+                {
+                  "sourceLine": 39,
+                  "afterLine": 172,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 40,
+                  "afterLine": 173,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "6fca8e40d627a15b31573ea2836271547c7fa88a69532055e1c1814a206f18bc"
+                },
+                {
+                  "sourceLine": 41,
+                  "afterLine": 174,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "d9fc201f1bd7e41143ad17f3de4135be0b50046389ec61c14baf91916391aad8"
+                },
+                {
+                  "sourceLine": 42,
+                  "afterLine": 175,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "6cec206cfc718ffbe307f5e5425b8272af49ce3aa50315b34d02898622697651"
+                },
+                {
+                  "sourceLine": 43,
+                  "afterLine": 176,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 44,
+                  "afterLine": 177,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cd382bd83857066fe0fab4990c2ee2ec0c69f443d1998d134f06e9defd73ac36"
+                },
+                {
+                  "sourceLine": 45,
+                  "afterLine": 178,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "8a5d41b2385f0c41a4c5a8698e944542b5b6a1a02785fce81cb81cd5592ff9b4"
+                },
+                {
+                  "sourceLine": 46,
+                  "afterLine": 179,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "3871f1346fd3aeb8be203cd4aba68331abfae0a5c51f83d011d8e1d528df3c46"
+                },
+                {
+                  "sourceLine": 47,
+                  "afterLine": 180,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 48,
+                  "afterLine": 181,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 49,
+                  "afterLine": 182,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 50,
+                  "afterLine": 183,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "23bfd9b53eba505438ea5b2d4ea0d3b65fba12edb867340586bca465cffa74a9"
+                },
+                {
+                  "sourceLine": 51,
+                  "afterLine": 184,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 52,
+                  "afterLine": 185,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "c2866d3e8d48bd5108788451fd9daa51b640db725f365e50beb7e0e726d043fa"
+                },
+                {
+                  "sourceLine": 53,
+                  "afterLine": 186,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "4199ba454d6d3ae83657120c2bb6bd674eefc0dd7d3cd4cc844171dc6725135b"
+                },
+                {
+                  "sourceLine": 54,
+                  "afterLine": 187,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "88e5dea373483fd4c6bba3e41b964de92ff36b6b23015087f9aea9ef80a2403f"
+                },
+                {
+                  "sourceLine": 55,
+                  "afterLine": 188,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "d256c1e815210995dfeb16da70eb1d358cd40db9c667e37301b641f1cdb75c23"
+                },
+                {
+                  "sourceLine": 56,
+                  "afterLine": 189,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 57,
+                  "afterLine": 190,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "7afa56b7fec8bc110e86a1cb36cba2dec996362e41084c0c6363c5da950ad234"
+                },
+                {
+                  "sourceLine": 58,
+                  "afterLine": 191,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 59,
+                  "afterLine": 192,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "806df76e306d51a28bdb78a819f26cbed3c9c4733fe1746c86383c803f3c8383"
+                },
+                {
+                  "sourceLine": 60,
+                  "afterLine": 193,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "220d36c1d37954a0726e2c853d3319c1dc2dbd1cf60b3a8c45d322ba4150d5bb"
+                },
+                {
+                  "sourceLine": 61,
+                  "afterLine": 194,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "57f8d03e8f125582b4b3beafc78950f3742870b2444c1266bb3f6564ff944ee2"
+                },
+                {
+                  "sourceLine": 62,
+                  "afterLine": 195,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "9071631f045b0b2964e432aaf70c3f8749eeb0506b8b190e1ff67f27406a0bbc"
+                },
+                {
+                  "sourceLine": 63,
+                  "afterLine": 196,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 64,
+                  "afterLine": 197,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 65,
+                  "afterLine": 198,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 66,
+                  "afterLine": 199,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "aeccd310aa749baccf7b5bbbad9894ac3fa6a470357676ae2427f57748beb21a"
+                },
+                {
+                  "sourceLine": 67,
+                  "afterLine": 200,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 68,
+                  "afterLine": 201,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "80d96eec8191e7f0a7131566852790f72b952211ed2ccfa40967cd4b0f0dba3e"
+                },
+                {
+                  "sourceLine": 69,
+                  "afterLine": 202,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43"
+                },
+                {
+                  "sourceLine": 70,
+                  "afterLine": 203,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "2e72eb628d9c15b2ff50219d0073db8f22720ed06577faf5bcd88b84724004ad"
+                },
+                {
+                  "sourceLine": 71,
+                  "afterLine": 204,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "16b65ba2d5e2c326f10049f768b77528392b2576947a5d7d698f3379471044f5"
+                },
+                {
+                  "sourceLine": 72,
+                  "afterLine": 205,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 73,
+                  "afterLine": 206,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "806df76e306d51a28bdb78a819f26cbed3c9c4733fe1746c86383c803f3c8383"
+                },
+                {
+                  "sourceLine": 74,
+                  "afterLine": 207,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "05d66106e84e3212a0de7c721e6d5511d75c8ca0c80081a514971fed239a8cd8"
+                },
+                {
+                  "sourceLine": 75,
+                  "afterLine": 208,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "218289ee4b612d04f87a0d24e9c236efab331672a0ad63850af2df4dcebf2dee"
+                },
+                {
+                  "sourceLine": 76,
+                  "afterLine": 209,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 77,
+                  "afterLine": 210,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 78,
+                  "afterLine": 211,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 79,
+                  "afterLine": 212,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "6f19c145e4115015e4de7b0688e214a68d474ecc45d8eb0ee70edf33b9686bfb"
+                },
+                {
+                  "sourceLine": 80,
+                  "afterLine": 213,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 81,
+                  "afterLine": 214,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "de1865c1f7ff971b411ef320a80f877eefc97a98ecd93b3677a34b4ce9b0326a"
+                },
+                {
+                  "sourceLine": 82,
+                  "afterLine": 215,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 83,
+                  "afterLine": 216,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e390aa78c092dd53571690e7759dfedcb6b07e71a06726b4216575146a8435dc"
+                },
+                {
+                  "sourceLine": 84,
+                  "afterLine": 217,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "7c173c410184a243057600b9cb0cf47bf8b111c34b76573b21865d7d9689e9d8"
+                },
+                {
+                  "sourceLine": 85,
+                  "afterLine": 218,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "21545129e3a6aaf91f4f514f41641fab63bd618a8fa56b8ebaf234b6d20ff5fe"
+                },
+                {
+                  "sourceLine": 86,
+                  "afterLine": 219,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 87,
+                  "afterLine": 220,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 88,
+                  "afterLine": 221,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 89,
+                  "afterLine": 222,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "56ce591e5ebc418aa5c016eb352a9fedb3a781593206df5e265095358772d1dd"
+                },
+                {
+                  "sourceLine": 90,
+                  "afterLine": 223,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 91,
+                  "afterLine": 224,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "d97a05d83b492be10d8c72648b34c092bd2a939d6b9a7697caf7337d1804f69b"
+                },
+                {
+                  "sourceLine": 92,
+                  "afterLine": 225,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "55a0ba94f4829014db6738ef23270d5d55b82e0dc377461fe2410f27fc76ae43"
+                },
+                {
+                  "sourceLine": 93,
+                  "afterLine": 226,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "6a85c64de9796debf78883406713c569bf81fc9bc239717336625989bd525a73"
+                },
+                {
+                  "sourceLine": 94,
+                  "afterLine": 227,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 95,
+                  "afterLine": 228,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "cb3f91d54eee30e53e35b2b99905f70f169ed549fd78909d3dac2defc9ed8d3b"
+                },
+                {
+                  "sourceLine": 96,
+                  "afterLine": 229,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 97,
+                  "afterLine": 230,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "74839b3e4274d923e1f7d26f01ea29cc234f172b48ea02ce4e0ce9d013ac6498"
+                },
+                {
+                  "sourceLine": 98,
+                  "afterLine": 231,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 99,
+                  "afterLine": 232,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "014b6afc84b572f9313462dfece1772bb4cd6f3a0bd044f3147e9016d78b1bd4"
+                },
+                {
+                  "sourceLine": 100,
+                  "afterLine": 233,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "sourceLine": 101,
+                  "afterLine": 234,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "53f7b56c9f4b7849cd29364443c9b934373805588f54c57c49a4ccc6c86fd95a"
+                },
+                {
+                  "sourceLine": 102,
+                  "afterLine": 235,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "716cabb5b750ce52e2b5ca7c1f590cdbebe52d93bc6f670e416651a6763e331f"
+                },
+                {
+                  "sourceLine": 103,
+                  "afterLine": 236,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "b6e36456aca1eeba5041af10332c3662f7ac449e9040a0c4b8ed4e3a631a8131"
+                },
+                {
+                  "sourceLine": 104,
+                  "afterLine": 237,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "8a52c52b473f913bf478d3aaf5e955519c75d3f8413591c3aedd84d2239663a9"
+                },
+                {
+                  "sourceLine": 105,
+                  "afterLine": 238,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "b8a90b2f4f5c1f7e650cb6191d6102b3745e5d8d89bafac309c10024c874f373"
+                },
+                {
+                  "sourceLine": 106,
+                  "afterLine": 239,
+                  "method": "complete original inert text-fence payload; exact bytes",
+                  "sha256": "7ff63f1d6c3d4fb86cda74e6cf49d0f968dd312a91282bcd4bf0ddec2c828857"
+                }
+              ],
+              "originalHeadingIDs": [
+                {
+                  "raw": "# 版本差异登记（versions）",
+                  "plain": "版本差异登记（versions）",
+                  "id": "版本差异登记versions",
+                  "depth": 1,
+                  "afterLine": 1,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "## 为什么这是个大问题",
+                  "plain": "为什么这是个大问题",
+                  "id": "为什么这是个大问题",
+                  "depth": 2,
+                  "afterLine": 80,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "## 分歧登记",
+                  "plain": "分歧登记",
+                  "id": "分歧登记",
+                  "depth": 2,
+                  "afterLine": 84,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "### 分歧 1：林月如结局（2026-06-25 部分坐实 + 修订）",
+                  "plain": "分歧 1：林月如结局（2026-06-25 部分坐实 + 修订）",
+                  "id": "分歧-1林月如结局2026-06-25-部分坐实--修订",
+                  "depth": 3,
+                  "afterLine": 88,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "#### 选项分析（仅针对\"仙剑一结局画面\"这第二点）",
+                  "plain": "选项分析（仅针对\"仙剑一结局画面\"这第二点）",
+                  "id": "选项分析仅针对仙剑一结局画面这第二点",
+                  "depth": 4,
+                  "afterLine": 92,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "### 分歧 2：五灵珠来源",
+                  "plain": "分歧 2：五灵珠来源",
+                  "id": "分歧-2五灵珠来源",
+                  "depth": 3,
+                  "afterLine": 96,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "#### 处理建议",
+                  "plain": "处理建议",
+                  "id": "处理建议",
+                  "depth": 4,
+                  "afterLine": 100,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "### 分歧 3：赵灵儿\"不死\"设定",
+                  "plain": "分歧 3：赵灵儿\"不死\"设定",
+                  "id": "分歧-3赵灵儿不死设定",
+                  "depth": 3,
+                  "afterLine": 104,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "#### 处理建议",
+                  "plain": "处理建议",
+                  "id": "处理建议-1",
+                  "depth": 4,
+                  "afterLine": 100,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "### 分歧 4：电视剧 vs 游戏设定",
+                  "plain": "分歧 4：电视剧 vs 游戏设定",
+                  "id": "分歧-4电视剧-vs-游戏设定",
+                  "depth": 3,
+                  "afterLine": 112,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "## 待登记",
+                  "plain": "待登记",
+                  "id": "待登记",
+                  "depth": 2,
+                  "afterLine": 116,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                },
+                {
+                  "raw": "## 决策待办（作者拍板项）",
+                  "plain": "决策待办（作者拍板项）",
+                  "id": "决策待办作者拍板项",
+                  "depth": 2,
+                  "afterLine": 120,
+                  "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
+                }
+              ],
+              "originalHeadingIDsLive": true,
+              "tableRows": [
+                {
+                  "table": 1,
+                  "row": 1,
+                  "sourceRaw": "| 待定点 | 说法 A | 说法 B | 来源 |",
+                  "sourceRawSha256": "5291f5eb043d2c40c95c0d3904821328121ecdd5b555f5f8ffe8623c51e71a05",
+                  "afterLine": 22,
+                  "afterRaw": "| 待定点 | 说法 A | 说法 B | 来源 |",
+                  "afterRawSha256": "5291f5eb043d2c40c95c0d3904821328121ecdd5b555f5f8ffe8623c51e71a05",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 1,
+                  "row": 2,
+                  "sourceRaw": "|---|---|---|---|",
+                  "sourceRawSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
+                  "afterLine": 23,
+                  "afterRaw": "|---|---|---|---|",
+                  "afterRawSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 1,
+                  "row": 3,
+                  "sourceRaw": "| **回魂珠谁用** | **李逍遥**（豆瓣、[维基·李逍遥](https://zh.wikipedia.org/zh-cn/%E6%9D%8E%E9%80%8D%E9%81%A5)） | **李忆如**（[维基·林月如](https://zh.wikipedia.org/zh-cn/%E6%9E%97%E6%9C%88%E5%A6%82)） | 来源冲突 |",
+                  "sourceRawSha256": "cdc16addd84351eac46a23090cda2f4037315f5b7657b5695de3388101877617",
+                  "afterLine": 24,
+                  "afterRaw": "| **回魂珠谁用** | **李逍遥**（豆瓣、[维基·李逍遥](https://zh.wikipedia.org/zh-cn/%E6%9D%8E%E9%80%8D%E9%81%A5)） | **李忆如**（[维基·林月如](https://zh.wikipedia.org/zh-cn/%E6%9E%97%E6%9C%88%E5%A6%82)） | 来源冲突 |",
+                  "afterRawSha256": "cdc16addd84351eac46a23090cda2f4037315f5b7657b5695de3388101877617",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 1,
+                  "row": 4,
+                  "sourceRaw": "| **仙剑一结局画面取哪个版本为\"正典呈现\"** | DOS/98（傀儡虫续命、树下等候的悲剧意象） | 新仙剑隐藏结局（36 傀儡虫真复活） | 玩家自选 |",
+                  "sourceRawSha256": "2233fd61ac7f3a8cea5c7ac1f1e52f031df3fbb37b01ff18b9783850c9111b0e",
+                  "afterLine": 25,
+                  "afterRaw": "| **仙剑一结局画面取哪个版本为\"正典呈现\"** | DOS/98（傀儡虫续命、树下等候的悲剧意象） | 新仙剑隐藏结局（36 傀儡虫真复活） | 玩家自选 |",
+                  "afterRawSha256": "2233fd61ac7f3a8cea5c7ac1f1e52f031df3fbb37b01ff18b9783850c9111b0e",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 2,
+                  "row": 1,
+                  "sourceRaw": "| 选项 | 含义 | 对扩展的影响 |",
+                  "sourceRawSha256": "5f883256eed3ba703a0b2a38079f5b943bdef0466b9628aa3e7985c8e7672a8e",
+                  "afterLine": 29,
+                  "afterRaw": "| 选项 | 含义 | 对扩展的影响 |",
+                  "afterRawSha256": "5f883256eed3ba703a0b2a38079f5b943bdef0466b9628aa3e7985c8e7672a8e",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 2,
+                  "row": 2,
+                  "sourceRaw": "|---|---|---|",
+                  "sourceRawSha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43",
+                  "afterLine": 30,
+                  "afterRaw": "|---|---|---|",
+                  "afterRawSha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 2,
+                  "row": 3,
+                  "sourceRaw": "| **A. DOS/98 为正典** | 仙剑一结局是\"傀儡虫续命、非真复活\" | \"结局后\"扩展里月如是濒死/傀儡态；戏剧悬念强（\"她能否被救活\"恰是后传题材） |",
+                  "sourceRawSha256": "64ec5cb8cf5b2d3093c62b0d9366cb2a539ecf5145ad1c99baf765c0320115f2",
+                  "afterLine": 31,
+                  "afterRaw": "| **A. DOS/98 为正典** | 仙剑一结局是\"傀儡虫续命、非真复活\" | \"结局后\"扩展里月如是濒死/傀儡态；戏剧悬念强（\"她能否被救活\"恰是后传题材） |",
+                  "afterRawSha256": "64ec5cb8cf5b2d3093c62b0d9366cb2a539ecf5145ad1c99baf765c0320115f2",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 2,
+                  "row": 4,
+                  "sourceRaw": "| **B. 新仙剑隐藏结局为正典** | 仙剑一结局即真复活 | \"结局后\"扩展可写月如正常活着；与仙剑二自然衔接 |",
+                  "sourceRawSha256": "b70398a9b20897ce80f78ca31adbb804c333b3b660f62534eca9d23f5dbc99e8",
+                  "afterLine": 32,
+                  "afterRaw": "| **B. 新仙剑隐藏结局为正典** | 仙剑一结局即真复活 | \"结局后\"扩展可写月如正常活着；与仙剑二自然衔接 |",
+                  "afterRawSha256": "b70398a9b20897ce80f78ca31adbb804c333b3b660f62534eca9d23f5dbc99e8",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 3,
+                  "row": 1,
+                  "sourceRaw": "| 版本 | 来源说法 |",
+                  "sourceRawSha256": "c2866d3e8d48bd5108788451fd9daa51b640db725f365e50beb7e0e726d043fa",
+                  "afterLine": 36,
+                  "afterRaw": "| 版本 | 来源说法 |",
+                  "afterRawSha256": "c2866d3e8d48bd5108788451fd9daa51b640db725f365e50beb7e0e726d043fa",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 3,
+                  "row": 2,
+                  "sourceRaw": "|---|---|",
+                  "sourceRawSha256": "4199ba454d6d3ae83657120c2bb6bd674eefc0dd7d3cd4cc844171dc6725135b",
+                  "afterLine": 37,
+                  "afterRaw": "|---|---|",
+                  "afterRawSha256": "4199ba454d6d3ae83657120c2bb6bd674eefc0dd7d3cd4cc844171dc6725135b",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 3,
+                  "row": 3,
+                  "sourceRaw": "| **仙剑一** | 女娲以风神/雷神/雪妖/火神/山神**五神骸骨**炼成，苗族世代相传 |",
+                  "sourceRawSha256": "88e5dea373483fd4c6bba3e41b964de92ff36b6b23015087f9aea9ef80a2403f",
+                  "afterLine": 38,
+                  "afterRaw": "| **仙剑一** | 女娲以风神/雷神/雪妖/火神/山神**五神骸骨**炼成，苗族世代相传 |",
+                  "afterRawSha256": "88e5dea373483fd4c6bba3e41b964de92ff36b6b23015087f9aea9ef80a2403f",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 3,
+                  "row": 4,
+                  "sourceRaw": "| **仙剑三/三外传** | **三皇**将大地五种灵力凝聚而成 |",
+                  "sourceRawSha256": "d256c1e815210995dfeb16da70eb1d358cd40db9c667e37301b641f1cdb75c23",
+                  "afterLine": 39,
+                  "afterRaw": "| **仙剑三/三外传** | **三皇**将大地五种灵力凝聚而成 |",
+                  "afterRawSha256": "d256c1e815210995dfeb16da70eb1d358cd40db9c667e37301b641f1cdb75c23",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 4,
+                  "row": 1,
+                  "sourceRaw": "| 说法 | 内容 | 可靠性 |",
+                  "sourceRawSha256": "80d96eec8191e7f0a7131566852790f72b952211ed2ccfa40967cd4b0f0dba3e",
+                  "afterLine": 43,
+                  "afterRaw": "| 说法 | 内容 | 可靠性 |",
+                  "afterRawSha256": "80d96eec8191e7f0a7131566852790f72b952211ed2ccfa40967cd4b0f0dba3e",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 4,
+                  "row": 2,
+                  "sourceRaw": "|---|---|---|",
+                  "sourceRawSha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43",
+                  "afterLine": 44,
+                  "afterRaw": "|---|---|---|",
+                  "afterRawSha256": "23cca02b74f386463efa24796c7a9011b0d2c93f0c38b4d15d5d276205b59b43",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 4,
+                  "row": 3,
+                  "sourceRaw": "| 粉丝解读 | 女娲族生育前理论上不死；灵儿因生育忆如失去不死之身才牺牲 | ⚠️ 知乎讨论 |",
+                  "sourceRawSha256": "2e72eb628d9c15b2ff50219d0073db8f22720ed06577faf5bcd88b84724004ad",
+                  "afterLine": 45,
+                  "afterRaw": "| 粉丝解读 | 女娲族生育前理论上不死；灵儿因生育忆如失去不死之身才牺牲 | ⚠️ 知乎讨论 |",
+                  "afterRawSha256": "2e72eb628d9c15b2ff50219d0073db8f22720ed06577faf5bcd88b84724004ad",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                },
+                {
+                  "table": 4,
+                  "row": 4,
+                  "sourceRaw": "| 官方表述 | 待查 | ❓ |",
+                  "sourceRawSha256": "16b65ba2d5e2c326f10049f768b77528392b2576947a5d7d698f3379471044f5",
+                  "afterLine": 46,
+                  "afterRaw": "| 官方表述 | 待查 | ❓ |",
+                  "afterRawSha256": "16b65ba2d5e2c326f10049f768b77528392b2576947a5d7d698f3379471044f5",
+                  "method": "same ordered original historical claim row/cells exact; actual table-token sequential range uniquely binds each occurrence"
+                }
+              ],
+              "allOriginalLinkOccurrencesPreserved": true,
+              "linkOccurrences": [
+                {
+                  "sourceOccurrence": 1,
+                  "sourceLabel": "taboos.md T5.5",
+                  "href": "taboos.md",
+                  "afterOccurrence": 3,
+                  "afterLabel": "taboos.md T5.5",
+                  "external": false
+                },
+                {
+                  "sourceOccurrence": 2,
+                  "sourceLabel": "维基·李逍遥",
+                  "href": "https://zh.wikipedia.org/zh-cn/%E6%9D%8E%E9%80%8D%E9%81%A5",
+                  "afterOccurrence": 1,
+                  "afterLabel": "维基·李逍遥",
+                  "external": true
+                },
+                {
+                  "sourceOccurrence": 3,
+                  "sourceLabel": "维基·林月如",
+                  "href": "https://zh.wikipedia.org/zh-cn/%E6%9E%97%E6%9C%88%E5%A6%82",
+                  "afterOccurrence": 2,
+                  "afterLabel": "维基·林月如",
+                  "external": true
+                },
+                {
+                  "sourceOccurrence": 4,
+                  "sourceLabel": "知乎专栏",
+                  "href": "https://zhuanlan.zhihu.com/p/661149729",
+                  "afterOccurrence": 6,
+                  "afterLabel": "知乎专栏",
+                  "external": true
+                },
+                {
+                  "sourceOccurrence": 5,
+                  "sourceLabel": "taboos.md T5.5",
+                  "href": "taboos.md",
+                  "afterOccurrence": 7,
+                  "afterLabel": "taboos.md T5.5",
+                  "external": false
+                }
+              ],
+              "dateMutation": {
+                "applicable": true,
+                "sourceLiteral": "2026-06-25",
+                "mutantCandidateSha256": "2f202d0facad09e9c7b6f0d39368dcdad60473563265fee06d522c5c9483f4e1",
+                "mutantRecoveredSha256": "bb7cc8e809be56a052df4fdbbee3a68416aaa13b0cbe986243f1aec483c71a9e",
+                "rejectedBySourceInverse": true
+              },
+              "fullOriginalExternalSourcesAvailable": "unknown; no HTTP/raw replay",
+              "note": "all original source line hashes exclude terminator; whole-source hash includes exact finalLF. Old official/verified title wording remains historical evidence."
+            },
+            "linkCheck": {
+              "method": "Actual current checkMigratedDocument + explicit registry statuses, Marked GFM rendered-title Unicode slug projection with entity decoding, exact inverse/map bytes, full original occurrence multiplicity and base inbound graph. Static only; no browser/HTTP/raw/runtime.",
+              "originalHeadingCount": 12,
+              "originalHeadingsPreserved": true,
+              "originalLinkOccurrences": 5,
+              "currentLinkOccurrences": 10,
+              "missingOccurrences": [],
+              "brokenCurrentLinks": [],
+              "oldIncomingLinks": [
+                {
+                  "source": "docs/lore/README.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/README.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/README.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/characters.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/characters.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/narrative-workflow.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/taboos.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/taboos.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/taboos.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/timeline.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/lore/world-rules.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/phase-governance/by-phase.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "../lore/versions.md",
+                  "fragment": null
+                },
+                {
+                  "source": "docs/phase-governance/by-status.md",
+                  "target": "docs/lore/versions.md",
+                  "href": "../lore/versions.md",
+                  "fragment": null
+                }
+              ],
+              "modelIssues": [],
+              "registeredStatusValid": true,
+              "referenceDraftModelIssues": [],
+              "referenceDraftRegisteredRejected": true
+            },
+            "sourceReviewStatus": "author new6 implementation candidate; legacy content-reviewed/governed-legacy label not completion; non-author full semantic review and root intake pending"
+          },
+          "originalCounter": {
+            "path": "/tmp/type-pal-n6-independent-review-20261016.json",
+            "sha256": "af26370b05e9a5fad0d6497e799c847e2680c79fef6bacc5230b3b8f0b5dc687",
+            "bytes": 29931,
+            "completeReport": {
+              "kind": "N6 non-author independent full source/live/receipt semantic review and exact old3 receipt refresh review",
+              "reviewer": "history_cards_a; non-author of N9 source/candidate",
+              "candidate": "133bf41b05f8b52d1230cb00802ddce20442645c",
+              "parent": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+              "originalSourceRevision": "4079482759bddd1c941b92e92eba21c891f571a0",
+              "worktree": "/Users/zhangxu/.codex/worktrees/docs-lore-reference-n/type-pal",
+              "verdict": "counter exact7 package on C-N6-1; six Markdown bodies accept at their exact pins; root integration not accepted",
+              "scope": {
+                "repositoryWrites": 0,
+                "newSourceBodyMigrationsAcceptedIntoCentral": 0,
+                "sourceBodiesIndependentlySemanticallyAcceptable": 6,
+                "oldThreeUnchangedRecount": 0,
+                "receiptSelfMigrationCredit": 0,
+                "runtimeCredit": 0,
+                "rootResponsibility": "Root alone coordinates author repair, full prior preservation, central/catalog/routing/intake and final zero-diagnostic gates. This report does not authorize those future bytes."
+              },
+              "frozenPins": [
+                {
+                  "path": "docs/lore/factions.md",
+                  "sha256": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
+                  "blob": "51a3d56a086229d2c2e6f9f661a8fd6723e84797",
+                  "bytes": 18394,
+                  "lines": 326
+                },
+                {
+                  "path": "docs/lore/ideas/README.md",
+                  "sha256": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
+                  "blob": "5e840e14aa1bdcd4880f86e8b47e1cb42ec89c28",
+                  "bytes": 2731,
+                  "lines": 57
+                },
+                {
+                  "path": "docs/lore/ideas/guijie/README.md",
+                  "sha256": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
+                  "blob": "5c474328690edf97e19c8e6a2276b2ee261043a3",
+                  "bytes": 3495,
+                  "lines": 61
+                },
+                {
+                  "path": "docs/lore/versions.md",
+                  "sha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+                  "blob": "a0711af4901f663085a9f576686fc3fb969637fc",
+                  "bytes": 13385,
+                  "lines": 240
+                },
+                {
+                  "path": "docs/lore/world-rules-ghost-realm.md",
+                  "sha256": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
+                  "blob": "e4cab9b6c029261a0f338519f7a39e5d1329f560",
+                  "bytes": 17022,
+                  "lines": 235
+                },
+                {
+                  "path": "docs/lore/world-rules.md",
+                  "sha256": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
+                  "blob": "bb019668f2216a5594a71e9a9b602a72d24ecf48",
+                  "bytes": 14153,
+                  "lines": 249
+                },
+                {
+                  "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                  "sha256": "1712522e3e4267e35c353831a4460c0e9cc3cc7eb9299dc347d3a77e653b07fd",
+                  "blob": "aaadab9f4dc3a1c986c29d84b223a626d112764a",
+                  "bytes": 504847,
+                  "lines": 10175
+                }
+              ],
+              "bodyPinsAllNine": [
+                {
+                  "path": "docs/lore/README.md",
+                  "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+                  "sourceBlob": "b3f7b254f8eb3f5b81a06b55a32008a704d17b79",
+                  "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+                  "afterBlob": "0bdc3fa03ab73748b62bac905764ee51f9f53dfb"
+                },
+                {
+                  "path": "docs/lore/narrative-workflow.md",
+                  "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+                  "sourceBlob": "7f84d46bbcc203174a383724c9ace72b9fe51aa7",
+                  "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
+                  "afterBlob": "38723f453230a9d1cd8e8ab2ba1524222f6acd10"
+                },
+                {
+                  "path": "docs/lore/taboos.md",
+                  "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+                  "sourceBlob": "8477caef346f641278ac8ceb43e0b62b957093d7",
+                  "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+                  "afterBlob": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6"
+                },
+                {
+                  "path": "docs/lore/versions.md",
+                  "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+                  "sourceBlob": "62cf091770775a34edc8936e7605d0e2262903c6",
+                  "afterSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+                  "afterBlob": "a0711af4901f663085a9f576686fc3fb969637fc"
+                },
+                {
+                  "path": "docs/lore/world-rules.md",
+                  "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+                  "sourceBlob": "29cbb3bdf490612867e47a0fd16af45d087fa188",
+                  "afterSha256": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
+                  "afterBlob": "bb019668f2216a5594a71e9a9b602a72d24ecf48"
+                },
+                {
+                  "path": "docs/lore/world-rules-ghost-realm.md",
+                  "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+                  "sourceBlob": "b0903f597145bceaa0646bede79c9198fd507954",
+                  "afterSha256": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
+                  "afterBlob": "e4cab9b6c029261a0f338519f7a39e5d1329f560"
+                },
+                {
+                  "path": "docs/lore/factions.md",
+                  "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+                  "sourceBlob": "80143183a87468fad825a37342f688560aa49a5e",
+                  "afterSha256": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
+                  "afterBlob": "51a3d56a086229d2c2e6f9f661a8fd6723e84797"
+                },
+                {
+                  "path": "docs/lore/ideas/README.md",
+                  "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+                  "sourceBlob": "5e693e37a051b047210c3766f848e5714213faa3",
+                  "afterSha256": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
+                  "afterBlob": "5e840e14aa1bdcd4880f86e8b47e1cb42ec89c28"
+                },
+                {
+                  "path": "docs/lore/ideas/guijie/README.md",
+                  "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+                  "sourceBlob": "ee9c2431fda79deb095fcb6f8079c089db09dcdd",
+                  "afterSha256": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
+                  "afterBlob": "5c474328690edf97e19c8e6a2276b2ee261043a3"
+                }
+              ],
+              "allNineBodyDigest": "e39a41b411c3c0298318d892a72fb07aaee7efa35b72f3f8d4e56f2cbdba3b7c",
+              "readScope": {
+                "fresh": "Six fixed d564 original bodies458 lines individually complete; all six candidate live layer710 incl boundary markers individually complete. Corresponding original458 inert source payload bytes mechanically inverse-read and equal full previously read originals; not a second independent source-reading credit. Entire477line author delivery read. All43 semantic fields per new6 read through exact-value factoring projections; each unique string read, arrays/maps/prior full objects separately parsed and actually verified, not human full504KB JSON claim.",
+                "oldThreeReuse": "Original224/c7d source/new layer/full43 semantic acceptance reused only fixed e78 report; dbacf accepted root current source bytes are unchanged through d564/133. Old3 current semantic deltas separately read; complete c7d/dbacf six43 objects actually fetched by fixed Git, whole file SHA/blob/unique path selector verified and deep-compared. No extra3 migration and no author self-signature.",
+                "freshPrimary": [
+                  {
+                    "path": "docs/lore/characters.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["1-76"],
+                    "purpose": "Three internal bead-user accounts and existing destiny constraints",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+                      "blob": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406"
+                    }
+                  },
+                  {
+                    "path": "docs/lore/timeline.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["199-225"],
+                    "purpose": "Nuwa fan interpretation/official unknown and historical timeline caveat",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                      "blob": "45795c07ed6340639f804b04f96d54b7432bd5c1"
+                    }
+                  },
+                  {
+                    "path": "docs/lore/ideas/guijie/brainstorm.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["94-160", "180-231", "330-384"],
+                    "purpose": "Author rejection/succession, entrance, parents, Jul2 boss/draft boundaries",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+                      "blob": "092e1a5872c1de7aeebeaae43b519498a80d94ca"
+                    }
+                  },
+                  {
+                    "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["1-45", "210-222", "303-324"],
+                    "purpose": "Draft/decided/placeholder player experience and actual later decisions",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+                      "blob": "07b227d902742cbb26d2274357f7611d4efd0b8d"
+                    }
+                  },
+                  {
+                    "path": "docs/phase2/design-backlog.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["105-115"],
+                    "purpose": "Actual Sep3 phase3 real-time transfer line110",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
+                      "blob": "76c60ae87288157f58ae5a85bc67c1fb9a9fa7eb"
+                    }
+                  },
+                  {
+                    "path": "docs/lore/taboos.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["1-130"],
+                    "purpose": "Current accepted project constraints and correction identity, bounded reuse/fresh cross-check; not extra migration",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+                      "blob": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6"
+                    }
+                  },
+                  {
+                    "path": "docs/lore/dlc-ideas.md",
+                    "revision": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+                    "ranges": ["1-120"],
+                    "purpose": "Whole existing governed120line creative source read; not re-migrated/recertified",
+                    "wholeFilePinForIdentityOnly": {
+                      "sha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
+                      "blob": "90c7e4780bfea76df7a7daffd8a74e07e501bcdb"
+                    }
+                  }
+                ],
+                "frozenDesign": "223line SHA078dbd exact equality rechecked; previously independently fully read/agreed, same body reused not false new223read.",
+                "consumers": "Actual real checkMigratedDocument invoked9 positive+18 mutated cases. Current335line model,154line Markdown helper and146line progress code equal earlier independently fully read P bytes; equality pins in supplemental artifact. Fresh model1-85 read this turn and actual three registry type contracts inspected. Marked lexing and whole base graph are mechanical source access, not whole1229-doc human reading or browser-rendered proof.",
+                "notReadOrRun": [
+                  "No full characters/timeline/brainstorm/beat-sheet audit",
+                  "No official/external HTTP verification",
+                  "No product/old business test/coverage/browser/runner/raw execution",
+                  "No all-doc full semantic review or completed goal claim",
+                  "No fresh full global86 docs tests/lint rerun; exact author frozen logs hashed/reused, strict/progress independently rerun"
+                ]
+              },
+              "semanticReview": [
+                {
+                  "path": "docs/lore/versions.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "counter C-N6-1, heading occurrence locator only",
+                  "anchors": [
+                    "new 8-74",
+                    "source original 1-106",
+                    "characters 20,54,68-72",
+                    "accepted taboos 32-44"
+                  ],
+                  "conclusion": "Four disagreements and five author choices remain unresolved; A/B and bead user not decided. Project T5.5 destiny chain remains mandatory. Wang Xiaohu is recorded only as an internal contradiction, not a newly certified official third answer. Source references and Steam placeholder do not become verified facts.",
+                  "boundary": "No external verification, canon choice, destiny change, product version update, or DLC build.",
+                  "exactPreservation": "106-byte-lines whole source inverse; 12 original headings including both live duplicate slugs; four historical tables16 row-lines; five original href occurrences. Actual second 处理建议 is live108; record points100."
+                },
+                {
+                  "path": "docs/lore/world-rules.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "accept record semantics and correct mappings",
+                  "anchors": [
+                    "new 8-87",
+                    "source original 1-106",
+                    "timeline 199-225",
+                    "accepted taboos 32-44"
+                  ],
+                  "conclusion": "Five-orb, six-realm, Nuwa, Shushan and Miao claims retain original confidence and provenance. Five-orb should-use remains advice awaiting author. Fan pregnancy/non-reincarnation claims stay unknown without undoing T1. All six original research items remain open.",
+                  "boundary": "Old checkmarks and source titles do not certify official primary today; no new engine mechanics.",
+                  "exactPreservation": "106 source lines; 11 headings; eight hrefs; four tables26 row-lines; all inverse/maps exact."
+                },
+                {
+                  "path": "docs/lore/world-rules-ghost-realm.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "accept record semantics and correct mappings",
+                  "anchors": [
+                    "new 8-98",
+                    "source original1-93",
+                    "brainstorm94-160,180-231,330-384",
+                    "beat-sheet1-45,210-222,303-324",
+                    "phase2 design-backlog105-115 decisive110"
+                  ],
+                  "conclusion": "Jun30 temporary Guiyinshan entrance remains project decision. Earlier reselect-entry and waiting-parent projection are historical, succeeded by parents reincarnated and Jul2 author decisions. Tiangui restriction retained as project limit, not universal physical impossibility. Liuligu/Fengdu conflict remains unknown. Real time stays phase3.",
+                  "boundary": "No official-entry certification, all-draft synchronization, new NPC/boss decision, phase2 real-time authorization, or runtime execution.",
+                  "exactPreservation": "93 source lines; eight headings;13 hrefs; five tables27 row-lines. First3 cells of succession table preserved; fourth column explicitly routes successors. Old author failures/dates remain inert original."
+                },
+                {
+                  "path": "docs/lore/factions.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "accept record semantics and correct mappings",
+                  "anchors": [
+                    "new8-135",
+                    "source original1-135",
+                    "brainstorm198-225 and334-384",
+                    "characters1-76"
+                  ],
+                  "conclusion": "Four faction views remain reference classifications, not mutually exclusive worlds or safety guarantees. Characters, six gaps, five priorities and dates preserve original source identity; unverified absence claims cannot authorize filling in relations or changing Guiyin boss.",
+                  "boundary": "No new canonical faction claim, boss identity, DLC schedule or official re-certification.",
+                  "exactPreservation": "135 source lines;11 headings;13 hrefs; six tables34 row-lines; both ASCII code diagrams text exactly equal, plus full original bytes."
+                },
+                {
+                  "path": "docs/lore/ideas/README.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "accept record semantics and correct mappings",
+                  "anchors": ["new8-28", "source1-9"],
+                  "conclusion": "Single navigation entry routes uncommitted creative material to guijie and established reference back to parent. Current means navigation usable; no child completion or production commitment.",
+                  "boundary": "New topic, product scope, schedule and execution require author decision and separate admission.",
+                  "exactPreservation": "Nine source lines, two headings/two original hrefs; strict inverse exact."
+                },
+                {
+                  "path": "docs/lore/ideas/guijie/README.md",
+                  "bodyVerdict": "accept",
+                  "receiptVerdict": "accept record semantics and correct mappings",
+                  "anchors": [
+                    "new8-32",
+                    "source1-9",
+                    "brainstorm190-196 and334-384",
+                    "beat-sheet1-14,213-218"
+                  ],
+                  "conclusion": "Routes brainstorm author directions and beat-sheet player experience separately. Jun30/Jul2 decisions, draft placeholders and remaining work remain different states. Parents reincarnated/temporary entrance/boss direction cannot be reopened from old unresolved wording.",
+                  "boundary": "Slice1 inspiration does not authorize whole DLC; no full-read or fully-synchronized claim for two long sources.",
+                  "exactPreservation": "Nine source lines, two headings/two original hrefs; strict inverse exact."
+                }
+              ],
+              "receiptMaintenance": {
+                "verdict": "Old3 refresh acceptable; complete exact7 receipt remains counter solely C-N6-1",
+                "nativeSchema": {
+                  "topFields": 17,
+                  "entries": 9,
+                  "fieldsEach": 43,
+                  "allNativeOriginalIdentityUnknownsPreserved": true,
+                  "authorNewSixPendingNotAccept": true
+                },
+                "oldThreeChanges": "Only after/candidate identity, explicit source-versus-current-receipt acceptance times, actual public static callers, receipt refresh base, per-document versus batch href count, preserved root-bound positions and actual d564 incoming graph changed; all original current conclusions/counters/primary/history preserved. No old3 body changed. No root record is claimed as author independent signature.",
+                "completePriorObjects": [
+                  {
+                    "document": "docs/lore/README.md",
+                    "locator": {
+                      "revision": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/README.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  },
+                  {
+                    "document": "docs/lore/narrative-workflow.md",
+                    "locator": {
+                      "revision": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/narrative-workflow.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  },
+                  {
+                    "document": "docs/lore/taboos.md",
+                    "locator": {
+                      "revision": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/taboos.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  },
+                  {
+                    "document": "docs/lore/README.md",
+                    "locator": {
+                      "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/README.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  },
+                  {
+                    "document": "docs/lore/narrative-workflow.md",
+                    "locator": {
+                      "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/narrative-workflow.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  },
+                  {
+                    "document": "docs/lore/taboos.md",
+                    "locator": {
+                      "revision": "dbacf01f908c181d5a488c74812a90cc1fb13989",
+                      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                      "gitObject": "4aaebcec06dee506459ed21df990df2b5648a300",
+                      "fileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                      "selector": {
+                        "entries.path": "docs/lore/taboos.md",
+                        "uniqueMatches": 1
+                      }
+                    },
+                    "wholeFileSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                    "complete43DeepEqual": true
+                  }
+                ],
+                "oldThreePriorSha256": "e154b50d8ef25c4ee7a263f3d30b24e598261ec8cdcec9b4635d5b1b61252a8f",
+                "newSixLegacyRecords": "All six original30-field current records fixed d564 actual locator/source SHA/blob/unique selector deep-equal embedded copies; all nine-field registry projections exact; original22/SAVE11 review revisions exact and historical."
+              },
+              "counterFindings": [
+                {
+                  "id": "C-N6-1",
+                  "severity": "receipt preservation locator incorrect, blocks exact package acceptance",
+                  "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+                  "line": 4672,
+                  "field": "entries[3].originalPreservation.originalHeadingIDs[8].afterLine",
+                  "observed": 100,
+                  "expected": 108,
+                  "directEvidence": "versions current line100 is first ####处理建议 id处理建议; line108 is second ####处理建议 id处理建议-1. Record labels second id but locates first line. Source and live headings/slugs are both intact. This is a mapping-location error, not prose loss.",
+                  "minimalRepair": "Only correct repeated-heading occurrence mapping from actual parsed heading identity/order; preserve complete133 versions43 object at real Git/source/blob/wholeSHA/unique selector before current metadata changes. Keep original failed report/probe and original author failure evidence. Do not alter six prose/old3 bodies or rewrite original historical maps as passed. Root must authorize/freeze narrowed repair before re-review.",
+                  "negativeCalibration": {
+                    "path": "/tmp/type-pal-n6-independent-heading-counter-calibration-20261016.json",
+                    "sha256": "2888cfd7aa7d456fb69f7dcabe5e8fcef1b71c7f209042b2438dd5041325197d",
+                    "bytes": 626,
+                    "lines": 25
+                  }
+                }
+              ],
+              "actualChecks": {
+                "structuralAndPreservation": {
+                  "checks": 1381,
+                  "issues": 1,
+                  "allSourceLines": 682,
+                  "newSixSourceLines": 458,
+                  "allSourceHeadings": 74,
+                  "allSourceLinks": 76,
+                  "allSourceTables": 22,
+                  "allSourceRowLines": 128,
+                  "baseIncoming": 89,
+                  "actualModelCalls": 9,
+                  "negativeControls": 18
+                },
+                "metadataPriorsAndArtifacts": {
+                  "checks": 143,
+                  "artifactHashes": 33,
+                  "completeOld3PriorObjects": 6,
+                  "issues": 0
+                },
+                "exactIncomingGraph": {
+                  "originalD564Occurrences": 89,
+                  "allNineOrderedRecordProjectionsExact": true,
+                  "old54AndPilot22NotCurrentDenominator": true
+                },
+                "negativeControls": "18 actual owned-memory cases: six inert source mutations rejected by exact original inverse; six live old heading removals rejected by actual parsed identity; six required section removals rejected by real template model. General model intentionally does not certify lore truth or preserved-source bytes; source/content oracle separate. All controls pass; no tests added.",
+                "actualCli": [
+                  {
+                    "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+                    "exit": 1,
+                    "path": "/tmp/type-pal-n6-independent-strict-20261016.log",
+                    "sha256": "94187aeee64d01456e6c4b4405376121294088ef73123e75e6485abfc2e3fe79",
+                    "bytes": 342,
+                    "observed": "content review: FAIL (727 documents; {\"content-reviewed\":727})\n"
+                  },
+                  {
+                    "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+                    "exit": 0,
+                    "path": "/tmp/type-pal-n6-independent-progress-20261016.log",
+                    "sha256": "c0f5ab371738764470a0e5ad3327fcea58c23ea2ae93f4eca75bee9347e95a28",
+                    "bytes": 71775,
+                    "observed": {
+                      "approvedCohort": 1838,
+                      "cohortMigrated": 216,
+                      "cohortPending": 1622,
+                      "currentCandidates": 1979,
+                      "currentPending": 1758,
+                      "incrementalMigrated": 5,
+                      "issues": []
+                    }
+                  }
+                ],
+                "fullAuthorFrozenGateResults": "Exact checks exit [1,0,0,1,0]: docsFAIL six phase-catalog after drifts; lint4109 error/warning/info0; diff0; strict727FAIL six after drifts; progress216/1838+5,current1979pending1758.86tools/model221/testing0 pass do not include new6 shared routes. All logs actual/hash revalidated. No waiver."
+              },
+              "firstFailuresAndLimits": {
+                "authorFailures": "Git hash-object invalid empty argument exit128/node1 with outer shell cat0; ghost missing fourth-column separators5 lines; old3 afterOccurrence stale after root links; repeated table separator firstIndex alias9 across4 references. All original failure artifacts and two full native pre-repair receipts retained and hashes independently verified. These known repaired attempts are not re-labeled first pass. NewC-N6-1 remains separate unresolved heading mapping counter.",
+                "ownFirstProbe": "First real independent1381 checks preserves onefalse heading-map versions[8], not overwritten as green. Whole probe JSON and first log retained. One batched semantic projection tool output truncated old1 range; independently read complete old3 field delta separately against exact preserved priors. CLI progress first display truncated broad JSON, rerun collector saved exact raw and only consumed summary; no whole-output semantic claim.",
+                "freshGateScope": "Only strict/progress targeted CLIs rerun after no global new code concerns; not pretending rerun author86/lint."
+              },
+              "evidence": [
+                {
+                  "path": "/tmp/type-pal-n6-independent-probe-20261016.mjs",
+                  "sha256": "9dd202b87d2776f7883ee4063d22d940abc6309d8d0e8dca1a134760a17074b6",
+                  "bytes": 11325,
+                  "lines": 84
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-probe-20261016.json",
+                  "sha256": "73b29f65e84b1a3c9b66b590605bb2cac098ff7b49b8f69332daf8e0515c7524",
+                  "bytes": 156389,
+                  "lines": 6533
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-probe-first-20261016.log",
+                  "sha256": "f3e5dcc466948bacf00a82382a9785c35b26ac609729137cbb2ec9c3049d8bec",
+                  "bytes": 368,
+                  "lines": 18
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-metadata-probe-20261016.py",
+                  "sha256": "353603ea57f5e60bb19cbe27fc5378b24cbe56dc5d0d300c50b568ed22ea692b",
+                  "bytes": 5527,
+                  "lines": 51
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-metadata-probe-20261016.json",
+                  "sha256": "8e2b326b7180d816af8c5952b4dbb8b5e1570218f4a6158c380356d8f9362424",
+                  "bytes": 32778,
+                  "lines": 991
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-metadata-probe-first-20261016.log",
+                  "sha256": "303f60c83e1511ac6f3386aa2eff4a6db74a876b3ba852f3f68fd1a4a4e9fa07",
+                  "bytes": 135,
+                  "lines": 9
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-exact-graph-consumer-reuse-20261016.json",
+                  "sha256": "66d6f5fe95f4924999a11574cfcb3b8a2197865ec13ac9a10860b5b0e1535538",
+                  "bytes": 1711,
+                  "lines": 59
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-old3-delta-20261016.json",
+                  "sha256": "eb0d5fbc7380e7f0994588f5d5734383a826a880f63c7f6f0911e2336dcc8f28",
+                  "bytes": 37531,
+                  "lines": 757
+                },
+                {
+                  "path": "/tmp/type-pal-n6-independent-cli-20261016.json",
+                  "sha256": "2fc4498901ae78bed227b9198be75b4b8918ec6d7d7f398640797ce0bc1fba5d",
+                  "bytes": 902,
+                  "lines": 34
+                },
+                {
+                  "path": "/tmp/type-pal-n6-candidate-delivery-20261016.json",
+                  "sha256": "47287cd94bd65259a261accce9603f977976d6b064f43853701a1d113f61bde4",
+                  "bytes": 21111,
+                  "lines": 477
+                },
+                {
+                  "path": "/tmp/type-pal-n6-frozen-seven-static-gates-20261016.json",
+                  "sha256": "8e072fa9a7701303be5809c3f227e227e04d4b784827f79c38c987cf74ff2326",
+                  "bytes": 2059,
+                  "lines": 70
+                }
+              ],
+              "nextStep": "Root may coordinate narrow author receipt-only repair then request exact delta closure. Six semantic body accept pins may be reused while exact, but no central/progress/whole receipt acceptance until mapping counter and integration prerequisites actually close.",
+              "finalWorktree": {
+                "HEAD": "133bf41b05f8b52d1230cb00802ddce20442645c",
+                "statusPorcelain": "",
+                "repoWrites": 0
+              }
+            },
+            "originalVerdictRetained": "counter exact7 package on C-N6-1; six bodies separately acceptable; not rewritten as original pass"
+          },
+          "originalFailedCalibration": {
+            "path": "/tmp/type-pal-n6-independent-heading-counter-calibration-20261016.json",
+            "sha256": "2888cfd7aa7d456fb69f7dcabe5e8fcef1b71c7f209042b2438dd5041325197d",
+            "bytes": 626,
+            "completeObject": {
+              "kind": "owned-memory-only N6 duplicated heading-record calibration",
+              "candidate": "133bf41b05f8b52d1230cb00802ddce20442645c",
+              "path": "docs/lore/versions.md",
+              "field": "entries[3].originalPreservation.originalHeadingIDs[8].afterLine",
+              "actualLiveOccurrences": [100, 108],
+              "recorded": [
+                {
+                  "id": "处理建议",
+                  "afterLine": 100
+                },
+                {
+                  "id": "处理建议-1",
+                  "afterLine": 100
+                }
+              ],
+              "actualUniqueSecondOccurrence": 108,
+              "originalRejected": true,
+              "memoryOnlyOneNumberCorrectionAccepted": true,
+              "repositoryWrites": 0,
+              "currentCandidateAccepted": false
+            }
+          },
+          "originalFirstIndependentProbe": {
+            "path": "/tmp/type-pal-n6-independent-probe-20261016.json",
+            "sha256": "73b29f65e84b1a3c9b66b590605bb2cac098ff7b49b8f69332daf8e0515c7524",
+            "bytes": 156389
+          },
+          "authorPreRepairReproduction": {
+            "path": "/tmp/type-pal-n6-cn6-1-before-occurrence-proof-20261016.json",
+            "sha256": "ff10b5a5c58e3423feca2e3ca7c12172cde7bef214d9703fe10cc8d56a78a693",
+            "bytes": 105106,
+            "exit": 1,
+            "checks": 985,
+            "issues": 1,
+            "onlyIssue": "versions[8] recorded100 vs actual108",
+            "log": {
+              "path": "/tmp/type-pal-n6-cn6-1-before-occurrence-proof-20261016.log",
+              "sha256": "c7b842c601a8af7c448861e1b2b36b1d1d744f9d934c35d335b98dfbd9341343",
+              "bytes": 398
+            }
+          },
+          "beforeAfter": {
+            "field": "entries.path=docs/lore/versions.md/originalPreservation.originalHeadingIDs[8].afterLine",
+            "id": "处理建议-1",
+            "before": 100,
+            "after": 108
+          },
+          "method": "Actual Marked GFM heading tokens consumed in occurrence order with monotonic raw-token cursor, per-document slug counters and unique id/raw/depth; second 处理建议 is108, first is100. No global firstIndex lookup.",
+          "preservationScope": "All74 original heading identities/order/slug/actual occurrence and all682 original source lines inversely rechecked mechanically; all9 Markdown bytes/source pins/manifests unchanged from fixed133. Exact8 other43 objects and17 top fields unchanged; only this scalar and this existing history member differ.",
+          "qualityScope": "Actual new receipt format/lint/diff are recorded in external narrow delivery; original frozen86 docs logs remain exact reused evidence, not a new run. Six legacy after-SHA drifts remain realFAIL until root intake; no shared accounting edit/waiver.",
+          "notRun": [
+            "product",
+            "old business tests",
+            "coverage",
+            "browser",
+            "external canon verification",
+            "raw"
+          ],
+          "independenceBoundary": "Original independent counter/body findings preserved in full. This is author repair evidence only; non-author must examine exact new receipt delta before closure. No new source/body migration or old3 recount."
+        }
       },
       "supersedes": [
         "同路径原资料的现行使用边界由本次五章明确；原A/五珠推荐仍为建议，未替代作者未决选择"
@@ -4669,7 +6621,7 @@
             "plain": "处理建议",
             "id": "处理建议-1",
             "depth": 4,
-            "afterLine": 100,
+            "afterLine": 108,
             "status": "live exact source markup/depth/order; old confidence/title wording retained historically"
           },
           {
