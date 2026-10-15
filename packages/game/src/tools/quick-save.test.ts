@@ -36,9 +36,11 @@ afterEach(() => {
 
 /** 派键并推进微任务，让 fire-and-forget 的 doQuickSave/Load 跑到 toast。
  * cancelable:true 必须显式给 —— KeyboardEvent 默认不可取消,preventDefault 无效。 */
-async function press(code: 'F5' | 'F9'): Promise<void> {
-  window.dispatchEvent(new KeyboardEvent('keydown', { code, cancelable: true }))
+async function press(code: 'F5' | 'F9'): Promise<KeyboardEvent> {
+  const event = new KeyboardEvent('keydown', { code, cancelable: true })
+  window.dispatchEvent(event)
   await vi.advanceTimersByTimeAsync(0)
+  return event
 }
 
 function toastText(): string {
@@ -84,19 +86,15 @@ describe('quick-save', () => {
 
   it('F5 可存态 → saveSlot(1, gs) + 成功 toast;F5/F9 均 preventDefault', async () => {
     const saveSlot = vi.fn(async () => {})
-    let f5Defaulted = false
-    let f9Defaulted = false
-    dispose = setupQuickSave(mkDeps({ saveSlot }))
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'F5') f5Defaulted = e.defaultPrevented
-      if (e.code === 'F9') f9Defaulted = e.defaultPrevented
-    })
-    await press('F5')
-    expect(saveSlot).toHaveBeenCalledWith(1, expect.anything())
+    const gs = exploreGs()
+    dispose = setupQuickSave(mkDeps({ saveSlot, getGs: () => gs }))
+    // 直接检查真实事件；无需另装一个跨用例残留的观察监听器。
+    const f5 = await press('F5')
+    expect(saveSlot).toHaveBeenCalledWith(1, gs)
     expect(toastText()).toContain('已存到存档位 1')
-    await press('F9')
-    expect(f5Defaulted).toBe(true) // 监听器在 handler 之后注册,读到 handler 的 preventDefault
-    expect(f9Defaulted).toBe(true)
+    const f9 = await press('F9')
+    expect(f5.defaultPrevented).toBe(true)
+    expect(f9.defaultPrevented).toBe(true)
   })
 
   it('F5 不可存态(战斗) → 不调 saveSlot + 错误 toast', async () => {
@@ -107,7 +105,7 @@ describe('quick-save', () => {
     expect(toastText()).toContain('当前无法存档')
   })
 
-  it('F5 saveSlot reject → 读档失败式错误 toast 带原因', async () => {
+  it('F5 saveSlot reject → 存档失败 toast 带原因', async () => {
     dispose = setupQuickSave(
       mkDeps({
         saveSlot: vi.fn(async () => {

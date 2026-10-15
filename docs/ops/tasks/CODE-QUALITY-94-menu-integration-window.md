@@ -1,7 +1,7 @@
 # CODE-QUALITY-94 — menu 独立阶段集成窗口
 
 Status: rework
-Owner: GLM（用户指定后续 Coding Owner；Codex 当前交付 review 检查点）
+Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu state contract integration

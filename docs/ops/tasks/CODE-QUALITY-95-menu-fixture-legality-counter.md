@@ -1,7 +1,7 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
 Status: review
-Owner: GLM（用户指定后续 Coding Owner；Codex 当前交付 review 检查点）
+Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: menu test legal typed input and isolation

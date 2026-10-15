@@ -581,7 +581,8 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     gs.partyMembers = [0]
     gs.inventory = [{ itemId: 10, count: 2 }]
     const items = [usableItem(10)]
-    setMenuCatalogs({ ...MOCK_CATALOGS, items })
+    // 真实单体使用必须有可选角色；空 roles 只会让第二次 Confirm 空操作。
+    setMenuCatalogs({ ...MOCK_CATALOGS, items, playerRoles: { roles: [makeRole(0)] } })
     setGlobalEvents([
       { op: 'end' },
       { op: 'raw', opcode: 0x05, operands: [0, 0, 0], label: 'L_500' },
@@ -593,6 +594,9 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     expect(inv.phase).toBe('use-target')
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // use-target Confirm → startScript ok → revert use-target
     expect(inv.phase).toBe('use-target') // 非 'done'(INNER loop 继续)
+    expect(gs.mode).toBe('event') // 必须真的启动脚本，空 targetMenu 的 no-op 不能算用后恢复
+    expect(gs.eventCursor?.currentEventObjectId).toBe(0)
+    expect(gs.pendingItemConsume).toBe(10) // 执行成功后才消耗，当前只启动了脚本
   })
 
   // 大世界用消耗道具(试炼果/八仙石类:纯加属性、无 showDialog/fade)闪一帧 bug:

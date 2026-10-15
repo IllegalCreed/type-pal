@@ -1,7 +1,7 @@
 # CODE-QUALITY-102 — 快存快读工具审核（quick-save）
 
 Status: rework
-Owner: GLM（2026-10-15 按总 goal 自主推进）
+Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 tools governance

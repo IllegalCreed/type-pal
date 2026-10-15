@@ -1,7 +1,7 @@
 # CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）
 
 Status: rework
-Owner: GLM（2026-10-15 按总 goal 自主推进的下一批）
+Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu helper state/contract governance

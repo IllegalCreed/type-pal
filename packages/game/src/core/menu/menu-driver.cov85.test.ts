@@ -1003,9 +1003,9 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
 
   it('save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)', () => {
     const gs = mkGs()
-    setLoadGameHandler((() => {
+    setLoadGameHandler(() => {
       throw new Error('sync-handler-boom')
-    }) as unknown as (slot: number) => void | Promise<void>)
+    })
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
     expect(() => dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())).toThrowError(
       'sync-handler-boom',
