@@ -7,7 +7,7 @@ Review / Integration Owner: Codex
 Branch: `codex/cursor-arch-ds-labels-r1`（独立 worktree）
 Base / production freeze: `95af9ed5`（开工先同步并记录实际 main SHA）
 Last reviewed: 2026-10-15
-Governance Owner: Codex（历史卡包 B 候选；待根线程独立验收）
+Governance Owner: Codex（历史卡包 B 文档治理）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -28,7 +28,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-保留原顶部状态、Owner或Coding Owner及原审查身份；本轮仅文档候选，不重新核准旧产品build。原交接提示词与旧“待门禁/待签字”按下述历史时点读取，不作为可执行授权。无下一位产品贡献者提示词；根线程直接核源、候选与回执，决定接收或返工并写中央review/SHA。
+保留原顶部状态、Owner或Coding Owner及原审查身份。2026-10-16根线程已独立接收本次文档迁移并写中央review/SHA；接收范围仅文档，旧产品build不重新准入。原交接提示词与旧“待门禁/待签字”按下述历史时点读取，不作为可执行授权。无下一位产品贡献者提示词；原未决验证按本卡历史范围保留。
 
 ## 历史范围
 

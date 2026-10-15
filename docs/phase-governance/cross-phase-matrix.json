@@ -109,7 +109,9 @@
       "from": [
         "docs/ops/evidence/README.md",
         "docs/ops/audits/README.md",
-        "docs/ops/tasks/README.md"
+        "docs/ops/tasks/README.md",
+        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md"
       ],
       "to": ["packages/", "scripts/e2e/", "docs/testing/"],
       "relationship": "Ops documents describe work, evidence and claims; only current callers, executable tests and business oracles can establish runtime/test results.",
@@ -117,10 +119,13 @@
       "evidence": [
         "docs/ops/evidence/README.md:1",
         "docs/ops/audits/README.md:1",
-        "docs/ops/agent-workflow.md:1"
+        "docs/ops/agent-workflow.md:1",
+        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md:1",
+        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md:1"
       ],
       "unresolved": [
-        "Static content review does not re-run every historical command or re-validate every old artifact."
+        "Static content review does not re-run every historical command or re-validate every old artifact.",
+        "A4 saved-engine FSA smoke and B10 user visual recheck have no historical completion receipt; document admission preserves those limits."
       ],
       "stopLine": "Do not promote a historical receipt, coverage number, screenshot or task status to current quality proof."
     },

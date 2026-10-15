@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原顶部 Status: done、Coding Owner: Codex、Reviewer: Codex（独立验收）、Contributor与Branch均保持；原卡没有单列Owner，治理字段不伪造历史Owner。无下一位产品Agent提示词；文档候选交根线程独立验收后写中央review，不重做清理或代表用户作新的删除裁决。
+原顶部 Status: done、Coding Owner: Codex、Reviewer: Codex（独立验收）、Contributor与Branch均保持；原卡没有单列Owner，治理字段不伪造历史Owner。无下一位产品Agent提示词；本次文档迁移经根线程独立验收，中央review已写回；不重做清理或代表用户作新的删除裁决。
 
 ## 历史范围
 

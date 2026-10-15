@@ -47,3 +47,5 @@
 - [正文与JSON保留/锚点修正回执](domain-pair-migration-20261015.json)：原metadata/对象与历史版本不变，当前source行号显式校正，实际publication消费者另记；无新动态验收。
 
 - [历史卡包A作者候选回执](contributor-history-cards-a-20261015.json)保留c86b92d原候选状态；根线程独立接收后的SHA与逐篇结论另写[本批回执](domain-pair-migration-20261015.json)，不改作者历史自验结果。
+
+- [历史卡包B作者回执](contributor-history-cards-b-20261015.json)保留b8c8fa4f候选与作者自验；根线程逐篇独立接收、最终SHA及A/B交接时态同步记录在[本批回执](domain-pair-migration-20261015.json)，不授予旧FSA/用户观感/CI或动态通过。

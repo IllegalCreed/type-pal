@@ -5368,110 +5368,85 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "A4 - 自有精灵上传(作者行走图/静物/循环入库)：这是 task-card，当前文档状态为 done。全文 72 行、7 个标题；摘要/首段为「Status: done(编辑器全链实测;引擎按 path 加载单测钉住;「保存→引擎真跑」留用户 FSA 烟测)」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md:1",
-        "1:A4 - 自有精灵上传(作者行走图/静物/循环入库)",
-        "9:设计(复用 W7B 瓦片集管线 90%)",
-        "23:顺手根治",
-        "29:验证(2026-07-10 实测)",
-        "40:遗留"
-      ],
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A4的行走/静物/循环及敌我战斗外观入库保留07-10两次统计；内存可见、dev种子路径和path单测不闭合真实FSA保存后引擎烟测，原用户缺凭据不代签。",
+      "truthAnchors": ["docs/ops/archive/tasks/done/A4-own-sprite-upload.md:1"],
       "unresolved": [
-        "正文信号 18:- **未保存先内存**(W7B 同理):blob 暂存进 tilesetBlobs(该字段 W7B 起名,现泛化为",
-        "正文信号 24:`.dscroll`(TilesetTab 中栏容器)从未有过 CSS 规则 —— 落在 .center 的 auto 行,内容超高",
-        "正文信号 41:- A 域其余格未动:A1 预制素材库(服务器)/ A5 打包导出 zip / A6 更新检查。",
-        "正文信号 67:- EnemyAnimPreview 吃 path+blob:**上传未保存即在预览台上播动画**(待机/施法/攻击帧字段",
-        "正文信号 70:预览台内存播动画 +「自有外观(未保存)」徽章 → 撤销 → 徽章消失回原版路径。"
+        "实现SHA/raw/截图未给，FSA用户全环未证。",
+        "原双轨/optional字段不授权当前旧版本兼容；不得代签用户FSA烟测。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-A4-own-sprite-upload",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
-      "afterSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+      "publicCallers": [
+        "原SpriteUploadWizard→Add/RemoveSpriteCommand→blob预览/保存；play.html→bootGame；BattleSpriteUploader→敌/我外观命令。"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md"
+        "历史54×104四向3帧PNG、量化贴盘0、真实本地FSA工程与dev种子分别处理；本轮无新输入。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A4的行走/静物/循环及敌我战斗外观入库保留07-10两次统计；内存可见、dev种子路径和path单测不闭合真实FSA保存后引擎烟测，原用户缺凭据不代签。",
+          "切帧顺序、未保存字节预览、undo恢复旧条目/字节、保存后引擎实际渲染分别验收。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": [],
+        "notes": "编辑器预览、loader单测、dev试玩与真实FSA不互相替代；两个统计阶段不累加。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+        "originalApplicability": "2026-07-10初始A4与同日两项追加；原卡未给实现commit、入库截图或真实FSA烟测回执。3231与3235属于同日不同树，不相加。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+            "authorCandidateSha256": "19f6ac7e73e0867d93f4d6b734781c103ba85ce736ff911d8e7d8827a29bc1f5",
+            "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-07-10作者素材入库的历史闭环：行走/静物/循环精灵上传、未保存内存预览、同源试玩入口与A4c敌我战斗外观；真实FSA保存后引擎全环仍待用户烟测。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
-        "lineCount": 72,
-        "headings": [
-          {
-            "line": 1,
-            "text": "A4 - 自有精灵上传(作者行走图/静物/循环入库)"
-          },
-          {
-            "line": 9,
-            "text": "设计(复用 W7B 瓦片集管线 90%)"
-          },
-          {
-            "line": 23,
-            "text": "顺手根治"
-          },
-          {
-            "line": 29,
-            "text": "验证(2026-07-10 实测)"
-          },
-          {
-            "line": 40,
-            "text": "遗留"
-          },
-          {
-            "line": 44,
-            "text": "追加修复(同日):本地工程「引擎试玩」开出李逍遥"
-          },
-          {
-            "line": 58,
-            "text": "追加(同日 A4c):战斗外观上传(敌/我双面)—— 作者之旅下一堵墙"
-          }
-        ],
-        "unresolvedSignals": [
-          "18:- **未保存先内存**(W7B 同理):blob 暂存进 tilesetBlobs(该字段 W7B 起名,现泛化为",
-          "24:`.dscroll`(TilesetTab 中栏容器)从未有过 CSS 规则 —— 落在 .center 的 auto 行,内容超高",
-          "41:- A 域其余格未动:A1 预制素材库(服务器)/ A5 打包导出 zip / A6 更新检查。",
-          "67:- EnemyAnimPreview 吃 path+blob:**上传未保存即在预览台上播动画**(待机/施法/攻击帧字段",
-          "70:预览台内存播动画 +「自有外观(未保存)」徽章 → 撤销 → 徽章消失回原版路径。"
-        ]
+        "authorCandidateSha256": "19f6ac7e73e0867d93f4d6b734781c103ba85ce736ff911d8e7d8827a29bc1f5",
+        "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+        "lineCount": 122
       },
       "history": [
         {
@@ -5479,12 +5454,197 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+          "authorCandidateSha256": "19f6ac7e73e0867d93f4d6b734781c103ba85ce736ff911d8e7d8827a29bc1f5",
+          "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-07-10作者素材入库的历史闭环：行走/静物/循环精灵上传、未保存内存预览、同源试玩入口与A4c敌我战斗外观；真实FSA保存后引擎全环仍待用户烟测。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-72"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。原双轨/optional字段不授权当前旧版本兼容；不得代签用户FSA烟测。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-07-10作者素材入库的历史闭环：行走/静物/循环精灵上传、未保存内存预览、同源试玩入口与A4c敌我战斗外观；真实FSA保存后引擎全环仍待用户烟测。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-122",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "A4 - 自有精灵上传(作者行走图/静物/循环入库)：这是 task-card，当前文档状态为 done。全文 72 行、7 个标题；摘要/首段为「Status: done(编辑器全链实测;引擎按 path 加载单测钉住;「保存→引擎真跑」留用户 FSA 烟测)」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/A4-own-sprite-upload.md:1",
+              "1:A4 - 自有精灵上传(作者行走图/静物/循环入库)",
+              "9:设计(复用 W7B 瓦片集管线 90%)",
+              "23:顺手根治",
+              "29:验证(2026-07-10 实测)",
+              "40:遗留"
+            ],
+            "unresolved": [
+              "正文信号 18:- **未保存先内存**(W7B 同理):blob 暂存进 tilesetBlobs(该字段 W7B 起名,现泛化为",
+              "正文信号 24:`.dscroll`(TilesetTab 中栏容器)从未有过 CSS 规则 —— 落在 .center 的 auto 行,内容超高",
+              "正文信号 41:- A 域其余格未动:A1 预制素材库(服务器)/ A5 打包导出 zip / A6 更新检查。",
+              "正文信号 67:- EnemyAnimPreview 吃 path+blob:**上传未保存即在预览台上播动画**(待机/施法/攻击帧字段",
+              "正文信号 70:预览台内存播动画 +「自有外观(未保存)」徽章 → 撤销 → 徽章消失回原版路径。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-A4-own-sprite-upload",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+            "afterSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/A4-own-sprite-upload.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+              "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+              "lineCount": 72,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "A4 - 自有精灵上传(作者行走图/静物/循环入库)"
+                },
+                {
+                  "line": 9,
+                  "text": "设计(复用 W7B 瓦片集管线 90%)"
+                },
+                {
+                  "line": 23,
+                  "text": "顺手根治"
+                },
+                {
+                  "line": 29,
+                  "text": "验证(2026-07-10 实测)"
+                },
+                {
+                  "line": 40,
+                  "text": "遗留"
+                },
+                {
+                  "line": 44,
+                  "text": "追加修复(同日):本地工程「引擎试玩」开出李逍遥"
+                },
+                {
+                  "line": 58,
+                  "text": "追加(同日 A4c):战斗外观上传(敌/我双面)—— 作者之旅下一堵墙"
+                }
+              ],
+              "unresolvedSignals": [
+                "18:- **未保存先内存**(W7B 同理):blob 暂存进 tilesetBlobs(该字段 W7B 起名,现泛化为",
+                "24:`.dscroll`(TilesetTab 中栏容器)从未有过 CSS 规则 —— 落在 .center 的 auto 行,内容超高",
+                "41:- A 域其余格未动:A1 预制素材库(服务器)/ A5 打包导出 zip / A6 更新检查。",
+                "67:- EnemyAnimPreview 吃 path+blob:**上传未保存即在预览台上播动画**(待机/施法/攻击帧字段",
+                "70:预览台内存播动画 +「自有外观(未保存)」徽章 → 撤销 → 徽章消失回原版路径。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-72"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666"
+      ],
+      "documentStatus": "done(编辑器全链实测;引擎按 path 加载单测钉住;「保存→引擎真跑」留用户 FSA 烟测) (historical task, no new product acceptance)",
+      "originalOwner": "Opus(选择器规则二「解锁最多」:空白工程线最后一块 —— 不能传自己的角色图谈不上做自己的游戏)",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-07-10初始A4与同日两项追加；原卡未给实现commit、入库截图或真实FSA烟测回执。3231与3235属于同日不同树，不相加。",
+      "publicEntry": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "实现SHA/raw/截图未给，FSA用户全环未证。",
+          "原双轨/optional字段不授权当前旧版本兼容；不得代签用户FSA烟测。"
+        ]
+      },
+      "reviewedSourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "edd83e827857796499e87a36a306ab04ab5e4b04",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "19f6ac7e73e0867d93f4d6b734781c103ba85ce736ff911d8e7d8827a29bc1f5",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
@@ -5515,7 +5675,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
-      "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+      "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
       "publicCallers": [
         "历史工程菜单导出→core/export-zip.ts→buildZip；源短卡没有完整packages路径或源码行锚。",
         "历史saveProjectAs→copyDirRecursive；本次未核当前调用链。"
@@ -5540,7 +5700,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+        "implementationSha": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
         "originalApplicability": "原文未标content/SAVE或源码revision；不推断为当前版本。",
         "history": [
           {
@@ -5565,6 +5725,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+            "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -5574,7 +5742,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
         "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
-        "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+        "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
         "lineCount": 86
       },
       "history": [
@@ -5600,6 +5768,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+          "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -8970,102 +9146,88 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆：这是 task-card，当前文档状态为 done。全文 42 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "标签两组件窄拆只保留同出口身份/DOM和138定向；RF22未呈现ReadonlyValue且截图不逐像素同，adoption初败/SIGABRT与8122/643原范围重跑分别保留。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md:1",
-        "1:ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆",
-        "12:白名单与验收",
-        "20:阶段门与交接",
-        "24:Codex 独立接收与 done 准入（2026-09-26）",
-        "30:下一位 Cursor 提示词"
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md:1"
       ],
       "unresolved": [
-        "正文信号 22:Codex：**premise verified / build allowed**，仅本卡白名单；新用户分工允许 Cursor 做低风险结构切片，Codex 独立验收与集成，固定三签暂停。done 未开放。",
-        "正文信号 26:- **accept / done，仅两个展示组件窄拆**。Cursor 候选 `9593b06f` 的源、旧导出、138 定向测试、独立 Vite 单点负控与隔离 Design Lab 已由 Codex 直接核验；[完整记录](../../../../testing/archive/legacy/ops/testing-records/cursor-arc",
-        "正文信号 27:- main 接入 `27f61a4e`，Codex 另补两条 text-overflow adoption owner 登记；根 check、ratchet、单次严格 fast 均 exit0，8,122/643、分支分母不缩。ratchet 首次遇到未改 game 资源子进程 SIGABRT，日志、隔离绿与原范围复跑一并在回执披露，不以多数通过掩盖。",
-        "正文信号 28:- 本卡最初“done 未开放”与 Cursor 提示词仅为历史状态。当前 Codex 独立验收模式下准入已齐；整批 F2 尚未完成。无下一位 Cursor 返工提示词。"
+        "Design Lab未呈现ReadonlyValue，Tag截图未逐像素相等。",
+        "旧warning/首次失败保留；不得把旧exit0转换成当前零诊断。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-F2-DS-LABELS-1",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
-      "afterSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+      "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md → ../../../../testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md"
+        "controls.js与design-system根出口→同一status-values组件；recipes及boundary消费。"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md"
-      ],
+      "legalInputs": ["当时旧/新模块同图加载、tone/monospace/span-div/属性输入与RF-22隔离页面。"],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "标签两组件窄拆只保留同出口身份/DOM和138定向；RF22未呈现ReadonlyValue且截图不逐像素同，adoption初败/SIGABRT与8122/643原范围重跑分别保留。",
+          "同函数/类型身份；非空精确SSR/DOM/class；真实模块tone变异恰一业务红。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "138是原定向总数，32adoption与8122strict属于不同集合，不新增/相加信用。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+        "originalApplicability": "2026-09-26窄拆接收；原“done未开放”属于开工前中间态，后文Codex独立接收已闭合。旧2026-09-26 warning口径不符合2026-09-27后当前零诊断门，原报告不追溯改零。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+            "authorCandidateSha256": "e832fab2b6f61719eb3d7c97d3776a296b5d5cabfb48adcebaeb6559faee25f5",
+            "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsTag/DsReadonlyValue展示组件窄拆的历史接收：相同DOM、class、属性透传、SSR与同一出口身份，只迁实现归属，不代表F2全部完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
-        "lineCount": 42,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆"
-          },
-          {
-            "line": 12,
-            "text": "白名单与验收"
-          },
-          {
-            "line": 20,
-            "text": "阶段门与交接"
-          },
-          {
-            "line": 24,
-            "text": "Codex 独立接收与 done 准入（2026-09-26）"
-          },
-          {
-            "line": 30,
-            "text": "下一位 Cursor 提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "22:Codex：**premise verified / build allowed**，仅本卡白名单；新用户分工允许 Cursor 做低风险结构切片，Codex 独立验收与集成，固定三签暂停。done 未开放。",
-          "26:- **accept / done，仅两个展示组件窄拆**。Cursor 候选 `9593b06f` 的源、旧导出、138 定向测试、独立 Vite 单点负控与隔离 Design Lab 已由 Codex 直接核验；[完整记录](../../../../testing/archive/legacy/ops/testing-records/cursor-arc",
-          "27:- main 接入 `27f61a4e`，Codex 另补两条 text-overflow adoption owner 登记；根 check、ratchet、单次严格 fast 均 exit0，8,122/643、分支分母不缩。ratchet 首次遇到未改 game 资源子进程 SIGABRT，日志、隔离绿与原范围复跑一并在回执披露，不以多数通过掩盖。",
-          "28:- 本卡最初“done 未开放”与 Cursor 提示词仅为历史状态。当前 Codex 独立验收模式下准入已齐；整批 F2 尚未完成。无下一位 Cursor 返工提示词。"
-        ]
+        "authorCandidateSha256": "e832fab2b6f61719eb3d7c97d3776a296b5d5cabfb48adcebaeb6559faee25f5",
+        "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+        "lineCount": 93
       },
       "history": [
         {
@@ -9073,12 +9235,191 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+          "authorCandidateSha256": "e832fab2b6f61719eb3d7c97d3776a296b5d5cabfb48adcebaeb6559faee25f5",
+          "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsTag/DsReadonlyValue展示组件窄拆的历史接收：相同DOM、class、属性透传、SSR与同一出口身份，只迁实现归属，不代表F2全部完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-42"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。旧warning/首次失败保留；不得把旧exit0转换成当前零诊断。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsTag/DsReadonlyValue展示组件窄拆的历史接收：相同DOM、class、属性透传、SSR与同一出口身份，只迁实现归属，不代表F2全部完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-93",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆：这是 task-card，当前文档状态为 done。全文 42 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md:1",
+              "1:ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆",
+              "12:白名单与验收",
+              "20:阶段门与交接",
+              "24:Codex 独立接收与 done 准入（2026-09-26）",
+              "30:下一位 Cursor 提示词"
+            ],
+            "unresolved": [
+              "正文信号 22:Codex：**premise verified / build allowed**，仅本卡白名单；新用户分工允许 Cursor 做低风险结构切片，Codex 独立验收与集成，固定三签暂停。done 未开放。",
+              "正文信号 26:- **accept / done，仅两个展示组件窄拆**。Cursor 候选 `9593b06f` 的源、旧导出、138 定向测试、独立 Vite 单点负控与隔离 Design Lab 已由 Codex 直接核验；[完整记录](../../../../testing/archive/legacy/ops/testing-records/cursor-arc",
+              "正文信号 27:- main 接入 `27f61a4e`，Codex 另补两条 text-overflow adoption owner 登记；根 check、ratchet、单次严格 fast 均 exit0，8,122/643、分支分母不缩。ratchet 首次遇到未改 game 资源子进程 SIGABRT，日志、隔离绿与原范围复跑一并在回执披露，不以多数通过掩盖。",
+              "正文信号 28:- 本卡最初“done 未开放”与 Cursor 提示词仅为历史状态。当前 Codex 独立验收模式下准入已齐；整批 F2 尚未完成。无下一位 Cursor 返工提示词。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-F2-DS-LABELS-1",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+            "afterSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md → ../../../../testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+              "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+              "lineCount": 42,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 窄拆"
+                },
+                {
+                  "line": 12,
+                  "text": "白名单与验收"
+                },
+                {
+                  "line": 20,
+                  "text": "阶段门与交接"
+                },
+                {
+                  "line": 24,
+                  "text": "Codex 独立接收与 done 准入（2026-09-26）"
+                },
+                {
+                  "line": 30,
+                  "text": "下一位 Cursor 提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "22:Codex：**premise verified / build allowed**，仅本卡白名单；新用户分工允许 Cursor 做低风险结构切片，Codex 独立验收与集成，固定三签暂停。done 未开放。",
+                "26:- **accept / done，仅两个展示组件窄拆**。Cursor 候选 `9593b06f` 的源、旧导出、138 定向测试、独立 Vite 单点负控与隔离 Design Lab 已由 Codex 直接核验；[完整记录](../../../../testing/archive/legacy/ops/testing-records/cursor-arc",
+                "27:- main 接入 `27f61a4e`，Codex 另补两条 text-overflow adoption owner 登记；根 check、ratchet、单次严格 fast 均 exit0，8,122/643、分支分母不缩。ratchet 首次遇到未改 game 资源子进程 SIGABRT，日志、隔离绿与原范围复跑一并在回执披露，不以多数通过掩盖。",
+                "28:- 本卡最初“done 未开放”与 Cursor 提示词仅为历史状态。当前 Codex 独立验收模式下准入已齐；整批 F2 尚未完成。无下一位 Cursor 返工提示词。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-42"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "Cursor",
+      "phaseAnchors": ["phase2 editor / 架构治理 F2"],
+      "dependencies": [
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-26窄拆接收；原“done未开放”属于开工前中间态，后文Codex独立接收已闭合。旧2026-09-26 warning口径不符合2026-09-27后当前零诊断门，原报告不追溯改零。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "Design Lab未呈现ReadonlyValue，Tag截图未逐像素相等。",
+          "旧warning/首次失败保留；不得把旧exit0转换成当前零诊断。"
+        ]
+      },
+      "reviewedSourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "bd8f6c90b5cd0415003de778dfb0ce9436f36d27",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "e832fab2b6f61719eb3d7c97d3776a296b5d5cabfb48adcebaeb6559faee25f5",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
@@ -9086,110 +9427,86 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块：这是 task-card，当前文档状态为 done。全文 51 行、7 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Overflow窄拆的118与RF06两状态逐字节图像保持旧范围；一像素容差真实源加载反例、诊断文件独占清理和两warning不变，不扩到其它UI或当前零诊断。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md:1",
-        "1:ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块",
-        "10:前提与准入",
-        "16:白名单与实施",
-        "23:验收",
-        "29:阶段门"
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md:1"
       ],
       "unresolved": [
-        "正文信号 31:Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。",
-        "正文信号 36:- main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。",
-        "正文信号 37:- 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。",
-        "正文信号 49:Codex独立复核与统一全仓门禁。Cursor同文件后续切片尚未开放。"
+        "现行warning须另按零诊断处理；原回执两warning未改的事实保留。",
+        "RF-06以外UI和剧情未验，不能由历史done扩张。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-F2-DS-OVERFLOW-1",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
-      "afterSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md → ../../../../testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md"
-      ],
+      "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+      "publicCallers": ["旧controls.js/根出口与新overflow-text同图加载；真实DsFloatingLayer。"],
+      "legalInputs": ["当时RF-06短值/长ID、聚焦/Esc/宽窄切换与ResizeObserver/SSR用例。"],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "Overflow窄拆的118与RF06两状态逐字节图像保持旧范围；一像素容差真实源加载反例、诊断文件独占清理和两warning不变，不扩到其它UI或当前零诊断。",
+          "一像素容差/零宽、Tab焦点、Esc关闭、订阅清理与同组件身份；单点业务AssertionError。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "118定向、7原树、8110fast与两截图为不同层证据，不新增或累加覆盖。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+        "originalApplicability": "2026-09-25独立接收；原“done未开放”和标签组件仍draft/前置未齐是当时先后状态，9月26标签卡接收不倒写本卡原时间片。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+            "authorCandidateSha256": "8c55068cc8239e7311e408ae71984cfca0304368a033dbc08e9d513a29459f57",
+            "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsOverflowText独立模块窄拆：裁剪测量、焦点/悬停/关闭与浮层生命周期不变；同一旧出口身份，F2其它控件不随本卡完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
-        "lineCount": 51,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块"
-          },
-          {
-            "line": 10,
-            "text": "前提与准入"
-          },
-          {
-            "line": 16,
-            "text": "白名单与实施"
-          },
-          {
-            "line": 23,
-            "text": "验收"
-          },
-          {
-            "line": 29,
-            "text": "阶段门"
-          },
-          {
-            "line": 33,
-            "text": "Codex 独立接收与 done 准入（2026-09-25）"
-          },
-          {
-            "line": 39,
-            "text": "下一位 Grok 提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "31:Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。",
-          "36:- main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。",
-          "37:- 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。",
-          "49:Codex独立复核与统一全仓门禁。Cursor同文件后续切片尚未开放。"
-        ]
+        "authorCandidateSha256": "8c55068cc8239e7311e408ae71984cfca0304368a033dbc08e9d513a29459f57",
+        "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+        "lineCount": 102
       },
       "history": [
         {
@@ -9197,12 +9514,199 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+          "authorCandidateSha256": "8c55068cc8239e7311e408ae71984cfca0304368a033dbc08e9d513a29459f57",
+          "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsOverflowText独立模块窄拆：裁剪测量、焦点/悬停/关闭与浮层生命周期不变；同一旧出口身份，F2其它控件不随本卡完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-51"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。RF-06以外UI和剧情未验，不能由历史done扩张。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留DsOverflowText独立模块窄拆：裁剪测量、焦点/悬停/关闭与浮层生命周期不变；同一旧出口身份，F2其它控件不随本卡完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-102",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块：这是 task-card，当前文档状态为 done。全文 51 行、7 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md:1",
+              "1:ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块",
+              "10:前提与准入",
+              "16:白名单与实施",
+              "23:验收",
+              "29:阶段门"
+            ],
+            "unresolved": [
+              "正文信号 31:Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。",
+              "正文信号 36:- main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。",
+              "正文信号 37:- 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。",
+              "正文信号 49:Codex独立复核与统一全仓门禁。Cursor同文件后续切片尚未开放。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-F2-DS-OVERFLOW-1",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+            "afterSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md → ../../../../testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+              "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+              "lineCount": 51,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 独立模块"
+                },
+                {
+                  "line": 10,
+                  "text": "前提与准入"
+                },
+                {
+                  "line": 16,
+                  "text": "白名单与实施"
+                },
+                {
+                  "line": 23,
+                  "text": "验收"
+                },
+                {
+                  "line": 29,
+                  "text": "阶段门"
+                },
+                {
+                  "line": 33,
+                  "text": "Codex 独立接收与 done 准入（2026-09-25）"
+                },
+                {
+                  "line": 39,
+                  "text": "下一位 Grok 提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "31:Codex：**premise verified / build allowed**，仅此组件；用户新分工覆盖旧“全队列 Codex 独立”对本切片的限制。固定三签暂停，Grok 自验不作独立证明。done 未开放。",
+                "36:- main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。",
+                "37:- 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。",
+                "49:Codex独立复核与统一全仓门禁。Cursor同文件后续切片尚未开放。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-51"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "Grok",
+      "phaseAnchors": ["phase2 editor / 架构治理 F2"],
+      "dependencies": [
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-25独立接收；原“done未开放”和标签组件仍draft/前置未齐是当时先后状态，9月26标签卡接收不倒写本卡原时间片。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "现行warning须另按零诊断处理；原回执两warning未改的事实保留。",
+          "RF-06以外UI和剧情未验，不能由历史done扩张。"
+        ]
+      },
+      "reviewedSourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "e5c13b5a66538bc0500048559aa299d65b767a77",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "8c55068cc8239e7311e408ae71984cfca0304368a033dbc08e9d513a29459f57",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
@@ -9210,110 +9714,86 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块：这是 task-card，当前文档状态为 done。全文 56 行、7 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "战场命令119出口/7276字节与156回归保持；已删mock与Codex真实加载两针不混算，IAB确认框工具阻塞及6014宿主替身分开，不宣称原生框自动化成功。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md:1",
-        "1:ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块",
-        "11:前提与准入",
-        "17:白名单与实施",
-        "24:验收",
-        "30:阶段门"
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md:1"
       ],
       "unresolved": [
-        "正文信号 15:最强替代解释是这段实际共享不可搬的私有 helper；直接检查 `withBattleField` 仅服务战场更新、快照/append 仅服务这四类命令，目前未见其它命令消费者。可证伪观察：移出后出现 runtime import 环、旧入口 `instanceof` 身份变化、首次 apply/invert 保真或删除阻断轨迹不同。",
-        "正文信号 38:- 重建两针实际源代码加载变异：删除`references.length`阻断门，使原D24引用删除用例在“未抛错”AssertionError红；仅把Add的invert改为return state，使原首次登记还原用例在battleFields未恢复undefined处红。对照D24 8/8；两针均目标执行1/失败1、exit1、注入命中，源文件零改。采",
-        "正文信号 39:- 已将候选白名单文件适配至主线`7a18eaa6`后工作树。完整`pnpm check` exit0（七包8657项）；串行`coverage:ratchet` exit0后，设置`TYPE_PAL_COVERAGE_BASE_REF=7a18eaa6`的单次严格`coverage:fast` exit0。fast8159→8165项，生产文件643→64",
-        "正文信号 40:- 最小功能核验：隔离PAL开发快照6013从52项新建#058→53项，名称改为“Codex战场更新”、火属性0→3；复制#059后54项且属性保留；撤销复制回53项、重做回54项。默认#024删除按钮因引用禁用。IAB原生confirm接口阻塞该临时标签，未将其当产品故障；另以6014专用Vite宿主替身`window.confirm`（记录请求文字并返",
-        "正文信号 42:- 主线集成提交`22a4492c`已推送。原候选`83833719`以远端标签`archive/glm-arch-battle-field-commands-r1`保存；确认源码/测试与主线完全一致、候选工作树干净后，已移除该worktree和本地/远端同名分支。其余活动工作树未动；本席临时6013 IPv4/6014服务已停止，既有6013 IPv6服务"
+        "IAB原生confirm受工具阻塞，替身仅测宿主边界。",
+        "其它架构债、cue漏校验和实验室counter不能借此done。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
-      "afterSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+      "publicCallers": ["旧commands.js导出与新战场模块；真实BattleFieldTab及删除引用收集器。"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"
+        "当时合法战场表/默认引用、首次登记undefined→表、patch构造后输入篡改、复制与深还原。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "战场命令119出口/7276字节与156回归保持；已删mock与Codex真实加载两针不混算，IAB确认框工具阻塞及6014宿主替身分开，不宣称原生框自动化成功。",
+          "同构造器身份/119出口不变、合法输入深保真、引用删除阻断、undo精确还原。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md"],
+        "notes": "6同证与D24/156套件职责区分；原mock不计有效源加载针，coverage未提升。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+        "originalApplicability": "2026-09-26窄拆接收；620a29dd→f5f166aa→7a18eaa6与83833719→22a4492c各属不同角色。原archive标签与分支清理是历史事实，本轮不查远端或执行退休。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+            "authorCandidateSha256": "f52edda0b8b1ad7cda62287045b6965a25b3afd313c55f03dabcc6ed43f07894",
+            "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留战场命令族模块归属窄拆：apply/invert、删除阻断、深保真与旧公开构造器身份保持；不以行数减少或GLM自验代替Codex独立接收。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
-        "lineCount": 56,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块"
-          },
-          {
-            "line": 11,
-            "text": "前提与准入"
-          },
-          {
-            "line": 17,
-            "text": "白名单与实施"
-          },
-          {
-            "line": 24,
-            "text": "验收"
-          },
-          {
-            "line": 30,
-            "text": "阶段门"
-          },
-          {
-            "line": 34,
-            "text": "Codex 独立接收与集成验证（2026-09-26）"
-          },
-          {
-            "line": 44,
-            "text": "下一位 GLM 提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "15:最强替代解释是这段实际共享不可搬的私有 helper；直接检查 `withBattleField` 仅服务战场更新、快照/append 仅服务这四类命令，目前未见其它命令消费者。可证伪观察：移出后出现 runtime import 环、旧入口 `instanceof` 身份变化、首次 apply/invert 保真或删除阻断轨迹不同。",
-          "38:- 重建两针实际源代码加载变异：删除`references.length`阻断门，使原D24引用删除用例在“未抛错”AssertionError红；仅把Add的invert改为return state，使原首次登记还原用例在battleFields未恢复undefined处红。对照D24 8/8；两针均目标执行1/失败1、exit1、注入命中，源文件零改。采",
-          "39:- 已将候选白名单文件适配至主线`7a18eaa6`后工作树。完整`pnpm check` exit0（七包8657项）；串行`coverage:ratchet` exit0后，设置`TYPE_PAL_COVERAGE_BASE_REF=7a18eaa6`的单次严格`coverage:fast` exit0。fast8159→8165项，生产文件643→64",
-          "40:- 最小功能核验：隔离PAL开发快照6013从52项新建#058→53项，名称改为“Codex战场更新”、火属性0→3；复制#059后54项且属性保留；撤销复制回53项、重做回54项。默认#024删除按钮因引用禁用。IAB原生confirm接口阻塞该临时标签，未将其当产品故障；另以6014专用Vite宿主替身`window.confirm`（记录请求文字并返",
-          "42:- 主线集成提交`22a4492c`已推送。原候选`83833719`以远端标签`archive/glm-arch-battle-field-commands-r1`保存；确认源码/测试与主线完全一致、候选工作树干净后，已移除该worktree和本地/远端同名分支。其余活动工作树未动；本席临时6013 IPv4/6014服务已停止，既有6013 IPv6服务"
-        ]
+        "authorCandidateSha256": "f52edda0b8b1ad7cda62287045b6965a25b3afd313c55f03dabcc6ed43f07894",
+        "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+        "lineCount": 108
       },
       "history": [
         {
@@ -9321,12 +9801,199 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+          "authorCandidateSha256": "f52edda0b8b1ad7cda62287045b6965a25b3afd313c55f03dabcc6ed43f07894",
+          "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留战场命令族模块归属窄拆：apply/invert、删除阻断、深保真与旧公开构造器身份保持；不以行数减少或GLM自验代替Codex独立接收。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-56"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。其它架构债、cue漏校验和实验室counter不能借此done。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留战场命令族模块归属窄拆：apply/invert、删除阻断、深保真与旧公开构造器身份保持；不以行数减少或GLM自验代替Codex独立接收。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-108",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块：这是 task-card，当前文档状态为 done。全文 56 行、7 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md:1",
+              "1:ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块",
+              "11:前提与准入",
+              "17:白名单与实施",
+              "24:验收",
+              "30:阶段门"
+            ],
+            "unresolved": [
+              "正文信号 15:最强替代解释是这段实际共享不可搬的私有 helper；直接检查 `withBattleField` 仅服务战场更新、快照/append 仅服务这四类命令，目前未见其它命令消费者。可证伪观察：移出后出现 runtime import 环、旧入口 `instanceof` 身份变化、首次 apply/invert 保真或删除阻断轨迹不同。",
+              "正文信号 38:- 重建两针实际源代码加载变异：删除`references.length`阻断门，使原D24引用删除用例在“未抛错”AssertionError红；仅把Add的invert改为return state，使原首次登记还原用例在battleFields未恢复undefined处红。对照D24 8/8；两针均目标执行1/失败1、exit1、注入命中，源文件零改。采",
+              "正文信号 39:- 已将候选白名单文件适配至主线`7a18eaa6`后工作树。完整`pnpm check` exit0（七包8657项）；串行`coverage:ratchet` exit0后，设置`TYPE_PAL_COVERAGE_BASE_REF=7a18eaa6`的单次严格`coverage:fast` exit0。fast8159→8165项，生产文件643→64",
+              "正文信号 40:- 最小功能核验：隔离PAL开发快照6013从52项新建#058→53项，名称改为“Codex战场更新”、火属性0→3；复制#059后54项且属性保留；撤销复制回53项、重做回54项。默认#024删除按钮因引用禁用。IAB原生confirm接口阻塞该临时标签，未将其当产品故障；另以6014专用Vite宿主替身`window.confirm`（记录请求文字并返",
+              "正文信号 42:- 主线集成提交`22a4492c`已推送。原候选`83833719`以远端标签`archive/glm-arch-battle-field-commands-r1`保存；确认源码/测试与主线完全一致、候选工作树干净后，已移除该worktree和本地/远端同名分支。其余活动工作树未动；本席临时6013 IPv4/6014服务已停止，既有6013 IPv6服务"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+            "afterSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+              "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+              "lineCount": 56,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1 — 战场命令族独立模块"
+                },
+                {
+                  "line": 11,
+                  "text": "前提与准入"
+                },
+                {
+                  "line": 17,
+                  "text": "白名单与实施"
+                },
+                {
+                  "line": 24,
+                  "text": "验收"
+                },
+                {
+                  "line": 30,
+                  "text": "阶段门"
+                },
+                {
+                  "line": 34,
+                  "text": "Codex 独立接收与集成验证（2026-09-26）"
+                },
+                {
+                  "line": 44,
+                  "text": "下一位 GLM 提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "15:最强替代解释是这段实际共享不可搬的私有 helper；直接检查 `withBattleField` 仅服务战场更新、快照/append 仅服务这四类命令，目前未见其它命令消费者。可证伪观察：移出后出现 runtime import 环、旧入口 `instanceof` 身份变化、首次 apply/invert 保真或删除阻断轨迹不同。",
+                "38:- 重建两针实际源代码加载变异：删除`references.length`阻断门，使原D24引用删除用例在“未抛错”AssertionError红；仅把Add的invert改为return state，使原首次登记还原用例在battleFields未恢复undefined处红。对照D24 8/8；两针均目标执行1/失败1、exit1、注入命中，源文件零改。采",
+                "39:- 已将候选白名单文件适配至主线`7a18eaa6`后工作树。完整`pnpm check` exit0（七包8657项）；串行`coverage:ratchet` exit0后，设置`TYPE_PAL_COVERAGE_BASE_REF=7a18eaa6`的单次严格`coverage:fast` exit0。fast8159→8165项，生产文件643→64",
+                "40:- 最小功能核验：隔离PAL开发快照6013从52项新建#058→53项，名称改为“Codex战场更新”、火属性0→3；复制#059后54项且属性保留；撤销复制回53项、重做回54项。默认#024删除按钮因引用禁用。IAB原生confirm接口阻塞该临时标签，未将其当产品故障；另以6014专用Vite宿主替身`window.confirm`（记录请求文字并返",
+                "42:- 主线集成提交`22a4492c`已推送。原候选`83833719`以远端标签`archive/glm-arch-battle-field-commands-r1`保存；确认源码/测试与主线完全一致、候选工作树干净后，已移除该worktree和本地/远端同名分支。其余活动工作树未动；本席临时6013 IPv4/6014服务已停止，既有6013 IPv6服务"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-56"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "GLM",
+      "phaseAnchors": ["phase2 editor / 架构治理 F2"],
+      "dependencies": [
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-26窄拆接收；620a29dd→f5f166aa→7a18eaa6与83833719→22a4492c各属不同角色。原archive标签与分支清理是历史事实，本轮不查远端或执行退休。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "IAB原生confirm受工具阻塞，替身仅测宿主边界。",
+          "其它架构债、cue漏校验和实验室counter不能借此done。"
+        ]
+      },
+      "reviewedSourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "517fc5186b3da3956a06ad3096614e9da6bd7fb0",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "f52edda0b8b1ad7cda62287045b6965a25b3afd313c55f03dabcc6ed43f07894",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
@@ -9570,155 +10237,88 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）：这是 task-card，当前文档状态为 done。全文 151 行、14 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A2的21/9中间态与23/11最终树分开；真实宿主与17函数、7972/637保留旧SAVE8/content20范围，47/6与单席自审风险不升级成当前独立运行或A3/C1完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md:1",
-        "1:ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）",
-        "18:目标与范围",
-        "28:前提真值门",
-        "30:一句话工程前提",
-        "50:上下文锚点"
+        "docs/testing/domains/runtime/battle/battle-host/report.md:1"
       ],
       "unresolved": [
-        "正文信号 85:非空 world/inventory 深快照、真实终态及 finally 消费 pending，避免自比较和挂起遮盖原错。",
-        "正文信号 103:- Kimi：用户豁免，未代签。",
-        "正文信号 104:- GLM：用户豁免，未代签。",
-        "正文信号 114:- Kimi：用户豁免，未代签。",
-        "正文信号 115:- GLM：用户豁免，未代签。",
-        "正文信号 117:- done 准入结论：done allowed。Codex已按用户全队列独立验收收口授权核定；两席豁免，未代签。",
-        "正文信号 135:全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。",
-        "正文信号 144:重读协议、队列与源码，建立 A2 r1 范围和验证计划。下一步仅待本批单席授权或另行安排两席审查。",
-        "正文信号 146:未执行产品测试与覆盖率，本轮无生产改动。"
+        "无本轮runtime/raw/私有产物恢复；历史warning保留。",
+        "A3/C1/full/Q1/Q2及旧兼容不因本卡关闭或授权。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-REFORGE-BATTLE-1-host-lifecycle",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
-      "afterSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+      "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../phase2/READ-FIRST.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../audits/architecture-debt.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ARCH-REFORGE-MENU-1-session-controller.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/report.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/evidence.json",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/report.md"
+        "原bootGame→BattleHost.start/cancel/active→准备commit→BattleSession→finishWorld。"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md"
+        "原合法阵容/真实world与inventory、runner信号、资源prepare端口、settled/deferred观察；本轮无新执行。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A2的21/9中间态与23/11最终树分开；真实宿主与17函数、7972/637保留旧SAVE8/content20范围，47/6与单席自审风险不升级成当前独立运行或A3/C1完成。",
+          "prepare后合法身份再发布；旧finally只释放自己；live读取/写回和音乐/错误顺序保持。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/testing/domains/runtime/battle/battle-host/report.md"],
+        "notes": "21→23、9→11是时序更新；17 AST保护与反控不同信用；battle-trial-host不证明main接线。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+        "originalApplicability": "2026-09-24 A2；原SAVE8/content20与7f3840e6只定位当时树。用户豁免两席、Codex实施者自审风险原样保留，不称第三方独立审查。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+            "authorCandidateSha256": "a73379e1d6804c7631bff0835b3948829586c26ae93f6e6cc0d32b1f09f210bc",
+            "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A2将战斗启动/资源准备/活动会话与收尾交给包内owner的历史结果；保持BattleSession外部合同、真实世界读取时点与同步收尾，不把A2当其它队列完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
-        "lineCount": 151,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）"
-          },
-          {
-            "line": 18,
-            "text": "目标与范围"
-          },
-          {
-            "line": 28,
-            "text": "前提真值门"
-          },
-          {
-            "line": 30,
-            "text": "一句话工程前提"
-          },
-          {
-            "line": 50,
-            "text": "上下文锚点"
-          },
-          {
-            "line": 64,
-            "text": "Draft：边界设计"
-          },
-          {
-            "line": 79,
-            "text": "验证与验收"
-          },
-          {
-            "line": 97,
-            "text": "推进签字"
-          },
-          {
-            "line": 99,
-            "text": "进入 build 前"
-          },
-          {
-            "line": 109,
-            "text": "进入 done 前"
-          },
-          {
-            "line": 119,
-            "text": "额度 / 代班与用户裁决"
-          },
-          {
-            "line": 126,
-            "text": "Build / Review / 用户验收"
-          },
-          {
-            "line": 141,
-            "text": "交接日志"
-          },
-          {
-            "line": 148,
-            "text": "下一位 Agent 提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "85:非空 world/inventory 深快照、真实终态及 finally 消费 pending，避免自比较和挂起遮盖原错。",
-          "103:- Kimi：用户豁免，未代签。",
-          "104:- GLM：用户豁免，未代签。",
-          "114:- Kimi：用户豁免，未代签。",
-          "115:- GLM：用户豁免，未代签。",
-          "117:- done 准入结论：done allowed。Codex已按用户全队列独立验收收口授权核定；两席豁免，未代签。",
-          "135:全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。",
-          "144:重读协议、队列与源码，建立 A2 r1 范围和验证计划。下一步仅待本批单席授权或另行安排两席审查。",
-          "146:未执行产品测试与覆盖率，本轮无生产改动。"
-        ]
+        "authorCandidateSha256": "a73379e1d6804c7631bff0835b3948829586c26ae93f6e6cc0d32b1f09f210bc",
+        "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+        "lineCount": 209
       },
       "history": [
         {
@@ -9726,12 +10326,244 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+          "authorCandidateSha256": "a73379e1d6804c7631bff0835b3948829586c26ae93f6e6cc0d32b1f09f210bc",
+          "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A2将战斗启动/资源准备/活动会话与收尾交给包内owner的历史结果；保持BattleSession外部合同、真实世界读取时点与同步收尾，不把A2当其它队列完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-151"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。A3/C1/full/Q1/Q2及旧兼容不因本卡关闭或授权。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留A2将战斗启动/资源准备/活动会话与收尾交给包内owner的历史结果；保持BattleSession外部合同、真实世界读取时点与同步收尾，不把A2当其它队列完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-209",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）：这是 task-card，当前文档状态为 done。全文 151 行、14 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md:1",
+              "1:ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）",
+              "18:目标与范围",
+              "28:前提真值门",
+              "30:一句话工程前提",
+              "50:上下文锚点"
+            ],
+            "unresolved": [
+              "正文信号 85:非空 world/inventory 深快照、真实终态及 finally 消费 pending，避免自比较和挂起遮盖原错。",
+              "正文信号 103:- Kimi：用户豁免，未代签。",
+              "正文信号 104:- GLM：用户豁免，未代签。",
+              "正文信号 114:- Kimi：用户豁免，未代签。",
+              "正文信号 115:- GLM：用户豁免，未代签。",
+              "正文信号 117:- done 准入结论：done allowed。Codex已按用户全队列独立验收收口授权核定；两席豁免，未代签。",
+              "正文信号 135:全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。",
+              "正文信号 144:重读协议、队列与源码，建立 A2 r1 范围和验证计划。下一步仅待本批单席授权或另行安排两席审查。",
+              "正文信号 146:未执行产品测试与覆盖率，本轮无生产改动。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-REFORGE-BATTLE-1-host-lifecycle",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+            "afterSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../phase2/READ-FIRST.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../audits/architecture-debt.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ARCH-REFORGE-MENU-1-session-controller.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/report.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/evidence.json",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md → ../../../../testing/domains/runtime/battle/battle-host/report.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+              "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+              "lineCount": 151,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-REFORGE-BATTLE-1 — 战斗宿主生命周期拆分（A2）"
+                },
+                {
+                  "line": 18,
+                  "text": "目标与范围"
+                },
+                {
+                  "line": 28,
+                  "text": "前提真值门"
+                },
+                {
+                  "line": 30,
+                  "text": "一句话工程前提"
+                },
+                {
+                  "line": 50,
+                  "text": "上下文锚点"
+                },
+                {
+                  "line": 64,
+                  "text": "Draft：边界设计"
+                },
+                {
+                  "line": 79,
+                  "text": "验证与验收"
+                },
+                {
+                  "line": 97,
+                  "text": "推进签字"
+                },
+                {
+                  "line": 99,
+                  "text": "进入 build 前"
+                },
+                {
+                  "line": 109,
+                  "text": "进入 done 前"
+                },
+                {
+                  "line": 119,
+                  "text": "额度 / 代班与用户裁决"
+                },
+                {
+                  "line": 126,
+                  "text": "Build / Review / 用户验收"
+                },
+                {
+                  "line": 141,
+                  "text": "交接日志"
+                },
+                {
+                  "line": 148,
+                  "text": "下一位 Agent 提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "85:非空 world/inventory 深快照、真实终态及 finally 消费 pending，避免自比较和挂起遮盖原错。",
+                "103:- Kimi：用户豁免，未代签。",
+                "104:- GLM：用户豁免，未代签。",
+                "114:- Kimi：用户豁免，未代签。",
+                "115:- GLM：用户豁免，未代签。",
+                "117:- done 准入结论：done allowed。Codex已按用户全队列独立验收收口授权核定；两席豁免，未代签。",
+                "135:全仓check8461 exit0，47warnings/6infos保持。进入review准备统一覆盖，未标done。",
+                "144:重读协议、队列与源码，建立 A2 r1 范围和验证计划。下一步仅待本批单席授权或另行安排两席审查。",
+                "146:未执行产品测试与覆盖率，本轮无生产改动。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-151"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/domains/runtime/battle/battle-host/report.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "Codex",
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-24 A2；原SAVE8/content20与7f3840e6只定位当时树。用户豁免两席、Codex实施者自审风险原样保留，不称第三方独立审查。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "无本轮runtime/raw/私有产物恢复；历史warning保留。",
+          "A3/C1/full/Q1/Q2及旧兼容不因本卡关闭或授权。"
+        ]
+      },
+      "reviewedSourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "086acd11704ea63dd099c15e31f1652af1485ce3",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "a73379e1d6804c7631bff0835b3948829586c26ae93f6e6cc0d32b1f09f210bc",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
@@ -9739,155 +10571,90 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁：这是 task-card，当前文档状态为 done。全文 117 行、11 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A3-a保留单一rAF/同步仲裁及36新增；384/896与128内部枚举不加测试数，浏览器745→746只验单步/朝向，短按无位移、cb1失败/ad16修复及普通Error针初拒不改写。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md:1",
-        "1:ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁",
-        "18:目标与范围",
-        "29:前提真值门",
-        "46:上下文锚点",
-        "58:设计"
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md:1"
       ],
       "unresolved": [
-        "正文信号 20:将可暂停时钟、单步意图、等待队列与同步帧阶段交给 RuntimeFrameSession，",
-        "正文信号 31:一句话：主壳同时拥有时间/等待/单步状态与输入/帧顺序，可以按同步领域边界拆出，而不改变运动算法。",
-        "正文信号 35:| primary source | 现行Reforge tick是同步顺序：模态→时钟/等待→对话收口→取键→世界阶段→战斗或世界输入/绘制 | `packages/reforge/src/main.ts:5890–6051` |",
-        "正文信号 37:| 当前二阶段 | 暂停消耗墙钟，单步精确推进；等待由gameplayNow结算，强停先abort父signal再兑现剩余等待 | `gameplay-clock.ts:19–34`；`main.ts:2307–2330`、`:4800–4834` |",
-        "正文信号 38:| 目标 | 同一帧内保持上述读取/消费/副作用顺序，等待与单步私有状态不再散在主壳 | 本卡设计；迁出前后同输入序列、异步等待清理及宿主回归须全等 |",
-        "正文信号 41:main仍修改其时钟/等待/单步内部状态，则重构不成立。若新接口产生await、提前缓存跨阶段的active状态、",
-        "正文信号 50:- `main.ts:473/1174/4980`：单步/当前时间/等待列表/时钟；`:1342`战斗退出单步；`:6340`DEV端口。",
-        "正文信号 60:1. RuntimeFrameSession独占GameplayClock实例、now、单步两字段和等待队列；",
-        "正文信号 61:`wait(signal)`只用帧时间，不启动setTimeout；`clearWaits`沿用强停剩余等待resolve合同。",
-        "正文信号 68:5. 单步开关和等待生命周期有明确方法，不暴露可变flags/timers；不新增产品测试入口。",
-        "正文信号 72:- 先列同步边界，再实现；整个新tick/路由不含async/await，唯一Promise为原等待协议。",
-        "正文信号 74:等待反向兑现顺序/预取消/到期后取消/清理保留原错误/拒绝监听清理。"
+        "原clear针普通Error曾被拒绝，最终业务AssertionError不能追溯给初版。",
+        "A3剩余职责、剧情与长期覆盖目标不借本段done。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-REFORGE-FRAME-1-clock-and-input",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
-      "afterSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+      "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../phase2/READ-FIRST.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../audits/architecture-debt.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../phase2/reference/phase1-knowledge-harvest.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/domains/runtime/battle/battle-host/report.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json"
+        "原main唯一rAF→RuntimeFrameSession.tick→窄领域端口；RuntimeInputRouter决定消费归属。"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md"
+        "原realNow/明确dt、活跃UI层与键Set、AbortSignal、真实mainwait和独立调试内存。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A3-a保留单一rAF/同步仲裁及36新增；384/896与128内部枚举不加测试数，浏览器745→746只验单步/朝向，短按无位移、cb1失败/ad16修复及普通Error针初拒不改写。",
+          "同步phase顺序、单步精确/暂停不追帧、等待监听清理、同键不穿透。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "384/896是内部诊断组合，不计新增36；AST保真不等视觉对拍，短按不替持按。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+        "originalApplicability": "2026-09-25 A3-a，冻结b11d4bc9。用户全队列单席授权、非第三方审查及2/13大批统计按原时点保留。中途1584/117与最终门不是相加。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+            "authorCandidateSha256": "14b22d18b5749040b33a60d23bc289e20563063f1bd26f4ff0e7ce4a66193438",
+            "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-a帧会话与输入仲裁所有权迁移：单一rAF、同步phase顺序、暂停/单步/等待清理及按键不穿透；不把首段算A3整批完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
-        "lineCount": 117,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁"
-          },
-          {
-            "line": 18,
-            "text": "目标与范围"
-          },
-          {
-            "line": 29,
-            "text": "前提真值门"
-          },
-          {
-            "line": 46,
-            "text": "上下文锚点"
-          },
-          {
-            "line": 58,
-            "text": "设计"
-          },
-          {
-            "line": 70,
-            "text": "验收与验证"
-          },
-          {
-            "line": 82,
-            "text": "推进签字"
-          },
-          {
-            "line": 84,
-            "text": "build前"
-          },
-          {
-            "line": 93,
-            "text": "done前"
-          },
-          {
-            "line": 102,
-            "text": "交接日志"
-          },
-          {
-            "line": 114,
-            "text": "下一位Agent提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "20:将可暂停时钟、单步意图、等待队列与同步帧阶段交给 RuntimeFrameSession，",
-          "31:一句话：主壳同时拥有时间/等待/单步状态与输入/帧顺序，可以按同步领域边界拆出，而不改变运动算法。",
-          "35:| primary source | 现行Reforge tick是同步顺序：模态→时钟/等待→对话收口→取键→世界阶段→战斗或世界输入/绘制 | `packages/reforge/src/main.ts:5890–6051` |",
-          "37:| 当前二阶段 | 暂停消耗墙钟，单步精确推进；等待由gameplayNow结算，强停先abort父signal再兑现剩余等待 | `gameplay-clock.ts:19–34`；`main.ts:2307–2330`、`:4800–4834` |",
-          "38:| 目标 | 同一帧内保持上述读取/消费/副作用顺序，等待与单步私有状态不再散在主壳 | 本卡设计；迁出前后同输入序列、异步等待清理及宿主回归须全等 |",
-          "41:main仍修改其时钟/等待/单步内部状态，则重构不成立。若新接口产生await、提前缓存跨阶段的active状态、",
-          "50:- `main.ts:473/1174/4980`：单步/当前时间/等待列表/时钟；`:1342`战斗退出单步；`:6340`DEV端口。",
-          "60:1. RuntimeFrameSession独占GameplayClock实例、now、单步两字段和等待队列；",
-          "61:`wait(signal)`只用帧时间，不启动setTimeout；`clearWaits`沿用强停剩余等待resolve合同。",
-          "68:5. 单步开关和等待生命周期有明确方法，不暴露可变flags/timers；不新增产品测试入口。",
-          "72:- 先列同步边界，再实现；整个新tick/路由不含async/await，唯一Promise为原等待协议。",
-          "74:等待反向兑现顺序/预取消/到期后取消/清理保留原错误/拒绝监听清理。",
-          "76:- 冻结tick逐步对照与单点负控必须钉住phase顺序、冻结/单步、实时仲裁、等待取消/全兑现和main接线。",
-          "80:- 旧版本兼容审查必须pass；未改第一阶段、格式、算法与UI；A3剩余拆分另续，不能报3/13完成。",
-          "88:- Kimi：用户全队列豁免，未代签。",
-          "89:- GLM：用户全队列豁免，未代签。",
-          "98:- Kimi/GLM：用户豁免，未代签。",
-          "105:直读当前时间/等待/帧阶段与输入分支，按用户全队列授权开A3首段；产品尚未改动时登记本卡。",
-          "106:- 2026-09-25 Codex：实现时钟/等待/单步所有者与同步帧、输入路由；36新增，117定向/相邻、",
-          "109:见[回执](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。"
-        ]
+        "authorCandidateSha256": "14b22d18b5749040b33a60d23bc289e20563063f1bd26f4ff0e7ce4a66193438",
+        "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+        "lineCount": 175
       },
       "history": [
         {
@@ -9895,12 +10662,244 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+          "authorCandidateSha256": "14b22d18b5749040b33a60d23bc289e20563063f1bd26f4ff0e7ce4a66193438",
+          "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-a帧会话与输入仲裁所有权迁移：单一rAF、同步phase顺序、暂停/单步/等待清理及按键不穿透；不把首段算A3整批完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-117"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。A3剩余职责、剧情与长期覆盖目标不借本段done。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-a帧会话与输入仲裁所有权迁移：单一rAF、同步phase顺序、暂停/单步/等待清理及按键不穿透；不把首段算A3整批完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-175",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁：这是 task-card，当前文档状态为 done。全文 117 行、11 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md:1",
+              "1:ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁",
+              "18:目标与范围",
+              "29:前提真值门",
+              "46:上下文锚点",
+              "58:设计"
+            ],
+            "unresolved": [
+              "正文信号 20:将可暂停时钟、单步意图、等待队列与同步帧阶段交给 RuntimeFrameSession，",
+              "正文信号 31:一句话：主壳同时拥有时间/等待/单步状态与输入/帧顺序，可以按同步领域边界拆出，而不改变运动算法。",
+              "正文信号 35:| primary source | 现行Reforge tick是同步顺序：模态→时钟/等待→对话收口→取键→世界阶段→战斗或世界输入/绘制 | `packages/reforge/src/main.ts:5890–6051` |",
+              "正文信号 37:| 当前二阶段 | 暂停消耗墙钟，单步精确推进；等待由gameplayNow结算，强停先abort父signal再兑现剩余等待 | `gameplay-clock.ts:19–34`；`main.ts:2307–2330`、`:4800–4834` |",
+              "正文信号 38:| 目标 | 同一帧内保持上述读取/消费/副作用顺序，等待与单步私有状态不再散在主壳 | 本卡设计；迁出前后同输入序列、异步等待清理及宿主回归须全等 |",
+              "正文信号 41:main仍修改其时钟/等待/单步内部状态，则重构不成立。若新接口产生await、提前缓存跨阶段的active状态、",
+              "正文信号 50:- `main.ts:473/1174/4980`：单步/当前时间/等待列表/时钟；`:1342`战斗退出单步；`:6340`DEV端口。",
+              "正文信号 60:1. RuntimeFrameSession独占GameplayClock实例、now、单步两字段和等待队列；",
+              "正文信号 61:`wait(signal)`只用帧时间，不启动setTimeout；`clearWaits`沿用强停剩余等待resolve合同。",
+              "正文信号 68:5. 单步开关和等待生命周期有明确方法，不暴露可变flags/timers；不新增产品测试入口。",
+              "正文信号 72:- 先列同步边界，再实现；整个新tick/路由不含async/await，唯一Promise为原等待协议。",
+              "正文信号 74:等待反向兑现顺序/预取消/到期后取消/清理保留原错误/拒绝监听清理。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-REFORGE-FRAME-1-clock-and-input",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+            "afterSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../phase2/READ-FIRST.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../audits/architecture-debt.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../phase2/reference/phase1-knowledge-harvest.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/domains/runtime/battle/battle-host/report.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+              "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+              "lineCount": 117,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-REFORGE-FRAME-1 — A3 首段：帧调度、时钟与输入仲裁"
+                },
+                {
+                  "line": 18,
+                  "text": "目标与范围"
+                },
+                {
+                  "line": 29,
+                  "text": "前提真值门"
+                },
+                {
+                  "line": 46,
+                  "text": "上下文锚点"
+                },
+                {
+                  "line": 58,
+                  "text": "设计"
+                },
+                {
+                  "line": 70,
+                  "text": "验收与验证"
+                },
+                {
+                  "line": 82,
+                  "text": "推进签字"
+                },
+                {
+                  "line": 84,
+                  "text": "build前"
+                },
+                {
+                  "line": 93,
+                  "text": "done前"
+                },
+                {
+                  "line": 102,
+                  "text": "交接日志"
+                },
+                {
+                  "line": 114,
+                  "text": "下一位Agent提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "20:将可暂停时钟、单步意图、等待队列与同步帧阶段交给 RuntimeFrameSession，",
+                "31:一句话：主壳同时拥有时间/等待/单步状态与输入/帧顺序，可以按同步领域边界拆出，而不改变运动算法。",
+                "35:| primary source | 现行Reforge tick是同步顺序：模态→时钟/等待→对话收口→取键→世界阶段→战斗或世界输入/绘制 | `packages/reforge/src/main.ts:5890–6051` |",
+                "37:| 当前二阶段 | 暂停消耗墙钟，单步精确推进；等待由gameplayNow结算，强停先abort父signal再兑现剩余等待 | `gameplay-clock.ts:19–34`；`main.ts:2307–2330`、`:4800–4834` |",
+                "38:| 目标 | 同一帧内保持上述读取/消费/副作用顺序，等待与单步私有状态不再散在主壳 | 本卡设计；迁出前后同输入序列、异步等待清理及宿主回归须全等 |",
+                "41:main仍修改其时钟/等待/单步内部状态，则重构不成立。若新接口产生await、提前缓存跨阶段的active状态、",
+                "50:- `main.ts:473/1174/4980`：单步/当前时间/等待列表/时钟；`:1342`战斗退出单步；`:6340`DEV端口。",
+                "60:1. RuntimeFrameSession独占GameplayClock实例、now、单步两字段和等待队列；",
+                "61:`wait(signal)`只用帧时间，不启动setTimeout；`clearWaits`沿用强停剩余等待resolve合同。",
+                "68:5. 单步开关和等待生命周期有明确方法，不暴露可变flags/timers；不新增产品测试入口。",
+                "72:- 先列同步边界，再实现；整个新tick/路由不含async/await，唯一Promise为原等待协议。",
+                "74:等待反向兑现顺序/预取消/到期后取消/清理保留原错误/拒绝监听清理。",
+                "76:- 冻结tick逐步对照与单点负控必须钉住phase顺序、冻结/单步、实时仲裁、等待取消/全兑现和main接线。",
+                "80:- 旧版本兼容审查必须pass；未改第一阶段、格式、算法与UI；A3剩余拆分另续，不能报3/13完成。",
+                "88:- Kimi：用户全队列豁免，未代签。",
+                "89:- GLM：用户全队列豁免，未代签。",
+                "98:- Kimi/GLM：用户豁免，未代签。",
+                "105:直读当前时间/等待/帧阶段与输入分支，按用户全队列授权开A3首段；产品尚未改动时登记本卡。",
+                "106:- 2026-09-25 Codex：实现时钟/等待/单步所有者与同步帧、输入路由；36新增，117定向/相邻、",
+                "109:见[回执](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-117"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "Codex",
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-25 A3-a，冻结b11d4bc9。用户全队列单席授权、非第三方审查及2/13大批统计按原时点保留。中途1584/117与最终门不是相加。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "原clear针普通Error曾被拒绝，最终业务AssertionError不能追溯给初版。",
+          "A3剩余职责、剧情与长期覆盖目标不借本段done。"
+        ]
+      },
+      "reviewedSourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "8adeb51814980006b715646299a03835d5dde1c8",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "14b22d18b5749040b33a60d23bc289e20563063f1bd26f4ff0e7ce4a66193438",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
@@ -9908,124 +10907,86 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器：这是 task-card，当前文档状态为 done。全文 84 行、8 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A1最终28/55/10与155×3798、7949/635独立于中间27/54/8；真实菜单m01链补H5而非快捷键替代，17hash/分母+60行与旧单席授权不外推其它卡或SAVE12。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md:1",
-        "1:ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器",
-        "10:目标与范围",
-        "15:前提真值门",
-        "29:设计边界",
-        "44:验证与锚点"
+        "docs/testing/domains/runtime/menu/menu-session/report.md:1"
       ],
       "unresolved": [
-        "正文信号 27:外部直接写菜单子态或两个取消所有者，判为未达到目标，不能仅凭main减少行数验收。",
-        "正文信号 32:- 物品操作拥有自己的AbortController/pending/恢复菜单上下文；取消从main的abortScript显式调用，不共享局部变量。",
-        "正文信号 48:- 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。",
-        "正文信号 67:已核main清洁且同步，完成A1范围、所有权与回归方案；等待本批单席推进裁决，不重用旧豁免。",
-        "正文信号 72:进入review，官方ratchet与受保护单次strict尚待，不提前done。",
-        "正文信号 74:弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，",
-        "正文信号 77:[机账](../../../../testing/domains/runtime/menu/menu-session/evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。"
+        "原单席自验非第三方独立；历史存档/内容版本不恢复当前兼容。",
+        "其它队列/DEMO/s135/完整E2E继续独立。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-REFORGE-MENU-1-session-controller",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
-      "afterSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../audits/architecture-debt.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/domains/runtime/menu/menu-session/report.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/domains/runtime/menu/menu-session/evidence.json"
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
       ],
+      "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+      "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+      "publicCallers": ["原main菜单输入→MenuSession；物品动作→ItemUseSession→world/save端口。"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md"
+        "当时typed菜单输入、真实world/save端口、AbortSignal、合法物品/技能/角色、两个独立会话。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A1最终28/55/10与155×3798、7949/635独立于中间27/54/8；真实菜单m01链补H5而非快捷键替代，17hash/分母+60行与旧单席授权不外推其它卡或SAVE12。",
+          "取消pending归属至settle、旧异步不借新会话、view/光标恢复、loaded后才关浏览器。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/testing/domains/runtime/menu/menu-session/report.md"],
+        "notes": "中间与最终测试/针数不相加；快捷键H5与新增真实菜单存取链区分，诊断序列不算新case。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+        "originalApplicability": "2026-09-24 A1单席授权；该次豁免原先不自动外推他卡，后续队列授权另有日期。实施者自审风险保留，旧等待授权/待门禁不重开。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+            "authorCandidateSha256": "90a0b8c5d7f84a139c3ccb833a2b8c2852c34afd62722ea7a369d6c1296545c5",
+            "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A1菜单/物品会话owner拆分：状态、导航记忆与异步物品生命周期单一归属，main只读view和窄端口；不宣称整个主壳或全仓架构完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
-        "lineCount": 84,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器"
-          },
-          {
-            "line": 10,
-            "text": "目标与范围"
-          },
-          {
-            "line": 15,
-            "text": "前提真值门"
-          },
-          {
-            "line": 29,
-            "text": "设计边界"
-          },
-          {
-            "line": 44,
-            "text": "验证与锚点"
-          },
-          {
-            "line": 53,
-            "text": "推进签字"
-          },
-          {
-            "line": 64,
-            "text": "交接"
-          },
-          {
-            "line": 81,
-            "text": "下一位Agent提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "27:外部直接写菜单子态或两个取消所有者，判为未达到目标，不能仅凭main减少行数验收。",
-          "32:- 物品操作拥有自己的AbortController/pending/恢复菜单上下文；取消从main的abortScript显式调用，不共享局部变量。",
-          "48:- 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。",
-          "67:已核main清洁且同步，完成A1范围、所有权与回归方案；等待本批单席推进裁决，不重用旧豁免。",
-          "72:进入review，官方ratchet与受保护单次strict尚待，不提前done。",
-          "74:弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，",
-          "77:[机账](../../../../testing/domains/runtime/menu/menu-session/evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。"
-        ]
+        "authorCandidateSha256": "90a0b8c5d7f84a139c3ccb833a2b8c2852c34afd62722ea7a369d6c1296545c5",
+        "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+        "lineCount": 135
       },
       "history": [
         {
@@ -10033,12 +10994,213 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+          "authorCandidateSha256": "90a0b8c5d7f84a139c3ccb833a2b8c2852c34afd62722ea7a369d6c1296545c5",
+          "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A1菜单/物品会话owner拆分：状态、导航记忆与异步物品生命周期单一归属，main只读view和窄端口；不宣称整个主壳或全仓架构完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-84"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。其它队列/DEMO/s135/完整E2E继续独立。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留A1菜单/物品会话owner拆分：状态、导航记忆与异步物品生命周期单一归属，main只读view和窄端口；不宣称整个主壳或全仓架构完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-135",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器：这是 task-card，当前文档状态为 done。全文 84 行、8 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md:1",
+              "1:ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器",
+              "10:目标与范围",
+              "15:前提真值门",
+              "29:设计边界",
+              "44:验证与锚点"
+            ],
+            "unresolved": [
+              "正文信号 27:外部直接写菜单子态或两个取消所有者，判为未达到目标，不能仅凭main减少行数验收。",
+              "正文信号 32:- 物品操作拥有自己的AbortController/pending/恢复菜单上下文；取消从main的abortScript显式调用，不共享局部变量。",
+              "正文信号 48:- 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。",
+              "正文信号 67:已核main清洁且同步，完成A1范围、所有权与回归方案；等待本批单席推进裁决，不重用旧豁免。",
+              "正文信号 72:进入review，官方ratchet与受保护单次strict尚待，不提前done。",
+              "正文信号 74:弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，",
+              "正文信号 77:[机账](../../../../testing/domains/runtime/menu/menu-session/evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-REFORGE-MENU-1-session-controller",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+            "afterSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../audits/architecture-debt.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/domains/runtime/menu/menu-session/report.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md → ../../../../testing/domains/runtime/menu/menu-session/evidence.json"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+              "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+              "lineCount": 84,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-REFORGE-MENU-1 — Reforge菜单与物品会话控制器"
+                },
+                {
+                  "line": 10,
+                  "text": "目标与范围"
+                },
+                {
+                  "line": 15,
+                  "text": "前提真值门"
+                },
+                {
+                  "line": 29,
+                  "text": "设计边界"
+                },
+                {
+                  "line": 44,
+                  "text": "验证与锚点"
+                },
+                {
+                  "line": 53,
+                  "text": "推进签字"
+                },
+                {
+                  "line": 64,
+                  "text": "交接"
+                },
+                {
+                  "line": 81,
+                  "text": "下一位Agent提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "27:外部直接写菜单子态或两个取消所有者，判为未达到目标，不能仅凭main减少行数验收。",
+                "32:- 物品操作拥有自己的AbortController/pending/恢复菜单上下文；取消从main的abortScript显式调用，不共享局部变量。",
+                "48:- 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。",
+                "67:已核main清洁且同步，完成A1范围、所有权与回归方案；等待本批单席推进裁决，不重用旧豁免。",
+                "72:进入review，官方ratchet与受保护单次strict尚待，不提前done。",
+                "74:弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，",
+                "77:[机账](../../../../testing/domains/runtime/menu/menu-session/evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-84"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/domains/runtime/menu/menu-session/report.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-24 A1单席授权；该次豁免原先不自动外推他卡，后续队列授权另有日期。实施者自审风险保留，旧等待授权/待门禁不重开。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "原单席自验非第三方独立；历史存档/内容版本不恢复当前兼容。",
+          "其它队列/DEMO/s135/完整E2E继续独立。"
+        ]
+      },
+      "reviewedSourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "41542aaa7748705ceba91d0d95359c0ca460383a",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "90a0b8c5d7f84a139c3ccb833a2b8c2852c34afd62722ea7a369d6c1296545c5",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
@@ -10046,125 +11208,90 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检：这是 task-card，当前文档状态为 done。全文 101 行、10 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A3-b保留LRU16/Promise拒绝memo、首次await前冻结与同步commit；26新增不含16内部对照，声音/renderer端口不冒充SFX/Canvas，ad16成功不填fdad远端CI。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md:1",
-        "1:ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检",
-        "17:目标与范围",
-        "29:前提真值门",
-        "44:设计与同步边界",
-        "57:验证"
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md:1"
       ],
       "unresolved": [
-        "正文信号 75:- Kimi/GLM：用户2026-09-24全架构队列豁免，未代签；无独立第三方审查声称。",
-        "正文信号 83:- Kimi/GLM：用户豁免，未代签。",
-        "正文信号 85:A3整体仍待剩余职责，13大批计数维持2/13；不关闭其它缺陷或E2E边界。",
-        "正文信号 93:cb1远端旧battle-host等待预算失败已用独立ad16ba94修复，原驱动红/新驱动绿，远端双门均success。",
-        "正文信号 100:无下一位Agent提示词，Codex独立实施并核定本段；GLM八包不等待、不交叉修改。"
+        "ad16 CI只证独立驱动修复，不冒充fdad候选远端成功。",
+        "未执行路径/原warning保留，A3与E2E/full边界不借此完成。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-ARCH-REFORGE-SCENE-1-resources-and-preflight",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
-      "afterSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+      "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md → ../../../../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md → ../../../../testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json"
+        "原main prepare/assert→SceneResources/ScenePreparer→同步commitSceneSwitch/restorePayload。"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md"
+        "当时正式loader的project/map/sprite、冻结world/script/override.def、合法依赖漂移与失败端口。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A3-b保留LRU16/Promise拒绝memo、首次await前冻结与同步commit；26新增不含16内部对照，声音/renderer端口不冒充SFX/Canvas，ad16成功不填fdad远端CI。",
+          "相同缓存/memo/完成顺序，首次await前冻结，失败不commit、依赖门/无关变化与prune边界。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "16旧新诊断组合不计26新增；声音/renderer外部端口不冒充真实解码/Canvas。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+        "originalApplicability": "2026-09-25 A3-b；cb1cb26d冻结与fdad980f实现、ad16ba94驱动修复分开。原2/13统计和A3未完均限当时，不当今天总进度。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+            "authorCandidateSha256": "873906324eb61a437bab438ec70e1afe79d8487514e18f9cdfc6e178f468d3fe",
+            "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-b场景缓存/只读预检owner迁移，main继续同步commit；不把活动场景、移动和绘制剩余职责算完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
-        "lineCount": 101,
-        "headings": [
-          {
-            "line": 1,
-            "text": "ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检"
-          },
-          {
-            "line": 17,
-            "text": "目标与范围"
-          },
-          {
-            "line": 29,
-            "text": "前提真值门"
-          },
-          {
-            "line": 44,
-            "text": "设计与同步边界"
-          },
-          {
-            "line": 57,
-            "text": "验证"
-          },
-          {
-            "line": 70,
-            "text": "推进签字"
-          },
-          {
-            "line": 72,
-            "text": "build前"
-          },
-          {
-            "line": 78,
-            "text": "done前"
-          },
-          {
-            "line": 87,
-            "text": "交接日志"
-          },
-          {
-            "line": 98,
-            "text": "下一位Agent提示词"
-          }
-        ],
-        "unresolvedSignals": [
-          "75:- Kimi/GLM：用户2026-09-24全架构队列豁免，未代签；无独立第三方审查声称。",
-          "83:- Kimi/GLM：用户豁免，未代签。",
-          "85:A3整体仍待剩余职责，13大批计数维持2/13；不关闭其它缺陷或E2E边界。",
-          "93:cb1远端旧battle-host等待预算失败已用独立ad16ba94修复，原驱动红/新驱动绿，远端双门均success。",
-          "100:无下一位Agent提示词，Codex独立实施并核定本段；GLM八包不等待、不交叉修改。"
-        ]
+        "authorCandidateSha256": "873906324eb61a437bab438ec70e1afe79d8487514e18f9cdfc6e178f468d3fe",
+        "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+        "lineCount": 158
       },
       "history": [
         {
@@ -10172,12 +11299,214 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+          "authorCandidateSha256": "873906324eb61a437bab438ec70e1afe79d8487514e18f9cdfc6e178f468d3fe",
+          "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-b场景缓存/只读预检owner迁移，main继续同步commit；不把活动场景、移动和绘制剩余职责算完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-101"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。未执行路径/原warning保留，A3与E2E/full边界不借此完成。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留A3-b场景缓存/只读预检owner迁移，main继续同步commit；不把活动场景、移动和绘制剩余职责算完成。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-158",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检：这是 task-card，当前文档状态为 done。全文 101 行、10 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md:1",
+              "1:ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检",
+              "17:目标与范围",
+              "29:前提真值门",
+              "44:设计与同步边界",
+              "57:验证"
+            ],
+            "unresolved": [
+              "正文信号 75:- Kimi/GLM：用户2026-09-24全架构队列豁免，未代签；无独立第三方审查声称。",
+              "正文信号 83:- Kimi/GLM：用户豁免，未代签。",
+              "正文信号 85:A3整体仍待剩余职责，13大批计数维持2/13；不关闭其它缺陷或E2E边界。",
+              "正文信号 93:cb1远端旧battle-host等待预算失败已用独立ad16ba94修复，原驱动红/新驱动绿，远端双门均success。",
+              "正文信号 100:无下一位Agent提示词，Codex独立实施并核定本段；GLM八包不等待、不交叉修改。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-ARCH-REFORGE-SCENE-1-resources-and-preflight",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+            "afterSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md → ../../../../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md → ../../../../testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+              "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+              "lineCount": 101,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "ARCH-REFORGE-SCENE-1 — A3-b 场景资源所有权与预检"
+                },
+                {
+                  "line": 17,
+                  "text": "目标与范围"
+                },
+                {
+                  "line": 29,
+                  "text": "前提真值门"
+                },
+                {
+                  "line": 44,
+                  "text": "设计与同步边界"
+                },
+                {
+                  "line": 57,
+                  "text": "验证"
+                },
+                {
+                  "line": 70,
+                  "text": "推进签字"
+                },
+                {
+                  "line": 72,
+                  "text": "build前"
+                },
+                {
+                  "line": 78,
+                  "text": "done前"
+                },
+                {
+                  "line": 87,
+                  "text": "交接日志"
+                },
+                {
+                  "line": 98,
+                  "text": "下一位Agent提示词"
+                }
+              ],
+              "unresolvedSignals": [
+                "75:- Kimi/GLM：用户2026-09-24全架构队列豁免，未代签；无独立第三方审查声称。",
+                "83:- Kimi/GLM：用户豁免，未代签。",
+                "85:A3整体仍待剩余职责，13大批计数维持2/13；不关闭其它缺陷或E2E边界。",
+                "93:cb1远端旧battle-host等待预算失败已用独立ad16ba94修复，原驱动红/新驱动绿，远端双门均success。",
+                "100:无下一位Agent提示词，Codex独立实施并核定本段；GLM八包不等待、不交叉修改。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-101"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md（全文）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": null,
+      "originalCodingOwner": "Codex",
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-09-25 A3-b；cb1cb26d冻结与fdad980f实现、ad16ba94驱动修复分开。原2/13统计和A3未完均限当时，不当今天总进度。",
+      "publicEntry": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "ad16 CI只证独立驱动修复，不冒充fdad候选远端成功。",
+          "未执行路径/原warning保留，A3与E2E/full边界不借此完成。"
+        ]
+      },
+      "reviewedSourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "e9fec08ac413fa24a2fb0c6be665a2cd0e89d8eb",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "873906324eb61a437bab438ec70e1afe79d8487514e18f9cdfc6e178f468d3fe",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
@@ -10638,99 +11967,90 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计：这是 task-card，当前文档状态为 done。全文 31 行、4 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "审计只按已证合同裁决；原中间worker超时无业务结论，Q九针/P01-C03撤销有效信用不恢复，d8a统一有限封板解释待main历史措辞，未知flag不删且不冒充全docs完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md:1",
-        "1:AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计",
-        "11:用户授权与范围",
-        "15:核验方法与停止线",
-        "23:当前事实"
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1"
       ],
       "unresolved": [
-        "正文信号 21:5. 裁决分保留、合并、补强、删除、不可达/blocked；缺事实不得自动删用例或以覆盖/配额凑信用。仅已证重复/非法/无判别力及隔离缺陷在用户授权内修正；新产品真值交用户。",
-        "正文信号 25:当前集成候选工作树基于 main `8efe048610fab7aa4a257a716b91ece30194eba8`，HEAD `198f74d88029e7f50b559971c6ce91e1af739fd5` 后仍有审计窄修未提交；产品源无差异。审计已完成机器清点与代表性语义复核，新增/删除均限于已证明的测试合同、fixture 或证据工具。受影响 s",
-        "正文信号 26:已发现并撤销Q九枚历史反控的AssertionError信用，P01-C03当前也为Vitest Error，不改失败原文冒充合法红。已从候选删除1664+23个失效/过期过程材料。审计已确认删除/精简合同见[审计报告](../../../../testing/archive/legacy/batches/finite-test-intake-2026100",
-        "正文信号 28:此验收口径已同步写入 [`docs/ops/agent-workflow.md`](../../../agent-workflow.md) 与任务模板，作为后续所有贡献者测试任务的统一标准；“全绿”不再单独构成接收条件。最终审计报告明确保留未自动裁决项，不把静态 flag 或私有覆盖百分比当作质量结论。"
+        "原当前事实仍有未提交/未CI措辞，统一封板解释时序，完整原文不删。",
+        "弱matcher/unsafe/慢不等于垃圾；未知候选不自动删除。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-AUDIT-TEST-QUALITY-1",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
-      "afterSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../../testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
-        "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../../testing/archive/legacy/batches/finite-test-intake-20261003/audit-summary.json",
-        "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../agent-workflow.md"
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
       ],
+      "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+      "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+      "publicCallers": ["原各包正式runner与反控工具；审计工具只是筛选而不是业务执行。"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md"
+        "当时main/候选测试身份、真实typed caller与fixture、AST筛选、实跑JSON/raw/exit/signal/spawn与恢复hash。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "审计只按已证合同裁决；原中间worker超时无业务结论，Q九针/P01-C03撤销有效信用不恢复，d8a统一有限封板解释待main历史措辞，未知flag不删且不冒充全docs完成。",
+          "逐合同原子性/合法输入/业务oracle/排重；反控必须恰一指定业务AssertionError并恢复全绿。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+          "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "筛选数量与已判重复集合分开；旧中间定向/最终冻结总数不累加，无配额/覆盖率单独信用。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+        "originalApplicability": "2026-10-03审计/待main阶段至10-04有限封板；原待CI/退休已由后继卡解释，不变成今天执行清理的授权。旧“全仓”是当时测试候选范围，不是1838文档完成。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+            "authorCandidateSha256": "a0f2b98e8a870803cb12c27ce7d0462449bf8e4d2367e0b9f1b78c4248fd77a5",
+            "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-10-03测试/fixture/反控质量审计的授权与有限裁决：只有已证明重复、非法或无判别力才能窄修，静态标记/耗时/覆盖率和配额都不能单独作删除或accept理由。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
-        "lineCount": 31,
-        "headings": [
-          {
-            "line": 1,
-            "text": "AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计"
-          },
-          {
-            "line": 11,
-            "text": "用户授权与范围"
-          },
-          {
-            "line": 15,
-            "text": "核验方法与停止线"
-          },
-          {
-            "line": 23,
-            "text": "当前事实"
-          }
-        ],
-        "unresolvedSignals": [
-          "21:5. 裁决分保留、合并、补强、删除、不可达/blocked；缺事实不得自动删用例或以覆盖/配额凑信用。仅已证重复/非法/无判别力及隔离缺陷在用户授权内修正；新产品真值交用户。",
-          "25:当前集成候选工作树基于 main `8efe048610fab7aa4a257a716b91ece30194eba8`，HEAD `198f74d88029e7f50b559971c6ce91e1af739fd5` 后仍有审计窄修未提交；产品源无差异。审计已完成机器清点与代表性语义复核，新增/删除均限于已证明的测试合同、fixture 或证据工具。受影响 s",
-          "26:已发现并撤销Q九枚历史反控的AssertionError信用，P01-C03当前也为Vitest Error，不改失败原文冒充合法红。已从候选删除1664+23个失效/过期过程材料。审计已确认删除/精简合同见[审计报告](../../../../testing/archive/legacy/batches/finite-test-intake-2026100",
-          "28:此验收口径已同步写入 [`docs/ops/agent-workflow.md`](../../../agent-workflow.md) 与任务模板，作为后续所有贡献者测试任务的统一标准；“全绿”不再单独构成接收条件。最终审计报告明确保留未自动裁决项，不把静态 flag 或私有覆盖百分比当作质量结论。"
-        ]
+        "authorCandidateSha256": "a0f2b98e8a870803cb12c27ce7d0462449bf8e4d2367e0b9f1b78c4248fd77a5",
+        "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+        "lineCount": 83
       },
       "history": [
         {
@@ -10738,12 +12058,190 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+          "authorCandidateSha256": "a0f2b98e8a870803cb12c27ce7d0462449bf8e4d2367e0b9f1b78c4248fd77a5",
+          "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-10-03测试/fixture/反控质量审计的授权与有限裁决：只有已证明重复、非法或无判别力才能窄修，静态标记/耗时/覆盖率和配额都不能单独作删除或accept理由。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-31"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。弱matcher/unsafe/慢不等于垃圾；未知候选不自动删除。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留2026-10-03测试/fixture/反控质量审计的授权与有限裁决：只有已证明重复、非法或无判别力才能窄修，静态标记/耗时/覆盖率和配额都不能单独作删除或accept理由。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-83",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计：这是 task-card，当前文档状态为 done。全文 31 行、4 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md:1",
+              "1:AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计",
+              "11:用户授权与范围",
+              "15:核验方法与停止线",
+              "23:当前事实"
+            ],
+            "unresolved": [
+              "正文信号 21:5. 裁决分保留、合并、补强、删除、不可达/blocked；缺事实不得自动删用例或以覆盖/配额凑信用。仅已证重复/非法/无判别力及隔离缺陷在用户授权内修正；新产品真值交用户。",
+              "正文信号 25:当前集成候选工作树基于 main `8efe048610fab7aa4a257a716b91ece30194eba8`，HEAD `198f74d88029e7f50b559971c6ce91e1af739fd5` 后仍有审计窄修未提交；产品源无差异。审计已完成机器清点与代表性语义复核，新增/删除均限于已证明的测试合同、fixture 或证据工具。受影响 s",
+              "正文信号 26:已发现并撤销Q九枚历史反控的AssertionError信用，P01-C03当前也为Vitest Error，不改失败原文冒充合法红。已从候选删除1664+23个失效/过期过程材料。审计已确认删除/精简合同见[审计报告](../../../../testing/archive/legacy/batches/finite-test-intake-2026100",
+              "正文信号 28:此验收口径已同步写入 [`docs/ops/agent-workflow.md`](../../../agent-workflow.md) 与任务模板，作为后续所有贡献者测试任务的统一标准；“全绿”不再单独构成接收条件。最终审计报告明确保留未自动裁决项，不把静态 flag 或私有覆盖百分比当作质量结论。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-AUDIT-TEST-QUALITY-1",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+            "afterSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../../testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+              "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../../testing/archive/legacy/batches/finite-test-intake-20261003/audit-summary.json",
+              "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md → ../../../agent-workflow.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+              "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+              "lineCount": 31,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "AUDIT-TEST-QUALITY-1 — 全仓测试、fixture 与反控质量审计"
+                },
+                {
+                  "line": 11,
+                  "text": "用户授权与范围"
+                },
+                {
+                  "line": 15,
+                  "text": "核验方法与停止线"
+                },
+                {
+                  "line": 23,
+                  "text": "当前事实"
+                }
+              ],
+              "unresolvedSignals": [
+                "21:5. 裁决分保留、合并、补强、删除、不可达/blocked；缺事实不得自动删用例或以覆盖/配额凑信用。仅已证重复/非法/无判别力及隔离缺陷在用户授权内修正；新产品真值交用户。",
+                "25:当前集成候选工作树基于 main `8efe048610fab7aa4a257a716b91ece30194eba8`，HEAD `198f74d88029e7f50b559971c6ce91e1af739fd5` 后仍有审计窄修未提交；产品源无差异。审计已完成机器清点与代表性语义复核，新增/删除均限于已证明的测试合同、fixture 或证据工具。受影响 s",
+                "26:已发现并撤销Q九枚历史反控的AssertionError信用，P01-C03当前也为Vitest Error，不改失败原文冒充合法红。已从候选删除1664+23个失效/过期过程材料。审计已确认删除/精简合同见[审计报告](../../../../testing/archive/legacy/batches/finite-test-intake-2026100",
+                "28:此验收口径已同步写入 [`docs/ops/agent-workflow.md`](../../../agent-workflow.md) 与任务模板，作为后续所有贡献者测试任务的统一标准；“全绿”不再单独构成接收条件。最终审计报告明确保留未自动裁决项，不把静态 flag 或私有覆盖百分比当作质量结论。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-31"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md（全文，原源此前与本批历史wrapper已核）",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md（全文，此前独立已核同内容）"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["mixed / ops"],
+      "dependencies": [
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "2026-10-03审计/待main阶段至10-04有限封板；原待CI/退休已由后继卡解释，不变成今天执行清理的授权。旧“全仓”是当时测试候选范围，不是1838文档完成。",
+      "publicEntry": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "原当前事实仍有未提交/未CI措辞，统一封板解释时序，完整原文不删。",
+          "弱matcher/unsafe/慢不等于垃圾；未知候选不自动删除。"
+        ]
+      },
+      "reviewedSourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "1acf8220ceab04c5cc99cadc993afd6f456ed29c",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "a0f2b98e8a870803cb12c27ce7d0462449bf8e4d2367e0b9f1b78c4248fd77a5",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md",
@@ -11059,102 +12557,85 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)：这是 task-card，当前文档状态为 done。全文 41 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md:1",
-        "1:B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)",
-        "9:目标(达成)",
-        "14:落地",
-        "29:验证",
-        "37:遗留"
-      ],
+      "templateCompliance": "template-compliant",
+      "readMethod": "Independent root full originals, every new candidate chapter, complete candidate receipt and all cited direct historical reports; strict source inverse/header/blob/SHA/body checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B10保留poisons原序551..560,137,561、patch删键/undo与13毒三对六环；执行日期/实现SHA/raw未给，用户观感待复验不被done或编辑器关系预览替代。",
+      "truthAnchors": ["docs/ops/archive/tasks/done/B10-poison-structured-editor.md:1"],
       "unresolved": [
-        "正文信号 5:Reviewer: 用户(观感待复验);Codex/GLM 补签可选",
-        "正文信号 16:`project.poisons`(⚠ 保序陷阱:poisons.json 原序 551..560,137,561 非升序,经 poisonsById",
-        "正文信号 26:⚠ 不对称)、相克链沿 counters 推导(闭环标 ⟲);点关系里的毒名即跳转选中。",
-        "正文信号 35:- ✅ 交互闭环:清鹤顶红致死配对 → 总览立即亮「⚠ 不对称」→ ⌘Z 撤销 → 警告消、值复原、undo 栈清。",
-        "正文信号 40:- 引擎列 B10 本就 ✅;编辑器列 ⚠️→✅。"
+        "用户观感待复验，原执行日期/实现SHA/raw缺失。",
+        "不得把编辑器done/关系预览升级为当前毒机制或用户验收。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "本次文档迁移已独立接收；旧FSA/用户观感/raw/CI边界保留，按真实新任务与输入再验，不执行旧prompt。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-B10-poison-structured-editor",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收，原Owner/Reviewer保持）",
+      "provenance": [
+        "history_cards_a contributor b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "root full independent source/candidate/receipt/primary reading",
+        "strict complete source inverse and original header equality"
+      ],
       "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
-      "afterSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+      "publicCallers": [
+        "原loader→EditorState→serializeProject；PoisonTab→Add/UpdatePoisonCommand→关系总览。"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md"
+        "当时13条毒原序数组、合法毒定义/玩家敌tick序列、patch undefined删键、重复id输入。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-task-migration-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "B10保留poisons原序551..560,137,561、patch删键/undo与13毒三对六环；执行日期/实现SHA/raw未给，用户观感待复验不被done或编辑器关系预览替代。",
+          "保序roundtrip/不可变/invert/删键还原/重复id不动；致死对称性提示和undo可见恢复。",
+          "No current execution, CI, visual or test-quality approval inherited."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": [],
+        "notes": "命令3+保序1与UI13条/三对六环是不同层；不计当前引擎机制或用户观感通过。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "implementationSha": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+        "originalApplicability": "原引擎前提日期2026-07-06；编辑器实际执行日期未标，不推算为同日。原Owner Opus与Codex/GLM可选补签说明仅作历史，不恢复当前固定签字门。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "independent-root-semantic-acceptance-history-cards-b",
+            "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+            "authorCandidateSha256": "a833d8334ac7539641b8f10b57a5e16427e21eb666f5f3d16c3a338f2f19126b",
+            "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+            "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+            "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留毒定义结构化编辑页的历史闭合：让毒本体进入编辑器数据链与PoisonTab，不把仅引用毒id误认为已能编辑定义。BattleStatus联合原本通过技能/物品效果配置，范围不同。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+            "notRun": [
+              "product tests",
+              "historical mutants",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical remote CI"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+        "kind": "root-independent-original-candidate-and-primary-read",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
         "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
-        "lineCount": 41,
-        "headings": [
-          {
-            "line": 1,
-            "text": "B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)"
-          },
-          {
-            "line": 9,
-            "text": "目标(达成)"
-          },
-          {
-            "line": 14,
-            "text": "落地"
-          },
-          {
-            "line": 29,
-            "text": "验证"
-          },
-          {
-            "line": 37,
-            "text": "遗留"
-          }
-        ],
-        "unresolvedSignals": [
-          "5:Reviewer: 用户(观感待复验);Codex/GLM 补签可选",
-          "16:`project.poisons`(⚠ 保序陷阱:poisons.json 原序 551..560,137,561 非升序,经 poisonsById",
-          "26:⚠ 不对称)、相克链沿 counters 推导(闭环标 ⟲);点关系里的毒名即跳转选中。",
-          "35:- ✅ 交互闭环:清鹤顶红致死配对 → 总览立即亮「⚠ 不对称」→ ⌘Z 撤销 → 警告消、值复原、undo 栈清。",
-          "40:- 引擎列 B10 本就 ✅;编辑器列 ⚠️→✅。"
-        ]
+        "authorCandidateSha256": "a833d8334ac7539641b8f10b57a5e16427e21eb666f5f3d16c3a338f2f19126b",
+        "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+        "lineCount": 91
       },
       "history": [
         {
@@ -11162,12 +12643,189 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "independent-root-semantic-acceptance-history-cards-b",
+          "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+          "authorCandidateSha256": "a833d8334ac7539641b8f10b57a5e16427e21eb666f5f3d16c3a338f2f19126b",
+          "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+          "candidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+          "beforeAfter": "原卡目标/准入/交接/验收混排 → 保留毒定义结构化编辑页的历史闭合：让毒本体进入编辑器数据链与PoisonTab，不把仅引用毒id误认为已能编辑定义。BattleStatus联合原本通过技能/物品效果配置，范围不同。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+          "notRun": [
+            "product tests",
+            "historical mutants",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical remote CI"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-41"
+      "stopLine": "历史done、旧豁免/脚本/提示词与数字不能授予当前产品或测试信用；缺SHA/raw/视觉继续明确缺失。不得把编辑器done/关系预览升级为当前毒机制或用户验收。",
+      "userVisibleBeforeAfter": "原卡目标/准入/交接/验收混排 → 保留毒定义结构化编辑页的历史闭合：让毒本体进入编辑器数据链与PoisonTab，不把仅引用毒id误认为已能编辑定义。BattleStatus联合原本通过技能/物品效果配置，范围不同。；具体范围、证据、验收与历史有效性分别表述，原文完整可逆保留。",
+      "reviewedLines": "1-91",
+      "priorReadings": [
+        {
+          "date": "2026-10-16",
+          "reason": "independent root original/candidate/primary historical review",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)：这是 task-card，当前文档状态为 done。全文 41 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/B10-poison-structured-editor.md:1",
+              "1:B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)",
+              "9:目标(达成)",
+              "14:落地",
+              "29:验证",
+              "37:遗留"
+            ],
+            "unresolved": [
+              "正文信号 5:Reviewer: 用户(观感待复验);Codex/GLM 补签可选",
+              "正文信号 16:`project.poisons`(⚠ 保序陷阱:poisons.json 原序 551..560,137,561 非升序,经 poisonsById",
+              "正文信号 26:⚠ 不对称)、相克链沿 counters 推导(闭环标 ⟲);点关系里的毒名即跳转选中。",
+              "正文信号 35:- ✅ 交互闭环:清鹤顶红致死配对 → 总览立即亮「⚠ 不对称」→ ⌘Z 撤销 → 警告消、值复原、undo 栈清。",
+              "正文信号 40:- 引擎列 B10 本就 ✅;编辑器列 ⚠️→✅。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-B10-poison-structured-editor",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+            "afterSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/B10-poison-structured-editor.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+              "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+              "lineCount": 41,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "B10 - 毒/状态系统结构化编辑页(编辑器侧闭合)"
+                },
+                {
+                  "line": 9,
+                  "text": "目标(达成)"
+                },
+                {
+                  "line": 14,
+                  "text": "落地"
+                },
+                {
+                  "line": 29,
+                  "text": "验证"
+                },
+                {
+                  "line": 37,
+                  "text": "遗留"
+                }
+              ],
+              "unresolvedSignals": [
+                "5:Reviewer: 用户(观感待复验);Codex/GLM 补签可选",
+                "16:`project.poisons`(⚠ 保序陷阱:poisons.json 原序 551..560,137,561 非升序,经 poisonsById",
+                "26:⚠ 不对称)、相克链沿 counters 推导(闭环标 ⟲);点关系里的毒名即跳转选中。",
+                "35:- ✅ 交互闭环:清鹤顶红致死配对 → 总览立即亮「⚠ 不对称」→ ⌘Z 撤销 → 警告消、值复原、undo 栈清。",
+                "40:- 引擎列 B10 本就 ✅;编辑器列 ⚠️→✅。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-41"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md @ b08554e61c7818a8e1d23ecdd7636ae78e4a4666"
+      ],
+      "documentStatus": "done (historical task, no new product acceptance)",
+      "originalOwner": "Opus(选择器铁律「先闭合半done格」;C3 后用户选 B10)",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
+      "applicability": "原引擎前提日期2026-07-06；编辑器实际执行日期未标，不推算为同日。原Owner Opus与Codex/GLM可选补签说明仅作历史，不恢复当前固定签字门。",
+      "publicEntry": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated gates recorded separately",
+        "historicalLimits": [
+          "用户观感待复验，原执行日期/实现SHA/raw缺失。",
+          "不得把编辑器done/关系预览升级为当前毒机制或用户验收。"
+        ]
+      },
+      "reviewedSourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+      "sourceGitRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+      "sourceGitObject": "e8b7ea129a4dfab815f2bc5c03ae6257bb9e241d",
+      "reviewedCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+      "reviewedCandidateSha256": "a833d8334ac7539641b8f10b57a5e16427e21eb666f5f3d16c3a338f2f19126b",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "Strict full UTF-8 quote inverse including final newline; original title/header preserved",
+        "method": "Concrete task and history sections, primary reports directly read; full static gates separate"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/B11-1-player-casualty-scripts.md",

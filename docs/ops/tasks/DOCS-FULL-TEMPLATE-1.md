@@ -225,3 +225,13 @@ Branch: codex/docs-full-template-proposal
 - 当前真实正文迁移投影57/1838基线+4增量、1883候选待迁移；这五篇待包B贡献者完成后的非作者独立复核，不提前宣布整包验收。包B十卡仍独立候选，不计入上述数。
 - 五篇源/after SHA和逐篇限制在本批followupMachineAudits；保持build/目标active，无main写入或产品/旧测试/coverage变更。后续继续逐篇/格式合同/附件归属与全量独立审计。
 - 本五篇候选静态门：63工具测试、61正文合同、608旧+新内容review条目及完整check:docs零问题；lint4072文件0 error/warning/info、diff检查零诊断。全量最终独立审计仍未完成。
+
+
+### 2026-10-16 包B独立接收与五份机器审计闭合
+
+- 包B作者候选b8c8fa4fe37621ac9a1461e30945c6073fb4fccb只含白名单10卡+回执，根线程全文核10原文/全部新章节/完整回执，直接全文读取标签、overflow、战场命令、帧与场景五份历史回执，以及此前已核BattleHost/Menu/finite/统一卡。10组source/blob/candidate/header/原文逆回读和task+archive合同通过；cherry-pick为bd135000c。
+- 根独立accept仅文档：A4真实FSA仍缺烟测、B10用户观感仍待复验；F2窄拆与A1/A2/A3子段不变成全队列完成。旧warning、首轮失败、普通Error针被拒、mock与真实源加载针、confirm宿主替身及fdad/ad16不同CI候选范围逐项保留。
+- 作者候选回执保持原pending身份；canonical治理Owner/交接改成根已接收。另核并同步包A十卡残留候选时态，不改变原产品Status/Owner/quote、不新增迁移数；20/20原文严格逆回读及实际after SHA重新通过，旧source/hash历史保留。
+- history_cards_a对根c1c4ba289b44ad060cb4c5f3ab881a5412f229cd五机器JSON作非作者独立accept：全文5原/新JSON、5中央记录/回执，5严格逆对象、18源范围/hash/anchor、5真实consumer/唯一catalog id与scoped model通过；无counter。不核未全文canonical/完整migration ledger、runtime/E2E/视觉/coverage。
+- 当前67/1838基线+4增量，1874当前候选待迁移；608旧+新账本条目不等608篇迁移，537条governed-legacy仍未闭合。63文档工具/71正文合同与完整check:docs通过；lint4073文件0 error/warning/info，diff检查通过。未写main、产品源码/旧测试/coverage，目标active、任务build，未全量完成。
+- 根线程已全文核读第三阶段剩余README、reference/README、backlog、map-reconstruction四篇与phase2 D32:522–531，尚未迁移/计数。发现旧类型把map规划当index、reference入口当canon，以及current catalog标签与无build规划须区分；下一批按已读语义纠正绑定/状态、保留冻结48e2019锚点与原技术/工期建议的历史范围，不能将其当新实施授权。

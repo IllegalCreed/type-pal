@@ -296,7 +296,7 @@
       "sourceSha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "d41d4a264e176a567d886ebdb5bbc10aedcc50c0f9b966b3ac3a1968ac36d6dd",
-      "afterSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+      "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
       "independentConclusion": "原19例和三产品源不变只界定有限历史接收，不增加净新或反控信用；旧不done中间态由d8a统一封板来源解释，原顶端done/Owner保持。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -305,7 +305,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "原卡没有列出逐针身份或独立 raw 路径；错误反控统一不计有效，本次不补造启动/资源反控。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -320,7 +320,7 @@
       "sourceSha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "a90295442c21411c7f2c34e81911264362bbfaefcd0537831f2648671e6caa55",
-      "afterSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+      "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
       "independentConclusion": "400例、46源byte-exact与40三态原复核分属旧回归/保护/反控范围，不等同净新或当前像素验证；done时序有统一卡来源。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -329,7 +329,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "40 是旧三态证据的历史复核数。本次没有执行 mutant、像素 readback 或宿主流程，不能据此宣称当前 40 针有效。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -344,7 +344,7 @@
       "sourceSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "372b6fc0fbd9f306bf53d953a847531593815585d322ed8487e1b64587f37f11",
-      "afterSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+      "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
       "independentConclusion": "717旧回归与54针对应保留；原702净新估算明确拒绝、700预算终止，不因模板化恢复配额或把hash对应当当前反控通过。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -353,7 +353,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "54 针的字节/hash 对应是原卡裁决；本轮不复跑反控，不把重建 mutant hash 单独转换成现行运行信用。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -368,7 +368,7 @@
       "sourceSha256": "ffdfa79443199bcc466a0e101aa300f9ef1c20df66cae6924dd2a180f52978af",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "2266ef807e1cb66ec565b55f1d957226f551b7b68700f1d1d6413866a2c69ad4",
-      "afterSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+      "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
       "independentConclusion": "16例与相邻50/50不相加，M01真实结算counter仅按原有限闭合保留，不扩大生命周期覆盖或当前执行；旧待done时序显式。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -377,7 +377,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "原 M01 真实结算 counter 已按历史裁决闭合，不再交作者返工；不把此结算闭合扩张为所有生命周期边界或当前执行通过。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -392,7 +392,7 @@
       "sourceSha256": "279c26dba33afc2ac19ac5d03d18e656eda4d345461f0fb26574bc4cb684f224",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "2007b79128ea7788032b4ee637f69cc2126db11efdea27a95a48141744299a43",
-      "afterSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+      "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
       "independentConclusion": "32回归、退出2状态机合同、6针三态/单红/恢复和清理保留各自旧维度，不累加净新、不授予当前预览/E2E通过。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -401,7 +401,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "六针的指定单红/恢复与清理是历史复核结果；本次没有运行预览、反控或浏览器，不代表现行编辑器起点已验。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -416,7 +416,7 @@
       "sourceSha256": "3afb1930ca8b431dbfa2dddc3a65db08acb5611b535235fa598a4057481d4783",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "f42674aa6cb287d64aaccc8a12adfeee2212830daf3763deeeec68d2780be8bc",
-      "afterSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+      "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
       "independentConclusion": "24回归、退出8旧合同、两针/61身份与两删除API退休分别保留，不能混算或复活旧模型；当前续跑未重新执行。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -425,7 +425,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "两针与 61 身份是当时源下的证据范围，不授权复活删除的 API 或旧模型；本次未重采当前续跑证据。",
         "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
@@ -440,7 +440,7 @@
       "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
-      "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+      "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
       "independentConclusion": "A5磁盘整树ZIP/dirty提醒与次日另存为闭包按原意保留；4ZIP轴、2内存FSA测与无句柄菜单验证不替代仍缺凭据的真实FSA用户点验。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -449,7 +449,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "未给日期、实现SHA、打包产物或用户点验回执。",
         "顶部done保留FSA待用户点验，不能静默升级完成。"
@@ -464,7 +464,7 @@
       "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
-      "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+      "afterSha256": "8b25ad467bf64a0ca6716a3439ea549eb8507d83c7a9bb1242eada5c3e903b9b",
       "independentConclusion": "catalog/index/report/evidence分工及39/39旧门保留；顶部done与Closed Evidence待main/CI并存的历史缺凭据明确，不用现在17模板或E2E结果反填。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -473,7 +473,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "顶部done与Closed Evidence待合入main/CI并存；本卡没有最终SHA/CI身份，本轮保留明确缺口。",
         "39/39与877/4654是历史数字，不复用为本次全仓结果。"
@@ -488,7 +488,7 @@
       "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
-      "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+      "afterSha256": "71a5aac98f39b8fed77206afcf4a20c1eb0bd2bc55453e2eb0e16df6b06d20ff",
       "independentConclusion": "原用户截图触发的步骤卡/继续按钮修复、真实6010/10px/键盘范围、首次登记/格式失败与覆盖不变保留；原功能最小验证不关闭E2E001/002或当前视觉。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -497,7 +497,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "首轮两条nowrap登记失败和一处格式问题已据原回执修正；不抹除首次失败。",
         "原本地截图/临时日志未在本轮重取；UI历史收口不关闭E2E-001/002。"
@@ -512,7 +512,7 @@
       "sourceSha256": "97c022d58368f151c5e1d25425e5f15d3600a6c4b7d13806d67ad042c27ca453",
       "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
       "authorCandidateSha256": "8a174f4c0e3e3c2d826bd87b3ca7ca208c0c23dfc126c0e841758519bcad8c56",
-      "afterSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+      "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
       "independentConclusion": "旧122工具/652文件/根白名单accept与用户接受按原时点保留；头部/一个例子的存在不构成当前652逐项runner、imports、清理或artifact归属通过。",
       "independentChecks": [
         "full original/candidate/receipt reading",
@@ -521,7 +521,7 @@
         "original top Status/Owner/Title preserved",
         "actual referenced commit objects exist, no CI/execution revalidation"
       ],
-      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "rootOnlyChangeAfterCandidate": "Neutral governance-owner label and accepted-document handoff state; original task header/body quote unchanged.",
       "historicalLimits": [
         "本轮只读布局计划头部/示例，不把旧accept转换为652逐项审核。",
         "原卡没有raw命令路径/最终commit；当前断链与附件归属须全量另核。"
@@ -796,7 +796,25 @@
     "date": "2026-10-15",
     "baseRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
     "scope": "Five complete JSON audits plus declared source range reading, not unread canonical bodies or full linked migration ledgers",
-    "independentReview": "pending after isolated card package B",
+    "independentReview": {
+      "date": "2026-10-16",
+      "decision": "accept",
+      "reviewer": "history_cards_a (not author of the five root JSON migrations)",
+      "reviewedCandidate": "c1c4ba289b44ad060cb4c5f3ab881a5412f229cd",
+      "sourceBase": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "checks": [
+        "complete five original/new JSONs, five central records and followupMachineAudits directly read",
+        "5/5 strict inverse original object plus source/blob/after identities",
+        "18 distinct source ranges full-file hashes and range anchors",
+        "5 actual paired consumers and five scoped model checks via immutable Git virtual filesystem",
+        "unique catalog identity/status and no catalogue/runtime/semantic credit inflation"
+      ],
+      "counter": [],
+      "limits": [
+        "unread canonical parts and complete migration ledgers/artifact ownership remain pending",
+        "no runtime/E2E/visual/coverage revalidation"
+      ]
+    },
     "entries": [
       {
         "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
@@ -966,7 +984,323 @@
         "command": "git diff --check",
         "exitCode": 0
       },
-      "independentSemanticAcceptance": "pending; not supplied by static checks"
+      "independentSemanticAcceptance": "accept scoped five JSONs; no whole-docs or dynamic acceptance"
     }
-  }
+  },
+  "acceptedContributorCardsB": {
+    "date": "2026-10-16",
+    "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+    "authorReceiptRetained": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
+    "decision": "independent content accept; final integrated gates separately required",
+    "entries": [
+      {
+        "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "edd83e827857796499e87a36a306ab04ab5e4b04",
+        "sourceSha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "19f6ac7e73e0867d93f4d6b734781c103ba85ce736ff911d8e7d8827a29bc1f5",
+        "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+        "independentConclusion": "A4的行走/静物/循环及敌我战斗外观入库保留07-10两次统计；内存可见、dev种子路径和path单测不闭合真实FSA保存后引擎烟测，原用户缺凭据不代签。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "实现SHA/raw/截图未给，FSA用户全环未证。",
+          "原双轨/optional字段不授权当前旧版本兼容；不得代签用户FSA烟测。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "bd8f6c90b5cd0415003de778dfb0ce9436f36d27",
+        "sourceSha256": "548d597d9312abe6546d7e1f4915c2ca57722d7fa51baa719aa3d4cf1116baac",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "e832fab2b6f61719eb3d7c97d3776a296b5d5cabfb48adcebaeb6559faee25f5",
+        "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+        "independentConclusion": "标签两组件窄拆只保留同出口身份/DOM和138定向；RF22未呈现ReadonlyValue且截图不逐像素同，adoption初败/SIGABRT与8122/643原范围重跑分别保留。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "Design Lab未呈现ReadonlyValue，Tag截图未逐像素相等。",
+          "旧warning/首次失败保留；不得把旧exit0转换成当前零诊断。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "e5c13b5a66538bc0500048559aa299d65b767a77",
+        "sourceSha256": "480315db2a716a1489f14e7b3c881c6b3b120e1cc4b366b8bc32c69c74a331a3",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "8c55068cc8239e7311e408ae71984cfca0304368a033dbc08e9d513a29459f57",
+        "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+        "independentConclusion": "Overflow窄拆的118与RF06两状态逐字节图像保持旧范围；一像素容差真实源加载反例、诊断文件独占清理和两warning不变，不扩到其它UI或当前零诊断。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "现行warning须另按零诊断处理；原回执两warning未改的事实保留。",
+          "RF-06以外UI和剧情未验，不能由历史done扩张。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "517fc5186b3da3956a06ad3096614e9da6bd7fb0",
+        "sourceSha256": "f58f806e9781f0f12bf88e3e1fc48c40d3103083049d5e4471a391a04acfbe4b",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "f52edda0b8b1ad7cda62287045b6965a25b3afd313c55f03dabcc6ed43f07894",
+        "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+        "independentConclusion": "战场命令119出口/7276字节与156回归保持；已删mock与Codex真实加载两针不混算，IAB确认框工具阻塞及6014宿主替身分开，不宣称原生框自动化成功。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "IAB原生confirm受工具阻塞，替身仅测宿主边界。",
+          "其它架构债、cue漏校验和实验室counter不能借此done。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "086acd11704ea63dd099c15e31f1652af1485ce3",
+        "sourceSha256": "7ab7f3f4b27047f34c5a6eee976704645792e7854918f7fd429305e3755a6be3",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "a73379e1d6804c7631bff0835b3948829586c26ae93f6e6cc0d32b1f09f210bc",
+        "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+        "independentConclusion": "A2的21/9中间态与23/11最终树分开；真实宿主与17函数、7972/637保留旧SAVE8/content20范围，47/6与单席自审风险不升级成当前独立运行或A3/C1完成。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "无本轮runtime/raw/私有产物恢复；历史warning保留。",
+          "A3/C1/full/Q1/Q2及旧兼容不因本卡关闭或授权。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "8adeb51814980006b715646299a03835d5dde1c8",
+        "sourceSha256": "f09bc68409713749cf7bc25f2f58ae9f60d4ad605658d789e5b5cf6d056cdd90",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "14b22d18b5749040b33a60d23bc289e20563063f1bd26f4ff0e7ce4a66193438",
+        "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+        "independentConclusion": "A3-a保留单一rAF/同步仲裁及36新增；384/896与128内部枚举不加测试数，浏览器745→746只验单步/朝向，短按无位移、cb1失败/ad16修复及普通Error针初拒不改写。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "原clear针普通Error曾被拒绝，最终业务AssertionError不能追溯给初版。",
+          "A3剩余职责、剧情与长期覆盖目标不借本段done。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "41542aaa7748705ceba91d0d95359c0ca460383a",
+        "sourceSha256": "12d362bba03144f7d896613489fdb157e581ca067bbbd1961316302fe16aa146",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "90a0b8c5d7f84a139c3ccb833a2b8c2852c34afd62722ea7a369d6c1296545c5",
+        "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+        "independentConclusion": "A1最终28/55/10与155×3798、7949/635独立于中间27/54/8；真实菜单m01链补H5而非快捷键替代，17hash/分母+60行与旧单席授权不外推其它卡或SAVE12。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "原单席自验非第三方独立；历史存档/内容版本不恢复当前兼容。",
+          "其它队列/DEMO/s135/完整E2E继续独立。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "e9fec08ac413fa24a2fb0c6be665a2cd0e89d8eb",
+        "sourceSha256": "ed373d5115f5bd761fd170a203b21ebc5be5158033e282283ffe8f1885a4eab8",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "873906324eb61a437bab438ec70e1afe79d8487514e18f9cdfc6e178f468d3fe",
+        "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+        "independentConclusion": "A3-b保留LRU16/Promise拒绝memo、首次await前冻结与同步commit；26新增不含16内部对照，声音/renderer端口不冒充SFX/Canvas，ad16成功不填fdad远端CI。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "ad16 CI只证独立驱动修复，不冒充fdad候选远端成功。",
+          "未执行路径/原warning保留，A3与E2E/full边界不借此完成。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "1acf8220ceab04c5cc99cadc993afd6f456ed29c",
+        "sourceSha256": "f816bef0ada3c328f2bafea2d0c89e41f9f06469b2daf6c3a0a2e9fe81617e31",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "a0f2b98e8a870803cb12c27ce7d0462449bf8e4d2367e0b9f1b78c4248fd77a5",
+        "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+        "independentConclusion": "审计只按已证合同裁决；原中间worker超时无业务结论，Q九针/P01-C03撤销有效信用不恢复，d8a统一有限封板解释待main历史措辞，未知flag不删且不冒充全docs完成。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "原当前事实仍有未提交/未CI措辞，统一封板解释时序，完整原文不删。",
+          "弱matcher/unsafe/慢不等于垃圾；未知候选不自动删除。"
+        ]
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+        "sourceRevision": "b08554e61c7818a8e1d23ecdd7636ae78e4a4666",
+        "sourceGitObject": "e8b7ea129a4dfab815f2bc5c03ae6257bb9e241d",
+        "sourceSha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1",
+        "authorCandidateCommit": "b8c8fa4fe37621ac9a1461e30945c6073fb4fccb",
+        "authorCandidateSha256": "a833d8334ac7539641b8f10b57a5e16427e21eb666f5f3d16c3a338f2f19126b",
+        "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+        "independentConclusion": "B10保留poisons原序551..560,137,561、patch删键/undo与13毒三对六环；执行日期/实现SHA/raw未给，用户观感待复验不被done或编辑器关系预览替代。",
+        "independentChecks": [
+          "full original/new prose/receipt/direct historical reports",
+          "source/blob/candidate/header/inverse bytes and frozen task+archive contracts"
+        ],
+        "rootOnlyChanges": "Neutral governance owner and explicit accepted-document handoff state; original source quote and task status/owner unchanged.",
+        "historicalLimits": [
+          "用户观感待复验，原执行日期/实现SHA/raw缺失。",
+          "不得把编辑器done/关系预览升级为当前毒机制或用户验收。"
+        ]
+      }
+    ],
+    "notRun": ["runtime", "E2E", "visual", "coverage", "historical remote CI"],
+    "integratedGates": {
+      "docs": {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "toolTests": 63,
+        "routes": 7,
+        "bodyContracts": 71,
+        "registeredContentReviewEntries": 608,
+        "issues": 0
+      },
+      "lint": {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "files": 4073,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diff": {
+        "command": "git diff --check",
+        "exitCode": 0
+      },
+      "originalSourceInverse": "20/20 previously accepted A and newly accepted B cards byte-exact with actual root after SHA",
+      "scope": "Partial candidate integration, no full-docs/product acceptance"
+    }
+  },
+  "acceptedCardHandoffStateAmendments": [
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+      "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+      "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+      "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+      "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+      "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+      "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+      "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+      "afterSha256": "8b25ad467bf64a0ca6716a3439ea549eb8507d83c7a9bb1242eada5c3e903b9b",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+      "afterSha256": "71a5aac98f39b8fed77206afcf4a20c1eb0bd2bc55453e2eb0e16df6b06d20ff",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "date": "2026-10-16",
+      "action": "sync-accepted-document-handoff-state",
+      "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+      "sourceSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+      "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
+      "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
+    }
+  ]
 }

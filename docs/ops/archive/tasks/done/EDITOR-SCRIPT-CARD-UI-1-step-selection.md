@@ -30,7 +30,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原 Codex review→done 已按原记录生效；顶部 Status、Owner 与 functional-minimal 时机保留。E2E-001 翻页和 002 导航明确是独立任务，不随本卡关闭。无下一位产品 Agent 提示词；本轮候选仅交根线程核语义、原文与中央 SHA。
+原 Codex review→done 已按原记录生效；顶部 Status、Owner 与 functional-minimal 时机保留。E2E-001 翻页和 002 导航明确是独立任务，不随本卡关闭。无下一位产品 Agent 提示词；本次模板迁移已由根线程核语义、原文并接收，中央 SHA 已同步。
 
 ## 历史范围
 

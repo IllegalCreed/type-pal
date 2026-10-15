@@ -1364,7 +1364,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
-      "afterSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+      "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
       "publicCallers": [
         "二阶段资源/UI 的合法输入必须来自当时公开 typed caller；本卡未列单用例输入、组件行为断言或视觉回执，不能仅由 717/54 推导覆盖。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -1392,7 +1392,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+        "implementationSha": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -1417,6 +1417,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+            "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -1426,7 +1434,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
         "authorCandidateSha256": "372b6fc0fbd9f306bf53d953a847531593815585d322ed8487e1b64587f37f11",
-        "afterSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+        "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
         "lineCount": 83
       },
       "history": [
@@ -1452,6 +1460,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+          "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -2223,7 +2239,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "279c26dba33afc2ac19ac5d03d18e656eda4d345461f0fb26574bc4cb684f224",
-      "afterSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+      "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
       "publicCallers": [
         "当时六针须恰一指定业务 AssertionError 并恢复全绿；逐 file×fullName、typed 输入与 command/cwd/raw 须回原证据，不从 32 例汇总补造。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -2251,7 +2267,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+        "implementationSha": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -2276,6 +2292,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+            "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -2285,7 +2309,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "279c26dba33afc2ac19ac5d03d18e656eda4d345461f0fb26574bc4cb684f224",
         "authorCandidateSha256": "2007b79128ea7788032b4ee637f69cc2126db11efdea27a95a48141744299a43",
-        "afterSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+        "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
         "lineCount": 83
       },
       "history": [
@@ -2311,6 +2335,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+          "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -8378,7 +8410,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
-      "afterSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+      "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
       "publicCallers": [
         "启动与资源候选须执行当时真实业务 caller；本卡仅汇总 19 例与三产品源不变，具体 caller、合法 fixture 与断言需下钻统一机账。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -8406,7 +8438,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+        "implementationSha": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -8431,6 +8463,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+            "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -8440,7 +8480,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
         "authorCandidateSha256": "d41d4a264e176a567d886ebdb5bbc10aedcc50c0f9b966b3ac3a1968ac36d6dd",
-        "afterSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+        "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
         "lineCount": 83
       },
       "history": [
@@ -8466,6 +8506,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+          "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -8984,7 +9032,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
-      "afterSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+      "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
       "publicCallers": [
         "历史 46 份产品源 byte-exact 是保护条件，像素/宿主测试的实际输出 oracle 仍以原机账为准；本卡没有逐条 typed 输入和 fullName。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -9012,7 +9060,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+        "implementationSha": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -9037,6 +9085,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+            "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -9046,7 +9102,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
         "authorCandidateSha256": "a90295442c21411c7f2c34e81911264362bbfaefcd0537831f2648671e6caa55",
-        "afterSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+        "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
         "lineCount": 83
       },
       "history": [
@@ -9072,6 +9128,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+          "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -9258,7 +9322,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "3afb1930ca8b431dbfa2dddc3a65db08acb5611b535235fa598a4057481d4783",
-      "afterSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+      "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
       "publicCallers": [
         "续跑须观察真实当前 caller 的状态推进；本卡只汇总两针单红/恢复绿和 61 身份，具体合法 fixture、输出与排重映射仍在历史机账。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -9286,7 +9350,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+        "implementationSha": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -9311,6 +9375,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+            "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -9320,7 +9392,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "3afb1930ca8b431dbfa2dddc3a65db08acb5611b535235fa598a4057481d4783",
         "authorCandidateSha256": "f42674aa6cb287d64aaccc8a12adfeee2212830daf3763deeeec68d2780be8bc",
-        "afterSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+        "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
         "lineCount": 83
       },
       "history": [
@@ -9346,6 +9418,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+          "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -9682,7 +9762,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "ffdfa79443199bcc466a0e101aa300f9ef1c20df66cae6924dd2a180f52978af",
-      "afterSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+      "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
       "publicCallers": [
         "脚本生命周期的实际结算结果须由真实 caller 观察；原卡只给 M01 结算 counter 结论与 50/50 汇总，逐身份输入/oracle 不在卡内。",
         "逐身份caller原短卡未列；需回历史机账，不在本轮重建。"
@@ -9710,7 +9790,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+        "implementationSha": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
         "originalApplicability": "原目标 8efe048610fab7aa4a257a716b91ece30194eba8 / content22 / SAVE11，限定2026-10-03接收上下文；现行版本另按规范。",
         "history": [
           {
@@ -9735,6 +9815,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+            "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -9744,7 +9832,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "ffdfa79443199bcc466a0e101aa300f9ef1c20df66cae6924dd2a180f52978af",
         "authorCandidateSha256": "2266ef807e1cb66ec565b55f1d957226f551b7b68700f1d1d6413866a2c69ad4",
-        "afterSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+        "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
         "lineCount": 83
       },
       "history": [
@@ -9770,6 +9858,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+          "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],
@@ -11982,7 +12078,7 @@
         "actual Git object existence (not execution proof)"
       ],
       "sourceSha256": "97c022d58368f151c5e1d25425e5f15d3600a6c4b7d13806d67ad042c27ca453",
-      "afterSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+      "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
       "publicCallers": [
         "历史公开工具runner、相对imports/cwd；具体逐工具caller在布局计划，本轮未全读或执行。"
       ],
@@ -12011,7 +12107,7 @@
       },
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+        "implementationSha": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
         "originalApplicability": "布局计划sourceRevision 12247f7e389bad300e3b20388ae8a9196386e191；原卡本身无candidate/content/save，历史结构审查。",
         "history": [
           {
@@ -12036,6 +12132,14 @@
               "coverage",
               "historical CI rerun"
             ]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "sync-accepted-document-handoff-state",
+            "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+            "sourceSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+            "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
+            "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
           }
         ]
       },
@@ -12045,7 +12149,7 @@
         "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "97c022d58368f151c5e1d25425e5f15d3600a6c4b7d13806d67ad042c27ca453",
         "authorCandidateSha256": "8a174f4c0e3e3c2d826bd87b3ca7ca208c0c23dfc126c0e841758519bcad8c56",
-        "afterSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+        "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
         "lineCount": 92
       },
       "history": [
@@ -12071,6 +12175,14 @@
             "coverage",
             "historical CI rerun"
           ]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "sync-accepted-document-handoff-state",
+          "sourceRevision": "bd135000cee2cba1cdda20163097bbe200d44699",
+          "sourceSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+          "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
+          "beforeAfter": "Candidate-tense governance handoff → already independently accepted document migration; historical FSA/CI/visual gaps and original quote unchanged."
         }
       ],
       "supersedes": [],

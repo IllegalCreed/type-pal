@@ -30,7 +30,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-顶部 Status: done、Owner/Reviewer Codex 和原 Closed Evidence 不变。候选分支待 main/CI 的旧字段保留为未提供最终凭据的历史缺口，不凭文档迁移补写 success。无下一位贡献者提示词；根线程只独立接收本卡模板迁移并写回中央账。
+顶部 Status: done、Owner/Reviewer Codex 和原 Closed Evidence 不变。候选分支待 main/CI 的旧字段保留为未提供最终凭据的历史缺口，不凭文档迁移补写 success。无下一位贡献者提示词；根线程已独立接收本卡模板迁移并写回中央账。
 
 ## 历史范围
 
