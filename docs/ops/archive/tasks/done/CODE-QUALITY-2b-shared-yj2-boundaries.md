@@ -13,7 +13,7 @@ Branch: codex/code-quality-governance
 Base: `e295d9804`
 Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 D 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -34,7 +34,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done/Owner身份保持。支持并行editor的official ratchet与protected fast在原记录通过；默认串行曾因editor单分支差额失败，独立归Q3c，不以本卡归档吞并。治理候选待根独立接收，无旧build重启。
+原done/Owner身份保持。支持并行editor的official ratchet与protected fast在原记录通过；默认串行曾因editor单分支差额失败，独立归Q3c，不以本卡归档吞并。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收，无旧build重启。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 

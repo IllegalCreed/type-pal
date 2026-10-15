@@ -477,6 +477,66 @@
       "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
       "templateId": "design-spec-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

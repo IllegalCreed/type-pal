@@ -12,7 +12,7 @@ Contributor: Codex
 Branch: codex/code-quality-governance
 Base: `abb759ceb`
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 D 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -33,7 +33,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status done及Codex身份保持。末尾“未获build准入前不得修改实现/标done”是旧提示残留；以10-05完整审计且归档done的后继日志解释，不重发prompt，也不把旧build allowed扩成今天实现授权。文档候选待根独立接收。
+原Status done及Codex身份保持。末尾“未获build准入前不得修改实现/标done”是旧提示残留；以10-05完整审计且归档done的后继日志解释，不重发prompt，也不把旧build allowed扩成今天实现授权。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 

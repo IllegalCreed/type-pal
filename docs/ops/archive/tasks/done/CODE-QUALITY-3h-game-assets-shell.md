@@ -12,7 +12,7 @@ Contributor: Codex
 Branch: codex/code-quality-governance
 Base: `5f13c3010`
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 D 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -33,7 +33,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、Owner/Reviewer身份及提交22840ef03已推送的历史记录保留；fenced提示词仍写build，只按交接时点阅读，不能执行push或扩到bootstrap/save。本轮文档候选待根独立接收。
+原done、Owner/Reviewer身份及提交22840ef03已推送的历史记录保留；fenced提示词仍写build，只按交接时点阅读，不能执行push或扩到bootstrap/save。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 

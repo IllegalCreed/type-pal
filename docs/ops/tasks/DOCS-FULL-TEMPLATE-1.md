@@ -424,3 +424,35 @@ Branch: codex/docs-full-template-proposal
 
 - 共享guarded责任：u新增5但总纲t/u同写215，统计时点未解释不累加全仓完成；u的4/619与3新增/7与5、w的4与3明确原句/排重依据。根直接核mechanics1065–1084及battle/battle-opcodes.ts661–685：实际rangeInclusive(0,9)>=resistance、0→100%，所以canon1075“同享90cap”与1074/实际caller冲突确立，不仅凭符号猜测；F只登记，不改canon或产品。源code仅窄读，不计整份机制文档/解释器全文审核。
 - 每篇具体5任务章/5历史章、原Status/CodingOwner/Reviewer/日期/计数/失败/旧prompt和全部UTF-8可逆原quote、原标题入口保留；不足raw/coverage/timeout日志仍unknown。旧卡声称读过生产或测试全文只作原轮主张，贡献者本轮未读的不得继承新信用。17现有模板pilots/词表不变，无新类型/格式变体或产品裁决；根独立全文/必要直证及集成门后才接受。
+
+
+### 2026-10-16 包D中央接入候选与真实门
+
+- 根接收history_cards_c_tail固定fcd4098的12篇独立语义accept，实核12源/预审Git blob、source/candidate SHA、完整943行原字节逆回读；根读全部12篇新增实质章节和metadata，原Q3c/Q3g/Q3k195行全文，其它原文全文及2040行专属回执全文信用属于作者与非作者，不冒领根完整读域。12正文只另改新增Governance Owner/接收时态两行，原quote和原字段不变，Q3c只有原Owner而无Coding Owner仍照原样。
+- 新增12条中央record/registry/route至628条、108正文合同；原616中0/12已直接确认，不编造旧review或SHA漂移。不可变作者回执fa4a64f885b93c6280f8bde6d2953702afcf403cb096552521d4956d7369a00b保持，当前接收与artifact producer/owner/caller/retention另写20261016-historical-cards-d.json。receipt_review正独立只读核根中央与行政delta，尚未声称其integration accept。
+- 矩阵25→28，新增3条：codec合法宽容域、YJ2/wave历史计数冲突、十月coverage后继证据收窄runner猜测；原25JSON对象逐一不变。MD当前review的core/oracle/beforeAfter/unresolved/nextStep/readScope/计数同步，原完整current进flatten priorReadings，不以history掩盖当前矛盾。
+- 本根实际check:docs：68工具0fail/0skip、1223Markdown/7190links/361tasks、108正文合同、testing0、phase184、review628全部通过；lint4085文件零error/warning/info、diff0。当前投影104/1838基线+4增量，1954候选中1846待迁移，520governed-legacy仍无保留豁免；D中央独立复核与最终签收维护后再收提交。
+- 额外为下一批真实运行quality ledger消费者却exit1：原声明3283，actual3290；原状态229/5/3049/3054，actual229/5/3056/3061。不能把上述docs门通过说成全仓所有质量门已零诊断。实际main与本根inventory逐路径差异仅7份本任务新增docs工具/测试：check-document-model.mjs、document-model.mjs、document-model.test.mjs、frozen-document-source.mjs、git-document-source.mjs、historical-execution-source.test.mjs、report-governance-progress.mjs；均在scripts/docs/。本批尚未修共享账本，下一批完整治理时只纳待核，已闭合229不增加。
+
+
+### 2026-10-16 包G共享质量来源设计与文档准入
+
+- 固定设计源83750d8425709257a609c1b9f62b8c6686d53987；根全文读code-quality-governance.md234行、code-quality-file-ledger.md273行、pre-e2e/coverage-determinism.md98行，共605行。ledger初次输出截断后补读140–181确保全行实际读取。已全文读真实消费者scripts/quality/code-quality-ledger.mjs，直接执行真实inventory并与main逐路径核7新增；没有继承234条代码语义审查信用。非作者后续还须全文来源/候选/实际消费者独立accept。
+- 绑定沿用冻结17模板：总纲是路线/有限批次状态，plan-status-v1/1.0.0；账本是带机器表的责任/证据索引，governance-index-v1/1.0.0；九月确定性调查保原audit-report-v1/1.0.0。三篇均有archive-record1.0.0五节限定原时点，当前路线/索引仅导航，不把旧生产核验变成本轮新代码深审。不新增模板类型或格式变体。
+- 文档build allowed：Codex唯一正文Owner，receipt_review非作者独立验收；仅3共享MD及本卡、现有D中央记录追加G候选/来源保真与逐篇接入，必要旧review/registry/routing/矩阵同步。不得修改quality parser/inventory、产品源码、旧测试、coverage、生成物或运行browser/E2E。G原source/blob与D后根稳定提交再核相同，D中央受审期间不改其record。
+
+| 文档 | 正文具体大纲与停止线 |
+|---|---|
+| code-quality-governance.md | 五plan章节明确2026-10-04基点/模块职责/机器清单/P0–P3/各有限批次与未完成；当前入口转现行工作流、逐批卡与账本，历史2962/2964/2966/3058及Q2末YJ2待核与前面done并列分时点，不挑旧数当今天状态；Q3t/u同215且u新增5的未知不补时序 |
+| code-quality-file-ledger.md | 五index章节明确唯一机器summary/表、真实caller和记录身份；原237显式文件记录的path/category/status逐一保持，归并原末3待核行到唯一连续表不增加闭合数；真实7新增只使summary3290/229/5/3056/3061，保旧3283完整snapshot。Q3k唯一证据摘要3fail按原卡/总纲明确3passed/1failed纠正，原错句仍可回读，不重跑反控或改status |
+| pre-e2e/coverage-determinism.md | 五audit章节保九月reorder合法无scrollOwners帧guard、23→24回归/独立mutant、hold/flush唯一statement/branch与七叶值变化；六次绿不是概率证明，没逐文件raw不追认早期1/6归因，未fullcoverage/浏览器。与十月Workbench174分支属两次不同调查，不合并或授今天测试质量 |
+
+- 机器兼容设计先实际内存pilot：consumer的visibleLines只排raw fence，tracked匹配会抓quote内旧summary，故ledger不能简单全文quote。完整旧ledger放唯一~~~~text原文字节snapshot（源无同围栏，严格inverse），live唯一summary/table保字段，内存auditCodeQualityLedger对真实3290 inventory issues0、229closed/5review/3056pending；所有原行字段保持，0源码语义信用。该原型未写项目正文、不替代真实迁移后consumer。其它两源用完整quote及原标题live入口，原日期/结论/失败/命令保真。
+- 若snapshot导致重复summary/table、任一path/category/status改变、原已审数上升、probe变正式门或Sept/Oct事件被合一，立即counter/rework，不为模板降低门。所有缺失/tmp/raw按实际检查标missing/unknown，producer/owner/caller/retention有来源才填，不补造新执行者或阶段产品裁决。
+
+
+### 2026-10-16 包D中央独立接收
+
+- receipt_review对根12条current record/12新层/两行政行、943原行逆回读、元数据/唯一registry-route、矩阵原25不变/新增3guarded及当前MD review逐项签accept，无新增counter；独立实际strict628/model108/docs1223-7190-361/progress完整性0/diff0。其未冒领tail原卡全文与2040回执全文，实际受审维护快照SHA记D集成receipt；后续根签收/门维护单列，不说新record字节等于原快照。
+- 本批104/1838基线+4增量已接收，1954候选/1846pending，520governed-legacy仍未迁移。额外quality ledger3283→3290计数失败继续open，不由D文档accept豁免；G已完成605行源阅读/真实consumer内存pilot设计，正文尚未迁移。
+- F77b687560cc7ec600faa7bc240483af47c10f991已获history_cards_c_tail全1229源/1332新层/2146回执独立12/12语义accept，166heading/140outgoing/0external inbound成立，当前尚未引入root中央/未计数。H13只读预审进行中，实际10旧ARCH已有governed记录、3CODE卡缺席，不能类推0/13或先实施。目标active，main未写，不标全量done。

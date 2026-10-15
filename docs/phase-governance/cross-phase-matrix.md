@@ -52,6 +52,10 @@ Template: governance-index-v1 / 1.0.0
 | A7过场旧设计/审计 ↔ C1–C5 | skip旧accept撤回，后继默认不可跳；共享两源已明确撤回旧信用并保留原文 | guarded | s059邻域不等s066全路，OPFS不等原生OS UI |
 | A7瓦片许可失败 ↔ 字节修复 | 原222/1/1保留，后继恢复OFL字节；两种合法RLE容器均接受 | guarded | 不回填零、不添来源拒绝、不授今天法律/动态信用 |
 
+| 历史codec合法域 ↔ 严格guard | 空槽/尾部/early-EOS/optional输入各有边界；CLI只读不算修复 | guarded | 不加任意上限、数字键或来源拒绝，不授当前caller/运行信用 |
+| 历史质量计数 ↔ 共享摘要 | YJ2的131/129未解释，wave明确3过1败与ledger误述并列 | guarded | 不择数造轮次、不继承3fail、不冒充raw重跑 |
+| coverage后继证据 ↔ runner猜测 | 单branch回归收窄旧归因，fast/full/probe分母分开 | guarded | 不为历史计数降低门，不以单包绿灯代全仓 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步

@@ -529,6 +529,77 @@
         "只核历史Git/字节，非今天法律认证或重跑通过；223mapNum缺168/171与636文件/580定义/21共享及5+15+1均为历史分母。"
       ],
       "stopLine": "不倒填旧失败、不降低hash门、不添作者带尾来源禁令，不授今天测试质量信用。"
+    },
+    {
+      "id": "quality-codec-legal-inputs-vs-strict-guards",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md"
+      ],
+      "to": [
+        "docs/phase1/05-events-schema.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "历史MKF/RNG/YJ2/PNG/symbols各有合法宽容域：空槽/失败跳过/end后尾部、early-EOS零尾与重叠回引、WORD/palette容差、optional opaque与可选字符串map都不能被统一fail-closed概括误删；数字事件ID仍真值，CLI只读审计不算生产修复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1"
+      ],
+      "unresolved": [
+        "本轮只复核任务历史语义及列明窄源码；未重新执行raw解码、提取器、旧测试或证明当前所有caller。"
+      ],
+      "stopLine": "无新primary/caller反证不得添加任意尺寸/数字键限制、来源禁令或把只读审计变成修复。"
+    },
+    {
+      "id": "quality-history-count-conflicts-vs-current-acceptance",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md"
+      ],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q2b原shared131与129两数并存且轮次未知；Q3k卡/总纲明确4total/3passed/1failed而ledger182误述3fail。迁移并列来源并guarded，不择数补造执行解释；共享正文由后继完整治理。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1",
+        "docs/ops/audits/code-quality-file-ledger.md:182"
+      ],
+      "unresolved": [
+        "131/129轮次差异未解释；ledger摘要冲突尚未在本批越界重写。原wave反控raw/JSON缺失，不补造新回读。"
+      ],
+      "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。"
+    },
+    {
+      "id": "coverage-determinism-history-vs-runner-assumption",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md"
+      ],
+      "to": [
+        "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "docs/testing/governance.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "同census292/identity的editor单branch缺口由具体Workbench回归闭合，原worker/runner猜测收窄；24165→24166原全门、266fast/417full与4682probe分属不同分母。提取器单包绿灯不替代全仓门。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1"
+      ],
+      "unresolved": ["未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"],
+      "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。"
     }
   ],
   "acceptance": {

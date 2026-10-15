@@ -7,7 +7,7 @@ Phase: ops
 Capability: ops / code-quality
 Visual Verification Timing: N/A
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 D 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -28,7 +28,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status done/Owner/Reviewer保持。60行runner猜测由61行直接branch证据收窄，不能在新正文继续声称已证runner内部缺陷；62行最终收口。2026-10-16文档候选待根独立接受，不重新执行旧prompt。
+原Status done/Owner/Reviewer保持。60行runner猜测由61行直接branch证据收窄，不能在新正文继续声称已证runner内部缺陷；62行最终收口。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收，不重新执行旧prompt。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 

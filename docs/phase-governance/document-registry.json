@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 616,
+    "total": 628,
     "byPhase": {
-      "ops": 388,
+      "ops": 400,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -23,7 +23,7 @@
       "evidence-receipt": 45,
       "design-spec": 43,
       "governance-index": 24,
-      "task-card": 306,
+      "task-card": 318,
       "quality-gate": 1,
       "reference-canon": 16,
       "narrative-idea": 2,
@@ -36,10 +36,10 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 616
+      "content-reviewed": 628
     },
     "templateCompliance": {
-      "template-compliant": 96,
+      "template-compliant": 108,
       "governed-legacy": 520
     }
   },
@@ -6981,6 +6981,162 @@
       "reviewDepth": "deep-semantic",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-historical-execution-pilot.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
