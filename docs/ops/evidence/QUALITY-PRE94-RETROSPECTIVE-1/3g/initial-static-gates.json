@@ -1,0 +1,29 @@
+[
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.229,
+    "rawSha256": "0c4ce744771cf8f9e7c2d696b9d3b02207e90b20d4f5eaae280a1b081b4f194a",
+    "outputTail": "docs: 1373 Markdown / 7483 local links / 444 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n\n> type-pal@ check:testing-docs /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/docs/check-testing.mjs\n\ntesting docs: PASS (0 issues)\nphase/lore governance: PASS (184 documents)\ncontent review: PASS (570 documents; {\"content-reviewed\":570})"
+  },
+  {
+    "name": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.3,
+    "rawSha256": "82256c7af35b0470afbfa9f9f1046cc4071bf0fe595b61b3b8908cd6be6dc934",
+    "outputTail": "code-quality ledger: PASS — 3289 files; 203 closed / 241 review / 2845 pending; semantic review still required"
+  },
+  {
+    "name": "diff-check",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 2,
+    "seconds": 0.024,
+    "rawSha256": "1277189c50ac7dcd41f62b2530a7d2815066f7dcba6fbd1c354d30c6f465b6da",
+    "outputTail": "docs/ops/tasks/index.md:465: new blank line at EOF."
+  }
+]

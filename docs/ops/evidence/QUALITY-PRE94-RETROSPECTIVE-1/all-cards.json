@@ -393,7 +393,7 @@
       "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
       "lines": 55,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -421,7 +421,8 @@
           "text": "- 2026-10-05 Codex：CLI 已直接读过并完成 symbols 子批；账本将其余总装 IO/失败策略保留 review。Next: 分段核验清理、写盘、降级与 manifest 的真实调用域。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
     },
     {
       "id": "3h",
@@ -3902,10 +3903,10 @@
       "scopeConfirmed": false
     }
   ],
-  "reviewCheckpointBase": "65c375e06fa5859dc5121519eb3507589813be35",
+  "reviewCheckpointBase": "c2fee5a9eb56bf827ac253dcbdb4a4c86b28a30b",
   "currentReviewCounts": {
-    "partial": 11,
-    "pending": 72,
+    "partial": 12,
+    "pending": 71,
     "accept": 0
   }
 }

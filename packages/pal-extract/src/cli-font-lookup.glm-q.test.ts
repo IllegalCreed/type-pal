@@ -32,7 +32,7 @@ const HERE = dirname(fileURLToPath(import.meta.url))
 const REAL_PACKAGE = resolve(HERE, '..')
 const MSG_TEXT = 'HELLO MSG'
 
-/** 最小合法 BDF：8×16 ASCII 'A'(65) + 16×16 CJK 0x4E2D(19970)，各 16 行位图。 */
+/** 最小合法 BDF：8×16 ASCII 'A'(65) + 16×16 CJK '丂'(U+4E02，19970)，各 16 行位图。 */
 function buildBdf(): Uint8Array {
   const rows = (widthBytes: number, firstRow: string): string[] =>
     Array.from({ length: 16 }, (_, i) => (i === 0 ? firstRow : '0'.repeat(widthBytes * 2)))

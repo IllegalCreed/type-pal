@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
-      "afterSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
+      "sourceSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
+      "afterSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1508,6 +1508,15 @@
             "previousAfterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
             "afterSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "c2fee5a9e",
+            "action": "pre94-CODE3g-output-boundary-stop-line-and-comment-review",
+            "scope": "own retrospective and new output-boundary draft navigation only; all83 12partial/71pending/0accept; no product approval or other-owner status changes",
+            "previousAfterSha256": "b6b405fef80b9aa21d30a81bb9e5b75eaee1f2cbd68df14dbfd86fb843e9b28e",
+            "afterSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
           }
         ]
       },
@@ -1818,8 +1827,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
-      "afterSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
+      "sourceSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
+      "afterSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2426,6 +2435,15 @@
             "previousAfterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
             "afterSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "c2fee5a9e",
+            "action": "pre94-CODE3g-output-boundary-stop-line-and-comment-review",
+            "scope": "own retrospective and new output-boundary draft navigation only; all83 12partial/71pending/0accept; no product approval or other-owner status changes",
+            "previousAfterSha256": "68baac726cf4820bd0dfe3c9fd4ac0f36ae8d6d3cdcada782777411f0e503818",
+            "afterSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -3178,8 +3196,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
-      "afterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
+      "sourceSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
+      "afterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -4068,6 +4086,15 @@
             "previousAfterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
             "afterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
             "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "c2fee5a9e",
+            "action": "pre94-CODE3g-output-boundary-stop-line-and-comment-review",
+            "scope": "own retrospective and new output-boundary draft navigation only; all83 12partial/71pending/0accept; no product approval or other-owner status changes",
+            "previousAfterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
+            "afterSha256": "36eb5ac9077405c01de8f08d56725e8d22235cf6334d7c98d042405849ccd89c",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md"
           }
         ]
       },

@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：204；已读但待审：237；尚未逐文件核验：2,848；合计未闭合：3,085。
+当前已闭合核验：203；已读但待审：241；尚未逐文件核验：2,845；合计未闭合：3,086。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -162,7 +162,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
 | `packages/pal-extract/src/resources/scene.ts` | product | 已验证 | scene range dump/real resource tests、CLI caller | dense scene bounds |
 | `packages/pal-extract/src/resources/tables.ts` | product | 已验证 | parser barrel exports、all table callers/typecheck | 无运行时实现 |
-| `packages/pal-extract/src/cli.ts` | product | 已验证 | Q3f/Q3g；全量 73-896 行 IO/清理/降级/manifest 直接审计；full check/ratchet/protected/lint | Q3g done |
+| `packages/pal-extract/src/cli.ts` | product | rework | [CODE3g当前全文/caller/实际IO反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | OUT根/data父链接通过suffix guard清理另一树；旧关闭撤回，高风险QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 draft，产品修复等裁决 |
+| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [CODE3g七合同/真实子进程/临时树](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 当前清理例不能证明输出ownership；宿主注册/失败收尾与判别力待续，0关闭 |
+| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | review | [CODE3g全文/真实阶段输出/oracle边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 六例有业务执行，manifest大于10不能证明完整内容；宿主重复/输出ownership/未知反控待续，0关闭 |
+| `packages/pal-extract/src/cli-font-lookup.glm-q.test.ts` | test | review | [CODE3g完整BDF/lookup oracle与注释差异](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 仅校19970=丂/U+4E02注释，fixture/body/身份不变；宿主/全域合同与统一门未闭合，0关闭 |
 | `packages/content/src/asset.ts` | product | 已验证 | 直接读取 AssetCatalog/path/origin/role closure validators 与 1490 content tests/full check | 保持 stable AssetId/path ownership |
 | `packages/content/src/project-map.ts` | product | 已验证 | 直接读取 canonical version 4/map matrix/stamp placement validator 与 content tests | 不改 schema |
 | `packages/content/src/scene-index.ts` | product | 已验证 | 直接读取 stable scene id/path/index validator 与 content tests | 路径 fail-closed |
@@ -592,3 +595,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 C10恢复检查点：同30身份先清2act，再有证精简28；四测试/驱动review，新增登记三条，其余review保留，0关闭。完整editor4943绿仍624act/243环境/1表单告警，统一门拒绝；机器已重新核对3289/206closed/233review/2850pending。前94全部83卡仍10partial/73pending/0整卡accept；保存本片后回3d/3g。
 
 2026-10-16 CODE3d当前复审：两height旧绿新单例AssertionError；boundary混轴2→6独立，错误primary与排重注释校正，生产算法不变。两旧关闭转review、两测试pending→review，0新增关闭；机器已重新确认3289/204closed/237review/2848pending。extract432/game8/TC零stderr，统一门与editor仍未清，不合main；全83卡11partial/72pending/0整卡accept。
+
+2026-10-16 CODE3g当前复审：输出根/data父链接清理另一树的四场景直接IO反证停线专卡draft；CLI旧关闭转rework，三测试pending→review，0新关闭。仅字形码点注释窄修，41定向相邻/typecheck零诊断，正式CLI/管线/资源/基线未改。机器已确认3289/203closed/241review/2845pending；全83卡12partial/71pending/0整卡accept，其他范围继续，统一门未收口不合main。

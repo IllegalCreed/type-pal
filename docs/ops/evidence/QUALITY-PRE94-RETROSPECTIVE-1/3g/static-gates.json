@@ -1,0 +1,38 @@
+[
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.269,
+    "rawSha256": "dea8ecf97fc79a93679394ac846e4ea1103b7a13348a29290e5e9e4a9842d3ff",
+    "outputTail": "docs: 1373 Markdown / 7484 local links / 444 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n\n> type-pal@ check:testing-docs /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/docs/check-testing.mjs\n\ntesting docs: PASS (0 issues)\nphase/lore governance: PASS (184 documents)\ncontent review: PASS (570 documents; {\"content-reviewed\":570})"
+  },
+  {
+    "name": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.519,
+    "rawSha256": "82256c7af35b0470afbfa9f9f1046cc4071bf0fe595b61b3b8908cd6be6dc934",
+    "outputTail": "code-quality ledger: PASS — 3289 files; 203 closed / 241 review / 2845 pending; semantic review still required"
+  },
+  {
+    "name": "diff-check",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.026,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputTail": ""
+  },
+  {
+    "name": "lint-zero",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 2.099,
+    "rawSha256": "a4961d8271b0df5ae34b8e3527de7b74e2a863942609660bae749d231bb9b45d",
+    "outputTail": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 4526 files; 0 errors / 0 warnings / 0 infos; complete report"
+  }
+]

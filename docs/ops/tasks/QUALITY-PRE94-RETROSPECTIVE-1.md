@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、11partial/72pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、CODE3切分测试已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、12partial/71pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -187,7 +187,7 @@ Codex premise verified/design agree/build allowed：只改io/sss.test.ts与io/ms
 
 35定向相邻、extract72/428、shared126及双方typecheck、71工具通过，0stderr；原3b after按Git3a9重建7轮，当前16轮原件/源/副本/清理另进程核验。两raw仅review，MSG其余正文/fixup全量与其它边界仍待；机器3289/206closed/230review/2853pending不变，0新关闭。全83卡10partial/73pending/0accept，下一片3d PNG输入，再续3g和94–102/editor；统一check/ratchet/protected未新跑，不合main。无下一位Agent提示词。
 
-当前优先级：C10恢复检查点保存后回83卡队列中的3d/3g；editor余诊断与94–102返工保留，并在稳定窗口集中执行统一门和阶段合并。全部83卡成果持续在范围内，未核项不变更为accept。
+当前优先级：3g输出边界只等该策略裁决；独立续3h assets/shell。editor余诊断与94–102返工保留，并在稳定窗口集中执行统一门和阶段合并。全部83卡成果持续在范围内，未核项不变更为accept。
 
 
 用户再次重申全部83卡成果均须复审。C10恢复仅保存测试检查点：Wizard28零诊断，editor4943通过仍624act/243环境/1表单告警，0文件关闭、未合main。下一片回CODE3d PNG完整caller/alpha/输入合同，再3g；不继续以editor余诊断替代全量83卡队列。原10partial/73pending/0accept未变，94–102/editor返工与稳定窗口统一门仍保留。
@@ -205,3 +205,15 @@ Codex premise verified/design agree/build allowed白名单只三现有源：spri
 [PNG逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)：两height guard变异旧9例均绿，补证后各12绿1指定AssertionError，恢复13零诊断；boundary两混合例拆六独立合同，原四断言保留、补两个height轴。sprite.ts仅改错误primary/运输/FBP caller注释，GLM仅校排重事实头；实现与GLM测试body逐字节不变，资源/规则/退役/基线未动。
 
 实际相邻六文件47、完整extract72文件432、game PNG三文件8和extract typecheck通过，0stderr。相邻命令两不存在路径未计为执行；完整包原件已确认真正BALL/RGM文件。两旧关闭撤回review、另两测试pending→review，0新关闭；机器已重跑确认3289/204closed/237review/2848pending。3d整卡partial，全部83卡11partial/72pending/0accept；下一片3g CLI IO，94–102/editor及当前统一门仍未收口、不合main。无下一位Agent提示词，Codex单Agent继续。
+
+## CODE3g CLI IO 复审与停止线
+
+已全文读CLI901行、五份CLI测试、两共享输入fixture、asset-manifest及BDF parser。输出root/data父symlink的四场景真实临时树复现已得到直接counter，转QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 draft：实际治理树extracted链接主树；产品CLI/清理策略冻结，等用户裁决，没有在真实共享输出运行提取命令。旧3g的“固定suffix即清理安全”不能维持当前整文件关闭。
+
+独立低风险准入只改cli-font-lookup.glm-q.test.ts的一条错误注释：19970实际为U+4E02“丂”，不是0x4E2D“中”（20013）。fixture与test body/身份不动，不修BDF格式/管线，不把注释校正等同机制修复。其它源码/共享配置/生成物只读；CLI/error/isolated/font四目标仅review/rework，0新关闭。相邻五CLI和BDF真实原生集合及静态门补证；83卡全量范围与94–102/editor原目标保留。
+
+### CODE3g 本片结果
+
+[逐文件/反证/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md)：四次真实临时CLI运行，其中OUT根/data父链接两场景删除另一自有临时树marker；子项链接目标保留对照明确，首个探针setup失败单列。正式CLI未改，输出策略转[高风险卡](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)draft等裁决；仅更正字形测试一条码点注释，body/身份/fixture保持。
+
+五CLI+三BDF实际41通过、0失败/跳过/运行时诊断，extract typecheck通过；完整包未重复执行，上一c2同源432原件沿用。CLI旧关闭转rework，三测试pending→review，0新关闭；机器已重新确认3289/203closed/241review/2845pending。全83卡12partial/71pending/0整卡accept；静态门按本片gates实测，统一check/ratchet/protected及editor诊断仍未收口，不合main。输出策略只暂停该实现，其他3h assets/shell与94–102/editor目标继续；无下一位Agent提示词，Codex单Agent推进。

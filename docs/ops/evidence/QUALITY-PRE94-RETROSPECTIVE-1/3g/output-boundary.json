@@ -1,0 +1,139 @@
+{
+  "base": "c2fee5a9eb56bf827ac253dcbdb4a4c86b28a30b",
+  "sourceSha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+  "node": "v22.23.2",
+  "boundary": "No real raw/extracted input, output or product source is changed. Every sentinel and link target is under this process-owned TemporaryDirectory.",
+  "runs": [
+    {
+      "name": "canonical-output",
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/node_modules/tsx/dist/cli.mjs",
+        "src/cli.ts"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-l1hbyfmy/workspace/packages/pal-extract",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.08,
+      "copySha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "stdoutSha256": "6de6af5e131ecd9c9ea289d8e6bbd1e672618102bb6a73ecce0f0fd4efad3af3",
+      "stderrSha256": "f76a1f7fdc1e798ac831b426c104aef679bcbd704df277b250035c6bafbcf2cc",
+      "before": {
+        "out": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-l1hbyfmy/workspace/data/extracted",
+        "realOut": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-l1hbyfmy/workspace/data/extracted",
+        "outWithinWorkspace": true,
+        "dataIsLink": false,
+        "outIsLink": false,
+        "sentinelSha256": "1f401dd5c65232f7a5e9dbb8c33e129cb10dfe793cef86f00a5f7fe6e661ea84",
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3"
+      },
+      "after": {
+        "sentinelExists": false,
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3",
+        "childTargetPreserved": null,
+        "childEntryExists": null
+      },
+      "temporaryTreeRemoved": true
+    },
+    {
+      "name": "output-root-link",
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/node_modules/tsx/dist/cli.mjs",
+        "src/cli.ts"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-_evh_686/workspace/packages/pal-extract",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.005,
+      "copySha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "stdoutSha256": "6de6af5e131ecd9c9ea289d8e6bbd1e672618102bb6a73ecce0f0fd4efad3af3",
+      "stderrSha256": "313cffa2a2270b629ee0b183494a1bf08108a4288a82b70897fc27213eaee4b2",
+      "before": {
+        "out": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-_evh_686/workspace/data/extracted",
+        "realOut": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-_evh_686/other-output",
+        "outWithinWorkspace": false,
+        "dataIsLink": false,
+        "outIsLink": true,
+        "sentinelSha256": "1f401dd5c65232f7a5e9dbb8c33e129cb10dfe793cef86f00a5f7fe6e661ea84",
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3"
+      },
+      "after": {
+        "sentinelExists": false,
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3",
+        "childTargetPreserved": null,
+        "childEntryExists": null
+      },
+      "temporaryTreeRemoved": true
+    },
+    {
+      "name": "data-parent-link",
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/node_modules/tsx/dist/cli.mjs",
+        "src/cli.ts"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-z64xozje/workspace/packages/pal-extract",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.055,
+      "copySha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "stdoutSha256": "6de6af5e131ecd9c9ea289d8e6bbd1e672618102bb6a73ecce0f0fd4efad3af3",
+      "stderrSha256": "6e6400836ef4f7fa275926515c9c2bd6a932c5a682aa3f895b2ba7679a5e53de",
+      "before": {
+        "out": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-z64xozje/workspace/data/extracted",
+        "realOut": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-z64xozje/other-output/extracted",
+        "outWithinWorkspace": false,
+        "dataIsLink": true,
+        "outIsLink": false,
+        "sentinelSha256": "1f401dd5c65232f7a5e9dbb8c33e129cb10dfe793cef86f00a5f7fe6e661ea84",
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3"
+      },
+      "after": {
+        "sentinelExists": false,
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3",
+        "childTargetPreserved": null,
+        "childEntryExists": null
+      },
+      "temporaryTreeRemoved": true
+    },
+    {
+      "name": "child-entry-link",
+      "command": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/node_modules/tsx/dist/cli.mjs",
+        "src/cli.ts"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-90laa_3o/workspace/packages/pal-extract",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.07,
+      "copySha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "stdoutSha256": "6de6af5e131ecd9c9ea289d8e6bbd1e672618102bb6a73ecce0f0fd4efad3af3",
+      "stderrSha256": "785ccfa12b04ee98ebf4313360bdd53a187411daf52ac1f4c4960d22bb78475f",
+      "before": {
+        "out": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-90laa_3o/workspace/data/extracted",
+        "realOut": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3g-output-90laa_3o/workspace/data/extracted",
+        "outWithinWorkspace": true,
+        "dataIsLink": false,
+        "outIsLink": false,
+        "sentinelSha256": "1f401dd5c65232f7a5e9dbb8c33e129cb10dfe793cef86f00a5f7fe6e661ea84",
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3"
+      },
+      "after": {
+        "sentinelExists": false,
+        "videoSha256": "39623d69588bee2f6e1b9cbc3052b8da4b761bb17dd5a3276170f5322f37dbf3",
+        "childTargetPreserved": true,
+        "childEntryExists": false
+      },
+      "temporaryTreeRemoved": true
+    }
+  ],
+  "formalSourceUnchanged": true,
+  "allTemporaryTreesRemoved": true,
+  "conclusion": "String suffix guard does not confine cleanup when OUT or data ancestor is a directory symlink. Child-entry removal itself unlinks without traversing target. No product fix authorized by this probe."
+}
