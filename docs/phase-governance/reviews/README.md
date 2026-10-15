@@ -20,3 +20,5 @@
 - [E2E 合同与历史质量门 pilot](20261015-contract-and-gate-pilot-batch.json)：完整元数据/用户裁决不变，旧版本和 0/50/11 诊断范围不升级。
 
 - [JSON catalog 真正 pilot](20261015-catalog-pilot-batch.json)：18条逐字段阅读，3条分类/4字段勘误有源留痕、逆向相等与真实消费者检查，不变旧状态和版本。
+
+- [域报告/机器证据与历史卡接收记录](20261015-domain-pairs-and-archive-cards.json)：逐篇真实阅读、实际字段/历史/锚点边界；贡献者候选只有独立接收后才写入。

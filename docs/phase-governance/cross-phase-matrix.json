@@ -245,6 +245,45 @@
         "Historical tool versions and complete raw log hashes are missing in that report; original CI and product checks were not rerun by this migration."
       ],
       "stopLine": "A historical exit0 or old accepted exception is not current zero-diagnostics approval; do not rewrite old counts or infer current residual diagnostics."
+    },
+    {
+      "id": "published-test-source-vs-quality-admission",
+      "from": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
+      ],
+      "to": ["docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "relationship": "A source-backed publication records original caller/oracle obligations, but cannot grant current test-quality acceptance. The cited readiness fixture includes an as unknown as BattleState cast that requires a separate legal-input/contract audit.",
+      "status": "guarded",
+      "evidence": [
+        "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md:1"
+      ],
+      "unresolved": [
+        "Whether the minimal snapshot fixture satisfies the current typed-input rule has not been independently audited; this docs-only task cannot modify old tests or grant acceptance."
+      ],
+      "stopLine": "Do not count source-backed, old green totals or migration conformity as test-quality accept; no product/test changes are authorized by this row."
+    },
+    {
+      "id": "report-body-navigation-vs-current-source",
+      "from": [
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/report.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json"
+      ],
+      "relationship": "Six report-body line ranges lagged behind already-correct paired sourceRefs. Current body anchors are aligned only after reading the cited source ranges; original line mappings/Git blobs remain in the migration receipt.",
+      "status": "resolved",
+      "evidence": [
+        "packages/reforge/src/main.ts:407-455",
+        "packages/reforge/src/main.ts:1242-1261",
+        "packages/reforge/src/battle/battle-host.ts:156-160",
+        "packages/reforge/src/world-motion-runtime.ts:167-193"
+      ],
+      "stopLine": "This resolves registered navigation corrections only; it neither refreshes historical execution nor proves all other docs source references are current."
     }
   ],
   "acceptance": {

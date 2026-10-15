@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 589,
+    "total": 601,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,11 +14,11 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 10
+      "testing": 22
     },
     "byType": {
       "guide-runbook": 15,
-      "archive-record": 16,
+      "archive-record": 17,
       "audit-report": 57,
       "evidence-receipt": 38,
       "governance-index": 24,
@@ -30,17 +30,17 @@
       "design-spec": 41,
       "test-e2e-stage": 1,
       "test-run-report": 1,
-      "test-machine-evidence": 1,
-      "test-domain-report": 4,
+      "test-machine-evidence": 8,
+      "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 589
+      "content-reviewed": 601
     },
     "templateCompliance": {
-      "template-compliant": 31,
-      "governed-legacy": 558
+      "template-compliant": 44,
+      "governed-legacy": 557
     }
   },
   "entries": [
@@ -2938,10 +2938,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md",
@@ -6565,6 +6567,157 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-catalog-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "phase": "testing",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

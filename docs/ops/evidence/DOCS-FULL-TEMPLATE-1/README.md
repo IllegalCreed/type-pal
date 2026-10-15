@@ -41,3 +41,7 @@
 ## JSON catalog 真正 pilot
 
 - [实际consumer回执](catalog-pilot-consumer-20261015.json)：18条阅读与4字段可逆勘误，schema/catalog、paired evidence、derived indexes零问题；不授予当前运行或全量完成。
+
+## 域报告/配对机器证据批次
+
+- [正文与JSON保留/锚点修正回执](domain-pair-migration-20261015.json)：原metadata/对象与历史版本不变，当前source行号显式校正，实际publication消费者另记；无新动态验收。

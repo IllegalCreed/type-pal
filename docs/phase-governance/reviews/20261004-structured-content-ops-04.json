@@ -3490,104 +3490,74 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口：这是 task-card，当前文档状态为 done。全文 35 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-source manual semantic migration and historical timing/authority review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "10-03至10-04有限已交付测试集成与退休按原done/Closed Evidence保留；目标不是原配额或全测试/全docs完成。19204与18795、旧输入/反控、CI/清理边界完整保留；其它卡旧未done中间态不恢复当前阻塞或清理授权。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1",
-        "1:TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口",
-        "11:用户授权与边界",
-        "18:固定交付",
-        "24:两旧输入与必要门",
-        "31:收口与退休条件"
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md:1",
+        "docs/ops/agent-workflow.md:1"
       ],
-      "unresolved": [
-        "正文信号 9:Visual Verification Timing: N/A（历史功能视觉按未变条件复用）",
-        "正文信号 15:用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-f",
-        "正文信号 16:不增加合同、配额、旧兼容、产品改动、ignore或质量规则放宽。覆盖率收集 workflow 的 20 分钟宿主上限已按用户授权提高到 30 分钟，未改变测试范围或质量阈值；只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。",
-        "正文信号 34:无下一位贡献者提示词；Codex 已完成独立验收、有限集成、CI 核验和退休清理，卡面状态为 done。主 checkout 保留用户未提交文件，不在收口中改写。"
-      ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "unresolved": ["未重新认证外部CI/私有raw/备份bundle当前存在性，不补造缺失产物。"],
+      "nextStep": "为其它旧卡保留有限收口与时间范围锚点；新动态/退休任务需自己的实际授权和证据。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-TEST-FROZEN-CLOSE-1",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
-      "afterSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → AUDIT-TEST-QUALITY-1.md",
-        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → ../../../../testing/archive/legacy/batches/glm-tenfold-triple/README.md",
-        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → QUALITY-TEST-INPUTS-1.md"
-      ],
+      "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+      "publicCallers": ["有限接收单包旧卡的统一收口引用", "node scripts/docs/check.mjs"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md"
+        "当时content22/SAVE11现行合法新测试与专属fixture、真实PAL输入、冻结作者SHA",
+        "不得合旧产品树或把退出合同判为全业务unreachable"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "historical-finite-closeout-preservation",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "所有原日期、作者SHA、质量门计数、input/counter与用户授权范围保留",
+          "最终done证据与旧中间态按时序区分",
+          "不重开历史任务、不执行新清理、不升格为当前runtime或全量治理通过"
         ]
       },
       "dedupe": {
         "result": "reviewed",
         "against": [
-          "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
-          "docs/phase-governance/templates/task-card.md"
+          "TEST-GROK-BOOT-RESOURCES-MEDIUM-1",
+          "TEST-GROK-RENDER-HOST-LARGE-1",
+          "TEST-CURSOR-ASSET-UI-LARGE-1",
+          "TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2",
+          "TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1",
+          "TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "本卡负责历史统一门/退休；各作者卡保留有限具体接收与原counter，不重复计算语义净新。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+        "implementationSha": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "specific task contract plus history overlay, original source fully preserved",
+            "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+            "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "kind": "complete-original-card-and-current-history-contract",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
-        "lineCount": 35,
-        "headings": [
-          {
-            "line": 1,
-            "text": "TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口"
-          },
-          {
-            "line": 11,
-            "text": "用户授权与边界"
-          },
-          {
-            "line": 18,
-            "text": "固定交付"
-          },
-          {
-            "line": 24,
-            "text": "两旧输入与必要门"
-          },
-          {
-            "line": 31,
-            "text": "收口与退休条件"
-          }
-        ],
-        "unresolvedSignals": [
-          "9:Visual Verification Timing: N/A（历史功能视觉按未变条件复用）",
-          "15:用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-f",
-          "16:不增加合同、配额、旧兼容、产品改动、ignore或质量规则放宽。覆盖率收集 workflow 的 20 分钟宿主上限已按用户授权提高到 30 分钟，未改变测试范围或质量阈值；只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。",
-          "34:无下一位贡献者提示词；Codex 已完成独立验收、有限集成、CI 核验和退休清理，卡面状态为 done。主 checkout 保留用户未提交文件，不在收口中改写。"
-        ]
+        "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+        "lineCount": 102
       },
       "history": [
         {
@@ -3595,12 +3565,175 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "specific task contract plus history overlay, original source fully preserved",
+          "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+          "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-35"
+      "stopLine": "Historical finite intake/CI/retirement does not authorize present product edits, branch deletion or whole-docs/runtime/E2E/visual/coverage acceptance.",
+      "userVisibleBeforeAfter": "有限收口卡原文 → specific task五节+archive五节，原header/done/Owner/日期/数值/清理边界完整保留。",
+      "reviewedLines": "1-102",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "actual finite-closeout semantic/history template migration",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口：这是 task-card，当前文档状态为 done。全文 35 行、5 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md:1",
+              "1:TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口",
+              "11:用户授权与边界",
+              "18:固定交付",
+              "24:两旧输入与必要门",
+              "31:收口与退休条件"
+            ],
+            "unresolved": [
+              "正文信号 9:Visual Verification Timing: N/A（历史功能视觉按未变条件复用）",
+              "正文信号 15:用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-f",
+              "正文信号 16:不增加合同、配额、旧兼容、产品改动、ignore或质量规则放宽。覆盖率收集 workflow 的 20 分钟宿主上限已按用户授权提高到 30 分钟，未改变测试范围或质量阈值；只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。",
+              "正文信号 34:无下一位贡献者提示词；Codex 已完成独立验收、有限集成、CI 核验和退休清理，卡面状态为 done。主 checkout 保留用户未提交文件，不在收口中改写。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-TEST-FROZEN-CLOSE-1",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+            "afterSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → AUDIT-TEST-QUALITY-1.md",
+              "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → ../../../../testing/archive/legacy/batches/glm-tenfold-triple/README.md",
+              "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md → QUALITY-TEST-INPUTS-1.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+              "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+              "lineCount": 35,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口"
+                },
+                {
+                  "line": 11,
+                  "text": "用户授权与边界"
+                },
+                {
+                  "line": 18,
+                  "text": "固定交付"
+                },
+                {
+                  "line": 24,
+                  "text": "两旧输入与必要门"
+                },
+                {
+                  "line": 31,
+                  "text": "收口与退休条件"
+                }
+              ],
+              "unresolvedSignals": [
+                "9:Visual Verification Timing: N/A（历史功能视觉按未变条件复用）",
+                "15:用户冻结O/P/Q并要求通过后推送/关卡/清分支，明确批准16历史保护账与两旧输入窄修；2026-10-03又要求图中L/M/N未完则补完、完成后合并删分支，并追加完成所有已交付测试（明确含GLM、Kimi、Grok、Cursor）的审核、合并推送、分支清理和CI核验目标。Codex build allowed，唯一Owner在隔离 `codex/opq-f",
+                "16:不增加合同、配额、旧兼容、产品改动、ignore或质量规则放宽。覆盖率收集 workflow 的 20 分钟宿主上限已按用户授权提高到 30 分钟，未改变测试范围或质量阈值；只接收现行合法的新测/专属fixture，失效合同保留Git历史，不要求作者无限改写。",
+                "34:无下一位贡献者提示词；Codex 已完成独立验收、有限集成、CI 核验和退休清理，卡面状态为 done。主 checkout 保留用户未提交文件，不在收口中改写。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-35"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "原Closed Evidence main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; historical publication, no new CI verification"
+      ],
+      "phaseAnchors": [
+        "mixed/ops finite test intake",
+        "phase1 and phase2 original caller contracts separately scoped"
+      ],
+      "documentStatus": "done historical; no new build/done grant",
+      "applicability": "2026-10-03/04 finite test integration only",
+      "dependencies": [
+        "QUALITY-TEST-INPUTS-1",
+        "AUDIT-TEST-QUALITY-1",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md"
+      ],
+      "publicEntry": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "historical": "原输入/counter按原统一收口结论保存，不重新代签",
+        "notClosed": ["current products", "current CI/runtime/coverage", "full-docs governance"]
+      },
+      "reviewedSourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+      "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "59012a45865f0fea4737a37c905416e43a59e378",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "historyOverlay": true,
+        "method": "specific task/history chapters and complete original source preservation"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md",

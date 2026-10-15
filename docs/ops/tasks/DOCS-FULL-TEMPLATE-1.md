@@ -180,3 +180,20 @@ Branch: codex/docs-full-template-proposal
 - 阶段分别为 phase2/editor、phase2/editor、phase1/game，不从统一 publication 元数据的 content/SAVE 轴推导一阶段行为或旧档兼容。原“remain legacy”按原审计日期读取，工具当前位置/清理状态须逐项另核。
 - 三份实际 paired consumer 均零问题，保留回执纳入现有 catalog pilot receipt；没有为了计数创建平行报告。累计 **27/1838 基线 + 4 增量**，17/17 类型、31 篇实际正文合同；当前仍有 **1910** 候选未完成，旧 ledger 589 条不代表589篇迁移。
 - 60 项工具测试、完整 check:docs 与本批静态门通过；动态、视觉、旧反控和 coverage 未运行。下一批核这三份 paired evidence 的全部JSON字段，再做独立 envelope/consumer/历史边界迁移；不能从报告模板通过自动授予其证据 reviewed。
+
+### 2026-10-15 分派：历史任务卡包 A
+
+- 依据 AGENTS 当前临时模式与 agent-workflow 的隔离交付规则，Codex 分派一位贡献者并在接收时直接核原文、差异与静态门；不恢复固定席位或三签。
+- 基础候选：`85a419afa17793e13b9700b7064bd8d818d57118`。贡献者只写下列10份归档卡和单独交付回执；不写共享 registry/routing/board/catalog/任务索引、不合 main。
+- 白名单：TEST-GROK-BOOT-RESOURCES-MEDIUM-1、TEST-GROK-RENDER-HOST-LARGE-1、TEST-CURSOR-ASSET-UI-LARGE-1、A5-project-export-zip、TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2、TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1、TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1、DOC-TESTING-ARCH-1-testing-document-system、EDITOR-SCRIPT-CARD-UI-1-step-selection、TESTING-DOC-LAYOUT-1-clean-root，均位于 docs/ops/archive/tasks/done/。
+- 前提/准入：已批准 task-card 1.0.0 及历史 overlay 有有效 pilot，允许逐篇真实阅读后迁移；原 Owner/状态/日期/数字/counter/用户决定保持原义。历史 build/测试/清理措辞不授权当前产品动作；文档静态迁移可 build allowed，内容关键冲突则该卡保持候选/返工。
+- 独立接收与中央 review/registry/SHA 写回仅由本线程 Codex 操作；未接受前不计入全量完成数。根线程同时负责三份机器证据，文件互不重叠。
+
+### 2026-10-15 域报告/证据与历史收口：本线程实施
+
+- 已全文核读并迁移7份配对document-audit JSON、4份runtime域报告、有限接收历史导航及TEST-FROZEN-CLOSE-1统一卡，共13篇。JSON移除envelope后全部原字段/value保持，performed=false与缺raw/artifacts不变；7组真实paired consumer零问题。
+- 直接读取各report所指sourceRef范围，修正6处正文旧行号（ActiveScene/camera、BattleHost/finishWorld、WorldMotionRuntime），原映射/Git blob留在回执。发现readiness测试37–60包含as unknown as BattleState，明确为测试质量待审，未越权修改旧测试或宣称accept。
+- 跨域矩阵现登记14条关系，新增source出版与测试质量准入的guarded边界、6处已解释导航更正；registered rows不是全docs穷尽。旧E-06行的表格空行亦修正，未改变历史计数。
+- 贡献者疑似finite README断链经根线程实际路径解析反证为有效，未错误改链接；该短入口现已治理成具体archive记录。统一有限收口卡保存19204/18795、原用户裁决/输入/退休/CI范围，不重开旧清理。
+- 当前累计40/1838基线+4增量；60项工具测试、44篇正文合同、全部check:docs与lint4071文件零error/warning/info通过。首次统一卡误用“验收条件”标题被结构门拒绝，改为冻结合同“验收”后复跑通过；未降规则。
+- 历史卡包A已由贡献者提交c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc，尚待本线程完成独立接收/中央账写回，不提前计数。主树未写入，未合main；持续目标active，任务build。

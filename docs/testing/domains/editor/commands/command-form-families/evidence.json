@@ -100,5 +100,42 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.1.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON field-by-field reading",
+      "paired report full-text semantic migration",
+      "original Git blob",
+      "real publication consumer"
+    ],
+    "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+    "sourceGitObject": "5b4221079752c043124ea7e4fc1bc5bcea9f6c4f",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase2/editor：B3 source publication，不是Reforge游戏执行；kind dialect、family shape、shared controls为原声明义务。历史统一集成、旧counter/strict计数、工具legacy叙述各受原日期限制。",
+    "primarySource": [
+      "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "packages/editor/src/ui/CommandForm.tsx:82-93",
+      "packages/editor/src/ui/command-form-contract.ts:98-113",
+      "packages/editor/src/ui/command-form-family-ownership.test.ts:11-34",
+      "packages/editor/src/ui/command-form-contract.test.ts:8-25",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit顶层对象 → 同一机器对象加统一治理envelope；每个原字段和值保持，按实际阶段/caller/历史明确限制。",
+    "evidenceLimit": "原candidate2aed、content22/SAVE11、source-backed claim、空artifacts、performed=false全部保留；当前源常量12不成为本批新UI或SAVE12通过。",
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual machine evidence semantic/template migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "静态publication审查与source-backed不产生runtime-backed；原raw缺失、旧counter、版本和历史结果不得升级为当前通过。",
+    "nextStep": "通过真实paired consumer后登记source/after SHA；后续动态验证使用实际任务与原始产物，不复写本次static证据。"
+  }
 }

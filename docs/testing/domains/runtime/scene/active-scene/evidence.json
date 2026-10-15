@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
@@ -107,5 +110,46 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.1.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON reading",
+      "paired original report and declared source anchors read",
+      "original Git blob",
+      "actual publication consumer"
+    ],
+    "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+    "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase2/reforge publication audit only. ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。",
+    "primarySource": [
+      "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "packages/reforge/src/main.ts:407-414",
+      "packages/reforge/src/main.ts:448-455",
+      "packages/reforge/src/active-scene.ts:65-94",
+      "packages/reforge/src/active-scene.test.ts:53-77",
+      "packages/reforge/src/world-camera.test.ts:108-125",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit的全部顶层字段保持，新增不覆盖字段的统一治理envelope；source/版本/历史/缺raw与原counter保留。",
+    "explainedLimits": [
+      "历史A3未完成与53 warning/6 info按09-25快照；17旧回归、80 AST函数、2560步对照不计新业务测试。",
+      "旧清场测试只覆盖replaceScene分支，不证明restoreActions/syncBases的SAVE12恢复；历史raw未随checkout入库。"
+    ],
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual full JSON machine-envelope migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "performed=false、空artifacts与缺raw保持；source-backed不构成新runtime/视觉/coverage或旧测试质量accept。",
+    "nextStep": "核验移除envelope后原对象deep-equal与真实paired consumer，登记after SHA；后续动态/测试质量任务不得从静态迁移继承通过。"
+  }
 }

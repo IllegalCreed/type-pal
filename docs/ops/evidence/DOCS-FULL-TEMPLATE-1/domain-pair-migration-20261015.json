@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "kind": "static-domain-pair-migration-receipt",
+  "date": "2026-10-15",
+  "scope": "Full-source semantic migration, original metadata/object preservation and declared source-anchor corrections only; actual consumers recorded after checking.",
+  "entries": [
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "id": "runtime-active-scene",
+      "type": "test-domain-report",
+      "scope": "ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。",
+      "gaps": [
+        "历史A3未完成与53 warning/6 info按09-25快照；17旧回归、80 AST函数、2560步对照不计新业务测试。",
+        "旧清场测试只覆盖replaceScene分支，不证明restoreActions/syncBases的SAVE12恢复；历史raw未随checkout入库。"
+      ],
+      "anchorCorrections": {
+        "packages/reforge/src/main.ts:395-402": "packages/reforge/src/main.ts:407-414",
+        "packages/reforge/src/main.ts:434-441": "packages/reforge/src/main.ts:448-455"
+      },
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "eb17e80e55d5b01d570210714f6b161833d90048",
+      "sourceSha256": "535e00ab965aa6d6cdeb4e630cf9a013fee647b34824f9414e0f704fc7d1bd82",
+      "preservation": "All four original body sections plus dated pre/post-title notes retained; heading demotion and declared line-anchor corrections only; YAML/testing-meta exact.",
+      "afterSha256": "ac2c0d7be4ee3489c129797cc95a4796880243f7e72430e3d2961f08855a628b",
+      "lineCount": 94
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "id": "runtime-active-scene",
+      "type": "test-machine-evidence",
+      "scope": "ActiveScene 的资源/definition/baseline 与 WorldCamera 的 live bounds/pan；无快照换场和恢复快照分支不能混验。",
+      "gaps": [
+        "历史A3未完成与53 warning/6 info按09-25快照；17旧回归、80 AST函数、2560步对照不计新业务测试。",
+        "旧清场测试只覆盖replaceScene分支，不证明restoreActions/syncBases的SAVE12恢复；历史raw未随checkout入库。"
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
+      "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
+      "preservation": "Every original JSON field/value retained at top level; remove governance envelope for deep-equal original object; no execution performed.",
+      "afterSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
+      "lineCount": 155,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "id": "runtime-battle-host",
+      "type": "test-domain-report",
+      "scope": "BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。",
+      "gaps": [
+        "旧57794d15/348a50d1已被46287966取代；strict7972、旧warnings和H9随机输入校正保留原范围。",
+        "本轮不重新执行PAL战斗、反控或覆盖基线；source anchor核读不是新战斗通过。"
+      ],
+      "anchorCorrections": {
+        "packages/reforge/src/main.ts:1222-1241": "packages/reforge/src/main.ts:1242-1261",
+        "packages/reforge/src/battle/battle-host.ts:155-159": "packages/reforge/src/battle/battle-host.ts:156-160"
+      },
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "a71ea605a98f65f55ddfb213814130f54d504d92",
+      "sourceSha256": "f575d7bc2d6b39abf988f00fd3cc69891efb7b336c05a9f14ff6b407179d8530",
+      "preservation": "All four original body sections plus dated pre/post-title notes retained; heading demotion and declared line-anchor corrections only; YAML/testing-meta exact.",
+      "afterSha256": "7001d9e5cd06de2088d18b26dd7906e5d325c8caa5d3a0405b26a228a898a35c",
+      "lineCount": 93
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "id": "runtime-battle-host",
+      "type": "test-machine-evidence",
+      "scope": "BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。",
+      "gaps": [
+        "旧57794d15/348a50d1已被46287966取代；strict7972、旧warnings和H9随机输入校正保留原范围。",
+        "本轮不重新执行PAL战斗、反控或覆盖基线；source anchor核读不是新战斗通过。"
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
+      "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+      "preservation": "Every original JSON field/value retained at top level; remove governance envelope for deep-equal original object; no execution performed.",
+      "afterSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
+      "lineCount": 146,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+      "id": "runtime-battle-session-owners",
+      "type": "test-domain-report",
+      "scope": "BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。",
+      "gaps": [
+        "四owner的35条历史回归及三人成型最小试打不覆盖完整胜败/存档/剧情E2E。",
+        "直接读到battle-turn-readiness.test.ts:46的as unknown as BattleState；其最小snapshot fixture是否满足现行测试质量输入规则须独立测试卡判断，本次不改旧测试、不宣称其质量accept。"
+      ],
+      "anchorCorrections": {},
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "e966f9afc317ce36782c0d6742b11d0175f396cc",
+      "sourceSha256": "b139e7240d70061cbe828b5c80ae575f10cf279db729f2cff605d8bf76c4da83",
+      "preservation": "All four original body sections plus dated pre/post-title notes retained; heading demotion and declared line-anchor corrections only; YAML/testing-meta exact.",
+      "afterSha256": "44a5151642c34ee0449bdff361b91f8fc8e0740a0a03fa4b4157feba37c8739c",
+      "lineCount": 90
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+      "id": "runtime-battle-session-owners",
+      "type": "test-machine-evidence",
+      "scope": "BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。",
+      "gaps": [
+        "四owner的35条历史回归及三人成型最小试打不覆盖完整胜败/存档/剧情E2E。",
+        "直接读到battle-turn-readiness.test.ts:46的as unknown as BattleState；其最小snapshot fixture是否满足现行测试质量输入规则须独立测试卡判断，本次不改旧测试、不宣称其质量accept。"
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "f3f39bb9dea26be0aa0d14fda1c8904c1db0193f",
+      "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+      "preservation": "Every original JSON field/value retained at top level; remove governance envelope for deep-equal original object; no execution performed.",
+      "afterSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
+      "lineCount": 154,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
+      "id": "runtime-world-owners",
+      "type": "test-domain-report",
+      "scope": "WorldMotionRuntime管外围节拍/生命周期，MotionRuntimeCoordinator管authority/slot，presentation管绘制；不能与ActiveScene重复计整场景E2E。",
+      "gaps": [
+        "旧最小浏览器未读取console，不倒填console零错误；119项定向记录属于原主任务，不代替本报告整体验收。",
+        "save capture/restore、离场恢复与完整剧情另须真实任务证据；暂态命令frame不是实际renderer选帧。"
+      ],
+      "anchorCorrections": {
+        "packages/reforge/src/main.ts:422-433": "packages/reforge/src/main.ts:434-445",
+        "packages/reforge/src/world-motion-runtime.ts:153-179": "packages/reforge/src/world-motion-runtime.ts:167-193"
+      },
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "28966a024b42c2838e0be1513b7597449e4c6ee8",
+      "sourceSha256": "821fc86bf6b1f137164326b28219656878dc38e2d830fc19a2b4cf201e686d86",
+      "preservation": "All four original body sections plus dated pre/post-title notes retained; heading demotion and declared line-anchor corrections only; YAML/testing-meta exact.",
+      "afterSha256": "78360ba902e95548d93d4ef3d41e2d5c41ef26bef0bd609272e96b5c626df2dc",
+      "lineCount": 94
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "id": "runtime-world-owners",
+      "type": "test-machine-evidence",
+      "scope": "WorldMotionRuntime管外围节拍/生命周期，MotionRuntimeCoordinator管authority/slot，presentation管绘制；不能与ActiveScene重复计整场景E2E。",
+      "gaps": [
+        "旧最小浏览器未读取console，不倒填console零错误；119项定向记录属于原主任务，不代替本报告整体验收。",
+        "save capture/restore、离场恢复与完整剧情另须真实任务证据；暂态命令frame不是实际renderer选帧。"
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "aaaf2adab425fc1bdfc2e3a3ae9ec1e41ed3646a",
+      "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
+      "preservation": "Every original JSON field/value retained at top level; remove governance envelope for deep-equal original object; no execution performed.",
+      "afterSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
+      "lineCount": 156,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+      "id": "editor-command-form-families",
+      "type": "test-machine-evidence",
+      "scope": "phase2/editor：B3 source publication，不是Reforge游戏执行；kind dialect、family shape、shared controls为原声明义务。历史统一集成、旧counter/strict计数、工具legacy叙述各受原日期限制。",
+      "gaps": [
+        "原candidate2aed、content22/SAVE11、source-backed claim、空artifacts、performed=false全部保留；当前源常量12不成为本批新UI或SAVE12通过。",
+        "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "5b4221079752c043124ea7e4fc1bc5bcea9f6c4f",
+      "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
+      "preservation": "All original top-level fields/values preserved; inverse envelope equality and actual paired consumer.",
+      "afterSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
+      "lineCount": 141,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+      "id": "editor-map-workspace-sessions",
+      "type": "test-machine-evidence",
+      "scope": "phase2/editor：B2 pointer/session身份与过期确认的source publication；原最小浏览器不保证原生clipboard或完整视觉矩阵，MapMode输入不按Reforge剧情runner验收。",
+      "gaps": [
+        "pointerId、map/EditSession/revision义务与原source-backed claim保留；空raw/artifacts、performed=false、旧candidate/SAVE11不改，不造完整视觉结果。",
+        "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "bef4af6281531c85585b6672e78947cf2ff1841e",
+      "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+      "preservation": "All original top-level fields/values preserved; inverse envelope equality and actual paired consumer.",
+      "afterSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
+      "lineCount": 150,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "id": "phase1-dependency-ownership",
+      "type": "test-machine-evidence",
+      "scope": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。",
+      "gaps": [
+        "publication versions.content22/minimumSave11属于原统一审计元数据，不能推导一阶段SAVE合同/兼容；performed=false、缺raw、空artifacts和全部候选/原history保留。",
+        "runtimeExecution.performed=false and missing raw/artifacts are intentionally retained, not current execution proof."
+      ],
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
+      "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+      "preservation": "All original top-level fields/values preserved; inverse envelope equality and actual paired consumer.",
+      "afterSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
+      "lineCount": 177,
+      "inverseEnvelopeDeepEqual": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "type": "archive-record",
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "6c715aea36863f5878a3cad1b406b86c20140b26",
+      "sourceSha256": "4cac21727261c36950beb6d7ebbe20b70ff12102f5b8bcac0fd314f06856c5b8",
+      "afterSha256": "7e06102d1d3fea4f1a4de0a84b6e845544a31005d6e73914919682f252ed0e8a",
+      "lineCount": 43,
+      "preservation": "Complete original thin index quoted; correct relative destinations unchanged; historical batch/counter/current-runtime boundaries made explicit.",
+      "resolvedSuspicion": "../../../migrations normalizes to docs/testing/archive/migrations; actual target exists."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "59012a45865f0fea4737a37c905416e43a59e378",
+      "sourceSha256": "5f3c6ad696a145b8c1d08faf12baa675637d5bbcb60f1aa9ba7a5311f556cc13",
+      "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+      "lineCount": 102,
+      "preservation": "Original top header/Status/Owner exact and complete original card quoted; specific finite scope, input/counter/gate/retirement/date limits; no new runtime or cleanup."
+    }
+  ],
+  "notRun": ["runtime", "E2E", "visual", "coverage"],
+  "realConsumerResults": [
+    {
+      "id": "runtime-active-scene",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "runtime-battle-host",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "runtime-battle-session-owners",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "runtime-world-owners",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "editor-command-form-families",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "consumer": "validateCanonicalEvidence(catalog entry)",
+      "issues": []
+    }
+  ],
+  "executionClaim": "Static publication and original object/body preservation only; runtimeExecution.performed remains false."
+}

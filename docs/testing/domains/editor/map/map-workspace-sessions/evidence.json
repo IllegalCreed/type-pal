@@ -108,5 +108,43 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.1.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON field-by-field reading",
+      "paired report full-text semantic migration",
+      "original Git blob",
+      "real publication consumer"
+    ],
+    "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
+    "sourceGitObject": "bef4af6281531c85585b6672e78947cf2ff1841e",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase2/editor：B2 pointer/session身份与过期确认的source publication；原最小浏览器不保证原生clipboard或完整视觉矩阵，MapMode输入不按Reforge剧情runner验收。",
+    "primarySource": [
+      "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "packages/editor/src/ui/MapMode.tsx:403-420",
+      "packages/editor/src/ui/map-pointer-gesture-session.ts:36-59",
+      "packages/editor/src/ui/map-pointer-gesture-session.test.tsx:31-48",
+      "packages/editor/src/ui/map-transform-session.test.ts:37-54",
+      "packages/editor/src/ui/map-workspace-view-session.test.tsx:30-47",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit顶层对象 → 同一机器对象加统一治理envelope；每个原字段和值保持，按实际阶段/caller/历史明确限制。",
+    "evidenceLimit": "pointerId、map/EditSession/revision义务与原source-backed claim保留；空raw/artifacts、performed=false、旧candidate/SAVE11不改，不造完整视觉结果。",
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual machine evidence semantic/template migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "静态publication审查与source-backed不产生runtime-backed；原raw缺失、旧counter、版本和历史结果不得升级为当前通过。",
+    "nextStep": "通过真实paired consumer后登记source/after SHA；后续动态验证使用实际任务与原始产物，不复写本次static证据。"
+  }
 }
