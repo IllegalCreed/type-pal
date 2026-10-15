@@ -22,7 +22,6 @@
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [GAME-RIX-MUSIC-1 - 第一阶段 MIDI / DOS FM 音源选择](GAME-RIX-MUSIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -210,6 +209,7 @@
 | [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0](../archive/tasks/done/EDITOR-SPRITE-DEEP-PREVIEW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-RIX-MUSIC-1 - 第一阶段 MIDI / DOS FM 音源选择](../archive/tasks/done/GAME-RIX-MUSIC-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-RNG-SCENE-RESTORE-1 — 酒剑仙传功后动画末帧遮挡场景](../archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [M3 - 迁移脚本去内联、按场景分片与体积门禁](../archive/tasks/done/M3-wander-arm-explosion.md) | done | 完成证据、历史签字与交接见原卡。 |

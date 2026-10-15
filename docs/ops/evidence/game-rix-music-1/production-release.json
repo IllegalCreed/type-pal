@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-15",
+  "featurePullRequest": "https://github.com/IllegalCreed/type-pal/pull/5",
+  "testedHead": "517dc85717bbbb45538f8387a9a6c85a5b75fe94",
+  "deployedAppCommit": "8f5d17ff16f6352cf36e43c4d18895d60d808eaa",
+  "coverage": {
+    "run": "https://github.com/IllegalCreed/type-pal/actions/runs/38665472552",
+    "status": "success",
+    "tests": 19857,
+    "files": 736
+  },
+  "deployment": {
+    "target": "all",
+    "exitCode": 0,
+    "cdnResourceRefreshTask": "33599282428",
+    "cleanPackage": {
+      "tarFlags": "COPYFILE_DISABLE=1 tar --no-xattrs -czf",
+      "isolatedLinuxExtractionExitCode": 0,
+      "diagnostics": 0,
+      "fileCount": 10,
+      "allSha256MatchProduction": true,
+      "redeployedApp": false,
+      "reason": "Original deployment byte-for-byte correct; no second app swap, preserve original dist.old"
+    }
+  },
+  "nginx": {
+    "reason": "Public HTTPS returned application/octet-stream for RIX WASM; now both actual origin over loopback HTTPS and public CDN return application/wasm",
+    "applyMethod": "Inserted only the new WASM location into saved actual online site config, validated nginx -t then graceful reload",
+    "configDrift": "Online original lacks existing repository RLE locations. Those rules were not applied or changed in this release.",
+    "backup": "/root/type-pal-release-backups/type-pal.conf.before-rix-20261015",
+    "review": "state_plan_review independently accepted the diff with minimal online insertion and origin/CDN verification boundaries"
+  },
+  "rawArtifacts": {
+    "production-deploy.raw.gz": {
+      "sha256": "b707cbf232d52dade0341a4fddb0be51796d139ebd46cc24a45644a3cb47b05f",
+      "rawSha256": "be435a4d0de64772766beba663995a42ae012a61bd001252cbb971362bced2f5"
+    },
+    "production-mime-rejection.raw.gz": {
+      "sha256": "26e44ccb4f164fcee54c90e71a630e0effe328d5b0ba4aa2f7beb6433f870380",
+      "rawSha256": "a8b8f81d795fea66cdaeb21dc88bdc1d253f2cbea7cae2074a5b353abae98f59"
+    },
+    "production-verify-confirmed.raw.gz": {
+      "sha256": "3aed2da81321c648b0726efc7d78e2a72081434ed384864c75ff9f7be6120160",
+      "rawSha256": "59a24892acc9b6619d96406cf655b42080084e972407030b1fb23c5fd0aade81"
+    },
+    "production-clean-package.raw.gz": {
+      "sha256": "0b29c88999d205ec826757fb7943152371596a36be0f09bc7642642f1ce60796",
+      "rawSha256": "49083af8509cb156d1a59a653dd642f3dc8c054a44335aca35a5eca4b3702535"
+    },
+    "production-nginx-apply.raw.gz": {
+      "sha256": "083bdf029a16eb5ed0d81c5d4c836a3b15da4f40a489a7def2c2ed1b042732ab",
+      "rawSha256": "56539151554c43e4a4d2b623d46e4abfaf6484626ac4e29293dd3a8d60e201a1"
+    },
+    "production-nginx-site-before.conf.raw.gz": {
+      "sha256": "dfe49225ba96134cbdc1905e543339804585f75ee8dd6572f069353b5bca03fd",
+      "rawSha256": "15e67193a28f2d755d665d1d6d696049a88d050fc949b5db02d2917e1d061042"
+    },
+    "production-nginx-site-after.conf.raw.gz": {
+      "sha256": "dcd97eaef145212efb033507d140842591cb96237646374d26c30d886747b8ca",
+      "rawSha256": "5ffae41c07faf2c74b65e948caf9baa9453bd8b885a0f544b36c84148bd204c6"
+    },
+    "production-origin-wasm-headers.raw.gz": {
+      "sha256": "75ecc5065c7359f3d0fa85271dc52aded384bc7914ea5071ede1305f294835ee",
+      "rawSha256": "ff802b8ec1a4b5e54d14ce343302ba583d92845f42514b7b68fc73637f80dd42"
+    },
+    "production-public-wasm-headers.raw.gz": {
+      "sha256": "954e8901afddb46504fa9ef48d054ae9f599f1c6d8ceece51c86f31704194da3",
+      "rawSha256": "a5b198be0a92787c8a45dd720f8d2a0682926fde48f086bceed18093bd4df86f"
+    },
+    "ci-final.raw.gz": {
+      "sha256": "45e323cf7a17a4b864347a7223ac4d2acb55956d7b64339c3c02be8f52dfc6b6",
+      "rawSha256": "de32aa144152c00c40e82bac35b4186480f67174e134f61a41cbe00e21f71f47"
+    },
+    "closeout-docs.raw.gz": {
+      "sha256": "e87ef96f472ee6c3e7992d662febd50116eaf5147cefd43e2f3729dab1d3c4be",
+      "rawSha256": "c407a630140bf0dabfcd3271832619b770121aad5f5d050c0f011fbc7c7e9b3a"
+    },
+    "closeout-lint.raw.gz": {
+      "sha256": "cd6ffa003b9858295b6fb6cda97363101b70456978a3f5d39f6136d9832490d3",
+      "rawSha256": "eac15ddac98151bd7a9254b67ffa1141787375ee1218aabe8c0a6915085d623a"
+    },
+    "closeout-docs-final.raw.gz": {
+      "sha256": "67e115d789c7de31d3151051f62c8b8a84e5c1f4cbe4cafd5efea710fc947b06",
+      "rawSha256": "76ac5bba51f789d1071a8450dadd03131083e1e50491bb3d8c19c14a3ad5ddc2"
+    },
+    "closeout-lint-final.raw.gz": {
+      "sha256": "cd6ffa003b9858295b6fb6cda97363101b70456978a3f5d39f6136d9832490d3",
+      "rawSha256": "eac15ddac98151bd7a9254b67ffa1141787375ee1218aabe8c0a6915085d623a"
+    }
+  },
+  "issue": {
+    "number": 4,
+    "state": "CLOSED",
+    "comment": "https://github.com/IllegalCreed/type-pal/issues/4#issuecomment-6182581943",
+    "closedAt": "2026-10-15T01:53:43Z"
+  },
+  "browser": {
+    "report": "production-browser.json",
+    "screenshot": "production-rix.png",
+    "result": "MIDI -> RIX -> MIDI -> RIX -> reload RIX, all ready, no browser warn/error logs"
+  },
+  "closeoutStatic": {
+    "docs": "PASS: 48 documentation tests, 0 issues in docs/testing/governance/content review",
+    "lint": "PASS: 4033 files, 0 errors / 0 warnings / 0 infos",
+    "shell": "bash -n scripts/deploy.sh: exit 0",
+    "nginx": "nginx -t: syntax and test successful, no warnings or errors"
+  },
+  "closeoutIndependentReview": "state_plan_review accept: raw hashes, minimum live nginx patch, file equality, preserved rollback and report scope; no remaining counter. Closeout PR CI/merge still required."
+}

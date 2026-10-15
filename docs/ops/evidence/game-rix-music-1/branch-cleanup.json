@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-15",
+  "deleted": [
+    {
+      "branch": "codex/game-rix-music",
+      "local": true,
+      "remote": true,
+      "head": "517dc85717bbbb45538f8387a9a6c85a5b75fe94",
+      "merge": "8f5d17ff16f6352cf36e43c4d18895d60d808eaa",
+      "pullRequest": 5
+    }
+  ],
+  "preserved": [
+    {
+      "branch": "codex/glm-editor-asset-lifecycle-r1",
+      "reason": "Two tests match main exactly, but SpriteActionEditor.glm-asset-lifecycle.test.tsx exists only on the candidate; no confirmed retirement decision. Branch preserved at original b6306b0af."
+    },
+    {
+      "branch": "codex/glm-game-turn-boundaries-r1",
+      "reason": "Unmerged candidate b8dc938d0; current task rework, acceptance withdrawn."
+    },
+    {
+      "branches": [
+        "codex/code-quality-3y",
+        "codex/code-quality-menu-integration",
+        "codex/quality-menu-accept-94-95",
+        "codex/docs-full-template-proposal"
+      ],
+      "reason": "Active independent worktrees; not this release."
+    }
+  ],
+  "closeoutBranch": "codex/rix-release-closeout will be removed only after its CI and merge"
+}

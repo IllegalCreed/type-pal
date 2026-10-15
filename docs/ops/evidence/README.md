@@ -18,7 +18,7 @@
 - [CODE-QUALITY-91 历史 menu 治理原件](CODE-QUALITY-91/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
 - [CODE-QUALITY-92 历史 menu 治理原件](CODE-QUALITY-92/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
 
-- [第一阶段 MIDI / DOS FM 音源选择](game-rix-music-1/README.md)（真实FM输出、音源生命周期、独立PCM参考、反控和停服离线缓存；本地实现待用户试听）。
+- [第一阶段 MIDI / DOS FM 音源选择](game-rix-music-1/README.md)（真实FM输出、音源生命周期、独立PCM参考、反控和停服离线缓存；用户accept；CI、阿里云上线、线上切换及issue #4关闭完成）。
 - [酒剑仙传功后场景恢复](game-rng-scene-restore-1/README.md)（issue #3；真实复现、4项回归及反控，CI/阿里云发布/线上复验已完成）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。

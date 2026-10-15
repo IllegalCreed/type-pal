@@ -103,7 +103,7 @@ deploy_app() {
   fi
   log_info "部署应用壳到 ${SERVER_HOST}..."
   # 防御:用户手动 vite build 过的 dist 可能含 ~205MB 的 extracted 实体目录,一律不进包
-  COPYFILE_DISABLE=1 tar czf /tmp/type-pal-dist.tgz --exclude='.DS_Store' --exclude='./extracted' -C "$local_dist" .
+  COPYFILE_DISABLE=1 tar --no-xattrs -czf /tmp/type-pal-dist.tgz --exclude='.DS_Store' --exclude='./extracted' -C "$local_dist" .
   scp -q /tmp/type-pal-dist.tgz "${SERVER_USER}@${SERVER_HOST}:/tmp/"
   ssh "${SERVER_USER}@${SERVER_HOST}" "RD='${REMOTE_ROOT}' bash -s" <<'REMOTE'
 set -e

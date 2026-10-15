@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+      "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -826,7 +826,18 @@
             "revision": "8f5d17ff1",
             "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
-            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance.",
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+            "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+            "scope": "C5 返工交付后合并 main 音乐收口；两线 history 双保留。",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1092,7 +1103,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+      "afterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1323,7 +1334,26 @@
             "action": "codex-r2-evidence-navigation-merge",
             "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
             "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
-            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
+            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept.",
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+            "afterSha256": "a19a5d6752eb9c0cbd61c70791271b015e7d7d3ff3dd251b0ed109a96834a91e",
+            "scope": "同上合并后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout-readme",
+            "previousAfterSha256": "a19a5d6752eb9c0cbd61c70791271b015e7d7d3ff3dd251b0ed109a96834a91e",
+            "afterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
+            "scope": "evidence README 冲突解决（治理块+main 音乐收口状态）后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2069,7 +2099,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+      "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2371,7 +2401,18 @@
             "revision": "8f5d17ff1",
             "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
             "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
-            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance.",
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+            "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
+            "scope": "任务索引再生成（音乐卡归档+C5 卡）后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
