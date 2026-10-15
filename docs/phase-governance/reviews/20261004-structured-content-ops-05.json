@@ -742,120 +742,86 @@
     {
       "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
       "contentReviewStatus": "content-reviewed",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "E-06 · 质量门禁修复回执：这是 audit-report，当前文档状态为 2026-09-06。全文 95 行、6 个标题；摘要/首段为「状态：2026-09-06，Codex 同会话常规维护完成；不修改内容/存档版本、迁移产物、业务公式或界面样式合同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "docType": "quality-gate",
+      "templateId": "quality-gate-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/quality-gate.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-manual-semantic-migration; original paragraphs and metadata preservation; real static consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "原 E-06 最终 0 error/50 warning/11 info、6176 check 与5691 fast测试、覆盖率整数、首次并行超时和 CI/RAF 反例完整保留。该历史成功不构成0927后零诊断通过，也不证明当前仍有61条问题；旧静态例外、视觉有限范围和未修复业务项不升级当前授权。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
-        "1:E-06 · 质量门禁修复回执",
-        "6:复核基线",
-        "11:处置边界",
-        "21:精确静态分析例外",
-        "36:验证"
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1"
       ],
       "unresolved": [
-        "正文信号 41:- Biome 最终为 **0 error / 50 warning / 11 info**。50 条 warning 仍属后续清理，未把它们说成已消除。",
-        "正文信号 44:- 迁移写入计划新增 8 项：越界/非法路径及缺指纹计划拒绝、写删冲突、manifest 缺前置条件拒绝、",
-        "正文信号 48:没有改低基线、coverage ignore 或测试超时。full coverage 本批未重跑。",
-        "正文信号 68:下一帧并断言焦点回到下拉按钮，然后开始数字输入。输入后再推进一帧，断言焦点仍在数字框、提交数未增加；",
-        "正文信号 76:但 React 关闭提交后的还焦点帧未必已运行。受控帧探针稳定复现 activeElement=body，而不是触发按钮。",
-        "正文信号 77:最终测试先等待关闭提交，再推进动画帧；打开/重新打开均验证焦点进入弹窗，Escape/关闭按钮两种关闭后均验证",
-        "正文信号 79:核对其余焦点断言时区分同步聚焦、已受控帧和显式等待下一帧，不全局把 RAF 改成同步函数，",
-        "正文信号 84:另增 1 项 DsDialog 回归，直接验证初始聚焦帧尚未执行就关闭时取消该帧，以及已出队的旧回调晚到时",
-        "正文信号 93:既有审计的存档/迁移/战斗业务缺陷尚未修复，下一步先做存档与作者数据安全的修复准入。"
+        "原工具精确版本、完整 raw 与产物 SHA 缺失；未重跑或重证历史 CI、覆盖/视觉、外链或旧代码例外。"
       ],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "nextStep": "本类型可供后续逐篇真实迁移；缺失的历史 raw/执行不补造，按当前产品任务验证动态结论。",
       "phase": "ops",
-      "module": "audits",
+      "module": "contract-quality-boundaries",
       "capability": "ops-audits-pre-e2e-quality-gate-remediation",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex（本次治理；原作者与旧验收身份不变）",
+      "provenance": [
+        "full-original-text-read",
+        "Git source blob",
+        "manual semantic rewrite",
+        "real docs/testing consumer"
+      ],
       "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
-      "afterSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+      "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
       "publicCallers": [
-        "docs/ops/audits/pre-e2e/quality-gate-remediation.md → summary.md",
-        "docs/ops/audits/pre-e2e/quality-gate-remediation.md → ../../../testing/archive/legacy/quality/quality-gates/coverage.md"
+        "docs/ops/audits/pre-e2e/summary.md",
+        "node scripts/docs/check-document-model.mjs"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/audits/pre-e2e/quality-gate-remediation.md"
+        "2026-09-06 and subsequent CI historical revisions 02ec94a2 / 90b74f34 / 67df612d",
+        "historical command results, not current product/runtime evidence"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "semantic-preservation-and-authority-bounds",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "原 E-06 最终 0 error/50 warning/11 info、6176 check 与5691 fast测试、覆盖率整数、首次并行超时和 CI/RAF 反例完整保留。该历史成功不构成0927后零诊断通过，也不证明当前仍有61条问题；旧静态例外、视觉有限范围和未修复业务项不升级当前授权。",
+          "原段落、日期、数值、失败与用户裁决均保留；模板不得将历史/静态改成执行通过",
+          "testing metadata/paired consumer 与公开路径不因重排改变；具体模板及历史合同同时满足"
         ]
       },
       "dedupe": {
         "result": "reviewed",
         "against": [
-          "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
-          "docs/phase-governance/templates/audit-report.md"
+          "docs/ops/agent-workflow.md",
+          "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
+          "docs/phase-governance/templates/registry.json"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "本页保存 E-06 单一历史候选与门禁过程，当前质量规则由 AGENTS/现行工作流控制，覆盖率旧整数由原覆盖记录承担；不复制成当前状态页。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+        "implementationSha": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+        "contentVersion": "N/A-doc-governance; original revision versions retained",
+        "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "full-text-contract-or-historical-gate-migration",
+            "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+            "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+        "kind": "static-semantic-migration-and-original-content-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
         "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
-        "lineCount": 95,
-        "headings": [
-          {
-            "line": 1,
-            "text": "E-06 · 质量门禁修复回执"
-          },
-          {
-            "line": 6,
-            "text": "复核基线"
-          },
-          {
-            "line": 11,
-            "text": "处置边界"
-          },
-          {
-            "line": 21,
-            "text": "精确静态分析例外"
-          },
-          {
-            "line": 36,
-            "text": "验证"
-          },
-          {
-            "line": 59,
-            "text": "提交后的 CI 时序补查"
-          }
-        ],
-        "unresolvedSignals": [
-          "41:- Biome 最终为 **0 error / 50 warning / 11 info**。50 条 warning 仍属后续清理，未把它们说成已消除。",
-          "44:- 迁移写入计划新增 8 项：越界/非法路径及缺指纹计划拒绝、写删冲突、manifest 缺前置条件拒绝、",
-          "48:没有改低基线、coverage ignore 或测试超时。full coverage 本批未重跑。",
-          "68:下一帧并断言焦点回到下拉按钮，然后开始数字输入。输入后再推进一帧，断言焦点仍在数字框、提交数未增加；",
-          "76:但 React 关闭提交后的还焦点帧未必已运行。受控帧探针稳定复现 activeElement=body，而不是触发按钮。",
-          "77:最终测试先等待关闭提交，再推进动画帧；打开/重新打开均验证焦点进入弹窗，Escape/关闭按钮两种关闭后均验证",
-          "79:核对其余焦点断言时区分同步聚焦、已受控帧和显式等待下一帧，不全局把 RAF 改成同步函数，",
-          "84:另增 1 项 DsDialog 回归，直接验证初始聚焦帧尚未执行就关闭时取消该帧，以及已出队的旧回调晚到时",
-          "93:既有审计的存档/迁移/战斗业务缺陷尚未修复，下一步先做存档与作者数据安全的修复准入。"
-        ]
+        "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+        "lineCount": 162
       },
       "history": [
         {
@@ -863,12 +829,197 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "semantic-template-migration",
+          "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+          "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+          "previousAfterSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+          "beforeAfter": "被旧账视作现行 audit → historical quality-gate 五节与 archive overlay，全原文可回读，旧结论和现行判据分开。"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-95"
+      "stopLine": "Template conformity and historical/static results grant no new runtime/E2E/visual/coverage, product, or zero-diagnostics acceptance.",
+      "userVisibleBeforeAfter": "被旧账视作现行 audit → historical quality-gate 五节与 archive overlay，全原文可回读，旧结论和现行判据分开。",
+      "reviewedLines": "1-162",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "actual semantic template migration; historical/current evidence scope corrected",
+          "record": {
+            "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "audit-report",
+            "templateId": "audit-report-v1",
+            "template": "docs/phase-governance/templates/audit-report.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "E-06 · 质量门禁修复回执：这是 audit-report，当前文档状态为 2026-09-06。全文 95 行、6 个标题；摘要/首段为「状态：2026-09-06，Codex 同会话常规维护完成；不修改内容/存档版本、迁移产物、业务公式或界面样式合同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+            "truthAnchors": [
+              "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
+              "1:E-06 · 质量门禁修复回执",
+              "6:复核基线",
+              "11:处置边界",
+              "21:精确静态分析例外",
+              "36:验证"
+            ],
+            "unresolved": [
+              "正文信号 41:- Biome 最终为 **0 error / 50 warning / 11 info**。50 条 warning 仍属后续清理，未把它们说成已消除。",
+              "正文信号 44:- 迁移写入计划新增 8 项：越界/非法路径及缺指纹计划拒绝、写删冲突、manifest 缺前置条件拒绝、",
+              "正文信号 48:没有改低基线、coverage ignore 或测试超时。full coverage 本批未重跑。",
+              "正文信号 68:下一帧并断言焦点回到下拉按钮，然后开始数字输入。输入后再推进一帧，断言焦点仍在数字框、提交数未增加；",
+              "正文信号 76:但 React 关闭提交后的还焦点帧未必已运行。受控帧探针稳定复现 activeElement=body，而不是触发按钮。",
+              "正文信号 77:最终测试先等待关闭提交，再推进动画帧；打开/重新打开均验证焦点进入弹窗，Escape/关闭按钮两种关闭后均验证",
+              "正文信号 79:核对其余焦点断言时区分同步聚焦、已受控帧和显式等待下一帧，不全局把 RAF 改成同步函数，",
+              "正文信号 84:另增 1 项 DsDialog 回归，直接验证初始聚焦帧尚未执行就关闭时取消该帧，以及已出队的旧回调晚到时",
+              "正文信号 93:既有审计的存档/迁移/战斗业务缺陷尚未修复，下一步先做存档与作者数据安全的修复准入。"
+            ],
+            "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+            "phase": "ops",
+            "module": "audits",
+            "capability": "ops-audits-pre-e2e-quality-gate-remediation",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+            "afterSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+            "publicCallers": [
+              "docs/ops/audits/pre-e2e/quality-gate-remediation.md → summary.md",
+              "docs/ops/audits/pre-e2e/quality-gate-remediation.md → ../../../testing/archive/legacy/quality/quality-gates/coverage.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/audits/pre-e2e/quality-gate-remediation.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+                "docs/phase-governance/templates/audit-report.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+              "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+              "lineCount": 95,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "E-06 · 质量门禁修复回执"
+                },
+                {
+                  "line": 6,
+                  "text": "复核基线"
+                },
+                {
+                  "line": 11,
+                  "text": "处置边界"
+                },
+                {
+                  "line": 21,
+                  "text": "精确静态分析例外"
+                },
+                {
+                  "line": 36,
+                  "text": "验证"
+                },
+                {
+                  "line": 59,
+                  "text": "提交后的 CI 时序补查"
+                }
+              ],
+              "unresolvedSignals": [
+                "41:- Biome 最终为 **0 error / 50 warning / 11 info**。50 条 warning 仍属后续清理，未把它们说成已消除。",
+                "44:- 迁移写入计划新增 8 项：越界/非法路径及缺指纹计划拒绝、写删冲突、manifest 缺前置条件拒绝、",
+                "48:没有改低基线、coverage ignore 或测试超时。full coverage 本批未重跑。",
+                "68:下一帧并断言焦点回到下拉按钮，然后开始数字输入。输入后再推进一帧，断言焦点仍在数字框、提交数未增加；",
+                "76:但 React 关闭提交后的还焦点帧未必已运行。受控帧探针稳定复现 activeElement=body，而不是触发按钮。",
+                "77:最终测试先等待关闭提交，再推进动画帧；打开/重新打开均验证焦点进入弹窗，Escape/关闭按钮两种关闭后均验证",
+                "79:核对其余焦点断言时区分同步聚焦、已受控帧和显式等待下一帧，不全局把 RAF 改成同步函数，",
+                "84:另增 1 项 DsDialog 回归，直接验证初始聚焦帧尚未执行就关闭时取消该帧，以及已出队的旧回调晚到时",
+                "93:既有审计的存档/迁移/战斗业务缺陷尚未修复，下一步先做存档与作者数据安全的修复准入。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-95"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1"
+      ],
+      "documentStatus": "historical",
+      "phaseAnchors": [
+        "docs/ops/agent-workflow.md",
+        "docs/testing/archive/legacy/quality/quality-gates/coverage.md"
+      ],
+      "dependencies": [
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "Document governance only; original normative/historical/runtime scopes explicitly retained.",
+      "publicEntry": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "counterReworkBlocked": {
+        "status": "none-open-for-this-document-migration",
+        "explainedLimits": [
+          "原工具精确版本、完整 raw 与产物 SHA 缺失；未重跑或重证历史 CI、覆盖/视觉、外链或旧代码例外。"
+        ],
+        "notClosedByThisReview": [
+          "full docs governance",
+          "current runtime/E2E/visual/coverage",
+          "catalog template pilot"
+        ]
+      },
+      "reviewedSourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+      "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+      "sourceGitObject": "75a273c5afb838210ef30f7e800d645585f49949",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "quality-gate-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "method": "concrete purpose/inputs/oracle/decision/limits plus original metadata/body preservation"
+      }
     },
     {
       "path": "docs/ops/audits/pre-e2e/README.md",

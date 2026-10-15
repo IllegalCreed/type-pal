@@ -134,6 +134,23 @@
     {
       "path": "docs/phase-governance/cross-phase-matrix.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "templateId": "test-contract-v1"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "templateId": "quality-gate-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "templateId": "test-catalog-v1"
+    },
+    {
+      "path": "docs/testing/_templates/README.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

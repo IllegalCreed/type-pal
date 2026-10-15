@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "static-document-migration-preservation",
+  "date": "2026-10-15",
+  "entries": [
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "sourceRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+      "sourceGitObject": "06fc33e3bfb61ddd2bb0c5529cca26c5b971a9a3",
+      "sourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+      "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+      "preservationMethod": "Each original semantic block retained exactly once with heading demotion; YAML/testing-meta unchanged; only new scope paragraphs, no historical numbers/date/decision rewritten. Added a local historical-scope annotation before the old admission paragraph; original paragraphs intact.",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "sourceRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+      "sourceGitObject": "75a273c5afb838210ef30f7e800d645585f49949",
+      "sourceSha256": "34e85ce781bae540c1b07d8abdb4bac15c29acd3074c5297579018b8e408cf2a",
+      "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+      "preservationMethod": "Complete source quoted byte-for-byte after removing quote markers; concrete gate/diagnostic/history chapters explain original 0/50/11 without promoting or rewriting it.",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    }
+  ]
+}

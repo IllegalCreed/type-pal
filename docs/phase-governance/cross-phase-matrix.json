@@ -214,7 +214,8 @@
       "from": [
         "docs/testing/domains/runtime/menu/menu-session/report.md",
         "docs/testing/e2e/stages/001-opening/report.md",
-        "docs/testing/e2e/evidence/e2e-001.json"
+        "docs/testing/e2e/evidence/e2e-001.json",
+        "docs/testing/e2e/contract.md"
       ],
       "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
       "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution.",
@@ -228,6 +229,22 @@
         "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work."
       ],
       "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
+    },
+    {
+      "id": "historical-static-diagnostics-vs-current-zero-gate",
+      "from": ["docs/ops/audits/pre-e2e/quality-gate-remediation.md"],
+      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "relationship": "The 2026-09-06 E-06 report preserves its final 0 errors / 50 warnings / 11 infos and original check/coverage/CI decisions. The later zero-diagnostics policy governs current checks without falsifying the past.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1"
+      ],
+      "unresolved": [
+        "Historical tool versions and complete raw log hashes are missing in that report; original CI and product checks were not rerun by this migration."
+      ],
+      "stopLine": "A historical exit0 or old accepted exception is not current zero-diagnostics approval; do not rewrite old counts or infer current residual diagnostics."
     }
   ],
   "acceptance": {
@@ -236,5 +253,6 @@
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
   },
-  "lastReviewed": "2026-10-15"
+  "lastReviewed": "2026-10-15",
+  "acceptanceScope": "Only relationships registered in rows; not an exhaustive census of all docs and not product/runtime or full-governance acceptance."
 }

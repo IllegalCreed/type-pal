@@ -15,7 +15,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-17 类设计获用户批准，注册表处于 frozen-for-pilot。2026-10-11 的保真样本不足以证明模板符合性，不算已验 pilot。正文必须包含具体内容、状态边界、证据与下一步，不能只有章节名或 preserved-source wrapper。
+17 类设计获用户批准，注册表在真实 pilot 后冻结供分批迁移（frozen-for-migration）。每篇仍须真实阅读与格式/consumer 核验；新增格式变体先补设计。2026-10-11 的保真样本不足以证明模板符合性，不算已验 pilot。正文必须包含具体内容、状态边界、证据与下一步，不能只有章节名或 preserved-source wrapper。
 
 ## 入口与责任
 
@@ -31,7 +31,7 @@ Template: governance-index-v1 / 1.0.0
 | `reference-canon` | 分清已核真值与候选来源 | [reference-canon.md](reference-canon.md) |
 | `narrative-idea` | 尚未升格 canon 的创意与取舍 | [narrative-idea.md](narrative-idea.md) |
 | `archive-record` | 保留时点结论、证据与继任关系 | [archive-record.md](archive-record.md) |
-| `test-catalog` | 机器索引与依赖的事实源 | [test-catalog.md](../../testing/_templates/test-catalog.md) |
+| `test-catalog` | 机器索引与依赖的事实源 | [test-catalog.json](../../testing/_templates/test-catalog.json) |
 | `test-contract` | 合法输入、caller、oracle 与排重的测试合同 | [test-contract.md](../../testing/_templates/test-contract.md) |
 | `test-domain-report` | 域内 claim/evidence 与缺口 | [test-domain-report.md](../../testing/_templates/test-domain-report.md) |
 | `test-e2e-stage` | 稳定阶段的入口、前驱与当期结论 | [test-e2e-stage.md](../../testing/_templates/test-e2e-stage.md) |

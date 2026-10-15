@@ -227,13 +227,9 @@
     {
       "docType": "test-catalog",
       "templateId": "test-catalog-v1",
-      "template": "../../testing/_templates/test-catalog.md",
-      "templateVersion": "1.0.0",
-      "requiredSections": [
-        "Catalog identity",
-        "Domain and lifecycle",
-        "Dependencies and publication rules"
-      ],
+      "template": "../../testing/_templates/test-catalog.json",
+      "templateVersion": "1.1.0",
+      "requiredSections": [],
       "purpose": "机器索引与依赖的事实源",
       "statuses": ["current", "draft", "rework"],
       "evidenceFields": [
@@ -248,7 +244,31 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "json",
+      "requiredFields": ["schemaVersion", "generatedBy", "entries", "_governance"],
+      "requiredValues": {
+        "schemaVersion": 2,
+        "_governance.runtimeExecutionPerformed": false
+      },
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "primarySource",
+        "scope",
+        "publicationRules",
+        "entryReadings",
+        "history",
+        "supersedes",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "entryReadingsField": "_governance.entryReadings"
     },
     {
       "docType": "test-contract",
@@ -473,12 +493,13 @@
       "format": "markdown"
     }
   ],
-  "status": "frozen-for-pilot",
+  "status": "frozen-for-migration",
   "adoption": {
     "date": "2026-10-15",
     "guideCommit": "169fc3d04f86ededf567e2b9d0417497ed7ef775",
-    "pilotStatus": "not-accepted; historical samples preserve payload only",
-    "model": "docs/ops/guides/documentation-model.md"
+    "pilotStatus": "Old 2026-10-11 preservation-only samples remain counter; no acceptance inherited from them.",
+    "model": "docs/ops/guides/documentation-model.md",
+    "realPilotStatus": "17 types exercised by actual reviewed migrations, matching SHA/body contracts and format-specific consumers on 2026-10-15; partial progress only, not full-docs acceptance"
   },
   "historyOverlayTemplateId": "archive-record-v1"
 }

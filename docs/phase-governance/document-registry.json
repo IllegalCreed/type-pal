@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 583,
+    "total": 586,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,15 +14,16 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 4
+      "testing": 7
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 16,
-      "audit-report": 58,
+      "audit-report": 57,
       "evidence-receipt": 38,
-      "governance-index": 23,
+      "governance-index": 24,
       "task-card": 306,
+      "quality-gate": 1,
       "reference-canon": 17,
       "narrative-idea": 1,
       "plan-status": 64,
@@ -30,14 +31,16 @@
       "test-e2e-stage": 1,
       "test-run-report": 1,
       "test-machine-evidence": 1,
-      "test-domain-report": 1
+      "test-domain-report": 1,
+      "test-contract": 1,
+      "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 583
+      "content-reviewed": 586
     },
     "templateCompliance": {
-      "template-compliant": 24,
-      "governed-legacy": 559
+      "template-compliant": 28,
+      "governed-legacy": 558
     }
   },
   "entries": [
@@ -3680,13 +3683,15 @@
     {
       "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
       "phase": "ops",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "quality-gate",
+      "templateId": "quality-gate-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/quality-gate.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-05.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/audits/pre-e2e/README.md",
@@ -6487,6 +6492,43 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-historical-and-domain-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "docType": "test-contract",
+      "templateId": "test-contract-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-contract.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "phase": "testing",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-contract-and-gate-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
+      "templateCompliance": "template-compliant",
+      "phase": "testing",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-catalog-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/_templates/README.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "phase": "testing",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-catalog-pilot-batch.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

@@ -33,3 +33,11 @@
 
 - [第三批正文保留回执](pilot-body-preservation-20261015-03.json)：八篇原始 source blob/SHA 与具体重组方式；历史 prompt 尾空格的展示规范化另行注明，原始字节仍由 Git 保留。
 - 本批还纠正阶段 catalog 的历史/ideas 分类并同步生成视图；生成器已改为只投影，不再按路径重置人工审查结果。
+
+## E2E 合同与历史质量门 pilot
+
+- [第四批正文保留回执](pilot-body-preservation-20261015-04.json)：合同逐章重排与原 metadata、历史质量原文回读；没有新执行结果。
+
+## JSON catalog 真正 pilot
+
+- [实际consumer回执](catalog-pilot-consumer-20261015.json)：18条阅读与4字段可逆勘误，schema/catalog、paired evidence、derived indexes零问题；不授予当前运行或全量完成。

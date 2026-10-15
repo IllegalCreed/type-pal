@@ -16,3 +16,7 @@
 - [Agent-first 操作路由与权威入口实际改写](20261015-agent-first-routing-batch.json)：仅四份全文核读与改写；全量任务仍在 build。
 - [协作历史分层与 E2E-001 真实 pilot](20261015-protocol-and-e2e-pilot-batch.json)：保留原协议全文、报告段落和 JSON 顶层字段，不新增实跑信用。
 - [历史/参考/创意/设计与域报告真实 pilot](20261015-historical-and-domain-pilot-batch.json)：旧作者与数字按时点保留，具体未知与矩阵停止线显式，不发新运行时信用。
+
+- [E2E 合同与历史质量门 pilot](20261015-contract-and-gate-pilot-batch.json)：完整元数据/用户裁决不变，旧版本和 0/50/11 诊断范围不升级。
+
+- [JSON catalog 真正 pilot](20261015-catalog-pilot-batch.json)：18条逐字段阅读，3条分类/4字段勘误有源留痕、逆向相等与真实消费者检查，不变旧状态和版本。

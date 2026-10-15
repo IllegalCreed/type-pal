@@ -138,3 +138,38 @@ Branch: codex/docs-full-template-proposal
 - 校验：58 项 docs tooling、7 条路由/24 篇正文合同、全部链接/testing/阶段/content-review 通过；lint 4064 文件零 error/warning/info；全分支 diff 检查通过。初次 lint 的 helper 命名及一个 review JSON 格式诊断已修正后复跑，未放宽规则。
 - 修复阶段索引生成器：只从权威 catalog 投影，不再按路径重授状态或改写 catalog；新增反例验证历史/草案状态不会因路径名被升格。
 - 尚缺 test-catalog、test-contract、quality-gate 三类有效 pilot，下一批先核实际正文和消费者。没有运行或新增 runtime/E2E/视觉/coverage 结论；未合 main，任务和持续目标保持 active/build。
+
+### 2026-10-15 第四批 pilot 设计与停止线
+
+- 实际全文读取 E2E 跨阶段合同及 E-06 质量修复回执。前者按问题/合法输入/caller-oracle/排重限制/revision 重排，保留 testing-meta、原 YAML、全部用户裁决和历史执行范围；原“当前 SAVE10/content21”等旧状态必须显式标历史，不能覆盖当前 SAVE12 源常量或替代正式片段报告。
+- E-06 使用 quality-gate 五节及历史 overlay。原 240/50/13 → 0/50/11、6176 测、5691 fast 测与 CI 结论完整保留；2026-09-27 后零诊断规则另列，历史成功不成为现行放行。引用原文保留为历史技术判断，不重新认证旧外链或既有代码例外。
+- test-catalog 当前 registry 的 markdown 格式与实际 JSON catalog consumer 不匹配，属于待修合同，不计有效 pilot。须先补 canonical JSON 结构/envelope 设计并冻结版本，完整核读全部 entries，验证原字段 deep equality 和真实 consumer 后才计入完成；本批不因路径/标题自动赋审阅结论。
+
+### 2026-10-15 第四、五批 pilot 收口
+
+- 实际完成 E2E 跨阶段合同、E-06 历史质量门、JSON catalog、testing 模板入口四篇新增迁移，模板根入口同步当前 JSON 合同。累计基线 **24/1838**、增量 **4**，当前 **1913** 候选待迁移；586 条旧+新 review 不能当作全量模板完成数。
+- 17/17 类已有真实 canonical pilot，registry 由 frozen-for-pilot 转 frozen-for-migration；test-catalog 1.1.0、test-machine-evidence 1.1.0，其他1.0.0。新增 HTML/JSON 格式变体仍须先写设计并核真实 consumer，不因类型已有 pilot 自动支持所有格式。
+- Catalog 18 条/全部字段全文已读，3 份配对报告与实际 caller 核对发现四个分类字段错误：两个 editor engines、D1 phase/engines；旧值有留痕，可逆恢复后完整对象 deep-equal。candidate/revision/versions/status/lastVerified/reviewBy 均不变，三种真实消费者零问题。
+- E2E 合同原九章、全部用户裁决、YAML 与 testing-meta 完整保留；旧 SAVE10/content21 状态就地历史化。E-06 的 0/50/11、首次失败与 CI 补查按原结论保留，不能作为当前零诊断通过。
+- 本批 60 项 docs tooling、7 路由/28 篇正文合同及完整文档门通过；lint 4069 文件零 error/warning/info。没有新 runtime/E2E/视觉/coverage 结果，没有修改产品/旧测试/coverage；未合 main，目标继续 active，卡保持 build。
+- 下一批已全文读的入口：editor command-form-families、editor map-workspace-sessions、phase1 dependency-ownership 三份域报告；尚未改写/计数。继续逐篇审阅和 machine envelope/HTML consumer，治理基础设施的自引用 SHA 需采用无环外部回执/Git 对象定位，不能伪造自哈希或给新增元数据静默豁免。
+
+| 类型 | 有效 pilot canonical（均有 review/SHA/合同校验） |
+|---|---|
+| governance-index | docs/README.md |
+| task-card | docs/ops/archive/tasks/done/E2-patrol-templates.md（history overlay） |
+| guide-runbook | docs/ops/guides/documentation-model.md |
+| audit-report | docs/ops/archive/audits/worktree-retirement-2026-09-24.md（history overlay） |
+| evidence-receipt | docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md |
+| design-spec | docs/phase2/specs/save-system.md |
+| plan-status | docs/phase1/plans/2026-05-30-opcode-2-remaining.md（history overlay） |
+| reference-canon | docs/phase3/reference/art-pipeline.md（history overlay） |
+| narrative-idea | docs/lore/dlc-ideas.md |
+| archive-record | docs/ops/archive/protocols/three-sages-20261015.md |
+| test-catalog | docs/testing/catalog.json |
+| test-contract | docs/testing/e2e/contract.md |
+| test-domain-report | docs/testing/domains/runtime/menu/menu-session/report.md |
+| test-e2e-stage | docs/testing/e2e/stages/001-opening/README.md |
+| test-run-report | docs/testing/e2e/stages/001-opening/report.md |
+| test-machine-evidence | docs/testing/e2e/evidence/e2e-001.json（document-audit-v2） |
+| quality-gate | docs/ops/audits/pre-e2e/quality-gate-remediation.md（history overlay） |

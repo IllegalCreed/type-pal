@@ -75,6 +75,31 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
         issues.push(`missing governance field: ${key}`)
     if (variant && value._governance?.variant !== variant)
       issues.push('governance variant mismatch')
+    if (contract.entryReadingsField) {
+      const readings = contract.entryReadingsField
+        .split('.')
+        .reduce((object, key) => object?.[key], value)
+      if (!Array.isArray(value.entries) || value.entries.length === 0)
+        issues.push('catalog entries must be a non-empty array')
+      if (!Array.isArray(readings)) issues.push('catalog entry readings must be an array')
+      else {
+        const entries = Array.isArray(value.entries) ? value.entries : []
+        const ids = new Set(entries.map((entry) => entry?.id))
+        const seen = new Set()
+        for (const reading of readings) {
+          if (!reading || typeof reading !== 'object') {
+            issues.push('catalog reading must be an object')
+            continue
+          }
+          if (!ids.has(reading.id) || seen.has(reading.id))
+            issues.push(`unknown or duplicate catalog reading: ${reading.id}`)
+          seen.add(reading.id)
+          if (typeof reading.conclusion !== 'string' || !reading.conclusion.trim())
+            issues.push(`catalog reading conclusion missing: ${reading.id}`)
+        }
+        for (const id of ids) if (!seen.has(id)) issues.push(`catalog reading missing: ${id}`)
+      }
+    }
     return issues
   }
   const visible = withoutFences(text)

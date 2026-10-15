@@ -74,6 +74,49 @@ test('moving a machine receipt into payload breaks its public top-level field co
   assert.deepEqual(checkTemplateBody('null', template), ['expected machine evidence object'])
 })
 
+test('a catalog envelope preserves its public schema and cannot claim execution', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-catalog')
+  const catalog = JSON.parse(
+    readFileSync(new URL('../../docs/testing/catalog.json', import.meta.url)),
+  )
+  assert.deepEqual(checkTemplateBody(JSON.stringify(catalog), template), [])
+  const wrapped = { payload: catalog, _governance: catalog._governance }
+  assert(
+    checkTemplateBody(JSON.stringify(wrapped), template).includes('missing machine field: entries'),
+  )
+  const falseExecution = structuredClone(catalog)
+  falseExecution._governance.runtimeExecutionPerformed = true
+  assert.deepEqual(checkTemplateBody(JSON.stringify(falseExecution), template), [
+    'machine field mismatch: _governance.runtimeExecutionPerformed',
+  ])
+})
+
+test('catalog readings must pair each public entry once and carry a concrete conclusion', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-catalog')
+  const catalog = JSON.parse(
+    readFileSync(new URL('../../docs/testing/catalog.json', import.meta.url)),
+  )
+  const missing = structuredClone(catalog)
+  const removed = missing._governance.entryReadings.pop()
+  assert.deepEqual(checkTemplateBody(JSON.stringify(missing), template), [
+    `catalog reading missing: ${removed.id}`,
+  ])
+  const duplicate = structuredClone(catalog)
+  duplicate._governance.entryReadings.push(duplicate._governance.entryReadings[0])
+  assert.deepEqual(checkTemplateBody(JSON.stringify(duplicate), template), [
+    `unknown or duplicate catalog reading: ${duplicate.entries[0].id}`,
+  ])
+  const empty = structuredClone(catalog)
+  empty._governance.entryReadings[0].conclusion = ' '
+  assert.deepEqual(checkTemplateBody(JSON.stringify(empty), template), [
+    `catalog reading conclusion missing: ${empty.entries[0].id}`,
+  ])
+})
+
 test('a source audit cannot become execution evidence by changing its performed flag or envelope label', () => {
   const template = JSON.parse(
     readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),

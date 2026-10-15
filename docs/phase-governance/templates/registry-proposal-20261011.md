@@ -45,3 +45,13 @@
 在同一 test-machine-evidence 类型下新增 `document-audit-v2` 变体，模板版本升到 1.1.0，保留原 1.0.0 执行回执必填字段为 execution 默认合同；变体必填原审计字段、统一 `_governance` envelope、显式 kind 与未执行状态。原 JSON 所有字段与值逐项保持，envelope 不移到 payload、不改变 history/candidate/versions；元数据的 source SHA 指迁移前文档，after SHA 只在外部 review record 中保存。
 
 可证伪反例：envelope 若覆盖原字段、把 performed 改 true、变成 payload 包装或使实际 paired evidence consumer 失败，则 pilot rework。验证须包括移除 envelope 后 deep-equal 原对象，以及实际 validateCanonicalEvidence；仅 JSON parse 不算 consumer 通过。该补充不增加第 18 类模板，也不降低执行回执的要求。
+
+## 2026-10-15 test-catalog 机器合同更正与冻结
+
+实际全文核读 `docs/testing/catalog.json` 全部 18 个条目及 `loadCatalog` / `renderIndexes` / `validateCatalog` / `validateCanonicalEvidence`：公开输入是顶层 schemaVersion=2、generatedBy、entries；原 1.0.0 Markdown 章节不能约束此 JSON，尚无有效 pilot，不把原设计视为已验收。
+
+冻结 `test-catalog-v1 / 1.1.0` 为 canonical JSON 合同：保留顶层机器字段与所有 entry，不搬 payload，增加统一 `_governance`。envelope 必须给出 templateId/version、owner/provenance、source SHA/Git blob、适用范围、primary source、publication rules、逐条核读说明、history/supersedes、before→after、停止线、下一步，以及 runtimeExecutionPerformed=false。条目必填字段仍由真实 testing consumer 强制，所有状态/依赖/日期/源 hash 门保持不变；导航 Markdown 使用 governance-index，不冒充 JSON catalog。
+
+只允许本次已核的一手分类勘误：`editor-command-form-families.engines` 与 `editor-map-workspace-sessions.engines` 从 reforge 改 editor；`phase1-dependency-ownership.phase/engines` 从 phase2/reforge 改 phase1/game。依据是对应完整报告及 `CommandForm.tsx:82-93`、`MapMode.tsx:403-420`、`dependency-ownership.test.ts:1-45` 实际 caller；旧值在 envelope history 明列。其余业务字段逐项 deep-equal 原对象，candidate/versions/history/status/lastVerified/reviewBy 不变。不得延长临近过期日期来过门。
+
+Pilot 反证：顶层字段被搬移、任何未登记业务字段变化、错版本、伪称 runtime performed、原消费者失败或 derived index 漂移，均 rework。验证需逆向恢复三项分类改动并去 envelope 后 deep-equal 原 JSON，再跑实际 catalog/paired/index consumer；结构 PASS 不等于 18 份报告已迁移或当前 E2E 通过。模板数仍为 17。

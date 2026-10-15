@@ -33,10 +33,12 @@ Template: governance-index-v1 / 1.0.0
 | Phase3 美术参考 ↔ 当前 build | 仅阶段边界当前有效，旧技术/法律断语未重核 | guarded | 不把旧“现在/推荐/合法”当实施或发行授权 |
 | Testing 出版 ↔ SAVE12 | 原审计/执行版本与当前源码常量分开 | guarded | 不改历史 candidate/versions/performed 或伪造新实跑 |
 
+| 历史静态诊断 ↔ 当前零诊断 | E-06 原 0/50/11 保留，现行规则约束今天的检查 | guarded | 不倒改旧计数、不用历史 exit0 或旧例外放行 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步
 
-机器行逐项保存来源、未知和停止线。相关入口：[文档模型](../ops/guides/documentation-model.md)、[现行协作](../ops/agent-workflow.md)、[测试治理](../testing/governance.md)、[SAVE12 合同](../phase2/specs/save-system.md)、[DLC 创意](../lore/dlc-ideas.md)、[第三阶段参考](../phase3/reference/art-pipeline.md)。
+机器行逐项保存来源、未知和停止线；只说明已登记关系，不代表全 docs 关系已穷尽。相关入口：[文档模型](../ops/guides/documentation-model.md)、[现行协作](../ops/agent-workflow.md)、[测试治理](../testing/governance.md)、[SAVE12 合同](../phase2/specs/save-system.md)、[DLC 创意](../lore/dlc-ideas.md)、[第三阶段参考](../phase3/reference/art-pipeline.md)。
 
 当源证据推翻前提时先停受影响批次，更新关系和用户产品裁决，不将 guarded 擅改 resolved；全量审查仍由[任务卡](../ops/tasks/DOCS-FULL-TEMPLATE-1.md)推进。
