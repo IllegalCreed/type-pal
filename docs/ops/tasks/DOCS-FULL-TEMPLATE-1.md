@@ -4,7 +4,7 @@ Status: build
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: Codex（最终独立复核待完成；本轮接入由同一 Owner 自验）
+Reviewer: 分批非作者审查见固定候选与逐篇回执；Codex维护接入，最终全量独立复核待完成
 Branch: codex/docs-full-template-proposal
 
 ## 目标
@@ -917,3 +917,10 @@ Branch: codex/docs-full-template-proposal
 - Exact121ff original202/current888 and11complete43-field semantic records independently accepted by A0dac8386cd5dd635815639d039ab078210ea6d1df332bbfd04e3be389424d407. Root full823report/486delivery read; no newly claimed107target bodies or HTML/raw/product/oldtests. Original four memory controls are source/navigation oracle checks, not generalmodel semantic coverage.
 - Eleven unique current records replace old same-path legacy entries with complete reachable Git/blob/wholeSHA/unique priors;10wrongtypes corrected after content reading,7archive-navigation statuses only become current, target history unchanged. Registry total unchanged,11newroutes, phasecatalog other173 exact. All202source byte inverse and107live members/118oldhref/24heading aliases retained.
 - Actual phase producer must render both views from the authoritative catalog, new root delta requires independent exact-byte reception and zero docs/lint/diff gates. Newcontrol/receipt stay pending increments; original author fullgate/strict11driftFAIL retained, no fake runtime/HTML/oldsignature acceptance.
+
+#### P11 已独立接收；Q首篇与A8分包设计冻结
+
+- P source121ff真实202/888/11×43由非作者A0dac接收；根12行政替换/10type/7导航current/唯一记录路由/实际184投影/既有矩阵关系经首countere618与c562修复fdf102完整非作者接收。三current oracle旧句已定向修正，be897首候选保真实自然parents和完整错误prior；source/native/23其他文件不改。c562实际86/model238/strict733/lint4111EWI0/diff0，派生233/1838+5/current1981pending1743，不代表全量完成。本段及接收metadata是后写事实，未冒原审查预签。
+- Q正式设计：[六篇指南与首篇准入](../../phase-governance/reviews/20261016-phase2-guides-q-design.md)。根已读132设计/413六原文，17primary只明确必要范围与精确复用；source6仍等d564。Owner history_cards_a，待根提供新隔离树/commit后，仅publication26行+原17/43格式首1回执两路径pilot；其余五篇未build。真实recover写入边界保留，不运行迁移/产品/旧tests/coverage。
+- A8正式设计：[有界格式与工作树namespace门](../../phase-governance/reviews/20261016-terminal-a8-design.md)。新receipt_review提案由非作者tail新A-only复核7774/da9e；根明确8MiB/64MiB/depth128/2M/16MiB raw-token计数、nonGit空namespace合法caller、唯一physical工作树质量视图。Owner receipt_review，待新隔离树/commit后仅6新docs工具+check/lint两现入口8路径；其余B/C0/C1仍counter不build，不改F1/model/规则/旧tests/产品。真实A代码/双入口/少精反控另非作者验。
+- 新Q/A8设计自身是待治理增量；0新正文迁移/代码accept信用。N f577单receipt窄修已由A2176关闭，六正文源语义仍af263固定SHA接受；根尚未接入6旧中央/phase/routes，不能提前计6迁移。1838固定基线及所有新增候选/artifacts继续active；不得done/main推送/清理源历史。

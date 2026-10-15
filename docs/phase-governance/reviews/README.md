@@ -44,3 +44,6 @@
 - [Lore 三篇逐篇接入](20261016-lore-reference-n.json)：固定c7d原文/新正文/完整回执获非作者接收；dbacf根接入已获独立接收；余六仅按任务卡新准入做候选，官设未核与项目约束分轴。
 
 - [Phase2 十一导航逐篇接入](20261016-phase2-navigation-p.json)：固定121ff真实源/正文/回执获非作者接收，根类型/七导航状态/路由/实际投影另验；不升格历史目标或HTML。
+
+- [Q作者指南冻结设计](20261016-phase2-guides-q-design.md)：现有guide-runbook，先publication一篇canonical pilot，其他五篇待接收；未知UI/保存/DFS不冒完成。
+- [A8格式与namespace冻结设计](20261016-terminal-a8-design.md)：只准独立codec/结构/physical质量门八文件；B/C0/C1仍counter，不授T/完整批准。
