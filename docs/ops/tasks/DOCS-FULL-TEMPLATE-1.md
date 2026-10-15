@@ -399,3 +399,28 @@ Branch: codex/docs-full-template-proposal
 - receipt_review最终integration accept，E4 current successor/E5当前矩阵数量与读域以及重复证据排重均独立闭合；5篇/4catalog/其余180entry不变/唯一路由/原文回读/C3两段及矩阵1row边界真实核过。受审维护快照SHA写入E集成回执，后续根签收/门维护不冒称旧SHA等于新record字节。
 - 实际完整check:docs：68工具0fail/0skip、1223Markdown/7142links/361tasks、96正文合同、testing0、phase184、review616均通过；lint4083files零error/warning/info、diff0。静态全门不改变原raw/真正过门/原生OS/视觉或OFL历史矛盾的范围。
 - 当前92/1838基线+4增量已迁移、1856当前候选待迁移、520governed-legacy无保留豁免；所有未审控制JSON/视图/附件继续计入，不以本批接收代替全量done。root候选分支收本轮，main仍未写，目标active；D12已独立accept待根接入，F12只读1229行设计及0/12旧中央覆盖已完成，未实现/未计数。
+
+
+### 2026-10-16 包D候选引入与包F文档准入
+
+- 包D非作者12卡逐篇accept后，根核精确13文件白名单并cherry-pick fcd4098为e519d388ac47c266c14680af46cc1b84142b4f63；D原C/D分支保留。根尚未新增D12条中央record/registry/routing及接收Owner时态，不计迁移数；旧strict616/model96通过不覆盖D。下一步根接收943原行/1209新层/2040回执的独立签和完整Git/来源证明，再新增12条并统一实测；不得仅以引入候选当done。
+- 包F只读设计：history_cards_a全文12卡1229行并逐篇提具体10章，类型均task-card1.0.0+archive-record1.0.0；不是按目录判型，多为一次性只读审计，不伪造生产修复。根核范围/单Owner/停止线/guarded计数和源，实核12blob与bb904/当前e519完全相等；中央registry/review0/12已被直接确认，不从旧616推断覆盖。
+- 文档build allowed：复用干净候选worktree，新branch codex/docs-history-cards-f从本准入稳定提交出发，保留codex/docs-history-cards-d在fcd4098。history_cards_a为唯一F正文Owner，根独立接收（非作者审查后才计）；白名单12张docs/ops/archive/tasks/done/CODE-QUALITY-3*.md如表，另专属contributor-history-cards-f-20261016.json。禁止共享中央账/矩阵/总纲/ledger/canon、产品/旧测试/coverage/browser写入或新执行。
+
+| F卡尾名 | 正文具体合同与历史停止线 |
+|---|---|
+| l-game-battle-present | 七绘制文件，只读14files179/game3400；坐标/mask/顺序无直接反例不重判，canvas合同不等本轮视觉 |
+| m-game-battle-core-contracts | 六helper，SHORT/WORD/status/dualMove/positions/seed；7files128/game3400，mulberry32与SDL LCG差异不擅改 |
+| n-game-core-fade-identity-catalog | 四helper仅catalog own-property/null-prototype窄修；自有toString/constructor/__proto__不是禁词；3400→3403原轮，最终pushSHA未知不造 |
+| o-game-core-mode-history-poison-search | 四helper审计，5files42/game3403；history/mode/level>=99伪毒/Search阈值与fallback不能凭直觉删除 |
+| p-event-opcode-player | 玩家helper范围，7files99/game3403，无实现改；0xFFFF/slot/rolecontext/SHORT/WORD与旧pending段历史化 |
+| q-game-scene-system | 原662行/2064主测试审计主张，3files131；首轮timeout与后续绿并列，资源竞争仅旧归因，未回raw不升级为已证根因 |
+| r-game-event-system | 原5110行/5973主测试主张，10files370；globalip/asyncowner/resume边界，旧stderr警告不作当前豁免，尾draft提示不重启 |
+| s-game-battle-system | 原3139行/4182主测试主张，9files242；start/tick/hold/cleanup与actions/opcodes/settlement边界不混，追加日志不造新时序 |
+| t-game-battle-opcodes | dispatch consumed/newIp与target/context边界，10files470/4专属3848行属旧轮；原0x2E>=用户已定不改回>，共享canon1075旧90cap显式guarded |
+| u-game-battle-state-runtime | 原3实现1109行、7files55；生产3player/5enemy和nullslots/identity/cleanup合法域保留；旧4tests619/关闭7与明确3新增test/5新增record冲突保留并按排重5条，不伪造执行时序 |
+| v-game-battle-actions-basic | 四actions826行/6files154，主actions测试仅相关段不算全文；敌吉运按6月13日用户裁决，旧应照搬敌身法建议不恢复 |
+| w-game-battle-settlement-finalization | 两实现313行/4files196；finalization.test已由u关闭，2product+1test仅新增3，与旧2test/4数并列解释；同轮全门沿用不写成本卡新跑，74+1不泛化全部屏幕 |
+
+- 共享guarded责任：u新增5但总纲t/u同写215，统计时点未解释不累加全仓完成；u的4/619与3新增/7与5、w的4与3明确原句/排重依据。根直接核mechanics1065–1084及battle/battle-opcodes.ts661–685：实际rangeInclusive(0,9)>=resistance、0→100%，所以canon1075“同享90cap”与1074/实际caller冲突确立，不仅凭符号猜测；F只登记，不改canon或产品。源code仅窄读，不计整份机制文档/解释器全文审核。
+- 每篇具体5任务章/5历史章、原Status/CodingOwner/Reviewer/日期/计数/失败/旧prompt和全部UTF-8可逆原quote、原标题入口保留；不足raw/coverage/timeout日志仍unknown。旧卡声称读过生产或测试全文只作原轮主张，贡献者本轮未读的不得继承新信用。17现有模板pilots/词表不变，无新类型/格式变体或产品裁决；根独立全文/必要直证及集成门后才接受。
