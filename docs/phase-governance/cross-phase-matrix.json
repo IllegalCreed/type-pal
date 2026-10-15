@@ -130,17 +130,104 @@
         "docs/phase-governance/templates/registry.json",
         "docs/phase-governance/document-registry.json"
       ],
-      "to": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
-      "relationship": "All 563 governed materials have one stable type/template binding; existing bodies remain governed legacy, while new documents must be template-compliant.",
-      "status": "resolved",
+      "to": [
+        "docs/ops",
+        "docs/lore",
+        "docs/phase1",
+        "docs/phase2",
+        "docs/phase3",
+        "docs/testing",
+        "docs/phase-governance",
+        "docs/README.md"
+      ],
+      "relationship": "The approved 1838-document baseline and later candidates require per-document semantic migration. Registered legacy bindings are inventory only; completion requires matching review SHA and concrete template contracts.",
+      "status": "guarded",
       "evidence": [
-        "docs/phase-governance/document-registry.json:summary",
-        "docs/phase-governance/templates/README.md:1-22"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "scripts/docs/report-governance-progress.mjs:1",
+        "docs/phase-governance/templates/README.md:1"
       ],
       "unresolved": [
-        "Body rewrites for legacy records are intentionally not performed in bulk; a future migration task must preserve history and links."
+        "The full approved cohort and incremental candidates have not all been read, migrated or assigned artifact ownership.",
+        "Types without real pilots cannot be migrated in bulk; legacy reviewed/governed-legacy status does not close this gap."
       ],
-      "stopLine": "No new independent document style or unregistered type may enter the governed roots."
+      "stopLine": "Do not claim whole-docs completion from old 563/570 registrations, path classification, preserved-source samples or partial green gates.",
+      "history": [
+        {
+          "date": "2026-10-04",
+          "relationship": "All 563 governed materials have one stable type/template binding; existing bodies remain governed legacy, while new documents must be template-compliant.",
+          "status": "resolved",
+          "unresolved": [
+            "Body rewrites for legacy records are intentionally not performed in bulk; a future migration task must preserve history and links."
+          ],
+          "scope": "Original limited-registry statement retained; not whole-docs proof."
+        }
+      ]
+    },
+    {
+      "id": "historical-cooperation-vs-current-ops",
+      "from": [
+        "docs/ops/archive/protocols/three-sages-20261015.md",
+        "docs/ops/archive/protocols/workflow-snapshot-20261015.md"
+      ],
+      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/ops/tasks/README.md"],
+      "relationship": "Old three-party signatures and retired role rules are preserved as historical source; current Codex dispatch/independent acceptance controls new work. Closed tasks keep stable identities and do not regain authority from old handoffs.",
+      "status": "resolved",
+      "evidence": [
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json:1"
+      ],
+      "stopLine": "No historical prompt restores retired mandatory seats or reopens a completed task."
+    },
+    {
+      "id": "phase1-lower-bound-probe-vs-test-credit",
+      "from": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md"
+      ],
+      "to": ["docs/testing/governance.md", "docs/ops/agent-workflow.md"],
+      "relationship": "The onEnter scan stops at first end and does not follow goto/jumps; absence in that linear lower bound is not proof of whole-program unreachability or missing business coverage.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md:1"
+      ],
+      "unresolved": [
+        "No full CFG/BFS or independent raw command/SHA was supplied in the original probe."
+      ],
+      "stopLine": "Do not delete contracts or grant coverage from this lower-bound census alone."
+    },
+    {
+      "id": "phase3-art-reference-vs-current-build",
+      "from": ["docs/phase3/reference/art-pipeline.md"],
+      "to": ["docs/phase3/backlog.md", "docs/phase2/READ-FIRST.md", "docs/lore/dlc-ideas.md"],
+      "relationship": "Art pipeline proposals, model/API recommendations and legal safety assertions belong to dated historical planning input; the accepted phase boundary does not certify those technical/legal claims or approve current generation/publication.",
+      "status": "guarded",
+      "evidence": ["docs/phase3/reference/art-pipeline.md:1", "docs/phase3/backlog.md:1"],
+      "unresolved": [
+        "Current technical capability, legal assertions and old source links were not revalidated by this document migration.",
+        "No new art_description/schema task or commercial publication is authorized by historical now/recommended wording."
+      ],
+      "stopLine": "Only the documented phase boundary is current; old art/legal advice is not a present product or legal approval."
+    },
+    {
+      "id": "paired-test-publication-vs-current-version",
+      "from": [
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/evidence/e2e-001.json"
+      ],
+      "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+      "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution.",
+      "status": "guarded",
+      "evidence": [
+        "packages/content/src/character.ts:168-170",
+        "packages/reforge/src/save/types.ts:9",
+        "scripts/docs/check-testing.mjs:187"
+      ],
+      "unresolved": [
+        "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work."
+      ],
+      "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
     }
   ],
   "acceptance": {
@@ -148,5 +235,6 @@
     "guardedRowsAreNotCurrentTruth": true,
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
-  }
+  },
+  "lastReviewed": "2026-10-15"
 }

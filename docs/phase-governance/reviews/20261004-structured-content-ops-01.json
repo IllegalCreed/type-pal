@@ -1845,87 +1845,84 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "已完成 worktree 清理（2026-09-24）：这是 audit-report，当前文档状态为 historical。全文 25 行、2 个标题；摘要/首段为「用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-manual-semantic-migration-and-specific-scope-review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "22→1、21 移废纸篓、16 尖端/100 提交和 41 条未跟踪文件复核均按 2026-09-24 原记录保存；当前不验证私有备份仍存在，也不授权今天清理或恢复。",
       "truthAnchors": [
-        "docs/ops/archive/audits/worktree-retirement-2026-09-24.md:1",
-        "1:已完成 worktree 清理（2026-09-24）",
-        "13:恢复与证据"
+        "docs/ops/agent-workflow.md:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-03.json:1"
       ],
       "unresolved": [
-        "正文信号 3:用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。",
-        "正文信号 5:- 清理前22个工作树（含main），清理后仅main；21个已完成任务的工作树整体移入macOS废纸篓，未永久删除文件。",
-        "正文信号 7:其它尖端已在main。不能把“非祖先提交”直接认成尚未交付的产品功能。",
-        "正文信号 9:- 剩余preflight工作树的41个未跟踪条目独立复核：39个链接指向主仓data，README.md与unifont-cn.bdf两常规文件SHA-256与主仓相同；无独有作者内容，因此也整体入废纸篓。",
-        "正文信号 10:- 本地与远端分支引用均未删/恢复；保留main、codex/glm-battle-workflows-r1、codex/pal-simulator-presets。"
+        "原本机 Trash、bundle 和验证目录的当前存在性不在本轮验证范围，恢复时必须重核。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "已解释的历史缺口保留其停止线；本类型可进入后续真实迁移，未获 current 产品证据的旧结果不得外推。",
       "phase": "ops",
-      "module": "archive",
+      "module": "historical-and-domain-pilot",
       "capability": "ops-archive-audits-worktree-retirement-2026-09-24",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex（文档治理审查；原任务作者/Owner 不变）",
+      "provenance": [
+        "full-source-document-read",
+        "original-Git-history",
+        "manual-template-rewrite",
+        "user-authorized-agent-first-adoption"
+      ],
       "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
-      "afterSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+      "publicCallers": [
+        "node scripts/docs/check-document-model.mjs",
+        "node scripts/docs/report-governance-progress.mjs",
+        "repository docs navigation / original task links"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/audits/worktree-retirement-2026-09-24.md"
+        "原文已声明的候选/版本/日期和历史上下文，当前文档读取与迁移",
+        "不将 static review、历史数字、缺 raw 的出版材料当当前产品运行输入或通过"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "semantic-migration-with-history-and-authority-boundaries",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "22→1、21 移废纸篓、16 尖端/100 提交和 41 条未跟踪文件复核均按 2026-09-24 原记录保存；当前不验证私有备份仍存在，也不授权今天清理或恢复。",
+          "原结构中的实质段落、数值、决策、作者与未决项保留或明确历史化",
+          "历史附加合同与原类型必填章节同时满足；consumer 与 source/after SHA 定位一致"
         ]
       },
       "dedupe": {
         "result": "reviewed",
         "against": [
-          "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
-          "docs/phase-governance/templates/audit-report.md"
+          "docs/phase-governance/templates/registry.json",
+          "docs/ops/agent-workflow.md",
+          "docs/testing/catalog.json",
+          "docs/phase-governance/cross-phase-matrix.json"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "任务、历史审计、下界证据、现行规格、历史计划、未来参考、创意、域报告和导航按实际正文分别绑定；不以目录替代语义审查。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+        "implementationSha": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+        "contentVersion": "N/A-doc-governance; original product versions retained in body",
+        "minimumSaveVersion": "N/A-doc-governance; original product versions retained in body",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "actual-full-text-type-pilot-migration",
+            "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+            "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+        "kind": "full-text-content-preservation-and-contract-review",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-03.json",
         "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
-        "lineCount": 25,
-        "headings": [
-          {
-            "line": 1,
-            "text": "已完成 worktree 清理（2026-09-24）"
-          },
-          {
-            "line": 13,
-            "text": "恢复与证据"
-          }
-        ],
-        "unresolvedSignals": [
-          "3:用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。",
-          "5:- 清理前22个工作树（含main），清理后仅main；21个已完成任务的工作树整体移入macOS废纸篓，未永久删除文件。",
-          "7:其它尖端已在main。不能把“非祖先提交”直接认成尚未交付的产品功能。",
-          "9:- 剩余preflight工作树的41个未跟踪条目独立复核：39个链接指向主仓data，README.md与unifont-cn.bdf两常规文件SHA-256与主仓相同；无独有作者内容，因此也整体入废纸篓。",
-          "10:- 本地与远端分支引用均未删/恢复；保留main、codex/glm-battle-workflows-r1、codex/pal-simulator-presets。"
-        ]
+        "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+        "lineCount": 74
       },
       "history": [
         {
@@ -1933,12 +1930,132 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "previousAfterSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+          "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+          "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+          "beforeAfter": "历史清理流水 -> 问题/证据/发现/结论/复核 + 完整原文历史层。"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-25"
+      "stopLine": "No current product/legal/model/canon or execution claim follows from historical publication, formatting, source-only evidence or lower-bound scans.",
+      "userVisibleBeforeAfter": "历史清理流水 -> 问题/证据/发现/结论/复核 + 完整原文历史层。",
+      "reviewedLines": "1-74",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "full-text pilot and corrected authority/type scope",
+          "record": {
+            "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "audit-report",
+            "templateId": "audit-report-v1",
+            "template": "docs/phase-governance/templates/audit-report.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "已完成 worktree 清理（2026-09-24）：这是 audit-report，当前文档状态为 historical。全文 25 行、2 个标题；摘要/首段为「用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/audits/worktree-retirement-2026-09-24.md:1",
+              "1:已完成 worktree 清理（2026-09-24）",
+              "13:恢复与证据"
+            ],
+            "unresolved": [
+              "正文信号 3:用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。",
+              "正文信号 5:- 清理前22个工作树（含main），清理后仅main；21个已完成任务的工作树整体移入macOS废纸篓，未永久删除文件。",
+              "正文信号 7:其它尖端已在main。不能把“非祖先提交”直接认成尚未交付的产品功能。",
+              "正文信号 9:- 剩余preflight工作树的41个未跟踪条目独立复核：39个链接指向主仓data，README.md与unifont-cn.bdf两常规文件SHA-256与主仓相同；无独有作者内容，因此也整体入废纸篓。",
+              "正文信号 10:- 本地与远端分支引用均未删/恢复；保留main、codex/glm-battle-workflows-r1、codex/pal-simulator-presets。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-audits-worktree-retirement-2026-09-24",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+            "afterSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/audits/worktree-retirement-2026-09-24.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+                "docs/phase-governance/templates/audit-report.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+              "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+              "lineCount": 25,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "已完成 worktree 清理（2026-09-24）"
+                },
+                {
+                  "line": 13,
+                  "text": "恢复与证据"
+                }
+              ],
+              "unresolvedSignals": [
+                "3:用户授权Codex自行判断并清理无用worktree；本次独立完成，未恢复旧分支。",
+                "5:- 清理前22个工作树（含main），清理后仅main；21个已完成任务的工作树整体移入macOS废纸篓，未永久删除文件。",
+                "7:其它尖端已在main。不能把“非祖先提交”直接认成尚未交付的产品功能。",
+                "9:- 剩余preflight工作树的41个未跟踪条目独立复核：39个链接指向主仓data，README.md与unifont-cn.bdf两常规文件SHA-256与主仓相同；无独有作者内容，因此也整体入废纸篓。",
+                "10:- 本地与远端分支引用均未删/恢复；保留main、codex/glm-battle-workflows-r1、codex/pal-simulator-presets。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-25"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "reviewedSourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+      "sourceGitRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceGitObject": "6bf712028890ac52a75751092fffb6affcb4bd9e",
+      "reviewNotes": "全文实际读取并按具体语义改写；原材料的未知按历史/候选/源码范围解释，不捏造缺失执行证据。最终全量独立验收未完成。"
     },
     {
       "path": "docs/ops/archive/board-history/board-20261004.md",

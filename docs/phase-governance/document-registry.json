@@ -6,36 +6,38 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 580,
+    "total": 583,
     "byPhase": {
-      "ops": 387,
+      "ops": 388,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
       "phase3": 5,
-      "phase-governance": 3,
-      "testing": 3
+      "phase-governance": 4,
+      "testing": 4
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 16,
       "audit-report": 58,
-      "evidence-receipt": 37,
-      "governance-index": 22,
+      "evidence-receipt": 38,
+      "governance-index": 23,
       "task-card": 306,
-      "reference-canon": 18,
+      "reference-canon": 17,
+      "narrative-idea": 1,
       "plan-status": 64,
       "design-spec": 41,
       "test-e2e-stage": 1,
       "test-run-report": 1,
-      "test-machine-evidence": 1
+      "test-machine-evidence": 1,
+      "test-domain-report": 1
     },
     "reviewStatus": {
-      "content-reviewed": 580
+      "content-reviewed": 583
     },
     "templateCompliance": {
-      "template-compliant": 15,
-      "governed-legacy": 565
+      "template-compliant": 24,
+      "governed-legacy": 559
     }
   },
   "entries": [
@@ -178,10 +180,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/board-history/board-20261004.md",
@@ -1125,10 +1129,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-02.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md",
@@ -4271,13 +4277,15 @@
     {
       "path": "docs/lore/dlc-ideas.md",
       "phase": "lore",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "template": "docs/phase-governance/templates/narrative-idea.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/factions.md",
@@ -4703,10 +4711,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-phase1-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
@@ -6243,10 +6253,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-02.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-phase2-02.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/specs/script-system.md",
@@ -6298,10 +6310,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase3/reference/README.md",
@@ -6434,6 +6448,45 @@
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
       "templateVariant": "document-audit-v2"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
+      "phase": "testing",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json"
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "phase": "phase-governance",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

@@ -127,3 +127,14 @@ Branch: codex/docs-full-template-proposal
 - 本批检查：check:docs 的 55 项 tooling、全部链接/索引/testing/阶段与 580 条已登记 review 通过；lint 核 4062 文件，零 error/warning/info。新增引用快照在 staged diff 检查发现空行尾随空格，初次提交未被失败阻止；本地补丁立刻修正并更新回执/历史，必须复跑后才记最终 diff 通过。全量完成门仍因 1919 份当前候选待迁移而拒绝，未合 main。
 - 追加发现并修源：全分支 diff 还发现旧候选模板空 bullet 尾空格及任务索引 EOF 空行；按实际差异修正，不放宽规则。核检查器时发现它仍强制 done/cancelled 移目录，与指南的稳定路径冲突；改为允许终态卡原地保留，但归档目录必须与终态匹配，活动卡仍不得放历史区，终态仍不得留看板；追加新工具回归，不改既有测试。
 - 修正后的最终结果：56 项 docs tooling 与全部 check:docs 通过；lint 4062 文件零 error/warning/info；`git diff main --check` 对整个候选分支通过。此前本地 diff 失败保留历史说明，不改写成初次通过；未合 main，持续目标仍 active。
+
+### 2026-10-15 第三批 pilot 设计与范围
+
+- 本批实际核读：E2 旧巡逻轻量卡、2026-09-24 worktree 清理审计、onEnter 数据面探针、SAVE12 现行规范、2026-05-30 opcode 剩余计划、DLC 创意池、第三阶段美术参考、Reforge menu-session 域报告；逐篇迁移，不按旧 classifier 的路径类型授权。
+- 历史 task-card/audit/plan/reference 同时承担原类型结构与 archive wrapper 五项合同：历史范围、原始结论、当时证据、当前有效性、继任文档。它是附加历史约束，不新增第 18 类、不减少各自必填章节。
+- 当前 SAVE12 规范先核 types.ts、current-codec.ts 与 character.ts 的 12/22 常量；其余原恢复/续跑合同保留源码与原任务证据，不新增运行时通过。艺术参考旧模型/API、法律断语只保留为历史输入，不作为本次已核的当前事实；onEnter 探针的无 goto/BFS 下界保持显式。
+- 最强反例：若重排丢原段落/日期/数字、让历史 done/测试数变成当前验收，或把 lower bound 变全库结论，则 pilot rework。历史 overlay 与真实 consumer 要同时检查。
+- 已完成 8 篇代表及跨阶段矩阵正文迁移与逐篇 review；当前累计基线 20/1838、增量 4，14/17 类模板有实际 pilot。1912 份当前候选仍待完成；旧 ledger 583 条只表示既有审阅范围，不能代替全量模板迁移。
+- 校验：58 项 docs tooling、7 条路由/24 篇正文合同、全部链接/testing/阶段/content-review 通过；lint 4064 文件零 error/warning/info；全分支 diff 检查通过。初次 lint 的 helper 命名及一个 review JSON 格式诊断已修正后复跑，未放宽规则。
+- 修复阶段索引生成器：只从权威 catalog 投影，不再按路径重授状态或改写 catalog；新增反例验证历史/草案状态不会因路径名被升格。
+- 尚缺 test-catalog、test-contract、quality-gate 三类有效 pilot，下一批先核实际正文和消费者。没有运行或新增 runtime/E2E/视觉/coverage 结论；未合 main，任务和持续目标保持 active/build。

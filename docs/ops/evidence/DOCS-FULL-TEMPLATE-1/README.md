@@ -28,3 +28,8 @@
 - [旧协议保留回执](protocol-preservation-20261015.json)：完整原文引用与链接重算，原始字节由 Git blob 定位。
 - [报告段落保留回执](e2e-report-preservation-20261015.json)：原段落按执行/结果/证据/历史重组，原 testing-meta 不变。
 - [机器证据 consumer 回执](machine-pilot-consumer-20261015.json)：移除 envelope 后原对象 deep-equal，真实 paired consumer 零问题；无新增运行时通过。
+
+## 历史与领域类型 pilot
+
+- [第三批正文保留回执](pilot-body-preservation-20261015-03.json)：八篇原始 source blob/SHA 与具体重组方式；历史 prompt 尾空格的展示规范化另行注明，原始字节仍由 Git 保留。
+- 本批还纠正阶段 catalog 的历史/ideas 分类并同步生成视图；生成器已改为只投影，不再按路径重置人工审查结果。

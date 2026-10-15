@@ -22,15 +22,16 @@ const candidates = execFileSync(
   .split('\0')
   .filter((path) => /\.(md|json|html)$/.test(path))
 const registry = json('docs/phase-governance/document-registry.json')
-const templates = new Map(
-  json('docs/phase-governance/templates/registry.json').types.map((entry) => [
-    entry.templateId,
-    entry,
-  ]),
-)
+const templateRegistry = json('docs/phase-governance/templates/registry.json')
+const templates = new Map(templateRegistry.types.map((entry) => [entry.templateId, entry]))
 const records = new Map()
 const issues = []
 const completed = []
+if (
+  registry.entries.some((entry) => entry.historyOverlay) &&
+  !templates.get(templateRegistry.historyOverlayTemplateId)?.requiredSections?.length
+)
+  issues.push('history overlay contract missing')
 for (const entry of registry.entries) {
   if (entry.templateCompliance !== 'template-compliant') continue
   if (!records.has(entry.reviewRecord))
@@ -53,7 +54,12 @@ for (const entry of registry.entries) {
     issues.push(`${entry.path}: unknown template`)
     continue
   }
-  const bodyIssues = checkTemplateBody(text, template, { variant: entry.templateVariant })
+  const bodyIssues = checkTemplateBody(text, template, {
+    variant: entry.templateVariant,
+    additionalSections: entry.historyOverlay
+      ? (templates.get(templateRegistry.historyOverlayTemplateId)?.requiredSections ?? [])
+      : [],
+  })
   if (digest(text) !== record.afterSha256 || bodyIssues.length) {
     issues.push(`${entry.path}: completed review SHA or body contract drift`)
     continue

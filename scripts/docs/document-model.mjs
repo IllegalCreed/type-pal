@@ -51,7 +51,7 @@ export function checkRouting(config, read) {
 }
 
 /** Structure checks never grant content-reviewed or execution status. */
-export function checkTemplateBody(text, template, { variant } = {}) {
+export function checkTemplateBody(text, template, { variant, additionalSections = [] } = {}) {
   const issues = []
   const contract = variant ? template.variants?.[variant] : template
   if (!contract) return [`unknown template variant: ${variant}`]
@@ -79,7 +79,10 @@ export function checkTemplateBody(text, template, { variant } = {}) {
   }
   const visible = withoutFences(text)
   if ((visible.match(/^# /gm) ?? []).length !== 1) issues.push('expected one document title')
-  for (const heading of contract.requiredSections ?? template.requiredSections) {
+  for (const heading of new Set([
+    ...(contract.requiredSections ?? template.requiredSections),
+    ...additionalSections,
+  ])) {
     const body = section(text, heading)
     if (body === undefined) issues.push(`missing section: ${heading}`)
     else if (!body.replace(/^#{3,}.*$/gm, '').trim()) issues.push(`empty section: ${heading}`)
@@ -90,6 +93,11 @@ export function checkTemplateBody(text, template, { variant } = {}) {
 export function checkDocumentModel(config, registry, read) {
   const issues = checkRouting(config, read)
   const templates = new Map(registry.types.map((type) => [type.templateId, type]))
+  if (
+    config.migratedDocuments.some((doc) => doc.historyOverlay) &&
+    !templates.get(registry.historyOverlayTemplateId)?.requiredSections?.length
+  )
+    issues.push('history overlay contract missing')
   const paths = new Set()
   for (const doc of config.migratedDocuments) {
     if (paths.has(doc.path)) issues.push(`${doc.path}: duplicate migrated document`)
@@ -99,7 +107,12 @@ export function checkDocumentModel(config, registry, read) {
     if (text === undefined) issues.push(`${doc.path}: migrated document missing`)
     else if (!template) issues.push(`${doc.path}: unknown template ${doc.templateId}`)
     else {
-      for (const issue of checkTemplateBody(text, template, { variant: doc.variant }))
+      for (const issue of checkTemplateBody(text, template, {
+        variant: doc.variant,
+        additionalSections: doc.historyOverlay
+          ? (templates.get(registry.historyOverlayTemplateId)?.requiredSections ?? [])
+          : [],
+      }))
         issues.push(`${doc.path}: ${issue}`)
       if (template.format === 'json') {
         let metadata

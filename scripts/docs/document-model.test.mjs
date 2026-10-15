@@ -123,3 +123,53 @@ test('closing a task keeps its stable path while still removing its active-board
     /仍链接终态任务/,
   )
 })
+
+test('a historical task must satisfy both task chapters and the explicit archive overlay', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const template = registry.types.find((type) => type.docType === 'task-card')
+  const history = registry.types.find((type) => type.docType === 'archive-record')
+  const text = readFileSync(
+    new URL('../../docs/ops/archive/tasks/done/E2-patrol-templates.md', import.meta.url),
+    'utf8',
+  )
+  const options = { additionalSections: history.requiredSections }
+  assert.deepEqual(checkTemplateBody(text, template, options), [])
+  const missingHistoricalBoundary = text.replace('\n## 当前有效性\n', '\n### 当前有效性\n')
+  assert.deepEqual(checkTemplateBody(missingHistoricalBoundary, template, options), [
+    'missing section: 当前有效性',
+  ])
+})
+
+test('phase views preserve authoritative draft/history labels despite misleading paths', async () => {
+  const { renderPhaseGovernanceIndexes } = await import('./build-phase-lore-governance.mjs')
+  const catalog = {
+    entries: [
+      {
+        path: 'docs/phase2/archive/designs/old.md',
+        phase: 'phase2',
+        module: 'reference',
+        title: 'Known | draft',
+        status: 'draft',
+        owner: 'User',
+      },
+      {
+        path: 'docs/phase2/current-name.md',
+        phase: 'phase2',
+        module: 'guide',
+        title: 'Historical contract',
+        status: 'archived',
+        owner: 'Codex',
+      },
+    ],
+  }
+  const original = structuredClone(catalog)
+  const views = renderPhaseGovernanceIndexes(catalog)
+  assert.match(views['by-phase.md'], /Known \\\| draft.*reference \| draft \| User/)
+  assert.match(
+    views['by-status.md'],
+    /## archived[\s\S]*current-name\.md[\s\S]*## draft[\s\S]*archive\/designs\/old\.md/,
+  )
+  assert.deepEqual(catalog, original)
+})

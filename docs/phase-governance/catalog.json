@@ -13,9 +13,9 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 52,
-      "draft": 50,
-      "archived": 82
+      "current": 51,
+      "draft": 49,
+      "archived": 84
     }
   },
   "entries": [
@@ -92,31 +92,30 @@
       "path": "docs/lore/dlc-ideas.md",
       "title": "DLC 创意池（dlc-ideas）",
       "phase": "lore",
-      "module": "canon",
+      "module": "ideas",
       "capability": "lore-dlc-ideas",
       "status": "draft",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
-      "afterSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+      "afterSha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
       "sourceRefs": [
         {
           "path": "docs/lore/dlc-ideas.md",
           "lines": "1-1",
-          "anchor": "DLC 创意池（dlc-ideas）",
-          "role": "document-source",
-          "sha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a"
+          "anchor": "# DLC 创意池（dlc-ideas）",
+          "role": "reviewed-document-scope-only",
+          "sha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee"
         }
       ],
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/lore/dlc-ideas.md:1-1"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "document-scope-and-semantic-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "创意池非 canon，原官方安全自查未由本轮验证；不变更产品范围。",
+          "历史执行/原始日期与来源完整保留；格式检查不授予新运行时信用。"
         ]
       },
       "dedupe": {
@@ -126,7 +125,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+        "implementationSha": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -141,19 +140,45 @@
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
+        "currentReading": {
+          "scope": "创意池非 canon，原官方安全自查未由本轮验证；不变更产品范围。",
+          "date": "2026-10-15",
+          "method": "full-text-read-and-manual-rewrite",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "actual-semantic-template-migration",
+          "previousAfterSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+          "afterSha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
+          "note": "创意池非 canon，原官方安全自查未由本轮验证；不变更产品范围。",
+          "previousStatus": "draft",
+          "previousModule": "canon",
+          "previousSourceRefs": [
+            {
+              "path": "docs/lore/dlc-ideas.md",
+              "lines": "1-1",
+              "anchor": "DLC 创意池（dlc-ideas）",
+              "role": "document-source",
+              "sha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a"
+            }
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "创意池非 canon，原官方安全自查未由本轮验证；不变更产品范围。",
+      "lastReviewed": "2026-10-15"
     },
     {
       "id": "docs-lore-factions",
@@ -4239,11 +4264,11 @@
         "`pnpm -F @type-pal/game test scene-system -v",
         "pnpm -F @type-pal/game test scene-system -v",
         "git add packages/shared/src/resources.ts \\",
-        "git commit -m \"feat(M4.P3.T1): SceneAssets 扩 eventCommands+labelMap lazy load(修 M3.5 \u26a0️ a9 #8)\"",
+        "git commit -m \"feat(M4.P3.T1): SceneAssets 扩 eventCommands+labelMap lazy load(修 M3.5 ⚠️ a9 #8)\"",
         "pnpm -F @type-pal/pal-extract test round-trip -v",
         "pnpm -F @type-pal/game test event-system -v",
         "git add packages/pal-extract/src/events/opcodes.ts \\",
-        "git commit -m \"feat(M4.P3.T2): setPalette opcode 真 handler(修 M3.5 \u26a0️ palette 跨 scene)\"",
+        "git commit -m \"feat(M4.P3.T2): setPalette opcode 真 handler(修 M3.5 ⚠️ palette 跨 scene)\"",
         "pnpm extract 2>&1 | grep -E \"(tilesets|scope)\"",
         "pnpm -F @type-pal/game e2e 2>&1 | tail -10",
         "git add packages/pal-extract/src/cli.ts \\",
@@ -4264,7 +4289,7 @@
         "git commit -m \"feat(M4.P3.T7): sdlpal --dump-map 全 295 自动化 diff + KNOWN_DEVIATIONS\"",
         "pnpm -F @type-pal/game e2e a9 2>&1 | tail -20",
         "git add packages/game/e2e/scene/a9-encounter.spec.ts",
-        "git commit -m \"feat(M4.P3.T8): a9 contact→battle 端到端 spec unskip + pass(M3.5 \u26a0️ #8 修)\"",
+        "git commit -m \"feat(M4.P3.T8): a9 contact→battle 端到端 spec unskip + pass(M3.5 ⚠️ #8 修)\"",
         "git or 不入**",
         "git add data/raw/unifont-cn.bdf",
         "git commit -m \"feat(M4.P4.T1): Unifont CN BDF ship 作 build asset(D11 / OFL 入 git)\"",
@@ -4282,7 +4307,7 @@
         "pnpm -F @type-pal/game e2e --update-snapshots 2>&1 | tail -20",
         "pnpm -F @type-pal/game e2e b 2>&1 | tail -10",
         "git add packages/game/e2e/battle/",
-        "git commit -m \"feat(M4.P4.T4): L2 baseline 全部重生(Unifont)+ b* spec 切 sdlpal real baseline(M3.5 \u26a0️ 接合)\"",
+        "git commit -m \"feat(M4.P4.T4): L2 baseline 全部重生(Unifont)+ b* spec 切 sdlpal real baseline(M3.5 ⚠️ 接合)\"",
         "git add packages/game/src/shell/dev-panel.ts",
         "git commit -m \"feat(M4.P4.T5): dev panel 字体测试 sheet 入口\"",
         "git add README.md docs/03-development-plan.md docs/plans/2026-05-24-m4-pal-extract-complete.md",
@@ -4816,7 +4841,7 @@
         "git commit -m \"fix(M5.B-w0.1): sdlpal --dump-battle 50 SIGABRT — 根因(由本 task 实际定位填入)/ 修 patch + spec\"",
         "pnpm check 验**",
         "git add packages",
-        "git commit -m \"fix(M5.B-w0.2): PLAYER_POSITIONS 真值 3(M3.5 \u26a0️ #7 修)— sdlpal MAX_PLAYABLE_PLAYER_ROLES\"",
+        "git commit -m \"fix(M5.B-w0.2): PLAYER_POSITIONS 真值 3(M3.5 ⚠️ #7 修)— sdlpal MAX_PLAYABLE_PLAYER_ROLES\"",
         "git add packages/shared/src packages/game/src/core/battle",
         "git commit -m \"feat(M5.B-w0.3): Status schema 扩 12 种(paralyzed/confused/sleep/silence/puppet/bravery/protect/haste/dual-attack/...)\"",
         "git add packages/pal-extract/scripts",
@@ -5125,7 +5150,7 @@
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability-design",
       "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
-      "title": "M5.6 · 基础玩法接通(audit \u26a0️ → 实修)Design",
+      "title": "M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design",
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m5-6-playability-design",
@@ -5139,7 +5164,7 @@
         {
           "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
           "lines": "1-1",
-          "anchor": "M5.6 · 基础玩法接通(audit \u26a0️ → 实修)Design",
+          "anchor": "M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design",
           "role": "document-source",
           "sha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae"
         }
@@ -5383,7 +5408,7 @@
         "git commit -m \"refactor(M5.6 W2.a): dev-panel CSS 注入 + 4 section 分组(scene jumps / battle fixtures / menu / trigger units)\"",
         "git commit -m \"feat(M5.6 W2.b): dev-panel menu / trigger units 单元一键测试入口\"",
         "git add README.md docs/plans/2026-05-27-m5-5-sdlpal-audit.md",
-        "git commit -m \"docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 \u26a0️→✓,基础玩法闭合\""
+        "git commit -m \"docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 ⚠️→✓,基础玩法闭合\""
       ],
       "legalInputs": [
         "current repository documentation",
@@ -5551,7 +5576,7 @@
       ],
       "publicCallers": [
         "git add docs/feature-status.md docs/plans/2026-05-28-feature-audit-and-replanning.md README.md",
-        "git commit -m \"plan(2026-05-28): feature audit + replan — 停做新功能,逐条核对 ✓/\u26a0️\""
+        "git commit -m \"plan(2026-05-28): feature audit + replan — 停做新功能,逐条核对 ✓/⚠️\""
       ],
       "legalInputs": [
         "current repository documentation",
@@ -5618,19 +5643,19 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-30-opcode-2-remaining",
-      "status": "draft",
+      "status": "archived",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
-      "afterSha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
+      "afterSha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
       "sourceRefs": [
         {
-          "path": "packages/game/src/core/event-system.ts",
+          "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
           "lines": "1-1",
-          "anchor": "/**",
-          "role": "body-source-reference",
-          "sha256": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb"
+          "anchor": "# ② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)",
+          "role": "reviewed-document-scope-only",
+          "sha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -5639,11 +5664,10 @@
         "packages/game/src/core/event-system.ts:1-1"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "document-scope-and-semantic-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "原文 2026-05-30 完成横幅与旧待实现语气属于历史，不是当前 draft。",
+          "历史执行/原始日期与来源完整保留；格式检查不授予新运行时信用。"
         ]
       },
       "dedupe": {
@@ -5653,7 +5677,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
+        "implementationSha": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -5668,19 +5692,45 @@
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
+        "currentReading": {
+          "scope": "原文 2026-05-30 完成横幅与旧待实现语气属于历史，不是当前 draft。",
+          "date": "2026-10-15",
+          "method": "full-text-read-and-manual-rewrite",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "actual-semantic-template-migration",
+          "previousAfterSha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
+          "afterSha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
+          "note": "原文 2026-05-30 完成横幅与旧待实现语气属于历史，不是当前 draft。",
+          "previousStatus": "draft",
+          "previousModule": "plans",
+          "previousSourceRefs": [
+            {
+              "path": "packages/game/src/core/event-system.ts",
+              "lines": "1-1",
+              "anchor": "/**",
+              "role": "body-source-reference",
+              "sha256": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb"
+            }
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "原文 2026-05-30 完成横幅与旧待实现语气属于历史，不是当前 draft。",
+      "lastReviewed": "2026-10-15"
     },
     {
       "id": "docs-phase1-plans-2026-05-30-xianglan-cutscene-fidelity",
@@ -9917,7 +9967,7 @@
         }
       ],
       "publicCallers": [
-        "git fix 锚点)→ reforge/migrate 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"
+        "git fix 锚点)→ reforge/migrate 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"
       ],
       "legalInputs": [
         "current repository documentation",
@@ -10143,7 +10193,7 @@
         }
       ],
       "publicCallers": [
-        "git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git fix 史(sdlpal→一阶段踩坑记录)"
       ],
       "legalInputs": [
@@ -10663,7 +10713,7 @@
           "sha256": "1d9d39cbcf1e5bae560055236abea1fb9f22afc3cdacfc3a200fd801acea6aec"
         }
       ],
-      "publicCallers": ["git fix 锚点)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git fix 锚点)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/reforge/src/menu-state.ts:1-1",
@@ -10857,7 +10907,7 @@
         }
       ],
       "publicCallers": [
-        "git fix 锚点)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git fix 锚点)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git fix 锚点",
         "git fix 锚点)③ reforge .ts 实现(行号)。孤立来源标\"未交叉验证\"(本次无)。"
       ],
@@ -11419,7 +11469,7 @@
         }
       ],
       "publicCallers": [
-        "git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git 踩坑"
       ],
       "legalInputs": [
@@ -11503,7 +11553,7 @@
           "sha256": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c"
         }
       ],
-      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/game/src/core/event-system.ts:1-1",
@@ -12061,7 +12111,7 @@
           "sha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4"
         }
       ],
-      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/game/src/present/draw-tilemap.ts:1-1",
@@ -19587,34 +19637,41 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
-      "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+      "afterSha256": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
       "sourceRefs": [
         {
           "path": "packages/reforge/src/save/types.ts",
-          "lines": "1-1",
-          "anchor": "import type { CONTENT_VERSION, EntityAddress, Facing, GridPos, WorldState } from '@type-pal/content'",
-          "role": "body-source-reference",
+          "lines": "9",
+          "anchor": "export const SAVE_VERSION",
+          "role": "current-version",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "lines": "43-52",
+          "anchor": "export interface CurrentSavePayload",
+          "role": "current-payload",
           "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
         },
         {
           "path": "packages/reforge/src/save/current-codec.ts",
-          "lines": "1-1",
-          "anchor": "import {",
-          "role": "body-source-reference",
+          "lines": "60-83",
+          "anchor": "export async function preflightCurrentSave",
+          "role": "current-only-preflight",
           "sha256": "8d73ba4813377d4df01ea02112207cd6adf563e072586e56536775426727db06"
         },
         {
-          "path": "packages/reforge/src/save/current-save.current-characterization.test.ts",
-          "lines": "1-1",
-          "anchor": "import {",
-          "role": "body-source-reference",
-          "sha256": "5a311ea757f8df798a787d532808a2dd0a34a8dc756f06f93b9683d2f1856f30"
+          "path": "packages/reforge/src/save/current-codec.ts",
+          "lines": "92-111",
+          "anchor": "export function normalizeCurrentSave",
+          "role": "structure-guard-and-clone",
+          "sha256": "8d73ba4813377d4df01ea02112207cd6adf563e072586e56536775426727db06"
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "1-1",
-          "anchor": "import type { ActorDef } from './actor.js'",
-          "role": "body-source-reference",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION",
+          "role": "version-axes",
           "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
@@ -19627,11 +19684,10 @@
         "packages/content/src/character.ts:1-1"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "document-scope-and-semantic-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "版本/codec 入口核读，原 SAVE12 恢复合同重排，不增加运行时验收。",
+          "历史执行/原始日期与来源完整保留；格式检查不授予新运行时信用。"
         ]
       },
       "dedupe": {
@@ -19641,7 +19697,7 @@
       },
       "revision": {
         "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-        "implementationSha": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+        "implementationSha": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -19681,7 +19737,14 @@
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
+        "currentReading": {
+          "scope": "版本/codec 入口核读，原 SAVE12 恢复合同重排，不增加运行时验收。",
+          "date": "2026-10-15",
+          "method": "full-text-read-and-manual-rewrite",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
@@ -19713,12 +19776,52 @@
             "119-119"
           ],
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-15",
+          "action": "actual-semantic-template-migration",
+          "previousAfterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+          "afterSha256": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
+          "note": "版本/codec 入口核读，原 SAVE12 恢复合同重排，不增加运行时验收。",
+          "previousStatus": "current",
+          "previousModule": "specs",
+          "previousSourceRefs": [
+            {
+              "path": "packages/reforge/src/save/types.ts",
+              "lines": "1-1",
+              "anchor": "import type { CONTENT_VERSION, EntityAddress, Facing, GridPos, WorldState } from '@type-pal/content'",
+              "role": "body-source-reference",
+              "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+            },
+            {
+              "path": "packages/reforge/src/save/current-codec.ts",
+              "lines": "1-1",
+              "anchor": "import {",
+              "role": "body-source-reference",
+              "sha256": "8d73ba4813377d4df01ea02112207cd6adf563e072586e56536775426727db06"
+            },
+            {
+              "path": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+              "lines": "1-1",
+              "anchor": "import {",
+              "role": "body-source-reference",
+              "sha256": "5a311ea757f8df798a787d532808a2dd0a34a8dc756f06f93b9683d2f1856f30"
+            },
+            {
+              "path": "packages/content/src/character.ts",
+              "lines": "1-1",
+              "anchor": "import type { ActorDef } from './actor.js'",
+              "role": "body-source-reference",
+              "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+            }
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-11",
+      "userVisibleBeforeAfter": "版本/codec 入口核读，原 SAVE12 恢复合同重排，不增加运行时验收。",
+      "lastReviewed": "2026-10-15",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
@@ -20129,19 +20232,19 @@
       "phase": "phase3",
       "module": "reference",
       "capability": "phase3-reference-art-pipeline",
-      "status": "current",
+      "status": "archived",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
-      "afterSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+      "afterSha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
       "sourceRefs": [
         {
           "path": "docs/phase3/reference/art-pipeline.md",
           "lines": "1-1",
-          "anchor": "美术资产生图管线（art-pipeline，第三阶段输入）",
-          "role": "document-source",
-          "sha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4"
+          "anchor": "# 美术资产生图管线（art-pipeline，第三阶段输入）",
+          "role": "reviewed-document-scope-only",
+          "sha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -20150,11 +20253,10 @@
         "docs/phase3/reference/art-pipeline.md:1-1"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "document-scope-and-semantic-preservation",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "原文明确未来第三阶段输入；技术/法律旧判断未重核，不应标 current 实施规范。",
+          "历史执行/原始日期与来源完整保留；格式检查不授予新运行时信用。"
         ]
       },
       "dedupe": {
@@ -20164,7 +20266,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+        "implementationSha": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -20179,19 +20281,45 @@
       "evidence": {
         "kind": "document-audit",
         "sourceSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
-        "claims": ["phase/lore ownership and status inventory"]
+        "claims": ["phase/lore ownership and status inventory"],
+        "afterSha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
+        "currentReading": {
+          "scope": "原文明确未来第三阶段输入；技术/法律旧判断未重核，不应标 current 实施规范。",
+          "date": "2026-10-15",
+          "method": "full-text-read-and-manual-rewrite",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "actual-semantic-template-migration",
+          "previousAfterSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+          "afterSha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
+          "note": "原文明确未来第三阶段输入；技术/法律旧判断未重核，不应标 current 实施规范。",
+          "previousStatus": "current",
+          "previousModule": "reference",
+          "previousSourceRefs": [
+            {
+              "path": "docs/phase3/reference/art-pipeline.md",
+              "lines": "1-1",
+              "anchor": "美术资产生图管线（art-pipeline，第三阶段输入）",
+              "role": "document-source",
+              "sha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4"
+            }
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "userVisibleBeforeAfter": "原文明确未来第三阶段输入；技术/法律旧判断未重核，不应标 current 实施规范。",
+      "lastReviewed": "2026-10-15"
     },
     {
       "id": "docs-phase3-reference-readme",
@@ -20261,5 +20389,6 @@
       "userVisibleBeforeAfter": null,
       "lastReviewed": "2026-10-04"
     }
-  ]
+  ],
+  "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed."
 }

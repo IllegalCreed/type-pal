@@ -1,117 +1,10 @@
 # Lore / 三阶段文档状态索引
 
-由 `scripts/docs/build-phase-lore-governance.mjs` 生成。
-
-## current
-
-- [官方角色设定（characters）](../lore/characters.md) · lore/canon
-- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
-- [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) · lore/canon
-- [docs/lore/ — 仙剑设定真值库](../lore/README.md) · lore/canon
-- [扩展红线清单（taboos）](../lore/taboos.md) · lore/canon
-- [仙剑剧情时间线与流程攻略](../lore/timeline.md) · lore/canon
-- [版本差异登记（versions）](../lore/versions.md) · lore/canon
-- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
-- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
-- [01 · 背景与可行性](../phase1/01-feasibility.md) · phase1/governance
-- [02 · 架构设计](../phase1/02-architecture.md) · phase1/governance
-- [03 · 开发计划](../phase1/03-development-plan.md) · phase1/governance
-- [04 · 决策记录与待定问题](../phase1/04-decisions.md) · phase1/governance
-- [05 · events.json schema](../phase1/05-events-schema.md) · phase1/governance
-- [06 · 测试策略](../phase1/06-testing.md) · phase1/governance
-- [Engineering Notes · type-pal(第一阶段)](../phase1/engineering-notes.md) · phase1/governance
-- [Game Mechanics · 原版底层机制真值](../phase1/game-mechanics.md) · phase1/governance
-- [docs/phase1/ — 第一阶段（忠实还原）文档](../phase1/README.md) · phase1/governance
-- [sdlpal Build / 启动 / Headless 参考](../phase1/sdlpal-runbook.md) · phase1/governance
-- [演出状态表](../phase1/status/cutscene-status.md) · phase1/status
-- [Feature Status · type-pal](../phase1/status/feature-status.md) · phase1/status
-- [物品状态表](../phase1/status/item-status.md) · phase1/status
-- [仙术状态表](../phase1/status/magic-status.md) · phase1/status
-- [Opcode Status · type-pal](../phase1/status/opcode-status.md) · phase1/status
-- [docs/phase1/status/ — 第一阶段覆盖快照](../phase1/status/README.md) · phase1/status
-- [Resource Status · type-pal](../phase1/status/resource-status.md) · phase1/status
-- [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) · phase2/governance
-- [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) · phase2/governance
-- [人物预制与场景实体创作说明](../phase2/guides/actor-presets.md) · phase2/guides
-- [战场作者工作台](../phase2/guides/battlefield-authoring.md) · phase2/guides
-- [PAL 内容导入与发布](../phase2/guides/content-publication.md) · phase2/guides
-- [reforge 调试工具（D13-1 首刀）](../phase2/guides/debug-tools.md) · phase2/guides
-- [第二阶段使用指南](../phase2/guides/README.md) · phase2/guides
-- [场景入场呈现编辑说明](../phase2/guides/scene-entry-authoring.md) · phase2/guides
-- [脚本库与可复用脚本作者手册](../phase2/guides/shared-script-author-guide.md) · phase2/guides
-- [第二阶段（Reforge）· 开工前必读](../phase2/READ-FIRST.md) · phase2/governance
-- [第二阶段 · Reforge 文档](../phase2/README.md) · phase2/governance
-- [切片 1 子任务：对话框外观继承原版（spec for Claude）](../phase2/reference/dialogue-presentation.md) · phase2/reference
-- [一阶段知识测绘（Phase 1 Knowledge Harvest）](../phase2/reference/phase1-knowledge-harvest.md) · phase2/reference
-- [第二阶段知识参考](../phase2/reference/README.md) · phase2/reference
-- [第二阶段路线图 — 重制引擎 + 内容编辑器](../phase2/roadmap.md) · phase2/governance
-- [内容工程当前格式](../phase2/specs/content-schema.md) · phase2/specs
-- [编辑器架构与工作台合同](../phase2/specs/editor-architecture.md) · phase2/specs
-- [Type-Pal 编辑器设计系统与交互规范 v1](../phase2/specs/editor-design-system.md) · phase2/specs
-- [工程与工作区生命周期](../phase2/specs/project-lifecycle.md) · phase2/specs
-- [第二阶段现行规范](../phase2/specs/README.md) · phase2/specs
-- [当前存档合同](../phase2/specs/save-system.md) · phase2/specs
-- [作者脚本与运行时合同](../phase2/specs/script-system.md) · phase2/specs
-- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/governance
-- [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) · phase3/governance
-- [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) · phase3/reference
-- [第三阶段参考输入](../phase3/reference/README.md) · phase3/reference
-
-## draft
-
-- [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/canon
-- [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) · lore/ideas
-- [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) · lore/ideas
-- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
-- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
-- [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) · phase1/plans
-- [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) · phase1/plans
-- [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) · phase1/plans
-- [M2 · 运行时垂直切片(探索)Design](../phase1/plans/2026-05-23-m2-runtime-slice-design.md) · phase1/plans
-- [M2 · 运行时垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m2-runtime-slice.md) · phase1/plans
-- [M3 · 战斗垂直切片 Design](../phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md) · phase1/plans
-- [M3 · 战斗垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m3-battle-vertical-slice.md) · phase1/plans
-- [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design](../phase1/plans/2026-05-24-m3-5-scene-encounter-design.md) · phase1/plans
-- [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan](../phase1/plans/2026-05-24-m3-5-scene-encounter.md) · phase1/plans
-- [M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design](../phase1/plans/2026-05-24-m4-pal-extract-complete-design.md) · phase1/plans
-- [M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan](../phase1/plans/2026-05-24-m4-pal-extract-complete.md) · phase1/plans
-- [M5 · 系统补全 Design Doc](../phase1/plans/2026-05-25-m5-systems-complete-design.md) · phase1/plans
-- [M5 · 系统补全 Implementation Plan](../phase1/plans/2026-05-25-m5-systems-complete.md) · phase1/plans
-- [M4 pal-extract 实际提取清单 audit](../phase1/plans/2026-05-27-m4-extract-audit.md) · phase1/plans
-- [M5.5 · sdlpal 全源 audit(deviation report)](../phase1/plans/2026-05-27-m5-5-sdlpal-audit.md) · phase1/plans
-- [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) · phase1/plans
-- [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) · phase1/plans
-- [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) · phase1/plans
-- [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) · phase1/plans
-- [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) · phase1/plans
-- [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) · phase1/plans
-- [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) · phase1/plans
-- [B6 — 数值精度 + 装备(D3残 / D14残)详细 plan](../phase1/plans/2026-05-31-d-batch6-numeric-equip.md) · phase1/plans
-- [D 系列(战斗系统)完工 roadmap](../phase1/plans/2026-05-31-d-series-completion-roadmap.md) · phase1/plans
-- [中毒机制 + 战斗头像颜色 实现规划(2026-05-31)](../phase1/plans/2026-05-31-poison-and-portrait-color.md) · phase1/plans
-- [D 系列真机手测用例表(2026-06-01)](../phase1/plans/2026-06-01-d-series-test-cases.md) · phase1/plans
-- [feature-status.md 重审报告(2026-06-01)](../phase1/plans/2026-06-01-feature-status-audit.md) · phase1/plans
-- [gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)](../phase1/plans/2026-06-01-gameoveractive-refactor.md) · phase1/plans
-- [type-pal 剩余工作执行计划(2026-06-01)](../phase1/plans/2026-06-01-remaining-work-plan.md) · phase1/plans
-- [SDLPal 功能面覆盖审计](../phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md) · phase1/plans
-- [物品功能实现完整性审计(type-pal vs sdlpal)](../phase1/plans/2026-06-02-item-audit.md) · phase1/plans
-- [2026-06-06 Battle System Current Audit](../phase1/plans/2026-06-06-battle-system-current-audit.md) · phase1/plans
-- [type-pal × sdlpal 差异审查报告](../phase1/plans/2026-06-07-sdlpal-diff-audit.md) · phase1/plans
-- [type-pal × sdlpal 第二轮深挖差异审查报告](../phase1/plans/2026-06-10-sdlpal-deep-audit.md) · phase1/plans
-- [游戏分辨率(canvas 显示尺寸)设置 Implementation Plan](../phase1/plans/2026-06-13-canvas-resolution-setting.md) · phase1/plans
-- [离线资源预缓存(Service Worker)Implementation Plan](../phase1/plans/2026-06-13-offline-precache-sw.md) · phase1/plans
-- [生产增强工具面板(Production Tools Panel)Implementation Plan](../phase1/plans/2026-06-13-prod-tools-panel.md) · phase1/plans
-- [统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan](../phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md) · phase1/plans
-- [统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec](../phase1/plans/2026-06-14-unified-precache-progress-gate.md) · phase1/plans
-- [速通计时器 设计方案（Speedrun Timer）](../phase1/plans/2026-06-18-speedrun-timer-design.md) · phase1/plans
-- [速通计时器 Implementation Plan](../phase1/plans/2026-06-18-speedrun-timer.md) · phase1/plans
-- [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) · phase1/plans
-- [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) · phase1/plans
-- [第二阶段 · 设计议题池（backlog）](../phase2/design-backlog.md) · phase2/governance
-- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/governance
+由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
 
 ## archived
 
+- [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) · phase1/plans
 - [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) · phase2/archive
 - [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) · phase2/archive
 - [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) · phase2/archive
@@ -194,4 +87,110 @@
 - [室内切片历史](../phase2/archive/slices/indoor/README.md) · phase2/archive
 - [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) · phase2/archive
 - [历史垂直切片](../phase2/archive/slices/README.md) · phase2/archive
+- [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) · phase3/reference
 
+## current
+
+- [官方角色设定（characters）](../lore/characters.md) · lore/canon
+- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
+- [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) · lore/canon
+- [docs/lore/ — 仙剑设定真值库](../lore/README.md) · lore/canon
+- [扩展红线清单（taboos）](../lore/taboos.md) · lore/canon
+- [仙剑剧情时间线与流程攻略](../lore/timeline.md) · lore/canon
+- [版本差异登记（versions）](../lore/versions.md) · lore/canon
+- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
+- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
+- [01 · 背景与可行性](../phase1/01-feasibility.md) · phase1/governance
+- [02 · 架构设计](../phase1/02-architecture.md) · phase1/governance
+- [03 · 开发计划](../phase1/03-development-plan.md) · phase1/governance
+- [04 · 决策记录与待定问题](../phase1/04-decisions.md) · phase1/governance
+- [05 · events.json schema](../phase1/05-events-schema.md) · phase1/governance
+- [06 · 测试策略](../phase1/06-testing.md) · phase1/governance
+- [Engineering Notes · type-pal(第一阶段)](../phase1/engineering-notes.md) · phase1/governance
+- [Game Mechanics · 原版底层机制真值](../phase1/game-mechanics.md) · phase1/governance
+- [docs/phase1/ — 第一阶段（忠实还原）文档](../phase1/README.md) · phase1/governance
+- [sdlpal Build / 启动 / Headless 参考](../phase1/sdlpal-runbook.md) · phase1/governance
+- [演出状态表](../phase1/status/cutscene-status.md) · phase1/status
+- [Feature Status · type-pal](../phase1/status/feature-status.md) · phase1/status
+- [物品状态表](../phase1/status/item-status.md) · phase1/status
+- [仙术状态表](../phase1/status/magic-status.md) · phase1/status
+- [Opcode Status · type-pal](../phase1/status/opcode-status.md) · phase1/status
+- [docs/phase1/status/ — 第一阶段覆盖快照](../phase1/status/README.md) · phase1/status
+- [Resource Status · type-pal](../phase1/status/resource-status.md) · phase1/status
+- [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) · phase2/governance
+- [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) · phase2/governance
+- [人物预制与场景实体创作说明](../phase2/guides/actor-presets.md) · phase2/guides
+- [战场作者工作台](../phase2/guides/battlefield-authoring.md) · phase2/guides
+- [PAL 内容导入与发布](../phase2/guides/content-publication.md) · phase2/guides
+- [reforge 调试工具（D13-1 首刀）](../phase2/guides/debug-tools.md) · phase2/guides
+- [第二阶段使用指南](../phase2/guides/README.md) · phase2/guides
+- [场景入场呈现编辑说明](../phase2/guides/scene-entry-authoring.md) · phase2/guides
+- [脚本库与可复用脚本作者手册](../phase2/guides/shared-script-author-guide.md) · phase2/guides
+- [第二阶段（Reforge）· 开工前必读](../phase2/READ-FIRST.md) · phase2/governance
+- [第二阶段 · Reforge 文档](../phase2/README.md) · phase2/governance
+- [切片 1 子任务：对话框外观继承原版（spec for Claude）](../phase2/reference/dialogue-presentation.md) · phase2/reference
+- [一阶段知识测绘（Phase 1 Knowledge Harvest）](../phase2/reference/phase1-knowledge-harvest.md) · phase2/reference
+- [第二阶段知识参考](../phase2/reference/README.md) · phase2/reference
+- [第二阶段路线图 — 重制引擎 + 内容编辑器](../phase2/roadmap.md) · phase2/governance
+- [内容工程当前格式](../phase2/specs/content-schema.md) · phase2/specs
+- [编辑器架构与工作台合同](../phase2/specs/editor-architecture.md) · phase2/specs
+- [Type-Pal 编辑器设计系统与交互规范 v1](../phase2/specs/editor-design-system.md) · phase2/specs
+- [工程与工作区生命周期](../phase2/specs/project-lifecycle.md) · phase2/specs
+- [第二阶段现行规范](../phase2/specs/README.md) · phase2/specs
+- [当前存档合同](../phase2/specs/save-system.md) · phase2/specs
+- [作者脚本与运行时合同](../phase2/specs/script-system.md) · phase2/specs
+- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/governance
+- [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) · phase3/governance
+- [第三阶段参考输入](../phase3/reference/README.md) · phase3/reference
+
+## draft
+
+- [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/ideas
+- [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) · lore/ideas
+- [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) · lore/ideas
+- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
+- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
+- [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) · phase1/plans
+- [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) · phase1/plans
+- [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) · phase1/plans
+- [M2 · 运行时垂直切片(探索)Design](../phase1/plans/2026-05-23-m2-runtime-slice-design.md) · phase1/plans
+- [M2 · 运行时垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m2-runtime-slice.md) · phase1/plans
+- [M3 · 战斗垂直切片 Design](../phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md) · phase1/plans
+- [M3 · 战斗垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m3-battle-vertical-slice.md) · phase1/plans
+- [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design](../phase1/plans/2026-05-24-m3-5-scene-encounter-design.md) · phase1/plans
+- [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan](../phase1/plans/2026-05-24-m3-5-scene-encounter.md) · phase1/plans
+- [M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design](../phase1/plans/2026-05-24-m4-pal-extract-complete-design.md) · phase1/plans
+- [M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan](../phase1/plans/2026-05-24-m4-pal-extract-complete.md) · phase1/plans
+- [M5 · 系统补全 Design Doc](../phase1/plans/2026-05-25-m5-systems-complete-design.md) · phase1/plans
+- [M5 · 系统补全 Implementation Plan](../phase1/plans/2026-05-25-m5-systems-complete.md) · phase1/plans
+- [M4 pal-extract 实际提取清单 audit](../phase1/plans/2026-05-27-m4-extract-audit.md) · phase1/plans
+- [M5.5 · sdlpal 全源 audit(deviation report)](../phase1/plans/2026-05-27-m5-5-sdlpal-audit.md) · phase1/plans
+- [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) · phase1/plans
+- [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) · phase1/plans
+- [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) · phase1/plans
+- [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) · phase1/plans
+- [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) · phase1/plans
+- [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) · phase1/plans
+- [B6 — 数值精度 + 装备(D3残 / D14残)详细 plan](../phase1/plans/2026-05-31-d-batch6-numeric-equip.md) · phase1/plans
+- [D 系列(战斗系统)完工 roadmap](../phase1/plans/2026-05-31-d-series-completion-roadmap.md) · phase1/plans
+- [中毒机制 + 战斗头像颜色 实现规划(2026-05-31)](../phase1/plans/2026-05-31-poison-and-portrait-color.md) · phase1/plans
+- [D 系列真机手测用例表(2026-06-01)](../phase1/plans/2026-06-01-d-series-test-cases.md) · phase1/plans
+- [feature-status.md 重审报告(2026-06-01)](../phase1/plans/2026-06-01-feature-status-audit.md) · phase1/plans
+- [gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)](../phase1/plans/2026-06-01-gameoveractive-refactor.md) · phase1/plans
+- [type-pal 剩余工作执行计划(2026-06-01)](../phase1/plans/2026-06-01-remaining-work-plan.md) · phase1/plans
+- [SDLPal 功能面覆盖审计](../phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md) · phase1/plans
+- [物品功能实现完整性审计(type-pal vs sdlpal)](../phase1/plans/2026-06-02-item-audit.md) · phase1/plans
+- [2026-06-06 Battle System Current Audit](../phase1/plans/2026-06-06-battle-system-current-audit.md) · phase1/plans
+- [type-pal × sdlpal 差异审查报告](../phase1/plans/2026-06-07-sdlpal-diff-audit.md) · phase1/plans
+- [type-pal × sdlpal 第二轮深挖差异审查报告](../phase1/plans/2026-06-10-sdlpal-deep-audit.md) · phase1/plans
+- [游戏分辨率(canvas 显示尺寸)设置 Implementation Plan](../phase1/plans/2026-06-13-canvas-resolution-setting.md) · phase1/plans
+- [离线资源预缓存(Service Worker)Implementation Plan](../phase1/plans/2026-06-13-offline-precache-sw.md) · phase1/plans
+- [生产增强工具面板(Production Tools Panel)Implementation Plan](../phase1/plans/2026-06-13-prod-tools-panel.md) · phase1/plans
+- [统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan](../phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md) · phase1/plans
+- [统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec](../phase1/plans/2026-06-14-unified-precache-progress-gate.md) · phase1/plans
+- [速通计时器 设计方案（Speedrun Timer）](../phase1/plans/2026-06-18-speedrun-timer-design.md) · phase1/plans
+- [速通计时器 Implementation Plan](../phase1/plans/2026-06-18-speedrun-timer.md) · phase1/plans
+- [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) · phase1/plans
+- [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) · phase1/plans
+- [第二阶段 · 设计议题池（backlog）](../phase2/design-backlog.md) · phase2/governance
+- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/governance

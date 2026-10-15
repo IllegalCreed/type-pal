@@ -1,13 +1,13 @@
 # Lore / 三阶段文档索引
 
-由 `scripts/docs/build-phase-lore-governance.mjs` 生成。
+由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
 
 ## lore
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
 | [官方角色设定（characters）](../lore/characters.md) | canon | current | Codex |
-| [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) | canon | draft | Codex |
+| [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) | ideas | draft | Codex |
 | [仙剑江湖势力关系图（factions）](../lore/factions.md) | canon | current | Codex |
 | [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) | ideas | draft | Codex |
 | [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) | ideas | draft | Codex |
@@ -51,7 +51,7 @@
 | [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) | plans | draft | Codex |
 | [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) | plans | draft | Codex |
 | [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) | plans | draft | Codex |
-| [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) | plans | draft | Codex |
+| [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) | plans | archived | Codex |
 | [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) | plans | draft | Codex |
 | [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) | plans | draft | Codex |
 | [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) | plans | draft | Codex |
@@ -203,6 +203,5 @@
 | [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) | governance | draft | Codex |
 | [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) | governance | current | Codex |
 | [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) | governance | current | Codex |
-| [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) | reference | current | Codex |
+| [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) | reference | archived | Codex |
 | [第三阶段参考输入](../phase3/reference/README.md) | reference | current | Codex |
-

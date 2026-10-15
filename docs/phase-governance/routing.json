@@ -94,6 +94,46 @@
     {
       "path": "docs/ops/archive/README.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md",
+      "templateId": "evidence-receipt-v1"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "templateId": "design-spec-v1"
+    },
+    {
+      "path": "docs/phase3/reference/art-pipeline.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "templateId": "narrative-idea-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
+      "templateId": "test-domain-report-v1"
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -1,10 +1,29 @@
 # 当前存档合同
 
+Status: current
+Last reviewed: 2026-10-15
+Owner: Codex（文档治理；原作者与原任务 Owner 保留在历史原文）
+Template: design-spec-v1 / 1.0.0
+
+## 问题与目标
+
+保存当前唯一 SAVE12/content22 合同、恢复边界和来源；现行规范整理不代表修复所有已知实现缺陷，也不改变 codec 或产品保存行为。
+
 类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/save-system-design.md)，不作为当前执行入口。
 
-## 当前实现 SAVE12 与 content22
+## 真值与约束
+
+本批直接核 `save/types.ts` 的 `SAVE_VERSION=12`/CurrentSavePayload、`character.ts:168-170` 的 content22/minimumSave12，以及 `current-codec.ts` 的 preflight/normalize：版本与项目不匹配 fail-loud、结构校验后克隆。其余场景/动作续跑细节保留原合同与任务来源，本批不重新授予运行时通过。
+
+开发期不接旧版本、不读取 sidecar、不恢复 upgrader；world/sceneRuntime 中使用稳定身份，不能以文档迁移扩张跨版本兼容或中途战斗保存。
+
+## 方案
+
+以下是原合同正文，字段、等待/动作/追逐与读档边界保留；只改变章节层级，原标题锚仍可定位。
+
+### 当前实现 SAVE12 与 content22
 
 `SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。正式上线前只支持当前 canonical，
 当前写出的唯一 payload 为：
@@ -40,7 +59,7 @@ owner/target/behavior稳定地址于所属场景的`sceneRuntime[sceneId].chaseC
 方案绑定，随新activation同步重建。旧顶层`automaticChaseClaims`不是SAVE12合同。
 不持久化motion slot、commandEpoch、AbortSignal或Promise，不改变下一matching chase才触发self的既有语义。
 
-### 场景现场与动作恢复
+#### 场景现场与动作恢复
 
 `sceneRuntime`是必需的引擎运行态容器，不是作者内容、状态方案或剧情阶段；新建且尚无现场的容器可为空。
 场景和实体使用稳定id索引，场景内的automatic owner由所属场景限定，不是运行时epoch。
@@ -83,7 +102,7 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 不替代R4的业务结束断言。
 实现验证见[检查点导出](../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)，当前冻结旅程收据与剩余状态见本修复任务卡。
 
-### 当前读档边界
+#### 当前读档边界
 
 1. `preflightCurrentSave` 只接受 `SAVE12/content22`；`normalizeCurrentSave` 校验后返回隔离副本，`sceneRuntime`缺失拒绝。
 2. 非当前 SAVE、非 content22、项目 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
@@ -98,11 +117,19 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 | 1..11 / 13+ | 任意 | 拒绝：不是当前 SAVE envelope |
 | 12 | 非 22 | 拒绝：不是当前 content epoch |
 
-### 角色临时状态的 restore 边界
+#### 角色临时状态的 restore 边界
 
 `CharacterInstance.poisons`、`extraStatuses`、`extraPoisonRes` 可存在于运行中的世界快照，但恢复存档时
 必须对 party 与 reserve 全部清除，包含 `incurable` 毒；入口 `StartWorld.seedConditions` 也不得在读档时
 重新消费。该边界不同于战斗结束：战后只清定时状态、临时毒抗和 `common/severe` 毒，`incurable` 保留。
+
+## 边界与风险
+
+版本轴不混同；后台自动脚本可快照与交互/非可重入命令安全边界分别处理。旧 E2E 证据不升级当前前驱，恢复失败不能替换世界，毒/状态的 restore 清理不等于战后清理。若正文与当前 caller/结构 guard 冲突，先核相关修复卡和一手源码，再改规范或另开产品修复。
+
+## 验收
+
+本次只核公开类型、版本常量、codec 入口与正文保真。实际恢复事务、移动/动作重入和业务结束断言仍由原任务与真实测试/E2E 回执验证；未在本次执行。
 
 ### 实现锚点
 
