@@ -457,7 +457,7 @@
       },
       "evidence": {
         "kind": "static-semantic-migration-and-original-content-preservation",
-        "path": "docs/phase-governance/cross-phase-matrix.json",
+        "path": "docs/phase-governance/cross-phase-matrix.md",
         "sourceSha256": "2d530c4c6957618a54e8510520e482efd3f09a8fdb174def091e90a8805e1392",
         "afterSha256": "68548bed3b52f2b567173ee30dd47f5946fe7f0768694c1e83947625a8b63ed5",
         "lineCount": 70,
@@ -466,7 +466,13 @@
           "addedThisBatch": 0,
           "updatedThisBatch": 1,
           "other38ObjectsUnchanged": true,
-          "actualGFM": "Pending actual new rootN candidate check and scoped independent reception"
+          "actualGFM": "Actual M14 Marked check: one table/39 data rows, one changed/38 exact; current administrative reception still separately pending."
+        },
+        "machineSource": {
+          "path": "docs/phase-governance/cross-phase-matrix.json",
+          "sha256": "71dc29044158c4e9dc0f47b55a969ce09ac632efb936f702de93750f8754c7c5",
+          "lineCount": 1020,
+          "role": "Current39-relation SSOT, separate from MD projection subject SHA/70lines; no full underlying39-source rereview."
         }
       },
       "history": [
@@ -742,6 +748,28 @@
               "uniqueMatches": 1
             },
             "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Close C-M6-root-2/3 current GFM scope and MD subject/SHA binding only",
+          "completePrior": {
+            "kind": "complete-countered-immediate-current-in-reachable-fixed-git",
+            "revision": "dd0247e52662c3e11a7413875f649283f2a0a137",
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "gitObject": "0298b9572b973f566504481960dd46e74f645d8a",
+            "fileSha256": "587713da6e94bffcb6088ba93eb4d39235565453f4639603bae6f8851f793d27",
+            "selector": {
+              "entries.path": "docs/phase-governance/cross-phase-matrix.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "counterReportSha256": "bd5f5aec37a294896a2ecadfc575536d113de570b6f70ba2eab8145aa8f8e71a",
+          "actualGFMProof": {
+            "path": "/tmp/type-pal-m6-root-current-gfm-repair-check-20261016.json",
+            "sha256": "df331911a155aa9a54e30e7715129ba2897c46eabd3f05481842ca10248e8b3c"
           },
           "runtimeExecutionPerformed": false
         }
