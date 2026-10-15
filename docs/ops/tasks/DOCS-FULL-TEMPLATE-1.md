@@ -768,3 +768,11 @@ Branch: codex/docs-full-template-proposal
 - 非作者逐篇读新十正文/全部receipt/producer/newtest并核真实反例与零门后，根才接10/route10及SHA。此为设计/工具准入，不是本批migration accept；原K af42及旧分支回执保留。已准备三J配对MD仅/tmp候选（原134行inverse/纯model0），canonical仍未改/0新增信用；后继由根先补完整current record并非作者验收。goalactive/main未改，无用户转交。
 
 - L冻结首轮真实全门未过：76工具均过，但目录门指出reviews/README未列新设计页（1issue），不能因lint4099零诊断或puremodel0宣称通过；原失败log/tmp保留。根仅为当前reviews/README追加明确“设计而非implementation/迁移accept”入口，未将该未治理README冒计新迁移，补同步索引后重跑全部门。
+
+#### J三配对历史Markdown canonical候选
+
+- 根于稳定L冻结`5a125c375baa9dc907ddeb62865058ba8b830957`后按已准入J6白名单正式写三配对MD候选；既有evidence-receipt1.0+archive1.0，源固定33cc原134行，quote严格inverse/原标题live入口/原links均保留。三已接收JSON正文/47native字段/原source pins及原J0/J3当前记录不改，不拿其accept替新MD验收；候选complete-record仅在J控制mdPilotCandidates，未进entries/中央/route、0新增迁移。
+- 原9573/957与9081/728、8707/8215/686共享29=25+4与GLM42/41/75、8740/8248/701及wave2四维total/11files16tests13modules分义；原62/53/55warnings各6infos、109未重跑、raw36明确路径exists-only缺席和其它unknown、UI/zoom/boot/options/CI/full/Q1Q2边界保留。continuation正式新层两句较/tmp窄化为“覆盖工具执行测试项/生产文件”“原当时PAL current-r13-6b”，不改原quote。wave2源20df→05ef仅旧href时序，不刷旧账。
+- 根唯一Owner实际读源134与新三具体层，当前draft/非作者whole3及完整record/实际consumer/全门待验，global仍198/1838+4、L仍0/10。作者L隔离13文件不触J/中央；本包无产品、旧测试、coverage、旧工具、raw或浏览器执行，goalactive/main未改。
+
+- J-MD实际canonical consumer：三篇122/100/132行共354，新结构逐篇model0、原134行严格inverse、13原标题live入口/13原出链保留，全部41当前links/新增中文fragment由真实MarkedGFM核目标零问题；wholefile/精确原新L18证wave2旧href时序。首owned proof collector误把context hunk起点当18（实际15、变化行18）导致1假阴性，原script/完整firstproof保留，现改用父/后整文件SHA+唯一第18行和精确两href更严格核，未改任何正文/既有门/原账；corrected proof SHA`78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8`，仍非独立语义或中央信用。完整三preconsumer draft保历史，当前非作者whole3+完整record与全门待。

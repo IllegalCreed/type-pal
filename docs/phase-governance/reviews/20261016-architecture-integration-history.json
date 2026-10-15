@@ -6298,6 +6298,42 @@
       ],
       "scope": "Actual corrected lint4095 zero error/warning/info",
       "retention": "Immutable task evidence; first failure/history retained separately, no overwritten log/raw reconstruction."
+    },
+    "J-MD-preparatory-drafts": {
+      "path": "/tmp/type-pal-j-md-drafts-20261016/manifest.json",
+      "sha256": "d3d941a6a1ce8021426fb3dbc3dc894a7355a0a1e102680522398443aff0cdea",
+      "producer": "root Codex",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Historical preparatory tmp3 drafts, then canonical candidate3; continuation two phrases narrowed before formal copy, originals/tmp not rewritten",
+      "retention": "Retain exact tmp candidate source/first pure-consumer proof; current source remains actual fixed Git and canonical after SHA. No runtime/raw credit."
+    },
+    "type-pal-j-md-canonical-consumer-corrected-20261016.json": {
+      "path": "/tmp/type-pal-j-md-canonical-consumer-corrected-20261016.json",
+      "sha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+      "producer": "root Codex",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual canonical3 source/template/link/heading/fixedsourcehistory proof",
+      "retention": "Keep immutable first/corrected owned task evidence, no oldraw/product rerun or source rewrite."
+    },
+    "type-pal-j-md-canonical-consumer-20261016.json": {
+      "path": "/tmp/type-pal-j-md-canonical-consumer-20261016.json",
+      "sha256": "a1ed955f9f92752f74969a64a70623a4a9494ebaf8d3d4ecadcb0725a25b45b2",
+      "producer": "root Codex",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "First false-negative collector/hunk expectation preserved, not accepted as passing",
+      "retention": "Keep immutable first/corrected owned task evidence, no oldraw/product rerun or source rewrite."
     }
   },
   "contractDesignSnapshotPolicy": "contractDesign preserves the original implementation-candidate event including its pending state; actual current acceptance is implementation, not a retroactive design snapshot rewrite.",
@@ -8983,6 +9019,1815 @@
         "issues": []
       },
       "limits": "Corrected root candidate checks before this signoff metadata; final precommit rerun on final bytes. No product/oldtests/rawcontents/runtime/E2E/visual/coverage execution."
+    }
+  },
+  "mdPilotCandidates": {
+    "status": "draft canonical3 Markdown candidates; no central/routing entries and zero newly accepted migrations yet",
+    "base": "5a125c375baa9dc907ddeb62865058ba8b830957",
+    "owner": "root Codex",
+    "templateBinding": "evidence-receipt-v1/1.0.0 + archive-record-v1/1.0.0, existing exercised types",
+    "entries": [
+      {
+        "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "template": "docs/phase-governance/templates/evidence-receipt.md",
+        "historyOverlay": true,
+        "historyOverlayTemplateId": "archive-record-v1",
+        "historyOverlayVersion": "1.0.0",
+        "templateCompliance": "template-compliant",
+        "reviewDepth": "deep-semantic",
+        "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+        "coreConclusion": "这是剩余八项架构治理的历史统一集成回执。原Owner为Codex；原文记2026-09-26用户追加集成授权，未据此补造独立执行日期。候选f884e07c、保护origin/main@2647960455ad3e4d67471ff70019ef0bf89dbd8b、验证合并树a2485e7d各守原身份；原主卡done/十三批完成只属于该时点。",
+        "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+        "owner": "Codex (current document author/integration only)",
+        "originalIdentity": {
+          "documentOwnerAndRoles": "Codex, explicit Chinese Owner line3; original user integration authority only for original dated event",
+          "originalH1": "# 架构治理剩余八项统一集成",
+          "originalH2": ["范围与来源", "统一质量门", "保留边界"],
+          "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+        },
+        "provenance": [
+          {
+            "date": "2026-10-16",
+            "actor": "root Codex",
+            "role": "Markdown governance author",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+            "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+            "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+            "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+          },
+          {
+            "role": "paired native source evidence prior independent audit",
+            "reviewer": "receipt_review",
+            "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+            "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+            "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+          }
+        ],
+        "primarySource": [
+          {
+            "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "gitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+            "sha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+            "lines": "1-50"
+          },
+          {
+            "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+            "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+            "sha256": "bac1d175c8d6d3c9d6607d820b8245af8e65decee8054bb27697810e03509175",
+            "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+          }
+        ],
+        "truthAnchors": [
+          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json:1",
+          "docs/ops/agent-workflow.md:1",
+          "docs/testing/governance.md:1"
+        ],
+        "phaseAnchors": {
+          "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+          "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+          "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+          "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+        },
+        "dependencies": [
+          "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+          "docs/testing/domains/runtime/world/world-runtime/report.md",
+          "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+          "docs/testing/domains/editor/commands/command-form-families/report.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+          "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+          "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+          "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+          "docs/ops/agent-workflow.md",
+          "docs/testing/governance.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ],
+        "applicability": {
+          "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+          "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+          "counts": {
+            "fullCheck": {
+              "tests": 9573,
+              "testFiles": 957
+            },
+            "coverage": {
+              "tests": 9081,
+              "productionFiles": 728
+            },
+            "historicalDiagnostics": {
+              "warnings": 62,
+              "infos": 6
+            },
+            "counterNeedles": {
+              "count": 109,
+              "rerunInOriginalIntegration": false,
+              "rerunNow": false
+            },
+            "historicalVersions": {
+              "content": 20,
+              "save": 8
+            }
+          },
+          "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+        },
+        "publicEntry": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "publicCallers": [
+          "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+          "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+        ],
+        "legalInputs": [
+          "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+          "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+          "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+        ],
+        "businessOracle": {
+          "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+          "assertions": [
+            "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+            "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+            "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+            "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+          ]
+        },
+        "dedupe": {
+          "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+          "against": [
+            "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+            "docs/testing/domains/runtime/world/world-runtime/report.md",
+            "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+            "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+            "docs/testing/domains/editor/commands/command-form-families/report.md",
+            "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+            "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+            "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+            "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "specific": {
+            "fullCheck": {
+              "tests": 9573,
+              "testFiles": 957
+            },
+            "coverage": {
+              "tests": 9081,
+              "productionFiles": 728
+            },
+            "historicalDiagnostics": {
+              "warnings": 62,
+              "infos": 6
+            },
+            "counterNeedles": {
+              "count": 109,
+              "rerunInOriginalIntegration": false,
+              "rerunNow": false
+            },
+            "historicalVersions": {
+              "content": 20,
+              "save": 8
+            }
+          }
+        },
+        "counterReworkBlocked": {
+          "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+          "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+          "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+        },
+        "unresolved": [
+          "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+          "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+          "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+        ],
+        "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+        "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+        "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+        "revision": {
+          "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "implementationSha": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Actual historical Markdown template candidate",
+              "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+              "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+              "executionPerformed": false
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+          "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+          "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+          "sourceLines": 50,
+          "lineCount": 122,
+          "quoteInverseSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+          "quoteInverseExact": true,
+          "pairedNativeAfterSha256": "bac1d175c8d6d3c9d6607d820b8245af8e65decee8054bb27697810e03509175",
+          "currentConsumer": {
+            "result": "actual canonical per-document model0/sourcequote inverse134/original13 headings/13source-links and41current-links all preserved/real GFM targets and exact Chinese fragments0",
+            "proof": "/tmp/type-pal-j-md-canonical-consumer-corrected-20261016.json",
+            "sha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+            "observation": {
+              "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+              "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+              "sourceLines": 50,
+              "afterLines": 122,
+              "sourceInverseExact": true,
+              "sourceHeadingCount": 4,
+              "allOriginalLiveHeadingAliases": 4,
+              "sourceLinks": 9,
+              "allCurrentLinks": 18,
+              "sourceOriginalHrefMultisetRetained": true,
+              "modelIssues": [],
+              "issues": []
+            },
+            "scope": "Actual source/structure/byte/link proof only; non-author semantics and current-record acceptance still pending"
+          }
+        },
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "Retain original historical event and all exact original prose under archive overlay",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+            "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+            "executionPerformed": false
+          }
+        ],
+        "supersedes": [],
+        "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+        "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+        "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+        "userVisibleBeforeAfter": {
+          "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+          "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+          "sourceSpecificCounts": {
+            "fullCheck": {
+              "tests": 9573,
+              "testFiles": 957
+            },
+            "coverage": {
+              "tests": 9081,
+              "productionFiles": 728
+            },
+            "historicalDiagnostics": {
+              "warnings": 62,
+              "infos": 6
+            },
+            "counterNeedles": {
+              "count": 109,
+              "rerunInOriginalIntegration": false,
+              "rerunNow": false
+            },
+            "historicalVersions": {
+              "content": 20,
+              "save": 8
+            }
+          }
+        },
+        "reviewedLines": "1-122",
+        "phase": "testing",
+        "module": "historical-architecture-integration-markdown",
+        "templateConformity": {
+          "result": "template-compliant candidate structure; no current central migration credit",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "requiredSections": [
+            "证据身份",
+            "来源与输入",
+            "断言与业务 oracle",
+            "结果",
+            "限制与复核",
+            "历史范围",
+            "原始结论",
+            "当时证据",
+            "当前有效性",
+            "继任文档"
+          ],
+          "method": "Actual current canonical shared model0 per-document, full134source inverse, live13originalheadings and13sourcelinks preserved in41currentlinks, real GFM target/fragments0. Specific historical meaning and complete record still pending non-author review."
+        },
+        "sourceHeadingAliases": ["范围与来源", "统一质量门", "保留边界"],
+        "sourceOriginalLinkTargets": [
+          "../../editor/testing-records/architecture-continuation-integration-evidence.json",
+          "../../../../domains/runtime/world/world-runtime/report.md",
+          "../../editor/editor-workflows/editor-app-sessions-refactor.md",
+          "../../../../domains/editor/map/map-workspace-sessions/report.md",
+          "../../../../domains/editor/commands/command-form-families/report.md",
+          "../../../../domains/runtime/battle/battle-session-owners/report.md",
+          "../../runtime/engine-boundaries/phase1-main-owners-refactor.md",
+          "../../migration/supply-and-import/migration-phase-owners-refactor.md",
+          "../../editor/editor-workflows/design-system-audit-layering-refactor.md"
+        ]
+      },
+      {
+        "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+        "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "template": "docs/phase-governance/templates/evidence-receipt.md",
+        "historyOverlay": true,
+        "historyOverlayTemplateId": "archive-record-v1",
+        "historyOverlayVersion": "1.0.0",
+        "templateCompliance": "template-compliant",
+        "reviewDepth": "deep-semantic",
+        "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+        "coreConclusion": "2026-09-26的Cursor24组独立验收与集成回执。作者候选fc09645e，Codex在e0c3b6d0先合D1/E2后accept、R1–R3闭合；原文没有独立Owner元数据，不能由Codex验收叙述倒填索引原作者。本轮治理Owner另列。",
+        "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+        "owner": "Codex (current document author/integration only)",
+        "originalIdentity": {
+          "documentOwnerAndRoles": "No explicit document Owner header; Cursor implementation contributor and Codex original independent reviewer, no document-author inference",
+          "originalH1": "# Cursor 24组架构整理 · 独立验收与集成",
+          "originalH2": ["窄返工结论", "独立执行", "最小功能实测"],
+          "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+        },
+        "provenance": [
+          {
+            "date": "2026-10-16",
+            "actor": "root Codex",
+            "role": "Markdown governance author",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+            "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+            "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+            "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+          },
+          {
+            "role": "paired native source evidence prior independent audit",
+            "reviewer": "receipt_review",
+            "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+            "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+            "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+          }
+        ],
+        "primarySource": [
+          {
+            "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "gitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+            "sha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+            "lines": "1-28"
+          },
+          {
+            "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+            "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+            "sha256": "3bfa4249709b14dfabc8ce47607067fac970ef93087abfa71c91bdc9ae1c3c46",
+            "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+          },
+          {
+            "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+            "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+            "gitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+            "sourceLines": 48,
+            "scope": "Original completion source previously actually read; shared8707/8215/686/new29=25+4 and GLM42/41/75 attribution. Not newly rerun and no broad lab/runtime audit."
+          }
+        ],
+        "truthAnchors": [
+          "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json:1",
+          "docs/ops/agent-workflow.md:1",
+          "docs/testing/governance.md:1"
+        ],
+        "phaseAnchors": {
+          "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+          "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+          "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+          "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+        },
+        "dependencies": [
+          "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+          "docs/ops/agent-workflow.md",
+          "docs/testing/governance.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ],
+        "applicability": {
+          "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+          "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+          "counts": {
+            "editorCheck": {
+              "testFiles": 313,
+              "tests": 2813
+            },
+            "sharedWholeCheck": 8707,
+            "sharedStrictFast": {
+              "tests": 8215,
+              "productionFiles": 686
+            },
+            "newTests": {
+              "Cursor": 25,
+              "GLM": 4,
+              "sharedTotal": 29
+            },
+            "CursorProductionModules": 32,
+            "CursorGroups": 24,
+            "judgeSelfCases": 8,
+            "historicalDiagnostics": {
+              "warnings": 53,
+              "infos": 6,
+              "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+            },
+            "separateGLMLab": {
+              "candidate": 42,
+              "formal": 41,
+              "ledgerRows": 75
+            }
+          },
+          "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+        },
+        "publicEntry": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+        "publicCallers": [
+          "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+          "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+        ],
+        "legalInputs": [
+          "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+          "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+          "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+        ],
+        "businessOracle": {
+          "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+          "assertions": [
+            "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+            "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+            "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+            "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+          ]
+        },
+        "dedupe": {
+          "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+          "against": [
+            "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "specific": {
+            "editorCheck": {
+              "testFiles": 313,
+              "tests": 2813
+            },
+            "sharedWholeCheck": 8707,
+            "sharedStrictFast": {
+              "tests": 8215,
+              "productionFiles": 686
+            },
+            "newTests": {
+              "Cursor": 25,
+              "GLM": 4,
+              "sharedTotal": 29
+            },
+            "CursorProductionModules": 32,
+            "CursorGroups": 24,
+            "judgeSelfCases": 8,
+            "historicalDiagnostics": {
+              "warnings": 53,
+              "infos": 6,
+              "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+            },
+            "separateGLMLab": {
+              "candidate": 42,
+              "formal": 41,
+              "ledgerRows": 75
+            }
+          }
+        },
+        "counterReworkBlocked": {
+          "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+          "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+          "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+        },
+        "unresolved": [
+          "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+          "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+          "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+        ],
+        "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+        "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+        "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+        "revision": {
+          "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "implementationSha": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Actual historical Markdown template candidate",
+              "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+              "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+              "executionPerformed": false
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+          "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+          "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+          "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+          "sourceLines": 28,
+          "lineCount": 100,
+          "quoteInverseSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+          "quoteInverseExact": true,
+          "pairedNativeAfterSha256": "3bfa4249709b14dfabc8ce47607067fac970ef93087abfa71c91bdc9ae1c3c46",
+          "currentConsumer": {
+            "result": "actual canonical per-document model0/sourcequote inverse134/original13 headings/13source-links and41current-links all preserved/real GFM targets and exact Chinese fragments0",
+            "proof": "/tmp/type-pal-j-md-canonical-consumer-corrected-20261016.json",
+            "sha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+            "observation": {
+              "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+              "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+              "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+              "sourceLines": 28,
+              "afterLines": 100,
+              "sourceInverseExact": true,
+              "sourceHeadingCount": 4,
+              "allOriginalLiveHeadingAliases": 4,
+              "sourceLinks": 1,
+              "allCurrentLinks": 10,
+              "sourceOriginalHrefMultisetRetained": true,
+              "modelIssues": [],
+              "issues": []
+            },
+            "scope": "Actual source/structure/byte/link proof only; non-author semantics and current-record acceptance still pending"
+          }
+        },
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "Retain original historical event and all exact original prose under archive overlay",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+            "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+            "executionPerformed": false
+          }
+        ],
+        "supersedes": [],
+        "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+        "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+        "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+        "userVisibleBeforeAfter": {
+          "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+          "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+          "sourceSpecificCounts": {
+            "editorCheck": {
+              "testFiles": 313,
+              "tests": 2813
+            },
+            "sharedWholeCheck": 8707,
+            "sharedStrictFast": {
+              "tests": 8215,
+              "productionFiles": 686
+            },
+            "newTests": {
+              "Cursor": 25,
+              "GLM": 4,
+              "sharedTotal": 29
+            },
+            "CursorProductionModules": 32,
+            "CursorGroups": 24,
+            "judgeSelfCases": 8,
+            "historicalDiagnostics": {
+              "warnings": 53,
+              "infos": 6,
+              "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+            },
+            "separateGLMLab": {
+              "candidate": 42,
+              "formal": 41,
+              "ledgerRows": 75
+            }
+          }
+        },
+        "reviewedLines": "1-100",
+        "phase": "testing",
+        "module": "historical-architecture-integration-markdown",
+        "templateConformity": {
+          "result": "template-compliant candidate structure; no current central migration credit",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "requiredSections": [
+            "证据身份",
+            "来源与输入",
+            "断言与业务 oracle",
+            "结果",
+            "限制与复核",
+            "历史范围",
+            "原始结论",
+            "当时证据",
+            "当前有效性",
+            "继任文档"
+          ],
+          "method": "Actual current canonical shared model0 per-document, full134source inverse, live13originalheadings and13sourcelinks preserved in41currentlinks, real GFM target/fragments0. Specific historical meaning and complete record still pending non-author review."
+        },
+        "sourceHeadingAliases": ["窄返工结论", "独立执行", "最小功能实测"],
+        "sourceOriginalLinkTargets": [
+          "../../editor/testing-records/architecture-intake-completion-evidence.json"
+        ]
+      },
+      {
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+        "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "template": "docs/phase-governance/templates/evidence-receipt.md",
+        "historyOverlay": true,
+        "historyOverlayTemplateId": "archive-record-v1",
+        "historyOverlayVersion": "1.0.0",
+        "templateCompliance": "template-compliant",
+        "reviewDepth": "deep-semantic",
+        "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+        "coreConclusion": "2026-09-26的Cursor九组命令拆分最终历史接收。Cursor为实现贡献者，Codex为原独立验收；候选2022acc3、产品主体6952ffee、集成96e9d3c1与后续推送af135d8c各属不同事件。原accept/R1–R3闭合/ARCH-F2-CURSOR-BATCH-2 done仅对当时限定范围有效。",
+        "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+        "owner": "Codex (current document author/integration only)",
+        "originalIdentity": {
+          "documentOwnerAndRoles": "No explicit document Owner header; Cursor implementation/Codex independent reviewer are original body roles, not inferred writing authors",
+          "originalH1": "# Cursor 九组编辑命令拆分 · 最终接收",
+          "originalH2": ["实现与返工", "验证", "最小功能", "收口边界"],
+          "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+        },
+        "provenance": [
+          {
+            "date": "2026-10-16",
+            "actor": "root Codex",
+            "role": "Markdown governance author",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+            "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+            "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+            "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+          },
+          {
+            "role": "paired native source evidence prior independent audit",
+            "reviewer": "receipt_review",
+            "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+            "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+            "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+          }
+        ],
+        "primarySource": [
+          {
+            "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "gitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+            "sha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+            "lines": "1-56"
+          },
+          {
+            "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+            "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+            "sha256": "6658d23bbdd36dfde04ad65a6d769a77972286ed28fe7e6cd730c94db7a2ef28",
+            "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+          }
+        ],
+        "truthAnchors": [
+          "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json:1",
+          "docs/ops/agent-workflow.md:1",
+          "docs/testing/governance.md:1"
+        ],
+        "phaseAnchors": {
+          "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+          "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+          "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+          "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+        },
+        "dependencies": [
+          "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
+          "docs/testing/domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+          "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+          "docs/ops/agent-workflow.md",
+          "docs/testing/governance.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ],
+        "applicability": {
+          "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+          "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+          "counts": {
+            "editorCheck": {
+              "testFiles": 324,
+              "tests": 2829
+            },
+            "wholeCheck": 8740,
+            "strictFast": {
+              "tests": 8248,
+              "productionFiles": 701
+            },
+            "newRegression": {
+              "testFiles": 11,
+              "tests": 16,
+              "productionModules": 13,
+              "newCoveredLinesOrBranches": false
+            },
+            "historicalDiagnostics": {
+              "warnings": 55,
+              "infos": 6
+            },
+            "judgeCases": 15,
+            "independentNeedles": 5,
+            "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+            "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+          },
+          "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+        },
+        "publicEntry": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+        "publicCallers": [
+          "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+          "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+        ],
+        "legalInputs": [
+          "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+          "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+          "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+        ],
+        "businessOracle": {
+          "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+          "assertions": [
+            "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+            "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+            "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+            "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+          ]
+        },
+        "dedupe": {
+          "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+          "against": [
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
+            "docs/testing/domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "specific": {
+            "editorCheck": {
+              "testFiles": 324,
+              "tests": 2829
+            },
+            "wholeCheck": 8740,
+            "strictFast": {
+              "tests": 8248,
+              "productionFiles": 701
+            },
+            "newRegression": {
+              "testFiles": 11,
+              "tests": 16,
+              "productionModules": 13,
+              "newCoveredLinesOrBranches": false
+            },
+            "historicalDiagnostics": {
+              "warnings": 55,
+              "infos": 6
+            },
+            "judgeCases": 15,
+            "independentNeedles": 5,
+            "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+            "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+          }
+        },
+        "counterReworkBlocked": {
+          "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+          "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+          "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+        },
+        "unresolved": [
+          "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+          "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+          "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+        ],
+        "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+        "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+        "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+        "revision": {
+          "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "implementationSha": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Actual historical Markdown template candidate",
+              "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+              "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+              "executionPerformed": false
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+          "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+          "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+          "sourceLines": 56,
+          "lineCount": 132,
+          "quoteInverseSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+          "quoteInverseExact": true,
+          "pairedNativeAfterSha256": "6658d23bbdd36dfde04ad65a6d769a77972286ed28fe7e6cd730c94db7a2ef28",
+          "currentConsumer": {
+            "result": "actual canonical per-document model0/sourcequote inverse134/original13 headings/13source-links and41current-links all preserved/real GFM targets and exact Chinese fragments0",
+            "proof": "/tmp/type-pal-j-md-canonical-consumer-corrected-20261016.json",
+            "sha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+            "observation": {
+              "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+              "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+              "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+              "sourceLines": 56,
+              "afterLines": 132,
+              "sourceInverseExact": true,
+              "sourceHeadingCount": 5,
+              "allOriginalLiveHeadingAliases": 5,
+              "sourceLinks": 3,
+              "allCurrentLinks": 13,
+              "sourceOriginalHrefMultisetRetained": true,
+              "modelIssues": [],
+              "historicalHrefDelta": "diff --git a/docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md b/docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md\nindex 484c91555..d17bd7716 100644\n--- a/docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md\n+++ b/docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md\n@@ -15,7 +15,7 @@ Cursor是实现贡献者，其自验不是独立审查；以下为Codex实跑/\n - R2：C1正式seed→loader→toEditorState，实际输入独立快照、顺序/返回状态断言通过；2/2及TC0。\n - R3：回执归入专属receipt.md，内部及任务链接正确，docs/diff通过；旧紧凑摘要是历史实跑，不冒称本轮新输出。\n \n-首轮反证与事实见[审查](cursor-commands-wave2-review.md)；[独立工具](../../../../cursor-commands-wave2-audit.mjs)\n+首轮反证与事实见[审查](cursor-commands-wave2-review.md)；[独立工具](../../../../domains/editor/editor-workflows/tools/commands-wave2-audit.mjs)\n 补加载r2新增的实际判据helper，没有另写一个更强谓词代替作者函数。已过产品搬移不重做。\n \n ## 验证\n",
+              "issues": []
+            },
+            "scope": "Actual source/structure/byte/link proof only; non-author semantics and current-record acceptance still pending"
+          }
+        },
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "Retain original historical event and all exact original prose under archive overlay",
+            "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+            "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+            "executionPerformed": false
+          }
+        ],
+        "supersedes": [],
+        "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+        "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+        "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+        "userVisibleBeforeAfter": {
+          "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+          "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+          "sourceSpecificCounts": {
+            "editorCheck": {
+              "testFiles": 324,
+              "tests": 2829
+            },
+            "wholeCheck": 8740,
+            "strictFast": {
+              "tests": 8248,
+              "productionFiles": 701
+            },
+            "newRegression": {
+              "testFiles": 11,
+              "tests": 16,
+              "productionModules": 13,
+              "newCoveredLinesOrBranches": false
+            },
+            "historicalDiagnostics": {
+              "warnings": 55,
+              "infos": 6
+            },
+            "judgeCases": 15,
+            "independentNeedles": 5,
+            "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+            "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+          }
+        },
+        "reviewedLines": "1-132",
+        "phase": "testing",
+        "module": "historical-architecture-integration-markdown",
+        "templateConformity": {
+          "result": "template-compliant candidate structure; no current central migration credit",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "requiredSections": [
+            "证据身份",
+            "来源与输入",
+            "断言与业务 oracle",
+            "结果",
+            "限制与复核",
+            "历史范围",
+            "原始结论",
+            "当时证据",
+            "当前有效性",
+            "继任文档"
+          ],
+          "method": "Actual current canonical shared model0 per-document, full134source inverse, live13originalheadings and13sourcelinks preserved in41currentlinks, real GFM target/fragments0. Specific historical meaning and complete record still pending non-author review."
+        },
+        "sourceHeadingAliases": ["实现与返工", "验证", "最小功能", "收口边界"],
+        "sourceOriginalLinkTargets": [
+          "cursor-commands-wave2-review.md",
+          "../../../../domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+          "cursor-commands-wave2-integration-evidence.json"
+        ],
+        "sourceCaptureHistory": {
+          "storedOldSha256": "20df0d4866e40b48ea7fd5bbc40301af8c80881bf1789c08d703ad490653b5c6",
+          "oldGitObject": "484c91555ee92d4345eee5b0a121eb3a78ccc282",
+          "pathCorrectionCommit": "4548a895b1ef23e3fd0cd051d9208194be0366ce",
+          "currentReviewedSourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+          "currentReviewedSourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+          "meaning": "Original capture→33cc SHA difference is only prior line18 href correction in Git, no native JSON/body-result/execution change. Do not rewrite historical ledger to current sourceSHA."
+        }
+      }
+    ],
+    "pairedNativeBodiesUnchanged": true,
+    "nativePilotAcceptanceIsNotMarkdownAcceptance": true,
+    "nextStep": "Non-author whole3 source/current/newrecord semantic review and actual current consumers before central admission",
+    "beforeActualCanonicalConsumer": {
+      "kind": "complete-historical-admission-draft-records",
+      "scope": "Full3 draft records before actual current canonical observations, retained verbatim; no current acceptance at that event",
+      "entries": [
+        {
+          "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+          "contentReviewStatus": "partial-review-unknown",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/evidence-receipt.md",
+          "historyOverlay": true,
+          "historyOverlayTemplateId": "archive-record-v1",
+          "historyOverlayVersion": "1.0.0",
+          "templateCompliance": "template-compliant",
+          "reviewDepth": "deep-semantic",
+          "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+          "coreConclusion": "这是剩余八项架构治理的历史统一集成回执。原Owner为Codex；原文记2026-09-26用户追加集成授权，未据此补造独立执行日期。候选f884e07c、保护origin/main@2647960455ad3e4d67471ff70019ef0bf89dbd8b、验证合并树a2485e7d各守原身份；原主卡done/十三批完成只属于该时点。",
+          "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+          "owner": "Codex (current document author/integration only)",
+          "originalIdentity": {
+            "documentOwnerAndRoles": "Codex, explicit Chinese Owner line3; original user integration authority only for original dated event",
+            "originalH1": "# 架构治理剩余八项统一集成",
+            "originalH2": ["范围与来源", "统一质量门", "保留边界"],
+            "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+          },
+          "provenance": [
+            {
+              "date": "2026-10-16",
+              "actor": "root Codex",
+              "role": "Markdown governance author",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+              "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+              "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+              "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+            },
+            {
+              "role": "paired native source evidence prior independent audit",
+              "reviewer": "receipt_review",
+              "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+              "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+              "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+            }
+          ],
+          "primarySource": [
+            {
+              "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "gitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+              "sha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+              "lines": "1-50"
+            },
+            {
+              "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+              "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+              "sha256": "bac1d175c8d6d3c9d6607d820b8245af8e65decee8054bb27697810e03509175",
+              "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+            }
+          ],
+          "truthAnchors": [
+            "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json:1",
+            "docs/ops/agent-workflow.md:1",
+            "docs/testing/governance.md:1"
+          ],
+          "phaseAnchors": {
+            "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+            "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+            "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+            "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+          },
+          "dependencies": [
+            "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+            "docs/testing/domains/runtime/world/world-runtime/report.md",
+            "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+            "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+            "docs/testing/domains/editor/commands/command-form-families/report.md",
+            "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+            "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+            "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+            "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": {
+            "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+            "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+            "counts": {
+              "fullCheck": {
+                "tests": 9573,
+                "testFiles": 957
+              },
+              "coverage": {
+                "tests": 9081,
+                "productionFiles": 728
+              },
+              "historicalDiagnostics": {
+                "warnings": 62,
+                "infos": 6
+              },
+              "counterNeedles": {
+                "count": 109,
+                "rerunInOriginalIntegration": false,
+                "rerunNow": false
+              },
+              "historicalVersions": {
+                "content": 20,
+                "save": 8
+              }
+            },
+            "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+          },
+          "publicEntry": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "publicCallers": [
+            "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+            "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+          ],
+          "legalInputs": [
+            "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+            "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+            "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+          ],
+          "businessOracle": {
+            "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+            "assertions": [
+              "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+              "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+              "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+              "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+            ]
+          },
+          "dedupe": {
+            "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+            "against": [
+              "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+              "docs/testing/domains/runtime/world/world-runtime/report.md",
+              "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+              "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+              "docs/testing/domains/editor/commands/command-form-families/report.md",
+              "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+              "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+              "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+              "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+              "docs/ops/agent-workflow.md",
+              "docs/testing/governance.md",
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+            ],
+            "specific": {
+              "fullCheck": {
+                "tests": 9573,
+                "testFiles": 957
+              },
+              "coverage": {
+                "tests": 9081,
+                "productionFiles": 728
+              },
+              "historicalDiagnostics": {
+                "warnings": 62,
+                "infos": 6
+              },
+              "counterNeedles": {
+                "count": 109,
+                "rerunInOriginalIntegration": false,
+                "rerunNow": false
+              },
+              "historicalVersions": {
+                "content": 20,
+                "save": 8
+              }
+            }
+          },
+          "counterReworkBlocked": {
+            "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+            "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+            "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+          },
+          "unresolved": [
+            "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+            "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+            "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+          ],
+          "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+          "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+          "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+          "revision": {
+            "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "implementationSha": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "Actual historical Markdown template candidate",
+                "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+                "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+                "executionPerformed": false
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+            "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+            "sourceSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+            "afterSha256": "39afe0c26ec8aa113102f23f35cfac729815359195689976034cd3f91ab7e84d",
+            "sourceLines": 50,
+            "lineCount": 122,
+            "quoteInverseSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189",
+            "quoteInverseExact": true,
+            "pairedNativeAfterSha256": "bac1d175c8d6d3c9d6607d820b8245af8e65decee8054bb27697810e03509175",
+            "currentConsumer": "Pending actual canonical pure model/GFM after write; prior tmp draft puremodel0 not used as current gate"
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Retain original historical event and all exact original prose under archive overlay",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "8c7a915202c79d2e5f03b5123be87007102887b5",
+              "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+          "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+          "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+          "userVisibleBeforeAfter": {
+            "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+            "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+            "sourceSpecificCounts": {
+              "fullCheck": {
+                "tests": 9573,
+                "testFiles": 957
+              },
+              "coverage": {
+                "tests": 9081,
+                "productionFiles": 728
+              },
+              "historicalDiagnostics": {
+                "warnings": 62,
+                "infos": 6
+              },
+              "counterNeedles": {
+                "count": 109,
+                "rerunInOriginalIntegration": false,
+                "rerunNow": false
+              },
+              "historicalVersions": {
+                "content": 20,
+                "save": 8
+              }
+            }
+          },
+          "reviewedLines": "1-122",
+          "phase": "testing",
+          "module": "historical-architecture-integration-markdown",
+          "templateConformity": {
+            "result": "template-compliant candidate structure; no current central migration credit",
+            "templateId": "evidence-receipt-v1",
+            "templateVersion": "1.0.0",
+            "historyOverlay": "archive-record-v1/1.0.0",
+            "requiredSections": [
+              "证据身份",
+              "来源与输入",
+              "断言与业务 oracle",
+              "结果",
+              "限制与复核",
+              "历史范围",
+              "原始结论",
+              "当时证据",
+              "当前有效性",
+              "继任文档"
+            ],
+            "method": "Actual source-specific authored sections; current canonical consumer and independent semantic review pending"
+          },
+          "sourceHeadingAliases": ["范围与来源", "统一质量门", "保留边界"],
+          "sourceOriginalLinkTargets": [
+            "../../editor/testing-records/architecture-continuation-integration-evidence.json",
+            "../../../../domains/runtime/world/world-runtime/report.md",
+            "../../editor/editor-workflows/editor-app-sessions-refactor.md",
+            "../../../../domains/editor/map/map-workspace-sessions/report.md",
+            "../../../../domains/editor/commands/command-form-families/report.md",
+            "../../../../domains/runtime/battle/battle-session-owners/report.md",
+            "../../runtime/engine-boundaries/phase1-main-owners-refactor.md",
+            "../../migration/supply-and-import/migration-phase-owners-refactor.md",
+            "../../editor/editor-workflows/design-system-audit-layering-refactor.md"
+          ]
+        },
+        {
+          "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+          "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+          "contentReviewStatus": "partial-review-unknown",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/evidence-receipt.md",
+          "historyOverlay": true,
+          "historyOverlayTemplateId": "archive-record-v1",
+          "historyOverlayVersion": "1.0.0",
+          "templateCompliance": "template-compliant",
+          "reviewDepth": "deep-semantic",
+          "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+          "coreConclusion": "2026-09-26的Cursor24组独立验收与集成回执。作者候选fc09645e，Codex在e0c3b6d0先合D1/E2后accept、R1–R3闭合；原文没有独立Owner元数据，不能由Codex验收叙述倒填索引原作者。本轮治理Owner另列。",
+          "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+          "owner": "Codex (current document author/integration only)",
+          "originalIdentity": {
+            "documentOwnerAndRoles": "No explicit document Owner header; Cursor implementation contributor and Codex original independent reviewer, no document-author inference",
+            "originalH1": "# Cursor 24组架构整理 · 独立验收与集成",
+            "originalH2": ["窄返工结论", "独立执行", "最小功能实测"],
+            "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+          },
+          "provenance": [
+            {
+              "date": "2026-10-16",
+              "actor": "root Codex",
+              "role": "Markdown governance author",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+              "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+              "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+              "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+            },
+            {
+              "role": "paired native source evidence prior independent audit",
+              "reviewer": "receipt_review",
+              "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+              "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+              "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+            }
+          ],
+          "primarySource": [
+            {
+              "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+              "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "gitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+              "sha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+              "lines": "1-28"
+            },
+            {
+              "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+              "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+              "sha256": "3bfa4249709b14dfabc8ce47607067fac970ef93087abfa71c91bdc9ae1c3c46",
+              "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+            },
+            {
+              "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+              "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+              "gitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+              "sourceLines": 48,
+              "scope": "Original completion source previously actually read; shared8707/8215/686/new29=25+4 and GLM42/41/75 attribution. Not newly rerun and no broad lab/runtime audit."
+            }
+          ],
+          "truthAnchors": [
+            "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json:1",
+            "docs/ops/agent-workflow.md:1",
+            "docs/testing/governance.md:1"
+          ],
+          "phaseAnchors": {
+            "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+            "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+            "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+            "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+          },
+          "dependencies": [
+            "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": {
+            "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+            "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+            "counts": {
+              "editorCheck": {
+                "testFiles": 313,
+                "tests": 2813
+              },
+              "sharedWholeCheck": 8707,
+              "sharedStrictFast": {
+                "tests": 8215,
+                "productionFiles": 686
+              },
+              "newTests": {
+                "Cursor": 25,
+                "GLM": 4,
+                "sharedTotal": 29
+              },
+              "CursorProductionModules": 32,
+              "CursorGroups": 24,
+              "judgeSelfCases": 8,
+              "historicalDiagnostics": {
+                "warnings": 53,
+                "infos": 6,
+                "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+              },
+              "separateGLMLab": {
+                "candidate": 42,
+                "formal": 41,
+                "ledgerRows": 75
+              }
+            },
+            "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+          },
+          "publicEntry": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+          "publicCallers": [
+            "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+            "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+          ],
+          "legalInputs": [
+            "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+            "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+            "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+          ],
+          "businessOracle": {
+            "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+            "assertions": [
+              "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+              "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+              "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+              "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+            ]
+          },
+          "dedupe": {
+            "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+            "against": [
+              "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+              "docs/ops/agent-workflow.md",
+              "docs/testing/governance.md",
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+            ],
+            "specific": {
+              "editorCheck": {
+                "testFiles": 313,
+                "tests": 2813
+              },
+              "sharedWholeCheck": 8707,
+              "sharedStrictFast": {
+                "tests": 8215,
+                "productionFiles": 686
+              },
+              "newTests": {
+                "Cursor": 25,
+                "GLM": 4,
+                "sharedTotal": 29
+              },
+              "CursorProductionModules": 32,
+              "CursorGroups": 24,
+              "judgeSelfCases": 8,
+              "historicalDiagnostics": {
+                "warnings": 53,
+                "infos": 6,
+                "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+              },
+              "separateGLMLab": {
+                "candidate": 42,
+                "formal": 41,
+                "ledgerRows": 75
+              }
+            }
+          },
+          "counterReworkBlocked": {
+            "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+            "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+            "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+          },
+          "unresolved": [
+            "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+            "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+            "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+          ],
+          "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+          "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+          "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+          "revision": {
+            "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "implementationSha": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "Actual historical Markdown template candidate",
+                "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+                "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+                "executionPerformed": false
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+            "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+            "sourceSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+            "afterSha256": "089b3b673ffb417154a17dc315fd3e823235521d9da5108827f4469ace8e20b9",
+            "sourceLines": 28,
+            "lineCount": 100,
+            "quoteInverseSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391",
+            "quoteInverseExact": true,
+            "pairedNativeAfterSha256": "3bfa4249709b14dfabc8ce47607067fac970ef93087abfa71c91bdc9ae1c3c46",
+            "currentConsumer": "Pending actual canonical pure model/GFM after write; prior tmp draft puremodel0 not used as current gate"
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Retain original historical event and all exact original prose under archive overlay",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "92fc4b18235380fa3ea96f035bb88f7361f2cb5c",
+              "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+          "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+          "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+          "userVisibleBeforeAfter": {
+            "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+            "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+            "sourceSpecificCounts": {
+              "editorCheck": {
+                "testFiles": 313,
+                "tests": 2813
+              },
+              "sharedWholeCheck": 8707,
+              "sharedStrictFast": {
+                "tests": 8215,
+                "productionFiles": 686
+              },
+              "newTests": {
+                "Cursor": 25,
+                "GLM": 4,
+                "sharedTotal": 29
+              },
+              "CursorProductionModules": 32,
+              "CursorGroups": 24,
+              "judgeSelfCases": 8,
+              "historicalDiagnostics": {
+                "warnings": 53,
+                "infos": 6,
+                "source": "paired native JSON; prose separately records5 mutation-literal warnings"
+              },
+              "separateGLMLab": {
+                "candidate": 42,
+                "formal": 41,
+                "ledgerRows": 75
+              }
+            }
+          },
+          "reviewedLines": "1-100",
+          "phase": "testing",
+          "module": "historical-architecture-integration-markdown",
+          "templateConformity": {
+            "result": "template-compliant candidate structure; no current central migration credit",
+            "templateId": "evidence-receipt-v1",
+            "templateVersion": "1.0.0",
+            "historyOverlay": "archive-record-v1/1.0.0",
+            "requiredSections": [
+              "证据身份",
+              "来源与输入",
+              "断言与业务 oracle",
+              "结果",
+              "限制与复核",
+              "历史范围",
+              "原始结论",
+              "当时证据",
+              "当前有效性",
+              "继任文档"
+            ],
+            "method": "Actual source-specific authored sections; current canonical consumer and independent semantic review pending"
+          },
+          "sourceHeadingAliases": ["窄返工结论", "独立执行", "最小功能实测"],
+          "sourceOriginalLinkTargets": [
+            "../../editor/testing-records/architecture-intake-completion-evidence.json"
+          ]
+        },
+        {
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+          "status": "draft; canonical Markdown candidate only, not current centrally accepted record",
+          "contentReviewStatus": "partial-review-unknown",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/evidence-receipt.md",
+          "historyOverlay": true,
+          "historyOverlayTemplateId": "archive-record-v1",
+          "historyOverlayVersion": "1.0.0",
+          "templateCompliance": "template-compliant",
+          "reviewDepth": "deep-semantic",
+          "readMethod": "Root actually read all3 original Markdown134 lines, exact unchanged33cc sources, paired J native audit results and source-scoped raw-existence proof; authored/read all3 specific new governance layers and quote/heading mappings. Complete native JSON1436 lines/47 fields were independently audited in accepted J3 event, not claimed as a fresh repeat in this Markdown stage. Non-author current Markdown/body/record review pending.",
+          "coreConclusion": "2026-09-26的Cursor九组命令拆分最终历史接收。Cursor为实现贡献者，Codex为原独立验收；候选2022acc3、产品主体6952ffee、集成96e9d3c1与后续推送af135d8c各属不同事件。原accept/R1–R3闭合/ARCH-F2-CURSOR-BATCH-2 done仅对当时限定范围有效。",
+          "documentStatus": "historical; original accept/done/authorization only describes original candidate/time, current document migration draft",
+          "owner": "Codex (current document author/integration only)",
+          "originalIdentity": {
+            "documentOwnerAndRoles": "No explicit document Owner header; Cursor implementation/Codex independent reviewer are original body roles, not inferred writing authors",
+            "originalH1": "# Cursor 九组编辑命令拆分 · 最终接收",
+            "originalH2": ["实现与返工", "验证", "最小功能", "收口边界"],
+            "originalStatusSource": "Entire original body preserved; original accept/done/counter/limitations are historical signals, not current migration status"
+          },
+          "provenance": [
+            {
+              "date": "2026-10-16",
+              "actor": "root Codex",
+              "role": "Markdown governance author",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+              "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+              "candidateBase": "5a125c375baa9dc907ddeb62865058ba8b830957",
+              "scope": "Actual original134/new3 meaning review and complete source quote inverse; no product/runtime/raw/coverage rerun"
+            },
+            {
+              "role": "paired native source evidence prior independent audit",
+              "reviewer": "receipt_review",
+              "reviewedSnapshotSha256": "df54671f6462f24e67eca78bd51c620f7ce37b35fd0a7a0faf6c5eb5c53c9346",
+              "centralIntakeSha256": "6c2f6a618481bba1d8b6252ff42bd2e33f60db6814f0225bd4c2111ae2ce70ca",
+              "scope": "Already accepted three native JSON pilots; not acceptance of these later Markdown bodies or new record"
+            }
+          ],
+          "primarySource": [
+            {
+              "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+              "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "gitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+              "sha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+              "lines": "1-56"
+            },
+            {
+              "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+              "revision": "1589b0378372822b4a8a79af2f4ef3e093aacb5c",
+              "sha256": "6658d23bbdd36dfde04ad65a6d769a77972286ed28fe7e6cd730c94db7a2ef28",
+              "scope": "Original native historical values plus current governance; exact J3 accepted body unchanged here, not a new execution"
+            }
+          ],
+          "truthAnchors": [
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md:1 @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json:1",
+            "docs/ops/agent-workflow.md:1",
+            "docs/testing/governance.md:1"
+          ],
+          "phaseAnchors": {
+            "phase1": "Original D2 and Game references retain original phase1 fidelity scope; no original-mechanism re-verification",
+            "phase2": "Historical editor/reforge/content architecture integration; no current behavior/schema/compatibility authorization",
+            "ops": "Original acceptance and shared gates are event-scoped; current admission under DOCS-FULL-TEMPLATE-1",
+            "notApplicable": "No product behavior change; original/phase1/currentphase2 are provenance axes, not a new four-way mechanism premise verdict"
+          },
+          "dependencies": [
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
+            "docs/testing/domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+            "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+            "docs/ops/agent-workflow.md",
+            "docs/testing/governance.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": {
+            "scope": "Historical integration evidence and navigation, not current product/runtime acceptance",
+            "versions": "Original content20/SAVE8 where original specifies; native/source versions and oldlab-v4 stay original, not rewritten to current22/12",
+            "counts": {
+              "editorCheck": {
+                "testFiles": 324,
+                "tests": 2829
+              },
+              "wholeCheck": 8740,
+              "strictFast": {
+                "tests": 8248,
+                "productionFiles": 701
+              },
+              "newRegression": {
+                "testFiles": 11,
+                "tests": 16,
+                "productionModules": 13,
+                "newCoveredLinesOrBranches": false
+              },
+              "historicalDiagnostics": {
+                "warnings": 55,
+                "infos": 6
+              },
+              "judgeCases": 15,
+              "independentNeedles": 5,
+              "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+              "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+            },
+            "rawAvailability": "Only source-scoped36 exact old paths were exists-only absent in J audit; per-document1/28/8 associations overlap, all other availability remains unknown and no contents replayed"
+          },
+          "publicEntry": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+          "publicCallers": [
+            "Human/Agent tracing this original integration event, its historical task/source links or paired native JSON",
+            "Current full-docs governance reads this candidate through its fixed source and DOCS-FULL-TEMPLATE-1; not a callable old tool entry"
+          ],
+          "legalInputs": [
+            "Fixed33cc original Markdown quoted byte-exact, original candidate/versions/diagnostics/counters and original linked evidence scopes",
+            "Root-authored candidate navigation layer, already accepted unchanged paired native JSON and explicit bounded J3 existence-only observation",
+            "Not accepting arbitrary legacy runner commands, new user save input, old cleanup/push instructions or guessed report-wide raw hashes"
+          ],
+          "businessOracle": {
+            "type": "source-specific-historical-integration-preservation-and-truth-boundaries",
+            "assertions": [
+              "Specific original counts/owners/candidates/execution events remain distinct according to applicability.counts and full original text",
+              "Every original source byte strictly inverse-retrievable; original H1 and live aliases for every original H2 plus all original link targets preserved",
+              "Static document source/template/model/link proof grants no new runtime/E2E/visual/coverage or current zero-diagnostic acceptance to historical62/53/55warnings+6infos",
+              "Original raw paths and baseline hashes are not newly checked log contents; original authorization/compatibility/push/deletion statements remain historical"
+            ]
+          },
+          "dedupe": {
+            "result": "One historical integration event per document, shared underlying gates/needle records and paired native JSON are related sources, not extra tests/executions",
+            "against": [
+              "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
+              "docs/testing/domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+              "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+              "docs/ops/agent-workflow.md",
+              "docs/testing/governance.md",
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+            ],
+            "specific": {
+              "editorCheck": {
+                "testFiles": 324,
+                "tests": 2829
+              },
+              "wholeCheck": 8740,
+              "strictFast": {
+                "tests": 8248,
+                "productionFiles": 701
+              },
+              "newRegression": {
+                "testFiles": 11,
+                "tests": 16,
+                "productionModules": 13,
+                "newCoveredLinesOrBranches": false
+              },
+              "historicalDiagnostics": {
+                "warnings": 55,
+                "infos": 6
+              },
+              "judgeCases": 15,
+              "independentNeedles": 5,
+              "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+              "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+            }
+          },
+          "counterReworkBlocked": {
+            "status": "draft canonical Markdown candidate, independent body/complete record review pending; no current central/routes migration credit",
+            "historicalCountersPreserved": "Original R1–R3 and previous errors/unknown UI/CI/coverage/compatibility limits are kept in exact source; original closure never acts as present product authorization",
+            "currentQualityBoundary": "Original nonzero diagnostics are not waived under current zero diagnostic static gates"
+          },
+          "unresolved": [
+            "Non-author review of current Markdown body, source-specific new clauses and complete draft record still pending",
+            "Original product/tool caller semantics, UI/native-input/zoom/boot/profile combinations, current raw/screenshot content availability and remoteCI are not recertified by this document migration",
+            "Full1838+allincremental governance and global final independent semantic audit remain incomplete"
+          ],
+          "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+          "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+          "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+          "revision": {
+            "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "implementationSha": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "Actual historical Markdown template candidate",
+                "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+                "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+                "executionPerformed": false
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "historical-markdown-source-quote-and-specific-governance-candidate",
+            "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+            "sourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+            "afterSha256": "94b408aa43d68201d802310029cc896e3e97afcca26495dab6c238edd6489a8f",
+            "sourceLines": 56,
+            "lineCount": 132,
+            "quoteInverseSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+            "quoteInverseExact": true,
+            "pairedNativeAfterSha256": "6658d23bbdd36dfde04ad65a6d769a77972286ed28fe7e6cd730c94db7a2ef28",
+            "currentConsumer": "Pending actual canonical pure model/GFM after write; prior tmp draft puremodel0 not used as current gate"
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Retain original historical event and all exact original prose under archive overlay",
+              "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+              "sourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+              "originalDateScope": "Source dates and authorization dates only; no fabricated execution timestamp",
+              "executionPerformed": false
+            }
+          ],
+          "supersedes": [],
+          "supersessionScope": "Only this same-path document reading/template structure; does not supersede original native evidence, old independent verdicts or current product rules",
+          "stopLine": "Any loss of source byte/title/link, count/owner/date/version attribution, original warning/counter/unknown scope, raw hash invention or revival of old execution/cleanup authority rejects this candidate. No registry/routes migration credit before non-author actual acceptance.",
+          "nextStep": "Run actual current per-document model/real GFM/source/title/link and fullquality gates; independent reviewer reads actual3 canonical bodies and complete records, closes counters, then root admits3 centrally.",
+          "userVisibleBeforeAfter": {
+            "before": "Unwrapped historical integration narrative with old accept/done/current phrases and event-specific diagnostics",
+            "after": "Five specific evidence sections plus five archive sections, exact source quote and original live heading/link routes; current document governance separated from original execution/authorization",
+            "sourceSpecificCounts": {
+              "editorCheck": {
+                "testFiles": 324,
+                "tests": 2829
+              },
+              "wholeCheck": 8740,
+              "strictFast": {
+                "tests": 8248,
+                "productionFiles": 701
+              },
+              "newRegression": {
+                "testFiles": 11,
+                "tests": 16,
+                "productionModules": 13,
+                "newCoveredLinesOrBranches": false
+              },
+              "historicalDiagnostics": {
+                "warnings": 55,
+                "infos": 6
+              },
+              "judgeCases": 15,
+              "independentNeedles": 5,
+              "nativeTotalMeaning": "four covered/total metric pairs; not the test file/test/module counts",
+              "nativeLogsMeaning": "six original path strings, no per-log content SHA"
+            }
+          },
+          "reviewedLines": "1-132",
+          "phase": "testing",
+          "module": "historical-architecture-integration-markdown",
+          "templateConformity": {
+            "result": "template-compliant candidate structure; no current central migration credit",
+            "templateId": "evidence-receipt-v1",
+            "templateVersion": "1.0.0",
+            "historyOverlay": "archive-record-v1/1.0.0",
+            "requiredSections": [
+              "证据身份",
+              "来源与输入",
+              "断言与业务 oracle",
+              "结果",
+              "限制与复核",
+              "历史范围",
+              "原始结论",
+              "当时证据",
+              "当前有效性",
+              "继任文档"
+            ],
+            "method": "Actual source-specific authored sections; current canonical consumer and independent semantic review pending"
+          },
+          "sourceHeadingAliases": ["实现与返工", "验证", "最小功能", "收口边界"],
+          "sourceOriginalLinkTargets": [
+            "cursor-commands-wave2-review.md",
+            "../../../../domains/editor/editor-workflows/tools/commands-wave2-audit.mjs",
+            "cursor-commands-wave2-integration-evidence.json"
+          ],
+          "sourceCaptureHistory": {
+            "storedOldSha256": "20df0d4866e40b48ea7fd5bbc40301af8c80881bf1789c08d703ad490653b5c6",
+            "oldGitObject": "484c91555ee92d4345eee5b0a121eb3a78ccc282",
+            "pathCorrectionCommit": "4548a895b1ef23e3fd0cd051d9208194be0366ce",
+            "currentReviewedSourceSha256": "05efa6a5d6d37c69bb35ccd0e60cd17403e750d2750b0f57dc8217e0aabf6fbf",
+            "currentReviewedSourceGitObject": "d17bd77161f62f552a3db9220b43afebf037487b",
+            "meaning": "Original capture→33cc SHA difference is only prior line18 href correction in Git, no native JSON/body-result/execution change. Do not rewrite historical ledger to current sourceSHA."
+          }
+        }
+      ]
+    },
+    "currentCanonicalConsumer": {
+      "proof": "/tmp/type-pal-j-md-canonical-consumer-corrected-20261016.json",
+      "sha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+      "summary": {
+        "documents": 3,
+        "originalLines": 134,
+        "currentLines": 354,
+        "originalHeadings": 13,
+        "sourceLinks": 13,
+        "allCurrentLinks": 41,
+        "modelIssues": 0
+      },
+      "issues": [],
+      "scope": "No central/routing migration credit or non-author semantic acceptance."
+    },
+    "probeCalibration": {
+      "scope": "Owned proof collector only, not a source/body/product defect or product gate change",
+      "firstObservation": {
+        "path": "/tmp/type-pal-j-md-canonical-consumer-20261016.json",
+        "sha256": "a1ed955f9f92752f74969a64a70623a4a9494ebaf8d3d4ecadcb0725a25b45b2",
+        "result": "exit1 single old-href hunk-start expectation; all3model0/source134inverse passed"
+      },
+      "cause": "Diff context hunk begins15 while the changed line is18; first collector incorrectly assumed hunk start18.",
+      "correction": "Actual fixed parent/new whole raw files and their SHA plus exactly one changed line index17 and exact two href strings independently asserted. No source/body or existing checker modified.",
+      "correctedProofSha256": "78e92f8b550b39e3a4c3b830e433d77a2eb95f2528fbf0f58fd2715659b5b2e8",
+      "status": "corrected root collector observes no issues; non-author actual review still pending"
     }
   }
 }
