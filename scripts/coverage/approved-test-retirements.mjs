@@ -161,6 +161,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892',
       fileSha256: '3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56',
     },
+    // Codex 2026-10-15: G04-04 disk restore oracles merged into G04-05 undo/redo.
+    // Exact C02 snapshot under the standing test-quality rule; predicates unchanged.
+    {
+      file: 'packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '7bf7e47e40a170aaa72d29130bc792cf3f7ab87aeeb1959cce36a31abdcd12b5',
+      currentIdentityDigest: '7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e',
+      fileSha256: 'e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

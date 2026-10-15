@@ -1,0 +1,18 @@
+{
+  "afterExactTempCleanup": true,
+  "method": "separate split-based reconstruction from unchanged product source; no product writes",
+  "recipes": [
+    {
+      "source": "packages/editor/src/core/battle-sprite-commands.ts",
+      "case": "C02-G04-03",
+      "independentlyRebuiltSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be",
+      "matchesBothExecuted": true
+    },
+    {
+      "source": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "case": "C02-G04-07",
+      "independentlyRebuiltSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96",
+      "matchesBothExecuted": true
+    }
+  ]
+}

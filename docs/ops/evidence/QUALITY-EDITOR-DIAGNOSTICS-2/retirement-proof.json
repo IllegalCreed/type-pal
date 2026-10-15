@@ -1,0 +1,39 @@
+{
+  "approval": {
+    "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+    "previous": 10,
+    "current": 9,
+    "previousIdentityDigest": "7bf7e47e40a170aaa72d29130bc792cf3f7ab87aeeb1959cce36a31abdcd12b5",
+    "currentIdentityDigest": "7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e",
+    "fileSha256": "e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927"
+  },
+  "previous": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-01 入口互斥：有用途的帧源只给替换，无用途的帧源只给删除",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-02 确认框选取消：零提交，目录与历史不变",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-04 删除后 undo：磁盘字节写回 blob，行回到目录且可再次真实解码",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-05 undo/redo 两个方向都过保存门，redo 重新移除 catalog 与 blob",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-06 引用索引未就绪：删除源文件禁用并给出原因，就绪后恢复可点",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-08 连续删除两个闲置资产：每次都落首个其他资产，两次 undo 还原目录顺序",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-09 先删最后一个用途再删源文件：两步各自可撤销，整体撤回后与初始完全一致",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-10 被角色引用的 starter 用途不可删：按钮禁用并写明引用数，引用页签计数一致"
+  ],
+  "current": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-01 入口互斥：有用途的帧源只给替换，无用途的帧源只给删除",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-02 确认框选取消：零提交，目录与历史不变",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-05 undo/redo 两个方向都过保存门，redo 重新移除 catalog 与 blob",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-06 引用索引未就绪：删除源文件禁用并给出原因，就绪后恢复可点",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-08 连续删除两个闲置资产：每次都落首个其他资产，两次 undo 还原目录顺序",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-09 先删最后一个用途再删源文件：两步各自可撤销，整体撤回后与初始完全一致",
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-10 被角色引用的 starter 用途不可删：按钮禁用并写明引用数，引用页签计数一致"
+  ],
+  "removed": [
+    "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx :: project root :: C02-G04-04 删除后 undo：磁盘字节写回 blob，行回到目录且可再次真实解码"
+  ],
+  "baselineMatched": true,
+  "keptUndoOracle": "G04-05 now checks record, blob SHA, directory, true decode and redo removal",
+  "sourceRisk": "test only; product untouched"
+}

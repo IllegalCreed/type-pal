@@ -1,6 +1,6 @@
 # QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验，不冒称独立验收）
 Phase: phase2
@@ -44,3 +44,18 @@ Codex：premise verified / design agree，build allowed，仅上述白名单。
 error/warning/info或React/jsdom真实诊断非零不合main；不按全绿增加closed。
 证据入口：[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md)。
 无下一位Agent提示词，Codex继续本片。
+
+## oracle与精简支持范围（build allowed）
+
+生命周期检查点51efbc1ff已推送。G04-03改为合法未保存blob输入，G04-07精确核真实sha错误与零污染。
+G04-04磁盘删除→undo的全部record/blob SHA/目录/真实解码/保存门断言并入G04-05 undo/redo；
+3帧与4帧在此删除/撤销路径没有不同分支，二者同为authored未使用磁盘源，不构成独立输入轴。
+G04-05另外证明redo重新删除已恢复blob；G04-03保留初始pending-blob域。未知外部重叠不删。
+必要支持白名单：scripts/coverage/approved-test-retirements.mjs仅新增本文件精确10→9快照，
+其测试仅更新固定账本数量；判据、拒绝测试、扫描/规则不变。官方baseline仅由ratchet生成。
+
+## 作者自验检查点
+
+51efbc1ff生命周期已推送；最终9例0诊断，两个强弱oracle反控有效，精确临时树已移除。
+仅作者自验，未冒称独立accept；当前review等集中完整门。0文件关闭，3284/229closed/51review/3004pending。
+用户后续明确要求把94、95、97–102已发现问题全部修妥；当前卡属于全仓诊断阻塞，原产品停止线保持。

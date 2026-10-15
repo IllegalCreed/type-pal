@@ -354,3 +354,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 check/确认版ratchet/普通protected均exit0，但未包act3001/3009/2955、各577环境/2导航，零诊断门不通过，未合main。
 首跑ratchet确认门exit1原件保留，官方基线736/19862且所有覆盖计数完全不变。
 [逐文件/读取边界及全部原件](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。3284/229closed/48review/3007pending，0文件关闭。
+
+2026-10-15 C02三文件review：G04十例404→0，全部oracle保留后合并一条undo重复，最终九例0诊断、两有效反控。完整门及其它caller/全库排重未闭合；3284/229closed/51review/3004pending，0新关闭。见[本片证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md)。
