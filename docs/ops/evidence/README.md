@@ -76,3 +76,5 @@
 - [C02宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2/README.md)（有限三文件，零关闭，统一门待续）。
 
 - [C02导入与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3/README.md)（有限四文件，30例535→0，精度与完整窗口待续）。
+
+- [Kimi战斗精灵工作流治理](QUALITY-EDITOR-DIAGNOSTICS-4/README.md)（六例398→0、三反控；统一门待续，0关闭）。
