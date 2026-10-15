@@ -7,6 +7,7 @@
 import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  applyHistoryAction,
   clickButtonByText,
   fillAndBlur,
   pickCombobox,
@@ -18,6 +19,7 @@ import {
   type MountedWorldSpriteLibrary,
   mountWorldSpriteLibrary,
   unmountWorldSpriteLibrary,
+  waitForWorldSpriteResource,
 } from '../__tests__/cursor-asset-r1/world-sprite-harness.js'
 
 let mounted: MountedWorldSpriteLibrary | undefined
@@ -48,15 +50,15 @@ function catalogMetas(host: HTMLElement): string[] {
   )
 }
 
-async function selectAssetRow(host: HTMLElement, asset: string): Promise<void> {
-  await vi.waitFor(() => {
-    const row = [...host.querySelectorAll<HTMLElement>('.sprite-resource-row')].find(
-      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === asset,
-    )
-    expect(row, `目录行 ${asset}`).toBeDefined()
+async function selectAssetRow(library: MountedWorldSpriteLibrary, asset: string): Promise<void> {
+  const row = [...library.host.querySelectorAll<HTMLElement>('.sprite-resource-row')].find(
+    (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === asset,
+  )
+  expect(row, `目录行 ${asset}`).toBeDefined()
+  await act(async () => {
     row!.click()
   })
-  await act(async () => Promise.resolve())
+  await waitForWorldSpriteResource(library, asset)
 }
 
 async function setKindFilter(host: HTMLElement, label: string): Promise<void> {
@@ -136,7 +138,7 @@ describe('C01-G01 目录选择与视图归属', () => {
     const project = await multiAssetProject('c01-g01-02')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
     expect(mounted.host.querySelector('.what')?.textContent).toBe('大世界精灵资源')
     expect(mounted.focusHistory.at(-1)).toEqual({
@@ -149,7 +151,7 @@ describe('C01-G01 目录选择与视图归属', () => {
     const project = await multiAssetProject('c01-g01-03')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01beta')
+    await selectAssetRow(mounted, 'sprite.authored.c01beta')
     await waitMeta(mounted.host, 4, 1)
     const rows = [
       ...mounted.host.querySelectorAll<HTMLElement>('[aria-label="选择用途定义"] .ds-catalog-row'),
@@ -341,7 +343,7 @@ describe('C01-G02 文本过滤与空结果恢复', () => {
     await vi.waitFor(() =>
       expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01gamma']),
     )
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
     expect(mounted.focusHistory.at(-1)?.objectId).toBe('sprite.authored.c01gamma')
   })
@@ -713,7 +715,7 @@ describe('C01-G04 新增用途 begin/cancel/apply 与 ID stem', () => {
     await vi.waitFor(() =>
       expect(mounted!.session.getState().sprites.some((s) => s.id === 'c01-gamma-undo')).toBe(true),
     )
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
       mounted.session
         .getState()
@@ -749,8 +751,8 @@ describe('C01-G04 新增用途 begin/cancel/apply 与 ID stem', () => {
     await vi.waitFor(() =>
       expect(mounted!.session.getState().sprites.some((s) => s.id === 'c01-gamma-redo')).toBe(true),
     )
-    mounted.session.undo()
-    expect(mounted.session.redo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'redo')).toBe(true)
     expect(mounted.session.getState().sprites.some((s) => s.id === 'c01-gamma-redo')).toBe(true)
   })
 })
@@ -784,7 +786,7 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
         ).framesPerDir,
       ).toBe(1)
     })
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
       (
         mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
@@ -888,7 +890,7 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
         ).framesPerDir,
       ).toBe(2),
     )
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
       (
         mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
@@ -896,7 +898,7 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
         }
       ).framesPerDir,
     ).toBe(1)
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
       (
         mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
@@ -996,7 +998,7 @@ describe('C01-G06 删除用途确认取消/成功与引用门控', () => {
         false,
       ),
     )
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(mounted.session.getState().sprites.some((s) => s.id === 'c01-beta-static')).toBe(true)
   })
 
@@ -1063,7 +1065,7 @@ describe('C01-G06 删除用途确认取消/成功与引用门控', () => {
         mounted!.session.getState().assetCatalog.assets['sprite.authored.c01gamma'],
       ).toBeUndefined(),
     )
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     const restored = mounted.session.getState().assetCatalog.assets['sprite.authored.c01gamma']
     expect(restored?.sha256).toBe(seeded.sha256)
   })
@@ -1170,9 +1172,9 @@ describe('C01-G07 检查器页签/动作入口/引用面板与选择恢复', () 
     const project = await multiAssetProject('c01-g07-08')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01alpha')
+    await selectAssetRow(mounted, 'sprite.authored.c01alpha')
     await waitMeta(mounted.host, 8, 2)
     await act(async () => {
       const walk = [

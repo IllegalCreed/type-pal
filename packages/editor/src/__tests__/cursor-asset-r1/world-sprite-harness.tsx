@@ -8,6 +8,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { EditSession } from '../../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../../core/editor-asset-reader.js'
 import { collectCurrentProjectReferenceIndex } from '../../core/project-reference-adapters.js'
+import { loadEditorSprite } from '../../core/sprite-assets.js'
 import { WorldSpriteLibrary } from '../../ui/WorldSpriteLibrary.js'
 import type { CursorSpriteProject } from './sprite-fixtures.js'
 
@@ -77,6 +78,8 @@ export async function mountWorldSpriteLibrary(
     focus?: string
     actionId?: string
     source?: FileSource
+    /** Pending-state tests retain the read gate and release it inside their own act. */
+    waitForResource?: boolean
   } = {},
 ): Promise<MountedWorldSpriteLibrary> {
   const host = document.createElement('div')
@@ -101,9 +104,8 @@ export async function mountWorldSpriteLibrary(
         focusHistory={focusHistory}
       />,
     )
-    await Promise.resolve()
   })
-  return {
+  const mounted = {
     project,
     session,
     reader,
@@ -113,6 +115,31 @@ export async function mountWorldSpriteLibrary(
     root,
     focusHistory,
   }
+  if (input.waitForResource !== false) {
+    const asset =
+      input.view === 'asset'
+        ? input.focus
+        : project.state.sprites.find((entry) => entry.id === input.focus)?.asset
+    if (asset) {
+      try {
+        await waitForWorldSpriteResource(mounted, asset)
+      } catch (error) {
+        await unmountWorldSpriteLibrary(mounted)
+        throw error
+      }
+    }
+  }
+  return mounted
+}
+
+/** Await the viewer's real shared decode; act also flushes its proof/frames callbacks. */
+export async function waitForWorldSpriteResource(
+  mounted: MountedWorldSpriteLibrary,
+  asset: string,
+): Promise<void> {
+  await act(async () => {
+    await loadEditorSprite(mounted.reader, asset)
+  })
 }
 
 export async function unmountWorldSpriteLibrary(mounted: MountedWorldSpriteLibrary): Promise<void> {

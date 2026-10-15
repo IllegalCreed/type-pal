@@ -1,18 +1,36 @@
 # QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理
 
-Status: draft
+Status: build
 Owner: Codex
 Reviewer: Codex（后续实现自验证与独立验收分开记录）
 Phase: phase2
 Capability: editor test lifecycle correctness
 Visual Verification Timing: N/A（拟只修测试调度与隔离，不改产品）
 
+## 2026-10-15 首片准入（当前）
+
+用户明确授权上述三文件继续，单一Coding Owner=Codex，premise verified / design agree，build allowed。
+main=f98d0ddd8、隔离治理HEAD=e4656ae00、0behind；基线C01 70/70且604条未包act，环境/导航为0。
+只改测试宿主、测试驱动与oracle，不改生产/资产/接口/规则；全仓未零诊断不得合main。
+
+| 真值方向 | 直接证据与本片目标 |
+|---|---|
+| Primary | React官方act文档：渲染、交互与异步取数需作为更新单元等待；https://react.dev/reference/react/act 。 |
+| 第一阶段 | N/A；本片只修二阶段React测试调度，无一阶段菜单或机制改变。 |
+| 第二阶段 | SpriteResourceViewer.tsx:230-281真实Promise.all解码/色表完成→setSnapshot/onLoaded/onFramesLoaded；WorldSpriteLibrary.tsx:270-281用proof启用编辑；EditSession.ts:207-221/865-875同步通知订阅。 |
+| 目标 | 宿主保留真实reader/cache/解码，等待实际资源promise；待就绪测试用可控IO证明pending→ready；点击只执行一次，undo/redo在操作act内；不静音。 |
+
+已全文读取三白名单、WorldSpriteLibrary.tsx1457行、SpriteResourceViewer.tsx581行、editor-asset-reader.ts、
+sprite-assets.ts、sprite-fixtures.ts；已读真实cache/色表与session订阅/undo调用段，未把这些caller段落冒称全文件治理闭合。
+最强替代解释是其它交互/effect外泄占主因；先仅改挂载资源等待实测差分，再分别核点击/undo和剩余异步。
+若等待真实解码不减少挂载告警，撤回该根因解释；不靠增加sleep/timeout/空act掩盖。
+
 ## 目标与范围
 
 清除 CODE94 全仓质量门中的真实 React act / jsdom 导航诊断，不静音，不关闭检查开关，
-不改变产品异步时序来迁就测试。当前仅登记，尚未 build allowed。
+不改变产品异步时序来迁就测试。当前按上方首片准入推进，统一门未清零前不合main。
 
-第一候选切片（待完整核前提与独占Owner）：
+本次独占白名单（Coding Owner=Codex）：
 
 - `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx`
 - `packages/editor/src/__tests__/cursor-asset-r1/kit.ts`
@@ -59,3 +77,9 @@ protected为3523/577/2。此前3574仅为旧GLM原件的一种模式计数，不
 
 2026-10-15 Codex：登记draft；首片全文读取完成；根因、caller/lifecycle/oracle与build准入pending，没有实现。
 不以本卡代替CODE94统一门，不增加closed。无下一位Agent提示词，由Codex后续核前提后继续。
+
+## 生命周期检查点
+
+仅真实挂载解码等待使604→200；再修单次点击/历史act后70/70、三类诊断0，editor typecheck通过。
+原件/当前源码SHA/读取边界见[首片证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md)。
+这只是作者自验的第一提交；接着单独补强3个oracle并执行相邻与完整门，保持build，0文件关闭。

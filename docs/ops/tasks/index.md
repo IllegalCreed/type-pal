@@ -23,7 +23,7 @@
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |

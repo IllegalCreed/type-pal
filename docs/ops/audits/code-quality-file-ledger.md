@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG、音乐音源与IDB事务回归）：3,284。
-当前已闭合核验：229；已读但待审：45；尚未逐文件核验：3,010；合计未闭合：3,055。
+当前已闭合核验：229；已读但待审：48；尚未逐文件核验：3,007；合计未闭合：3,055。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -312,6 +312,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | 用户批准事务修复的新三条真实Save→IDB回归：提交时机/正常存读删、覆盖abort保旧槽、删除abort保旧槽；完整typed GameState，独立IDBFactory及连接/global/spy清理 | 作者自验，尚未独立闭合；不以3绿或覆盖率升高关闭文件 |
 | `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState/feedback and listener balance verified in quick-save.test.ts; approved Save commit fix verified; open/connection/input contracts remain review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 
+| `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；oracle/相邻/完整门待续，不因70绿关闭 |
+| `packages/editor/src/__tests__/cursor-asset-r1/kit.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；oracle/相邻/完整门待续，不因70绿关闭 |
+| `packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；oracle/相邻/完整门待续，不因70绿关闭 |
+
 2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
@@ -341,3 +345,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 官方fast基线736源文件/19865tests、覆盖率无回退，精确历史退役通过；未合main。
 实际读取/逐文件改动、primary/caller/oracle、原件完整性与下一片边界见
 [完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。所有状态保持；3284/229closed/45review/3010pending，0新关闭。
+
+2026-10-15 editor首片：三个既有文件仅从pending转review；229closed/48review/3007pending，库存3284不变。生命周期定向70通过且诊断0，typecheck通过；oracle、相邻与完整模块门待续，0新关闭。
