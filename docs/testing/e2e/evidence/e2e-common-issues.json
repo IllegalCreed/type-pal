@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "scripts/e2e/errand-contract.mjs",
@@ -110,5 +113,44 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.2.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex（本次文档治理；原发布/执行身份不变）",
+    "provenance": [
+      "complete original JSON field reading",
+      "source Git blob",
+      "scripts/e2e/errand-contract.mjs:346-376",
+      "scripts/e2e/kitchen-contract.mjs:497-518",
+      "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+      "scripts/e2e/npc-transition-contract.mjs:262-338",
+      "scripts/e2e/opening-trace-plugin.mjs:164-178",
+      "scripts/e2e/opening-trace.test.mjs:515-630"
+    ],
+    "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+    "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
+    "primarySource": [
+      "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "docs/testing/e2e/cross-stage/common-issues.md",
+      "scripts/e2e/errand-contract.mjs:346-376",
+      "scripts/e2e/kitchen-contract.mjs:497-518",
+      "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+      "scripts/e2e/npc-transition-contract.mjs:262-338",
+      "scripts/e2e/opening-trace-plugin.mjs:164-178",
+      "scripts/e2e/opening-trace.test.mjs:515-630"
+    ],
+    "scope": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+    "publicationStatusAxis": "catalog-publication; original top-level status projects unique catalog id; not an execution lifecycle",
+    "originalFieldPolicy": "Every preexisting key/value remains at top level; no renaming, payload move, execution update or date extension.",
+    "reviewLimits": [
+      "本JSON performed=false且无raw；canonical后续10-11声称的六份acceptance/新headed验收是另一个来源时点，本次未重验。",
+      "只全文读该JSON及所列source范围，canonical仅前80行导航/历史核读，不计整篇迁移或动态反控复验。"
+    ],
+    "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+    "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+    "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope."
+  }
 }

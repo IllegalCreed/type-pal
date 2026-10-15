@@ -283,6 +283,31 @@
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
       "templateId": "audit-report-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-route.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

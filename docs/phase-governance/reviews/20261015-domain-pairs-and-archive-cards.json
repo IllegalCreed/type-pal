@@ -2245,6 +2245,639 @@
         "version": "1.0.0",
         "method": "Concrete type chapters plus five historical sections; complete original source preserved."
       }
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+      "documentStatus": "current / catalog-publication only",
+      "owner": "Codex（文档治理，未重签原动态证据）",
+      "provenance": [
+        "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "a8faff546ddfa9d2a5543e0b232964618bc643d7",
+        "full JSON field reading",
+        "actual source ranges and paired consumer"
+      ],
+      "primarySource": [
+        "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "packages/reforge/src/menu/menu-session.ts:105-128",
+        "packages/reforge/src/menu/item-use-session.ts:2-19",
+        "packages/reforge/src/menu/menu-session.test.ts:9-32",
+        "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "truthAnchors": [
+        "packages/reforge/src/menu/menu-session.ts:105-128",
+        "packages/reforge/src/menu/item-use-session.ts:2-19",
+        "packages/reforge/src/menu/menu-session.test.ts:9-32",
+        "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "phaseAnchors": [["phase2"], "docs/testing/catalog.json", "docs/testing/governance.md"],
+      "dependencies": [
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+      "publicEntry": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "publicCallers": [
+        "main menu input → MenuSession",
+        "main item action → ItemUseSession → world/save ports"
+      ],
+      "legalInputs": [
+        "typed menu input",
+        "current world/save port",
+        "AbortSignal and canonical item/skill/actor inputs"
+      ],
+      "businessOracle": {
+        "type": "machine-audit-field-and-scope-preservation",
+        "assertions": [
+          "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+          "cancelled item use remains owned until settle",
+          "menu pop restores the correct view",
+          "save/load completion is observed through real port events",
+          "Existing assertions remain original publication obligations, not new executed proof."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "domains/runtime/menu/menu-session/history/report.md"
+        ],
+        "notes": "A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate. Pairing does not count the unread canonical body or linked ledgers as migrated."
+      },
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "originalScopeGapsRetained": [
+          "只核JSON全部字段、五个来源范围及已迁移报告，不复跑PAL菜单/storage链。",
+          "rawArtifacts缺失与artifacts空数组原样保留；取消后pending合同未以本次实跑重新认证。"
+        ]
+      },
+      "unresolved": [
+        "只核JSON全部字段、五个来源范围及已迁移报告，不复跑PAL菜单/storage链。",
+        "rawArtifacts缺失与artifacts空数组原样保留；取消后pending合同未以本次实跑重新认证。"
+      ],
+      "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+      "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "sourceGitObject": "a8faff546ddfa9d2a5543e0b232964618bc643d7",
+      "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+      "revision": {
+        "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "implementationSha": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "field-preserving-audit-envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "inverse-JSON-object-and-actual-paired-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+        "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+        "lineCount": 141
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+          "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+          "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+      "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+      "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+      "reviewedLines": "1-141",
+      "phase": "testing",
+      "module": "publication-machine-audits",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.2.0",
+        "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+      "documentStatus": "current / catalog-publication only",
+      "owner": "Codex（文档治理，未重签原动态证据）",
+      "provenance": [
+        "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "ad861a2af42b628a5d5637dd842869deed704282",
+        "full JSON field reading",
+        "actual source ranges and paired consumer"
+      ],
+      "primarySource": [
+        "docs/testing/e2e/evidence/e2e-contract.json",
+        "docs/testing/e2e/contract.md",
+        "scripts/e2e/opening-both.mjs:2-9",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "truthAnchors": [
+        "scripts/e2e/opening-both.mjs:2-9",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "phaseAnchors": [
+        ["phase1", "phase2"],
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/testing/e2e/contract.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+      "publicEntry": "docs/testing/e2e/evidence/e2e-contract.json",
+      "publicCallers": [
+        "pnpm e2e:001:both",
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "current canonical project",
+        "engine-owned checkpoint",
+        "verify or capture profile"
+      ],
+      "businessOracle": {
+        "type": "machine-audit-field-and-scope-preservation",
+        "assertions": [
+          "共用E2E合同将capture与verify、同引擎正式checkpoint、正常caller/正文/说话人/状态义务分开；10-12新增编辑器全部相关NPC入口状态规则仍是合同追加，不转为runner已实现或新E2E执行。",
+          "正文/说话人/状态变化来自真实 caller",
+          "结束 checkpoint 可被同引擎正式恢复",
+          "capture 不冒充 verify",
+          "Existing assertions remain original publication obligations, not new executed proof."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/testing/e2e/stages/*/report.md",
+          "docs/testing/legacy-flat-classification.json"
+        ],
+        "notes": "合同只定义共用门，不重复阶段报告的执行结论。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+      },
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "originalScopeGapsRetained": [
+          "原publicCallers列001至005，不因模板增加006或新runner能力声明。",
+          "原findings的SAVE12与NPC规则是各日期源码/准则范围，不改candidate/versions或历史未运行状态。"
+        ]
+      },
+      "unresolved": [
+        "原publicCallers列001至005，不因模板增加006或新runner能力声明。",
+        "原findings的SAVE12与NPC规则是各日期源码/准则范围，不改candidate/versions或历史未运行状态。"
+      ],
+      "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+      "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "sourceGitObject": "ad861a2af42b628a5d5637dd842869deed704282",
+      "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+      "revision": {
+        "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "implementationSha": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "field-preserving-audit-envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "inverse-JSON-object-and-actual-paired-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+        "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+        "lineCount": 113
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
+          "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+          "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+      "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+      "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+      "reviewedLines": "1-113",
+      "phase": "testing",
+      "module": "publication-machine-audits",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.2.0",
+        "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-route.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+      "documentStatus": "proposal / catalog-publication only",
+      "owner": "Codex（文档治理，未重签原动态证据）",
+      "provenance": [
+        "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
+        "full JSON field reading",
+        "actual source ranges and paired consumer"
+      ],
+      "primarySource": [
+        "docs/testing/e2e/evidence/e2e-route.json",
+        "docs/testing/e2e/route-proposal.md",
+        "scripts/e2e/inn-contract.mjs:67-111",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "truthAnchors": [
+        "scripts/e2e/inn-contract.mjs:67-111",
+        "packages/content/src/character.ts:168-170"
+      ],
+      "phaseAnchors": [
+        ["phase1", "phase2"],
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/testing/e2e/route-proposal.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+      "publicEntry": "docs/testing/e2e/evidence/e2e-route.json",
+      "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+      "legalInputs": ["fresh current project", "current-version checkpoint only"],
+      "businessOracle": {
+        "type": "machine-audit-field-and-scope-preservation",
+        "assertions": [
+          "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+          "每段有明确前驱/终止条件",
+          "路线失败不能被跳场景隐藏",
+          "Existing assertions remain original publication obligations, not new executed proof."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["e2e/stages/*/README.md"],
+        "notes": "方案不宣称任何阶段已运行通过。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+      },
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "originalScopeGapsRetained": [
+          "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
+          "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
+        ]
+      },
+      "unresolved": [
+        "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
+        "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
+      ],
+      "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+      "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
+      "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+      "revision": {
+        "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "implementationSha": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "field-preserving-audit-envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "inverse-JSON-object-and-actual-paired-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+        "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+        "lineCount": 100
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+          "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+          "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+      "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+      "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+      "reviewedLines": "1-100",
+      "phase": "testing",
+      "module": "publication-machine-audits",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.2.0",
+        "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+      "documentStatus": "current / catalog-publication only",
+      "owner": "Codex（文档治理，未重签原动态证据）",
+      "provenance": [
+        "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
+        "full JSON field reading",
+        "actual source ranges and paired consumer"
+      ],
+      "primarySource": [
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "scripts/e2e/errand-contract.mjs:346-376",
+        "scripts/e2e/kitchen-contract.mjs:497-518",
+        "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+        "scripts/e2e/npc-transition-contract.mjs:262-338",
+        "scripts/e2e/opening-trace-plugin.mjs:164-178",
+        "scripts/e2e/opening-trace.test.mjs:515-630"
+      ],
+      "truthAnchors": [
+        "scripts/e2e/errand-contract.mjs:346-376",
+        "scripts/e2e/kitchen-contract.mjs:497-518",
+        "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+        "scripts/e2e/npc-transition-contract.mjs:262-338",
+        "scripts/e2e/opening-trace-plugin.mjs:164-178",
+        "scripts/e2e/opening-trace.test.mjs:515-630"
+      ],
+      "phaseAnchors": [
+        ["phase1", "phase2"],
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+      "publicEntry": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "publicCallers": [
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "each stage's current same-engine predecessor",
+        "normal input/navigation",
+        "isolated browser storage"
+      ],
+      "businessOracle": {
+        "type": "machine-audit-field-and-scope-preservation",
+        "assertions": [
+          "问题族审计引用真实background restore、全列表seq/order、world-render容量及render span消费；Game drawn/not-drawn与Reforge selected/world-pass-only不混为像素证据。JSON日期级源码findings不继承canonical后续10-11最终重录声明。",
+          "公共根因按族收敛",
+          "路线/演出/存档失败分开归因",
+          "源码核读不计作实跑",
+          "Existing assertions remain original publication obligations, not new executed proof."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "e2e/stages/001-opening/report.md",
+          "e2e/stages/002-inn-guests-and-reward/report.md",
+          "e2e/stages/003-kitchen/report.md",
+          "e2e/stages/004-meal/report.md",
+          "e2e/stages/005-shrimp/report.md"
+        ],
+        "notes": "只汇总问题族，不复制各阶段通过数字。 Pairing does not count the unread canonical body or linked ledgers as migrated."
+      },
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "originalScopeGapsRetained": [
+          "本JSON performed=false且无raw；canonical后续10-11声称的六份acceptance/新headed验收是另一个来源时点，本次未重验。",
+          "只全文读该JSON及所列source范围，canonical仅前80行导航/历史核读，不计整篇迁移或动态反控复验。"
+        ]
+      },
+      "unresolved": [
+        "本JSON performed=false且无raw；canonical后续10-11声称的六份acceptance/新headed验收是另一个来源时点，本次未重验。",
+        "只全文读该JSON及所列source范围，canonical仅前80行导航/历史核读，不计整篇迁移或动态反控复验。"
+      ],
+      "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+      "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
+      "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+      "revision": {
+        "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "implementationSha": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "field-preserving-audit-envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "inverse-JSON-object-and-actual-paired-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+        "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+        "lineCount": 156
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
+          "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+          "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+      "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+      "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+      "reviewedLines": "1-156",
+      "phase": "testing",
+      "module": "publication-machine-audits",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.2.0",
+        "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+      }
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+      "documentStatus": "current / catalog-publication only",
+      "owner": "Codex（文档治理，未重签原动态证据）",
+      "provenance": [
+        "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
+        "full JSON field reading",
+        "actual source ranges and paired consumer"
+      ],
+      "primarySource": [
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+        "scripts/docs/classify-testing-legacy.mjs:24-45",
+        "docs/testing/legacy-flat.json:1-20",
+        "packages/content/src/character.ts:168-170",
+        "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+        "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+      ],
+      "truthAnchors": [
+        "scripts/docs/classify-testing-legacy.mjs:24-45",
+        "docs/testing/legacy-flat.json:1-20",
+        "packages/content/src/character.ts:168-170",
+        "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+        "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+      ],
+      "phaseAnchors": [
+        ["phase1", "phase2", "ops"],
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+      "publicEntry": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
+      "legalInputs": [
+        "tracked docs/testing root files",
+        "legacy-flat.json entries and retired records",
+        "source path references embedded in report bodies"
+      ],
+      "businessOracle": {
+        "type": "machine-audit-field-and-scope-preservation",
+        "assertions": [
+          "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+          "every legacy path has domain/module/capability/provenance/sourceSha/inventory",
+          "migrated files have retired SHA and canonical target",
+          "retained files have explicit reason and review status",
+          "Agent names do not leak into canonical targets",
+          "Existing assertions remain original publication obligations, not new executed proof."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": [
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+          "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+          "docs/testing/catalog.json"
+        ],
+        "notes": "The closeout plan is the complete 331-item decision ledger; archive moves preserve source SHA, while tools remain only with explicit stop lines. Pairing does not count the unread canonical body or linked ledgers as migrated."
+      },
+      "counterReworkBlocked": {
+        "migration": "none-open",
+        "originalScopeGapsRetained": [
+          "完整读取分类器发现reviewed=Boolean(options.movedTo || closeout)，本次不继承其深审信用，也不重跑生成器覆盖旧账。",
+          "三份migration计划与legacy manifest只读声明范围/头部，未全文审核其所有条目；原current发布与source-backed claims不授予全量深审完成。",
+          "artifacts四个结构化账本仍是独立候选文档，不能作为700类raw/artifact归属已完成。"
+        ]
+      },
+      "unresolved": [
+        "完整读取分类器发现reviewed=Boolean(options.movedTo || closeout)，本次不继承其深审信用，也不重跑生成器覆盖旧账。",
+        "三份migration计划与legacy manifest只读声明范围/头部，未全文审核其所有条目；原current发布与source-backed claims不授予全量深审完成。",
+        "artifacts四个结构化账本仍是独立候选文档，不能作为700类raw/artifact归属已完成。"
+      ],
+      "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+      "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+      "sourceGitObject": "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
+      "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+      "revision": {
+        "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
+        "implementationSha": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "field-preserving-audit-envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "inverse-JSON-object-and-actual-paired-consumer",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+        "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+        "lineCount": 182
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+          "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+          "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+      "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+      "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+      "reviewedLines": "1-182",
+      "phase": "testing",
+      "module": "publication-machine-audits",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.2.0",
+        "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
+      }
     }
   ]
 }

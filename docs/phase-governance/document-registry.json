@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 603,
+    "total": 608,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,7 +14,7 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 24
+      "testing": 29
     },
     "byType": {
       "guide-runbook": 15,
@@ -30,16 +30,16 @@
       "design-spec": 41,
       "test-e2e-stage": 1,
       "test-run-report": 1,
-      "test-machine-evidence": 8,
+      "test-machine-evidence": 13,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 603
+      "content-reviewed": 608
     },
     "templateCompliance": {
-      "template-compliant": 56,
+      "template-compliant": 61,
       "governed-legacy": 547
     }
   },
@@ -6764,6 +6764,71 @@
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-route.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.2.0",
+      "templateVariant": "document-audit-v2",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

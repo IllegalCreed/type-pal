@@ -323,6 +323,31 @@
         "Current runtime, counter validity and coverage are not reaccepted by the documentation migration."
       ],
       "stopLine": "No current visual/quality/coverage approval or automatic test deletion from archived numbers and static migration."
+    },
+    {
+      "id": "legacy-classification-review-vs-semantic-reading",
+      "from": [
+        "scripts/docs/classify-testing-legacy.mjs",
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+        "docs/testing/legacy-flat-classification.json"
+      ],
+      "to": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+        "docs/ops/guides/documentation-model.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership.",
+      "status": "guarded",
+      "evidence": [
+        "scripts/docs/classify-testing-legacy.mjs:120",
+        "scripts/docs/classify-testing-legacy.mjs:136",
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1"
+      ],
+      "unresolved": [
+        "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
+        "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review."
+      ],
+      "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant."
     }
   ],
   "acceptance": {

@@ -100,5 +100,42 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.2.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex（本次文档治理；原发布/执行身份不变）",
+    "provenance": [
+      "complete original JSON field reading",
+      "source Git blob",
+      "packages/reforge/src/menu/menu-session.ts:105-128",
+      "packages/reforge/src/menu/item-use-session.ts:2-19",
+      "packages/reforge/src/menu/menu-session.test.ts:9-32",
+      "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
+    "sourceGitObject": "a8faff546ddfa9d2a5543e0b232964618bc643d7",
+    "primarySource": [
+      "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "docs/testing/domains/runtime/menu/menu-session/report.md",
+      "packages/reforge/src/menu/menu-session.ts:105-128",
+      "packages/reforge/src/menu/item-use-session.ts:2-19",
+      "packages/reforge/src/menu/menu-session.test.ts:9-32",
+      "packages/reforge/src/menu/item-use-session.test.ts:5-22",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "scope": "菜单会话/ItemUse所有权、取消后pending至settle、面板恢复与真实port事件，原A1 SAVE8/content20与本审计SAVE11候选属于历史范围；当前source常量12不赋予新的运行通过。",
+    "publicationStatusAxis": "catalog-publication; original top-level status projects unique catalog id; not an execution lifecycle",
+    "originalFieldPolicy": "Every preexisting key/value remains at top level; no renaming, payload move, execution update or date extension.",
+    "reviewLimits": [
+      "只核JSON全部字段、五个来源范围及已迁移报告，不复跑PAL菜单/storage链。",
+      "rawArtifacts缺失与artifacts空数组原样保留；取消后pending合同未以本次实跑重新认证。"
+    ],
+    "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+    "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+    "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope."
+  }
 }

@@ -215,3 +215,13 @@ Branch: codex/docs-full-template-proposal
 - 必须全文读原卡及相关直接来源，再写具体目标/范围/前提证据/验收/状态交接和五节历史overlay；完整原文、Status/Owner/日期/数字/counter/用户裁决保留，不执行旧prompt或恢复退役工作。未知实施/视觉/raw继续unknown，不为模板补造。
 - 只允许上述10个Markdown和docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json。禁止写共享registry/reviews/routing/catalog/board/index、产品源码/旧测试/coverage；未独立接收前不计进度、不合main。
 - 交付须有逐篇源Git blob/source/after SHA、具体结论/历史冲突与继任范围、完整原文回读、真实检查结果和限制；根线程直接读源/候选/一手证据决定accept/rework并更新中央账。无用户搬运环节。
+
+
+### 2026-10-15 后续五份机器审计：正文迁移候选
+
+- 根线程全文读menu-session、e2e-contract、e2e-route、e2e-common-issues与legacy-flat-audit五份JSON，直接核18个不同source范围/全文件SHA/anchor；classifier额外全文读。统一machine1.2.0 document-audit envelope保留全部原机器键值、status/candidate/versions/history/performed，五组inverse object及真实paired consumer均通过。
+- 明确proposal不晋升、共用合同新增NPC入口检查不冒充runner实现、common-issues JSON的日期级源审计不继承canonical后续10-11重录声明。未全文读的canonical路线/共性报告与三个migration ledger不计迁移/全文审查；不能从配对consumer绿推导它们完成。
+- classifier实际以Boolean(movedTo || closeout)决定reviewed；正文源路径主导/filename规则仅作分类。本次把旧359/331/209/122的口径和该自动状态含义写入envelope、逐篇review与第17条guarded矩阵，未重跑生成器，也不继承旧零待审或artifact全量完成信用。
+- 当前真实正文迁移投影57/1838基线+4增量、1883候选待迁移；这五篇待包B贡献者完成后的非作者独立复核，不提前宣布整包验收。包B十卡仍独立候选，不计入上述数。
+- 五篇源/after SHA和逐篇限制在本批followupMachineAudits；保持build/目标active，无main写入或产品/旧测试/coverage变更。后续继续逐篇/格式合同/附件归属与全量独立审计。
+- 本五篇候选静态门：63工具测试、61正文合同、608旧+新内容review条目及完整check:docs零问题；lint4072文件0 error/warning/info、diff检查零诊断。全量最终独立审计仍未完成。

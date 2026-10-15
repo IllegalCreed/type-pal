@@ -39,6 +39,8 @@ Template: governance-index-v1 / 1.0.0
 | Testing发布状态 ↔ execution状态 | catalog唯一id决定发布投影，执行回执有独立词表 | resolved | current/verified发布不授予本次实跑信用；伪Status不放行 |
 | 历史UI/质量报告 ↔ 当前验收 | 09-28UI与10-03审计保留各次候选/计数/首次失败 | guarded | 机器筛选不自动删测试，旧截图/绿数不证明当前动态通过 |
 
+| Legacy分类reviewed ↔ 本次语义深审 | movedTo/closeout成员关系只解释旧账状态，分类规则不是内容验收 | guarded | 不继承旧359/331或零待审信用；逐篇核读及artifact归属另验 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步
