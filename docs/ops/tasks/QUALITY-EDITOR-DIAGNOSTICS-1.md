@@ -29,10 +29,23 @@ BattleSpriteLibrary.c02-g04为404条、kimi-workflows为398条；具体分布见
 两条导航诊断归属 `src/main.host-lifecycle-1.test.ts`、`src/ui/design-system/list-header.glm-leaf-wave.test.tsx`。
 这些只是定位线索，不等于根因、逐文件accept或删除授权。
 
-已经全文读取两个候选harness/kit；WorldSpriteLibrary.c01长文件读取被输出截断，完整语义复核未完成，
-保持pending。候选测试存在act外click/undo与异步资源准备，但尚未以定向执行隔离各来源。
+候选两个harness/kit及1201行WorldSpriteLibrary.c01现已分段全文读取；三份SHA与读取边界见
+CODE94/codex-final-window.json。生产caller/资源生命周期、相邻oracle与排重尚未核完，仍pending。
+selectAssetRow在vi.waitFor重试回调中点击，数处session.undo/redo位于act外，异步资源准备也需追踪；
+这些为直接代码线索，尚未以定向执行隔离各诊断来源，不据此批量修改。
+另登记oracle候选：G04-08标题要求stem与后缀但regex为OR；G05-10只断言就绪后enabled，未证等待期disabled；
+G07-07标题要求计数下界，实际仅匹配任意数字。先核真实合同与相邻测试，不自动删除或修改产品。
 最强替代解释：异步资源完成、effect cleanup或共享宿主任务外泄导致告警，并非单纯给每次click套act即可解决。
 需要逐合同确定触发、等待与清理ownership，不能用空act、加sleep/timeout或console过滤伪造零诊断。
+
+## 2026-10-15 当前完整窗口证据
+
+最新check有3620条未包act、577条act环境未配置、2条导航；ratchet为3610/577/2，
+protected为3523/577/2。此前3574仅为旧GLM原件的一种模式计数，不是全部诊断总数。
+源码稳定、完整输出可见，三门数值通过但零诊断不通过，见
+[最终窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。52文件头分组只是未包act定位口径；
+导航输出无稳定stderr文件头且异步并行会交错，上述旧邻近文件名不能当根因或Owner定责证据。
+未修改生产或测试实现，未关闭任何文件；本卡仍draft，无build allowed。
 
 ## 上下文与验收
 
@@ -44,5 +57,5 @@ BattleSpriteLibrary.c02-g04为404条、kimi-workflows为398条；具体分布见
 
 ## 推进与交接
 
-2026-10-15 Codex：登记draft；根因、完整首片读取与build准入pending，没有实现。
+2026-10-15 Codex：登记draft；首片全文读取完成；根因、caller/lifecycle/oracle与build准入pending，没有实现。
 不以本卡代替CODE94统一门，不增加closed。无下一位Agent提示词，由Codex后续核前提后继续。

@@ -1,5 +1,7 @@
 # CODE-QUALITY-94 evidence — menu integration
 
+- [Codex最终完整模块窗口](codex-final-window.md)：两项获批修复、全部真实门、分项非零诊断、官方基线与未闭合边界；JSON机械证据含原件完整性与冻结源码核验。
+
 - [Codex 三验及接手边界](codex-r3-review.md)：候选5477af1e4，监听器泄漏/C4假正例实测、精确退役核对、当前SHA与诊断原件；0新关闭，用户授权Codex继续低风险返工。
 - [Codex 接手修复与验证](codex-takeover.md)：测试判别/隔离、注释真值和精确manifest修正，分提交记录与当前质量门。
 

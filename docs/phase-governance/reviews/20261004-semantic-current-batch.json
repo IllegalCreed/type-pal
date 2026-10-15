@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
-      "afterSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+      "sourceSha256": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
+      "afterSha256": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+        "implementationSha": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1072,13 +1072,22 @@
           "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
           "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "bb94ad8e2",
+          "action": "codex-final-menu-window-navigation-delta-review",
+          "previousAfterSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+          "afterSha256": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
+          "scope": "Only own menu governance rows and generated navigation; no acceptance of unrelated tasks.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-final-window.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-21",
-      "reviewNotes": "Codex R2 delta review: CODE95 fixture-local accept only; CODE94/97-102 counter; 3 high-risk draft cards; original other task statuses preserved.",
+      "reviewNotes": "2026-10-15 final menu window delta: two approved repairs implemented; CODE94 rework and other scoped cards review; diagnostic draft and unapproved magic display remain draft; zero file closures. Other tasks preserved.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

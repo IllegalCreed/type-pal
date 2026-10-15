@@ -77,6 +77,15 @@ GAME-OPENING-CANCEL-CURSOR-1仅修改driver标题取消窄分支；先真实标�
 仅子进程移除agent reporter检测变量以显露全部console，记录std-env.isAgent=false，不改任何规则/ignore。
 中断的单worker/旧候选回执、首次docs索引失败原件均保留，不计通过。
 
+## 最终集中验证（2026-10-15）
+
+稳定候选bb94ad8e2的check/ratchet/protected均执行完成，exit0但未包act分别3620/3610/3523，
+另各577条act环境未配置与2条导航，统一门不通过。最终七包1640files/20274tests通过，
+game318files/3564tests、七包typecheck通过；官方fast736源文件/19865tests、无回退，
+精确三份历史退役通过。完整字节原件、源码稳定性、baseline diff、逐文件变更与下一片边界见
+[最终窗口](codex-final-window.md)。CODE94仍rework、其它本批卡review、第三项显示draft；
+账本3284/229closed/45review/3010pending，0文件关闭、未合main。
+
 ## 保留边界（批准前检查点，历史）
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。

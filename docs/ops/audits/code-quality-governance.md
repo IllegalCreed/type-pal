@@ -7,6 +7,13 @@
 不把机器快照当作产品源文件提交。
 已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
 
+## 2026-10-15 menu候选最终窗口
+
+两项获批修复的定向125、game3564、七包typecheck通过；完整check/ratchet/protected均已执行，
+数值通过但真实诊断未清零，因此CODE94仍rework，其它本批卡review、第三项显示未实施。
+官方基线与原件完整性、逐文件变更、未修风险见[最终窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。
+机器账本3284/229closed/45review/3010pending，0新关闭，未合main；不宣告专项完成。
+
 ## 2026-10-15 menu候选独立再验收
 
 Codex随后接手已证低风险返工，并按用户明确批准修复存档事务与标题取消（c81f469e3、23f4effbf）；

@@ -5,7 +5,15 @@ Phase: phase1
 Capability: save transaction correctness
 Coding Owner: Codex
 Reviewer: Codex
-Visual Verification Timing: N/A（IO层；本轮无实现）
+Visual Verification Timing: N/A（IO层；已实施，真实Save→IDB回归完成）
+
+## 2026-10-15 最终模块窗口（当前）
+
+两项获批修复已分别提交并推送，定向125、完整game3564与七包typecheck通过。
+完整check/ratchet/protected数值通过但真实诊断未清零，本卡仍review，不标done、不关闭文件。
+本轮为Codex作者实施/自验；冻结的独立三验与后续修复分开。
+最终原件/诊断计数/官方基线及剩余边界见[完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。
+以下前提表固定修复前候选，用于追溯失败反例，当前实施以本节与用户批准段为准。
 
 ## 目标与范围
 

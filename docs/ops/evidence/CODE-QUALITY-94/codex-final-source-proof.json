@@ -1,0 +1,154 @@
+{
+  "candidate": "bb94ad8e2efc5a56c10f496ccb16303cae9d4518",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "files": [
+    {
+      "path": "packages/game/package.json",
+      "sha256": "43ade8421eaeac4be984c3f17eb7cae1ca4b241c9cd3dde5d8e26f1a79f24dba"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "d6e3b88800594adeb0cf1fcf73c511da49de35452f48098941ed379052a48db4"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "707517e73012cf52d139c2e13e3115ef075f6d7b34adb0924cdaf06eccdadb1b"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "b612967be12be73cc13897d38e45f0625e3d49e8091d7c126814c0994c44b519"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "80b99e958e6d384c805356ccb3b325499276e9381648ad59ba5a625818a8612c"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "7cbe225dae84eabb0a55cf3ba41640fd933f39e6ff6ad03ed5bb50645eae8a1e"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.test.ts",
+      "sha256": "c110a3a98cea0600b5b7d43be63b93d6f85ee2c9b37bed76fef5b17c0bd9e1e4"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "05af4f49fa95cd19b9e4ff84047188ad4824035130334a5d0a1a16a74dae7b0c"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "sha256": "e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "sha256": "56867e3d127850d622c6fe2adb584ddea5d744a21933dabd7ad2bbf41138cefe"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "0523fb8e051105e7c48d5a0c9fa7881550b9a65ecf73d285997e50a63cb0910f"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "8c88ce6867917a5a0d3d1a93a90d95a236a61cfceae60254d4a86c79b6a80d9f"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "0c7af436278a04974fb7a986044cc1fb99ca8d7084af2247d7434f31594c4dd4"
+    }
+  ]
+}

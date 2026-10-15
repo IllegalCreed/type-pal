@@ -7,6 +7,14 @@ Phase: phase1
 Capability: Q3 tools governance
 Visual Verification Timing: N/A（工具层，无产品/UI行为修改）
 
+## 2026-10-15 最终模块窗口（当前）
+
+稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，
+但分别仍有3620/3610/3523条未包act、各577条act环境及2条导航诊断，统一门不通过。
+定向125、game全包3564与七包typecheck通过；本卡保持review，本轮0文件关闭。
+实际读取/修改文件、caller/oracle、完整回执、官方baseline diff和剩余风险见
+[完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)；不以包绿升级逐文件验收。
+
 ## Codex 接手修复（2026-10-15，作者自验证）
 
 监听器已移除，真实事件oracle与收支探针恢复全绿；统一门仍待收。

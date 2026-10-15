@@ -6,11 +6,19 @@ Capability: opening menu fidelity
 Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Owner: Codex
-Visual Verification Timing: dev-functional（实施后最小验证；本轮未实施/未视觉验收）
+Visual Verification Timing: dev-functional（已完成真实标题浏览器链与截图核验）
+
+## 2026-10-15 最终模块窗口（当前）
+
+两项获批修复已分别提交并推送，定向125、完整game3564与七包typecheck通过。
+完整check/ratchet/protected数值通过但真实诊断未清零，本卡仍review，不标done、不关闭文件。
+本轮为Codex作者实施/自验；冻结的独立三验与后续修复分开。
+最终原件/诊断计数/官方基线及剩余边界见[完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。
+以下前提表固定修复前候选，用于追溯失败反例，当前实施以本节与用户批准段为准。
 
 ## 目标与范围
 
-标题选读档、槽位取消后，SDLPal 默认项复位为新游戏；当前 TS 保留读档项。
+修复前候选：标题选读档、槽位取消后，SDLPal 默认项复位为新游戏，TS 保留读档项。
 候选 `1f8bcd468`。仅拟核 menu-driver 标题取消窄分支及对应真实 caller 回归，
 不预授权修改 factory、公共接口、UI 形态、Save 或二阶段。
 

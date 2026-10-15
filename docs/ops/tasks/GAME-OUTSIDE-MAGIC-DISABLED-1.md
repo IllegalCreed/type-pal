@@ -44,10 +44,13 @@ runtime/原版理解/提取数据/测试模型分开核；没有归因迁移缺�
 uigame.c大世界caller：:732传FALSE，magicmenu.c:245-291对入表项无隐藏分支，fEnabled只决定色彩与确认，
 与:338-372建表共同支持当前SDLPal源码“已学条目显示但禁用”。这不是DOS版pal.exe实机证据。
 原测试把305命名飞龙探云手是合成目录；当前提取数据305=鬼降、377=飞龙探云手，不把fixture文案当原始ID真值。
+当前提取数据的大世界可用标志仅7项：296气疗术、297观音咒、298凝神归元、299元灵归心术、
+300五气朝元、301还魂咒、302赎魂。这支持“可使用范围为恢复/复活”，不证明DOS原版列表如何显示。
+数据SHA/完整SDL调用链/局限见CODE94/codex-outside-magic-truth.json。
 此项未获产品实施批准；不改显示行为，后续先核DOS实机/用户产品意图，保持draft、无build allowed。
 
-真实反证已在候选5477af1e4复跑，见CODE94/codex-r3-review.md。用户已授权Codex接手低风险返工；
-此项改变当前第一阶段行为，按用户原治理约束，已在会话集中请求三项最小修复裁决，当前等待回复。
+真实反证已在候选5477af1e4复跑，见CODE94/codex-r3-review.md。用户明确只批准①②，③尚未批准；
+本项保持draft、无build allowed。以下方案仅供后续前提核验，不是实施授权。
 最小方案：in-game-magic-menu的buildSpellMenu不再预过滤spells；沿用createMagicSelectMenu的已学排序/MP判定，对outside=false条目再置disabled。只在大世界包装层组合禁用，不改公共helper签名、战斗列表或数据。既有隐藏用例改为同成本true/false正负对照：两者入列，false灰且Confirm返回null、无目标/脚本/MP副作用；refresh后禁用仍保留。拟白名单in-game-magic-menu.ts及两个相邻测试（不扩公共接口）；实施后最小菜单功能验证。
 拟Coding Owner=Codex；批准前仍draft、无build allowed，不开始实现，不标done。
 

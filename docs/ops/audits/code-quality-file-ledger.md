@@ -300,17 +300,17 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |
 | `packages/game/src/core/menu/primitives.ts` | product | review | Codex takeover: page helpers remain test-only/unknown; false SDL page anchor and selectable guarantees corrected; no API or behavior change | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/item-select.ts` | product | review | Codex takeover: equip bit and Important approximation comments corrected; production matchesFilter retained; factory cleanup remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
-| `packages/game/src/core/menu/opening-menu.ts` | product | review | Codex R3: choice dedupe accepted; title cancel cursor counter remains in GAME-OPENING-CANCEL-CURSOR-1 draft | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
+| `packages/game/src/core/menu/opening-menu.ts` | product | review | Codex R3: choice dedupe accepted; title cancel fixed in driver after user approval, real chain/browser verified; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/player-status.ts` | product | review | Codex takeover: role index versus object ID comment corrected; currentRoleId test-only remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
-| `packages/game/src/core/menu/menu-driver.ts` | product | review | Codex takeover: C4 legal-role oracle red/green and handler double cast removed; title cancel behavior and full gate still open | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
+| `packages/game/src/core/menu/menu-driver.ts` | product | review | Codex takeover: C4 legal-role oracle red/green, handler cast removed, approved title cancel cursor fixed; 125 targeted/3564 game tests pass; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
 | `packages/game/src/core/menu/save-slot-menu.ts` | product | review | Codex takeover: removed self-model test; documented actual direct Save/handler, cancel ownership and dual storage path | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 | `packages/game/src/core/save/api.ts` | product | review | CODE-101 C5 返工后：头注释已更正（E-10 关闭，双路径现状）；"hot-reload 已处理"过 claim 已回收（openDb 失败缓存/未 close 未证） | NaN/小数合同列 review 不改接口；U-1 引用既有卡；待 Codex 再验收 |
 | `packages/game/src/core/save/indexed-db.ts` | product | review | 用户批准后c81f469e3修复：put/delete等transaction complete；success后abort拒绝并保留旧槽，真实Save调用回归通过 | GAME-SAVE-IDB-COMMIT-1仍review等完整门；连接/失败缓存未决不关闭 |
 | `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | 用户批准事务修复的新三条真实Save→IDB回归：提交时机/正常存读删、覆盖abort保旧槽、删除abort保旧槽；完整typed GameState，独立IDBFactory及连接/global/spy清理 | 作者自验，尚未独立闭合；不以3绿或覆盖率升高关闭文件 |
-| `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState and feedback tests retained; anonymous keydown listener removed; balance probe green; Save transaction risk stays open | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
+| `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState/feedback and listener balance verified in quick-save.test.ts; approved Save commit fix verified; open/connection/input contracts remain review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 
 2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。
 
@@ -335,3 +335,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-15 C5 返工（codex-r2-review）：94/97-102 白名单内注释/fixture/排重/判别力修正（E-7/E-10/E-13 关闭，E-1..E-6/E-8/E-9/E-12 维持）；pageDown 钳制真实语义钉真；三个高风险机制（C2/C3/C4）归 GAME-* draft 卡未动。计数不变（229/44）。
 
 2026-10-15 Codex takeover after R3: 6766a3c2e / 01931b3f2 / 0a039271c repair test oracles/isolation and comments only; manifest digests recomputed. All ledger statuses unchanged: 3283 inventory /229 closed /44 review /3010 pending; no file closure. Test and commentary fixes are author-verified, not a new independent acceptance. Full gate and product-risk cards remain open; see evidence/CODE-QUALITY-94/codex-takeover.md.
+
+2026-10-15 Codex最终模块窗口：稳定源码bb94ad8e2；两项用户批准行为已修并推送，125定向与game3564通过。
+全仓check/ratchet/protected均exit0但分别3620/3610/3523条未包act，另各577条act环境与2条导航，零诊断门不通过。
+官方fast基线736源文件/19865tests、覆盖率无回退，精确历史退役通过；未合main。
+实际读取/逐文件改动、primary/caller/oracle、原件完整性与下一片边界见
+[完整窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。所有状态保持；3284/229closed/45review/3010pending，0新关闭。
