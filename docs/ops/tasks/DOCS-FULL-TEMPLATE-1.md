@@ -538,3 +538,33 @@ Branch: codex/docs-full-template-proposal
 - 非作者实际strict645/model136/docs1223-7327-361/ledger3290-229-5-3056-3061/progress/diff均0问题；原32矩阵对象不动，3新增guarded与35导航一致。非作者13实质层/中央字段/来源身份/集成读域不等于tail的4338源/2824回执全文语义读域；两者分别记录。
 - 本接收仅13历史文档，原runtime/旧测/coverage/浏览器未执行；main仍干净f98d0ddd，目标active，全量尚未完成。
 - H签收后根全门实际通过：68工具/0fail/0skip、docs1223/7327/361/content22 SAVE12、model136/7routes/0issues、testing0、phase184、strict645；lint4089文件零error/warning/info，diff0。原各次失败/身份归因counter保留历史；最终门写入仅元数据并复跑，不改变13正文after或独立受审快照。
+
+### 2026-10-16 I包设计冻结与分段文档准入
+
+- 根与非作者history_cards_c_tail各自全文读I14份496行（13MD429+JSON67），贡献者亦全文已读。14固定源在33cc/22ee/H852/根777d逐字节相等，中央registry/review/catalog实际0/14；旧classifier成员reviewed不能继承深审。下表是全文语义判断后的明确绑定，不是目录classifier授权。
+- 最终238行机器提案SHA`bae8b334330e0007863091ccf317c5e7a32a9481c9b9edbfc7b3453a02235f34`获非作者独立设计agree；根已写入[模板提案](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-16-i历史lab-review机器合同14设计冻结)，冻结machine1.4新九字段变体用于单篇pilot，仍17类。实际registry现1.3，须根I0实施原子版本滚动/反例验证后切换；设计签字不等实施或I14接受。
+- I0文档build allowed：根Codex唯一Owner，只可动模板registry/提案/默认machine示例、既有14机器envelope版本及相应3review/registry、必要本任务新增docs工具测试与真实inventory pending归属、本卡及必要现行模板入口review；不改生产consumer逻辑/固定baseline/旧变体/产品/旧测试/coverage。新工具只验证文档真源与进度，非运行时数量。receipt_review独立接收I0。
+- I13MD文档build allowed：history_cards_a唯一正文Owner，非作者tail独立全文候选复核、根接收；复用H干净隔离worktree，从本准入稳定根提交新建codex/docs-testing-lab-history-i，保留H852/C/D/F分支。仅下表13MD及专属contributor-testing-lab-history-i-20261016.json候选回执；禁止共享中央/矩阵/catalog/模板/产品/旧测/coverage写入。十四项blob再核相等；不能在主树执行历史prompt/命令。
+- JSON第14项暂不准写：必须等根I0稳定commit明确通知，再同步该commit配置并复核未变原JSON和13源；届时仅加_governance且原九字段全对象深等，候选/根/非作者实际consumer都通过后才接收，不把13MD候选先当14完成。原source四向边界与原raw/截图未知保留。
+- 逐篇必填大纲：两索引目的/范围/状态/入口责任/证据下一步；十审计问题/范围证据/发现/结论/整改复核；completion证据身份/输入/断言oracle/结果/限制复核。13篇另具体写历史范围/原始结论/当时证据/当前有效性/继任；完整原文可逆quote，52原标题/现19Markdown链接及新旧fragment真实核验。原无Owner/发布日期不补造。
+- 最强反例：r10整批counter不能因后来的completion倒写，原G08 exit0绿例不满足五针真judge；r9窄accept不等正式接入，r10主卡build不退回旧draft。原warning/类型失败/误归因/没有进入caller/原临时目录污染保留。历史版本/兼容入口不恢复当前承诺，未证zoom/boot/布局/options不由模板关闭。
+
+| 固定源路径 | 原行 | 绑定 | 内容判断/停止线 |
+|---|---:|---|---|
+| docs/testing/archive/architecture-regression-lab/README.md | 18 | governance-index1.0 + archive1.0 | 同包十轮导航，不重复产品事实 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json | 67 | test-machine-evidence1.4 / historical-review-payload-v1（先等I0） | counter/MISSED原九字段，禁止伪造publication |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md | 43 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md | 29 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md | 29 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md | 34 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md | 36 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md | 29 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md | 32 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md | 27 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md | 23 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md | 44 | audit-report1.0 + archive1.0 | 各轮实际candidate/反证/窄accept，保留先后 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md | 48 | evidence-receipt1.0 + archive1.0 | 42候选/41正式/75账与代表视觉分别保留 |
+| docs/testing/archive/architecture-regression-lab-history.md | 37 | governance-index1.0 + archive1.0 | 同包十轮导航，不重复产品事实 |
+
+- 本表14项path-NUL-blob-NUL-SHA256-LF有序manifest SHA256：`16324c3d4a7747fcdf42ae685d814e88a9775ec536da7ab6a6525764666d72f5`。迁移源先以本准入稳定commit为准，原blob与777d/22ee/33cc逐项相同，不自行刷新原迁移清单历史SHA。
+- 当前全量仍132/1838+4，I未计迁移。main干净f98d0ddd未写；goal active，全量完成与最终main集成仍待。无用户转交提示词，由Codex内部协调；贡献者不得自标done或写中央accept。

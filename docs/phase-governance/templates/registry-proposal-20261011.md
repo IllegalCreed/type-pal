@@ -99,3 +99,49 @@ C2设计冻结（2026-10-16）：非作者receipt_review独立核006原文、实
 收窄C2的可信根为已独立核的1838源快照：`scripts/docs/frozen-document-source.mjs`固定baseline路径、commit33cc2df50c7279d2750ddad4fcf6c373b7b2bda3、blob00da11bb594126105abbb5ea596c7272ed8e5542及SHA256 1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5。该根不是从candidate/pin/工作树数据生成，变更必须另做独立来源/设计复核。C2各文档pin须同一已批准原始快照；当前baseline字节必须与冻结Git对象相同，条目源SHA从已核固定对象解析。新增非该快照文档不能自行改根或续pin来放行，需另立经独立核的范围修订。reader另以cat-file对象种类严格要求commit，tree/blob/tag均拒绝。
 
 反例必须复现联合变造后的实际progress拒绝，以及真实tree/blob/annotated-tag拒绝；原false/默认execution门与所有原机器字段保持。中央conformity出现1.1.0/1.3.0双当前字段的元数据counter同步修正，旧值入history。以上仍待非作者实现/pilot复核，不能以设计或作者修复自签accept。
+
+## 2026-10-16 I：历史lab-review机器合同1.4设计冻结
+
+已全文核I14份496原行：13Markdown为两篇governance-index、十篇audit-report和一篇evidence-receipt，均叠加archive-record1.0；类型按逐篇结论/用途确定，不按目录授权。r10 JSON原九字段既不是schema2发布对象，也不是默认execution回执；现1.3三个合同实际均拒绝其原对象，不能补造id/status/runtimeExecution来过门。
+
+Codex根与非作者history_cards_c_tail完整读取最终238行设计，独立设计agree（草案SHA256 `bae8b334330e0007863091ccf317c5e7a32a9481c9b9edbfc7b3453a02235f34`）。下列`test-machine-evidence-v1 / 1.4.0`同类新变体设计冻结用于单篇pilot，模板总数仍17；实际registry当前1.3须待既有14份版本滚动和新反例实现原子提交后切换，不把设计冻结当实施或I14完成。
+
+```json
+{
+  "historical-review-payload-v1": {
+    "format": "json",
+    "requiredFields": [
+      "candidate", "candidateBase", "reviewedMain", "verdict", "checks",
+      "g01", "v01ActorName", "g06AuthorGuard", "g08DropOutput", "_governance"
+    ],
+    "requiredValues": {
+      "_governance.lifecycle": "historical",
+      "_governance.currentAudit.runtimeExecutionPerformed": false
+    },
+    "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+    "preservedSource": {
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    }
+  }
+}
+```
+
+原九字段及全部嵌套payload原位保留，仅加_governance，去治理层须与批准固定Git源deep-equal。继承父requiredGovernanceFields；新变体不设catalog/statusPolicy，不把verdict当lifecycle。原counter、41/41、51账48/1/2、五针detected、warning1及独立drop-output `MISSED/1passed/0failed/exit0`均不能改成本轮成功；currentAudit只记本轮静态治理false。原006 publication真值、默认execution状态词、document-audit false及全部旧合同不放松。
+
+外置source pin经根与非作者真实Git/baseline核定批准：路径`docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json`，commit `33cc2df50c7279d2750ddad4fcf6c373b7b2bda3`，blob `3076a25a30f592eff4d357bcaae5cbb4b3c22b6e`，SHA256 `ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929`。与22ee/H852/根777d原JSON字节一致；固定1838 baseline身份、字节与006 pin不动。pin只是可变审批记录，可信根仍为frozen-document-source.mjs已独立冻结的33cc baseline，不能从候选自选源续pin。
+
+### 设计反证、实际消费者与停止线
+
+- 早期仅_governance的泛化内存方案确让006换标并联改mutable pin返回空issues；该counter保留。最终九键方案由根/贡献者/非作者分别核证：006只换标缺九键，补九键又因原对象deepEqual失败而拒绝；联改工作baseline被固定根拒绝。原r10加治理层正例通过；变counter/MISSED/exit/warning、包payload或本轮true均实际拒绝。这些只是设计可行性probe，不是实现或完整CLI验收。
+- 完整消费者继续为checkMigratedDocument的body→publication→preservedSource→版本声明链，model和progress都传真实Git reader。九键与深等共同强制原source真实同形，无需requiredPinVariant、sourceRequiredFields、新allowlist或生产消费者分支；纯checkTemplateBody不独立证明来源保真。
+- 新pilot必须实际走model/progress CLI及匹配route/review/after；联合换标签/pin/补字段/刷review、baseline漂移仍须exit1且不计完成。复用原C2后来提交/源pin/基线联合变造与tree/blob/tag拒绝，不能把helper绿替CLI。九键删改/额外字段、错版本/variant/生命周期/缺pin/错blob与本轮执行变造都要真实拒绝。
+- 原生JSON的直接公开caller为r10报告；迁移清单/legacy manifest/classifier只保来源身份，未找到产品runner解析九字段；旧verify读取results.json及Vitest JSON，并不消费本JSON。cafac实际red-control五针不含drop-sprite，其judge要求exit1/精确执行/恰1业务AssertionError/见证/非timeout/源hash不变；不能用五针detected关闭独立exit0漏检。
+- 不新建catalog条目，不续reviewBy/lastVerified，不改产品、旧测试或coverage，不运行旧反控/浏览器/raw；临时日志/截图当前可用性未验保持unknown。其它JSON形状或新pin须另逐篇来源核定及设计准入。
+
+### 父版本滚动与已有文档联动
+
+1.4实施时仅给已接收14份机器对象的_governance.templateVersion升版：13份document-audit-v2（e2e001、active-scene、battle-host、battle-session-owners、world-runtime、command-form-families、map-workspace-sessions、dependency-ownership、menu-session、e2e-contract、e2e-route、e2e-common-issues、legacy-flat-audit）和006历史publication。三中央review为20261015-protocol-and-e2e-pilot-batch、20261015-domain-pairs-and-archive-cards、20261016-historical-execution-pilot；registry与review当前templateVersion、conformity所有实际存在的version/templateVersion、after/revision/evidence同步，原完整当前记录留prior/history。七篇conformity双版本字段必须同时改，其余不补造字段；006旧1.3 pilot method留历史、当前说明仅父版本对齐。原14route没有版本，不为升版改variant。
+
+十四份归一_governance.templateVersion后必须逐篇对象深等，原native字段/状态/版本/日期/执行/history/source SHA/pins不变；source-backed不变runtime-backed。默认机器模板示例仅同声明升1.4，原三个变体配置对象不变。版本滚动不新增迁移数，不刷新冻结作者回执、旧review历史或baseline。修改已接收模板入口说明则同提交维护其review各当前字段与after，不只刷SHA；未改正文不刷新。
+
+实施Owner为根Codex，非作者独立复核后才接收；I13Markdown可在现有1.0合同下隔离推进，I r10 JSON须等根1.4原子配置/旧14保真/实际工具反例门稳定后才能实施。I14实际源清单、逐篇大纲与白名单见任务卡；任何未核前提保持draft/待验，不因设计agree宣布完成。
