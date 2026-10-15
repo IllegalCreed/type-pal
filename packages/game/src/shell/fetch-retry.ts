@@ -52,6 +52,11 @@ export function installFetchRetry(opts: { retries?: number; backoffMs?: number[]
         }
         return res
       } catch (err) {
+        if (
+          init?.signal?.aborted ||
+          (typeof err === 'object' && err !== null && 'name' in err && err.name === 'AbortError')
+        )
+          throw err
         lastErr = err // 网络层失败 → 退避后重试;耗尽后抛最后一次错误
       }
     }

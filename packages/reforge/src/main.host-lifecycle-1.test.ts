@@ -328,16 +328,26 @@ test('战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
 
 test('战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换', async () => {
   host = await installShellHost()
-  // jsdom 的 location.reload 为静默 no-op 且不可 spy;jsdom 可观测合同 =
-  // 零档下战败链不误读空档、不替换世界、流程干净收口(重开行由覆盖账证明执行)。
-  const scene = sceneWithCommands('a', [{ kind: 'gameOver' }])
-  const fixture = await shellProject({ first: scene })
-  await bootAndAwait(fixture)
-  await until(host, () => observation().dialogue)
-  for (let i = 0; i < 6 && observation().dialogue; i++) await key(host, 'Enter', 200)
-  await advance(() => !observation().script.running)
-  expect(observation().world.money).toBe(50)
-  expect(observation().sceneId).toBe('a')
+  // Replace only the browser reload boundary: jsdom's native reload emits a navigation
+  // diagnostic. The production GameOver branch still runs through the real host.
+  const originalLocation = window.location
+  const reload = vi.fn()
+  const testLocation = { ...originalLocation, reload } as unknown as Location
+  Object.defineProperty(window, 'location', { configurable: true, value: testLocation })
+  try {
+    // 零档下战败链不误读空档、不替换世界、流程干净收口(重开行由覆盖账证明执行)。
+    const scene = sceneWithCommands('a', [{ kind: 'gameOver' }])
+    const fixture = await shellProject({ first: scene })
+    await bootAndAwait(fixture)
+    await until(host, () => observation().dialogue)
+    for (let i = 0; i < 6 && observation().dialogue; i++) await key(host, 'Enter', 200)
+    await advance(() => !observation().script.running)
+    expect(reload).toHaveBeenCalledTimes(1)
+    expect(observation().world.money).toBe(50)
+    expect(observation().sceneId).toBe('a')
+  } finally {
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation })
+  }
 })
 
 test('场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键', async () => {

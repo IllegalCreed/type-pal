@@ -1,17 +1,46 @@
 import { readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 function openMkf(buffer) {
+  if (buffer.byteLength < 4) {
+    throw new Error('MKF: buffer too small for header')
+  }
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength)
   const firstOffset = view.getUint32(0, true)
+  if (firstOffset % 4 !== 0 || firstOffset < 4) {
+    throw new Error(`MKF: invalid offset table end ${firstOffset}`)
+  }
+  if (firstOffset > buffer.byteLength) {
+    throw new Error(`MKF: offset table truncated (end=${firstOffset}, size=${buffer.byteLength})`)
+  }
   const count = firstOffset / 4 - 1
   const offsets = []
-  for (let i = 0; i <= count; i++) offsets.push(view.getUint32(i * 4, true))
+  let previous = firstOffset
+  for (let i = 0; i <= count; i++) {
+    const offset = view.getUint32(i * 4, true)
+    if (offset < previous) {
+      throw new Error(`MKF: offsets not monotonic at ${i} (${offset} < ${previous})`)
+    }
+    if (offset > buffer.byteLength) {
+      throw new Error(`MKF: offset ${offset} outside buffer size ${buffer.byteLength}`)
+    }
+    offsets.push(offset)
+    previous = offset
+  }
   return { buffer, offsets }
 }
 const chunkCount = (m) => m.offsets.length - 1
-const readChunk = (m, i) => m.buffer.subarray(m.offsets[i], m.offsets[i + 1])
+const readChunk = (m, i) => {
+  if (!Number.isInteger(i) || i < 0 || i >= chunkCount(m)) {
+    throw new Error(`MKF: chunk ${i} out of range (count=${chunkCount(m)})`)
+  }
+  return m.buffer.subarray(m.offsets[i], m.offsets[i + 1])
+}
 
-const buf = new Uint8Array(readFileSync('/Users/zhangxu/illegal/type-pal/data/raw/DATA.MKF'))
+const here = dirname(fileURLToPath(import.meta.url))
+const dataPath = resolve(here, '../../data/raw/DATA.MKF')
+const buf = new Uint8Array(readFileSync(dataPath))
 const mkf = openMkf(buf)
 const n = chunkCount(mkf)
 console.log('DATA.MKF chunkCount =', n)

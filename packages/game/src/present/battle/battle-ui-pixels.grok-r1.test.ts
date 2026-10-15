@@ -393,6 +393,7 @@ describe('G08-B 战斗界面像素', () => {
     const frames = uiFrames()
     frames[48] = solidFrame(0x30)
     const gs = mkGs()
+    gs.partyMembers = [0]
     gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }
     const fb = paint({
       state: mkState([mkBattlePlayer(0)]),

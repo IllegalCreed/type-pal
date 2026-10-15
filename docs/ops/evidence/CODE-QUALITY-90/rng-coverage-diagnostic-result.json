@@ -1,0 +1,303 @@
+{
+  "sourceBase": "384394a72743f64e5e4dc4845b91b741935857ff",
+  "officialGate": false,
+  "purpose": "read-only coverage diagnosis of incoming RNG guard; repository code and thresholds unchanged",
+  "originalSourceSha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+  "environment": {
+    "TYPE_PAL_COVERAGE": "1",
+    "TYPE_PAL_COVERAGE_PROFILE": "fast",
+    "VITEST_MAX_WORKERS": "2",
+    "NODE_DISABLE_COMPILE_CACHE": "1"
+  },
+  "runs": [
+    {
+      "phase": "guard-removed",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "--config",
+        "vitest.config.ts",
+        "--passWithNoTests",
+        "--exclude",
+        "node_modules/**",
+        "--exclude",
+        "dist/**",
+        "--exclude",
+        "build/**",
+        "--exclude",
+        "coverage/**",
+        "--exclude",
+        "**/*.pal.test.js",
+        "--exclude",
+        "**/*.pal.test.jsx",
+        "--exclude",
+        "**/*.pal.test.ts",
+        "--exclude",
+        "**/*.pal.test.tsx",
+        "--exclude",
+        "**/*.pal.test.mjs",
+        "--exclude",
+        "**/*.pal.test.mts",
+        "--exclude",
+        "**/*.pal.test.cjs",
+        "--exclude",
+        "**/*.pal.test.cts",
+        "--exclude",
+        "src/__tests__/e2e-battle.test.ts",
+        "--exclude",
+        "src/assets/rng-blob-snapshot.test.ts",
+        "--exclude",
+        "src/assets/sprite-blob-snapshot.test.ts",
+        "--exclude",
+        "src/assets/tileset-blob-snapshot.test.ts",
+        "--exclude",
+        "src/dev/dev-panel.test.ts",
+        "--coverage",
+        "--coverage.provider=v8",
+        "--coverage.reportOnFailure",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/coverage/guard-removed",
+        "--coverage.reporter=json-summary",
+        "--coverage.reporter=lcov",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/guard-removed-tests.json",
+        "--coverage.include",
+        "src/**/*.{ts,tsx}",
+        "--coverage.exclude",
+        "**/__tests__/**",
+        "--coverage.exclude",
+        "**/*.test.ts",
+        "--coverage.exclude",
+        "**/*.test.tsx",
+        "--coverage.exclude",
+        "**/*.spec.ts",
+        "--coverage.exclude",
+        "**/*.spec.tsx",
+        "--coverage.exclude",
+        "**/*.d.ts"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt",
+      "exitCode": 1,
+      "numTests": 3531,
+      "failedAssertions": [
+        {
+          "file": "-UVOyNt/packages/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=false)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 173 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/packages/game/src/core/event-rng-scene-restore.test.ts:94:27\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "-UVOyNt/packages/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=true)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 173 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/packages/game/src/core/event-rng-scene-restore.test.ts:94:27\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "metrics": {
+        "lines": {
+          "total": 13682,
+          "covered": 12330,
+          "skipped": 0,
+          "pct": 90.11
+        },
+        "statements": {
+          "total": 15599,
+          "covered": 13802,
+          "skipped": 0,
+          "pct": 88.48
+        },
+        "functions": {
+          "total": 1856,
+          "covered": 1550,
+          "skipped": 0,
+          "pct": 83.51
+        },
+        "branches": {
+          "total": 11371,
+          "covered": 9056,
+          "skipped": 0,
+          "pct": 79.64
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    },
+    {
+      "phase": "restored",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "--config",
+        "vitest.config.ts",
+        "--passWithNoTests",
+        "--exclude",
+        "node_modules/**",
+        "--exclude",
+        "dist/**",
+        "--exclude",
+        "build/**",
+        "--exclude",
+        "coverage/**",
+        "--exclude",
+        "**/*.pal.test.js",
+        "--exclude",
+        "**/*.pal.test.jsx",
+        "--exclude",
+        "**/*.pal.test.ts",
+        "--exclude",
+        "**/*.pal.test.tsx",
+        "--exclude",
+        "**/*.pal.test.mjs",
+        "--exclude",
+        "**/*.pal.test.mts",
+        "--exclude",
+        "**/*.pal.test.cjs",
+        "--exclude",
+        "**/*.pal.test.cts",
+        "--exclude",
+        "src/__tests__/e2e-battle.test.ts",
+        "--exclude",
+        "src/assets/rng-blob-snapshot.test.ts",
+        "--exclude",
+        "src/assets/sprite-blob-snapshot.test.ts",
+        "--exclude",
+        "src/assets/tileset-blob-snapshot.test.ts",
+        "--exclude",
+        "src/dev/dev-panel.test.ts",
+        "--coverage",
+        "--coverage.provider=v8",
+        "--coverage.reportOnFailure",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/coverage/restored",
+        "--coverage.reporter=json-summary",
+        "--coverage.reporter=lcov",
+        "--reporter=json",
+        "--outputFile=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt/restored-tests.json",
+        "--coverage.include",
+        "src/**/*.{ts,tsx}",
+        "--coverage.exclude",
+        "**/__tests__/**",
+        "--coverage.exclude",
+        "**/*.test.ts",
+        "--coverage.exclude",
+        "**/*.test.tsx",
+        "--coverage.exclude",
+        "**/*.spec.ts",
+        "--coverage.exclude",
+        "**/*.spec.tsx",
+        "--coverage.exclude",
+        "**/*.d.ts"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq92-rng-coverage-UVOyNt",
+      "exitCode": 0,
+      "numTests": 3531,
+      "failedAssertions": [],
+      "metrics": {
+        "lines": {
+          "total": 13685,
+          "covered": 12333,
+          "skipped": 0,
+          "pct": 90.12
+        },
+        "statements": {
+          "total": 15602,
+          "covered": 13805,
+          "skipped": 0,
+          "pct": 88.48
+        },
+        "functions": {
+          "total": 1856,
+          "covered": 1550,
+          "skipped": 0,
+          "pct": 83.51
+        },
+        "branches": {
+          "total": 11373,
+          "covered": 9058,
+          "skipped": 0,
+          "pct": 79.64
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    }
+  ],
+  "repositorySourceUnchanged": true,
+  "temporarySourceRestored": true,
+  "fileDifferences": [
+    {
+      "file": "-UVOyNt/packages/game/src/core/event-system.ts",
+      "before": {
+        "lines": {
+          "total": 1767,
+          "covered": 1702,
+          "skipped": 0,
+          "pct": 96.32
+        },
+        "functions": {
+          "total": 77,
+          "covered": 75,
+          "skipped": 0,
+          "pct": 97.4
+        },
+        "statements": {
+          "total": 1867,
+          "covered": 1789,
+          "skipped": 0,
+          "pct": 95.82
+        },
+        "branches": {
+          "total": 1876,
+          "covered": 1494,
+          "skipped": 0,
+          "pct": 79.63
+        }
+      },
+      "after": {
+        "lines": {
+          "total": 1770,
+          "covered": 1705,
+          "skipped": 0,
+          "pct": 96.32
+        },
+        "functions": {
+          "total": 77,
+          "covered": 75,
+          "skipped": 0,
+          "pct": 97.4
+        },
+        "statements": {
+          "total": 1870,
+          "covered": 1792,
+          "skipped": 0,
+          "pct": 95.82
+        },
+        "branches": {
+          "total": 1878,
+          "covered": 1496,
+          "skipped": 0,
+          "pct": 79.65
+        }
+      }
+    }
+  ],
+  "temporaryDirectoryRemoved": true
+}

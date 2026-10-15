@@ -887,6 +887,7 @@ describe('performAttack', () => {
       forceRoll: 1,
     })
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
     performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
       gs,

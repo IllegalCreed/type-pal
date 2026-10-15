@@ -1,0 +1,7 @@
+$ pnpm check:fast
+exit_code=0
+
+Final candidate run on 2026-10-13 (Asia/Tokyo), after replacing two existing DOM casts with typed querySelector calls.
+check:docs, coverage-tools, quality-tools, e2e-tools and script-governance all passed.
+Workspace typecheck all passed; tests: content 149/1498, shared 16/131, game 314/3550, pal-extract 70/423, reforge 359/8964, editor 631/4951, migrate 96/739.
+lint: PASS — 4009 files; 0 errors / 0 warnings / 0 infos.

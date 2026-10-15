@@ -1,0 +1,108 @@
+candidate source: HEAD original dev-panel.ts
+current test source sha256: 57b71c9ce217354a257f13d31813a26b538cc2e88dd21a615edac7cdce29a795
+exit_code=1
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > keeps the existing map placeholder for a renderer with no result
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > loads through the direct fallback when IntersectionObserver is unavailable
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+xx·stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > converts an injected callback rejection into the existing placeholder state
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+·x
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+     Errors  1 error
+   Start at  22:42:59
+   Duration  1.01s (transform 311ms, setup 16ms, import 354ms, tests 277ms, environment 291ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/dev/dev-panel-picker-lifecycle.test.ts:174:41
+    172|     expect(render).toHaveBeenCalledWith(1, 12)
+    173|     closePicker()
+    174|     expect(oldObserver.disconnectCalls).toBe(1)
+       |                                         ^
+    175|     oldObserver.emit(oldCard)
+    176|     expect(render).toHaveBeenCalledOnce()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment
+AssertionError: expected "vi.fn()" to be called once, but got 2 times
+ ❯ src/dev/dev-panel-picker-lifecycle.test.ts:236:20
+    234|     expect(oldObserver.disconnectCalls).toBe(1)
+    235|     oldObserver.emit(oldCard)
+    236|     expect(render).toHaveBeenCalledOnce()
+       |                    ^
+    237|
+    238|     const currentObserver = FakeIntersectionObserver.instances.at(-1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > converts an injected callback rejection into the existing placeholder state
+AssertionError: expected '渲染中…' to be 'map 4' // Object.is equality
+
+Expected: "map 4"
+Received: "渲染中…"
+
+ ❯ src/dev/dev-panel-picker-lifecycle.test.ts:301:37
+    299|     const placeholder = card.querySelector<HTMLElement>('[data-ph]')
+    300|     if (!placeholder) throw new Error('thumbnail placeholder missing')
+    301|     expect(placeholder.textContent).toBe('map 4')
+       |                                     ^
+    302|   })
+    303| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: injected renderer failure
+ ❯ Object.<anonymous> src/dev/dev-panel-picker-lifecycle.test.ts:289:47
+    287|   it('converts an injected callback rejection into the existing placeh…
+    288|     vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver)
+    289|     const render = vi.fn(() => Promise.reject(new Error('injected rend…
+       |                                               ^
+    290|     const deps = makeDeps([fixtureJump(6)], render)
+    291|     const sceneList = openSceneTab(deps)
+ ❯ Object.Mock [as renderSceneThumbnail] ../../node_modules/.pnpm/@vitest+spy@4.1.7/node_modules/@vitest/spy/dist/index.js:332:34
+ ❯ loadThumb src/dev/dev-panel.ts:1180:15
+ ❯ FakeIntersectionObserver.IntersectionObserver.root [as callback] src/dev/dev-panel.ts:1223:33
+ ❯ FakeIntersectionObserver.emit src/dev/dev-panel-picker-lifecycle.test.ts:68:10
+ ❯ src/dev/dev-panel-picker-lifecycle.test.ts:296:14
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+
+This error originated in "src/dev/dev-panel-picker-lifecycle.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯

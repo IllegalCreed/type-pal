@@ -1,0 +1,239 @@
+$ pnpm test:quality-tools
+exit_code=0
+
+
+> type-pal@ test:quality-tools /Users/zhangxu/illegal/type-pal-quality-3x
+> node --test scripts/quality/*.test.mjs
+
+TAP version 13
+# Subtest: code-quality inventory emits deterministic scoped records with caller and category fields
+ok 1 - code-quality inventory emits deterministic scoped records with caller and category fields
+  ---
+  duration_ms: 1294.126917
+  type: 'test'
+  ...
+# Subtest: unique files determine all counts; running the guard does not change evidence
+ok 2 - unique files determine all counts; running the guard does not change evidence
+  ---
+  duration_ms: 1.6635
+  type: 'test'
+  ...
+# Subtest: duplicate ledger row fails even if the header gives it no extra credit
+ok 3 - duplicate ledger row fails even if the header gives it no extra credit
+  ---
+  duration_ms: 0.226042
+  type: 'test'
+  ...
+# Subtest: untracked evidence path cannot count as a reviewed file
+ok 4 - untracked evidence path cannot count as a reviewed file
+  ---
+  duration_ms: 0.199584
+  type: 'test'
+  ...
+# Subtest: each published status count is checked independently
+ok 5 - each published status count is checked independently
+  ---
+  duration_ms: 0.201375
+  type: 'test'
+  ...
+# Subtest: added and removed tracked files invalidate inventory and pending counts
+ok 6 - added and removed tracked files invalidate inventory and pending counts
+  ---
+  duration_ms: 0.082583
+  type: 'test'
+  ...
+# Subtest: table shape, status and evidence cannot be silently skipped
+ok 7 - table shape, status and evidence cannot be silently skipped
+  ---
+  duration_ms: 0.118625
+  type: 'test'
+  ...
+# Subtest: fenced examples give no credit; duplicate/missing summary or table fails closed
+ok 8 - fenced examples give no credit; duplicate/missing summary or table fails closed
+  ---
+  duration_ms: 0.159875
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate inventory is rejected before claiming success
+ok 9 - malformed or duplicate inventory is rejected before claiming success
+  ---
+  duration_ms: 0.075167
+  type: 'test'
+  ...
+# Subtest: real quality-tools caller checks the current repository ledger against the inventory CLI
+ok 10 - real quality-tools caller checks the current repository ledger against the inventory CLI
+  ---
+  duration_ms: 1292.878875
+  type: 'test'
+  ...
+# Subtest: accepts a complete, zero-diagnostic report
+ok 11 - accepts a complete, zero-diagnostic report
+  ---
+  duration_ms: 0.573875
+  type: 'test'
+  ...
+# Subtest: rejects nonzero errors even when CLI exits zero
+ok 12 - rejects nonzero errors even when CLI exits zero
+  ---
+  duration_ms: 0.137584
+  type: 'test'
+  ...
+# Subtest: rejects missing errors
+ok 13 - rejects missing errors
+  ---
+  duration_ms: 0.059958
+  type: 'test'
+  ...
+# Subtest: rejects nonzero warnings even when CLI exits zero
+ok 14 - rejects nonzero warnings even when CLI exits zero
+  ---
+  duration_ms: 0.123
+  type: 'test'
+  ...
+# Subtest: rejects missing warnings
+ok 15 - rejects missing warnings
+  ---
+  duration_ms: 0.054
+  type: 'test'
+  ...
+# Subtest: rejects nonzero infos even when CLI exits zero
+ok 16 - rejects nonzero infos even when CLI exits zero
+  ---
+  duration_ms: 0.055916
+  type: 'test'
+  ...
+# Subtest: rejects missing infos
+ok 17 - rejects missing infos
+  ---
+  duration_ms: 0.094583
+  type: 'test'
+  ...
+# Subtest: rejects nonzero skipped even when CLI exits zero
+ok 18 - rejects nonzero skipped even when CLI exits zero
+  ---
+  duration_ms: 0.03625
+  type: 'test'
+  ...
+# Subtest: rejects missing skipped
+ok 19 - rejects missing skipped
+  ---
+  duration_ms: 0.266416
+  type: 'test'
+  ...
+# Subtest: rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+ok 20 - rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+  ---
+  duration_ms: 0.265833
+  type: 'test'
+  ...
+# Subtest: rejects missing diagnosticsNotPrinted
+ok 21 - rejects missing diagnosticsNotPrinted
+  ---
+  duration_ms: 0.110792
+  type: 'test'
+  ...
+# Subtest: rejects nonzero changed even when CLI exits zero
+ok 22 - rejects nonzero changed even when CLI exits zero
+  ---
+  duration_ms: 0.036666
+  type: 'test'
+  ...
+# Subtest: rejects missing changed
+ok 23 - rejects missing changed
+  ---
+  duration_ms: 0.365042
+  type: 'test'
+  ...
+# Subtest: rejects invalid count -1
+ok 24 - rejects invalid count -1
+  ---
+  duration_ms: 0.031541
+  type: 'test'
+  ...
+# Subtest: rejects invalid count NaN
+ok 25 - rejects invalid count NaN
+  ---
+  duration_ms: 0.025833
+  type: 'test'
+  ...
+# Subtest: rejects invalid count Infinity
+ok 26 - rejects invalid count Infinity
+  ---
+  duration_ms: 0.022042
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 1.5
+ok 27 - rejects invalid count 1.5
+  ---
+  duration_ms: 0.022333
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 0
+ok 28 - rejects invalid count 0
+  ---
+  duration_ms: 0.0205
+  type: 'test'
+  ...
+# Subtest: rejects invalid count null
+ok 29 - rejects invalid count null
+  ---
+  duration_ms: 0.020125
+  type: 'test'
+  ...
+# Subtest: rejects diagnostics even if summary hides them
+ok 30 - rejects diagnostics even if summary hides them
+  ---
+  duration_ms: 0.032542
+  type: 'test'
+  ...
+# Subtest: rejects empty scan
+ok 31 - rejects empty scan
+  ---
+  duration_ms: 0.028417
+  type: 'test'
+  ...
+# Subtest: rejects unknown or malformed report shapes
+ok 32 - rejects unknown or malformed report shapes
+  ---
+  duration_ms: 0.06075
+  type: 'test'
+  ...
+# Subtest: rejects process errors regardless of a clean report
+ok 33 - rejects process errors regardless of a clean report
+  ---
+  duration_ms: 0.052333
+  type: 'test'
+  ...
+# Subtest: real Biome process: clean
+ok 34 - real Biome process: clean
+  ---
+  duration_ms: 73.748625
+  type: 'test'
+  ...
+# Subtest: real Biome process: warning
+ok 35 - real Biome process: warning
+  ---
+  duration_ms: 65.06175
+  type: 'test'
+  ...
+# Subtest: real Biome process: info
+ok 36 - real Biome process: info
+  ---
+  duration_ms: 67.255584
+  type: 'test'
+  ...
+# Subtest: real Biome process: syntax
+ok 37 - real Biome process: syntax
+  ---
+  duration_ms: 66.013666
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1336.1005

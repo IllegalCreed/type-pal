@@ -67,4 +67,14 @@ describe('fetch-retry(GET 网络层重试兜底)', () => {
     installFetchRetry({ backoffMs: [0, 0] })
     expect(globalThis.fetch).toBe(wrapped)
   })
+
+  it('AbortError 立即向 caller 传播，不重复请求或等待 backoff', async () => {
+    const abort = new DOMException('aborted', 'AbortError')
+    const mock = vi.fn().mockRejectedValue(abort)
+    globalThis.fetch = mock as unknown as typeof fetch
+    installFetchRetry({ retries: 2, backoffMs: [50, 50] })
+
+    await expect(fetch('/cancelled', { signal: new AbortController().signal })).rejects.toBe(abort)
+    expect(mock).toHaveBeenCalledTimes(1)
+  })
 })

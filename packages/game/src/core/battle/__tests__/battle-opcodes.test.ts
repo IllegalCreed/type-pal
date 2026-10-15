@@ -7,7 +7,8 @@ import type {
   ObjectMagicView,
   ObjectPoisonView,
 } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
+import { makeBattle, makeRole } from '../../../__tests__/coverage85-glm-game/harness.js'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
 import {
   getPlayerAttackStrength,
@@ -38,6 +39,14 @@ function makeCtx(enemy: BattleEnemy): BattleCtx {
     caster: { type: 'enemy', idx: 0 },
   }
 }
+
+function poisonGameState(partyMembers: number[] = [0]): GameState {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.partyMembers = partyMembers
+  return gs
+}
+
+afterEach(() => setObjectPoisons([]))
 
 describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0064 jump if enemy hp > N%:hp 满 100/100 + operand[0]=50 → jump operand[1]', () => {
@@ -109,7 +118,7 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     const ctx = {
       state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState,
       target: { type: 'player', idx: 0 },
-      gs: { rgPoisonStatus: {} } as any,
+      gs: poisonGameState(),
     } as BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.consumed).toBe(true)
@@ -120,10 +129,24 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     const ctx = {
       state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState,
       target: { type: 'player', idx: 0 },
-      gs: { rgPoisonStatus: { '0_0': { wPoisonID: 552, wPoisonScript: 0 } } } as any,
+      gs: { ...poisonGameState(), rgPoisonStatus: { '0_0': { wPoisonID: 552, wPoisonScript: 0 } } },
     } as BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.newIp).toBeUndefined() // 已中毒不跳
+  })
+
+  it('0x0061:非顺序队伍按当前 party slot 读毒,role4 不会误读 roleId=4 槽', () => {
+    const { gs, state } = makeBattle({
+      roles: Array.from({ length: 5 }, (_, id) => makeRole(id)),
+      party: [4, 1],
+    })
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }
+    const r = dispatchBattleOpcode(0x0061, [300, 0, 0], {
+      state,
+      target: { type: 'player', idx: 0 },
+      gs,
+    })
+    expect(r.newIp).toBeUndefined()
   })
 
   it('0x0022 复活:刷新被复活队员 currentFrame → 站立帧(修 user 报"起来一帧又倒下";死帧 2 不被刷新会卡住)', () => {
@@ -144,7 +167,7 @@ describe('B-w2.a battle-opcodes dispatch', () => {
       } as any as BattleState,
       target: { type: 'player', idx: 0 },
       playerRoles: { roles: [{ id: 0, hp: 0, maxHP: 100 } as any] },
-      gs: { rgPoisonStatus: {} } as any,
+      gs: poisonGameState(),
     } as BattleCtx
     // operand[0]=0(单体),operand[1]=5 → hp = 100*5/10 = 50
     dispatchBattleOpcode(0x0022, [0, 5], ctx)
@@ -651,6 +674,22 @@ describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 
     expect(has).toBe(true)
   })
 
+  it('0x29 施毒:非顺序队伍按 role→party slot 落槽,role4 写入 slot0', () => {
+    setObjectPoisons([{ id: 557, level: 3, color: 0, playerScript: 0, enemyScript: 0 }])
+    const { gs, state, playerRoles } = makeBattle({
+      roles: Array.from({ length: 5 }, (_, id) => makeRole(id)),
+      party: [4, 1],
+    })
+    dispatchBattleOpcode(0x29, [0, 557, 0], {
+      state,
+      gs,
+      playerRoles,
+      target: { type: 'player', idx: 0 },
+    })
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(557)
+    expect(gs.rgPoisonStatus['0_4']).toBeUndefined()
+  })
+
   it('applyAll(op0!=0):全队治毒', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0, 1]
@@ -1085,7 +1124,7 @@ function healCtx(
       ),
     },
     bus,
-    gs: { fScriptSuccess: true, rgPoisonStatus: {} } as any,
+    gs: { ...poisonGameState(roles.map((_, i) => i)), fScriptSuccess: true },
   }
 }
 

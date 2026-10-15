@@ -4,7 +4,7 @@
  * 本文件：单人队直进 pick-spell、confirmSpell applyToAll 分相、非顺序 party target roleId、
  * 错 phase 零请求、refresh 后 cursor 落回上次 spell。
  */
-import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import {
   cancelInGameMagic,
@@ -15,32 +15,98 @@ import {
   refreshSpellMenu,
 } from './in-game-magic-menu.js'
 
-const magics: Magic[] = [
-  { id: 1, costMP: 4 } as unknown as Magic,
-  { id: 2, costMP: 9 } as unknown as Magic,
-]
+function magic(id: number, costMP: number): Magic {
+  return {
+    id,
+    effect: 0,
+    type: 'normal',
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP,
+    baseDamage: 0,
+    elemental: 0,
+    sound: 0,
+  }
+}
+
+const magics: Magic[] = [magic(1, 4), magic(2, 9)]
 const spells: Spell[] = [
   {
     id: 300,
     magicNumber: 1,
-    flags: { usableOutsideBattle: true, applyToAll: true },
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: true,
+    },
     _name: '全体甲',
-  } as unknown as Spell,
+  },
   {
     id: 301,
     magicNumber: 2,
-    flags: { usableOutsideBattle: true, applyToAll: false },
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
     _name: '单体乙',
-  } as unknown as Spell,
+  },
 ]
+
+function role(id: number, hp: number, mp: number, magic: number[]): PlayerRole {
+  return {
+    id,
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
+    level: 1,
+    maxHP: 100,
+    maxMP: 100,
+    hp,
+    mp,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 0,
+    fleeRate: 0,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 3,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+    magic,
+  }
+}
 
 function roles(): PlayerRoles {
   return {
-    roles: {
-      0: { id: 0, hp: 100, mp: 20, magic: [300, 301] },
-      2: { id: 2, hp: 100, mp: 6, magic: [300, 301] }, // 300(cost4)可用；301(cost9)MP 不足
-    },
-  } as unknown as PlayerRoles
+    roles: [
+      role(0, 100, 20, [300, 301]),
+      role(1, 0, 0, []),
+      role(2, 100, 6, [300, 301]), // 300(cost4)可用；301(cost9)MP 不足
+    ],
+  }
 }
 
 describe('G05 in-game-magic-menu 状态机', () => {

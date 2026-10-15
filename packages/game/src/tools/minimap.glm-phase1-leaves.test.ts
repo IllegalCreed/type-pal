@@ -6,8 +6,9 @@
  *    setupMinimap 控制器 toggle 显隐与 localStorage 持久、非法持久值回默认、坏 zoom 钳默认。
  * 真实 canvas 2D（jsdom + canvas 包），自有 GameState；不移动真实玩家。
  */
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
+import { setCurrentMapNum } from '../core/scene-system.js'
 import type { MinimapData } from './minimap.js'
 import { DOT_COLORS, drawMinimap, setupMinimap, worldToThumb } from './minimap.js'
 
@@ -117,5 +118,72 @@ describe('L18 setupMinimap 控制器持久化', () => {
     })
     expect(ctl.isShowNpc()).toBe(true) // 仅 '0' 隐藏
     expect(ctl.isWidgetEnabled()).toBe(false) // 仅 '1' 开
+  })
+
+  it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {
+    class PendingImage {
+      onload: (() => void) | null = null
+      onerror: (() => void) | null = null
+      set src(_value: string) {
+        // 延迟到测试结束；模拟浏览器图片 decode 尚未完成。
+      }
+    }
+    vi.stubGlobal('Image', PendingImage)
+    setCurrentMapNum(1)
+    const getMapThumbnail = vi.fn(async () => 'data:image/png;base64,AAAA')
+    const deps = {
+      getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
+      getMapThumbnail,
+    }
+    const ctl = setupMinimap(deps)
+    const first = document.createElement('div')
+    const second = document.createElement('div')
+    try {
+      ctl.mountSceneView(first, 64)
+      for (let i = 0; i < 6; i++) await Promise.resolve()
+      // URL promise 已完成，但 PendingImage 没有 onload；第二次 draw 仍应复用同一 loading owner。
+      ctl.mountSceneView(second, 64)
+      expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    } finally {
+      setCurrentMapNum(0)
+      vi.unstubAllGlobals()
+      first.remove()
+      second.remove()
+    }
+  })
+
+  it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {
+    class FailingImage {
+      static last: FailingImage | undefined
+      onload: (() => void) | null = null
+      onerror: (() => void) | null = null
+      constructor() {
+        FailingImage.last = this
+      }
+      set src(_value: string) {
+        // 由测试显式触发 onerror，模拟坏 dataURL / 解码失败。
+      }
+    }
+    vi.stubGlobal('Image', FailingImage)
+    setCurrentMapNum(1)
+    const getMapThumbnail = vi.fn(async () => 'data:image/png;base64,INVALID')
+    const ctl = setupMinimap({
+      getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
+      getMapThumbnail,
+    })
+    const first = document.createElement('div')
+    const second = document.createElement('div')
+    try {
+      ctl.mountSceneView(first, 64)
+      for (let i = 0; i < 6; i++) await Promise.resolve()
+      FailingImage.last?.onerror?.()
+      ctl.mountSceneView(second, 64)
+      expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    } finally {
+      setCurrentMapNum(0)
+      vi.unstubAllGlobals()
+      first.remove()
+      second.remove()
+    }
   })
 })

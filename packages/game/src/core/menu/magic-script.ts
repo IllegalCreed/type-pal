@@ -95,6 +95,10 @@ function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number):
   if (cur === 0) {
     gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)
     curePlayerPoisonByLevel(gs, roleId, 3)
+    const statuses = gs.rgPlayerStatus[roleId]
+    if (statuses)
+      for (let index = 0; index < statuses.length; index++)
+        if ((statuses[index] ?? 0) <= 999) statuses[index] = 0
     return true
   }
   return false

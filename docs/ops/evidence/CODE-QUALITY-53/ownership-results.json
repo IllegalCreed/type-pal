@@ -1,0 +1,78 @@
+{
+  "kind": "test-only ownership checkpoint; no file closure or merge authorization",
+  "parentCommit": "087427c9e4fbd9732c4211e3b0bb1b1144a2e3d9",
+  "tests": [
+    {
+      "name": "targeted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/status-poison-equip.glm-q.test.ts",
+        "src/core/event-opcodes.cov85.test.ts"
+      ],
+      "startedAt": "2026-10-13T04:34:17.204065+00:00",
+      "finishedAt": "2026-10-13T04:34:18.159026+00:00",
+      "exit": 0,
+      "log": "ownership-targeted.txt"
+    },
+    {
+      "name": "typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+      "startedAt": "2026-10-13T04:34:18.159193+00:00",
+      "finishedAt": "2026-10-13T04:34:21.364198+00:00",
+      "exit": 0,
+      "log": "ownership-typecheck.txt"
+    },
+    {
+      "name": "game",
+      "command": ["pnpm", "--filter", "@type-pal/game", "test"],
+      "startedAt": "2026-10-13T04:34:21.364350+00:00",
+      "finishedAt": "2026-10-13T04:34:55.036627+00:00",
+      "exit": 0,
+      "log": "ownership-game.txt"
+    }
+  ],
+  "currentTestSha256": {
+    "packages/game/src/core/event-opcodes.cov85.test.ts": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042",
+    "packages/game/src/status-poison-equip.glm-q.test.ts": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247"
+  },
+  "notRunThisCheckpoint": [
+    "root check",
+    "official coverage ratchet",
+    "protected fast",
+    "visual",
+    "E2E",
+    "hosted CI"
+  ],
+  "previousGateFailuresRemain": "See gate-results.json and gate-check.txt: root check contained two navigation diagnostics; ratchet/protected fast failed coverage ratios. No baseline or rules changed.",
+  "staticChecks": [
+    {
+      "name": "docs",
+      "command": ["pnpm", "check:docs"],
+      "startedAt": "2026-10-13T04:35:45.157115+00:00",
+      "finishedAt": "2026-10-13T04:35:46.377010+00:00",
+      "exit": 0,
+      "log": "ownership-docs.txt"
+    },
+    {
+      "name": "lint",
+      "command": ["pnpm", "lint"],
+      "startedAt": "2026-10-13T04:35:46.377195+00:00",
+      "finishedAt": "2026-10-13T04:35:48.321786+00:00",
+      "exit": 0,
+      "log": "ownership-lint.txt"
+    },
+    {
+      "name": "ledger",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "startedAt": "2026-10-13T04:35:48.321967+00:00",
+      "finishedAt": "2026-10-13T04:35:49.340533+00:00",
+      "exit": 0,
+      "log": "ownership-ledger.txt"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "gate": "check",
+    "command": ["pnpm", "check"],
+    "env": {},
+    "cwd": "/Users/zhangxu/illegal/type-pal-quality-3x",
+    "exit": 0,
+    "started": "2026-10-13T03:34:11.840356+00:00",
+    "finished": "2026-10-13T03:48:52.706931+00:00",
+    "log": "/tmp/type-pal-code53-gates/check.log"
+  },
+  {
+    "gate": "ratchet",
+    "command": ["pnpm", "coverage:ratchet"],
+    "env": {},
+    "cwd": "/Users/zhangxu/illegal/type-pal-quality-3x",
+    "exit": 1,
+    "started": "2026-10-13T03:48:52.707849+00:00",
+    "finished": "2026-10-13T03:58:11.110702+00:00",
+    "log": "/tmp/type-pal-code53-gates/ratchet.log"
+  },
+  {
+    "gate": "protected-fast",
+    "command": ["pnpm", "coverage:fast"],
+    "env": {
+      "TYPE_PAL_COVERAGE_BASE_REF": "origin/main"
+    },
+    "cwd": "/Users/zhangxu/illegal/type-pal-quality-3x",
+    "exit": 1,
+    "started": "2026-10-13T03:58:11.111183+00:00",
+    "finished": "2026-10-13T04:07:10.328639+00:00",
+    "log": "/tmp/type-pal-code53-gates/protected-fast.log"
+  },
+  {
+    "gate": "lint-zero",
+    "command": ["pnpm", "lint"],
+    "env": {},
+    "cwd": "/Users/zhangxu/illegal/type-pal-quality-3x",
+    "exit": 0,
+    "started": "2026-10-13T04:07:10.329120+00:00",
+    "finished": "2026-10-13T04:07:12.377772+00:00",
+    "log": "/tmp/type-pal-code53-gates/lint-zero.log"
+  },
+  {
+    "gate": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "env": {},
+    "cwd": "/Users/zhangxu/illegal/type-pal-quality-3x",
+    "exit": 0,
+    "started": "2026-10-13T04:07:12.378103+00:00",
+    "finished": "2026-10-13T04:07:13.391798+00:00",
+    "log": "/tmp/type-pal-code53-gates/ledger.log"
+  }
+]

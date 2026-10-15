@@ -1,0 +1,3198 @@
+{
+  "kind": "post-implementation test discrimination controls; no claim of red-first production repair",
+  "parent": "087427c9e4fbd9732c4211e3b0bb1b1144a2e3d9",
+  "runs": [
+    {
+      "label": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+      "source": "packages/game/src/core/player-poison-state.ts",
+      "sourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "mutantSha256": "e51ddf65c980bef6774da14a60328110b0157da7d010a76ac727a201cf5474d0",
+      "replacement": {
+        "old": "return gs.partyMembers.indexOf(roleId)",
+        "new": "return gs.partyMembers.includes(roleId) ? gs.partyMembers.indexOf(roleId) : roleId"
+      },
+      "test": "src/status-poison-equip.glm-q.test.ts",
+      "testSha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/status-poison-equip.glm-q.test.ts -t 查询离队角色不能读到当前首槽角色的真毒或指定毒 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 4,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865995502,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "failed",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "duration": 4.004707999999994,
+                  "failureMessages": [
+                    "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts:74:40\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865995915,
+              "endTime": 1791865995919.0046,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 6,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865996264,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "passed",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "duration": 1.109707999999955,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865996672,
+              "endTime": 1791865996673.1096,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+      "source": "packages/game/src/core/player-poison-state.ts",
+      "sourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "mutantSha256": "e51ddf65c980bef6774da14a60328110b0157da7d010a76ac727a201cf5474d0",
+      "replacement": {
+        "old": "return gs.partyMembers.indexOf(roleId)",
+        "new": "return gs.partyMembers.includes(roleId) ? gs.partyMembers.indexOf(roleId) : roleId"
+      },
+      "test": "src/status-poison-equip.glm-q.test.ts",
+      "testSha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/status-poison-equip.glm-q.test.ts -t 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 4,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865997005,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "failed",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "duration": 3.534166999999968,
+                  "failureMessages": [
+                    "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st vi.fn() call:\n\n    Array [\n      20,\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts:84:24\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865997411,
+              "endTime": 1791865997414.5342,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 6,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865997766,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "passed",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "duration": 1.6146249999999895,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865998173,
+              "endTime": 1791865998174.6147,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+      "source": "packages/game/src/core/player-poison-state.ts",
+      "sourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "mutantSha256": "e51ddf65c980bef6774da14a60328110b0157da7d010a76ac727a201cf5474d0",
+      "replacement": {
+        "old": "return gs.partyMembers.indexOf(roleId)",
+        "new": "return gs.partyMembers.includes(roleId) ? gs.partyMembers.indexOf(roleId) : roleId"
+      },
+      "test": "src/status-poison-equip.glm-q.test.ts",
+      "testSha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/status-poison-equip.glm-q.test.ts -t '按种类解毒'：离队角色操作不能修改当前队伍毒表 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 4,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865998507,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "failed",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 5.201291999999967,
+                  "failureMessages": [
+                    "AssertionError: expected { Object (0_0, 1_0, ...) } to deeply equal { …(3) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts:96:34\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865998935,
+              "endTime": 1791865998940.2012,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 6,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791865999303,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "passed",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 1.2799170000000117,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791865999714,
+              "endTime": 1791865999715.28,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+      "source": "packages/game/src/core/player-poison-state.ts",
+      "sourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "mutantSha256": "e51ddf65c980bef6774da14a60328110b0157da7d010a76ac727a201cf5474d0",
+      "replacement": {
+        "old": "return gs.partyMembers.indexOf(roleId)",
+        "new": "return gs.partyMembers.includes(roleId) ? gs.partyMembers.indexOf(roleId) : roleId"
+      },
+      "test": "src/status-poison-equip.glm-q.test.ts",
+      "testSha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/status-poison-equip.glm-q.test.ts -t '按等级解毒'：离队角色操作不能修改当前队伍毒表 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 4,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866000048,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "failed",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 4.941083999999989,
+                  "failureMessages": [
+                    "AssertionError: expected { Object (0_0, 1_0, ...) } to deeply equal { …(3) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts:96:34\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866000455,
+              "endTime": 1791866000459.9412,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 6,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866000809,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "passed",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 1.2547909999999547,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866001217,
+              "endTime": 1791866001218.255,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+      "source": "packages/game/src/core/player-poison-state.ts",
+      "sourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "mutantSha256": "e51ddf65c980bef6774da14a60328110b0157da7d010a76ac727a201cf5474d0",
+      "replacement": {
+        "old": "return gs.partyMembers.indexOf(roleId)",
+        "new": "return gs.partyMembers.includes(roleId) ? gs.partyMembers.indexOf(roleId) : roleId"
+      },
+      "test": "src/status-poison-equip.glm-q.test.ts",
+      "testSha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/status-poison-equip.glm-q.test.ts -t '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 4,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866001553,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "failed",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 4.863790999999992,
+                  "failureMessages": [
+                    "AssertionError: expected { …(3) } to deeply equal { …(3) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts:96:34\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866001959,
+              "endTime": 1791866001963.8638,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/status-poison-equip.glm-q.test.ts",
+          "-t",
+          "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 6,
+          "numPassedTestSuites": 6,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 16,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 15,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866002311,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "status": "skipped",
+                  "title": "查询离队角色不能读到当前首槽角色的真毒或指定毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership 向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "status": "skipped",
+                  "title": "向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按种类解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "skipped",
+                  "title": "'按等级解毒'：离队角色操作不能修改当前队伍毒表",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["CODE53 离队角色没有毒槽 ownership"],
+                  "fullName": "CODE53 离队角色没有毒槽 ownership '卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "status": "passed",
+                  "title": "'卸装备清伪毒'：离队角色操作不能修改当前队伍毒表",
+                  "duration": 1.352958000000001,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByKind 只查指定毒 id，不看等级与其它毒",
+                  "status": "skipped",
+                  "title": "ByKind 只查指定毒 id，不看等级与其它毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "status": "skipped",
+                  "title": "ByLevel(role,0)：level>=99 装备伪毒不算中毒",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 isPlayerPoisoned"],
+                  "fullName": "Q06 isPlayerPoisoned 毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "status": "skipped",
+                  "title": "毒表未注入时伪毒按 level 0 退化处理（旧 caller 兼容臂）",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByKind 只清该毒全部槽位",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByKind 只清该毒全部槽位",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove removePoisonLevel99 清 level>=99、留 level<99",
+                  "status": "skipped",
+                  "title": "removePoisonLevel99 清 level>=99、留 level<99",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 cure / remove"],
+                  "fullName": "Q06 cure / remove curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "status": "skipped",
+                  "title": "curePlayerPoisonByLevel 无 99 例外：maxLevel 内连装备毒一并清",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer 去重：已有同毒不落第二槽",
+                  "status": "skipped",
+                  "title": "去重：已有同毒不落第二槽",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "status": "skipped",
+                  "title": "runner 注入：施毒当下跑入口脚本并存返回的 next entry；无 runner 存原始 ip",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 addPoisonForPlayer"],
+                  "fullName": "Q06 addPoisonForPlayer playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "status": "skipped",
+                  "title": "playerScript=0 时不调 runner；16 槽全满时静默丢弃",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 fleeRate = runtime base + 各装备槽之和",
+                  "status": "skipped",
+                  "title": "fleeRate = runtime base + 各装备槽之和",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["Q06 装备派生值读取器"],
+                  "fullName": "Q06 装备派生值读取器 poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "status": "skipped",
+                  "title": "poisonResistance 钳制 [0,100]：负值归零、超百封顶",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866002724,
+              "endTime": 1791866002725.353,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/status-poison-equip.glm-q.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+      "source": "packages/game/src/core/event-system.ts",
+      "sourceSha256": "0b819d813594e354ece99f0c3ceeecc2d1ccf873929c2039a5407494d394da1b",
+      "mutantSha256": "1deb81c917d873954c70a741b5f85d4a5ebcb10e442594a1ce9f2514a8789243",
+      "replacement": {
+        "old": "gs.rgPoisonStatus = {} // sdlpal memset rgPoisonStatus",
+        "new": "/* negative control: omit old poison clearing */"
+      },
+      "test": "src/core/event-opcodes.cov85.test.ts",
+      "testSha256": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/core/event-opcodes.cov85.test.ts",
+          "-t",
+          "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/event-opcodes.cov85.test.ts -t 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 7,
+          "numPassedTestSuites": 5,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 21,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 20,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866003084,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "status": "skipped",
+                  "title": "0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "status": "skipped",
+                  "title": "0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "status": "skipped",
+                  "title": "0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "status": "skipped",
+                  "title": "0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "status": "skipped",
+                  "title": "0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "status": "failed",
+                  "title": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "duration": 7.25162499999999,
+                  "failureMessages": [
+                    "AssertionError: expected { …(4) } to deeply equal { …(2) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts:180:31\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "status": "skipped",
+                  "title": "0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                  "status": "skipped",
+                  "title": "0x36 SetRNG:iCurPlayingRNG = op0",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 音乐/CD opcode(3605-3680)"],
+                  "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "status": "skipped",
+                  "title": "0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 现金/物品 opcode(3665-3743)"],
+                  "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "status": "skipped",
+                  "title": "0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "status": "skipped",
+                  "title": "0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "status": "skipped",
+                  "title": "0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "status": "skipped",
+                  "title": "0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "status": "skipped",
+                  "title": "0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "status": "skipped",
+                  "title": "0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "status": "skipped",
+                  "title": "0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "status": "skipped",
+                  "title": "0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866003643,
+              "endTime": 1791866003650.2517,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/core/event-opcodes.cov85.test.ts",
+          "-t",
+          "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 7,
+          "numPassedTestSuites": 7,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 21,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 20,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866004001,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "status": "skipped",
+                  "title": "0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "status": "skipped",
+                  "title": "0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "status": "skipped",
+                  "title": "0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "status": "skipped",
+                  "title": "0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "status": "skipped",
+                  "title": "0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "status": "passed",
+                  "title": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "duration": 3.2213330000000724,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "status": "skipped",
+                  "title": "0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                  "status": "skipped",
+                  "title": "0x36 SetRNG:iCurPlayingRNG = op0",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 音乐/CD opcode(3605-3680)"],
+                  "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "status": "skipped",
+                  "title": "0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 现金/物品 opcode(3665-3743)"],
+                  "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "status": "skipped",
+                  "title": "0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "status": "skipped",
+                  "title": "0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "status": "skipped",
+                  "title": "0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "status": "skipped",
+                  "title": "0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "status": "skipped",
+                  "title": "0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "status": "skipped",
+                  "title": "0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "status": "skipped",
+                  "title": "0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "status": "skipped",
+                  "title": "0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866004543,
+              "endTime": 1791866004546.2214,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+      "source": "packages/game/src/core/event-system.ts",
+      "sourceSha256": "0b819d813594e354ece99f0c3ceeecc2d1ccf873929c2039a5407494d394da1b",
+      "mutantSha256": "f66d3e7c0ebae6a9faab9a0f6c3475fe7f719003c66f69f48d35a057b3760975",
+      "replacement": {
+        "old": "_refreshEquipmentsHandler?.(gs)",
+        "new": "/* negative control: omit equipment refresh */"
+      },
+      "test": "src/core/event-opcodes.cov85.test.ts",
+      "testSha256": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/core/event-opcodes.cov85.test.ts",
+          "-t",
+          "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/event-opcodes.cov85.test.ts -t 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果 --reporter=json --outputFile=/tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 7,
+          "numPassedTestSuites": 5,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 21,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 20,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866004882,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "status": "skipped",
+                  "title": "0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "status": "skipped",
+                  "title": "0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "status": "skipped",
+                  "title": "0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "status": "skipped",
+                  "title": "0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "status": "skipped",
+                  "title": "0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "status": "failed",
+                  "title": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "duration": 6.664083000000005,
+                  "failureMessages": [
+                    "AssertionError: expected {} to deeply equal { …(2) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts:180:31\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "status": "skipped",
+                  "title": "0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                  "status": "skipped",
+                  "title": "0x36 SetRNG:iCurPlayingRNG = op0",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 音乐/CD opcode(3605-3680)"],
+                  "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "status": "skipped",
+                  "title": "0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 现金/物品 opcode(3665-3743)"],
+                  "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "status": "skipped",
+                  "title": "0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "status": "skipped",
+                  "title": "0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "status": "skipped",
+                  "title": "0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "status": "skipped",
+                  "title": "0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "status": "skipped",
+                  "title": "0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "status": "skipped",
+                  "title": "0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "status": "skipped",
+                  "title": "0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "status": "skipped",
+                  "title": "0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866005424,
+              "endTime": 1791866005430.664,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/core/event-opcodes.cov85.test.ts",
+          "-t",
+          "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code53-needle-result.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code53-needle-result.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 7,
+          "numPassedTestSuites": 7,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 21,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 20,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791866005783,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "status": "skipped",
+                  "title": "0x51 FadeIn:建 lerp fade 且清 needToFadeIn;0x93 SceneFade step<0 → needToFadeIn=true",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "status": "skipped",
+                  "title": "0x80 PaletteFade:nightPalette 翻转 + fUpdateScene 两档时长",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "status": "skipped",
+                  "title": "0x8C ColorFade:color 取 0xff、perStep=op1*10(0 回退 10)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 palette fade 族(applyRawOpcode 3493-3547)"],
+                  "fullName": "cov85 palette fade 族(applyRawOpcode 3493-3547) 0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "status": "skipped",
+                  "title": "0x50 FadeOut:battle fallback 无 cursor 仍建 fade + needToFadeIn;delay=0 → 1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "status": "skipped",
+                  "title": "0x46 SetPartyPos:world=(col*32+h*16, row*16+h*8),party 与 camera 联动",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "status": "passed",
+                  "title": "0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果",
+                  "duration": 3.192542000000003,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "status": "skipped",
+                  "title": "0x71 WaveScreen:wScreenWave/sWaveProgression 写入",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 世界/队伍 opcode(3550+,4436-4446)"],
+                  "fullName": "cov85 世界/队伍 opcode(3550+,4436-4446) 0x36 SetRNG:iCurPlayingRNG = op0",
+                  "status": "skipped",
+                  "title": "0x36 SetRNG:iCurPlayingRNG = op0",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 音乐/CD opcode(3605-3680)"],
+                  "fullName": "cov85 音乐/CD opcode(3605-3680) 0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "status": "skipped",
+                  "title": "0x43 PlayMusic / 0x45 SetBattleMusic / 0x77 StopMusic / 0xA3 PlayCDMusic",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 现金/物品 opcode(3665-3743)"],
+                  "fullName": "cov85 现金/物品 opcode(3665-3743) 0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "status": "skipped",
+                  "title": "0x1E AddCash:symbol 扩展 i16(负数可减);0x20 RemoveItem:库存按量减",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "status": "skipped",
+                  "title": "0x12 SetObjectPosRelParty:npc 落 party 相对位(x±dx*32/2,y±dy*16/2)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "status": "skipped",
+                  "title": "0x6F SyncObjState:pCurrent.sState==op1 才把 self 同步成 op1",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 在全局表 → 静默写 autoLabel 并重置 autoCursor(无任何 warning)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "status": "skipped",
+                  "title": "0x24 SetAutoScript:label 不在全局表 → 精确 warning 一次且不写 autoLabel",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "status": "skipped",
+                  "title": "0x14 SetObjectGesture / 0x0F SetDirOrFrame / 0x6C NpcWalkOneStep",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "status": "skipped",
+                  "title": "0x7D MoveObject:x/y += i16;0x7E SetObjectLayer;0x87 AnimateObject 帧推进",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "status": "skipped",
+                  "title": "0x40 SetTriggerMethod / 0x25 SetTriggerScript / 0x9A SetMultiObjectState 区间",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "status": "skipped",
+                  "title": "0x49 SetSceneObjectState / 0x6D SetSceneScripts / 0x99 ChangeMap",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [
+                    "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422)"
+                  ],
+                  "fullName": "cov85 NPC 状态/移动 opcode(3758-3815,4010-4084,4103-4185,4265-4422) 0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "status": "skipped",
+                  "title": "0xA6 BackupScreen:合同 no-op(本游戏 0 调用,script.c:3069)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["cov85 条件跳转 opcode(4290+,4549-4579)"],
+                  "fullName": "cov85 条件跳转 opcode(4290+,4549-4579) 0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "status": "skipped",
+                  "title": "0x81 JumpIfNotFacing:party 面对对象 → 顺序;背对 → 跳(现金标记判别)",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791866006323,
+              "endTime": 1791866006326.1926,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/core/event-opcodes.cov85.test.ts"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

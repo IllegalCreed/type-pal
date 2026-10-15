@@ -27,6 +27,7 @@ import {
   addPoisonForPlayer,
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
+  partySlotForRole,
 } from '../player-poison-state.js'
 import {
   buildEnemyDivisionTimeline,
@@ -1472,9 +1473,10 @@ export function dispatchBattleOpcode(
             : undefined
       const roleId = sel ? state.players[sel.idx]?.roleId : undefined
       let poisoned = false
-      if (ctx.gs && roleId !== undefined) {
+      const partySlot = ctx.gs && roleId !== undefined ? partySlotForRole(ctx.gs, roleId) : -1
+      if (ctx.gs && partySlot >= 0) {
         for (let slot = 0; slot < 16; slot++) {
-          if ((ctx.gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0) !== 0) {
+          if ((ctx.gs.rgPoisonStatus[`${slot}_${partySlot}`]?.wPoisonID ?? 0) !== 0) {
             poisoned = true
             break
           }

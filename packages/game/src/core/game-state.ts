@@ -577,7 +577,7 @@ export interface PlayerRolesRuntime {
 
 /**
  * sdlpal global.h `POISONSTATUS`(tagPOISONSTATUS)。
- * rgPoisonStatus[poisonSlot][playerIdx]:sparse 存,用 Record 减少空间。
+ * rgPoisonStatus[poisonSlot][partySlot]:sparse 存,用 Record 减少空间。
  */
 export interface PoisonStatus {
   wPoisonID: number // 0 = 无毒,非 0 = poison item id

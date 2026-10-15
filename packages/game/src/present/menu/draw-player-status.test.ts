@@ -1,4 +1,4 @@
-import type { PlayerRoles } from '@type-pal/shared'
+import type { PlayerRole } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../../core/game-state.js'
 import { createPlayerStatus } from '../../core/menu/player-status.js'
@@ -9,7 +9,7 @@ import { drawPlayerStatus } from './draw-player-status.js'
 
 // 最小 PlayerRole(drawPlayerStatus 读 avatar/equipment/name 等;装备全 0 → 装备行 skip;
 //   stat 走 getPlayerXxx 读 gs.PlayerRolesRuntime,缺省 ?? 0 不崩)。
-function minimalRole(id: number): unknown {
+function minimalRole(id: number): PlayerRole {
   return {
     id,
     _name: 'r',
@@ -35,6 +35,11 @@ function minimalRole(id: number): unknown {
     walkFrames: 0,
     spriteNum: 0,
     spriteNumInBattle: 0,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
   }
 }
 
@@ -53,6 +58,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
     slot?: number
   }): ReturnType<typeof vi.spyOn> {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
     gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }
     const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])
     const flat: string[] = []
@@ -63,7 +69,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
       fb: createFramebuffer(),
       state: createPlayerStatus([0]),
       gs,
-      playerRoles: { roles: [minimalRole(0)] } as unknown as PlayerRoles,
+      playerRoles: { roles: [minimalRole(0)] },
       items: [],
       uiSpriteFrames: [],
       objectPoisons,
@@ -93,11 +99,59 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
       fb: createFramebuffer(),
       state: createPlayerStatus([0]),
       gs,
-      playerRoles: { roles: [minimalRole(0)] } as unknown as PlayerRoles,
+      playerRoles: { roles: [minimalRole(0)] },
       items: [],
       uiSpriteFrames: [],
       objectPoisons: new Map(),
     })
     expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)).toBeUndefined()
+  })
+
+  it('重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [4, 5, 4]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
+    const words: string[] = []
+    words[100] = '蛊毒'
+    setWordTable(words)
+    const state = createPlayerStatus(gs.partyMembers)
+    state.cursor = 2
+    const spy = vi.spyOn(fontModule, 'renderText')
+    drawPlayerStatus({
+      fb: createFramebuffer(),
+      state,
+      gs,
+      playerRoles: { roles: Array.from({ length: 6 }, (_, id) => minimalRole(id)) },
+      items: [],
+      uiSpriteFrames: [],
+      objectPoisons: new Map([[100, { level: 2, color: 30 }]]),
+    })
+    expect(
+      spy.mock.calls.filter((call) => call[2] === 185 && call[3] === 58).map((call) => call[1]),
+    ).toEqual([])
+  })
+
+  it('非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [4, 1]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
+    const roles = [minimalRole(0), minimalRole(1), minimalRole(2), minimalRole(3), minimalRole(4)]
+    const objectPoisons = new Map([[100, { level: 2, color: 30 }]])
+    const flat: string[] = []
+    flat[100] = '蛊毒'
+    setWordTable(flat)
+    const spy = vi.spyOn(fontModule, 'renderText')
+
+    drawPlayerStatus({
+      fb: createFramebuffer(),
+      state: createPlayerStatus([4, 1]),
+      gs,
+      playerRoles: { roles },
+      items: [],
+      uiSpriteFrames: [],
+      objectPoisons,
+    })
+
+    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)?.[1]).toBe('蛊毒')
   })
 })

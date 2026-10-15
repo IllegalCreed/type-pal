@@ -1,0 +1,26 @@
+Whitelist (complete read):
+- packages/game/src/core/menu/sell-menu.ts
+- packages/game/src/core/menu/sell-menu.test.ts
+- packages/game/src/core/menu/sell-menu.boundaries.test.ts
+- packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts
+
+Production callers / ownership:
+- packages/game/src/core/menu/menu-driver.ts:349-435 — sell dispatcher, input routing, intent application, cash/inventory ownership, refresh and cursor write-back
+- packages/game/src/shell/bootstrap.ts:1236-1249 — 0x0026/0x0027 menu handler and catalog injection
+- packages/game/src/core/event-system.ts:204-209,804-819,2192-2206 — opcode 0x0027 modal waiting/resume ownership
+- packages/game/src/core/inventory-menu.ts — full inventory snapshot, filter-as-render/confirm contract, cursor navigation
+- packages/game/src/core/inventory-state.ts:1-50 — inventory add/remove ownership
+- packages/game/src/present/menu/draw-menu.ts:226-250, draw-shop.ts:177-255 and draw-shop.glm-phase1-leaves.test.ts — sell overlay visual/oracle boundary
+- packages/game/src/core/menu/shop-menu.test.ts and menu-driver.cov85.test.ts — real menu dispatch and transaction caller contracts
+
+Primary source:
+- reference/sdlpal/uigame.c:1755-1789 — PAL_SellMenu loop, confirm and half-price cash
+- reference/sdlpal/itemmenu.c:287-310,331-377 — sellable/inUse gate and full inventory list/cursor
+- reference/sdlpal/global.c:1063-1172 — PAL_AddItemToInventory ownership
+
+Boundary conclusions:
+- non-sellable items remain visible and confirm is a no-op;
+- count === inUse is rejected, count > inUse enters confirmation;
+- confirm defaults No and returns intent only;
+- caller owns cash/inventory mutation and refreshes snapshot after a successful sale;
+- empty/shrunk inventory clamps cursor without aliasing GameState inventory.

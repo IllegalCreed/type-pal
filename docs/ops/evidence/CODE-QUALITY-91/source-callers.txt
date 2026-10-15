@@ -1,0 +1,34 @@
+CODE-QUALITY-91 source/caller/oracle read set
+
+Whitelist (complete reads)
+- packages/game/src/core/menu/inventory-action-menu.ts:1-79
+  - INVENTORY_ACTION_LABELS is the only action mapping: equip -> WORD 22, use -> WORD 23.
+  - createInventoryActionMenu loads labels through getWord, accepts only an in-range default cursor, and returns SelectionMenuState.
+  - inventoryActionChoice returns undefined for an empty/out-of-range selected item; Up/Down delegate to shared selection movement.
+- packages/game/src/core/menu/inventory-action-menu.test.ts:1-37
+  - Covers order, canonical ids, default cursor 1, and Down/Up choice transitions with the public factory/operations.
+- packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts:1-47
+  - Covers upper-bound cursor guard, two-step wrap, WORD table labels, and empty-selection defensive choice.
+
+Real production callers / ownership
+- packages/game/src/core/menu/menu-driver.ts:459-503
+  - InGameMenu Confirm('inventory') pushes inventory-action with gs.iCurInvActionMenuItem; the action layer is not bypassed.
+- packages/game/src/core/menu/menu-driver.ts:605-651
+  - dispatchInventoryActionMenu writes cursor ownership to gs.iCurInvActionMenuItem and routes equip/use to equip or usable inventory menus.
+- packages/game/src/core/game-state.ts:1017,1920
+  - iCurInvActionMenuItem is the runtime cursor owner and starts at 0.
+- packages/game/src/core/menu/primitives.ts:50-105
+  - Selection primitive clamps factory cursor and implements one-step modulo wrap; inventory-action delegates instead of duplicating it.
+- packages/game/src/present/menu/draw-menu.ts:140-145 and packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts:74-88
+  - Renderer consumes the state as a two-item box and checks labels/cursor highlight; no alternate action mapping.
+- packages/game/src/core/menu/menu-driver.test.ts:238-271 and menu-driver.cov85.test.ts:510-535
+  - Caller/oracle tests cover push, cursor write-back, cancel, equip route, and usable-inventory route.
+
+Primary source / phase-one truth
+- reference/sdlpal/uigame.c:878-919: PAL_InventoryMenu, static w, two entries, Confirm switch.
+- reference/sdlpal/ui.h:80-81: INVMENU_LABEL_USE=23 and INVMENU_LABEL_EQUIP=22.
+- reference/sdlpal/play.c:244-325,327-359: PAL_GameUseItem and PAL_GameEquipItem entry paths.
+- CLAUDE.md, docs/phase1/engineering-notes.md, docs/phase1/game-mechanics.md: phase-one fidelity and menu lifecycle constraints read for context.
+
+Not in this batch
+- No production implementation, public interface, save/schema, extractor, migration, reforge/editor/content, or CODE-QUALITY-90 revive status files were modified.

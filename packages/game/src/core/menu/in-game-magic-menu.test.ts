@@ -11,7 +11,7 @@
  *  - MP 不足 spell disabled
  */
 
-import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import {
   cancelInGameMagic,
@@ -32,31 +32,38 @@ import {
 
 // ── fixtures ────────────────────────────────────────────────────────────────
 
-function mkRole(id: number, name: string, mp: number, magic: number[]) {
+function mkRole(id: number, name: string, mp: number, magic: number[]): PlayerRole {
   return {
     id,
     _name: name,
-    hp: 100,
-    maxHP: 200,
-    mp,
-    maxMP: 100,
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
     level: 5,
-    dexterity: 30,
-    fleeRate: 10,
+    maxHP: 200,
+    maxMP: 100,
+    hp: 100,
+    mp,
     attackStrength: 50,
     magicStrength: 30,
     defense: 20,
+    dexterity: 30,
+    fleeRate: 10,
     poisonResistance: 0,
     equipment: [0, 0, 0, 0, 0, 0],
     magic,
-    avatar: 0,
-    spriteNum: 0,
-    spriteNumInBattle: 0,
     coveredBy: 0,
-    attackAll: 0,
     cooperativeMagic: 0,
     elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-  } as unknown as PlayerRoles['roles'][number]
+    walkFrames: 3,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+  }
 }
 
 const PLAYER_ROLES: PlayerRoles = {
@@ -68,7 +75,7 @@ const PLAYER_ROLES: PlayerRoles = {
     mkRole(1, '赵灵儿', 100, [296, 299, 300, ...Array(29).fill(0)]), // 气疗 / 五气 / 还魂
     mkRole(2, '林月如', 30, []), // 0 spell
   ],
-} as unknown as PlayerRoles
+}
 
 const SPELLS: Spell[] = [
   // id = spell wObjectID(296..397);magicNumber = MAGIC 表独立 index(不变)
@@ -157,15 +164,38 @@ const SPELLS: Spell[] = [
     },
     _name: '飞龙探云手',
   },
-] as unknown as Spell[]
+]
+
+function mkMagic(id: number, costMP: number): Magic {
+  return {
+    id,
+    effect: 0,
+    type: 'normal',
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP,
+    baseDamage: 0,
+    elemental: 0,
+    sound: 0,
+  }
+}
 
 const MAGICS: Magic[] = [
-  { id: 33, costMP: 6, _name: '气疗术' },
-  { id: 34, costMP: 8, _name: '凝神归元' },
-  { id: 35, costMP: 10, _name: '观音咒' },
-  { id: 36, costMP: 16, _name: '还魂咒' },
-  { id: 46, costMP: 40, _name: '五气朝元' },
-] as unknown as Magic[]
+  mkMagic(33, 6),
+  mkMagic(34, 8),
+  mkMagic(35, 10),
+  mkMagic(36, 16),
+  mkMagic(46, 40),
+  mkMagic(60, 20), // battle-only fixture: outside filter must exclude it before magic lookup
+]
 
 // ── createInGameMagicMenu ───────────────────────────────────────────────────
 

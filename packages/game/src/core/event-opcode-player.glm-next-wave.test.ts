@@ -59,9 +59,9 @@ describe('0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒)', () => {
 
     expect(applyPlayerOpcode(input(gs, OP_CURE_PLAYER_POISON_KIND, [0, 77, 0], 1))).toBe(true)
 
-    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
-    expect(gs.rgPoisonStatus['1_1']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })
-    expect(gs.rgPoisonStatus['0_2']).toEqual({ wPoisonID: 77, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 77, wPoisonScript: 0 })
   })
 
   it('applyAll=1:全队该种毒清除,异种毒保留', () => {

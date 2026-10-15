@@ -1,0 +1,17 @@
+DATA.MKF chunkCount = 15
+offsets.length = 16 last offset = 63978 fileSize = 63978
+chunk  0: size=   378  STORE                              recordSize=18 → records=21
+chunk  1: size= 10780  ENEMY                              recordSize=70 → records=154
+chunk  2: size=  3800  ENEMYTEAM                          recordSize=10 → records=380
+chunk  3: size=   900  PLAYERROLES (single record)        recordSize=900 → records=1
+chunk  4: size=  3328  MAGIC                              recordSize=32 → records=104
+chunk  5: size=   696  BATTLEFIELD                        recordSize=12 → records=58
+chunk  6: size=   400  LEVELUPMAGIC_ALL                   recordSize=20 → records=20
+chunk  7: size=     0  (empty / unused)
+chunk  8: size=     0  (empty / unused)
+chunk  9: size= 25532  SPRITEUI (sprite group, raw)
+chunk 10: size= 17478  battle effect sprite group
+chunk 11: size=    40  rgwBattleEffectIndex[10][2]        recordSize=40 → records=1
+chunk 12: size=   282  bufDialogIcons (282B sprite)
+chunk 13: size=   100  EnemyPos 5x5 PALPOS                recordSize=100 → records=1
+chunk 14: size=   200  rgLevelUpExp[100]                  recordSize=200 → records=1

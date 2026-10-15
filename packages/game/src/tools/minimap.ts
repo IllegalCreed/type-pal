@@ -288,18 +288,24 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
         .then((url) => {
           if (!url) {
             baseFailed.add(mapNum) // 无缩略图(如缺 tilemap)→ 标记失败,别逐帧重取
+            baseLoading.delete(mapNum)
             return
           }
           const img = new Image()
           img.onload = (): void => {
             baseCache.set(mapNum, img)
+            baseLoading.delete(mapNum)
+          }
+          img.onerror = (): void => {
+            baseFailed.add(mapNum)
+            baseLoading.delete(mapNum)
           }
           img.src = url
         })
         .catch(() => {
           baseFailed.add(mapNum)
+          baseLoading.delete(mapNum)
         })
-        .finally(() => baseLoading.delete(mapNum))
     }
     return null
   }

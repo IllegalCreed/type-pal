@@ -1,0 +1,40 @@
+{
+  "ref": "d7e9831f4",
+  "officialGate": false,
+  "worker": "vitest-default",
+  "exitCode": 0,
+  "testCount": 3527,
+  "metrics": {
+    "lines": {
+      "total": 13682,
+      "covered": 12329,
+      "skipped": 0,
+      "pct": 90.11
+    },
+    "statements": {
+      "total": 15599,
+      "covered": 13801,
+      "skipped": 0,
+      "pct": 88.47
+    },
+    "functions": {
+      "total": 1856,
+      "covered": 1550,
+      "skipped": 0,
+      "pct": 83.51
+    },
+    "branches": {
+      "total": 11371,
+      "covered": 9050,
+      "skipped": 0,
+      "pct": 79.58
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "temporaryDirectoryRemoved": true
+}

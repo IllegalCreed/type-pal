@@ -16,6 +16,7 @@ describe('computePlayerFaceColor(头像染色 uibattle.c:114-162)', () => {
   ])
   function gsWith(poisonSlots: Record<string, number>): GameState {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
     gs.rgPoisonStatus = {}
     for (const [key, pid] of Object.entries(poisonSlots)) {
       gs.rgPoisonStatus[key] = { wPoisonID: pid, wPoisonScript: 0 }

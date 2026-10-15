@@ -1,0 +1,18 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=verbose"
+  ],
+  "exitCode": 0,
+  "assertionsPassed": 2,
+  "reactActDiagnostics": 3,
+  "cleanQualityAcceptance": false,
+  "scope": "Unchanged editor test replay only; not semantic closure of editor source or tests"
+}

@@ -1,0 +1,85 @@
+{
+  "branch": "codex/code-quality-3y",
+  "inventory": 3271,
+  "closed": 373,
+  "review": 15,
+  "pending": 2883,
+  "reviewFiles": [
+    {
+      "file": "packages/migrate/src/pal-source-io.ts",
+      "evidence": "直接读取 extracted source partitions/scene and asset callers；发现 generic JSON casts 需后续 schema/source-contract 批次",
+      "remainingRisk": "不改 generated source"
+    },
+    {
+      "file": "packages/migrate/src/migration-project-io.ts",
+      "evidence": "直接读取 managed-file discovery/TOCTOU hash ownership；JSON shape validation 与 content validators 的边界留 Q4",
+      "remainingRisk": "不改 project output"
+    },
+    {
+      "file": "packages/pal-extract/scripts/extract-videos.ts",
+      "evidence": "ffmpeg external IO/mtime skip/empty output 直接读过",
+      "remainingRisk": "需后续工具失败反控，不与主 extract 混写"
+    },
+    {
+      "file": "packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs",
+      "evidence": "scene/event/tilemap BFS 与写盘脚本直接读过",
+      "remainingRisk": "诊断生成器需后续 path/input 复核"
+    },
+    {
+      "file": "packages/game/src/core/player-poison-state.ts",
+      "evidence": "CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests",
+      "remainingRisk": "poison definition ownership/level99/slot dedup/cure/runner 合同完整  CODE53 当前键语义候选待验；旧结论为历史，0x61额外边界见CODE79"
+    },
+    {
+      "file": "packages/game/src/core/event-system.ts",
+      "evidence": "2026-10-14 latest-main RNG dispatcher delta requires current-file audit; CODE-QUALITY-3r 历史；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers",
+      "remainingRisk": "5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-opcodes.ts",
+      "evidence": "CODE-QUALITY-3t；script.c:867-950,1026-1102,1175-1425,1437-1449,1573-1640,1848-2054,2547-2668,2776-2995,3267-3297；fight.c:602-716,2387-2390,4214-4323,5193-5400；battle.c:1397-1434；event-system/actions/battle-system callers",
+      "remainingRisk": "1528 行逐段核验 dispatch、BattleCtx ownership、目标/状态/伤害/毒、召唤/分裂/变身/逃跑、动画/偷窃/战斗结果与 consumed/newIp；定向/相邻 470 tests、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷；0x2E `>=` 为 game-mechanics 已记录的原版后期产品决策  CODE53 当前键语义候选待验；旧结论为历史，0x61额外边界见CODE79"
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap.ts",
+      "evidence": "CODE-QUALITY-57；SDLPal scene.c、present/draw-tilemap、dev-panel/tools-panel/minimap callers；bootstrap 全文件读取，定向 helper/资源 tests 6 通过",
+      "remainingRisk": "资源/scene/save/modal ownership 已读；thumbnail 直绘未调用 seam repair，缺真实 thumbnail pixel oracle，保持 review"
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap-load.test.ts",
+      "evidence": "CODE-QUALITY-57；bootstrap palette transition oracle；1 test 通过",
+      "remainingRisk": "helper 合同真实且独立；不覆盖 bootstrap thumbnail closure，随卡保留 review"
+    },
+    {
+      "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "evidence": "CODE-QUALITY-57；showError canvas port oracle；2 tests 通过",
+      "remainingRisk": "启动失败显示/无 2D context 反例；不覆盖 thumbnail closure，随卡保留 review"
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "evidence": "CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture",
+      "remainingRisk": "独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合"
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "evidence": "CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture",
+      "remainingRisk": "独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合"
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "evidence": "CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture",
+      "remainingRisk": "独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合"
+    },
+    {
+      "file": "packages/game/src/core/menu/magic-script.ts",
+      "evidence": "CODE-QUALITY-90；SDLPal `script.c:1052-1102`/`global.c:2279-2344`、runtime/menu-driver/event-opcode-player；41 targeted、518 adjacent、4 exact mutation controls；full check/official ratchet/protected fast/lint/docs 均通过",
+      "remainingRisk": "revive <=999 repair only; full spell-chain/input/unsupported-op/step-limit contract not closed"
+    },
+    {
+      "file": "packages/game/src/core/menu/magic-script.test.ts",
+      "evidence": "CODE-QUALITY-90；真实 GameState HP/status/poison oracle；999/1000/32760、party [2,0] 与 party 外隔离；先红后绿/4 mutations",
+      "remainingRisk": "poison-table cleanup, remaining synthetic fixtures and full runner input/unsupported-op/step-limit review remain unclosed"
+    }
+  ],
+  "next": "GLM CODE94/95 independent menu integration; no automatic closure from source gates"
+}

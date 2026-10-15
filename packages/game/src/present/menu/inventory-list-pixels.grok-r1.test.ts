@@ -20,6 +20,7 @@ import {
   cyanDigit,
   fillSentinel,
   ITEMBOX_ID,
+  iconImage,
   makeUiFrames,
   pixel,
   rightDigitX,
@@ -40,7 +41,6 @@ import { flushToCanvas } from '../present.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 
 const glyphs = fixtureGlyphs()
-const EQUIPMENT_NAME = 0xbe
 const STAT_LABEL = 0xbb
 
 afterEach(() => {
@@ -175,7 +175,7 @@ describe('G06-A 物品列表像素', () => {
     expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
   })
 
-  it('G06-A06 用物层现行数量为 0 时不画青色数字，物品名仍是 0xBE', () => {
+  it('G06-A06 大世界目标层数量归零时按 SDLPal 隐藏图标/名称/数字', () => {
     const gs = makeGs()
     const roles = makeRoles()
     const item = makeItem(16, '甲', { flags: { usable: true } })
@@ -188,6 +188,7 @@ describe('G06-A 物品列表像素', () => {
     if (!entry) throw new Error('inventory entry missing')
     entry.count = 0
     const frames = makeUiFrames()
+    const icons = new Map([[item.bitmap, iconImage(0x86)]])
     const fb = createFramebuffer()
     fillSentinel(fb)
     const restore = freezeNow(0)
@@ -197,6 +198,7 @@ describe('G06-A 物品列表像素', () => {
         state: menu,
         items,
         uiSpriteFrames: frames,
+        itemIcons: icons,
         glyphs,
         gs,
         playerRoles: roles,
@@ -207,7 +209,8 @@ describe('G06-A 物品列表像素', () => {
     const name = textDot('甲', 0, 116, 143)
     expect(pixel(fb, rightDigitX(170, 2, 0), 133)).toBe(SENTINEL)
     expect(pixel(fb, rightDigitX(170, 2, 0), 133)).not.toBe(cyanDigit(0))
-    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT_NAME)
+    expect(pixel(fb, 127, 88)).not.toBe(0x86)
+    expect(pixel(fb, name.x, name.y)).toBe(SENTINEL)
   })
 
   it('G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在', () => {

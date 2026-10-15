@@ -1,0 +1,50 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects the observer and suppresses a deferred thumbnail after close
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects the prior generation and ignores queued entries after filtering
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+·stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > turns an injected renderer rejection into the existing placeholder state
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+x·
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects the prior generation and ignores queued entries after filtering
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array [
+      82,
+      902,
+    ]
+
+
+Number of calls: 1
+
+ ❯ src/dev/dev-panel-picker-lifecycle.test.ts:180:24
+    178|     expect(oldObserver.disconnectCalls).toBe(1)
+    179|     oldObserver.emit(oldCard)
+    180|     expect(render).not.toHaveBeenCalled()
+       |                        ^
+    181|   })
+    182|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  19:00:59
+   Duration  2.42s (transform 914ms, setup 40ms, import 1.04s, tests 550ms, environment 627ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot

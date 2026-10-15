@@ -38,6 +38,7 @@ import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
 import { startBattle } from '../core/battle/battle-system.js'
+import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
   getGlobalCommands,
@@ -68,6 +69,7 @@ import {
   collectFieldInfoReadout,
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
+import { partySlotForRole } from '../core/player-poison-state.js'
 import { loadScene } from '../core/scene-system.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { getMapName, hasMapName } from '../tools/map-names.js'
@@ -463,6 +465,7 @@ export function setupDevPanel(deps: DevPanelDeps): void {
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
 let currentPicker: HTMLDivElement | undefined
+let currentPickerCleanup: (() => void) | undefined
 
 /**
  * 场景缩略图 dataURL 缓存(key = `m{mapNum}` / 无 map 时 `s{sceneId}`)—— **模块级**,跨 picker 开关存活,
@@ -854,9 +857,19 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
 
 function openPicker(deps: DevPanelDeps): void {
   // 已开 → 先关再开(防多按 B 累浮层)
-  if (currentPicker) {
-    currentPicker.remove()
-    currentPicker = undefined
+  if (currentPicker) closePicker()
+
+  // picker-owned async resources must stop observing the old DOM before a new
+  // picker takes ownership. The generation also fences deferred thumbnail
+  // results after filtering or closing; the shared URL cache remains useful.
+  let pickerClosed = false
+  let sceneGeneration = 0
+  let sceneObserver: IntersectionObserver | undefined
+  const cleanupPicker = (): void => {
+    if (pickerClosed) return
+    pickerClosed = true
+    sceneObserver?.disconnect()
+    sceneObserver = undefined
   }
 
   injectDevPanelCSS()
@@ -1061,11 +1074,12 @@ function openPicker(deps: DevPanelDeps): void {
           console.warn('[dev] 战斗状态调试:无 player 0')
           return
         }
+        const partySlot = partySlotForRole(deps.gs, p0.roleId)
         if (key === 'poison') {
-          if (role0 !== undefined)
-            deps.gs.rgPoisonStatus[`0_${role0}`] = { wPoisonID: 5, wPoisonScript: 0 }
+          if (partySlot >= 0)
+            deps.gs.rgPoisonStatus[`0_${partySlot}`] = { wPoisonID: 5, wPoisonScript: 0 }
           console.log(
-            `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${role0}]=id5;打完战斗应被清(D21)`,
+            `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${partySlot}]=id5;打完战斗应被清(D21)`,
           )
         } else if (key === 'clear') {
           const s = p0.status as unknown as Record<string, number>
@@ -1082,8 +1096,9 @@ function openPicker(deps: DevPanelDeps): void {
             'dualAttack',
           ])
             s[k] = 0
-          if (role0 !== undefined)
-            for (let slot = 0; slot < 16; slot++) delete deps.gs.rgPoisonStatus[`${slot}_${role0}`]
+          if (partySlot >= 0)
+            for (let slot = 0; slot < 16; slot++)
+              delete deps.gs.rgPoisonStatus[`${slot}_${partySlot}`]
           console.log('[dev] P0 全部状态/毒已清')
         } else {
           ;(p0.status as unknown as Record<string, number>)[key] = 5
@@ -1159,9 +1174,15 @@ function openPicker(deps: DevPanelDeps): void {
     j.mapNum !== undefined && hasMapName(j.mapNum) ? getMapName(j.mapNum) : ''
 
   // 缩略图 lazy 加载:命中模块级缓存立即出图;否则调 bootstrap renderSceneThumbnail(按 mapNum 缓存)。
-  const loadThumb = (img: HTMLImageElement, ph: HTMLElement, j: SceneJump): void => {
+  const loadThumb = (
+    img: HTMLImageElement,
+    ph: HTMLElement,
+    j: SceneJump,
+    generation: number,
+  ): void => {
     const key = thumbKeyOf(j)
     const apply = (url: string): void => {
+      if (pickerClosed || generation !== sceneGeneration) return
       img.src = url
       img.style.display = 'block'
       ph.style.display = 'none'
@@ -1173,22 +1194,32 @@ function openPicker(deps: DevPanelDeps): void {
     }
     if (!deps.renderSceneThumbnail) return
     ph.textContent = '渲染中…'
-    void deps.renderSceneThumbnail(j.sceneId, j.mapNum).then((url) => {
-      if (!url) {
+    void deps
+      .renderSceneThumbnail(j.sceneId, j.mapNum)
+      .then((url) => {
+        // Keep successful results in the shared cache even when this picker or
+        // list generation is gone; only the stale DOM write is suppressed.
+        if (url) sceneThumbCache.set(key, url)
+        if (pickerClosed || generation !== sceneGeneration) return
+        if (!url) {
+          ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
+          return
+        }
+        apply(url)
+      })
+      .catch(() => {
+        if (pickerClosed || generation !== sceneGeneration) return
         ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
-        return
-      }
-      sceneThumbCache.set(key, url)
-      apply(url)
-    })
+      })
   }
 
   // 单一 observer,每次 filter 重建(列表重建)。场景 tab 初始 display:none → observer 不触发;
   // 用户切到场景 tab 显示后,可见卡片才渲染缩略图(避免 294 张同时打爆网络)。
-  let sceneObserver: IntersectionObserver | undefined
   const hasIO = typeof IntersectionObserver !== 'undefined'
 
   const renderSceneList = (filter: string): void => {
+    if (pickerClosed) return
+    const generation = ++sceneGeneration
     sceneObserver?.disconnect()
     sceneList.textContent = ''
     const f = filter.toLowerCase()
@@ -1211,12 +1242,13 @@ function openPicker(deps: DevPanelDeps): void {
     if (hasIO) {
       sceneObserver = new IntersectionObserver(
         (entries, obs) => {
+          if (pickerClosed || generation !== sceneGeneration) return
           for (const ent of entries) {
             if (!ent.isIntersecting) continue
             const j = cardToJump.get(ent.target)
-            const img = ent.target.querySelector('img')
-            const ph = ent.target.querySelector('[data-ph]')
-            if (j && img && ph) loadThumb(img as HTMLImageElement, ph as HTMLElement, j)
+            const img = ent.target.querySelector<HTMLImageElement>('img')
+            const ph = ent.target.querySelector<HTMLElement>('[data-ph]')
+            if (j && img && ph) loadThumb(img, ph, j, generation)
             obs.unobserve(ent.target)
           }
         },
@@ -1267,7 +1299,7 @@ function openPicker(deps: DevPanelDeps): void {
       sceneList.appendChild(card)
       cardToJump.set(card, jump)
       if (sceneObserver) sceneObserver.observe(card)
-      else loadThumb(img, ph, jump) // 无 IO 兜底:直接加载(命中缓存即出图)
+      else loadThumb(img, ph, jump, generation) // 无 IO 兜底:直接加载(命中缓存即出图)
     }
   }
 
@@ -1430,12 +1462,14 @@ function openPicker(deps: DevPanelDeps): void {
       const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
       const inParty = deps.gs.partyMembers.includes(roleId)
       const isLeader = roleId === 0
+      const partyEditingDisabled = deps.gs.mode === 'battle'
       const card = document.createElement('button')
       card.style.cssText =
         `display:flex; flex-direction:column; align-items:center;` +
-        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader ? 'default' : 'pointer'};` +
+        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader || partyEditingDisabled ? 'default' : 'pointer'};` +
         ` background:${inParty ? '#1f3a24' : '#3a1f1f'};` +
         ` border:1px solid ${inParty ? '#4c8' : '#c55'}; border-radius:4px`
+      if (partyEditingDisabled && !isLeader) card.disabled = true
       // 头像:object-fit:cover 自适应裁剪(统一尺寸、不变形、顶对齐显示脸);缺 palette/帧 → 名字占位块
       const sprite = deps.portraitFrames?.get(role?.avatar ?? -1)
       if (sprite && deps.palette) {
@@ -1460,10 +1494,19 @@ function openPicker(deps: DevPanelDeps): void {
         `width:9px; height:9px; border-radius:50%; margin:auto 0 7px;` +
         ` background:${inParty ? '#4f4' : '#f44'}; box-shadow:0 0 4px ${inParty ? '#4f4' : '#f44'}`
       card.appendChild(lamp)
-      card.title = isLeader ? '队首李逍遥常驻,不可离队' : inParty ? '点击离队' : '点击入队'
+      card.title = isLeader
+        ? '队首李逍遥常驻,不可离队'
+        : partyEditingDisabled
+          ? '战斗中不可编辑队伍'
+          : inParty
+            ? '点击离队'
+            : '点击入队'
       if (!isLeader) {
         card.addEventListener('click', () => {
+          if (deps.gs.mode === 'battle') return
           deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
+          deps.gs.rgPoisonStatus = {} // 队伍重组后毒槽不继承给新成员（SDLPal 0x75）。
+          updateAllEquipments(deps.gs, deps.resources.items)
           // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
           const leader = deps.gs.partyMembers[0]
           if (leader !== undefined) {
@@ -1911,6 +1954,7 @@ function openPicker(deps: DevPanelDeps): void {
   showTab('battle') // 默认显示战斗 tab
   document.body.appendChild(div)
   currentPicker = div
+  currentPickerCleanup = cleanupPicker
 }
 
 /**
@@ -2027,6 +2071,9 @@ async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
 }
 
 function closePicker(): void {
+  const cleanup = currentPickerCleanup
+  currentPickerCleanup = undefined
+  cleanup?.()
   if (currentPicker) {
     currentPicker.remove()
     currentPicker = undefined
@@ -2050,6 +2097,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
 
   // 2. 设 partyMembers + inventory(浅拷贝 inventory 防 fixture 数据被 mutate 影响下次)
   deps.gs.partyMembers = [...fixture.partyMembers]
+  deps.gs.rgPoisonStatus = {} // fixture 重建队伍，不能继承上一队的毒槽。
   deps.gs.inventory = (fixture.inventory ?? []).map((i) => ({ ...i }))
 
   // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection

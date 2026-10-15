@@ -1,7 +1,7 @@
 /**
  * M5.M-w2.b:InGameMenu(主菜单)+ SystemMenu(系统菜单)。
  *
- * 大世界主菜单 4 项:物品 / 法术 / 状态 / 系统;系统菜单 4 项:存档 / 读档 / 设置 / 退出。
+ * 大世界主菜单 4 项:状态 / 仙术 / 物品 / 系统;系统菜单 5 项:存档 / 读档 / 音乐 / 音效 / 退出。
  *
  * 数据 state machine,渲染 + 跳到子菜单(InventoryMenu / InGameMagicMenu / PlayerStatus /
  * SaveSlotMenu)留 caller 接。

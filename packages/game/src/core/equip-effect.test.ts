@@ -337,6 +337,7 @@ describe('equip-effect', () => {
     it('M12:落槽时跑一次入口 playerScript,存返回 next(C global.c:1515)', () => {
       setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
       let ranIp = -1
       addPoisonForPlayer(gs, 0, 100, (ip) => {
         ranIp = ip
@@ -364,13 +365,14 @@ describe('equip-effect', () => {
       gs.PlayerRolesRuntime.rgwHP[1] = 50
       runEquipScript(gs, 520, 1)
       expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(70)
-      expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
+      expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
       setObjectPoisons([])
     })
 
     it('M12:无 runner(旧 caller)→ fallback 存入口 ip(差一拍但不崩)', () => {
       setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
       addPoisonForPlayer(gs, 0, 100) // 不传 runner
       expect(gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(555) // 存入口 ip(向后兼容)
       setObjectPoisons([])
@@ -398,11 +400,12 @@ describe('equip-effect', () => {
         { id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 40868 }, // 低级伤害毒
       ])
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-      gs.rgPoisonStatus['0_1'] = { wPoisonID: 563, wPoisonScript: 40860 }
-      gs.rgPoisonStatus['1_1'] = { wPoisonID: 552, wPoisonScript: 40866 }
+      gs.partyMembers = [1]
+      gs.rgPoisonStatus['0_0'] = { wPoisonID: 563, wPoisonScript: 40860 }
+      gs.rgPoisonStatus['1_0'] = { wPoisonID: 552, wPoisonScript: 40866 }
       removeEquipmentEffect(gs, 1, 5) // Wear
-      expect(gs.rgPoisonStatus['0_1']!.wPoisonID).toBe(0) // level99 清
-      expect(gs.rgPoisonStatus['1_1']!.wPoisonID).toBe(552) // 低级保留
+      expect(gs.rgPoisonStatus['0_0']!.wPoisonID).toBe(0) // level99 清
+      expect(gs.rgPoisonStatus['1_0']!.wPoisonID).toBe(552) // 低级保留
     })
   })
 

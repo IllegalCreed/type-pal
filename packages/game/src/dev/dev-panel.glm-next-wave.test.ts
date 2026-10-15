@@ -59,8 +59,8 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
   })
 
   afterEach(() => {
-    // 释放残留 picker DOM(若断言失败留下);openPicker 自身会摘除旧 currentPicker,指针泄漏无副作用。
-    document.querySelector('.tp-dev-panel')?.remove()
+    // 通过 owner handler 关闭，覆盖 observer/异步资源 cleanup；不直接摘 DOM 绕过 currentPicker。
+    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close (Esc)"]')?.click()
     vi.restoreAllMocks()
   })
 
@@ -103,5 +103,32 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
     // dump 是深拷贝:此后 mutate 原 gs,dump 保持快照值。
     deps.gs.wNumMusic = 0
     expect(dump).toEqual(snapshot)
+  })
+
+  it('battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换', () => {
+    deps.gs.partyMembers = [0, 1]
+    deps.gs.mode = 'battle'
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
+    const partyTab = Array.from(document.querySelectorAll<HTMLButtonElement>('.tp-dev-tab')).find(
+      (button) => button.textContent === '👥 队伍',
+    )
+    partyTab?.click()
+    const battleRole1 = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.tp-dev-panel button'),
+    ).find((button) => button.textContent === 'R1role1')
+    expect(battleRole1).toBeDefined()
+    expect(battleRole1?.disabled).toBe(true)
+    battleRole1?.click()
+    expect(deps.gs.partyMembers).toEqual([0, 1])
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
+    deps.gs.mode = 'explore'
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
+    const exploreRole1 = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.tp-dev-panel button'),
+    ).find((button) => button.textContent === 'R1role1')
+    expect(exploreRole1?.disabled).toBe(false)
+    exploreRole1?.click()
+    expect(deps.gs.partyMembers).toEqual([0])
   })
 })

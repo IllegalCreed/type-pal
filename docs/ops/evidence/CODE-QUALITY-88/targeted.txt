@@ -1,0 +1,4 @@
+CODE-QUALITY-88 targeted and adjacent Vitest
+Command: pnpm --filter @type-pal/game exec vitest run src/core/menu/__tests__/item-magic-select.test.ts src/core/menu/magic-select.boundaries.test.ts src/core/menu/magic-select.glm-phase1-leaves.test.ts src/core/menu/in-game-magic-menu.test.ts src/core/menu/in-game-magic-menu.boundaries.test.ts src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts src/core/battle/__tests__/battle-system.test.ts src/present/menu/draw-magic.test.ts src/present/menu/draw-magic.glm-phase1-leaves.test.ts src/present/menu/magic-menu-pixels.grok-r1.test.ts --reporter=dot
+Result: 10 files passed, 261 tests passed, exit 0.
+Follow-up: pnpm --filter @type-pal/game typecheck (exit 0); pnpm exec biome check on four whitelist files and mutation runner (exit 0, no diagnostics).

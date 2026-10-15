@@ -20,7 +20,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { makeBattle } from '../__tests__/coverage85-glm-game/harness.js'
+import { makeBattle, makeRole } from '../__tests__/coverage85-glm-game/harness.js'
 import { createCommandBus } from './command-bus.js'
 import {
   buildLabelMap,
@@ -199,11 +199,11 @@ describe('contracts applyRawOpcode 条件跳转/装备消耗长尾(4288-4601)', 
   ]
 
   it('0x5D jumpIfNotPoisonKind(4295-4300):role 未中该种毒 → 跳 op1;已中 → 顺序推进', () => {
-    const gs = makeBattle().gs
-    gs.rgPoisonStatus['0_1'] = { wPoisonID: 7, wPoisonScript: 0 } // role1 已中毒 7
+    const gs = makeBattle({ roles: [makeRole(0), makeRole(1)], party: [1, 0] }).gs
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 } // role1 已中毒 7
     runBattle(gs, markerScript(0x5d, [7, 2, 0]), 1) // currentEventObjectId=1 → role1
     expect(gs.dwCash).toBe(333) // 中该种毒 → 不跳
-    const clean = makeBattle().gs
+    const clean = makeBattle({ roles: [makeRole(0), makeRole(1)], party: [1, 0] }).gs
     runBattle(clean, markerScript(0x5d, [7, 2, 0]), 1)
     expect(clean.dwCash).toBe(222) // 未中 → 跳 L_2
   })
@@ -384,8 +384,11 @@ describe('contracts runScript battle 0x04 call/return(2952-2957,4414-4438)', () 
   it('0x04 op1 覆盖(4436):curEventObjId = op1-1 持久到子脚本 raw(0x5D 按 role=4 判毒)', () => {
     // 0x29 会被 battle dispatch 拦截(0x61 同),0x5D 不在 battle case 表 → 落 applyRawOpcode,
     // 其 role 取 currentEventObjectId → 是 op1 覆盖是否生效的精确观察点。
-    const gs = makeBattle().gs
-    gs.rgPoisonStatus['0_4'] = { wPoisonID: 7, wPoisonScript: 0 } // role4 已中毒 7
+    const gs = makeBattle({
+      roles: Array.from({ length: 5 }, (_, i) => makeRole(i)),
+      party: [4, 1],
+    }).gs
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 } // role4 已中毒 7
     const ret = runBattle(
       gs,
       [

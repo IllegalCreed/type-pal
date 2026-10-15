@@ -249,6 +249,14 @@ function drawItemUseMenu(
     blitSpriteOpaque(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x, ITEMUSE_ITEMBOX_POS.y)
   }
 
+  // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
+  // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
+  // 旧 amount,看起来"道具没减"。C 只在 i > 0 时绘制图标、名称和数量
+  // (uigame.c:1403-1419);数量归零后目标层保持框/角色信息并结束。
+  const invEntry = gs.inventory.find((e) => e.itemId === selectedItem.id)
+  const amount = invEntry?.count ?? 0
+  if (amount <= 0) return
+
   // 6. BALL icon at (127, 88)(uigame.c:1408-1412)+ 物品名 + amount
   if (itemIcons) {
     const icon = itemIcons.get(selectedItem.bitmap)
@@ -264,14 +272,7 @@ function drawItemUseMenu(
     glyphs,
     true,
   )
-  // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
-  // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
-  // 旧 amount,看起来"道具没减")。
-  const invEntry = gs.inventory.find((e) => e.itemId === selectedItem.id)
-  const amount = invEntry?.count ?? 0
-  if (amount > 0) {
-    drawNumber(fb, amount, 2, ITEMUSE_ITEM_AMOUNT, 'cyan', 'right', uiSpriteFrames)
-  }
+  drawNumber(fb, amount, 2, ITEMUSE_ITEM_AMOUNT, 'cyan', 'right', uiSpriteFrames)
 }
 
 export function drawInventoryMenu(input: DrawInventoryInput): void {

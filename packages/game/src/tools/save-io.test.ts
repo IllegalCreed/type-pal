@@ -21,4 +21,9 @@ describe('save-io', () => {
     const bad = JSON.stringify({ format: 'type-pal-save', version: 1, gs: { wNumScene: 1 } })
     expect(() => parseImportedSave(bad)).toThrow(/字段/)
   })
+  it('parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API', () => {
+    const raw = JSON.parse(serializeSave({ wNumScene: 1, partyMembers: [0] } as never))
+    raw.version = 2
+    expect(() => parseImportedSave(JSON.stringify(raw))).toThrow(/版本/)
+  })
 })

@@ -17,6 +17,7 @@ export function parseImportedSave(text: string): GameState {
     throw new Error('存档文件不是合法 JSON')
   }
   if (obj?.format !== FORMAT) throw new Error('存档格式不符(format 头缺失/错误)')
+  if (obj.version !== VERSION) throw new Error(`存档版本不符(version 只接受 ${VERSION})`)
   const gs = obj.gs as Partial<GameState> | undefined
   if (!gs || !Array.isArray(gs.partyMembers) || typeof gs.wNumScene !== 'number') {
     throw new Error('存档缺必要字段(partyMembers / wNumScene)')

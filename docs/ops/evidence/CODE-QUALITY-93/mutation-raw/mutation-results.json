@@ -1,0 +1,630 @@
+[
+  {
+    "phase": "original",
+    "command": "pnpm exec vitest run src/core/menu/sell-menu.test.ts src/core/menu/sell-menu.boundaries.test.ts src/core/menu/sell-menu.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq",
+    "exitCode": 0,
+    "signal": null,
+    "sourceSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "assertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L05 sell-menu 剩余合同 空库存 !slot 防御不进 confirm",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L05 sell-menu 剩余合同 真实确认态重复选择和 list 相重复确认零请求",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [],
+      "totalFailed": 0,
+      "runtimeError": false
+    }
+  },
+  {
+    "id": "MUT-01",
+    "description": "exhausted inUse boundary incorrectly permits selection",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/sell-menu.boundaries.test.ts",
+      "-t",
+      "^G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图$",
+      "--reporter=json"
+    ],
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq",
+    "executionIdentity": {
+      "file": "src/core/menu/sell-menu.boundaries.test.ts",
+      "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq/src/core/menu/sell-menu.boundaries.test.ts:61:42\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "testSha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+    "baselineExitCode": 0,
+    "baselineSignal": null,
+    "rebuiltMutantSha256": "2a041abbccc6d8530bafabaa63ec1cfff4347b27415b4faf22a8ea2e19f68df0",
+    "repositorySourceUnchanged": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "mutantSha256": "2a041abbccc6d8530bafabaa63ec1cfff4347b27415b4faf22a8ea2e19f68df0",
+    "restoredSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-02",
+    "description": "new selection retains previous Yes intent",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/sell-menu.test.ts",
+      "-t",
+      "^sell-menu 全屏状态机\\(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable\\) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No$",
+      "--reporter=json"
+    ],
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq",
+    "executionIdentity": {
+      "file": "src/core/menu/sell-menu.test.ts",
+      "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq/src/core/menu/sell-menu.test.ts:87:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.test.ts",
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "testSha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+    "baselineExitCode": 0,
+    "baselineSignal": null,
+    "rebuiltMutantSha256": "8bdb12443a6e16415590a5ebd0f3453cca18080edbb59faf05f736f3a7f825c8",
+    "repositorySourceUnchanged": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "mutantSha256": "8bdb12443a6e16415590a5ebd0f3453cca18080edbb59faf05f736f3a7f825c8",
+    "restoredSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-03",
+    "description": "refresh loses the selected nonzero cursor while list grows",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/sell-menu.boundaries.test.ts",
+      "-t",
+      "^G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标$",
+      "--reporter=json"
+    ],
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq",
+    "executionIdentity": {
+      "file": "src/core/menu/sell-menu.boundaries.test.ts",
+      "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected +0 to be 1 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq93-fYJBjq/src/core/menu/sell-menu.boundaries.test.ts:134:31\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "filtered": [
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/sell-menu.boundaries.test.ts",
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "testSha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+    "baselineExitCode": 0,
+    "baselineSignal": null,
+    "rebuiltMutantSha256": "0cacf7041b382d455f9d84b4745ea5c715a09931fb307e0a98d91b7dc07f8dc9",
+    "repositorySourceUnchanged": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "mutantSha256": "0cacf7041b382d455f9d84b4745ea5c715a09931fb307e0a98d91b7dc07f8dc9",
+    "restoredSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  }
+]

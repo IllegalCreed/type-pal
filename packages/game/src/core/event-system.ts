@@ -476,7 +476,7 @@ export const OP_GOTO_IF_NO = 0x000a // 10
 // case 0x0029(41): Apply poison to player(script.c:1257-1285)
 //   if RandomLong(1,100) > PAL_GetPlayerPoisonResistance(role) → AddPoisonForPlayer(role, operand[1])
 //   operand[0]=applyToAll
-//   ts:gs.rgPoisonStatus[`${slot}_${playerIdx}`] = { wPoisonID, wPoisonScript }
+//   ts:gs.rgPoisonStatus[`${slot}_${partySlot}`] = { wPoisonID, wPoisonScript }
 
 // case 0x002A(42): Cure poison enemy(script.c:1287-1329)— 战斗 only,log skip
 
