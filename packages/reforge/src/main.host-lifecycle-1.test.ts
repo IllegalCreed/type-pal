@@ -328,14 +328,25 @@ test('战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
 
 test('战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换', async () => {
   host = await installShellHost()
-  // jsdom 的 location.reload 为静默 no-op 且不可 spy;jsdom 可观测合同 =
-  // 零档下战败链不误读空档、不替换世界、流程干净收口(重开行由覆盖账证明执行)。
+  // Native navigation is terminal browser IO. Keep the boot URL and observe reload;
+  // the real no-save branch must reach this port after its asynchronous metadata read.
+  const originalHref = location.href
+  const navigation = {
+    search: location.search,
+    pathname: location.pathname,
+    href: originalHref,
+    reload: vi.fn<Location['reload']>(),
+  } satisfies Pick<Location, 'search' | 'pathname' | 'href' | 'reload'>
+  vi.stubGlobal('location', navigation)
   const scene = sceneWithCommands('a', [{ kind: 'gameOver' }])
   const fixture = await shellProject({ first: scene })
   await bootAndAwait(fixture)
   await until(host, () => observation().dialogue)
   for (let i = 0; i < 6 && observation().dialogue; i++) await key(host, 'Enter', 200)
-  await advance(() => !observation().script.running)
+  await advance(() => navigation.reload.mock.calls.length > 0)
+  expect(navigation.reload).toHaveBeenCalledOnce()
+  expect(navigation.href).toBe(originalHref)
+  expect(observation().script.running).toBe(false)
   expect(observation().world.money).toBe(50)
   expect(observation().sceneId).toBe('a')
 })

@@ -78,3 +78,5 @@
 - [C02导入与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3/README.md)（有限四文件，30例535→0，精度与完整窗口待续）。
 
 - [Kimi战斗精灵工作流治理](QUALITY-EDITOR-DIAGNOSTICS-4/README.md)（六例398→0、三反控；统一门待续，0关闭）。
+
+- [测试宿主原生导航](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)（两例来源各1→0；其它输出与统一门待核，0关闭）。

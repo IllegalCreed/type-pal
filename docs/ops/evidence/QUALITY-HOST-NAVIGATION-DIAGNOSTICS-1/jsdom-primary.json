@@ -1,0 +1,42 @@
+[
+  {
+    "package": "jsdom",
+    "version": "29.1.1",
+    "path": "lib/jsdom/living/window/Location-impl.js",
+    "resolvedPath": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/jsdom@29.1.1_canvas@3.2.3/node_modules/jsdom/lib/jsdom/living/window/Location-impl.js",
+    "sha256": "3d75aedf7f6660e9d4b06bc8fd90dd8450f83390775de434f65c4cfe93c8f720",
+    "fullRead": true,
+    "anchors": [
+      {
+        "line": 223,
+        "text": "reload() {"
+      }
+    ]
+  },
+  {
+    "package": "jsdom",
+    "version": "29.1.1",
+    "path": "lib/jsdom/living/window/navigation.js",
+    "resolvedPath": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/jsdom@29.1.1_canvas@3.2.3/node_modules/jsdom/lib/jsdom/living/window/navigation.js",
+    "sha256": "c6ee2e081759e94eaa106bb8bcc98f8fb3a65735828bbbfe10a8ea0f759d0c3d",
+    "fullRead": true,
+    "anchors": [
+      {
+        "line": 24,
+        "text": "exports.navigate = (window, newURL, flags) => {"
+      },
+      {
+        "line": 57,
+        "text": "navigateFetch(window);"
+      },
+      {
+        "line": 77,
+        "text": "function navigateFetch(window) {"
+      },
+      {
+        "line": 79,
+        "text": "notImplemented(window, \"navigation to another Document\");"
+      }
+    ]
+  }
+]
