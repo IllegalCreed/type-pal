@@ -1,6 +1,6 @@
 # QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验与独立验收分开）
 Phase: phase2
@@ -41,3 +41,7 @@ Codex premise verified / design agree，build allowed，仅上述两文件。
 
 定向6+8例与相邻34+19例通过；两个native诊断均按独立基线1→0实证，非最近stderr猜归因。真实reload oracle反控旧8绿/现恰1红/恢复8绿，完整0skip、无timeout/启动失败；清理后已独立重构。键盘事件强转已改为真实React事件，回收act全局环境；测试身份/计数未改。两包typecheck通过。
 本卡只清native边界，AudioContext与相邻故障日志仍在，见证据；统一门与其它runtime诊断未清，不标done、不合main。两文件列review，当前机器3284/229closed/58review/2997pending，0关闭；后续稳定诊断窗口跑全部门。无下一位Agent提示词，由Codex继续。
+
+## 联合窗口复核
+
+C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。

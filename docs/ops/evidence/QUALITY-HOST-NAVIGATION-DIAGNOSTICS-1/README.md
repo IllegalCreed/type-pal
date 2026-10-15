@@ -10,3 +10,5 @@
 相邻editor4文件34例、reforge3文件19例通过，act/环境/native三类均0；两包typecheck通过。现存14个测试名称与数量均未变，无退役、不改规则/配置/产品或生成物。
 
 不宣称全部console清零：host-current仍8条AudioContext不可用；相邻host含19条同类及各1条script/save故障日志，原件完整保留，见checkpoint-proof.json。它们须另核端口与故障oracle，不能以“已有告警”豁免。全仓其它act/环境仍待续，统一门未过，不合main。完整门与Kimi检查点在下一稳定诊断窗口集中运行。
+
+稳定窗口已实测，严格统一诊断门仍未通过；见[联合原始计数与边界](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。本片留review，0关闭、不合main。

@@ -15,3 +15,5 @@ K4删槽原合同见E18-1卡264/284与当前组件：保留其它槽时必须删
 check、官方普通ratchet、protected fast与C04/C05在下一稳定窗口集中执行。定向通过不等于全仓诊断清零，不合main、不宣布文件闭合。
 
 检查点静态门：docs 0 issues，lint 4227文件0 error/0 warning/0 info，ledger通过；完整原件见static-preflight.json。全仓测试/普通ratchet/protected待集中窗口，不作统一零诊断结论。
+
+稳定窗口已实测，严格统一诊断门仍未通过；见[联合原始计数与边界](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。本片留review，0关闭、不合main。

@@ -1,6 +1,6 @@
 # QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验/独立验收分开）
 Phase: phase2
@@ -45,3 +45,7 @@ Codex premise verified / design agree，build allowed，仅前三测试。
 四文件只登记review，机器3284/229closed/62review/2993pending，0关闭。静态门与统一窗口以新回执为准；C04/C05/C06集中check/普通ratchet/protected尚待运行，统一诊断未清不合main。完整逐文件证据、边界和剩余风险见本片README。无下一位Agent提示词，由Codex继续。
 
 检查点静态门：docs 0 issues，lint 4227文件0 error/0 warning/0 info，ledger通过；完整原件见static-preflight.json。全仓测试/普通ratchet/protected待集中窗口，不作统一零诊断结论。
+
+## 联合窗口复核
+
+C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。

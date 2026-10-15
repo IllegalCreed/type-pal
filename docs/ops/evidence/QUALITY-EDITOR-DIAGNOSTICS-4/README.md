@@ -11,3 +11,5 @@ oracle修正：不再覆盖prepare的asset/record来“证明复用”；直接�
 隔离三枚反控：整数守卫放宽、复用AssetId漂移，旧六例仍全绿而现六例各恰一指定AssertionError；缩帧repairs清空后现删除例恰一AssertionError。每次完整跑六例，0skip；新例的三次红与恢复6绿均0诊断。临时工作区清理后独立split重构mutant并核raw/runner字节SHA，见oracle-rebuild.json。工作树生产文件未改。
 
 相邻11文件90例0skip/0诊断，editor typecheck与coverage工具65/65通过。仅检查点，完整check/ratchet/protected待稳定资源工作流窗口共跑；不拿上一候选的全门给本片盖章。未知跨文件重复、宿主历史pending导航及故障清理仍待核；不关闭文件。
+
+稳定窗口已实测，严格统一诊断门仍未通过；见[联合原始计数与边界](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。本片留review，0关闭、不合main。

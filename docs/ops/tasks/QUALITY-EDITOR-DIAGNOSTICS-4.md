@@ -1,6 +1,6 @@
 # QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（作者实测与独立验收分开）
 Phase: phase2
@@ -45,3 +45,7 @@ Codex：premise verified / design agree，build allowed，仅上述范围。
 六例完整398→0诊断；实际复用真实C02宿主与完成信号，不改核心、不静音。复制的宿主及空Promise/轮询点击已移除，六例名称/计数不变。两项旧绿/新红反控证DnD小数与真实复用oracle的改进，缩帧反控仍准确红；所有新红均完整六例、恰一指定业务AssertionError、0skip/0诊断，恢复六绿。隔离及清理后独立构造证据见README。
 相邻11文件90例、editor typecheck、coverage工具65通过；全门在后续稳定资源工作流窗口集中跑，当前仍build，统一门未通过，不合main。只把两文件列review，机器3284/229closed/56review/2999pending，0新关闭。
 下一候选为剩余native导航两测试，先限定Owner/白名单与真实caller；或World资源工作流，不能用标题直接断言根因。无下一位Agent提示词，Codex继续。
+
+## 联合窗口复核
+
+C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。

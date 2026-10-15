@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-15T12:15:57.686Z",
+  "generatedAt": "2026-10-15T13:40:34.422Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -9161,7 +9161,7 @@
           {
             "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
             "testCount": 10,
-            "identityDigest": "c94254247d42af51463688cc0cfffe9f50d1c7d19a9d5bb1bdb6783413c8c46b"
+            "identityDigest": "591af871e2f65f4d2e011c838489a1323118b29f6be5243ff508734175256eeb"
           },
           {
             "file": "packages/editor/src/ui/CommandForm.actor-workflow-coverage.test.tsx",
@@ -10579,9 +10579,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "a630f482d4c22669f551b5e321369a68f9eae7887c31efbd952ec83ea0b05de9",
+        "identityDigest": "11ad0cfdc881597f662ea20f41218b066099f608fe6838a47d250b8f27c75166",
         "duplicateIdentityCount": 8,
-        "executionDigest": "2d685d0627f0cde349da6c24d4d1255dfa5585061df14379fc8187211657f06d"
+        "executionDigest": "2de99f4a7be1a0a922fa250d5dcf4ceb936597fd77bb2684872c2371419a886f"
       },
       "metrics": {
         "statements": {
