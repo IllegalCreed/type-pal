@@ -28,3 +28,7 @@
 - [Testing 十索引逐篇与生成链接入记录](20261016-testing-index-navigation.json)：保留固定738d作者候选和独立读域，当前中央/路由/矩阵按实际受审快照与记录核验；不授359来源或runtime信用。
 
 - [E2E 002–005 八篇治理冻结设计](20261016-e2e-stage-m-design.md)：A仅八MD，先002入口/报告两canonical pilot再另准余六；四配对JSON未纳入，006不改不重计。设计自身pending，不从设计/静态门授执行信用。
+
+- [固定 binding baseline JSON 合同冻结设计](20261016-binding-baseline-design.md)：test-catalog父1.2.0专用frozen-capture变体，固定33cc原生八字段保全、旧default行为不变；实施/canonical接收另验，设计自身pending。
+
+- [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
