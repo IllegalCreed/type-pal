@@ -4,7 +4,7 @@ Status: current
 Owner: Codex（冻结、独立验收与集成）；receipt_review（候选实现单一 Owner）
 Last reviewed: 2026-10-16
 Template: design-spec-v1 / 1.0.0
-Version: F1-binding-baseline / 2.0.0（提案v2冻结，实施另准入）
+Version: F1-binding-baseline / 2.0.1（维护白名单补一项，实施另准入）
 
 ## 问题与目标
 
@@ -31,13 +31,13 @@ L十索引/根接入已于afb149b9a0bf891084af4902645da9f5469c9d8b独立接受�
 5. 单向依赖真实GitBuffer reader→root/view→model→现wrapper/未来core，低层不import model/review/terminal、不递归自身；普通source reader边界不放宽。source/after真实Git不fallback工作树或接受tag/tree/symlink/gitlink，不用shell插值。
 6. 唯一已接受docs/testing/catalog.json仅_governance.templateVersion1.1.0→1.2.0；原native+其它governance逐字节逆回读，旧18读结论/状态/期限保留，0新增catalog迁移。完整旧current/prior固定Git可取或内联保留并同步version/after/conformity。test-catalog默认示例仅声明roll；machine1.5默认/六variant/五历史pins全深等不动。
 
-完整正式v2合同与21路径白名单按下方原稿逐节冻结，不由摘要放宽。作者在独立codex/docs-binding-baseline-f1 worktree从根另传已提交clean冻结基点开工；docs工具/模板与canonical pilot/根维护可按单Owner先实施、根单一写入集成，不能并行抢共享实现文件。原6代码+5模板入口+10根维护21路径，加本文唯一冻结设计路径；旧tests、产品/coverage/CI、完整T loader/builder/strictcodec不准入。若只实现F1低层真实Buffer reader，不能夹带未来T跨format/core功能。
+完整正式v2合同按下方原稿逐节冻结；原21路径白名单保作2.0.0历史基点，现仅补一个实际必需的README当前审查记录维护路径为22，不扩代码或业务合同。作者在独立codex/docs-binding-baseline-f1 worktree从根另传已提交clean冻结基点开工；docs工具/模板与canonical pilot/根维护可按单Owner先实施、根单一写入集成，不能并行抢共享实现文件。原6代码+5模板入口+10根维护21路径，窄增docs/phase-governance/reviews/20261015-agent-first-routing-batch.json，共22；新增文件仅准维护docs/phase-governance/templates/README.md的唯一current record与完整prior/source/after/SHA同步，该记录其它entries逐对象不变。本文仍是唯一冻结设计路径；旧tests、产品/coverage/CI、完整T loader/builder/strictcodec不准入。若只实现F1低层真实Buffer reader，不能夹带未来T跨format/core功能。
 
 ### Pilot与接收顺序
 
 本页/任务/README实际冻结提交后仍需根内部传精确基点和实施准入，不凭/tmp稿动手。先实现既有21白名单内合同/default等值及baseline canonical pilot，作者交精确候选；根与非作者核完整新代码/typed envelope实际语义和完整baseline原八字段保存边界。迁移credit须canonical正文独立读+真实model/progress/source/native完整门，不以fixture结构绿代替。
 
-质量库存新focused docs test只pending，旧库存/旧代码不复审。每篇central完整source/after/prior/owner/primary/readScope/phase/input/oracle/counter/history/stop/next双conformity；source读取范围如实记字段分组/结构遍历和同blob复用，不捏造18407逐行或1838源通读。baseline源码根与全部实际source/deliveredcandidate须最终可达，清理不可销唯一指针。
+质量库存本包所有实际新增源码（包括新的Git reader与focused docs test）都只pending，数量以真实枚举为准、不固化只加一项或3294；旧库存/旧代码不复审。每篇central完整source/after/prior/owner/primary/readScope/phase/input/oracle/counter/history/stop/next双conformity；source读取范围如实记字段分组/结构遍历和同blob复用，不捏造18407逐行或1838源通读。baseline源码根与全部实际source/deliveredcandidate须最终可达，清理不可销唯一指针。
 
 ## 边界与风险
 
@@ -52,6 +52,8 @@ F1-C1专用entryReadings继承用default完整列表分离；C2不能仅variantf
 真实固定33cc对象的ownedtmp root/view/gov/body/source/进度正控；原raw来源可读不计迁移、合法envelope原生8深等后incremental1/cohort增0。联改native任意键/entry path/hash/类型/顺序/summary/状态再同步route/review.after仍固定source拒；只移除owned native守卫同例放行以证明判别力。错path/type/format/variant/metadata/hash/revision/额外键/null/非法UTF8/全层decodedduplicate、非commit/缺对象等须命中真实目标门，不能被无关缺route先挡冒校准。低层不回调递归及其它历史source合同回归要真实验证。
 
 测试少而精，用新focused docs test的3–4顶层原子场景组织合法fixture/有意义变造，不动旧product tests/coverage，不执行112tools/原raw。旧machine1.5全合同/pins保持，L索引仍真实producer输出。实际pnpm check:docs、pnpm lint、git diff --check零error/warning/info，库存实际枚举，新test只pending；独立代码/正文复核与全仓门分开记。未达留draft/rework，不自签done、不合main。
+
+维护counter F1-SCOPE1：receipt_review准备阶段从实际唯一registry.reviewRecord发现原21遗漏templates/README的当前记录。根直接核该README确在20261015-agent-first-routing-batch.json且已template-compliant；若只改正文不维护该完整current必有真实after漂移。2.0.1只补该一项22与全部新增源码pending口径，原2.0.0完整body在82f0e0bc可取、下方原187行quote逐字节不改；不是新产品/模板合同或未来实现accept。
 
 ### 完整原v2提案快照
 
