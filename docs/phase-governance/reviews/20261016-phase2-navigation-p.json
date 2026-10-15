@@ -2176,7 +2176,7 @@
       "businessOracle": {
         "purpose": "让读者按审计、设计、界面草案、实施计划和早期切片五种职责检索历史材料，同时找到阶段现行入口。",
         "liveMeaning": "本页维护五个历史集合入口。它保留旧版本、当时状态和 Agent 提示的追溯用途，不把归档材料重新发布为当前任务或产品合同。 本页维护五个子目录及阶段首页的可达性；各历史材料保留自己的日期、证据与继任关系。当前任务授权回任务卡，当前合同回现行规范。",
-        "historicalBoundary": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+        "historicalBoundary": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。",
         "originalCounts": {
           "headings": 2,
           "listMembers": 5,
@@ -2188,7 +2188,7 @@
         "type": "source-specific-navigation-and-authority-preservation",
         "assertions": [
           "让读者按审计、设计、界面草案、实施计划和早期切片五种职责检索历史材料，同时找到阶段现行入口。",
-          "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+          "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。",
           "This document preserves 2 original headings, 5 original live members and 6 original href occurrences. Batch totals24/107/118 are not per-document.",
           "Source inverse is exact; static navigation/current does not accept linked target content, historical signatures, HTML, runtime/E2E/visual/coverage."
         ],
@@ -2475,6 +2475,23 @@
             "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json",
             "gitObject": "b473709460dafc63dab9da69fb841e22a95d5cef",
             "fileSha256": "15acea008dae97a26f7797bca614ac311f462cbb7d288a191d5efa45a688a54f",
+            "selector": {
+              "entries.path": "docs/phase2/archive/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Repair P-root-C1 three current oracle copies only; prior incorrect current preserved complete, not relabeled accepted",
+          "completePrior": {
+            "kind": "complete-immediate-incorrect-current-in-fixed-reachable-Git",
+            "revision": "be8974e8a55e68d3783d5f37da7799973629fa56",
+            "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+            "gitObject": "d4ee7108c6bb7c43b1c12363be7ee991cbf4fb08",
+            "fileSha256": "c898578cf6176434b9ac7450a58f598ab0c977a017ae1015f63a2bdd6b3673b2",
             "selector": {
               "entries.path": "docs/phase2/archive/README.md",
               "uniqueMatches": 1
@@ -7819,6 +7836,30 @@
       "owner": "DOCS-FULL-TEMPLATE-1",
       "callers": ["docs/phase-governance/reviews/20261016-phase2-navigation-p.json"],
       "retention": "Preserve exact external proof/first failed snapshot until final source history audit; current review embeds consumer/producer proof, no runtime acceptance."
+    },
+    "type-pal-p11-root-first-intake-independent-review-20261016.json": {
+      "path": "/tmp/type-pal-p11-root-first-intake-independent-review-20261016.json",
+      "sha256": "e61805f2a0844008f26f4b32c513ae0ad90a55eb9dbfa8a7c50b6468538eacdb",
+      "producer": "receipt_review nonauthor ONLY rootdelta, not own121source",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": ["docs/phase-governance/reviews/20261016-phase2-navigation-p.json"],
+      "retention": "Full419-line first counter embedded here and fixed be897 candidate reachable; preserve report/probes through final audit"
+    },
+    "type-pal-p11-root-c1-repair-phase-producer-20261016.log": {
+      "path": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+      "sha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+      "producer": "Codex actual phase producer after C1 metadata repair",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": ["docs/phase-governance/reviews/20261016-phase2-navigation-p.json"],
+      "retention": "Retain exact repair producer proof; prior candidate execution survives whole be897 control locator. Zero runtime credit."
+    },
+    "type-pal-p11-root-c1-repair-phase-producer-20261016.json": {
+      "path": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.json",
+      "sha256": "bdca2e599606ae096d061ebb25111b8305326754698d482fa99613833973614b",
+      "producer": "Codex actual phase producer after C1 metadata repair",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": ["docs/phase-governance/reviews/20261016-phase2-navigation-p.json"],
+      "retention": "Retain exact repair producer proof; prior candidate execution survives whole be897 control locator. Zero runtime credit."
     }
   },
   "rootFirstStaticFailure": {
@@ -7854,7 +7895,7 @@
   "actualPhaseProjections": {
     "producer": "scripts/docs/build-phase-lore-governance.mjs",
     "scope": "Actual producer execution separately captured; current catalog is authoritative, projection does not infer source maturity.",
-    "catalogSha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
+    "catalogSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
     "views": [
       {
         "path": "docs/phase-governance/by-phase.md",
@@ -7874,15 +7915,16 @@
     },
     "newMigrationCredit": 0,
     "execution": {
-      "path": "/tmp/type-pal-p11-root-phase-producer-20261016.json",
-      "sha256": "02010449d8c96a22feb9eb03bcf13a2353fdd4ba027c0a87895f0dc41613a6a0",
+      "path": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.json",
+      "sha256": "bdca2e599606ae096d061ebb25111b8305326754698d482fa99613833973614b",
       "proof": {
         "command": "node scripts/docs/build-phase-lore-governance.mjs",
         "exitCode": 0,
         "catalogUnchanged": true,
-        "catalogSha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
-        "catalogBytes": 1011010,
-        "log": "/tmp/type-pal-p11-root-phase-producer-20261016.log",
+        "catalogSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+        "catalogBytes": 1011773,
+        "twoExistingViewsExactUnchanged": true,
+        "log": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
         "logSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc"
       }
     }
@@ -8025,6 +8067,489 @@
         "machineSourceSha256": "63a2d41900259caa835606a669a39956ea610fc874ea0b6ea0361347c07dda8e"
       },
       "issues": []
+    }
+  },
+  "rootFirstIntakeReview": {
+    "path": "/tmp/type-pal-p11-root-first-intake-independent-review-20261016.json",
+    "sha256": "e61805f2a0844008f26f4b32c513ae0ad90a55eb9dbfa8a7c50b6468538eacdb",
+    "review": {
+      "kind": "P11-source-author-independent-review-of-root-only-current-intake",
+      "reviewer": "Codex / receipt_review, author of121ff source, non-author ONLY of root new administrative/central/classification/projection changes",
+      "verdict": "counter exact first25 manifest; P-root-C1 open, no other root-scope counter found",
+      "base": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+      "authorSource": "121ff9735fe18cfb2e892a349294e97e24ac010d",
+      "sourceAuthorSelfAcceptance": false,
+      "frozenManifest": {
+        "path": "/tmp/type-pal-p11-root-intake-manifest-20261016.json",
+        "sha256": "47936a9edc973d53350df745903933520afcd64962093c51f90116b8a3e863df"
+      },
+      "exactFiles": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json",
+          "sha256": "15acea008dae97a26f7797bca614ac311f462cbb7d288a191d5efa45a688a54f",
+          "bytes": 283674,
+          "lines": 5773
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "sha256": "8819594478b9048114f7eaf1d52b779fa45ef88b08e56534529cb94ea673ea5d",
+          "bytes": 185966,
+          "lines": 919
+        },
+        {
+          "path": "docs/phase-governance/by-phase.md",
+          "sha256": "78fb92660ce14c4b3c62edca94c8369f3630181d32566a5992e4cb367c9358f7",
+          "bytes": 26458,
+          "lines": 207
+        },
+        {
+          "path": "docs/phase-governance/by-status.md",
+          "sha256": "797393b135293981cbbd6eb2c9ff7fbd05985ef406075d2dbc9dfbcc307ffba4",
+          "bytes": 21644,
+          "lines": 196
+        },
+        {
+          "path": "docs/phase-governance/catalog.json",
+          "sha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
+          "bytes": 1011010,
+          "lines": 22386
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.json",
+          "sha256": "63a2d41900259caa835606a669a39956ea610fc874ea0b6ea0361347c07dda8e",
+          "bytes": 65927,
+          "lines": 1075
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.md",
+          "sha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
+          "bytes": 9098,
+          "lines": 70
+        },
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "sha256": "818136268af1c921ad32ed1d1738d69f50d3f5093951e3d724eebdd8e82ba614",
+          "bytes": 345683,
+          "lines": 8563
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-01.json",
+          "sha256": "2bc3719bc1c4ffaf0bb156d17724bd41297d7cab8573786b1077c3330bac6a2b",
+          "bytes": 661514,
+          "lines": 13518
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+          "sha256": "239b07da0952555475cb3432ee2e534d7ebd496ae203764edd55a61cced5940d",
+          "bytes": 226150,
+          "lines": 4091
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "sha256": "8bdef4b4e4b2cffc93d315a8019868869f658ce485d1f237b1e930b27eaeffe1",
+          "bytes": 429682,
+          "lines": 7270
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+          "sha256": "c898578cf6176434b9ac7450a58f598ab0c977a017ae1015f63a2bdd6b3673b2",
+          "bytes": 408244,
+          "lines": 8030
+        },
+        {
+          "path": "docs/phase-governance/reviews/README.md",
+          "sha256": "ba44993f243a804f9706d3236214d96b5f31beca8983f4881fff13e6ce7e8577",
+          "bytes": 5432,
+          "lines": 46
+        },
+        {
+          "path": "docs/phase-governance/routing.json",
+          "sha256": "34335711f29640b5940ab7cccfa0174c6d9bcdfcc44eedee54bc874a7a913d52",
+          "bytes": 37070,
+          "lines": 1149
+        },
+        {
+          "path": "docs/phase2/README.md",
+          "sha256": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
+          "bytes": 4592,
+          "lines": 84
+        },
+        {
+          "path": "docs/phase2/archive/README.md",
+          "sha256": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
+          "bytes": 3769,
+          "lines": 72
+        },
+        {
+          "path": "docs/phase2/archive/audits/README.md",
+          "sha256": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
+          "bytes": 8795,
+          "lines": 110
+        },
+        {
+          "path": "docs/phase2/archive/designs/README.md",
+          "sha256": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
+          "bytes": 7182,
+          "lines": 104
+        },
+        {
+          "path": "docs/phase2/archive/mockups/README.md",
+          "sha256": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
+          "bytes": 3285,
+          "lines": 66
+        },
+        {
+          "path": "docs/phase2/archive/plans/README.md",
+          "sha256": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
+          "bytes": 6960,
+          "lines": 108
+        },
+        {
+          "path": "docs/phase2/archive/slices/README.md",
+          "sha256": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
+          "bytes": 3035,
+          "lines": 62
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/README.md",
+          "sha256": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
+          "bytes": 4265,
+          "lines": 74
+        },
+        {
+          "path": "docs/phase2/guides/README.md",
+          "sha256": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
+          "bytes": 3972,
+          "lines": 72
+        },
+        {
+          "path": "docs/phase2/reference/README.md",
+          "sha256": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
+          "bytes": 3603,
+          "lines": 64
+        },
+        {
+          "path": "docs/phase2/specs/README.md",
+          "sha256": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
+          "bytes": 4125,
+          "lines": 72
+        }
+      ],
+      "scopeBoundary": [
+        "Cannot and does not independently accept own121ff eleven source bodies, five-section semantic rewrite or original43-field author semantics. Sole source authority reused is non-author history_cards_a report0dac8386cd5dd635815639d039ab078210ea6d1df332bbfd04e3be389424d407.",
+        "This reviews only root12administrative replacements, normalized11current fields, unique old-current transfers/fullpriors,10type and7navigation status corrections,11routes, authoritative184catalog modifications/two actual projections and existing39matrix relation/owncurrent maintenance.",
+        "No acceptance of source targets,3HTML, old raw/images/capture/Git-acceptance claims, product/oldtests/coverage/runtime/E2E/visual, stage006, whole1838 goal, future root repair/signoff or main."
+      ],
+      "freshReadDomain": {
+        "sourceReportScope": "Directly read A report1–125 and750–823 for source authority/read-domain/final scope; complete823-line report actual bytehash and full embedded JSON deepEqual checked. Not claimed fresh reading all823 or performing its source audit again.",
+        "currentSemantics": "Read complete new common current values once only after all11 exact-value equality factoring, first full current record semantic projection and every remaining unique core/status/phase/input-boundary/oracle/count/substitution/catalogThinOracle/caller value in bounded4+4+3 projections. Original43 values/maps preserved by mechanical equality/Git lookup, not author independent semantic credit.",
+        "rootNewProse": "All12before/after substitutions directly read. Full888accepted author prose not freshly reread or resigned; exact author bytes plus only declared substitutions tested and full202 original source payload inverse mechanically verified.",
+        "controlAndHistory": "All new top-level control/design/status/counter/producer/consumer/artifact fields read; 34complete selected objects actually fetched from Git. Large8030-line control not claimed full literal fresh read; embedded complete source report and repeated preservation arrays factored/mechanically checked.",
+        "freshToolSource": "Two owned root construction helpers147/63lines, root actual consumer helper44lines and actual phase producer52lines read in full. Current document-model.mjs281–365 + wrapper and source reader head were read only as required calling contract. No writer helper/CLI executed by this reviewer.",
+        "matrixAndOuterFiles": "Every changed matrix-current value and task/index paragraph directly read; machine previousCompleteRow and other38 objects exact compared. No fresh full39underlying-source audit.",
+        "rootGates": "Read full small collector/lint and docs summary plus progress summary/issues, verified complete raw log hashes; full86test gate not rerun by reviewer."
+      },
+      "openCounters": [
+        {
+          "id": "P-root-C1",
+          "severity": "current contract inconsistency",
+          "subject": "docs/phase2/archive/README.md",
+          "fields": [
+            {
+              "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+              "selector": "entries.path=docs/phase2/archive/README.md",
+              "field": "businessOracle.historicalBoundary",
+              "actual": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。"
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+              "selector": "entries.path=docs/phase2/archive/README.md",
+              "field": "businessOracle.assertions[1]",
+              "actual": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。"
+            },
+            {
+              "path": "docs/phase-governance/catalog.json",
+              "selector": "entries.path=docs/phase2/archive/README.md",
+              "field": "businessOracle.assertions[2]",
+              "actual": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。"
+            }
+          ],
+          "directObservation": "Root body/coreConclusion already use the new sentence and catalog status is current; three current oracle values still require root to correct archived in future, without labeling that sentence as historical source snapshot. Root intake acceptance may remain pending, but performed navigation-state correction must be represented accurately.",
+          "oldCandidateSentence": "旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+          "actualRootSentence": "旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。",
+          "requiredRepair": "Only synchronize three current oracle values to actual root sentence; preserve complete initial wrong current objects through reachable fixed candidate Git/blob/fileSHA/unique selector. Keep author121 receipt/old author fields/body/allotherentries unchanged. Actual root repair is later bytes and requires directed review/zero gates.",
+          "parentDisposition": "Root acknowledged C1 and keeps this first25 frozen; plans natural candidate save then directed correction after this report. Counter not closed by firstgreen gates."
+        }
+      ],
+      "completedRootChecks": [
+        {
+          "id": "root-only-body-delta",
+          "observation": "11actualMD equal fixed121 bytes with exactly12declared substitutions;202payload inverse, all original preservation arrays and stable source/after/line identities match. No other root body rewrite."
+        },
+        {
+          "id": "fullPrior-preservation",
+          "observation": "34whole semantic objects retrieved:11immutable author43 +11priorcentral +11priorphasecatalog +1prior matrixcurrent. Actualcommit/object/fileSHA/uniqueentries.path/entireobject all compared; no selected-field summary replaces full prior. Source merge HEAD retains121 as actual MERGE_HEAD, not a cherry-pick.",
+          "objects": 34
+        },
+        {
+          "id": "unique-mapping",
+          "observation": "Registry total733 unchanged; other722 ordered objects exact.11newcurrent records each point to one matching registry/review and one route.227old routes ordered prefix exact, current238. Both old structured review files remove only these11 current memberships, preserve allothers and append matching full-prior transfers."
+        },
+        {
+          "id": "type-status-axes",
+          "observation": "Exactly10types corrected to existing governance-index1.0; rootREADME already that type. Exactly7archive-navigation statuses become current, historical collection axis/targetdates remain. Old184catalog other173 objects exact; summary50/50/84 becomes57/50/77."
+        },
+        {
+          "id": "catalog-thin-oracle",
+          "observation": "Final1011010B catalog retains perdocument purpose/count/historical boundary and unique fullcontrol selector. Detailed liveMeaning/requiredSections/checks remain full in408244Bcontrol and immutable author record. The three C1oracle strings are the only detected current semantic inconsistency; not excused by thin layout."
+        },
+        {
+          "id": "actual-producer",
+          "observation": "Root actual producer proof/log hash verified; independently invoked real renderPhaseGovernanceIndexes pure export. Returned by-phase207lines and by-status196lines equal current bytes exactly, catalog unchanged. Did not run writer CLI in shared root."
+        },
+        {
+          "id": "actual-model-GFM",
+          "observation": "Independently executed real checkMigratedDocument for11newroutes plus matrix,0structural issues; each added record link resolves to newcontrol,162href total inherited151+11. Marked sees1GFMtable39data rows, exactly row16 changed, other38 rows exact. Structure green cannot detect C1 currentoracle error."
+        },
+        {
+          "id": "matrix-scope",
+          "observation": "Existing legacy-classification relation only; no new row,39to39. Other38 complete JSON objects exact. Changed row keeps old from/evidence prefix and complete previous row; matrixMDcurrent evidence correctly separates MD source/after70lines from machine1075lines/SHA, fullprioractual42 preserved."
+        },
+        {
+          "id": "failure-and-config",
+          "observation": "Original1064904B oversize catalog snapshot exact SHA545b... retained, warning1 explicitly notpass despite exit0. Final1011010B below unchanged1048575 cap; config/ignores/scripts not modified. Shortbase guard failure recorded as root observation and source asserts beforewrite; no fresh reproduction claimed."
+        }
+      ],
+      "perDocumentRootScope": [
+        {
+          "path": "docs/phase2/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
+          "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "current-navigation"
+        },
+        {
+          "path": "docs/phase2/guides/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
+          "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "current-navigation"
+        },
+        {
+          "path": "docs/phase2/specs/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
+          "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "current-navigation"
+        },
+        {
+          "path": "docs/phase2/reference/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
+          "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "current-navigation"
+        },
+        {
+          "path": "docs/phase2/archive/README.md",
+          "rootDelta": "counter C1 only",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
+          "sourceSha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
+          "administrativeSubstitutions": 2,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/slices/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
+          "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/mockups/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
+          "sourceSha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
+          "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/designs/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
+          "sourceSha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/plans/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
+          "sourceSha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        },
+        {
+          "path": "docs/phase2/archive/audits/README.md",
+          "rootDelta": "no additional root-scope counter found",
+          "sourceAcceptance": "Reused solely from independent A0dac exact121; not reaccepted by receipt_review author",
+          "afterSha256": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
+          "sourceSha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
+          "administrativeSubstitutions": 1,
+          "currentStatus": "current",
+          "collectionAxis": "historical"
+        }
+      ],
+      "actualIndependentProbes": [
+        {
+          "path": "/tmp/type-pal-p11-root-independent-first-mechanical-probe-20261016.json",
+          "sha256": "46eaac8eae5f95aecdfc9e3694971a39c1e31216cac048961eaacd39e48a70c2",
+          "checks": 563,
+          "mechanicalIssues": 0,
+          "semanticCounters": 1
+        },
+        {
+          "path": "/tmp/type-pal-p11-root-independent-static-probe-20261016.json",
+          "sha256": "40a5853f4b14a5e356ce50ca57ce503778bfc902f33ca431dd0e9071095ba8a1",
+          "actualDocuments": 11,
+          "matrixAdditional": 1,
+          "issues": []
+        }
+      ],
+      "rootActualSameByteGates": {
+        "collector": {
+          "path": "/tmp/type-pal-p11-root-intake-gates-20261016.json",
+          "sha256": "10984afe008f8a17c22cbd66849e9197be09f56eaa2c9fde8afe29e3e24c078e"
+        },
+        "docs": {
+          "tests": 86,
+          "pass": 86,
+          "fail": 0,
+          "skip": 0,
+          "markdown": 1228,
+          "links": 8024,
+          "bodyContracts": 238,
+          "strictRecords": 733,
+          "testingIssues": 0,
+          "phaseLore": 184
+        },
+        "lint": {
+          "files": 4111,
+          "errors": 0,
+          "warnings": 0,
+          "infos": 0
+        },
+        "diffDiagnostics": 0,
+        "progress": {
+          "approvedCohort": 1838,
+          "cohortMigrated": 233,
+          "incrementalMigrated": 5,
+          "currentCandidates": 1981,
+          "currentPending": 1743,
+          "issues": []
+        },
+        "disposition": "True mechanical/static green on the first25 snapshot only; does not close C1 or approve later repair bytes."
+      },
+      "reviewerCorrections": [
+        "Initial /tmp recursive rg discovery returned permission-denied for unrelated system temp dirs; used bounded exact task paths. No repository writes or false pass.",
+        "One preparatory parent message estimated consumer38/producer59 source lines; actual wc44/52 corrected immediately before this final record. Helpers147/63 were exact. Final read domain uses actual measured lengths."
+      ],
+      "repositoryWrites": 0,
+      "newMigrationCreditWritten": 0,
+      "goalComplete": false,
+      "nextStep": "Root may preserve this countered first25 as reachable natural source candidate, retain this entire report, then perform C1 narrow repair and submit new exact manifest/zero gates for directed closure. This is not an overall acceptance."
+    },
+    "scope": "First exact25 candidate countered; this report remains historical and does not accept current repair"
+  },
+  "rootC1Repair": {
+    "base": "be8974e8a55e68d3783d5f37da7799973629fa56",
+    "counter": "P-root-C1",
+    "changes": [
+      {
+        "field": "current.businessOracle.historicalBoundary",
+        "before": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+        "after": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。"
+      },
+      {
+        "field": "current.businessOracle.assertions[1]",
+        "before": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+        "after": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。"
+      },
+      {
+        "field": "catalog.businessOracle.assertions[2]",
+        "before": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+        "after": "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。"
+      }
+    ],
+    "completeImmediatePriors": {
+      "currentReview": {
+        "kind": "complete-immediate-incorrect-current-in-fixed-reachable-Git",
+        "revision": "be8974e8a55e68d3783d5f37da7799973629fa56",
+        "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+        "gitObject": "d4ee7108c6bb7c43b1c12363be7ee991cbf4fb08",
+        "fileSha256": "c898578cf6176434b9ac7450a58f598ab0c977a017ae1015f63a2bdd6b3673b2",
+        "selector": {
+          "entries.path": "docs/phase2/archive/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "phaseCatalog": {
+        "kind": "complete-immediate-incorrect-current-in-fixed-reachable-Git",
+        "revision": "be8974e8a55e68d3783d5f37da7799973629fa56",
+        "path": "docs/phase-governance/catalog.json",
+        "gitObject": "4d8fa21b997c4a14ae18078cb45e50d67ab85acb",
+        "fileSha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
+        "selector": {
+          "entries.path": "docs/phase2/archive/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      }
+    },
+    "scope": "Only three current oracle values plus explicit complete-prior/failure bookkeeping; all bodies/native/other10 current entries/other173 catalog entries unchanged",
+    "status": "pending exact independent closure; zero gates separately required",
+    "actualProjectionRegeneration": {
+      "command": "node scripts/docs/build-phase-lore-governance.mjs",
+      "exitCode": 0,
+      "catalogUnchanged": true,
+      "catalogSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+      "catalogBytes": 1011773,
+      "twoExistingViewsExactUnchanged": true,
+      "log": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+      "logSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc"
     }
   }
 }

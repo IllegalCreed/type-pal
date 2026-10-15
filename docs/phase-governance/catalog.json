@@ -18465,7 +18465,7 @@
         "assertions": [
           "让读者按审计、设计、界面草案、实施计划和早期切片五种职责检索历史材料，同时找到阶段现行入口。",
           "Source 2 headings/5 members/6 href occurrences preserved; these are per-document, not batch24/107/118.",
-          "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 把本页列为 archived 的轴应由根在真实接收后勘误；这个修正只针对入口，不提升任何目标结论。",
+          "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。",
           "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
         ]
       },
@@ -18548,6 +18548,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Current oracle now matches already-correct current navigation, historical targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-incorrect-current-in-fixed-reachable-Git",
+            "revision": "be8974e8a55e68d3783d5f37da7799973629fa56",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "4d8fa21b997c4a14ae18078cb45e50d67ab85acb",
+            "fileSha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
+            "selector": {
+              "entries.path": "docs/phase2/archive/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
