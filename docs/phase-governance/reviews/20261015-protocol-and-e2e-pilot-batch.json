@@ -123,7 +123,7 @@
       "reviewedSourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "new-document-empty-byte-source",
-      "afterSha256": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+      "afterSha256": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -150,7 +150,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+        "implementationSha": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -167,7 +167,7 @@
         "kind": "full-text-preservation-and-consumer-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
         "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "afterSha256": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+        "afterSha256": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
         "lineCount": 249
       },
       "history": [
@@ -177,6 +177,13 @@
           "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "afterSha256": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
           "previousAfterSha256": null
+        },
+        {
+          "date": "2026-10-15",
+          "action": "blank-quote-trailing-whitespace-fix",
+          "previousAfterSha256": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+          "afterSha256": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
+          "scope": "quote delimiter formatting only; original body roundtrip retained"
         }
       ],
       "supersedes": [],
@@ -214,7 +221,7 @@
       "reviewedSourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "new-document-empty-byte-source",
-      "afterSha256": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+      "afterSha256": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -241,7 +248,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+        "implementationSha": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -258,7 +265,7 @@
         "kind": "full-text-preservation-and-consumer-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
         "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "afterSha256": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+        "afterSha256": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
         "lineCount": 502
       },
       "history": [
@@ -268,6 +275,13 @@
           "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "afterSha256": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
           "previousAfterSha256": null
+        },
+        {
+          "date": "2026-10-15",
+          "action": "blank-quote-trailing-whitespace-fix",
+          "previousAfterSha256": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+          "afterSha256": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
+          "scope": "quote delimiter formatting only; original body roundtrip retained"
         }
       ],
       "supersedes": [],

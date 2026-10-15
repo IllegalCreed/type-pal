@@ -2190,7 +2190,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+      "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2226,7 +2226,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+        "implementationSha": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2430,7 +2430,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+        "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
         "currentReading": {
           "date": "2026-10-15",
           "sha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
@@ -2649,12 +2649,19 @@
           "coreConclusion": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
           "method": "prior-full-text-review-plus-navigation-delta",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-15",
+          "action": "reviewed-final-blank-line-removal",
+          "previousAfterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+          "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
+          "scope": "presentation only; task rows and statuses unchanged"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-382",
+      "reviewedLines": "1-381",
       "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
         "reviewer": "Codex",

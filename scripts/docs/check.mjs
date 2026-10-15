@@ -184,8 +184,12 @@ export function auditDocuments({
       add(task.file, 1, '顶部缺少有效 Status；不要把正文历史状态当成当前状态')
     if (task.historical && !terminal.has(task.status))
       add(task.file, 1, '历史中文状态例外只用于终态卡，活动卡必须使用 Status')
-    if (terminal.has(task.status) && dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`)
-      add(task.file, 1, '终态任务应移入对应 done/cancelled 归档目录，并更新引用与索引')
+    if (
+      terminal.has(task.status) &&
+      dirname(task.file) !== taskDirectory.slice(0, -1) &&
+      dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`
+    )
+      add(task.file, 1, '已归档终态任务的目录必须匹配 done/cancelled；原位关闭不强制移动')
     if (!terminal.has(task.status) && dirname(task.file) !== taskDirectory.slice(0, -1))
       add(task.file, 1, '活动任务不能放在历史归档目录')
   }

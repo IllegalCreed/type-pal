@@ -124,4 +124,6 @@ Branch: codex/docs-full-template-proposal
 - 55 项 docs tools 回归、全部文档检查和 15 篇已迁移正文合同通过；旧 17 个回读样本仍为 counter。有效类型为 governance-index、guide-runbook、archive-record、test-e2e-stage、test-run-report、test-machine-evidence；其余类型必须先做真实 pilot。
 - 进度命令：`node scripts/docs/report-governance-progress.mjs`。它只从实际 review、after SHA 和正文合同投影，不生成内容结论。最终必须另跑 `--require-complete`，当前预期仍非零，不能用局部 check 绿色宣布全量完成。
 - 下一批：选择真实 task-card、audit/evidence、design/plan/reference/narrative 和 testing contract/domain/quality/canonical catalog 代表，按正文判断类型并验证 consumer；之后再扩大同类迁移。
-- 本批最终复核：check:docs 的 55 项 tooling、全部链接/索引/testing/阶段与 580 条已登记 review 通过；lint 核 4062 文件，零 error/warning/info；diff 检查通过。全量完成门仍因 1919 份当前候选待迁移而拒绝，未合 main。
+- 本批检查：check:docs 的 55 项 tooling、全部链接/索引/testing/阶段与 580 条已登记 review 通过；lint 核 4062 文件，零 error/warning/info。新增引用快照在 staged diff 检查发现空行尾随空格，初次提交未被失败阻止；本地补丁立刻修正并更新回执/历史，必须复跑后才记最终 diff 通过。全量完成门仍因 1919 份当前候选待迁移而拒绝，未合 main。
+- 追加发现并修源：全分支 diff 还发现旧候选模板空 bullet 尾空格及任务索引 EOF 空行；按实际差异修正，不放宽规则。核检查器时发现它仍强制 done/cancelled 移目录，与指南的稳定路径冲突；改为允许终态卡原地保留，但归档目录必须与终态匹配，活动卡仍不得放历史区，终态仍不得留看板；追加新工具回归，不改既有测试。
+- 修正后的最终结果：56 项 docs tooling 与全部 check:docs 通过；lint 4062 文件零 error/warning/info；`git diff main --check` 对整个候选分支通过。此前本地 diff 失败保留历史说明，不改写成初次通过；未合 main，持续目标仍 active。

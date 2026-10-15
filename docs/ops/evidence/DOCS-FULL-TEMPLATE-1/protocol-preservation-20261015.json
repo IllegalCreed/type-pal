@@ -8,18 +8,22 @@
       "sourceSha256": "f1526fc237f8e01eacb13f4405a759bd3a402a32bf9c29b0cbd8ac05f7e1f41b",
       "sourceGitObject": "755e92d38405bb4659ffe63f70836c2e476ff6cb",
       "archivePath": "docs/ops/archive/protocols/three-sages-20261015.md",
-      "archiveSha256": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+      "archiveSha256": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
       "transformation": "whole original quoted; only Markdown relative link destinations rebased",
-      "roundtripPreserved": true
+      "roundtripPreserved": true,
+      "archiveSha256BeforeQuoteWhitespaceFix": "f12e07e61fe789f8c026e1acb5b420e793292edf49e4f1ed6f0832f16afb2856",
+      "formatNote": "Blank quote line is > instead of > plus trailing space; original source roundtrip unchanged."
     },
     {
       "sourcePath": "docs/ops/agent-workflow.md",
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
       "sourceGitObject": "4f56f4fa8e3c263b8f7dac3906bd71feca2c3e33",
       "archivePath": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
-      "archiveSha256": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+      "archiveSha256": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
       "transformation": "whole original quoted; only Markdown relative link destinations rebased",
-      "roundtripPreserved": true
+      "roundtripPreserved": true,
+      "archiveSha256BeforeQuoteWhitespaceFix": "d599f78cc61de067419faebdcc572c78f3b131c6ebaf28720fada5fbd41b350c",
+      "formatNote": "Blank quote line is > instead of > plus trailing space; original source roundtrip unchanged."
     }
   ]
 }

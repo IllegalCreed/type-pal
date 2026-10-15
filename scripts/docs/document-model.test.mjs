@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
+import { auditDocuments, renderTaskIndex, taskInfo } from './check.mjs'
 import { checkRouting, checkTemplateBody } from './document-model.mjs'
 
 const config = {
@@ -92,4 +93,33 @@ test('a source audit cannot become execution evidence by changing its performed 
   assert.deepEqual(checkTemplateBody(JSON.stringify(mislabeled), template, options), [
     'governance variant mismatch',
   ])
+})
+
+test('closing a task keeps its stable path while still removing its active-board authorization', () => {
+  const path = 'docs/ops/tasks/T.md'
+  const body = '# T\nStatus: done\n'
+  const documents = new Map([
+    ['docs/README.md', '[ops](ops/README.md)'],
+    ['docs/ops/README.md', '[tasks](tasks/README.md) [board](board.md)'],
+    ['docs/ops/tasks/README.md', '[index](index.md)'],
+    ['docs/ops/tasks/index.md', renderTaskIndex([taskInfo(path, body)])],
+    [path, body],
+    ['docs/ops/board.md', '# No active tasks'],
+  ])
+  const run = () =>
+    auditDocuments({
+      documents,
+      exists: (target) => documents.has(target),
+      expectedVersions: { content: 20, save: 8 },
+      sectionRules: [],
+      exceptions: [],
+    }).issues
+  assert.deepEqual(run(), [])
+  documents.set('docs/ops/board.md', '[T](tasks/T.md)')
+  assert.match(
+    run()
+      .map((issue) => issue.message)
+      .join('\n'),
+    /仍链接终态任务/,
+  )
 })
