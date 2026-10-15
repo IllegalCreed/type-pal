@@ -11,6 +11,7 @@
 
 三个文件列review，0新关闭；G04完整十例先404→0，精度补强后同合同undo并入redo，最终九例0诊断、两有效业务反控。
 真实cache/palette Promise只观察透传，不静音或另造decode；全库helper caller/排重和完整门仍待核。
+完整check/确认版ratchet/普通protected数值通过但仍2049/2076/2081条未包act，另有环境/导航诊断，不合main。
 3284/229closed/51review/3004pending；[证据与读取边界](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md)。
 
 ## 2026-10-15 editor三文件首片

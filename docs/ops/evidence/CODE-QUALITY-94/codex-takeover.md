@@ -92,3 +92,10 @@ game318files/3564tests、七包typecheck通过；官方fast736源文件/19865tes
 全仓React act/jsdom诊断另需核Owner与有限白名单；没有为过门静音、ignore或降低规则。
 所有review/pending保持，账本3283/229closed/44review/3010pending，0新关闭。
 无下一位Agent提示词，当前由Codex继续。
+
+## 当前持续goal与剩余边界
+
+用户最新要求把94、95、97–102已发现问题全部修妥；截至C02窗口尚未完成。R3注释/fixture/监听器/manifest问题及两项获批行为已修并留证；不是本轮新独立accept。
+C01/C02有限三文件分别局部0诊断，当前统一门仍带其它React/jsdom诊断，[C02完整窗口](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)保留当前原件。
+下一片先核C02共用驱动与G01/G02/G05，不静音、不放宽规则。test-only公共出口、Save输入/连接生命周期、法术显示等未决项仍按各卡核事实/范围，不借清告警自动关闭或改接口。
+3284/229closed/51review/3004pending；0新关闭，未合main，goal保持active。

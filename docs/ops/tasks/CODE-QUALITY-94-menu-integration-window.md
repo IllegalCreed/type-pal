@@ -7,6 +7,14 @@ Phase: phase1
 Capability: Q3 menu state contract integration
 Visual Verification Timing: N/A（无产品/UI行为修改）
 
+## C02诊断治理最新窗口
+
+用户继续要求修妥94、95、97–102已发现问题，goal持续active；既有两项获批行为修复保持，未批准显示取舍不偷改。
+7433f71f5的全仓check/确认版ratchet/普通protected数值通过，仍有真实诊断，不合main，0新关闭。
+C02 G04十例先404→0，oracle补强并合并同合同undo后九例0诊断；三文件review。
+实际原件、逐文件界限与后续G01/G02/G05范围见[最新窗口](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
+下方旧menu窗口数字按其冻结候选保留，不当当前诊断数。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

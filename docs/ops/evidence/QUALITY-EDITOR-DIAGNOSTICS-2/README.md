@@ -28,3 +28,10 @@ G04原十例完整保留：baseline404、仅宿主340、宿主+驱动234、再�
 04/05均为authored无用途磁盘源；3/4帧在删除/undo命令不分支，04所有业务oracle已进入05。
 相邻G05-04只删除定义，未删资产；G05-06替换字节，G05-09追加收紧，均非本片磁盘删除历史。
 主BattleSpriteLibrary测试已读fail-closed/live provider段；registry已读pending真实caller。其余全库排重仍未知，不写“没有任何重复”。
+
+## 完整模块窗口（当前）
+
+[逐文件裁定与统一门](window-review.md)：check/确认版ratchet/普通protected数值均通过，G04与C01在三门均0诊断；
+全仓仍2049/2076/2081条未包act、577/584/584环境、各2导航，严格零诊断门未通过，未合main。
+源码五项冻结，所有raw.gz字节与SHA核实；正式baseline736/19861且所有覆盖计数与其它包记录完全不变。
+三文件仍review，0关闭，3284/229closed/51review/3004pending。完整实际原件见window-proof.json与scope-proof.json。

@@ -7,6 +7,14 @@ Phase: phase2
 Capability: editor test lifecycle correctness
 Visual Verification Timing: N/A（仅测试调度、oracle 与注释，不改产品）
 
+## 完整模块窗口裁定（当前）
+
+源码7433f71f5已提交推送；G04九例、两有效反控0诊断，相邻78例仍有535条其它act。
+七包20270与typecheck、全仓check/官方确认版ratchet/普通protected数值通过；所有覆盖计数不变，fast19861。
+但三门仍2049/2076/2081条未包act、577/584/584环境、各2导航，严格零诊断门未通过，不合main。
+三个文件review、0关闭，3284/229closed/51review/3004pending。实际读取/未核域、全部原件与下一范围见
+[完整窗口](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。作者自验不冒充独立accept。
+
 ## 准入与独占范围
 
 用户2026-10-15明确要求继续BattleSpriteLibrary C02；单一Coding Owner=Codex。
@@ -54,7 +62,7 @@ G04-05另外证明redo重新删除已恢复blob；G04-03保留初始pending-blob
 必要支持白名单：scripts/coverage/approved-test-retirements.mjs仅新增本文件精确10→9快照，
 其测试仅更新固定账本数量；判据、拒绝测试、扫描/规则不变。官方baseline仅由ratchet生成。
 
-## 作者自验检查点
+## 作者自验检查点（历史）
 
 51efbc1ff生命周期已推送；最终9例0诊断，两个强弱oracle反控有效，精确临时树已移除。
 仅作者自验，未冒称独立accept；当前review等集中完整门。0文件关闭，3284/229closed/51review/3004pending。

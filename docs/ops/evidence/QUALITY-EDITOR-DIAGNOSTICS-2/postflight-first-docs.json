@@ -1,0 +1,8 @@
+{
+  "command": ["pnpm", "check:docs"],
+  "exitCode": 1,
+  "bytes": 12609,
+  "sha256": "3cc5f05c6df7a910bda9d5d5efc4ae801157a799af41dfc1c2c29cd9fd6fef94",
+  "cause": "Finalizer script execution failed without encoding header; report was not generated, leaving 5 missing local links. Header added and report generated; no package source changed.",
+  "notAValidGatePass": true
+}
