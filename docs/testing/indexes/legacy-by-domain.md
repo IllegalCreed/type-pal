@@ -1,10 +1,33 @@
 # Legacy 文件工程域分类
 
-分类依据来自正文源码路径或文件名线索。candidate-needs-depth-review 不是已经验收；完整锚点/SHA/理由见分类账。
+Status: current
+Owner: Codex（新增索引与 producer 治理维护职责）
+Last reviewed: 2026-10-16
+Template: governance-index-v1 / 1.0.0
 
-## content
+## 目的
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+从旧原路径追溯工程域、模块、迁移落点与分类依据，保留历史来源的可发现性。
+
+## 范围
+
+当前 359 条原路径、11 个工程域、227 个唯一目标：content 49；cross-domain 12；e2e 6；editor 99；extraction 2；migration 21；ops 27；persistence 3；phase1-runtime 9；quality 52；runtime 79。目标可能是归档、当前报告或收口计划。
+
+## 当前状态
+
+旧分类账 reviewStatus 原值保留。reviewed 由旧 classifier 的 movedTo/closeout 成员关系产生，不是本轮逐篇语义 accept；candidate-needs-depth-review 也不是已经验收。分类依据的正文路径/文件名线索不替代内容审查。
+
+页面 current 仅指导航投影有效；行的出版状态、历史验收与本轮深审分开。原视图没有文档级 Owner 或审查日期，上方责任是本次新增治理职责。
+2026-10-16 只记录当时索引规则、来源与导航语义的审查；重新生成不会续期日期，也不授予变化后的正文或下游报告新的审查、runtime/E2E/视觉/coverage 信用。
+
+## 入口与责任
+
+原路径名与 Agent 名称是 provenance。历史 lab 多条记录汇入同一 history，不得按行数重复计执行；旧 tool 指向 closeout 计划也不是合法 runner。完整锚点、SHA、reason 与停止线回分类账，当前深审进度取真实中央 review。
+本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
+
+### content
+
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [active-scene-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
 | [codex-content-boundaries-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
@@ -56,9 +79,9 @@
 | [cursor-architecture-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
 | [scene-reference-guard-visual.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
-## cross-domain
+### cross-domain
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [architecture-regression-lab-codex-r10-evidence.json](../archive/architecture-regression-lab-history.md) | architecture-regression | migrated | reviewed | reviewed-migration-batch |
 | [architecture-regression-lab-codex-r10-review.md](../archive/architecture-regression-lab-history.md) | architecture-regression | migrated | reviewed | reviewed-migration-batch |
@@ -73,9 +96,9 @@
 | [architecture-regression-lab-codex-review.md](../archive/architecture-regression-lab-history.md) | architecture-regression | migrated | reviewed | reviewed-migration-batch |
 | [architecture-regression-lab-completion.md](../archive/architecture-regression-lab-history.md) | architecture-regression | migrated | reviewed | reviewed-migration-batch |
 
-## e2e
+### e2e
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [glm-pre-e2e-boundary-batch-2-evidence.json](../archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json) | e2e | migrated | reviewed | reviewed-migration-batch |
 | [glm-pre-e2e-boundary-batch-2-report.md](../archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md) | e2e | migrated | reviewed | reviewed-migration-batch |
@@ -84,9 +107,9 @@
 | [glm-pre-e2e-prep.md](../archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md) | e2e | migrated | reviewed | reviewed-migration-batch |
 | [pre-e2e-admission.md](../archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md) | e2e | migrated | reviewed | reviewed-migration-batch |
 
-## editor
+### editor
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [map-pointer-gesture-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
 | [map-workspace-sessions-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
@@ -188,16 +211,16 @@
 | [glm-nine-rework-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
 | [editor-preview-cache-visual.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
-## extraction
+### extraction
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [glm-pal-tables.md](../archive/legacy/extraction/testing-records/glm-pal-tables.md) | extraction | migrated | reviewed | reviewed-migration-batch |
 | [glm-resource-tools.md](../archive/legacy/extraction/supply-and-import/glm-resource-tools.md) | extraction | migrated | reviewed | reviewed-migration-batch |
 
-## migration
+### migration
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [cursor-docs-hygiene-review.md](../archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md) | migration | migrated | reviewed | reviewed-migration-batch |
 | [glm-import-codec-evidence.json](../archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json) | migration | migrated | reviewed | reviewed-migration-batch |
@@ -221,9 +244,9 @@
 | [migration-write-guard-publish.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
 | [migration-write-guard.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
 
-## ops
+### ops
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [architecture-continuation-integration.md](../archive/legacy/ops/testing-records/architecture-continuation-integration.md) | ops | migrated | reviewed | reviewed-migration-batch |
 | [cursor-arch-ds-labels-review.md](../archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md) | ops | migrated | reviewed | reviewed-migration-batch |
@@ -253,17 +276,17 @@
 | [glm-pal-tables.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
 | [grok-arch-ds-overflow-mutant.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
-## persistence
+### persistence
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [editor-save-recovery-glm-batch-report.md](../archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md) | persistence | migrated | reviewed | reviewed-migration-batch |
 | [save-barrier-lineage.md](../archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md) | persistence | migrated | reviewed | reviewed-migration-batch |
 | [save-lineage-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | save-and-recovery | migrated | reviewed | reviewed-migration-batch |
 
-## phase1-runtime
+### phase1-runtime
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [phase1-dependency-refactor-evidence.json](../domains/phase1-runtime/dependencies/dependency-ownership/evidence.json) | dependencies | migrated | reviewed | reviewed-migration-batch |
 | [phase1-dependency-refactor.md](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | dependencies | migrated | reviewed | reviewed-migration-batch |
@@ -275,9 +298,9 @@
 | [glm-game-menu-boundaries.md](../archive/legacy/phase1-runtime/editor-workflows/glm-game-menu-boundaries.md) | phase1-runtime | migrated | reviewed | reviewed-migration-batch |
 | [phase1-main-owners-refactor-evidence.json](../archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json) | phase1-runtime | migrated | reviewed | reviewed-migration-batch |
 
-## quality
+### quality
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [codex-reference-coverage.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
 | [codex-runtime-shell-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
@@ -332,9 +355,9 @@
 | [quality-zero-inventory.json](../archive/legacy/quality/quality-gates/quality-zero-inventory.json) | quality | migrated | reviewed | reviewed-migration-batch |
 | [stability-fire-closeout-evidence.json](../archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json) | quality | migrated | reviewed | reviewed-migration-batch |
 
-## runtime
+### runtime
 
-| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
+| 文件 | 模块 | 处理 | 旧分类账 reviewStatus | 分类依据 |
 |---|---|---|---|---|
 | [battle-host-refactor-evidence.json](../domains/runtime/battle/battle-host/evidence.json) | battle | migrated | reviewed | reviewed-migration-batch |
 | [battle-host-refactor-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
@@ -415,3 +438,9 @@
 | [scene-preparation-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 | [world-runtime-refactor-evidence.json](../domains/runtime/world/world-runtime/evidence.json) | world | migrated | reviewed | reviewed-migration-batch |
 | [world-runtime-refactor.md](../domains/runtime/world/world-runtime/report.md) | world | migrated | reviewed | reviewed-migration-batch |
+
+## 证据与下一步
+
+业务来源为 [legacy-flat-classification.json](../legacy-flat-classification.json)；原始报告、SHA、输入、oracle 与执行证据须继续沿目标正文回读，不能由本索引补证。
+模板与源保真边界见 [L 冻结设计](../../phase-governance/reviews/20261016-testing-index-design.md)。本轮只替换同路径索引版式，不 supersede 下游报告或其历史结论。
+缺来源、成员或链接不一致、重生成丢章节时停止接收；先在对应事实源解释并审查变更，再运行公开生成命令及完整文档门。真实语义 scope 改变须新审查和 review 记录，不能刷日期或 SHA 代替核读。

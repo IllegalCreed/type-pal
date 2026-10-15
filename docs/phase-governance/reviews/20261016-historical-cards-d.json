@@ -3025,8 +3025,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "G完整605原/新来源及消费者审查保留为此前已接受读域；K0本轮仅核当前ledger新增一pending测试/库存和原244行字节、完整原fenced snapshot不变，不冒领本轮全表源码语义或旧tests。",
-      "coreConclusion": "当前live3291/229closed/5review/3057pending/3062unclosed；G原7+K0新1均pending，原244行/category/status/证据不变，旧273行snapshot精确保留。退休文档CLI测试不计新产品执行或代码治理闭合。",
+      "readMethod": "Prior accepted G/K0 whole-source and ledger-consumer scopes retained. L root reads only the new pending-row/count/intro delta and verifies all245 former live rows plus complete273-line original source unchanged. Actual tracked inventory consumer separate. No fresh product/old-test source audit or code-quality closure.",
+      "coreConclusion": "Current3292/229closed/5review/3058pending/3063unclosed; only L1 new test pending. Old245 live rows and complete273-line source remain exact. G7/K0one/Lone do not add code-quality or product execution credit.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3053,6 +3053,10 @@
           "snapshot": "/tmp/type-pal-k0-independent-reviewed-snapshot-20261016.json",
           "snapshotSha256": "f16689f3036473430ebaaeaf4f657503313ccf52ae0f69f41763741fbb1d1771",
           "scope": "Actual3291inventory,245live rows/244old byte lines/273source inverse/current fullreview; no new codequality closure. Root signoff metadata later bytes."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Root L exact implementation import plus one pending inventory row only; no product/old source re-audit or quality closure."
         }
       ],
       "primarySource": [
@@ -3111,9 +3115,9 @@
       "businessOracle": {
         "type": "source-specific-quality-governance-and-machine-consumer-preservation",
         "assertions": [
-          "真实auditCodeQualityLedger须零问题且3291/229closed/5review/3057pending；K0仅新增1test pending，G原244条live完整行及状态逐字节不变。",
-          "G原273行fenced source保持精确字节；原三pending/原七新增pending与K0新一项分事件，不重写历史数量或Q3k原错稿。",
-          "文档CLI合同与库存完整性不授runtime/E2E/视觉/coverage、旧测试质量或全仓源码语义accept。"
+          "Actual auditCodeQualityLedger must have0issues and3292/229closed/5review/3058pending; only one Ltest pending added, old245 live rows/order exact.",
+          "Full original273-line source fence unchanged; G7/K0one/Lone remain separate historical inventory events, Q3k source not rewritten.",
+          "Index writer/CLI contracts and inventory completeness do not certify product runtime, coverage, old tests or full-code semantic acceptance."
         ]
       },
       "dedupe": {
@@ -3127,23 +3131,23 @@
         "notes": "只有唯一live表/汇总；旧原文fenced不被parser读；已读/已验证身份不按本次文档或inventory默认状态重置。"
       },
       "counterReworkBlocked": {
-        "migration": "Prior Gbody and K0 one-row inventory/current-review maintenance independently accepted; root inventory-stage/oracle counters closed in K0 control.",
+        "migration": "Prior G/K0 accepted; L one-pending-row/current-review maintenance independent root delta separately required.",
         "historicalLimits": [
-          "CODE-QUALITY仍大量待核；229closed/5review仅原登记状态，新增docs测试仍pending。",
-          "原raw未重验、原产品/旧测试/coverage不因本次writer退休或文档门通过补签。"
+          "CODE-QUALITY still has pending files;229closed/5review retain their original registered meaning, new docs test only pending.",
+          "Original product/old tests/raw/coverage gain no new credit from index-generator and doc-tool test acceptance."
         ]
       },
       "unresolved": [
-        "CODE-QUALITY仍大量待核；229closed/5review仅原登记状态，新增docs测试仍pending。",
-        "原raw未重验、原产品/旧测试/coverage不因本次writer退休或文档门通过补签。"
+        "CODE-QUALITY still has pending files;229closed/5review retain their original registered meaning, new docs test only pending.",
+        "Original product/old tests/raw/coverage gain no new credit from index-generator and doc-tool test acceptance."
       ],
       "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
-      "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+      "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "revision": {
         "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
-        "implementationSha": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+        "implementationSha": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
         "history": [
           {
             "date": "2026-10-16",
@@ -3169,15 +3173,26 @@
             "newPending": 1,
             "originalLiveRowsUnchanged": 244,
             "newMigrationCredit": 0
+          },
+          {
+            "date": "2026-10-16",
+            "action": "L one new docs-tool-test pending inventory admission",
+            "sourceGitRevision": "f7a44863763b808a636c4656826ca065f76d1ab3",
+            "sourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+            "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+            "previousLiveRows": 245,
+            "currentLiveRows": 246,
+            "newClosedCredit": 0,
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "independent-full-source-and-real-record-consumer-review",
+        "kind": "static-pending-inventory-row-and-complete-prior-source-preservation",
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
-        "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
-        "lineCount": 583,
+        "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+        "lineCount": 584,
         "originalPreservation": {
           "originalPreserved": true,
           "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
@@ -3187,8 +3202,22 @@
           "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
           "exactRoundTrip": true
         },
-        "maintenanceSourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
-        "maintenanceRecord": "docs/phase-governance/reviews/20261016-domain-navigation.json"
+        "maintenanceSourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+        "maintenanceRecord": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "originalLiveRowsUnchanged": 245,
+        "currentLiveRows": 246,
+        "newPendingTest": "scripts/docs/testing-index-governance.test.mjs",
+        "actualInventoryConsumer": {
+          "path": "/tmp/type-pal-l-root-import-ledger-20261016.log",
+          "sha256": "ce88c41b5f11612531578322b6b1da1a7331293a3b208c5b4ed200c04c5288e2",
+          "exitCode": 0,
+          "files": 3292,
+          "closed": 229,
+          "review": 5,
+          "pending": 3058,
+          "issues": 0,
+          "scope": "Actual tracked inventory completeness only; no new code semantic closure."
+        }
       },
       "history": [
         {
@@ -3221,6 +3250,17 @@
           "newPending": 1,
           "originalLiveRowsUnchanged": 244,
           "newMigrationCredit": 0
+        },
+        {
+          "date": "2026-10-16",
+          "action": "L one new docs-tool-test pending inventory admission",
+          "sourceGitRevision": "f7a44863763b808a636c4656826ca065f76d1ab3",
+          "sourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+          "afterSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+          "previousLiveRows": 245,
+          "currentLiveRows": 246,
+          "newClosedCredit": 0,
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [
@@ -3231,13 +3271,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "继续逐篇文档治理；K0新测试仍pending库存，原closed/review未增加，机器完整性不代全仓源码深审。",
+      "nextStep": "Independent root L implementation import/pending-inventory delta and exact zero gates; ten Markdown bodies still need separate central records/routes. Continue code-quality through its own later task.",
       "userVisibleBeforeAfter": {
-        "before": "G已接受3290live/229closed/5review/3056pending/3061unclosed及244行；K0新工具测试尚未计库存。",
-        "after": "当前live3291/229closed/5review/3057pending/3062unclosed；G原7+K0新1均pending，原244行/category/status/证据不变，旧273行snapshot精确保留。退休文档CLI测试不计新产品执行或代码治理闭合。",
-        "semanticChange": "Only one new pending row plus current counts/nextStep; exact prior body/review/history retained, no product/old-test/coverage change."
+        "before": "Accepted K0 inventory3291/229closed/5review/3057pending/3062unclosed,245live rows.",
+        "after": "Current3292/229closed/5review/3058pending/3063unclosed; only L1 new test pending. Old245 live rows and complete273-line source remain exact. G7/K0one/Lone do not add code-quality or product execution credit.",
+        "semanticChange": "One new pending doc-tool-test inventory row only; no code-quality closure, body migration credit, product/old-test/coverage change."
       },
-      "reviewedLines": "1-583",
+      "reviewedLines": "1-584",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -3245,7 +3285,7 @@
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0",
         "historyOverlay": "archive-record-v1/1.0.0",
-        "method": "Existing G governance-index/archive contract retained; actual live245-row consumer/counts plus original244-line and273-source preservation verified, K0 independent delta review separate."
+        "method": "Same accepted governance-index/archive body; only L pending row and counts/intro changed. Old245live/source273 exact; actual consumer and independent root inventory delta separate."
       },
       "priorReadings": [
         {
@@ -3669,10 +3709,246 @@
           },
           "reviewedSourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
           "reviewedSourceGitRevision": "ea9368e2d76988ec736da0e2477caa509e77c6b4"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-file-ledger.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "governance-index",
+          "templateId": "governance-index-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/governance-index.md",
+          "historyOverlay": true,
+          "templateCompliance": "template-compliant",
+          "reviewDepth": "deep-semantic",
+          "readMethod": "G完整605原/新来源及消费者审查保留为此前已接受读域；K0本轮仅核当前ledger新增一pending测试/库存和原244行字节、完整原fenced snapshot不变，不冒领本轮全表源码语义或旧tests。",
+          "coreConclusion": "当前live3291/229closed/5review/3057pending/3062unclosed；G原7+K0新1均pending，原244行/category/status/证据不变，旧273行snapshot精确保留。退休文档CLI测试不计新产品执行或代码治理闭合。",
+          "documentStatus": "current",
+          "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+          "provenance": [
+            {
+              "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+              "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+              "sourceLines": 273,
+              "method": "full original/new prose manual semantic rewrite; exact original bytes preserved"
+            },
+            {
+              "reviewer": "receipt_review",
+              "result": "independent accept exact3bodySHA",
+              "candidateRecordSha256": "45cf623c38e488ca6126dc64712c0883e0ca2f75a1f2557115ad8f9be8d4fdec",
+              "scope": "Full605 source and all3new substantive bodies/receipt, full197probe/config and358ledger/inventory sources; exact original inverse,237old tuples/236old whole rows/oneQ3k evidence correction,7newpending and244live rows;19oldheadings16outgoing0external; five literal oldtmp references actually absent. No producer/oldtests/coverage/runtime execution.",
+              "subsequentRootMaintenance": "Central/current-scope writeback separately reviewed; do not reuse candidate record SHA for new bytes."
+            },
+            {
+              "date": "2026-10-16",
+              "scope": "K0 one pending docs-tool test inventory maintenance independently accepted by receipt_review; old244rows/fullfencedsnapshot exact; reviewed body SHA dda897 remains unchanged."
+            },
+            {
+              "reviewer": "receipt_review",
+              "result": "K0 current ledger delta independent accept",
+              "snapshot": "/tmp/type-pal-k0-independent-reviewed-snapshot-20261016.json",
+              "snapshotSha256": "f16689f3036473430ebaaeaf4f657503313ccf52ae0f69f41763741fbb1d1771",
+              "scope": "Actual3291inventory,245live rows/244old byte lines/273source inverse/current fullreview; no new codequality closure. Root signoff metadata later bytes."
+            }
+          ],
+          "primarySource": [
+            {
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+              "lines": "1-273",
+              "reading": "Full fixed original/new semantic review by root and receipt_review; body independently accepted, no product execution claim"
+            },
+            {
+              "path": "scripts/quality/code-quality-ledger.mjs",
+              "reading": "full root source; no execution claim"
+            },
+            {
+              "path": "scripts/quality/code-quality-inventory.mjs",
+              "reading": "full root source; no execution claim"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+              "reading": "full root source; no execution claim"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+              "reading": "full root source; no execution claim"
+            }
+          ],
+          "truthAnchors": [
+            "docs/ops/audits/code-quality-file-ledger.md:1",
+            "docs/ops/agent-workflow.md",
+            "docs/phase-governance/templates/registry.json",
+            "scripts/quality/code-quality-ledger.mjs",
+            "scripts/quality/code-quality-inventory.mjs"
+          ],
+          "phaseAnchors": [
+            "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+            "docs/ops/agent-workflow.md",
+            "docs/phase2/READ-FIRST.md"
+          ],
+          "dependencies": [
+            "docs/ops/agent-workflow.md",
+            "docs/phase-governance/templates/registry.json",
+            "scripts/quality/code-quality-ledger.mjs",
+            "scripts/quality/code-quality-inventory.mjs"
+          ],
+          "applicability": "Current record/inventory maintenance at2026-10-16; G3290 and original3283 snapshots retain their event dates. New tool test stayspending; no product/current runtime acceptance.",
+          "publicEntry": "docs/ops/audits/code-quality-file-ledger.md",
+          "publicCallers": [
+            "docs/ops/audits/README.md",
+            "docs/ops/audits/code-quality-governance.md",
+            "scripts/quality/code-quality-ledger.mjs",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "legalInputs": [
+            "真实inventory路径集合；唯一live汇总及连续5列表、允许类别与中文状态；未显式行缺省pending。"
+          ],
+          "businessOracle": {
+            "type": "source-specific-quality-governance-and-machine-consumer-preservation",
+            "assertions": [
+              "真实auditCodeQualityLedger须零问题且3291/229closed/5review/3057pending；K0仅新增1test pending，G原244条live完整行及状态逐字节不变。",
+              "G原273行fenced source保持精确字节；原三pending/原七新增pending与K0新一项分事件，不重写历史数量或Q3k原错稿。",
+              "文档CLI合同与库存完整性不授runtime/E2E/视觉/coverage、旧测试质量或全仓源码语义accept。"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-product-test-or-runtime-credit",
+            "against": [
+              "docs/ops/agent-workflow.md",
+              "docs/phase-governance/templates/registry.json",
+              "scripts/quality/code-quality-ledger.mjs",
+              "scripts/quality/code-quality-inventory.mjs"
+            ],
+            "notes": "只有唯一live表/汇总；旧原文fenced不被parser读；已读/已验证身份不按本次文档或inventory默认状态重置。"
+          },
+          "counterReworkBlocked": {
+            "migration": "Prior Gbody and K0 one-row inventory/current-review maintenance independently accepted; root inventory-stage/oracle counters closed in K0 control.",
+            "historicalLimits": [
+              "CODE-QUALITY仍大量待核；229closed/5review仅原登记状态，新增docs测试仍pending。",
+              "原raw未重验、原产品/旧测试/coverage不因本次writer退休或文档门通过补签。"
+            ]
+          },
+          "unresolved": [
+            "CODE-QUALITY仍大量待核；229closed/5review仅原登记状态，新增docs测试仍pending。",
+            "原raw未重验、原产品/旧测试/coverage不因本次writer退休或文档门通过补签。"
+          ],
+          "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+          "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+          "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+          "revision": {
+            "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
+            "implementationSha": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "actual-template-history-and-record-consumer-migration",
+                "reviewer": "receipt_review",
+                "notRun": [
+                  "product source execution",
+                  "old tests",
+                  "coverage/probes/mutants",
+                  "runtime/E2E/browser/visual",
+                  "main merge/push"
+                ]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "K0 append one pending docs-tool test inventory row",
+                "sourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+                "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+                "inventoryBefore": 3290,
+                "inventoryAfter": 3291,
+                "closed": 229,
+                "review": 5,
+                "newPending": 1,
+                "originalLiveRowsUnchanged": 244,
+                "newMigrationCredit": 0
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "independent-full-source-and-real-record-consumer-review",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+            "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+            "lineCount": 583,
+            "originalPreservation": {
+              "originalPreserved": true,
+              "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
+              "startMarker": "<!-- original-source-fenced:start -->\n~~~~text\n",
+              "endMarker": "~~~~\n<!-- original-source-fenced:end -->\n",
+              "sourceBytes": 51844,
+              "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+              "exactRoundTrip": true
+            },
+            "maintenanceSourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+            "maintenanceRecord": "docs/phase-governance/reviews/20261016-domain-navigation.json"
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "full-content migration accepted after actual source/candidate review",
+              "beforeAfter": {
+                "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+                "after": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+                "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+              },
+              "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+              "originalDatesRemain": "fixed source complete snapshot",
+              "notRun": [
+                "product source execution",
+                "old tests",
+                "coverage/probes/mutants",
+                "runtime/E2E/browser/visual",
+                "main merge/push"
+              ]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "K0 append one pending docs-tool test inventory row",
+              "sourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+              "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+              "inventoryBefore": 3290,
+              "inventoryAfter": 3291,
+              "closed": 229,
+              "review": 5,
+              "newPending": 1,
+              "originalLiveRowsUnchanged": 244,
+              "newMigrationCredit": 0
+            }
+          ],
+          "supersedes": [
+            {
+              "scope": "document organization/current-authority ambiguity only",
+              "note": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable."
+            }
+          ],
+          "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+          "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+          "nextStep": "继续逐篇文档治理；K0新测试仍pending库存，原closed/review未增加，机器完整性不代全仓源码深审。",
+          "userVisibleBeforeAfter": {
+            "before": "G已接受3290live/229closed/5review/3056pending/3061unclosed及244行；K0新工具测试尚未计库存。",
+            "after": "当前live3291/229closed/5review/3057pending/3062unclosed；G原7+K0新1均pending，原244行/category/status/证据不变，旧273行snapshot精确保留。退休文档CLI测试不计新产品执行或代码治理闭合。",
+            "semanticChange": "Only one new pending row plus current counts/nextStep; exact prior body/review/history retained, no product/old-test/coverage change."
+          },
+          "reviewedLines": "1-583",
+          "phase": "ops",
+          "module": "quality-governance-and-historical-causality",
+          "templateConformity": {
+            "result": "template-compliant",
+            "templateId": "governance-index-v1",
+            "templateVersion": "1.0.0",
+            "historyOverlay": "archive-record-v1/1.0.0",
+            "method": "Existing G governance-index/archive contract retained; actual live245-row consumer/counts plus original244-line and273-source preservation verified, K0 independent delta review separate."
+          },
+          "reviewedSourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+          "reviewedSourceGitRevision": "ea9368e2d76988ec736da0e2477caa509e77c6b4"
         }
       ],
-      "reviewedSourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
-      "reviewedSourceGitRevision": "ea9368e2d76988ec736da0e2477caa509e77c6b4"
+      "reviewedSourceSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+      "reviewedSourceGitRevision": "f7a44863763b808a636c4656826ca065f76d1ab3",
+      "reviewedSourceGitObject": "c24914dda2c9c34fbdf59e55a9b367989119efe5"
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

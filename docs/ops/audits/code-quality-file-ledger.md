@@ -13,12 +13,12 @@ Template: governance-index-v1 / 1.0.0
 
 起始基点为 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`。现行清单从Git tracked的packages/scripts指定代码扩展与JSON生成；七包名单仅domain标记，静态caller不是完整运行图。未显式登记的清单路径仍待核，不能静默视为无问题。
 
-原表234条被消费者读取的记录逐路径保留category/status；原末3条GLM待核行在空行后，旧parser未消费，本稿明确归并到唯一连续表，状态仍待核。G批次新增7条本任务docs工具/测试（5tool+2test）仍全部待核；K0另新增1个退休入口合同测试，八项均仅库存登记，不重设旧状态或增加已闭合核验。
+原表234条被消费者读取的记录逐路径保留category/status；原末3条GLM待核行在空行后，旧parser未消费，本稿明确归并到唯一连续表，状态仍待核。G批次新增7条本任务docs工具/测试（5tool+2test）仍全部待核；K0另新增1个退休入口合同测试，L再新增1个索引生成链合同测试，九项均仅库存登记，不重设旧状态或增加已闭合核验。
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,291。
-当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,057；合计未闭合：3,062。
+起始基点机器清单：2,962。当前 tracked 清单：3,292。
+当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,058；合计未闭合：3,063。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -269,6 +269,7 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/docs/historical-execution-source.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/report-governance-progress.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/retired-document-writers.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1 K0；历史文档writer真实CLI退休/零写合同，专项语义仍待核 | 仅新增库存；不计产品运行、coverage或代码治理closed |
+| `scripts/docs/testing-index-governance.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1 L；索引真实writer/CLI与whole-file consumer合同，专项语义仍待核 | 仅新增库存；不计产品运行、coverage或代码治理closed |
 
 ## 入口与责任
 
@@ -278,7 +279,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
-2026-10-16 G源3290集合与原3283声明相比新增7项；K0再新增retired-document-writers.test.mjs，当前3291、合计八项均在scripts/docs，未删路径。原229closed/5review保持，新增一项只加pending；治理期间须在新增/删除真实tracked路径的同一提交同步库存，不把工具功能验证当专项代码深审。当前机器结果只证明记录完整性，专项仍有大量未核文件。
+2026-10-16 G源3290集合与原3283声明相比新增7项；K0再新增retired-document-writers.test.mjs，L再新增testing-index-governance.test.mjs，当前3292、合计九项均在scripts/docs，未删路径。原229closed/5review保持，本次新增一项只加pending；治理期间须在新增/删除真实tracked路径的同一提交同步库存，不把工具功能验证当专项代码深审。当前机器结果只证明记录完整性，专项仍有大量未核文件。
 
 历史Q3k的“4 total/3 fail”误述现改为卡/总纲一致的“4 total/3 passed/1 failed”，旧错句在下方完整snapshot原字节保留；没有以文档一致性充当第二次运行。Q2b131/129及Q3t/u同215时点仍unknown，u/w依各卡排重；新反例按[现行协作流程](../agent-workflow.md)开互斥卡，不恢复旧prompt。
 
