@@ -1,0 +1,856 @@
+{
+  "schemaVersion": 1,
+  "kind": "contributor-phase2-guide-publication-pilot-candidate",
+  "task": "DOCS-FULL-TEMPLATE-1",
+  "date": "2026-10-16",
+  "owner": "history_cards_a; sole author candidate",
+  "status": "author canonical pilot candidate pending independent review",
+  "sourceRevision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+  "approvedSourceManifestSha256": "ba06c699e1f383e5c0fd70093ef8bbd33e0420131ac78e90881345a23fed0f89",
+  "frozenDesignSha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+  "summary": {
+    "documents": 1,
+    "sourceLines": 26,
+    "newAcceptedMigrationCredit": 0,
+    "other5Migrated": 0,
+    "receiptItself": "new pending incremental native author handoff; not self reviewed",
+    "sixSourceBlobsAllMatchD564": true
+  },
+  "authority": "Root committed aa5 plus direct managed worktree/two-path build allowed; author selfcheck cannot replace independent review. Remaining5/central/product/oldtests forbidden.",
+  "readScopes": [
+    "Mandatory current AGENTS/CLAUDE/READ-FIRST/workflow/model/board/templates/testing governance and tasktop/Qadmission actually read; frozen168 full read",
+    "Fresh original26 and new publication body; six original413 design full read reused by actual exactblob comparison for other5, no new product/fullmodule credit",
+    "Actual bounded primary ranges in entry; original old31 current record fully retrieved by fixed Git/blob/SHA/unique selector and read, no source status credit inherited"
+  ],
+  "notRun": [
+    "publication operation commands/check:content/migrate/extract/editor save",
+    "product/old business tests/coverage/browser/runtime/E2E/visual/raw",
+    "shared scripts/templates/registry/central/catalog/routes/matrix/task/README changes",
+    "main merge/push/goal done/remaining5 implementation"
+  ],
+  "checks": {
+    "status": "Author direct canonical content/body/source checks pass; candidate pending non-author full reception. Exact frozen full-gate outcomes are delivered externally after this receipt freezes, not self-predicted here.",
+    "sourceManifest": {
+      "method": "sorted path NUL sourceSha256 LF",
+      "sixPins": [
+        {
+          "path": "docs/phase2/guides/actor-presets.md",
+          "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+          "sourceGitObject": "a7e7c27453d99528853fd7b6bd9b4e0200623e90",
+          "sourceLines": 64,
+          "fixedD564Equal": true
+        },
+        {
+          "path": "docs/phase2/guides/battlefield-authoring.md",
+          "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+          "sourceGitObject": "7588deecfa7ab66dffcce19a3534697a2258c911",
+          "sourceLines": 56,
+          "fixedD564Equal": true
+        },
+        {
+          "path": "docs/phase2/guides/content-publication.md",
+          "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+          "sourceGitObject": "3e492d3ebe6afcd946ab2af56f18917ce302ca97",
+          "sourceLines": 26,
+          "fixedD564Equal": true
+        },
+        {
+          "path": "docs/phase2/guides/debug-tools.md",
+          "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+          "sourceGitObject": "86a81b9668fab42e747011fb8fcc0328b63b8ce9",
+          "sourceLines": 81,
+          "fixedD564Equal": true
+        },
+        {
+          "path": "docs/phase2/guides/scene-entry-authoring.md",
+          "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+          "sourceGitObject": "bdf10bd43942a326d3eeb8c5c592dd635d82cf22",
+          "sourceLines": 34,
+          "fixedD564Equal": true
+        },
+        {
+          "path": "docs/phase2/guides/shared-script-author-guide.md",
+          "sourceSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+          "sourceGitObject": "340363c4b4f0afdee92cb1a0a84201936b8ef793",
+          "sourceLines": 152,
+          "fixedD564Equal": true
+        }
+      ]
+    },
+    "priorSourceReceipt": {
+      "path": "/tmp/type-pal-q-pilot-source-prior-20261016.json",
+      "sha256": "fd7995cf7b9e8568377470bf6232eeb960c1409a4ede847493dcbb17e18a9529"
+    },
+    "firstFailures": [
+      {
+        "kind": "author write-preflight range assertion failure, before repository writes",
+        "reason": "author-project-source.ts was mistakenly assigned EOF61 in builder; actual full file59. The assertion rejected before body/receipt writes. Corrected range1-59; no source or shared code change.",
+        "exit": 1,
+        "firstScript": {
+          "path": "/tmp/type-pal-q-pilot-build-first-failure-20261016.py",
+          "sha256": "8103ec22d63315cb0841c5aab8c98190aa8cd885c919e3359f4a4923ace26754",
+          "bytes": 20653
+        },
+        "firstLog": {
+          "path": "/tmp/type-pal-q-pilot-build-first-failure-20261016.log",
+          "sha256": "2e3afc0f85af8f36ab714c57ced7cf7da7da8fab2d86edf94042dc158579b7d2",
+          "bytes": 235
+        },
+        "sourceStillCleanAtFailure": true
+      }
+    ],
+    "selfHashRule": "Body digest excludes receipt; exact final receipt/gate SHA delivered externally after freeze, not recursive self-stamp",
+    "actualBodyProof": {
+      "path": "/tmp/type-pal-q-pilot-proof-20261016.json",
+      "sha256": "ff4f5ac51bbec9507b54d0872bb23cdba4ccb21b64be4453332e69da584574bd",
+      "bytes": 16243,
+      "summary": {
+        "checks": 30,
+        "issues": 0,
+        "headings": 1,
+        "sourceLines": 26,
+        "oldhrefs": 7,
+        "incoming": 9,
+        "models": 1,
+        "controls": 4
+      },
+      "modelIssues": [],
+      "sourceOracleIssues": [],
+      "semanticOracleIssues": [],
+      "controls": [
+        {
+          "kind": "remove/contradict all explicit no-write recovery warning clauses, preserve fiveH2/source/links",
+          "layer": "semantic",
+          "source": [],
+          "semantic": ["source-backed no-write recovery warning missing"],
+          "model": [],
+          "mutantSha256": "1e9070b176bb6cb983df66d016a0dff0628ed3dc4458c5d0aab1d33d3636d76a",
+          "rejected": true
+        },
+        {
+          "kind": "remove required failure H2",
+          "layer": "model",
+          "source": [],
+          "semantic": [],
+          "model": ["missing section: 失败处理"],
+          "mutantSha256": "546dbc1e94906100666f29a3ece65e3d0bddeff9da41c49909770c967e99ae3c",
+          "rejected": true
+        },
+        {
+          "kind": "change only inert original source byte",
+          "layer": "source",
+          "source": ["original source inverse mismatch"],
+          "semantic": [],
+          "model": [],
+          "mutantSha256": "387c95dad44df5bf3bedea81696cde001f86a33681631858fd48ece1b30de3b9",
+          "rejected": true
+        },
+        {
+          "kind": "remove original live href",
+          "layer": "source",
+          "source": ["seven live href/label/order mismatch"],
+          "semantic": [],
+          "model": [],
+          "mutantSha256": "f9f86eb7ff9394911383e3e7618f38a89b86d9e2dd9f6abd756526e2225dcc44",
+          "rejected": true
+        }
+      ],
+      "limit": "Owned-memory source-backed documentation clause oracle; not product execution or generic model automatic lore/operational semantics"
+    },
+    "dependencySetup": {
+      "command": "pnpm install --offline --frozen-lockfile --ignore-scripts",
+      "exit": 0,
+      "log": {
+        "path": "/tmp/type-pal-q-pilot-install-20261016.log",
+        "sha256": "fef3ce47bb05affa3cc29e491d952ac7c233b42b15f65f20acf52197ba0f3ecf",
+        "bytes": 471
+      },
+      "packages": 202,
+      "downloaded": 0,
+      "diagnostics": "no E/W/I; frozen lock unchanged; dependencies ignored",
+      "scope": "only isolated worktree dependencies, no product scripts executed"
+    },
+    "finalExactFrozenGates": "Required pnpm check:docs/lint/diff and explicit strict/progress run after final receipt byte freeze; exact logs/exits/receipt SHA in external delivery. This string does not assert pass or excuse known source-after drift."
+  },
+  "entries": [
+    {
+      "path": "docs/phase2/guides/content-publication.md",
+      "sourceRevision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+      "sourceGitObject": "3e492d3ebe6afcd946ab2af56f18917ce302ca97",
+      "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+      "afterSha256": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2",
+      "sourceLines": 26,
+      "afterLines": 79,
+      "sourceReadScope": "Fresh complete original26 and entire new body read for canonical publication pilot. All6 source blobs actually match earlier fully read d564 source413; other5 only sameblob prior semantic read reused, not migrated or newly audited. Fresh mandatory/frozen168/tasktop+Q admission and named primary ranges; no product execution. First mandatory batch output aggregate truncated READ-FIRST/workflow; both then separately reread completely before write. Publication79 candidate full text reread; native43 fields authored/read with complete old31 and structured map verification. No interpretation of 17 primary full hashes as full product audit.",
+      "coreConclusion": "Current author project is the source for author prose; PAL supply alone is regenerated. check:content is read-only and not save/recovery, whereas migrate invokes transaction recovery before baseline/plan even without --write and can write. Preserve supply partitions, author-owned prose, current-only and retired converter boundaries; no runtime acceptance.",
+      "originalIdentity": {
+        "ownerFields": [],
+        "dateFields": [],
+        "originalStatus": null,
+        "absentFields": ["Owner", "Status", "Last reviewed", "Template"],
+        "historicalCatalogOwner": "Codex governance field, not original author",
+        "note": "Original26 has no author/date/status metadata; new governance identity/date not backfilled into source"
+      },
+      "governanceOwner": "history_cards_a: sole implementation author; Codex: root governance/integration and non-author reception; author cannot selfaccept",
+      "status": {
+        "document": "current",
+        "meaning": "Operational guidance scope current; exact author candidate pending independent reception, not product build authorization",
+        "originalLiteralStatus": null,
+        "independentReview": "pending non-author full canonical pilot review",
+        "wholeGoal": "build/active, incomplete"
+      },
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "family": "phase2 author publication and bounded PAL source-supply operational guide",
+      "historyOverlay": false,
+      "historyOverlayTemplateId": null,
+      "historyOverlayVersion": null,
+      "phaseAnchor": {
+        "primary": "Original samepath guide26 and READ-FIRST Sep30 author-source boundary",
+        "phase1": "No first-phase mechanism/code/test behavior change; raw/PAL native behavior not re-certified",
+        "phase2": "Current author/pal supply ownership and genuine plan/recovery/check callers only; no schema/save/migration implementation change",
+        "target": "Documentation structure/semantic preservation only; no product-visible behavior change"
+      },
+      "versionAxes": {
+        "template": "1.0.0",
+        "sourceRevision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+        "frozenDesignSource": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+        "contentSave": "No product version change; old31 record22/SAVE11 is historical capture, not current input promotion",
+        "oldReviewRevision": {
+          "currentSha": "working-tree",
+          "implementationSha": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "working-tree",
+              "date": "2026-10-04",
+              "action": "full-text-structured-content-review",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "originalDates": "absent; original metadata not invented"
+      },
+      "primarySource": [
+        {
+          "path": "packages/migrate/scripts/migrate-content.mts",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "gitObject": "65bc29fbfd328e1c86ffafbf2dbbabb11fc7e557",
+          "sha256": "1bf6bfad98013bfe89a92dd1b3adf3f4d20777c8243b43f98efee01e72c9d157",
+          "ranges": [
+            {
+              "start": 36,
+              "end": 96,
+              "rangeSha256": "fd0dfafa9d4defcb4c11807ac3e2ff127fdba5db34b25df698d432e65e92b747"
+            }
+          ],
+          "scope": "actual bounded source read only, whole hash identity is not whole module audit"
+        },
+        {
+          "path": "packages/migrate/src/migration-transaction.ts",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "gitObject": "1bce2d03062bdb6810bf4fd9b48bc4bfadd1f7ba",
+          "sha256": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+          "ranges": [
+            {
+              "start": 193,
+              "end": 281,
+              "rangeSha256": "acdbf3d0f7b8050fce442b79e708410cbbbd1a5dd693e19ecd8535c3568f5b2c"
+            }
+          ],
+          "scope": "actual bounded source read only, whole hash identity is not whole module audit"
+        },
+        {
+          "path": "packages/editor/scripts/check-project.mts",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "gitObject": "33d70237be3ca0f180ee4e95d923b7eca99def71",
+          "sha256": "4bf45d8503d0460d820e2e1df9b488667ef35fbcaa3d9e7d6ec58694968535bb",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 20,
+              "rangeSha256": "4bf45d8503d0460d820e2e1df9b488667ef35fbcaa3d9e7d6ec58694968535bb"
+            }
+          ],
+          "scope": "actual bounded source read only, whole hash identity is not whole module audit"
+        },
+        {
+          "path": "packages/editor/scripts/author-project-source.ts",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "gitObject": "19ae5ebd5db0392f88a0cee342ff6f29be37f873",
+          "sha256": "c12d2fd4e97e3e8ea5a56f24c8031c56034d8c7eef962301fc036fb4bbe55549",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 59,
+              "rangeSha256": "c12d2fd4e97e3e8ea5a56f24c8031c56034d8c7eef962301fc036fb4bbe55549"
+            }
+          ],
+          "scope": "actual bounded source read only, whole hash identity is not whole module audit"
+        },
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "gitObject": "4d2fe771e6791e20acd99d749d49e78c0f59696b",
+          "sha256": "c74ae36b08829570fd5f9e587ddf3ef66b5a4e4f7f1864b8c44c978e67cfa8bf",
+          "ranges": [
+            {
+              "start": 185,
+              "end": 230,
+              "rangeSha256": "c19485dc4da49dd8e00534db9760f9bd48c009cc8e58f1ccdf333129b40b6698"
+            }
+          ],
+          "scope": "actual bounded source read only, whole hash identity is not whole module audit"
+        }
+      ],
+      "dependencies": [
+        {
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
+          "sha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+          "scope": "frozen168, first publication+oneentry receipt only"
+        },
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "scope": "full READ-FIRST actual source read; author/supply and current-only policy, not changed"
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "scope": "top/admission governs two-path first pilot; remaining5 not allowed"
+        }
+      ],
+      "publicCallers": [
+        {
+          "caller": "Human/Agent publication guide",
+          "scope": "navigation/input ownership and operational boundary, not runtime runner"
+        },
+        {
+          "caller": "package.json#/scripts/check:content",
+          "target": "tsx packages/editor/scripts/check-project.mts",
+          "role": "author project read-only check, optional directory/default PAL project"
+        },
+        {
+          "caller": "packages/migrate/package.json#/scripts/migrate:content",
+          "target": "tsx scripts/migrate-content.mts",
+          "role": "plan or --write publication, both after recover; not executed"
+        },
+        {
+          "caller": "scripts/docs/check-document-model.mjs / check-content-review.mjs / report-governance-progress.mjs",
+          "role": "static governance consumers; shared route does not cover this new pilot until root intake"
+        }
+      ],
+      "legalInputs": [
+        "Current canonical author project directory for check:content; no write/recover flags and no raw source required",
+        "Current PAL source-supply inputs plus current baseline for reimport; explicit maintained partitions and editor-save coordination",
+        "Only fixed samepath documentation source and two admitted candidate files; no old schema/bootstrap/converter revival"
+      ],
+      "businessOracle": {
+        "type": "source-backed documentation ownership/recovery boundary",
+        "assertions": [
+          "Seven original link label/href occurrences remain live in source order; originalH1 unique and whole26 UTF8 source inverse exact",
+          "Author-save/check and supply reimport are distinct; check does not save/recover; no --write is not a read-only guarantee for migrate",
+          "Resource/explicit supply corrections go upstream then safe reimport; author prose remains canonical author content, no retired full converter or generated-JSON-only fix",
+          "Five substantive guide chapters include prerequisites/actions/failures/observable completion; static model does not independently prove these semantics"
+        ],
+        "strongestCounter": "Remove current recovery warning while keeping all five required sections: structural model may staygreen, source-backed semantic review must reject because actual migrate54 calls recovery and transaction applies/cleans",
+        "runtimeExecutionPerformed": false
+      },
+      "dedupe": {
+        "result": "author candidate only; one samepath legacy record found and retained; no new accepted migration credit",
+        "against": [
+          "Existing unique guide legacy31 in semantic-current-batch",
+          "Existing guide-runbook1.0 pilots; template reuse does not accept this content",
+          "Other5 source guides, source/runtime tests and old diagnostic counts not recounted"
+        ],
+        "notes": "one canonical pilot/one entry; receipt itself remains a pending increment not self-governed completion"
+      },
+      "counterReworkBlocked": [
+        {
+          "finding": "Existing metadata label content-reviewed/governed-legacy and original27 split count not source migration proof",
+          "disposition": "Complete prior31 preserved exactly; actual source26 LF lines separately pinned, not retro-rewritten"
+        },
+        {
+          "finding": "No-write migrate may write via recovery",
+          "disposition": "Substantive live warning and strongest semantic negative; not a new product fix"
+        },
+        {
+          "finding": "Global old after-SHA drift expected only if actually observed",
+          "disposition": "Author cannot update central/catalog/routes; full gate result recorded honestly, no waiver"
+        },
+        {
+          "finding": "No actual author save/reimport/restore/E2E/visual performed",
+          "disposition": "unknown/notRun; not claimed passed"
+        }
+      ],
+      "history": {
+        "sourceAtDesign": {
+          "path": "docs/phase2/guides/content-publication.md",
+          "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+          "sourceGitObject": "3e492d3ebe6afcd946ab2af56f18917ce302ca97",
+          "sourceLines": 26,
+          "fixedD564Equal": true
+        },
+        "completePriorCurrentLocator": {
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
+          "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/content-publication.md",
+            "uniqueMatches": 1
+          },
+          "fieldCount": 31
+        },
+        "completePriorCurrentRecord": {
+          "path": "docs/phase2/guides/content-publication.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "guide-runbook",
+          "templateId": "guide-runbook-v1",
+          "template": "docs/phase-governance/templates/guide-runbook.md",
+          "templateCompliance": "governed-legacy",
+          "readMethod": "full-text-read",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "PAL 内容导入与发布：这是 guide-runbook，当前文档状态为 current。全文 27 行、1 个标题；摘要/首段为「类型：使用指南。日常作者维护与PAL原始源重导分开：作者内容以当前工程为真源，通过编辑器」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "truthAnchors": ["docs/phase2/guides/content-publication.md:1", "1:PAL 内容导入与发布"],
+          "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+          "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+          "phase": "phase2",
+          "module": "guides",
+          "capability": "phase2-guides-content-publication",
+          "owner": "Codex",
+          "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+          "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+          "afterSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+          "publicCallers": [
+            "docs/phase2/guides/content-publication.md → ../../../packages/editor/README.md",
+            "docs/phase2/guides/content-publication.md → ../../../packages/migrate/README.md",
+            "docs/phase2/guides/content-publication.md → ../../../packages/pal-extract/README.md",
+            "docs/phase2/guides/content-publication.md → ../specs/content-schema.md",
+            "docs/phase2/guides/content-publication.md → ../specs/project-lifecycle.md",
+            "docs/phase2/guides/content-publication.md → ../READ-FIRST.md",
+            "docs/phase2/guides/content-publication.md → ../archive/designs/asset-pipeline.md"
+          ],
+          "legalInputs": [
+            "current repository documentation",
+            "docs/phase2/guides/content-publication.md"
+          ],
+          "businessOracle": {
+            "type": "content-review",
+            "assertions": [
+              "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+              "full file bytes and text were read and hashed",
+              "title, sections, state signals and unresolved markers were recorded",
+              "structured review is not runtime/E2E/visual/coverage proof"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/phase2/guides/content-publication.md",
+              "docs/phase-governance/templates/guide-runbook.md"
+            ],
+            "notes": "Type/template and content review are distinct from product verification."
+          },
+          "revision": {
+            "currentSha": "working-tree",
+            "implementationSha": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "working-tree",
+                "date": "2026-10-04",
+                "action": "full-text-structured-content-review",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "content-reading",
+            "path": "docs/phase2/guides/content-publication.md",
+            "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+            "lineCount": 27,
+            "headings": [
+              {
+                "line": 1,
+                "text": "PAL 内容导入与发布"
+              }
+            ],
+            "unresolvedSignals": []
+          },
+          "history": [
+            {
+              "revision": "working-tree",
+              "action": "read-and-reviewed",
+              "contentReviewStatus": "content-reviewed",
+              "reviewDepth": "structured-content"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+          "userVisibleBeforeAfter": null,
+          "reviewedLines": "1-27",
+          "reviewNotes": "作者正文以当前工程为真源，PAL 供应分区才经 migrate 重导；check:content 只读，migrate --write 会写盘，禁止直接改生成 JSON 代替上游修复。"
+        },
+        "priorRegistry": {
+          "path": "docs/phase2/guides/content-publication.md",
+          "phase": "phase2",
+          "docType": "guide-runbook",
+          "templateId": "guide-runbook-v1",
+          "template": "docs/phase-governance/templates/guide-runbook.md",
+          "templateCompliance": "governed-legacy",
+          "reviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic",
+          "reviewRecord": "20261004-semantic-current-batch.json"
+        },
+        "governanceHistory": "Source is current operational guide, not archive; original source retained inert and fixedGit. Source claims/old26vs27 counts and22/SAVE11 capture not rewritten. No old command executed.",
+        "firstFailures": [
+          {
+            "kind": "author write-preflight range assertion failure, before repository writes",
+            "reason": "author-project-source.ts was mistakenly assigned EOF61 in builder; actual full file59. The assertion rejected before body/receipt writes. Corrected range1-59; no source or shared code change.",
+            "exit": 1,
+            "firstScript": {
+              "path": "/tmp/type-pal-q-pilot-build-first-failure-20261016.py",
+              "sha256": "8103ec22d63315cb0841c5aab8c98190aa8cd885c919e3359f4a4923ace26754",
+              "bytes": 20653
+            },
+            "firstLog": {
+              "path": "/tmp/type-pal-q-pilot-build-first-failure-20261016.log",
+              "sha256": "2e3afc0f85af8f36ab714c57ced7cf7da7da8fab2d86edf94042dc158579b7d2",
+              "bytes": 235
+            },
+            "sourceStillCleanAtFailure": true
+          }
+        ],
+        "priorDesignObservations": "Original readonly Q WIP/corrected draft and narrowed source errors preserved in fixed frozen design; no fake first green"
+      },
+      "supersedes": [
+        "Samepath untemplated guide current layout only; original operational ownership/recovery/retirement claims preserved"
+      ],
+      "supersessionScope": "No product caller/schema/source ownership decision changed; original history/Git and seven reference identities preserved",
+      "beforeAfter": "Original26 compact guide becomes five substantive operational chapters plus complete fixed-source snapshot; preserves originalH1/seven ordered links and explicitly separates check/save/recovery/plan/publication/failure evidence",
+      "userVisibleBeforeAfter": "Documentation makes ownership, write risk and completion evidence explicit; no product/UI/runtime behavior change",
+      "stopLine": "Stop reception on source inverse/link/title loss, treating migrate no-write as read-only, author prose overwritten from PAL, retired converter revival, unsupported execution claims or nonzero hard gates; author cannot fix shared ledgers/product to hide failure",
+      "nextStep": "Non-author root reviews original26/full new body and complete43 receipt semantics with actual source/counter; root alone later preserves current priors and updates central/catalog/routes/matrix and runs real zero integration gates. Remaining5 await separate authorization.",
+      "templateCompliance": {
+        "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"],
+        "statusWord": "current valid only operational guidance; independent acceptance pending",
+        "authorCheck": "Actual canonical body direct model/source/GFM/recovery-boundary checks30/0; four owned-memory controls discriminate; model alone accepts semantic mutant, not misreported as automatic semantic guard",
+        "independentAcceptance": "pending; not author selfaccept",
+        "actualModelIssues": [],
+        "semanticOracleIssues": []
+      },
+      "toolAssociations": [],
+      "runtimeExecutionPerformed": false,
+      "candidateSha256": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2",
+      "candidateGitObject": "6b413e620734d34576b25fdcec44eb8678f6a352",
+      "originalPreservation": {
+        "quote": true,
+        "completeOriginalIncluded": true,
+        "method": "single inert four-backtick text fence, complete original UTF8 bytes including finalLF; no interactive old commands",
+        "sourceFenceLength": 4,
+        "completeOriginalReadBackSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+        "sourceBlobReadBackExact": true,
+        "sourceToAfterLineMapping": [
+          {
+            "sourceLine": 1,
+            "afterLine": 53,
+            "sha256": "c2ac1cabb78d9e842154534573971981bfbe40133e899f3a6bbfcae3370dac0f",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 2,
+            "afterLine": 54,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 3,
+            "afterLine": 55,
+            "sha256": "64092ec15f5138c50018e57425ba4f76d5bb54ca50cc13e7855c05fd0c3317f7",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 4,
+            "afterLine": 56,
+            "sha256": "1fca518af62f79b6405df27569fc259409e403d9d7dd2060c1b29eb1569e0a96",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 5,
+            "afterLine": 57,
+            "sha256": "b00466abe850843465d205490ee9707fc82492517df1397c574ca551f913aea7",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 6,
+            "afterLine": 58,
+            "sha256": "df89b5a03ecffb0399dafa5711bd84e25d443c9c81149b848f2814e5c84c951e",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 7,
+            "afterLine": 59,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 8,
+            "afterLine": 60,
+            "sha256": "130b4815eba0de7fe80e0b5de795a276b5de7572ee28e8725b6a5b93e5e43b6e",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 9,
+            "afterLine": 61,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 10,
+            "afterLine": 62,
+            "sha256": "6066ee9dd482e1ab7dee8d7e8984d37e06b1019bd9b7d9bed575ebe936ce1a16",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 11,
+            "afterLine": 63,
+            "sha256": "010167f50fc3c2a0c34f96bf301eee5ab1c582f1d4500f121a46368b0e213c92",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 12,
+            "afterLine": 64,
+            "sha256": "aa4d2643575063f46c2fc9a41f9ba0102190e4c7fe7161e446e4977e557a2530",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 13,
+            "afterLine": 65,
+            "sha256": "50208cad85f2647807da13e29c04dd4dbf752160f8503a63ffe3d3697d044a93",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 14,
+            "afterLine": 66,
+            "sha256": "92164c0b11c3b6ea9f11a9a8827a3a2f4327f2cb9b84605d1dfbd0bb8e9c1851",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 15,
+            "afterLine": 67,
+            "sha256": "8b9e42d3e5b1c3492ffd91823eb8fcab87cd613e3353b33a09625ed1db7d38c5",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 16,
+            "afterLine": 68,
+            "sha256": "4ecc4991f2609f964b2091ac3dec80ce5d107b93f27e0f3359d64c18a99136e4",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 17,
+            "afterLine": 69,
+            "sha256": "a0e052a760b154c7959e3ca764f5fb6299e9d6b2e7611ec8dc8d1cb64706a700",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 18,
+            "afterLine": 70,
+            "sha256": "cb18f19f0dfe2517938a9080f8dd60821e31aaa68f551d9c422e14c602e21289",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 19,
+            "afterLine": 71,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 20,
+            "afterLine": 72,
+            "sha256": "dcac89f8d19ff1043b83019444051ef0611acaca95bf2bb35c0e68580714844b",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 21,
+            "afterLine": 73,
+            "sha256": "dfcccd995392b9c3236876915ba31b22669c9fb18fee20f6df128201e1e988f1",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 22,
+            "afterLine": 74,
+            "sha256": "cc8922f876de98c8a02df4f8f246015d2f3a883adc7030eba01c0a824882397e",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 23,
+            "afterLine": 75,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 24,
+            "afterLine": 76,
+            "sha256": "11ce768b6be6e30633097be91f2bf9e39a668140c8928e504e57281dc49390f5",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 25,
+            "afterLine": 77,
+            "sha256": "83efe35cfd43548fe24c0a724e8db63d66291a44ef6e71eb30f618c239ca3be3",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          },
+          {
+            "sourceLine": 26,
+            "afterLine": 78,
+            "sha256": "206d8fab55328ce4aecbb048213211c044c7869762767ba3de374e640bfb87b5",
+            "method": "inert original source exact UTF8 line, terminator excluded for perline hash"
+          }
+        ],
+        "originalHeadingIDs": [
+          {
+            "raw": "# PAL 内容导入与发布",
+            "id": "pal-内容导入与发布",
+            "depth": 1,
+            "afterLine": 1
+          }
+        ],
+        "tableRows": [],
+        "linkOccurrences": [
+          {
+            "sourceOccurrence": 1,
+            "sourceLabel": "编辑器说明",
+            "href": "../../../packages/editor/README.md",
+            "afterOccurrence": 1,
+            "afterLabel": "编辑器说明"
+          },
+          {
+            "sourceOccurrence": 2,
+            "sourceLabel": "迁移包说明",
+            "href": "../../../packages/migrate/README.md",
+            "afterOccurrence": 2,
+            "afterLabel": "迁移包说明"
+          },
+          {
+            "sourceOccurrence": 3,
+            "sourceLabel": "pal-extract",
+            "href": "../../../packages/pal-extract/README.md",
+            "afterOccurrence": 3,
+            "afterLabel": "pal-extract"
+          },
+          {
+            "sourceOccurrence": 4,
+            "sourceLabel": "当前内容规范",
+            "href": "../specs/content-schema.md",
+            "afterOccurrence": 4,
+            "afterLabel": "当前内容规范"
+          },
+          {
+            "sourceOccurrence": 5,
+            "sourceLabel": "工作区边界",
+            "href": "../specs/project-lifecycle.md",
+            "afterOccurrence": 5,
+            "afterLabel": "工作区边界"
+          },
+          {
+            "sourceOccurrence": 6,
+            "sourceLabel": "READ-FIRST",
+            "href": "../READ-FIRST.md",
+            "afterOccurrence": 6,
+            "afterLabel": "READ-FIRST"
+          },
+          {
+            "sourceOccurrence": 7,
+            "sourceLabel": "历史资产管线",
+            "href": "../archive/designs/asset-pipeline.md",
+            "afterOccurrence": 7,
+            "afterLabel": "历史资产管线"
+          }
+        ],
+        "dateMutation": "No original date exists; one-byte inverse negative used, not fabricated historical date"
+      },
+      "linkCheck": {
+        "method": "Actual Marked GFM live links/headings plus fixed Git original occurrence mapping; local target/fragment and current base incoming graph checked in pure ownedtmp probe",
+        "originalHeadingCount": 1,
+        "originalLinkOccurrences": 7,
+        "candidateLinkOccurrences": 7,
+        "brokenCurrentLinks": [],
+        "oldIncomingLinks": [
+          {
+            "source": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+            "href": "../../../../phase2/guides/content-publication.md",
+            "label": "发布指南",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+            "href": "../../../../phase2/guides/content-publication.md",
+            "label": "发布指南",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/ops/archive/tasks/done/DOC-CURSOR-6-author-guide-fact-batch.md",
+            "href": "../../../../phase2/guides/content-publication.md",
+            "label": "`content-publication.md`",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md",
+            "href": "../../../../phase2/guides/content-publication.md",
+            "label": "current内容发布指南",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/phase-governance/by-phase.md",
+            "href": "../phase2/guides/content-publication.md",
+            "label": "PAL 内容导入与发布",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/phase-governance/by-status.md",
+            "href": "../phase2/guides/content-publication.md",
+            "label": "PAL 内容导入与发布",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/phase2/guides/README.md",
+            "href": "content-publication.md",
+            "label": "PAL 内容导入与发布",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md",
+            "href": "../../../../../phase2/guides/content-publication.md",
+            "label": "`content-publication.md`",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          },
+          {
+            "source": "packages/migrate/README.md",
+            "href": "../../docs/phase2/guides/content-publication.md",
+            "label": "PAL 内容导入与发布",
+            "target": "docs/phase2/guides/content-publication.md",
+            "fragment": null
+          }
+        ],
+        "modelIssues": [],
+        "scope": "static only, no browser/HTTP/external target prose authentication",
+        "registeredStatus": "current",
+        "incomingGraphScope": "actual aa5 Markdown/HTML graph9 inbound links; graph parse not whole source corpus semantic review"
+      },
+      "sourceReviewStatus": "author canonical pilot pending non-author full reception; old content-reviewed/governed-legacy does not accept this rewrite"
+    }
+  ],
+  "candidateManifestMethod": "sort paths; UTF8(path NUL afterSha256 LF); receipt excluded",
+  "candidateManifestSha256": "5a1e26a8c648548968b9f8d858550357db1b643b3c15faad4bd1b9e4aae50546"
+}
