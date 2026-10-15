@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
-      "afterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
+      "sourceSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
+      "afterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1436,6 +1436,15 @@
             "previousAfterSha256": "92319ccf969019238239bd9ebee6a18ebe32cc048bbf1d9ad0ba908450503230",
             "afterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "e3cf2cd5a",
+            "action": "pre94-CODE3-3f-annotation-oracles-and-raw-test-execution-stop-line",
+            "scope": "docs/ops/board.md own retrospective/raw-test-draft navigation only; 9 partial / 74 pending / 0 accepted; no product or other-owner state change",
+            "previousAfterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
+            "afterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
           }
         ]
       },
@@ -1746,8 +1755,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
-      "afterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
+      "sourceSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
+      "afterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2282,6 +2291,15 @@
             "previousAfterSha256": "d4e29d39393c09af5e1250214454d74fd20f2ec5e9f565ba6c95089d5114cf73",
             "afterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "e3cf2cd5a",
+            "action": "pre94-CODE3-3f-annotation-oracles-and-raw-test-execution-stop-line",
+            "scope": "docs/ops/evidence/README.md own retrospective/raw-test-draft navigation only; 9 partial / 74 pending / 0 accepted; no product or other-owner state change",
+            "previousAfterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
+            "afterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -3034,8 +3052,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
-      "afterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
+      "sourceSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
+      "afterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -3906,6 +3924,15 @@
             "previousAfterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
             "afterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "e3cf2cd5a",
+            "action": "pre94-CODE3-3f-annotation-oracles-and-raw-test-execution-stop-line",
+            "scope": "docs/ops/tasks/index.md own retrospective/raw-test-draft navigation only; 9 partial / 74 pending / 0 accepted; no product or other-owner state change",
+            "previousAfterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
+            "afterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
           }
         ]
       },

@@ -23,12 +23,12 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
-  // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条；CODE2退役1条重复delta；CODE2b转移4条YJ2合同。
-  assert.equal(approvedTestRetirements.length, 24)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 24)
+  // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条；CODE2退役1条重复delta；CODE2b转移4条YJ2合同；CODE3主文件转移3条注释合同。
+  assert.equal(approvedTestRetirements.length, 25)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 25)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    56,
+    59,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

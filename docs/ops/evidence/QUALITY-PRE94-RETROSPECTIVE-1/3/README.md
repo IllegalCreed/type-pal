@@ -50,3 +50,5 @@
 全仓check/official ratchet/protected fast未新跑，editor诊断未清；不合main。下一片CODE3 annotation测试质量，再3b；94–102/editor原返工继续保留。全部83卡当前0accept/8partial/75pending；无下一位Agent提示词，Codex单Agent继续，不宣布专项完成。
 
 探针也继承extract现行strict/noUncheckedIndexedAccess配置额外[检查](probe-typecheck.json)：初次9条索引未收窄诊断保留原件，改为明确存在断言后exit0且输出为空；临时配置仅扩大rootDir/include，不放宽规则或改仓库配置。最终探针重新执行，输入/SHA/清理复核通过。账本已原命令确认3287 inventory /211closed /214review /2862pending。
+
+2026-10-16 后续[annotation完整stderr复查](../3-annotate/README.md)：本页旧434原始包日志保留，但仅act/环境/navigation三模式为0不能称“零诊断”。同一两份原盘测试此前也走错误packages/data/raw并早退；当前已确认六条假绿，完整包结果不验收。新增draft原盘执行卡优先处理，未改生产/原件、不追溯涂改日志。

@@ -1,0 +1,98 @@
+{
+  "command": "extract-package",
+  "stderrBlockCount": 10,
+  "bodyLineCount": 52,
+  "blocks": [
+    {
+      "header": "stderr | src/resources/tables.test.ts > parseEnemyTeams (M3 T7) > M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn",
+      "lines": ["[parseEnemyTeams] team 0 slot OBJECT index 999 不在 OBJECT_ENEMY 段映射中,标空"]
+    },
+    {
+      "header": "stderr | src/resources/misc-guards.kimi-r1.test.ts > KIMI-R1 pal-extract 散落守卫 > decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+      "lines": [
+        "[rgm] chunk 7 RLE decode fail, skip: Error: RLE: invalid frame dimensions 0x2",
+        "    at decodeRle (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rle.ts:83:40)",
+        "    at decodeRgmPortrait (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/rgm.ts:41:13)",
+        "    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts:197:12",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20",
+        "    at new Promise (<anonymous>)",
+        "    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+        "    at new Promise (<anonymous>)",
+        "[rgm] chunk 8 RLE decode fail, skip: Error: RLE: invalid frame dimensions 2x0",
+        "    at decodeRle (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rle.ts:83:40)",
+        "    at decodeRgmPortrait (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/rgm.ts:41:13)",
+        "    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts:198:12",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20",
+        "    at new Promise (<anonymous>)",
+        "    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+        "    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "header": "stderr | src/resources/parsers/ball.glm-runtime-resource.test.ts > R03 decodeBallIcon 空槽与标记头 > 零尺寸帧 → null（空槽语义），标记与非标记各一",
+      "lines": [
+        "[ball] chunk 9 RLE decode fail, skip: Error: RLE: invalid frame dimensions 0x0",
+        "    at decodeRle (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rle.ts:83:40)",
+        "    at decodeBallIcon (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/ball.ts:35:13)",
+        "    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts:69:7",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20",
+        "    at new Promise (<anonymous>)",
+        "    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+        "    at new Promise (<anonymous>)",
+        "[ball] chunk 9 RLE decode fail, skip: Error: RLE: invalid frame dimensions 0x0",
+        "    at decodeRle (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/rle.ts:83:40)",
+        "    at decodeBallIcon (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/ball.ts:35:13)",
+        "    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts:71:12",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20",
+        "    at new Promise (<anonymous>)",
+        "    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)",
+        "    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20",
+        "    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/data-misc.test.ts > chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+      "lines": ["[chunk 9 test skip] data/raw/DATA.MKF 不存在,需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/data-misc.test.ts > chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+      "lines": ["[chunk 10 test skip] data/raw/DATA.MKF 不存在,需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/misc-mkf.test.ts > decodeRgmPortrait > real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+      "lines": ["[rgm test skip] data/raw/RGM.MKF 不存在,需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/misc-mkf.test.ts > decodeBallIcon > real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+      "lines": ["[ball test skip] data/raw/BALL.MKF 不存在,需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/misc-mkf.test.ts > parseFirSprite > real FIRE.MKF — 55 chunks, sprite groups with frames",
+      "lines": ["[fire test skip] data/raw/FIRE.MKF 不存在,需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/misc-mkf.test.ts > FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress > chunk 0 decompresses → valid sprite with frames",
+      "lines": ["[fire direct test skip] 需原盘"]
+    },
+    {
+      "header": "stderr | src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts > P07 parseEnemyTeams 翻译模式原身份保真 > 两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查",
+      "lines": ["[parseEnemyTeams] team 1 slot OBJECT index 403 不在 OBJECT_ENEMY 段映射中,标空"]
+    }
+  ],
+  "act": 0,
+  "environment": 0,
+  "navigation": 0,
+  "allRuntimeDiagnosticsZero": false,
+  "interpretation": "parser stderr exists; expected-negative versus valid-raw warning policies require separate review; no standing exemption or global-zero claim"
+}

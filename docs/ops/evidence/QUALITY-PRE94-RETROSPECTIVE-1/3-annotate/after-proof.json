@@ -1,0 +1,1398 @@
+{
+  "phase": "after",
+  "head": "e3cf2cd5a06c5aa1890e645e47bf6b81ed032c8b",
+  "sourceSha256": "13a0203b37fe9f238068a4e7df1f3456323f22750489998425af9ff575ad1c98",
+  "testSha256": {
+    "annotate.test.ts": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+    "annotate.glm-runtime-resource.test.ts": "7c22d5c930448957aae1eb237c27b54718edb8295e25bc3a023b39aecb8178af"
+  },
+  "runs": [
+    {
+      "name": "control",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-control-annotate.test.ts",
+        "src/events/pre94-annotation-after-control-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/control.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.551,
+      "passed": 16,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "008f32abda9e73f3c90791987ecfe845ca956dfa28e6e15b6ba1f4e28af1f45a",
+      "runnerSha256": "a785491d6a515f72f1b090d6c69359db88a747112d84d3b26df36202080a56e8",
+      "moduleSha256": "13a0203b37fe9f238068a4e7df1f3456323f22750489998425af9ff575ad1c98",
+      "testCopySha256": {
+        "pre94-annotation-after-control-annotate.test.ts": "2a2dda9b57ece226735fa261c263052fa4a7ddde3bb30bbeeee72fd85fa832e9",
+        "pre94-annotation-after-control-annotate.glm-runtime-resource.test.ts": "093f2a3b9ab3f46d8be06d83d8fc7ce0aa15a9f2d4df8eb45e4f73a0314cf444"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "sequence",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-sequence-annotate.test.ts",
+        "src/events/pre94-annotation-after-sequence-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/sequence.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.528,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'sequence', …(2) } ] to deeply equal [ { op: 'sequence', …(2) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-sequence-annotate.test.ts:72:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "b8f0800d043715d84cbc9620d6db1402d943deb2499898dbf12cb87a7a3e6688",
+      "runnerSha256": "e1a0f0b19e2f1af407013a4927397113b0dc6460ad6bd92652e9db50648eeeb0",
+      "moduleSha256": "3c7b6872cffde0f1c4ceee0413d567f2688fac78a36484133daa4c6d9725dfc8",
+      "testCopySha256": {
+        "pre94-annotation-after-sequence-annotate.test.ts": "1e79847cd958e460bec8de07e4a562eda452b16cb49313220bf73820d9336334",
+        "pre94-annotation-after-sequence-annotate.glm-runtime-resource.test.ts": "ff730ffcb8f3c7a672780c730dca8a693c47f7988233b5504ea8d7504c1702bd"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "choice",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-choice-annotate.test.ts",
+        "src/events/pre94-annotation-after-choice-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/choice.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.593,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'choice', …(3) } ] to deeply equal [ { op: 'choice', …(3) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-choice-annotate.glm-runtime-resource.test.ts:42:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "5108cc264f3b05a137998aadd01e16103f811247af075f5f6a5334b7dfb1cf71",
+      "runnerSha256": "905644435789ecfc8c397663bfe2b2ac1296e74c09bd945b6b017d58627ddc26",
+      "moduleSha256": "ec973ca7acf23e879d8f789746337da3d55f40d68c18da720a4c382c7d76060e",
+      "testCopySha256": {
+        "pre94-annotation-after-choice-annotate.test.ts": "ad30deb0f9f052c0ef6d36d8ca731f62f122150193e97bae847ebf41ed5d0ad1",
+        "pre94-annotation-after-choice-annotate.glm-runtime-resource.test.ts": "812f86cfeda5d539b9002e1a1df5b36e91ab8fb7c4c41951a029861825b69e0d"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "if-then",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-if-then-annotate.test.ts",
+        "src/events/pre94-annotation-after-if-then-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/if-then.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.522,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'if', …(3) } ] to deeply equal [ { op: 'if', …(2) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-if-then-annotate.glm-runtime-resource.test.ts:71:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "a183e0a4608349f6b85218bc5d96b55d436023b1840bbda1fa65ce468043a459",
+      "runnerSha256": "0327971496e2dd18b6e66ac9c5bdea414598c0124de3e3019325bb75c0e0b746",
+      "moduleSha256": "f78d98b238f534b6020b0643083959aa6e2c31c9eeb0f7061e60234d2364581d",
+      "testCopySha256": {
+        "pre94-annotation-after-if-then-annotate.test.ts": "a444f734cd270ea79343b88c065b283d519e84eae8f014df60754f0619e87d16",
+        "pre94-annotation-after-if-then-annotate.glm-runtime-resource.test.ts": "f413d178b964ca02d780dc64f70cdd24d4a9b8be3200ef1fb333ef1bc8c92f67"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "ownership",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-ownership-annotate.test.ts",
+        "src/events/pre94-annotation-after-ownership-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/ownership.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.559,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ …(2) ] to deeply equal [ { op: 'giveItem', …(2) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-ownership-annotate.glm-runtime-resource.test.ts:109:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "51251cc7d728c1a016ed38a8d72063c49ba67089463b9839e928c20383ff3a50",
+      "runnerSha256": "0ff29b2e5c52931cf1cfe55617d519958b9eb71a91f844be90e21fde55c26091",
+      "moduleSha256": "ab3b5aed24f92d867464b9b6a244d09e1ee4033ae5cfc9402cc37f2c8e5cfcc7",
+      "testCopySha256": {
+        "pre94-annotation-after-ownership-annotate.test.ts": "df3e446a56bc18c8c048c064dc3649b00a7e7d40664574a8a7edd6666756e8f9",
+        "pre94-annotation-after-ownership-annotate.glm-runtime-resource.test.ts": "6d4ffb9d11b99db1f898e78428afe7536f42825da39862e427dec856b8a9a6ed"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "symbols-preservation",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-symbols-preservation-annotate.test.ts",
+        "src/events/pre94-annotation-after-symbols-preservation-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/symbols-preservation.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.579,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected { item: { '62': '止血草' }, …(3) } to deeply equal { item: { '62': '止血草' }, …(4) }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-symbols-preservation-annotate.glm-runtime-resource.test.ts:128:33\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "5cafe723ba886b94232bd3f26c0c93f14a53aaf1695af1ddd90956d994873c76",
+      "runnerSha256": "295c5bf7b5d2d9545b86e66d2e6c11c65f53b3b1911f4c5d9e8a01f4f87d2715",
+      "moduleSha256": "b01e28d3caa60b632a22c54a49e637724f0a8fa350c0aae1b3d7f2484e0fd04e",
+      "testCopySha256": {
+        "pre94-annotation-after-symbols-preservation-annotate.test.ts": "840028a39148d3a9d18ef9f580dbd87dfe52035f17b823fde3d758f8e2562aec",
+        "pre94-annotation-after-symbols-preservation-annotate.glm-runtime-resource.test.ts": "ddd8484aba0aedfed63d1db8d4f5f11fe6569241b570d5e0657ac7531197d6b2"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "symbols-table",
+      "kind": "discrimination",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-symbols-table-annotate.test.ts",
+        "src/events/pre94-annotation-after-symbols-table-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/symbols-table.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.541,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [Function] to throw error including 'symbols.item: 期望对象' but got 'Cannot convert undefined or null to o…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-symbols-table-annotate.glm-runtime-resource.test.ts:150:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "585dcfde4bb56432ff091321b6875e214ef678911631b1f5c9383515ed6ca2ff",
+      "runnerSha256": "a12673bdcef83f14dd85532c6382d88ba2e84a291023f03483b2e783cf170d7f",
+      "moduleSha256": "8346442ac6a592462cec50b278b522586eab26b99f1f32cca3fd2e7498c2ca8b",
+      "testCopySha256": {
+        "pre94-annotation-after-symbols-table-annotate.test.ts": "bb8f3cacbc51145881802d9b6e1fd9ca209ce23fb1d7e26b28d3e7da0dfbd114",
+        "pre94-annotation-after-symbols-table-annotate.glm-runtime-resource.test.ts": "09b29c03ccab26865a6f5f90a84f5bb64b152571e48afd6edae47a1f56b0a80b"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "transfer-offset",
+      "kind": "oracle-transfer",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-transfer-offset-annotate.test.ts",
+        "src/events/pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/transfer-offset.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.53,
+      "passed": 9,
+      "failed": 7,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'choice', …(3) } ] to deeply equal [ { op: 'choice', …(3) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts:42:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'if', …(3) } ] to deeply equal [ { op: 'if', …(2) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts:71:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'giveItem', itemId: 2, …(2) } ] to deeply equal [ { op: 'giveItem', itemId: 2, …(1) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts:91:75\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'giveItem', …(2) }, …(1) ] to deeply equal [ { op: 'giveItem', …(3) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts:112:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'giveItem', …(3) }, …(1) ] to deeply equal [ { op: 'giveItem', …(4) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.test.ts:31:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'sequence', …(2) } ] to deeply equal [ { op: 'sequence', …(2) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.test.ts:72:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'if', …(4) } ] to deeply equal [ { op: 'if', …(4) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-offset-annotate.test.ts:98:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "82682d04262e6589752a905110765e23c4217cd6b98a712d90148cb5d8f04745",
+      "runnerSha256": "ea0419ae0e1c332c7524d8ae688cf31a3d6aa3e7f56c013655f1bda811197318",
+      "moduleSha256": "55bb8f5f43be355e1e9a4f149a1e058d654ef722ee7e03dc82ecfc74de506929",
+      "testCopySha256": {
+        "pre94-annotation-after-transfer-offset-annotate.test.ts": "170d654be7fb976993d8d5a0e97527120b19022866631ab5bba869a4062c460e",
+        "pre94-annotation-after-transfer-offset-annotate.glm-runtime-resource.test.ts": "ab75979dca265f8101318f926998d16879290da8cdf9af671a4ef6bb9d457b0c"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "transfer-priority",
+      "kind": "oracle-transfer",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-transfer-priority-annotate.test.ts",
+        "src/events/pre94-annotation-after-transfer-priority-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/transfer-priority.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.527,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-priority-annotate.test.ts:40:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "4d8f09283327608fbda742252f040707c6de7963534ba71326e7aee0cb64def1",
+      "runnerSha256": "de0129c232410601c5884460465757d02f619876d1ef4aa58213e216ee4ffa11",
+      "moduleSha256": "2e042d46b29885fa1cc668b52dd23bf0f7f0df2cb8ab9ba28cbeb8d7ebd54604",
+      "testCopySha256": {
+        "pre94-annotation-after-transfer-priority-annotate.test.ts": "41008002ad7771305bc8a1dbe266af39c2b51c96fb0923b892c6263efede6c1a",
+        "pre94-annotation-after-transfer-priority-annotate.glm-runtime-resource.test.ts": "d02618dc4b23b92988933a13ebd318ff8670eedfc19dc3cc590cf0c69b9073a1"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "transfer-raw",
+      "kind": "oracle-transfer",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/pre94-annotation-after-transfer-raw-annotate.test.ts",
+        "src/events/pre94-annotation-after-transfer-raw-annotate.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-annotation-5pxrkx48/transfer-raw.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 0.524,
+      "passed": 13,
+      "failed": 3,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'choice', …(3) } ] to deeply equal [ { op: 'choice', …(3) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-raw-annotate.glm-runtime-resource.test.ts:42:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'giveItem', …(3) }, …(1) ] to deeply equal [ { op: 'giveItem', …(3) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-raw-annotate.glm-runtime-resource.test.ts:112:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { op: 'sequence', …(2) } ] to deeply equal [ { op: 'sequence', …(2) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/events/pre94-annotation-after-transfer-raw-annotate.test.ts:72:17\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "rawSha256": "7494ddd6003e887fc6055af29e6e56478ccfcc06d1b9f6d83cc68067c183744e",
+      "runnerSha256": "4fc7b254f6ee23be0c401bd86b6ff2ace881568a623900a31edcd2ac6c206f29",
+      "moduleSha256": "150b9fc5e69f9a9ec076147d79d8f638bee48140d5c08d7ce9ad6a7d24de6349",
+      "testCopySha256": {
+        "pre94-annotation-after-transfer-raw-annotate.test.ts": "7925854a80d9e3acd0942fe94d30adfe1b1e7e41047eda863b433049f56c0649",
+        "pre94-annotation-after-transfer-raw-annotate.glm-runtime-resource.test.ts": "4f8edf4b94b116aea46a3337fede3b59772108dd2fdc00a070c5489f0d419045"
+      },
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "productionUnchanged": true,
+  "testFilesUnchangedDuringProbe": true,
+  "temporaryCopiesRemoved": true
+}

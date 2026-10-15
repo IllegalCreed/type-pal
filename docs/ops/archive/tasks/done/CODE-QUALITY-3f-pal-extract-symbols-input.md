@@ -52,3 +52,7 @@ Base: `5e1213f60`
 ## 下一位 Agent 提示词
 
 无；本批由 Codex 继续实现与独立验收。
+
+## 2026-10-16 当前全量复审补记（历史done保留）
+
+本轮仅annotation/symbols两测试切片partial，非整卡accept；[逐文件读取、caller/primary、六反控、四重复与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)。17→16，旧六变异全绿→新各单一业务AssertionError，生产未改。完整包433原生绿含六条错误原盘路径早退及其它parser日志，不能以其验收；完整质量门未新跑。两测试旧关闭撤回review，0新增关闭；原卡实现/CLI与其余文件不因本切片重新通过。后续先原盘执行完整性，再逐卡继续；无下一位Agent提示词。

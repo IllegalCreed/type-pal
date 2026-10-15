@@ -207,7 +207,8 @@
       ],
       "scopeConfirmed": false,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
-      "findings": "three old-green/new-single-AssertionError slice oracles; 28 identities unchanged; native raw roundtrip exact; control/metadata risks stopped in draft; production unchanged; annotation/unified gates pending; no new closure"
+      "findings": "slice three old-green/new-single-AssertionError oracles; annotation six discrimination gaps repaired, four proven duplicate identities transferred; current whole card not accepted; extract raw early returns and runtime diagnostics unresolved; product unchanged",
+      "additionalEvidence": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"]
     },
     {
       "id": "3b",
@@ -357,7 +358,7 @@
       "sha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
       "lines": 54,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -377,7 +378,9 @@
           "text": "- Codex 前提核验：verified；build allowed；白名单只含 annotate/CLI 入口与专属测试/文档。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+      "findings": "annotation/symbols tests strengthened with six valid single AssertionError probes; four duplicate identities transferred, bad-input contracts split; 17->16; production unchanged; full extract 433 native green includes six early-return fake passes; CLI/unified gates pending, 0 closure"
     },
     {
       "id": "3g",

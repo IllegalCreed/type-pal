@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：211；已读但待审：214；尚未逐文件核验：2,862；合计未闭合：3,076。
+当前已闭合核验：209；已读但待审：216；尚未逐文件核验：2,862；合计未闭合：3,078。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -81,8 +81,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rng.boundaries.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 旧坏YJ2清面反控16绿→补证15绿1红；真实中间坏帧保留完整plane，16例不变；统一门待续 |
 | `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
 | `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | CODE-QUALITY-3a + Q3f；typed annotation 与 symbols sidecar boundary、全仓 gates | Q3f done |
-| `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | CODE-QUALITY-3a；annotation 合同 | 纯转换输出 |
-| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a + Q3f；真实 annotation 与 symbols malformed contracts | Q3f done |
+| `packages/pal-extract/src/events/annotate.test.ts` | test | review | CODE3/3f当前复审；[caller/完整oracle/反控与退役](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md) | 六旧绿新红；9→6，三重复转移；统一门未清，旧关闭撤回 |
+| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | review | CODE3/3f当前复审；[合法输入/五表/输入守恒/隔离证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md) | 8→10：一重复转主合同，混合坏输入拆四原子；整文件仍待统一门 |
 | `packages/pal-extract/src/events/slice.ts` | product | review | CODE3当前复审；[真实caller/控制流/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 人读伪边与计数goto风险停线专卡draft；原实现未改，不以roundtrip/包绿关闭 |
 | `packages/pal-extract/src/events/slice.test.ts` | test | review | CODE3当前复审；[A2/reset完整oracle与反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 两旧反控均绿，新各指定AssertionError；例数身份不变，统一门待续 |
 | `packages/pal-extract/src/events/slice.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3a；切分边界反例 | 真实 caller |
@@ -560,3 +560,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 CODE3c复审：真实缺帧像素/终点两反控有效，但活动timer卸载变异旧1例仍绿；同一原用例补证后新精确一红，生产/规则/baseline不改。editor八文件36绿仍6act，reforge相邻22零诊断、editor typecheck通过；两旧关闭精确转review，0新增关闭，机器已重新确认213closed/211review/2863pending。原卡最终是动画回归而非已证runner缺陷，整卡partial、统一门待续。
 
 2026-10-16 CODE3复审：两测试修A2/reset/EO三个判别力缺口，四文件28身份保留，三针旧28绿/新各27绿1指定AssertionError。元数据伪边/计数goto停线专卡draft，生产与资源未改。raw43503指令roundtrip一致、当前元数据投影相同，17非零goto待核实际影响；定向45、extract72/434+typecheck、shared16/126+typecheck通过，0新关闭。机器已重跑确认211closed/214review/2862pending，统一门及editor诊断未清。
+
+2026-10-16 CODE3/3f标注测试复审：两测试完整expected与真实输入守恒补证，六针旧17绿/新各15绿1指定AssertionError；四重复精简/混合合同拆分，总17→16，精确退役表25项净59，matcher/baseline不改。定向52/shared126/工具70与typecheck通过；完整extract虽433 passed，但完整stderr十块、六例原盘路径错误早退，包验收不通过，优先draft原盘执行卡。此前434包结果的“零诊断”仅三模式计数，现明确纠正，原日志保留。两旧关闭撤回review、0新增关闭；机器已按本轮原命令确认209closed/216review/2862pending。全83卡9partial/74pending/0accept，统一门及editor未清，不合main。

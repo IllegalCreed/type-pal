@@ -222,6 +222,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '8fd8702977aa55db3bc17df8f85d0574cb9193e3390b5a94f828bdb7025bf848',
       fileSha256: 'b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc',
     },
+    // Codex 2026-10-16 CODE3/3f: missing-name and raw passthrough oracles move
+    // to the stronger boundary/actual-input suite; only this exact 9->6 snapshot.
+    {
+      file: 'packages/pal-extract/src/events/annotate.test.ts',
+      previous: 9,
+      current: 6,
+      previousIdentityDigest: 'a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f',
+      currentIdentityDigest: 'd6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d',
+      fileSha256: '3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

@@ -121,3 +121,21 @@ Codex premise verified/design agree/build allowed限三个现有测试：yj2.bou
 ### CODE3本片结果
 
 三针旧28绿/新各27绿1指定业务红，恢复定向45、extract72/434+typecheck、shared16/126+typecheck均零诊断。仅两测试补证，生产/规则/baseline与资源未改；控制流/元数据风险专卡draft继续，不借此抽重复BFS。机器已确认211closed/214review/2862pending，0新关闭；全83卡8partial/75pending/0accept。下一片继续CODE3 annotation测试质量，之后3b；94–102与editor返工保留，统一门未清不合main。
+
+## CODE3/3f annotation测试有限返工准入
+
+全文重读annotate109行及两测试106/121行、3f原卡、WORD parser/测试、shared类型与出口；核真实CLI和schema人读注释边界。无生产修改证据或授权。六枚隔离变异（截sequence、改choice文本、漏无else then、改调用数组、丢合法spell表、漏表类型guard）旧17例全部绿。旧“零突变”传的是新数组且仅1项；结构断言多靠强转后单字段，不能证明完整输出。
+
+Codex premise verified/design agree/build allowed白名单为annotate.test.ts、annotate.glm-runtime-resource.test.ts：用独立完整expected替代局部强转、每例新建词表、直接检查真实调用数组及输入所有权；现有sequence承接多步骤、choice承接完整选项、无else承接有效then注释。主测试两远端缺名/一raw用例与GLM一正向/优先级用例已证重复，明确转移到保留的邻位缺名/直接输入守恒/主WORD与symbols合同；旧混合坏symbols拆为顶层形状、未知键、表形状、表值四个合同，不为少测而混轴。最终9→6、8→10，共17→16。名称更正与拆分精确记录，不伪称身份保持。
+
+仅在原生list核旧/新身份并对main/旧3y快照后，为主文件9→6登记approved-test-retirements精确count/双digest/新SHA，固定表25项/净59可同步；matcher、拒绝合同、runner和baseline不改。其它三枚oracle转移诊断单独记录完整失败集合，不冒充六枚单例业务反控。当前symbols/annotation算法、切分高风险专卡及生成物保持冻结；统一门仍待后续窗口。
+
+### CODE3/3f本片结果与包诊断纠正
+
+两测试17→16，四条已证重复有精确转移，坏symbols四层合同独立；六针旧17绿/新各15绿1指定AssertionError，恢复正常16绿；三多红转移诊断另记，非单例针。主文件9→6双digest/新SHA经main与旧3y对照登记，其他24项/matcher和baseline原字节不变。定向52、shared126/typecheck、extract typecheck和coverage工具70通过，原件见[标注证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)。
+
+完整extract虽原生72文件433 passed/0pending，完整stderr却有10块/52行，六例因root指错packages/data/raw后return而未执行断言；另四块parser负面日志。故包验收未过。上一片434的“均零诊断”说法不成立，只有act/环境/navigation三模式为0，历史日志保留且当前纠正。新开[原盘测试执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)draft，下一批先核两测试和实际caller/primary，不静音、不新增排除、不改decoder/原盘/生成物。
+
+本片两旧关闭撤回review，0新增关闭；CODE3/3f仍partial，全83卡9partial/74pending/0accept。原卡范围其它文件/统一check、ratchet、protected和editor诊断未清；不合main。先处理六条假绿，再续3b及94–102/editor；无下一位Agent提示词，单Agent继续。
+
+本检查点docs/ledger/diff-check通过，lint-zero4428文件error/warning/info全0。机器3287 inventory /209closed /216review /2862pending；没有新增关闭或统一门通过声明。恢复、原件与精确退役已另进程复核，不冒充第三方验收。

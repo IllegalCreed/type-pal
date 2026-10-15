@@ -1,0 +1,114 @@
+{
+  "runs": [
+    {
+      "name": "extract-targeted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/events/annotate.test.ts",
+        "src/events/annotate.glm-runtime-resource.test.ts",
+        "src/events/slice.test.ts",
+        "src/events/slice.boundaries.test.ts",
+        "src/events/slice.glm-runtime-resource.test.ts",
+        "src/events/slice.kimi-r1.test.ts",
+        "src/io/word.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-annotation-recovery-f5n0z7tp/extract-targeted.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.969,
+      "rawSha256": "2842ecd9a74eee34b492e3f21ce4e966612d56d30b459b300d56fca5b5ee29d7",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 52,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "ef6b20d772b7e3acfe5222ead2b818849bbdfbf99686a010ed1c545798759d9d"
+    },
+    {
+      "name": "extract-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/pal-extract", "run", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.984,
+      "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "extract-package",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-annotation-recovery-f5n0z7tp/extract-package.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 46.968,
+      "rawSha256": "81e32c808d45c8b866b9b88479c6eecec90a7f872dd467117eba2821b0d2c2b3",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 433,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "fc05fa95cfccefb170fe4be594df38c50f5423771b36fddbceb95ad5b752a9be",
+      "stderrBlockCount": 10,
+      "stderrBodyLineCount": 52,
+      "earlyReturnWithoutBusinessAssertions": 6,
+      "packageAcceptance": false,
+      "diagnosticReview": "runtime-diagnostics.json; act/environment/navigation are only three patterns, not a full zero-diagnostics claim"
+    },
+    {
+      "name": "shared-adjacent-check",
+      "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.35,
+      "rawSha256": "874e398a0e32fc0aaa60b0240d97b9f91b6ca2a05a52d4cbca6fbd0f9e2537b5",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "coverage-tools",
+      "command": ["pnpm", "test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 3.306,
+      "rawSha256": "49355307d4031cd943763d15f075611b68f12cc79f0d713805e4bc2e35b74560",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "fullCoverageGate": false
+}

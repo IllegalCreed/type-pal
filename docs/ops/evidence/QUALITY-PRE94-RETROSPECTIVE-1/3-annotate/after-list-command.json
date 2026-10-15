@@ -1,0 +1,17 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "list",
+    "src/events/annotate.test.ts",
+    "src/events/annotate.glm-runtime-resource.test.ts",
+    "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-annotation-list-bf7nxm99/list.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "listSha256": "7c3f184fc1d6f30b858d8f7bf119c60445d461de24b1e885f56747109dfd329d"
+}
