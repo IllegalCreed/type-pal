@@ -1,13 +1,19 @@
 # CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）
 
-Status: rework
+Status: review
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 save-slot menu governance（存档域边界切片）
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
-## Codex R3 当前验收与接手（2026-10-15）
+## Codex 接手修复（2026-10-15，作者自验证）
+
+自写聚合模型已退役；真实caller/双路径/取消ownership注释已修正。
+实改范围、红绿反例及后续统一门见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+这是作者修复/自验证，不冒充再次独立accept；本卡保持review、不标done、不增加closed。
+
+## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
 排重局部 accept；内存路径说明纠正成立；bus emit/取消返回 SystemMenu 的 ownership 注释仍错误。

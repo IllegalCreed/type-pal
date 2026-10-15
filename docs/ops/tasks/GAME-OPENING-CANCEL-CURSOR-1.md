@@ -1,9 +1,9 @@
 # GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: opening menu fidelity
-Coding Owner: Unassigned
+Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional（实施后最小验证；本轮未实施/未视觉验收）
@@ -38,7 +38,19 @@ Visual Verification Timing: dev-functional（实施后最小验证；本轮未�
 完整 typed 状态由真实 opening 链进入 load 再取消，精确断言 cursor0；系统取消仍关整栈。
 先失败反例再修复，纯重构分提交；完整模块窗口跑全部门与零诊断；实施后 Codex 最小功能界面取证。
 
-## 当前推进与交接
+## 2026-10-15 用户批准与最小方案
+
+用户本轮明确批准前两项，其中本项为②；Codex已核uigame.c:143-150、真实标题dispatch反例和
+游戏内取消清栈caller，premise verified / design agree，**build allowed**。
+单一写入Owner=Codex，白名单menu-driver.ts及其cov85真实链测试；只复位标题取消光标，
+不改工厂/界面形态/Save/公共接口。先失败反例再修复；旧draft/no-build交接只保留为历史。
+
+真实反证已在候选5477af1e4复跑，见CODE94/codex-r3-review.md。用户已授权Codex接手低风险返工；
+此项改变当前第一阶段行为，按用户原治理约束，已在会话集中请求三项最小修复裁决，现已明确批准本项。
+最小方案：只在标题读档槽取消分支pop后，对仍在栈顶的opening复位selection.cursor=0；游戏内清整栈分支不动，不重建工厂、不改WORD文案或界面形态。真实opening→读档槽→取消链先断言cursor0失败，再修复；同时核系统取消仍清整栈。拟白名单menu-driver.ts、其cov85真实链测试（最多两文件）；实施后最小功能界面验证，不冒称pal.exe实机证据。
+Coding Owner=Codex；按上述build白名单实施，完整验收前不标done。
+
+## 先前交接记录（历史）
 
 2026-10-15 Codex：反证已核，最终设计/Owner/白名单 pending；**build 准入 blocked**。
 未实现，未来须独立验收；done blocked，账本保持 review，未合 main。

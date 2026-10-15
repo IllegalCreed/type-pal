@@ -1,0 +1,3830 @@
+
+> type-pal@ check /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> pnpm check:docs && pnpm test:coverage-tools && pnpm test:quality-tools && pnpm test:e2e-tools && pnpm test:script-governance && pnpm -r --workspace-concurrency=1 run check && pnpm lint
+
+
+> type-pal@ check:docs /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> pnpm test:docs-tools && node scripts/docs/check.mjs && pnpm check:testing-docs && node scripts/docs/check-phase-lore-governance.mjs && node scripts/docs/check-content-review.mjs --strict
+
+
+> type-pal@ test:docs-tools /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/docs/*.test.mjs
+
+TAP version 13
+# Subtest: paired canonical/source evidence passes only when all three contracts agree
+ok 1 - paired canonical/source evidence passes only when all three contracts agree
+  ---
+  duration_ms: 5.10425
+  type: 'test'
+  ...
+# Subtest: source drift is rejected even when catalog and evidence claim the same hash
+ok 2 - source drift is rejected even when catalog and evidence claim the same hash
+  ---
+  duration_ms: 3.559708
+  type: 'test'
+  ...
+# Subtest: a positive claim cannot cite an undeclared source or disguise source inspection as runtime execution
+ok 3 - a positive claim cannot cite an undeclared source or disguise source inspection as runtime execution
+  ---
+  duration_ms: 2.0455
+  type: 'test'
+  ...
+# Subtest: invalid claim JSON produces a diagnostic instead of crashing the audit
+ok 4 - invalid claim JSON produces a diagnostic instead of crashing the audit
+  ---
+  duration_ms: 1.4725
+  type: 'test'
+  ...
+# Subtest: catalog validation rejects duplicate ids, missing fields, and expired entries
+ok 5 - catalog validation rejects duplicate ids, missing fields, and expired entries
+  ---
+  duration_ms: 2.005416
+  type: 'test'
+  ...
+# Subtest: catalog validation rejects unsafe paths, malformed dates, and duplicate canonical paths
+ok 6 - catalog validation rejects unsafe paths, malformed dates, and duplicate canonical paths
+  ---
+  duration_ms: 0.7445
+  type: 'test'
+  ...
+# Subtest: generated indexes are deterministic and expose multiple dimensions
+ok 7 - generated indexes are deterministic and expose multiple dimensions
+  ---
+  duration_ms: 0.461
+  type: 'test'
+  ...
+# Subtest: testing metadata is machine-readable and keeps history separate from claims
+ok 8 - testing metadata is machine-readable and keeps history separate from claims
+  ---
+  duration_ms: 0.1135
+  type: 'test'
+  ...
+# Subtest: orphan stage/evidence files and old semantic paths are rejected
+ok 9 - orphan stage/evidence files and old semantic paths are rejected
+  ---
+  duration_ms: 2.220208
+  type: 'test'
+  ...
+# Subtest: links handle nested labels, code labels, spaces, balanced paths, titles and references
+ok 10 - links handle nested labels, code labels, spaces, balanced paths, titles and references
+  ---
+  duration_ms: 1.8095
+  type: 'test'
+  ...
+# Subtest: fenced, quoted-fenced, inline code and escaped examples do not become live links
+ok 11 - fenced, quoted-fenced, inline code and escaped examples do not become live links
+  ---
+  duration_ms: 0.217417
+  type: 'test'
+  ...
+# Subtest: prose after array brackets and incomplete destinations are not parsed as valid links
+ok 12 - prose after array brackets and incomplete destinations are not parsed as valid links
+  ---
+  duration_ms: 0.247083
+  type: 'test'
+  ...
+# Subtest: local links decode paths and reject external URLs from file checks
+ok 13 - local links decode paths and reject external URLs from file checks
+  ---
+  duration_ms: 0.375291
+  type: 'test'
+  ...
+# Subtest: task status comes only from the top, preserving historical alternate spelling for known closed cards
+ok 14 - task status comes only from the top, preserving historical alternate spelling for known closed cards
+  ---
+  duration_ms: 0.306959
+  type: 'test'
+  ...
+# Subtest: current versions are checked in a bounded contract, leaving historical formats intact
+ok 15 - current versions are checked in a bounded contract, leaving historical formats intact
+  ---
+  duration_ms: 0.444083
+  type: 'test'
+  ...
+# Subtest: clean document tree and task index pass without generated assets or node_modules
+ok 16 - clean document tree and task index pass without generated assets or node_modules
+  ---
+  duration_ms: 2.433917
+  type: 'test'
+  ...
+# Subtest: missing files, unindexed documents and active task absent from board fail independently
+ok 17 - missing files, unindexed documents and active task absent from board fail independently
+  ---
+  duration_ms: 0.582833
+  type: 'test'
+  ...
+# Subtest: closed card left on board and stale generated index fail
+ok 18 - closed card left on board and stale generated index fail
+  ---
+  duration_ms: 0.461125
+  type: 'test'
+  ...
+# Subtest: board row and top-level card state must agree
+ok 19 - board row and top-level card state must agree
+  ---
+  duration_ms: 1.410917
+  type: 'test'
+  ...
+# Subtest: exceptions are exact and require reasons; stale exceptions fail
+ok 20 - exceptions are exact and require reasons; stale exceptions fail
+  ---
+  duration_ms: 1.552167
+  type: 'test'
+  ...
+# Subtest: archived task remains indexed and cannot silently disappear from the census
+ok 21 - archived task remains indexed and cannot silently disappear from the census
+  ---
+  duration_ms: 0.507792
+  type: 'test'
+  ...
+# Subtest: phase2 mixed folders and top-level topic drift are rejected
+ok 22 - phase2 mixed folders and top-level topic drift are rejected
+  ---
+  duration_ms: 0.200667
+  type: 'test'
+  ...
+# Subtest: rejecting an old content version is not a declaration of the current version
+ok 23 - rejecting an old content version is not a declaration of the current version
+  ---
+  duration_ms: 0.091666
+  type: 'test'
+  ...
+# Subtest: a local OS metadata file cannot make a non-checkout document link pass
+ok 24 - a local OS metadata file cannot make a non-checkout document link pass
+  ---
+  duration_ms: 0.243083
+  type: 'test'
+  ...
+# Subtest: legacy classification keeps agent provenance out of canonical target
+ok 25 - legacy classification keeps agent provenance out of canonical target
+  ---
+  duration_ms: 1.354917
+  type: 'test'
+  ...
+# Subtest: unmigrated files are classified by domain and capability
+ok 26 - unmigrated files are classified by domain and capability
+  ---
+  duration_ms: 0.4905
+  type: 'test'
+  ...
+# Subtest: a bounded current section accepts content and SAVE while ignoring map and catalog axes
+ok 27 - a bounded current section accepts content and SAVE while ignoring map and catalog axes
+  ---
+  duration_ms: 2.716875
+  type: 'test'
+  ...
+# Subtest: a missing start marker is reported once and does not scan the rest of the document
+ok 28 - a missing start marker is reported once and does not scan the rest of the document
+  ---
+  duration_ms: 0.169583
+  type: 'test'
+  ...
+# Subtest: repeated current-section version mismatches are reported once per distinct message
+ok 29 - repeated current-section version mismatches are reported once per distinct message
+  ---
+  duration_ms: 0.116584
+  type: 'test'
+  ...
+# Subtest: Chinese multiline fences and comments keep real link lines and positions on the original input
+ok 30 - Chinese multiline fences and comments keep real link lines and positions on the original input
+  ---
+  duration_ms: 1.595625
+  type: 'test'
+  ...
+# Subtest: an inapplicable deeper mapping must not hide the still-valid parent rewrite
+ok 31 - an inapplicable deeper mapping must not hide the still-valid parent rewrite
+  ---
+  duration_ms: 0.791416
+  type: 'test'
+  ...
+# Subtest: suffix-distinct document paths validate and the entries array stays intact
+ok 32 - suffix-distinct document paths validate and the entries array stays intact
+  ---
+  duration_ms: 1.0095
+  type: 'test'
+  ...
+# Subtest: a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+ok 33 - a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+  ---
+  duration_ms: 0.494917
+  type: 'test'
+  ...
+# Subtest: repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+ok 34 - repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+  ---
+  duration_ms: 0.569583
+  type: 'test'
+  ...
+# Subtest: link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+ok 35 - link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+  ---
+  duration_ms: 1.079292
+  type: 'test'
+  ...
+# Subtest: absolute, backslash, empty, and .git path segments fail before any write
+ok 36 - absolute, backslash, empty, and .git path segments fail before any write
+  ---
+  duration_ms: 1.24325
+  type: 'test'
+  ...
+# Subtest: existing destination and overlapping swaps fail on an isolated tree with zero writes
+ok 37 - existing destination and overlapping swaps fail on an isolated tree with zero writes
+  ---
+  duration_ms: 2.700417
+  type: 'test'
+  ...
+# Subtest: scheme and protocol-relative destinations stay out of local file checks
+ok 38 - scheme and protocol-relative destinations stay out of local file checks
+  ---
+  duration_ms: 0.2255
+  type: 'test'
+  ...
+# Subtest: local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+ok 39 - local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+  ---
+  duration_ms: 1.216292
+  type: 'test'
+  ...
+# Subtest: checkout ancestor sets include the repo root and do not mutate the file list
+ok 40 - checkout ancestor sets include the repo root and do not mutate the file list
+  ---
+  duration_ms: 0.117083
+  type: 'test'
+  ...
+# Subtest: task documents are only cards in the active, done, and cancelled directories
+ok 41 - task documents are only cards in the active, done, and cancelled directories
+  ---
+  duration_ms: 0.519958
+  type: 'test'
+  ...
+# Subtest: a missing top title falls back to the file name and later status text does not replace Status
+ok 42 - a missing top title falls back to the file name and later status text does not replace Status
+  ---
+  duration_ms: 0.584084
+  type: 'test'
+  ...
+# Subtest: a mixed task index sorts, escapes title pipes, and does not mutate the input array
+ok 43 - a mixed task index sorts, escapes title pipes, and does not mutate the input array
+  ---
+  duration_ms: 7.379459
+  type: 'test'
+  ...
+# Subtest: relocation edits only destinations, preserving formula text, labels, titles and code
+ok 44 - relocation edits only destinations, preserving formula text, labels, titles and code
+  ---
+  duration_ms: 1.094625
+  type: 'test'
+  ...
+# Subtest: reference definitions are rewritten once and keep explanation and all usages
+ok 45 - reference definitions are rewritten once and keep explanation and all usages
+  ---
+  duration_ms: 0.623292
+  type: 'test'
+  ...
+# Subtest: repository paths update once and preserve Git historical object identities
+ok 46 - repository paths update once and preserve Git historical object identities
+  ---
+  duration_ms: 0.211584
+  type: 'test'
+  ...
+# Subtest: unsafe, colliding and overlapping paths fail before writes
+ok 47 - unsafe, colliding and overlapping paths fail before writes
+  ---
+  duration_ms: 1.306042
+  type: 'test'
+  ...
+# Subtest: dry-run preserves files and write keeps every payload while rebasing links
+ok 48 - dry-run preserves files and write keeps every payload while rebasing links
+  ---
+  duration_ms: 1.799666
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 127.424292
+docs: 1252 Markdown / 6874 local links / 381 tasks / content22 SAVE12
+docs: PASS (0 issues)
+
+> type-pal@ check:testing-docs /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node scripts/docs/check-testing.mjs
+
+testing docs: PASS (0 issues)
+phase/lore governance: PASS (184 documents)
+content review: PASS (570 documents; {"content-reviewed":570})
+
+> type-pal@ test:coverage-tools /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: 批准账只含精确历史/审计文件，运行时不能扩大
+ok 1 - 批准账只含精确历史/审计文件，运行时不能扩大
+  ---
+  duration_ms: 0.684833
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+ok 2 - 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+  ---
+  duration_ms: 0.143875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+ok 3 - 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.042917
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+ok 4 - 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+  ---
+  duration_ms: 0.040209
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+ok 5 - 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+  ---
+  duration_ms: 0.043458
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/render.test.ts
+ok 6 - 仅精确历史快照获准：packages/reforge/src/render.test.ts
+  ---
+  duration_ms: 0.037875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+ok 7 - 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.0855
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+ok 8 - 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.034458
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+ok 9 - 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+  ---
+  duration_ms: 0.302083
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+ok 10 - 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+  ---
+  duration_ms: 0.296625
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+ok 11 - 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+  ---
+  duration_ms: 0.094667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+ok 12 - 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+  ---
+  duration_ms: 0.030542
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+ok 13 - 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+  ---
+  duration_ms: 0.02375
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+ok 14 - 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+  ---
+  duration_ms: 0.768584
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+ok 15 - 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+  ---
+  duration_ms: 0.051417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+ok 16 - 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+  ---
+  duration_ms: 0.02875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+ok 17 - 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+  ---
+  duration_ms: 0.022916
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+ok 18 - 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.021708
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：未知第六文件
+ok 19 - 退役判据拒绝：未知第六文件
+  ---
+  duration_ms: 0.03675
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：test-file删除不是计数退役
+ok 20 - 退役判据拒绝：test-file删除不是计数退役
+  ---
+  duration_ms: 0.019625
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：生产范围删除不适用
+ok 21 - 退役判据拒绝：生产范围删除不适用
+  ---
+  duration_ms: 0.018667
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：额外删除一例
+ok 22 - 退役判据拒绝：额外删除一例
+  ---
+  duration_ms: 0.022125
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：其它旧数量
+ok 23 - 退役判据拒绝：其它旧数量
+  ---
+  duration_ms: 0.018166
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧身份摘要漂移
+ok 24 - 退役判据拒绝：旧身份摘要漂移
+  ---
+  duration_ms: 0.018584
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：同数替换新身份
+ok 25 - 退役判据拒绝：同数替换新身份
+  ---
+  duration_ms: 0.121208
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：候选数量伪造
+ok 26 - 退役判据拒绝：候选数量伪造
+  ---
+  duration_ms: 0.140792
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧数量伪造
+ok 27 - 退役判据拒绝：旧数量伪造
+  ---
+  duration_ms: 0.097417
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧文件不相同
+ok 28 - 退役判据拒绝：旧文件不相同
+  ---
+  duration_ms: 0.063917
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：新文件不相同
+ok 29 - 退役判据拒绝：新文件不相同
+  ---
+  duration_ms: 0.070958
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：文件字节漂移
+ok 30 - 退役判据拒绝：文件字节漂移
+  ---
+  duration_ms: 0.034125
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺旧条目
+ok 31 - 退役判据拒绝：缺旧条目
+  ---
+  duration_ms: 0.024333
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺新条目
+ok 32 - 退役判据拒绝：缺新条目
+  ---
+  duration_ms: 0.028875
+  type: 'test'
+  ...
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 33 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.647709
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 34 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.094167
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 35 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.099208
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 36 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.055917
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 37 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.176625
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 38 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 30.145208
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 39 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 8.6505
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 40 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 6.079167
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 41 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 4.02875
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 42 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.458458
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 43 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 1.269292
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 44 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.305916
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 45 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.165375
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 46 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.702541
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 47 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 103.679667
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 48 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 93.725083
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 49 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 91.457375
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 50 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 94.831167
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 51 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.282083
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 52 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.923
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 53 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 0.787291
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 54 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1214.094208
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 55 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1103.015875
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 56 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 0.763375
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 57 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.201625
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 58 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.094542
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 59 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.722334
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 60 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.838542
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 61 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.403209
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 62 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.181667
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2936.533792
+
+> type-pal@ test:quality-tools /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/quality/*.test.mjs
+
+TAP version 13
+# Subtest: code-quality inventory emits deterministic scoped records with caller and category fields
+ok 1 - code-quality inventory emits deterministic scoped records with caller and category fields
+  ---
+  duration_ms: 1436.496167
+  type: 'test'
+  ...
+# Subtest: unique files determine all counts; running the guard does not change evidence
+ok 2 - unique files determine all counts; running the guard does not change evidence
+  ---
+  duration_ms: 1.464625
+  type: 'test'
+  ...
+# Subtest: duplicate ledger row fails even if the header gives it no extra credit
+ok 3 - duplicate ledger row fails even if the header gives it no extra credit
+  ---
+  duration_ms: 0.212458
+  type: 'test'
+  ...
+# Subtest: untracked evidence path cannot count as a reviewed file
+ok 4 - untracked evidence path cannot count as a reviewed file
+  ---
+  duration_ms: 0.195667
+  type: 'test'
+  ...
+# Subtest: each published status count is checked independently
+ok 5 - each published status count is checked independently
+  ---
+  duration_ms: 0.194791
+  type: 'test'
+  ...
+# Subtest: added and removed tracked files invalidate inventory and pending counts
+ok 6 - added and removed tracked files invalidate inventory and pending counts
+  ---
+  duration_ms: 0.079625
+  type: 'test'
+  ...
+# Subtest: table shape, status and evidence cannot be silently skipped
+ok 7 - table shape, status and evidence cannot be silently skipped
+  ---
+  duration_ms: 0.118916
+  type: 'test'
+  ...
+# Subtest: fenced examples give no credit; duplicate/missing summary or table fails closed
+ok 8 - fenced examples give no credit; duplicate/missing summary or table fails closed
+  ---
+  duration_ms: 0.15625
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate inventory is rejected before claiming success
+ok 9 - malformed or duplicate inventory is rejected before claiming success
+  ---
+  duration_ms: 0.073375
+  type: 'test'
+  ...
+# Subtest: real quality-tools caller checks the current repository ledger against the inventory CLI
+ok 10 - real quality-tools caller checks the current repository ledger against the inventory CLI
+  ---
+  duration_ms: 1435.887917
+  type: 'test'
+  ...
+# Subtest: accepts a complete, zero-diagnostic report
+ok 11 - accepts a complete, zero-diagnostic report
+  ---
+  duration_ms: 0.609458
+  type: 'test'
+  ...
+# Subtest: rejects nonzero errors even when CLI exits zero
+ok 12 - rejects nonzero errors even when CLI exits zero
+  ---
+  duration_ms: 0.128958
+  type: 'test'
+  ...
+# Subtest: rejects missing errors
+ok 13 - rejects missing errors
+  ---
+  duration_ms: 0.057667
+  type: 'test'
+  ...
+# Subtest: rejects nonzero warnings even when CLI exits zero
+ok 14 - rejects nonzero warnings even when CLI exits zero
+  ---
+  duration_ms: 0.1145
+  type: 'test'
+  ...
+# Subtest: rejects missing warnings
+ok 15 - rejects missing warnings
+  ---
+  duration_ms: 0.053875
+  type: 'test'
+  ...
+# Subtest: rejects nonzero infos even when CLI exits zero
+ok 16 - rejects nonzero infos even when CLI exits zero
+  ---
+  duration_ms: 0.038959
+  type: 'test'
+  ...
+# Subtest: rejects missing infos
+ok 17 - rejects missing infos
+  ---
+  duration_ms: 0.09275
+  type: 'test'
+  ...
+# Subtest: rejects nonzero skipped even when CLI exits zero
+ok 18 - rejects nonzero skipped even when CLI exits zero
+  ---
+  duration_ms: 0.036
+  type: 'test'
+  ...
+# Subtest: rejects missing skipped
+ok 19 - rejects missing skipped
+  ---
+  duration_ms: 0.261833
+  type: 'test'
+  ...
+# Subtest: rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+ok 20 - rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+  ---
+  duration_ms: 0.2655
+  type: 'test'
+  ...
+# Subtest: rejects missing diagnosticsNotPrinted
+ok 21 - rejects missing diagnosticsNotPrinted
+  ---
+  duration_ms: 0.102833
+  type: 'test'
+  ...
+# Subtest: rejects nonzero changed even when CLI exits zero
+ok 22 - rejects nonzero changed even when CLI exits zero
+  ---
+  duration_ms: 0.410833
+  type: 'test'
+  ...
+# Subtest: rejects missing changed
+ok 23 - rejects missing changed
+  ---
+  duration_ms: 0.029125
+  type: 'test'
+  ...
+# Subtest: rejects invalid count -1
+ok 24 - rejects invalid count -1
+  ---
+  duration_ms: 0.03125
+  type: 'test'
+  ...
+# Subtest: rejects invalid count NaN
+ok 25 - rejects invalid count NaN
+  ---
+  duration_ms: 0.025916
+  type: 'test'
+  ...
+# Subtest: rejects invalid count Infinity
+ok 26 - rejects invalid count Infinity
+  ---
+  duration_ms: 0.02175
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 1.5
+ok 27 - rejects invalid count 1.5
+  ---
+  duration_ms: 0.021625
+  type: 'test'
+  ...
+# Subtest: rejects invalid count 0
+ok 28 - rejects invalid count 0
+  ---
+  duration_ms: 0.020541
+  type: 'test'
+  ...
+# Subtest: rejects invalid count null
+ok 29 - rejects invalid count null
+  ---
+  duration_ms: 0.02
+  type: 'test'
+  ...
+# Subtest: rejects diagnostics even if summary hides them
+ok 30 - rejects diagnostics even if summary hides them
+  ---
+  duration_ms: 0.033583
+  type: 'test'
+  ...
+# Subtest: rejects empty scan
+ok 31 - rejects empty scan
+  ---
+  duration_ms: 0.028375
+  type: 'test'
+  ...
+# Subtest: rejects unknown or malformed report shapes
+ok 32 - rejects unknown or malformed report shapes
+  ---
+  duration_ms: 0.062042
+  type: 'test'
+  ...
+# Subtest: rejects process errors regardless of a clean report
+ok 33 - rejects process errors regardless of a clean report
+  ---
+  duration_ms: 0.052709
+  type: 'test'
+  ...
+# Subtest: real Biome process: clean
+ok 34 - real Biome process: clean
+  ---
+  duration_ms: 84.864083
+  type: 'test'
+  ...
+# Subtest: real Biome process: warning
+ok 35 - real Biome process: warning
+  ---
+  duration_ms: 67.28425
+  type: 'test'
+  ...
+# Subtest: real Biome process: info
+ok 36 - real Biome process: info
+  ---
+  duration_ms: 67.247875
+  type: 'test'
+  ...
+# Subtest: real Biome process: syntax
+ok 37 - real Biome process: syntax
+  ---
+  duration_ms: 67.6135
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1480.286625
+
+> type-pal@ test:e2e-tools /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/e2e/*.test.mjs
+
+TAP version 13
+# Subtest: mounted rower source nudge/animation atom and sixteen tick word match current author
+ok 1 - mounted rower source nudge/animation atom and sixteen tick word match current author
+  ---
+  duration_ms: 23.166625
+  type: 'test'
+  ...
+# Subtest: source language rejects retained pre-repair publication and proves repaired current author graphs
+ok 2 - source language rejects retained pre-repair publication and proves repaired current author graphs
+  ---
+  duration_ms: 213.811292
+  type: 'test'
+  ...
+# Subtest: bisimulation retains probability, both backedges, repeated poses and atomic pose timing
+ok 3 - bisimulation retains probability, both backedges, repeated poses and atomic pose timing
+  ---
+  duration_ms: 7.6945
+  type: 'test'
+  ...
+# Subtest: native compiler, slot acknowledgements and frame timer distinguish consecutive steps from doubled waits and same-tick pose overwrites
+ok 4 - native compiler, slot acknowledgements and frame timer distinguish consecutive steps from doubled waits and same-tick pose overwrites
+  ---
+  duration_ms: 1505.571083
+  type: 'test'
+  ...
+# Subtest: real canonical move transaction distinguishes pending, pre-commit cancellation and irreversible post-commit cancellation
+ok 5 - real canonical move transaction distinguishes pending, pre-commit cancellation and irreversible post-commit cancellation
+  ---
+  duration_ms: 221.02075
+  type: 'test'
+  ...
+# Subtest: actual coordinator mutations, repeated takes and release-all are independently checked against host checkpoints
+ok 6 - actual coordinator mutations, repeated takes and release-all are independently checked against host checkpoints
+  ---
+  duration_ms: 1220.31925
+  type: 'test'
+  ...
+# Subtest: ownership cannot borrow a real gated take that started before the story window
+ok 7 - ownership cannot borrow a real gated take that started before the story window
+  ---
+  duration_ms: 41.383167
+  type: 'test'
+  ...
+# Subtest: real mount, ride and take-party callers satisfy own-command ownership and release mounted riders on dismount
+ok 8 - real mount, ride and take-party callers satisfy own-command ownership and release mounted riders on dismount
+  ---
+  duration_ms: 67.119333
+  type: 'test'
+  ...
+# Subtest: real wake gate observes only actual blocked waits, settlement and cancellation without probing eligibility again
+ok 9 - real wake gate observes only actual blocked waits, settlement and cancellation without probing eligibility again
+  ---
+  duration_ms: 135.909792
+  type: 'test'
+  ...
+# Subtest: real startAutoRunner records activation, observed abort and actual finally; missing start cannot prove automatic dispatch
+ok 10 - real startAutoRunner records activation, observed abort and actual finally; missing start cannot prove automatic dispatch
+  ---
+  duration_ms: 763.173041
+  type: 'test'
+  ...
+# Subtest: host snapshot hooks are installed before boot recovery and activation; abort diagnostics cannot escape into gameplay
+ok 11 - host snapshot hooks are installed before boot recovery and activation; abort diagnostics cannot escape into gameplay
+  ---
+  duration_ms: 1194.225084
+  type: 'test'
+  ...
+# Subtest: Xianglan return preserves each source pose slot, without splitting a single atomic pose
+ok 12 - Xianglan return preserves each source pose slot, without splitting a single atomic pose
+  ---
+  duration_ms: 1657.433958
+  type: 'test'
+  ...
+# Subtest: landed grain page remains idle until an actual automatic setter supersedes it
+ok 13 - landed grain page remains idle until an actual automatic setter supersedes it
+  ---
+  duration_ms: 1432.184459
+  type: 'test'
+  ...
+# Subtest: Xianglan stroll preserves automatic pause, atomic pose and reset timing
+ok 14 - Xianglan stroll preserves automatic pause, atomic pose and reset timing
+  ---
+  duration_ms: 1317.823084
+  type: 'test'
+  ...
+# Subtest: Xiulan return tail retains the slow pause and subsequent atomic pose slots
+ok 15 - Xiulan return tail retains the slow pause and subsequent atomic pose slots
+  ---
+  duration_ms: 1277.009667
+  type: 'test'
+  ...
+# Subtest: 006 input options cannot silently discard an unsupported action, conflicting mode or duplicate predecessor
+ok 16 - 006 input options cannot silently discard an unsupported action, conflicting mode or duplicate predecessor
+  ---
+  duration_ms: 1.996417
+  type: 'test'
+  ...
+# Subtest: 006 cannot pass at island arrival while its dialogue or script still owns control
+ok 17 - 006 cannot pass at island arrival while its dialogue or script still owns control
+  ---
+  duration_ms: 4.198875
+  type: 'test'
+  ...
+# Subtest: 006 requires the full island closing dialogue and its completed phase
+ok 18 - 006 requires the full island closing dialogue and its completed phase
+  ---
+  duration_ms: 0.6895
+  type: 'test'
+  ...
+# Subtest: boat proof consumes completed draws, retains real drift and never borrows a prior scene visit
+ok 19 - boat proof consumes completed draws, retains real drift and never borrows a prior scene visit
+  ---
+  duration_ms: 20.069333
+  type: 'test'
+  ...
+# Subtest: boat observations normalize both coordinate models and expose every relative drift
+ok 20 - boat observations normalize both coordinate models and expose every relative drift
+  ---
+  duration_ms: 1.476917
+  type: 'test'
+  ...
+# Subtest: independent pass labels cannot hide missing counsel, rower drift or wrong ride facing
+ok 21 - independent pass labels cannot hide missing counsel, rower drift or wrong ride facing
+  ---
+  duration_ms: 1.320708
+  type: 'test'
+  ...
+# Subtest: a wrong boat endpoint fails even when every rider offset and facing matches
+ok 22 - a wrong boat endpoint fails even when every rider offset and facing matches
+  ---
+  duration_ms: 0.267
+  type: 'test'
+  ...
+# Subtest: 006 offline specialization rederives bound boat draws, rejects borrowed final state and checks motion between unchanged dialogue pages
+ok 23 - 006 offline specialization rederives bound boat draws, rejects borrowed final state and checks motion between unchanged dialogue pages
+  ---
+  duration_ms: 473.349667
+  type: 'test'
+  ...
+# Subtest: 006 hold checks a real compressed draw span that starts before dialogue
+ok 24 - 006 hold checks a real compressed draw span that starts before dialogue
+  ---
+  duration_ms: 4.701875
+  type: 'test'
+  ...
+# Subtest: successful operations retain results and native errors, and cancel the watchdog
+ok 25 - successful operations retain results and native errors, and cancel the watchdog
+  ---
+  duration_ms: 32.000625
+  type: 'test'
+  ...
+# Subtest: a never-settling browser RPC times out without another health poll
+ok 26 - a never-settling browser RPC times out without another health poll
+  ---
+  duration_ms: 11.063167
+  type: 'test'
+  ...
+# Subtest: the whole journey is bounded even if an unwrapped evaluate never settles
+ok 27 - the whole journey is bounded even if an unwrapped evaluate never settles
+  ---
+  duration_ms: 12.301708
+  type: 'test'
+  ...
+# Subtest: an acquired launch result arriving after the deadline is disposed
+ok 28 - an acquired launch result arriving after the deadline is disposed
+  ---
+  duration_ms: 12.645709
+  type: 'test'
+  ...
+# Subtest: termination failure cannot escape the timer or suppress the transport timeout
+ok 29 - termination failure cannot escape the timer or suppress the transport timeout
+  ---
+  duration_ms: 6.210291
+  type: 'test'
+  ...
+# Subtest: diagnostic and cleanup RPCs are bounded independently after the journey expired
+ok 30 - diagnostic and cleanup RPCs are bounded independently after the journey expired
+  ---
+  duration_ms: 23.896
+  type: 'test'
+  ...
+# Subtest: hard termination targets only the exact owned process, never an existing browser/profile
+ok 31 - hard termination targets only the exact owned process, never an existing browser/profile
+  ---
+  duration_ms: 7.281792
+  type: 'test'
+  ...
+# Subtest: a real owned Chrome RPC stalled at newContext is terminated and reaped
+ok 32 - a real owned Chrome RPC stalled at newContext is terminated and reaped
+  ---
+  duration_ms: 1114.548541
+  type: 'test'
+  ...
+# Subtest: tap preserves native return, does not reroute speakers, deduplicates repeated connect
+ok 33 - tap preserves native return, does not reroute speakers, deduplicates repeated connect
+  ---
+  duration_ms: 3.923709
+  type: 'test'
+  ...
+# Subtest: disconnect all removes its tap and permits a clean reconnect
+ok 34 - disconnect all removes its tap and permits a clean reconnect
+  ---
+  duration_ms: 0.548042
+  type: 'test'
+  ...
+# Subtest: disconnect output removes its tap and permits a clean reconnect
+ok 35 - disconnect output removes its tap and permits a clean reconnect
+  ---
+  duration_ms: 0.326375
+  type: 'test'
+  ...
+# Subtest: disconnect destination removes its tap and permits a clean reconnect
+ok 36 - disconnect destination removes its tap and permits a clean reconnect
+  ---
+  duration_ms: 0.367083
+  type: 'test'
+  ...
+# Subtest: disconnect destination-output removes its tap and permits a clean reconnect
+ok 37 - disconnect destination-output removes its tap and permits a clean reconnect
+  ---
+  duration_ms: 0.36025
+  type: 'test'
+  ...
+# Subtest: disconnect full-overload removes its tap and permits a clean reconnect
+ok 38 - disconnect full-overload removes its tap and permits a clean reconnect
+  ---
+  duration_ms: 0.866875
+  type: 'test'
+  ...
+# Subtest: native disconnect rejection does not drop recording state; intermediate routes are untouched
+ok 39 - native disconnect rejection does not drop recording state; intermediate routes are untouched
+  ---
+  duration_ms: 2.1415
+  type: 'test'
+  ...
+# Subtest: decode observer preserves Promise identity and native callbacks on success
+ok 40 - decode observer preserves Promise identity and native callbacks on success
+  ---
+  duration_ms: 1.436
+  type: 'test'
+  ...
+# Subtest: decode observer preserves synchronous native throws
+ok 41 - decode observer preserves synchronous native throws
+  ---
+  duration_ms: 2.292416
+  type: 'test'
+  ...
+# Subtest: SFX decode rejection fails capture while another BGM output remains connected
+ok 42 - SFX decode rejection fails capture while another BGM output remains connected
+  ---
+  duration_ms: 4.553416
+  type: 'test'
+  ...
+# Subtest: stop returns actual ownership counters and restores originals without closing source contexts
+ok 43 - stop returns actual ownership counters and restores originals without closing source contexts
+  ---
+  duration_ms: 1.736833
+  type: 'test'
+  ...
+# Subtest: intro records the real title first and cannot release story input before encoded readiness
+ok 44 - intro records the real title first and cannot release story input before encoded readiness
+  ---
+  duration_ms: 0.912791
+  type: 'test'
+  ...
+# Subtest: early new-story input is rejected instead of accepting an unprimed intro
+ok 45 - early new-story input is rejected instead of accepting an unprimed intro
+  ---
+  duration_ms: 0.510042
+  type: 'test'
+  ...
+# Subtest: intro final origin-clean gate still rejects later taint after safe title warmup
+ok 46 - intro final origin-clean gate still rejects later taint after safe title warmup
+  ---
+  duration_ms: 0.402917
+  type: 'test'
+  ...
+# Subtest: native black video layer cannot masquerade as a captured first decoded video frame
+ok 47 - native black video layer cannot masquerade as a captured first decoded video frame
+  ---
+  duration_ms: 1.127042
+  type: 'test'
+  ...
+# Subtest: codec failure cannot provide a successful payload
+ok 48 - codec failure cannot provide a successful payload
+  ---
+  duration_ms: 0.352625
+  type: 'test'
+  ...
+# Subtest: unknown overlay failure cannot provide a successful payload
+ok 49 - unknown overlay failure cannot provide a successful payload
+  ---
+  duration_ms: 0.331167
+  type: 'test'
+  ...
+# Subtest: capture is explicit, single-engine and excludes specialist inputs
+ok 50 - capture is explicit, single-engine and excludes specialist inputs
+  ---
+  duration_ms: 3.139167
+  type: 'test'
+  ...
+# Subtest: capture receipts cannot feed any verify checkpoint chain
+ok 51 - capture receipts cannot feed any verify checkpoint chain
+  ---
+  duration_ms: 1.145167
+  type: 'test'
+  ...
+# Subtest: readable timing is bounded and proportional to actual displayed text
+ok 52 - readable timing is bounded and proportional to actual displayed text
+  ---
+  duration_ms: 0.287334
+  type: 'test'
+  ...
+# Subtest: disabled profile is inert: no browser install, capture, read, health or IO
+ok 53 - disabled profile is inert: no browser install, capture, read, health or IO
+  ---
+  duration_ms: 0.745417
+  type: 'test'
+  ...
+# Subtest: capture cannot succeed without its explicit semantic finish
+ok 54 - capture cannot succeed without its explicit semantic finish
+  ---
+  duration_ms: 0.405791
+  type: 'test'
+  ...
+# Subtest: capture refuses to invent a readability hold without rendered text
+ok 55 - capture refuses to invent a readability hold without rendered text
+  ---
+  duration_ms: 0.400959
+  type: 'test'
+  ...
+# Subtest: intro ready proof requires a decoded frame, not a nonempty container header
+ok 56 - intro ready proof requires a decoded frame, not a nonempty container header
+  ---
+  duration_ms: 1.089958
+  type: 'test'
+  ...
+# Subtest: a live WebM prefix retains expected premature-EOF diagnostics but rejects other decode errors
+ok 57 - a live WebM prefix retains expected premature-EOF diagnostics but rejects other decode errors
+  ---
+  duration_ms: 1.071291
+  type: 'test'
+  ...
+# Subtest: intro crop keeps a shared native A/V timebase instead of normalizing each stream
+ok 58 - intro crop keeps a shared native A/V timebase instead of normalizing each stream
+  ---
+  duration_ms: 0.436167
+  type: 'test'
+  ...
+# Subtest: intro end gate rejects input before readiness and missing native head frames
+ok 59 - intro end gate rejects input before readiness and missing native head frames
+  ---
+  duration_ms: 4.283417
+  type: 'test'
+  ...
+# Subtest: audio failure classification is narrow and includes source resources/worklet
+ok 60 - audio failure classification is narrow and includes source resources/worklet
+  ---
+  duration_ms: 0.916792
+  type: 'test'
+  ...
+# Subtest: media gate proves stream identity, duration, actual frames, audio energy and cleanup
+ok 61 - media gate proves stream identity, duration, actual frames, audio energy and cleanup
+  ---
+  duration_ms: 13.122541
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles healthy
+ok 62 - actual capture controller publication handles healthy
+  ---
+  duration_ms: 52.063166
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles late pageerror
+ok 63 - actual capture controller publication handles late pageerror
+  ---
+  duration_ms: 12.426667
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles late SIGINT
+ok 64 - actual capture controller publication handles late SIGINT
+  ---
+  duration_ms: 23.220416
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles late Vite exit
+ok 65 - actual capture controller publication handles late Vite exit
+  ---
+  duration_ms: 27.845375
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles error after receipt write
+ok 66 - actual capture controller publication handles error after receipt write
+  ---
+  duration_ms: 10.172542
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles BGM failure while SFX remains
+ok 67 - actual capture controller publication handles BGM failure while SFX remains
+  ---
+  duration_ms: 59.588209
+  type: 'test'
+  ...
+# Subtest: actual capture controller publication handles SFX network failure while BGM remains
+ok 68 - actual capture controller publication handles SFX network failure while BGM remains
+  ---
+  duration_ms: 127.921417
+  type: 'test'
+  ...
+# Subtest: media gate rejects silent
+ok 69 - media gate rejects silent
+  ---
+  duration_ms: 0.502375
+  type: 'test'
+  ...
+# Subtest: media gate rejects missing audio
+ok 70 - media gate rejects missing audio
+  ---
+  duration_ms: 0.164416
+  type: 'test'
+  ...
+# Subtest: media gate rejects wrong resolution
+ok 71 - media gate rejects wrong resolution
+  ---
+  duration_ms: 0.52
+  type: 'test'
+  ...
+# Subtest: media gate rejects truncated
+ok 72 - media gate rejects truncated
+  ---
+  duration_ms: 0.418458
+  type: 'test'
+  ...
+# Subtest: media gate rejects duration drift
+ok 73 - media gate rejects duration drift
+  ---
+  duration_ms: 0.499625
+  type: 'test'
+  ...
+# Subtest: media gate rejects no rendered canvas
+ok 74 - media gate rejects no rendered canvas
+  ---
+  duration_ms: 0.202833
+  type: 'test'
+  ...
+# Subtest: media gate rejects cleanup failure
+ok 75 - media gate rejects cleanup failure
+  ---
+  duration_ms: 1.031709
+  type: 'test'
+  ...
+# Subtest: media gate rejects browser failure
+ok 76 - media gate rejects browser failure
+  ---
+  duration_ms: 0.204041
+  type: 'test'
+  ...
+# Subtest: media gate rejects missing cleanup evidence
+ok 77 - media gate rejects missing cleanup evidence
+  ---
+  duration_ms: 0.094208
+  type: 'test'
+  ...
+# Subtest: media gate rejects nonfinite audio
+ok 78 - media gate rejects nonfinite audio
+  ---
+  duration_ms: 0.522625
+  type: 'test'
+  ...
+# Subtest: actual relative patrol graphs conserve position on every merge and backedge
+ok 79 - actual relative patrol graphs conserve position on every merge and backedge
+  ---
+  duration_ms: 462.140916
+  type: 'test'
+  ...
+# Subtest: canonical finite stories have domain owners; an extra unclassified actual effect fails closed
+ok 80 - canonical finite stories have domain owners; an extra unclassified actual effect fails closed
+  ---
+  duration_ms: 15.876375
+  type: 'test'
+  ...
+# Subtest: 003 stairs distinguishes the last player step, a fractional script frame, and the settled endpoint
+ok 81 - 003 stairs distinguishes the last player step, a fractional script frame, and the settled endpoint
+  ---
+  duration_ms: 2.223917
+  type: 'test'
+  ...
+# Subtest: mount-derived player position writes are not replayed as direction-key steps
+ok 82 - mount-derived player position writes are not replayed as direction-key steps
+  ---
+  duration_ms: 0.18425
+  type: 'test'
+  ...
+# Subtest: a route crossing a scene is consumed once, without checking its old-scene turn inputs again
+ok 83 - a route crossing a scene is consumed once, without checking its old-scene turn inputs again
+  ---
+  duration_ms: 0.109917
+  type: 'test'
+  ...
+# Subtest: page closure during route failure preserves the original failure and still attempts key release
+ok 84 - page closure during route failure preserves the original failure and still attempts key release
+  ---
+  duration_ms: 1.100209
+  type: 'test'
+  ...
+# Subtest: an already-triggered serving dialogue needs no invented movement; missing input evidence still fails
+ok 85 - an already-triggered serving dialogue needs no invented movement; missing input evidence still fails
+  ---
+  duration_ms: 0.466125
+  type: 'test'
+  ...
+# Subtest: event replay holds a straight line once and awaits exact control restoration after script movement
+ok 86 - event replay holds a straight line once and awaits exact control restoration after script movement
+  ---
+  duration_ms: 5.378042
+  type: 'test'
+  ...
+# Subtest: wrong position fails on the first commit, releases the held key, and does not reroute
+ok 87 - wrong position fails on the first commit, releases the held key, and does not reroute
+  ---
+  duration_ms: 0.561333
+  type: 'test'
+  ...
+# Subtest: a transient endpoint is not a final receipt after its position or readiness changes
+ok 88 - a transient endpoint is not a final receipt after its position or readiness changes
+  ---
+  duration_ms: 0.820625
+  type: 'test'
+  ...
+# Subtest: arrival guard rejects extra player commits before release, even if they return to the target
+ok 89 - arrival guard rejects extra player commits before release, even if they return to the target
+  ---
+  duration_ms: 2.065292
+  type: 'test'
+  ...
+# Subtest: facing input is recorded and consumed as one event-driven hold, without inventing an interaction move
+ok 90 - facing input is recorded and consumed as one event-driven hold, without inventing an interaction move
+  ---
+  duration_ms: 0.746334
+  type: 'test'
+  ...
+# Subtest: recordings without authoritative route receipts fail closed instead of replaying sampled positions
+ok 91 - recordings without authoritative route receipts fail closed instead of replaying sampled positions
+  ---
+  duration_ms: 0.108084
+  type: 'test'
+  ...
+# Subtest: facing is anchored before input and rejects movement, scene revisits and a reverted pose
+ok 92 - facing is anchored before input and rejects movement, scene revisits and a reverted pose
+  ---
+  duration_ms: 1.524875
+  type: 'test'
+  ...
+# Subtest: persisted receipt matches the JSON wire form, but dropped meaningful fields and non-passing verdicts fail
+ok 93 - persisted receipt matches the JSON wire form, but dropped meaningful fields and non-passing verdicts fail
+  ---
+  duration_ms: 3.217167
+  type: 'test'
+  ...
+# Subtest: tape binding uses independently accepted reports: every plan field, menu input and predecessor must match
+ok 94 - tape binding uses independently accepted reports: every plan field, menu input and predecessor must match
+  ---
+  duration_ms: 21.807917
+  type: 'test'
+  ...
+# Subtest: separate saves provider requires the accepted story engine, entry and complete producer evidence
+ok 95 - separate saves provider requires the accepted story engine, entry and complete producer evidence
+  ---
+  duration_ms: 1.116833
+  type: 'test'
+  ...
+# Subtest: all current recorders distinguish manual interaction from dialogue confirmation
+ok 96 - all current recorders distinguish manual interaction from dialogue confirmation
+  ---
+  duration_ms: 0.933791
+  type: 'test'
+  ...
+# Subtest: continuous deadline covers the bounded six-fragment workload, not a single-fragment window
+ok 97 - continuous deadline covers the bounded six-fragment workload, not a single-fragment window
+  ---
+  duration_ms: 0.301583
+  type: 'test'
+  ...
+# Subtest: continuous meal checkpoint rejects an unfinished story even in the correct hall
+ok 98 - continuous meal checkpoint rejects an unfinished story even in the correct hall
+  ---
+  duration_ms: 3.751458
+  type: 'test'
+  ...
+# Subtest: continuous endpoint uses the independent final world, including exact position and facing
+ok 99 - continuous endpoint uses the independent final world, including exact position and facing
+  ---
+  duration_ms: 0.846583
+  type: 'test'
+  ...
+# Subtest: real IPC delays all story input until both verified peers are ready; bypassing the gate is rejected
+ok 100 - real IPC delays all story input until both verified peers are ready; bypassing the gate is rejected
+  ---
+  duration_ms: 128.637958
+  type: 'test'
+  ...
+# Subtest: a route cannot finish one cell early or confuse first-stage height with tile coordinates
+ok 101 - a route cannot finish one cell early or confuse first-stage height with tile coordinates
+  ---
+  duration_ms: 0.72225
+  type: 'test'
+  ...
+# Subtest: continuous story registry is six ordered story fragments with no specialist cases
+ok 102 - continuous story registry is six ordered story fragments with no specialist cases
+  ---
+  duration_ms: 1.478708
+  type: 'test'
+  ...
+# Subtest: continuous checkpoints are scene-boundary oracles, not action-count labels
+ok 103 - continuous checkpoints are scene-boundary oracles, not action-count labels
+  ---
+  duration_ms: 1.288917
+  type: 'test'
+  ...
+# Subtest: plan rejects missing, reordered, failed and specialist reports
+ok 104 - plan rejects missing, reordered, failed and specialist reports
+  ---
+  duration_ms: 0.407292
+  type: 'test'
+  ...
+# Subtest: dual-track barrier waits for both engines and detaches payloads
+ok 105 - dual-track barrier waits for both engines and detaches payloads
+  ---
+  duration_ms: 0.325417
+  type: 'test'
+  ...
+# Subtest: continuous runner passes one in-memory boundary and disables fragment save/load
+ok 106 - continuous runner passes one in-memory boundary and disables fragment save/load
+  ---
+  duration_ms: 1.166417
+  type: 'test'
+  ...
+# Subtest: continuous action extraction removes boundary I/O and audit wall time while preserving inputs
+ok 107 - continuous action extraction removes boundary I/O and audit wall time while preserving inputs
+  ---
+  duration_ms: 1.108959
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/entity-action-player.ts","sha256":"aeb4692b99b007e1d32080cf1c531825c8084e499fd162a97606aedddbbb34c7","anchors":{"action-created":1,"action-restored":1,"action-restore-context":1,"action-restore-install":1,"action-install-replaceScene":1,"action-install-syncBases":1,"action-install-clearEntity":1,"action-install-clearScene":1,"action-frame-before":1,"action-frame-after":1,"action-gate":2,"action-selection":1,"action-advance-before":1,"action-advance-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# Subtest: real page action player proves every installed frame, canonical binding, pause and identity-bound restored phase
+ok 108 - real page action player proves every installed frame, canonical binding, pause and identity-bound restored phase
+  ---
+  duration_ms: 1167.099708
+  type: 'test'
+  ...
+# Subtest: 005 ready receipt captures order and end world before asynchronous screenshot ticks
+ok 109 - 005 ready receipt captures order and end world before asynchronous screenshot ticks
+  ---
+  duration_ms: 4.251333
+  type: 'test'
+  ...
+# Subtest: 005 cannot borrow a successful draw or dialogue clear from after its story boundary
+ok 110 - 005 cannot borrow a successful draw or dialogue clear from after its story boundary
+  ---
+  duration_ms: 2.120875
+  type: 'test'
+  ...
+# Subtest: 005 scene identity covers both village and docks, not kitchen two-scene fallback
+ok 111 - 005 scene identity covers both village and docks, not kitchen two-scene fallback
+  ---
+  duration_ms: 0.563583
+  type: 'test'
+  ...
+# Subtest: 005 requires explicit genuine predecessor and separates specialist cases
+ok 112 - 005 requires explicit genuine predecessor and separates specialist cases
+  ---
+  duration_ms: 1.216542
+  type: 'test'
+  ...
+# Subtest: 005 original closure includes shrimp reminder, no later ZhangSi repeat in normal story
+ok 113 - 005 original closure includes shrimp reminder, no later ZhangSi repeat in normal story
+  ---
+  duration_ms: 0.357042
+  type: 'test'
+  ...
+# Subtest: 005 snapshot stays bounded while routeActors include all current blocking NPCs
+ok 114 - 005 snapshot stays bounded while routeActors include all current blocking NPCs
+  ---
+  duration_ms: 14.110875
+  type: 'test'
+  ...
+# Subtest: 005 rendered observer captures Xianglan position on every shown row
+ok 115 - 005 rendered observer captures Xianglan position on every shown row
+  ---
+  duration_ms: 4.723708
+  type: 'test'
+  ...
+# Subtest: 005 actual save/restore collector binds input bytes, not just final report labels
+ok 116 - 005 actual save/restore collector binds input bytes, not just final report labels
+  ---
+  duration_ms: 2.870125
+  type: 'test'
+  ...
+# Subtest: 005 full dialogue checker rejects missing, repeated and wrong-speaker pages
+ok 117 - 005 full dialogue checker rejects missing, repeated and wrong-speaker pages
+  ---
+  duration_ms: 0.600958
+  type: 'test'
+  ...
+# Subtest: 005 isolated instrumentation parses every actual hook target without production edits
+ok 118 - 005 isolated instrumentation parses every actual hook target without production edits
+  ---
+  duration_ms: 3373.905875
+  type: 'test'
+  ...
+# Subtest: 005 hot-path progress excludes full-world resume tapes but keeps relevant behavior identities
+ok 119 - 005 hot-path progress excludes full-world resume tapes but keeps relevant behavior identities
+  ---
+  duration_ms: 1800.089042
+  type: 'test'
+  ...
+# Subtest: 005 byte budgets reject runaway tape and keep atomic snapshot accounting separate
+ok 120 - 005 byte budgets reject runaway tape and keep atomic snapshot accounting separate
+  ---
+  duration_ms: 3077.970542
+  type: 'test'
+  ...
+# Subtest: 006 compact progress storage restores every unchanged and changed field without raising the byte cap
+ok 121 - 006 compact progress storage restores every unchanged and changed field without raising the byte cap
+  ---
+  duration_ms: 216.074833
+  type: 'test'
+  ...
+# Subtest: 005 causality rejects early report arming, duplicate rewards, absent approach and walking during speech
+ok 122 - 005 causality rejects early report arming, duplicate rewards, absent approach and walking during speech
+  ---
+  duration_ms: 3.688875
+  type: 'test'
+  ...
+# Subtest: 005 earlier village patrol or a placement cannot stand in for the post-arming report approach
+ok 123 - 005 earlier village patrol or a placement cannot stand in for the post-arming report approach
+  ---
+  duration_ms: 2.494875
+  type: 'test'
+  ...
+# Subtest: 005 touch routing consumes actual dynamically resolved activation, not the initial page
+ok 124 - 005 touch routing consumes actual dynamically resolved activation, not the initial page
+  ---
+  duration_ms: 0.1595
+  type: 'test'
+  ...
+# Subtest: 005 RF snapshot reads live projected trigger bindings without canonical page lookup
+ok 125 - 005 RF snapshot reads live projected trigger bindings without canonical page lookup
+  ---
+  duration_ms: 1.353166
+  type: 'test'
+  ...
+# Subtest: 005 background continuation requires actual post-restore walk commits and free control
+ok 126 - 005 background continuation requires actual post-restore walk commits and free control
+  ---
+  duration_ms: 2.14275
+  type: 'test'
+  ...
+# Subtest: 005 evidence requires contiguous sequence and successful atomic restore, never a passed label
+ok 127 - 005 evidence requires contiguous sequence and successful atomic restore, never a passed label
+  ---
+  duration_ms: 2.418875
+  type: 'test'
+  ...
+# Subtest: 005 suite refuses missing specialists, duplicate cases, stale revisions, partial rows and false save claims
+ok 128 - 005 suite refuses missing specialists, duplicate cases, stale revisions, partial rows and false save claims
+  ---
+  duration_ms: 4.099084
+  type: 'test'
+  ...
+# Subtest: actual artifact writer and NPC reader bind raw bytes before projecting story scope
+ok 129 - actual artifact writer and NPC reader bind raw bytes before projecting story scope
+  ---
+  duration_ms: 120.708833
+  type: 'test'
+  ...
+# Subtest: producer manifest follows actual nested imports, rejects omitted receipts and separates unused oracle files
+ok 130 - producer manifest follows actual nested imports, rejects omitted receipts and separates unused oracle files
+  ---
+  duration_ms: 191.907583
+  type: 'test'
+  ...
+# Subtest: actual RF entry includes boot, compiler configuration and independently required non-code inputs
+ok 131 - actual RF entry includes boot, compiler configuration and independently required non-code inputs
+  ---
+  duration_ms: 6562.456667
+  type: 'test'
+  ...
+# Subtest: failure diagnostics preserve export errors and never reread a closed or failed page
+ok 132 - failure diagnostics preserve export errors and never reread a closed or failed page
+  ---
+  duration_ms: 1.039208
+  type: 'test'
+  ...
+# Subtest: recording kernel owns identity, clones caller data, and budgets span growth atomically
+ok 133 - recording kernel owns identity, clones caller data, and budgets span growth atomically
+  ---
+  duration_ms: 1.338167
+  type: 'test'
+  ...
+# Subtest: count overflow seals all streams; large causes and atomic snapshots have independent budgets
+ok 134 - count overflow seals all streams; large causes and atomic snapshots have independent budgets
+  ---
+  duration_ms: 0.276375
+  type: 'test'
+  ...
+# Subtest: route/status projections never read archive providers; JSON transport preserves the complete persisted archive
+ok 135 - route/status projections never read archive providers; JSON transport preserves the complete persisted archive
+  ---
+  duration_ms: 7.851166
+  type: 'test'
+  ...
+# Subtest: fixed journey binds actual input ledger, event route and independent completion without rewriting its plan
+ok 136 - fixed journey binds actual input ledger, event route and independent completion without rewriting its plan
+  ---
+  duration_ms: 14.546417
+  type: 'test'
+  ...
+# Subtest: read-only adapter includes real persistent fields, fails on missing fields and ignores animation counters
+ok 137 - read-only adapter includes real persistent fields, fails on missing fields and ignores animation counters
+  ---
+  duration_ms: 2.369875
+  type: 'test'
+  ...
+# Subtest: pending auto fade counts as non-controllable even before paletteFadeState is installed
+ok 138 - pending auto fade counts as non-controllable even before paletteFadeState is installed
+  ---
+  duration_ms: 0.603459
+  type: 'test'
+  ...
+# Subtest: actual player-input write is distinct from passive yield and mounted derivation
+ok 139 - actual player-input write is distinct from passive yield and mounted derivation
+  ---
+  duration_ms: 1630.86925
+  type: 'test'
+  ...
+# Subtest: 002 story handoff accepts the genuine first-day pointers without pinning background auto phases
+ok 140 - 002 story handoff accepts the genuine first-day pointers without pinning background auto phases
+  ---
+  duration_ms: 0.608
+  type: 'test'
+  ...
+# Subtest: 002 rejects a consistently saved late-day aunt binding and any premature 003 dispatch
+ok 141 - 002 rejects a consistently saved late-day aunt binding and any premature 003 dispatch
+  ---
+  duration_ms: 2.120375
+  type: 'test'
+  ...
+# Subtest: restored control alone cannot end capture before the last participant hide is observed
+ok 142 - restored control alone cannot end capture before the last participant hide is observed
+  ---
+  duration_ms: 0.151667
+  type: 'test'
+  ...
+# Subtest: actor identity resolves actual actor name/locale or explicit speaker override, never hardcodes an aunt
+ok 143 - actor identity resolves actual actor name/locale or explicit speaker override, never hardcodes an aunt
+  ---
+  duration_ms: 0.212583
+  type: 'test'
+  ...
+# Subtest: 002 inputs require explicit authentic engine predecessors and one browser mode
+ok 144 - 002 inputs require explicit authentic engine predecessors and one browser mode
+  ---
+  duration_ms: 0.185083
+  type: 'test'
+  ...
+# Subtest: failed predecessor, changed bytes and other fragment cannot become 002 admission
+ok 145 - failed predecessor, changed bytes and other fragment cannot become 002 admission
+  ---
+  duration_ms: 9.8315
+  type: 'test'
+  ...
+# Subtest: 002 Reforge admission strictly requires the current SAVE12/content22 predecessor
+ok 146 - 002 Reforge admission strictly requires the current SAVE12/content22 predecessor
+  ---
+  duration_ms: 1.820791
+  type: 'test'
+  ...
+# Subtest: 002 real module AST write census retains all 001 anchors and adds normal input
+ok 147 - 002 real module AST write census retains all 001 anchors and adds normal input
+  ---
+  duration_ms: 2147.382916
+  type: 'test'
+  ...
+# Subtest: restore observation is uniquely after the synchronous real commit and before auto resumption
+ok 148 - restore observation is uniquely after the synchronous real commit and before auto resumption
+  ---
+  duration_ms: 5682.79175
+  type: 'test'
+  ...
+# Subtest: committed restore DTO is detached and precedes scene commits in the same global order
+ok 149 - committed restore DTO is detached and precedes scene commits in the same global order
+  ---
+  duration_ms: 2.669833
+  type: 'test'
+  ...
+# Subtest: restore oracle keeps every cursor, reward and completed field; late normal advance is separate
+ok 150 - restore oracle keeps every cursor, reward and completed field; late normal advance is separate
+  ---
+  duration_ms: 2.60275
+  type: 'test'
+  ...
+# Subtest: inn door observation reads persistent page base frames without hiding transient override priority
+ok 151 - inn door observation reads persistent page base frames without hiding transient override priority
+  ---
+  duration_ms: 784.2345
+  type: 'test'
+  ...
+# Subtest: actual transformed restore reads committed World before real auto call, not its input or late state
+ok 152 - actual transformed restore reads committed World before real auto call, not its input or late state
+  ---
+  duration_ms: 605.747958
+  type: 'test'
+  ...
+# Subtest: new real blocker-push wrapper preserves actual return, world writes and thrown identity
+ok 153 - new real blocker-push wrapper preserves actual return, world writes and thrown identity
+  ---
+  duration_ms: 17.717166
+  type: 'test'
+  ...
+# Subtest: complete rendered text, shared reward order and exact counterpart lifecycle pass on both engines
+ok 154 - complete rendered text, shared reward order and exact counterpart lifecycle pass on both engines
+  ---
+  duration_ms: 1.955333
+  type: 'test'
+  ...
+# Subtest: causal receipts participate in the one global order without hiding lost story events
+ok 155 - causal receipts participate in the one global order without hiding lost story events
+  ---
+  duration_ms: 0.426208
+  type: 'test'
+  ...
+# Subtest: rendered cue replay, duplicate row and accumulated-page rollback cannot be ignored
+ok 156 - rendered cue replay, duplicate row and accumulated-page rollback cannot be ignored
+  ---
+  duration_ms: 0.536458
+  type: 'test'
+  ...
+# Subtest: a new actual render instance cannot replay a complete cue without a null separator
+ok 157 - a new actual render instance cannot replay a complete cue without a null separator
+  ---
+  duration_ms: 0.336042
+  type: 'test'
+  ...
+# Subtest: same-instance progressive accumulation remains legal but metadata instance loss fails closed
+ok 158 - same-instance progressive accumulation remains legal but metadata instance loss fails closed
+  ---
+  duration_ms: 0.664708
+  type: 'test'
+  ...
+# Subtest: game page identities follow actual body arrays: append is one page, actual reset is another
+ok 159 - game page identities follow actual body arrays: append is one page, actual reset is another
+  ---
+  duration_ms: 2.875209
+  type: 'test'
+  ...
+# Subtest: missing/extra rows and wrong actual rendered speaker fail rather than inferred text IDs passing
+ok 160 - missing/extra rows and wrong actual rendered speaker fail rather than inferred text IDs passing
+  ---
+  duration_ms: 1.401083
+  type: 'test'
+  ...
+# Subtest: money amount alone is insufficient: reward before thanks or after reward display fails
+ok 161 - money amount alone is insufficient: reward before thanks or after reward display fails
+  ---
+  duration_ms: 0.636583
+  type: 'test'
+  ...
+# Subtest: foreign counterpart, duplicate appearance or unassociated late room appearance fails
+ok 162 - foreign counterpart, duplicate appearance or unassociated late room appearance fails
+  ---
+  duration_ms: 0.843958
+  type: 'test'
+  ...
+# Subtest: removing an actual motion commit fails even after sequences/global order are maliciously rebased
+ok 163 - removing an actual motion commit fails even after sequences/global order are maliciously rebased
+  ---
+  duration_ms: 0.24725
+  type: 'test'
+  ...
+# Subtest: sampler-labeled movement and out-of-order event/page interleave fail
+ok 164 - sampler-labeled movement and out-of-order event/page interleave fail
+  ---
+  duration_ms: 0.183625
+  type: 'test'
+  ...
+# Subtest: normal reader holds require both visible stable participants and subsequent actual resumption
+ok 165 - normal reader holds require both visible stable participants and subsequent actual resumption
+  ---
+  duration_ms: 0.516667
+  type: 'test'
+  ...
+# Subtest: choreography preserves prior start, leader pause, reward interlude and final resumption
+ok 166 - choreography preserves prior start, leader pause, reward interlude and final resumption
+  ---
+  duration_ms: 0.609375
+  type: 'test'
+  ...
+# Subtest: sampling cannot pass as actual committed movement, and mid-sample round trips remain two writes
+ok 167 - sampling cannot pass as actual committed movement, and mid-sample round trips remain two writes
+  ---
+  duration_ms: 0.949625
+  type: 'test'
+  ...
+# Subtest: inn DTOs detach source state and collector output; overflow rejects rather than truncates silently
+ok 168 - inn DTOs detach source state and collector output; overflow rejects rather than truncates silently
+  ---
+  duration_ms: 84.43675
+  type: 'test'
+  ...
+# Subtest: overflow/error/non-commit movement cannot become a normal route census
+ok 169 - overflow/error/non-commit movement cannot become a normal route census
+  ---
+  duration_ms: 4.72775
+  type: 'test'
+  ...
+# Subtest: route-start and ready-scene legs exclude restore and even one-cell scene placements
+ok 170 - route-start and ready-scene legs exclude restore and even one-cell scene placements
+  ---
+  duration_ms: 0.432125
+  type: 'test'
+  ...
+# Subtest: legacy placement before the scene event is not walking even in the old-scene leg
+ok 171 - legacy placement before the scene event is not walking even in the old-scene leg
+  ---
+  duration_ms: 1.482292
+  type: 'test'
+  ...
+# Subtest: live inn progress never clones causal or resource archives; the final export still includes them
+ok 172 - live inn progress never clones causal or resource archives; the final export still includes them
+  ---
+  duration_ms: 33.222875
+  type: 'test'
+  ...
+# Subtest: 002 observes actual causal clocks and wait ownership without changing actor state
+ok 173 - 002 observes actual causal clocks and wait ownership without changing actor state
+  ---
+  duration_ms: 16.673458
+  type: 'test'
+  ...
+# Subtest: game route actor projection excludes hidden and vanishing blockers, including stale scene copies
+ok 174 - game route actor projection excludes hidden and vanishing blockers, including stale scene copies
+  ---
+  duration_ms: 0.165083
+  type: 'test'
+  ...
+# Subtest: all NPC collectors retain a real render after a move even when the displayed frame is unchanged
+ok 175 - all NPC collectors retain a real render after a move even when the displayed frame is unchanged
+  ---
+  duration_ms: 9.828083
+  type: 'test'
+  ...
+# Subtest: explicit turn is presented on the first draw and remains correct throughout the wait
+ok 176 - explicit turn is presented on the first draw and remains correct throughout the wait
+  ---
+  duration_ms: 2.997
+  type: 'test'
+  ...
+# Subtest: hidden actor cannot reappear in the stationary tail after its hide command
+ok 177 - hidden actor cannot reappear in the stationary tail after its hide command
+  ---
+  duration_ms: 1.961084
+  type: 'test'
+  ...
+# Subtest: opened door keeps the authored open frame, not a later closed-frame blink
+ok 178 - opened door keeps the authored open frame, not a later closed-frame blink
+  ---
+  duration_ms: 0.227584
+  type: 'test'
+  ...
+# Subtest: reference standing holds require every actual draw and its committed local-frame mapping
+ok 179 - reference standing holds require every actual draw and its committed local-frame mapping
+  ---
+  duration_ms: 1.511125
+  type: 'test'
+  ...
+# Subtest: instant command continuation must finish before the first available draw
+ok 180 - instant command continuation must finish before the first available draw
+  ---
+  duration_ms: 0.23675
+  type: 'test'
+  ...
+# Subtest: take after a movement commit but before its first draw presents standing, not a stale stride
+ok 181 - take after a movement commit but before its first draw presents standing, not a stale stride
+  ---
+  duration_ms: 0.303625
+  type: 'test'
+  ...
+# Subtest: reception wait plan preserves source units, order and every presentation beat
+ok 182 - reception wait plan preserves source units, order and every presentation beat
+  ---
+  duration_ms: 45.80725
+  type: 'test'
+  ...
+# Subtest: every executed reception wait has one registration with the same occurrence and actual clock
+ok 183 - every executed reception wait has one registration with the same occurrence and actual clock
+  ---
+  duration_ms: 1.747708
+  type: 'test'
+  ...
+# Subtest: real key executor retains down/up outcomes and releases partial down/up failures without admitting success
+ok 184 - real key executor retains down/up outcomes and releases partial down/up failures without admitting success
+  ---
+  duration_ms: 2.190458
+  type: 'test'
+  ...
+# Subtest: scope trimming rejects malformed, failed and cross-boundary holds; ordinary menu press is retained
+ok 185 - scope trimming rejects malformed, failed and cross-boundary holds; ordinary menu press is retained
+  ---
+  duration_ms: 1.245875
+  type: 'test'
+  ...
+# Subtest: a held key keeps partial failure identity and a single bounded release result
+ok 186 - a held key keeps partial failure identity and a single bounded release result
+  ---
+  duration_ms: 0.560834
+  type: 'test'
+  ...
+# Subtest: continuous input session records actual edges and cleans up when its caller fails
+ok 187 - continuous input session records actual edges and cleans up when its caller fails
+  ---
+  duration_ms: 1.792584
+  type: 'test'
+  ...
+# Subtest: fixed 002 executor consumes the entire exact position sequence in one hold per straight leg; facing is not movement
+ok 188 - fixed 002 executor consumes the entire exact position sequence in one hold per straight leg; facing is not movement
+  ---
+  duration_ms: 4.539833
+  type: 'test'
+  ...
+# Subtest: 003 CLI requires a real 002 report and rejects scene/position controls
+ok 189 - 003 CLI requires a real 002 report and rejects scene/position controls
+  ---
+  duration_ms: 17.674125
+  type: 'test'
+  ...
+# Subtest: 002 predecessor admission rejects fake bytes, wrong story, missing restore and old versions; 001 admission stays strict
+ok 190 - 002 predecessor admission rejects fake bytes, wrong story, missing restore and old versions; 001 admission stays strict
+  ---
+  duration_ms: 9.951125
+  type: 'test'
+  ...
+# Subtest: 002 game admission binds the persistent save fields to actual end/restore, not only updated SHA
+ok 191 - 002 game admission binds the persistent save fields to actual end/restore, not only updated SHA
+  ---
+  duration_ms: 0.641959
+  type: 'test'
+  ...
+# Subtest: 003 actual AST retains reviewed commit/save hooks and observes selected rendered frames
+ok 192 - 003 actual AST retains reviewed commit/save hooks and observes selected rendered frames
+  ---
+  duration_ms: 2756.396834
+  type: 'test'
+  ...
+# Subtest: 003 actual synchronous nudge commit observes post-body gait even on thrown camera update
+ok 193 - 003 actual synchronous nudge commit observes post-body gait even on thrown camera update
+  ---
+  duration_ms: 1667.011167
+  type: 'test'
+  ...
+# Subtest: 003 frame anchors fail closed when actual selected leader draw is removed
+ok 194 - 003 frame anchors fail closed when actual selected leader draw is removed
+  ---
+  duration_ms: 85.009167
+  type: 'test'
+  ...
+# Subtest: 003 observer detached copies and captures kitchen-scene pages without altering world
+ok 195 - 003 observer detached copies and captures kitchen-scene pages without altering world
+  ---
+  duration_ms: 11.858042
+  type: 'test'
+  ...
+# Subtest: 003 NPC renders have a separate baseline from commits and record control handoff
+ok 196 - 003 NPC renders have a separate baseline from commits and record control handoff
+  ---
+  duration_ms: 2.777041
+  type: 'test'
+  ...
+# Subtest: 003 observer reports movement missing a commit, overflow and multiple restore evidence
+ok 197 - 003 observer reports movement missing a commit, overflow and multiple restore evidence
+  ---
+  duration_ms: 134.249916
+  type: 'test'
+  ...
+# Subtest: 003 full actual timeline validates fourteen rows, twelve committed/drawn fragments and strict end
+ok 198 - 003 full actual timeline validates fourteen rows, twelve committed/drawn fragments and strict end
+  ---
+  duration_ms: 3.45525
+  type: 'test'
+  ...
+# Subtest: 003 causal receipts share the actual order; dropping a receipt cannot pass
+ok 199 - 003 causal receipts share the actual order; dropping a receipt cannot pass
+  ---
+  duration_ms: 1.136042
+  type: 'test'
+  ...
+# Subtest: 003 browser init installs causal hooks and retains detached scene poses
+ok 200 - 003 browser init installs causal hooks and retains detached scene poses
+  ---
+  duration_ms: 1.454958
+  type: 'test'
+  ...
+# Subtest: 003 bootstrap aunt placement remains in full continuity but is outside the admitted story phase
+ok 201 - 003 bootstrap aunt placement remains in full continuity but is outside the admitted story phase
+  ---
+  duration_ms: 0.614834
+  type: 'test'
+  ...
+# Subtest: 003 still rejects real aunt motion or hiding after admission but before the initial instruction ends
+ok 202 - 003 still rejects real aunt motion or hiding after admission but before the initial instruction ends
+  ---
+  duration_ms: 0.498208
+  type: 'test'
+  ...
+# Subtest: 003 rejects dropped movement even after global sequence re-numbering
+ok 203 - 003 rejects dropped movement even after global sequence re-numbering
+  ---
+  duration_ms: 0.219125
+  type: 'test'
+  ...
+# Subtest: 003 rejects idle sliding, fake walking flag with idle frame, missing frame and wrong layer
+ok 204 - 003 rejects idle sliding, fake walking flag with idle frame, missing frame and wrong layer
+  ---
+  duration_ms: 0.782333
+  type: 'test'
+  ...
+# Subtest: 003 rejects constant legal phase/idle index and drawn phase unrelated to committed gait
+ok 205 - 003 rejects constant legal phase/idle index and drawn phase unrelated to committed gait
+  ---
+  duration_ms: 0.464459
+  type: 'test'
+  ...
+# Subtest: 003 gait contract accepts actual modulo-four phase rotation without fixing its starting phase
+ok 206 - 003 gait contract accepts actual modulo-four phase rotation without fixing its starting phase
+  ---
+  duration_ms: 0.187833
+  type: 'test'
+  ...
+# Subtest: 003 waits for actual hall-to-kitchen handoff; arrival/control alone is insufficient
+ok 207 - 003 waits for actual hall-to-kitchen handoff; arrival/control alone is insufficient
+  ---
+  duration_ms: 0.097667
+  type: 'test'
+  ...
+# Subtest: 003 rejects replay, missing/reordered row, wrong speaker and premature late shout207
+ok 208 - 003 rejects replay, missing/reordered row, wrong speaker and premature late shout207
+  ---
+  duration_ms: 0.310958
+  type: 'test'
+  ...
+# Subtest: 003 controls alone do not finish before both kitchen actors and aunt handoff are painted
+ok 209 - 003 controls alone do not finish before both kitchen actors and aunt handoff are painted
+  ---
+  duration_ms: 0.149542
+  type: 'test'
+  ...
+# Subtest: 003 actual save contract refuses fake ready placeholder, any pickup, inventory or reward changes
+ok 210 - 003 actual save contract refuses fake ready placeholder, any pickup, inventory or reward changes
+  ---
+  duration_ms: 2.618041
+  type: 'test'
+  ...
+# Subtest: actual fixed pose survives authority take and release; resetting its draw is rejected
+ok 211 - actual fixed pose survives authority take and release; resetting its draw is rejected
+  ---
+  duration_ms: 1185.825625
+  type: 'test'
+  ...
+# Subtest: 003 source one-frame zero operand and canonical greeting waits preserve their intended cadence
+ok 212 - 003 source one-frame zero operand and canonical greeting waits preserve their intended cadence
+  ---
+  duration_ms: 6.580209
+  type: 'test'
+  ...
+# Subtest: real long collector preserves pre-encoding causal facts, historical snapshots, progress and draw payloads
+ok 213 - real long collector preserves pre-encoding causal facts, historical snapshots, progress and draw payloads
+  ---
+  duration_ms: 13.331875
+  type: 'test'
+  ...
+# Subtest: long collector keeps state commits beyond the shared short-list ceiling
+ok 214 - long collector keeps state commits beyond the shared short-list ceiling
+  ---
+  duration_ms: 759.270042
+  type: 'test'
+  ...
+# Subtest: snapshot graph is lossless JSON with structural sharing, bounded storage and rejecting malformed references
+ok 215 - snapshot graph is lossless JSON with structural sharing, bounded storage and rejecting malformed references
+  ---
+  duration_ms: 40.147458
+  type: 'test'
+  ...
+# Subtest: 004 defaults to uninterrupted story; explicit specialist cases cannot weaken full coverage
+ok 216 - 004 defaults to uninterrupted story; explicit specialist cases cannot weaken full coverage
+  ---
+  duration_ms: 1.276875
+  type: 'test'
+  ...
+# Subtest: 004 suite requires six distinct current case receipts, not two story passed labels
+ok 217 - 004 suite requires six distinct current case receipts, not two story passed labels
+  ---
+  duration_ms: 59.393084
+  type: 'test'
+  ...
+# Subtest: 004 retains browser advisories verbatim without confusing them with engine errors or static diagnostics
+ok 218 - 004 retains browser advisories verbatim without confusing them with engine errors or static diagnostics
+  ---
+  duration_ms: 0.887542
+  type: 'test'
+  ...
+# Subtest: 004 drive DTO never clones the actor tape and cannot conceal collector errors
+ok 219 - 004 drive DTO never clones the actor tape and cannot conceal collector errors
+  ---
+  duration_ms: 12.440834
+  type: 'test'
+  ...
+# Subtest: 004 lightweight snapshot reads menu without full trace clone
+ok 220 - 004 lightweight snapshot reads menu without full trace clone
+  ---
+  duration_ms: 0.325708
+  type: 'test'
+  ...
+# Subtest: 004 complete return uses terminal plus actual draw events, retaining all eight steps and frames
+ok 221 - 004 complete return uses terminal plus actual draw events, retaining all eight steps and frames
+  ---
+  duration_ms: 16.785708
+  type: 'test'
+  ...
+# Subtest: 004 status and phase projections preserve real collector obligations without reading the archive
+ok 222 - 004 status and phase projections preserve real collector obligations without reading the archive
+  ---
+  duration_ms: 1.559834
+  type: 'test'
+  ...
+# Subtest: 004 pickup waits for the actual native cooking command, its own auto call and a later draw
+ok 223 - 004 pickup waits for the actual native cooking command, its own auto call and a later draw
+  ---
+  duration_ms: 1963.544666
+  type: 'test'
+  ...
+# Subtest: 004 finalization never repeats successful export or masks the primary failure with diagnostic errors
+ok 224 - 004 finalization never repeats successful export or masks the primary failure with diagnostic errors
+  ---
+  duration_ms: 11.410167
+  type: 'test'
+  ...
+# Subtest: 004 confirmation rejects unrendered/stale/typing pages rather than speeding through text
+ok 225 - 004 confirmation rejects unrendered/stale/typing pages rather than speeding through text
+  ---
+  duration_ms: 0.322208
+  type: 'test'
+  ...
+# Subtest: 004 actual dither output is sampled only after successful pixels, with strict source anchors
+ok 226 - 004 actual dither output is sampled only after successful pixels, with strict source anchors
+  ---
+  duration_ms: 3766.990917
+  type: 'test'
+  ...
+# Subtest: 004 dither evidence retains zero/final steps and preparation without per-frame unbounded tape
+ok 227 - 004 dither evidence retains zero/final steps and preparation without per-frame unbounded tape
+  ---
+  duration_ms: 7.965167
+  type: 'test'
+  ...
+# Subtest: 004 actual dialogue controller proves completion from bounded pages without exporting the archive
+ok 228 - 004 actual dialogue controller proves completion from bounded pages without exporting the archive
+  ---
+  duration_ms: 63.973375
+  type: 'test'
+  ...
+# Subtest: 004 RPC timing records both successful and throwing reads without hiding the error
+ok 229 - 004 RPC timing records both successful and throwing reads without hiding the error
+  ---
+  duration_ms: 3.680625
+  type: 'test'
+  ...
+# Subtest: 004 artifact receipt hashes the exact serialized bytes and is detached
+ok 230 - 004 artifact receipt hashes the exact serialized bytes and is detached
+  ---
+  duration_ms: 5.461208
+  type: 'test'
+  ...
+# Subtest: 004 actual load observation is detached and missing/duplicate/wrong restore cannot borrow later world
+ok 231 - 004 actual load observation is detached and missing/duplicate/wrong restore cannot borrow later world
+  ---
+  duration_ms: 4.279625
+  type: 'test'
+  ...
+# Subtest: 004 inventory follows actual WorldState array entries, including RF wine1, and rejects map DTOs
+ok 232 - 004 inventory follows actual WorldState array entries, including RF wine1, and rejects map DTOs
+  ---
+  duration_ms: 33.861083
+  type: 'test'
+  ...
+# Subtest: 004 CLI rejects missing donor, arbitrary scene/position and conflicting mode
+ok 233 - 004 CLI rejects missing donor, arbitrary scene/position and conflicting mode
+  ---
+  duration_ms: 0.2485
+  type: 'test'
+  ...
+# Subtest: 003 admission rejects false evidence, byte mutation, wrong engine/story and pickup pollution
+ok 234 - 003 admission rejects false evidence, byte mutation, wrong engine/story and pickup pollution
+  ---
+  duration_ms: 2.273958
+  type: 'test'
+  ...
+# Subtest: 004 actual isolated transforms retain reviewed restore/commit and menu dispatch/render anchors
+ok 235 - 004 actual isolated transforms retain reviewed restore/commit and menu dispatch/render anchors
+  ---
+  duration_ms: 3494.910083
+  type: 'test'
+  ...
+# Subtest: 004 dispatch and rendered-view census fails closed under primary-source anchor removal
+ok 236 - 004 dispatch and rendered-view census fails closed under primary-source anchor removal
+  ---
+  duration_ms: 1790.099
+  type: 'test'
+  ...
+# Subtest: 004 observer copies observations and rejects unobserved moves, overflow and duplicate restore commits
+ok 237 - 004 observer copies observations and rejects unobserved moves, overflow and duplicate restore commits
+  ---
+  duration_ms: 2.164291
+  type: 'test'
+  ...
+# Subtest: 004 native Game actor projection retains automatic cursor changes at the same pose
+ok 238 - 004 native Game actor projection retains automatic cursor changes at the same pose
+  ---
+  duration_ms: 2.575459
+  type: 'test'
+  ...
+# Subtest: 004 global party continuity survives a real pre-switch placement and still rejects an uncommitted re-entry move
+ok 239 - 004 global party continuity survives a real pre-switch placement and still rejects an uncommitted re-entry move
+  ---
+  duration_ms: 0.830833
+  type: 'test'
+  ...
+# Subtest: 004 ordered original/current rendered dialogue rejects missing, replayed and misattributed lines
+ok 240 - 004 ordered original/current rendered dialogue rejects missing, replayed and misattributed lines
+  ---
+  duration_ms: 449.357875
+  type: 'test'
+  ...
+# Subtest: 004 author source keeps the complete unique gift body on e62, never on the wine private script
+ok 241 - 004 author source keeps the complete unique gift body on e62, never on the wine private script
+  ---
+  duration_ms: 478.464375
+  type: 'test'
+  ...
+# Subtest: 004 freezes its actual compiler, validation guard, runtime runner and activity-lineage sources
+ok 242 - 004 freezes its actual compiler, validation guard, runtime runner and activity-lineage sources
+  ---
+  duration_ms: 461.030459
+  type: 'test'
+  ...
+# Subtest: 004 serving and gift phase positive controls use real canonical RF inventory arrays
+ok 243 - 004 serving and gift phase positive controls use real canonical RF inventory arrays
+  ---
+  duration_ms: 0.427209
+  type: 'test'
+  ...
+# Subtest: meal phase windows preserve Game entry-triggered serving and isolate later inventory changes
+ok 244 - meal phase windows preserve Game entry-triggered serving and isolate later inventory changes
+  ---
+  duration_ms: 0.380458
+  type: 'test'
+  ...
+# Subtest: 004 end rejects live taoist, carried sprite, missing wine decrement and entered005
+ok 245 - 004 end rejects live taoist, carried sprite, missing wine decrement and entered005
+  ---
+  duration_ms: 0.5315
+  type: 'test'
+  ...
+# Subtest: 004 gift dependencies reject early disappearance or double consumption even with final zero inventory
+ok 246 - 004 gift dependencies reject early disappearance or double consumption even with final zero inventory
+  ---
+  duration_ms: 0.213875
+  type: 'test'
+  ...
+# Subtest: 004 observes actual synchronous materialization before player placement and preserves original throws
+ok 247 - 004 observes actual synchronous materialization before player placement and preserves original throws
+  ---
+  duration_ms: 1292.179417
+  type: 'test'
+  ...
+# Subtest: 004 save input projection is detached at the real clone boundary and separates staging from F5
+ok 248 - 004 save input projection is detached at the real clone boundary and separates staging from F5
+  ---
+  duration_ms: 1.178292
+  type: 'test'
+  ...
+# Subtest: 004 actual Save.saveSlot preserves input/write semantics and emits no successful completion on clone or store throw
+ok 249 - 004 actual Save.saveSlot preserves input/write semantics and emits no successful completion on clone or store throw
+  ---
+  duration_ms: 45.785
+  type: 'test'
+  ...
+# Subtest: 004 first-stage serving evidence begins before room entry so an early first cue cannot be filtered away
+ok 250 - 004 first-stage serving evidence begins before room entry so an early first cue cannot be filtered away
+  ---
+  duration_ms: 287.783291
+  type: 'test'
+  ...
+# Subtest: 004 natural game serving startup requires this-leg hide commit, actual serving IP and owner, not merely inactive state
+ok 251 - 004 natural game serving startup requires this-leg hide commit, actual serving IP and owner, not merely inactive state
+  ---
+  duration_ms: 10.988042
+  type: 'test'
+  ...
+# Subtest: 004 game serving reads cursor and active footprint atomically without a trace RPC between them
+ok 252 - 004 game serving reads cursor and active footprint atomically without a trace RPC between them
+  ---
+  duration_ms: 1.783125
+  type: 'test'
+  ...
+# Subtest: 004 menu decisions follow actual node identity and actual wine cursor
+ok 253 - 004 menu decisions follow actual node identity and actual wine cursor
+  ---
+  duration_ms: 0.586333
+  type: 'test'
+  ...
+# Subtest: 004 menu refuses unknown panels, missing wine, target picker and invalid cursor
+ok 254 - 004 menu refuses unknown panels, missing wine, target picker and invalid cursor
+  ---
+  duration_ms: 0.712375
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/world-motion-runtime.ts","sha256":"a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6","anchors":{"cadence-before":1,"cadence-after":1,"move-slot-committed":1,"move-slot-settled":1,"move-slot-cancelled":1,"move-slot-register":1,"step-slot-dropped":1,"step-slot-commit":1,"step-slot-settle":1,"step-slot-cancel":1,"step-slot-register":1}}
+# [opening-trace] {"file":"packages/reforge/src/motion-runtime-coordinator.ts","sha256":"8262afc1e9e8109c2da837929ef308c3885f733a5729fa80d360e7b227d41958","anchors":{"session-invalidated":1,"authority-setAuthority-before":1,"authority-setAuthority-after":1,"authority-releaseAuthority-before":1,"authority-releaseAuthority-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# Subtest: real motion queues retain invocation identity through commit, acknowledgement, takeover and cancellation
+ok 255 - real motion queues retain invocation identity through commit, acknowledgement, takeover and cancellation
+  ---
+  duration_ms: 2724.495083
+  type: 'test'
+  ...
+# Subtest: only a complete successful scene replacement discharges an unavailable movement draw
+ok 256 - only a complete successful scene replacement discharges an unavailable movement draw
+  ---
+  duration_ms: 0.519333
+  type: 'test'
+  ...
+# Subtest: story scope retains the actual restored baseline and every later change, not bootstrap moves
+ok 257 - story scope retains the actual restored baseline and every later change, not bootstrap moves
+  ---
+  duration_ms: 33.571
+  type: 'test'
+  ...
+# Subtest: story scope uses the last actor state at scene-ready as the baseline
+ok 258 - story scope uses the last actor state at scene-ready as the baseline
+  ---
+  duration_ms: 0.185459
+  type: 'test'
+  ...
+# Subtest: a render span crossing both story boundaries validates all clocks but exposes only story draws
+ok 259 - a render span crossing both story boundaries validates all clocks but exposes only story draws
+  ---
+  duration_ms: 0.379333
+  type: 'test'
+  ...
+# Subtest: boundary capture includes the render-clock sink, not just the last actor event
+ok 260 - boundary capture includes the render-clock sink, not just the last actor event
+  ---
+  duration_ms: 0.060292
+  type: 'test'
+  ...
+# Subtest: canonical positions compare pixel and tile coordinates in one space
+ok 261 - canonical positions compare pixel and tile coordinates in one space
+  ---
+  duration_ms: 0.871208
+  type: 'test'
+  ...
+# Subtest: invisible initial facing certificate requires a complete offscreen prefix and common pose
+ok 262 - invisible initial facing certificate requires a complete offscreen prefix and common pose
+  ---
+  duration_ms: 0.396666
+  type: 'test'
+  ...
+# Subtest: 001 report reader retains scene-ready boundaries before classifying author movement
+ok 263 - 001 report reader retains scene-ready boundaries before classifying author movement
+  ---
+  duration_ms: 89.056916
+  type: 'test'
+  ...
+# Subtest: approved opening final half-cell is a local alignment, not an actor exemption
+ok 264 - approved opening final half-cell is a local alignment, not an actor exemption
+  ---
+  duration_ms: 7.372167
+  type: 'test'
+  ...
+# Subtest: approved extra terminal tick explains clipping only with matching geometry and an intact stable tail
+ok 265 - approved extra terminal tick explains clipping only with matching geometry and an intact stable tail
+  ---
+  duration_ms: 39.432541
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects intermediate flash
+ok 266 - opening terminal approval rejects intermediate flash
+  ---
+  duration_ms: 1.319416
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects missing intermediate draw
+ok 267 - opening terminal approval rejects missing intermediate draw
+  ---
+  duration_ms: 1.448917
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects missing world clock
+ok 268 - opening terminal approval rejects missing world clock
+  ---
+  duration_ms: 0.738625
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects matching draw and clock holes
+ok 269 - opening terminal approval rejects matching draw and clock holes
+  ---
+  duration_ms: 0.635083
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects wrong endpoint
+ok 270 - opening terminal approval rejects wrong endpoint
+  ---
+  duration_ms: 0.562875
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects extra tick
+ok 271 - opening terminal approval rejects extra tick
+  ---
+  duration_ms: 0.40525
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects different scene visit
+ok 272 - opening terminal approval rejects different scene visit
+  ---
+  duration_ms: 0.41375
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects changed height
+ok 273 - opening terminal approval rejects changed height
+  ---
+  duration_ms: 0.365708
+  type: 'test'
+  ...
+# Subtest: opening terminal approval rejects changed sprite
+ok 274 - opening terminal approval rejects changed sprite
+  ---
+  duration_ms: 4.824416
+  type: 'test'
+  ...
+# Subtest: equal frame numbers cannot pass when either side lacks actual draw evidence
+ok 275 - equal frame numbers cannot pass when either side lacks actual draw evidence
+  ---
+  duration_ms: 3.353083
+  type: 'test'
+  ...
+# Subtest: animation comparison uses drawn frames, not direction-local state indices
+ok 276 - animation comparison uses drawn frames, not direction-local state indices
+  ---
+  duration_ms: 2.903375
+  type: 'test'
+  ...
+# Subtest: screen culling is separate from draw-call evidence
+ok 277 - screen culling is separate from draw-call evidence
+  ---
+  duration_ms: 0.183625
+  type: 'test'
+  ...
+# Subtest: equal movement and frames do not conceal a translated NPC route
+ok 278 - equal movement and frames do not conceal a translated NPC route
+  ---
+  duration_ms: 0.988625
+  type: 'test'
+  ...
+# Subtest: a move before scene exit cannot borrow a render from the next visit
+ok 279 - a move before scene exit cannot borrow a render from the next visit
+  ---
+  duration_ms: 0.098625
+  type: 'test'
+  ...
+# Subtest: a new scene visit baseline is not a movement commit from an earlier visit
+ok 280 - a new scene visit baseline is not a movement commit from an earlier visit
+  ---
+  duration_ms: 0.084333
+  type: 'test'
+  ...
+# Subtest: render evidence retains stationary holds and their original clocks
+ok 281 - render evidence retains stationary holds and their original clocks
+  ---
+  duration_ms: 0.0865
+  type: 'test'
+  ...
+# Subtest: lossless render spans expand through each actual world draw and reject missing clocks
+ok 282 - lossless render spans expand through each actual world draw and reject missing clocks
+  ---
+  duration_ms: 0.303791
+  type: 'test'
+  ...
+# Subtest: hold duration keeps elapsed draws separate from engine-local tick counters
+ok 283 - hold duration keeps elapsed draws separate from engine-local tick counters
+  ---
+  duration_ms: 1.733
+  type: 'test'
+  ...
+# Subtest: different intermediate move samples require semantic leg alignment instead of global nth-frame matching
+ok 284 - different intermediate move samples require semantic leg alignment instead of global nth-frame matching
+  ---
+  duration_ms: 0.499083
+  type: 'test'
+  ...
+# Subtest: a later split endpoint cannot hide an earlier wrong pose at a common movement commit
+ok 285 - a later split endpoint cannot hide an earlier wrong pose at a common movement commit
+  ---
+  duration_ms: 1.5105
+  type: 'test'
+  ...
+# Subtest: a later route difference cannot mask initial appearance or an inter-draw pose at a shared stop
+ok 286 - a later route difference cannot mask initial appearance or an inter-draw pose at a shared stop
+  ---
+  duration_ms: 4.813167
+  type: 'test'
+  ...
+# Subtest: every stationary rendered pose is compared, even when both tracks already animated
+ok 287 - every stationary rendered pose is compared, even when both tracks already animated
+  ---
+  duration_ms: 1.288083
+  type: 'test'
+  ...
+# Subtest: temporary disappearance is not equivalent to continuous visibility
+ok 288 - temporary disappearance is not equivalent to continuous visibility
+  ---
+  duration_ms: 0.264917
+  type: 'test'
+  ...
+# Subtest: 005 includes Xianglan movement frames, not only Zhang Si
+ok 289 - 005 includes Xianglan movement frames, not only Zhang Si
+  ---
+  duration_ms: 0.356667
+  type: 'test'
+  ...
+# Subtest: a trigger with explicitly no sprite has no frame contract but retains its state contract
+ok 290 - a trigger with explicitly no sprite has no frame contract but retains its state contract
+  ---
+  duration_ms: 0.473
+  type: 'test'
+  ...
+# Subtest: contact inference uses observed adjacency and dwell, not a command name
+ok 291 - contact inference uses observed adjacency and dwell, not a command name
+  ---
+  duration_ms: 0.188208
+  type: 'test'
+  ...
+# Subtest: a contact cluster retains every repeated push, even inside the first dwell window
+ok 292 - a contact cluster retains every repeated push, even inside the first dwell window
+  ---
+  duration_ms: 0.163708
+  type: 'test'
+  ...
+# Subtest: cadence exposes a compressed same-batch movement
+ok 293 - cadence exposes a compressed same-batch movement
+  ---
+  duration_ms: 0.055708
+  type: 'test'
+  ...
+# Subtest: frame sequence mismatch is a finding even when both sides animate
+ok 294 - frame sequence mismatch is a finding even when both sides animate
+  ---
+  duration_ms: 6.930958
+  type: 'test'
+  ...
+# Subtest: movement frames bind to exact commits, not pauses, idle samples or stale pre-render caches
+ok 295 - movement frames bind to exact commits, not pauses, idle samples or stale pre-render caches
+  ---
+  duration_ms: 0.252166
+  type: 'test'
+  ...
+# Subtest: offscreen movement needs actual same-visit draw geometry, never a missing visible frame
+ok 296 - offscreen movement needs actual same-visit draw geometry, never a missing visible frame
+  ---
+  duration_ms: 8.564542
+  type: 'test'
+  ...
+# Subtest: state-first comparison catches facing change and preserves all findings
+ok 297 - state-first comparison catches facing change and preserves all findings
+  ---
+  duration_ms: 4.600167
+  type: 'test'
+  ...
+# Subtest: missing frame telemetry cannot silently pass
+ok 298 - missing frame telemetry cannot silently pass
+  ---
+  duration_ms: 0.805375
+  type: 'test'
+  ...
+# Subtest: capability admission does not mistake absent actors/pages/actions for complete evidence
+ok 299 - capability admission does not mistake absent actors/pages/actions for complete evidence
+  ---
+  duration_ms: 0.593083
+  type: 'test'
+  ...
+# Subtest: capability presence is not proof; missing page identity or asset selection blocks its domain
+ok 300 - capability presence is not proof; missing page identity or asset selection blocks its domain
+  ---
+  duration_ms: 0.276875
+  type: 'test'
+  ...
+# Subtest: actual Game overlay records a full-page witness only after successful drawing
+ok 301 - actual Game overlay records a full-page witness only after successful drawing
+  ---
+  duration_ms: 335.218084
+  type: 'test'
+  ...
+# Subtest: automatic wait receipts preserve remaining time across a real take/release, rejecting lost time and missing ownership
+ok 302 - automatic wait receipts preserve remaining time across a real take/release, rejecting lost time and missing ownership
+  ---
+  duration_ms: 1.387584
+  type: 'test'
+  ...
+# Subtest: dialogue cold IO permits only pending draws, never a draw after real wake or a fabricated resource
+ok 303 - dialogue cold IO permits only pending draws, never a draw after real wake or a fabricated resource
+  ---
+  duration_ms: 1.261542
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/runtime-script-project.ts","sha256":"188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad","anchors":{"entity-call-start":1,"entity-call-end":1,"author-runEntityBehavior":1,"author-runSceneHook":1,"author-runCommands":1,"author-item-private":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-project-core.ts","sha256":"84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5","anchors":{"move-observation-end":1,"move-observation-start":1,"move-observation-commit":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# Subtest: actual parent/child invocation, sequential runner reuse and inherited effect retain distinct causal identities
+ok 304 - actual parent/child invocation, sequential runner reuse and inherited effect retain distinct causal identities
+  ---
+  duration_ms: 1215.410667
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/present/present.ts","sha256":"9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab","anchors":{"drawDialogOverlay":1,"presentFrame":1,"partyDraw":1,"npcSelectedFrame":1,"npcFallbackSprite":1,"npcBlitGeometry":1,"npcDraw":1,"worldDrawCompleted":1}}
+# [opening-trace] {"file":"packages/game/src/core/scene-system.ts","sha256":"9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64","anchors":{"explore-start":1,"explore-end":1,"explore-triggered":1,"auto-caller":1}}
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# Subtest: actual Game append/reset preserves equal-text lines, deduplicates redraws and rejects borrowed page identities
+ok 305 - actual Game append/reset preserves equal-text lines, deduplicates redraws and rejects borrowed page identities
+  ---
+  duration_ms: 1194.603917
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# [opening-trace] {"file":"packages/game/src/present/present.ts","sha256":"9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab","anchors":{"drawDialogOverlay":1,"presentFrame":1,"partyDraw":1,"npcSelectedFrame":1,"npcFallbackSprite":1,"npcBlitGeometry":1,"npcDraw":1,"worldDrawCompleted":1}}
+# [opening-trace] {"file":"packages/game/src/core/scene-system.ts","sha256":"9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64","anchors":{"explore-start":1,"explore-end":1,"explore-triggered":1,"auto-caller":1}}
+# Subtest: native Game trigger completion resets dialogue style to top before the next unstyled dialogue
+ok 306 - native Game trigger completion resets dialogue style to top before the next unstyled dialogue
+  ---
+  duration_ms: 1185.664542
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# [opening-trace] {"file":"packages/game/src/present/present.ts","sha256":"9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab","anchors":{"drawDialogOverlay":1,"presentFrame":1,"partyDraw":1,"npcSelectedFrame":1,"npcFallbackSprite":1,"npcBlitGeometry":1,"npcDraw":1,"worldDrawCompleted":1}}
+# [opening-trace] {"file":"packages/game/src/core/scene-system.ts","sha256":"9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64","anchors":{"explore-start":1,"explore-end":1,"explore-triggered":1,"auto-caller":1}}
+# Subtest: actual Game style switch records kept and active slots through explicit clearing
+ok 307 - actual Game style switch records kept and active slots through explicit clearing
+  ---
+  duration_ms: 1081.48075
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/dialog/dialog-box.ts","sha256":"a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d","anchors":{"beforeAutoAdvance":1,"dialog-open-before":1,"dialog-open-after":1,"dialog-advance-before":1,"dialog-advance-after":1,"dialog-close-before":1,"dialog-close-after":1,"dialog-update-before":1,"dialog-update-after":1,"dialog-render-before":1,"dialog-render-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# Subtest: actual Reforge reopening identical dialogue at the same timestamp is a new page, not a redraw
+ok 308 - actual Reforge reopening identical dialogue at the same timestamp is a new page, not a redraw
+  ---
+  duration_ms: 938.699625
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/cutscene-controller.ts","sha256":"66ab340a3f2d51b4848d3ed1fb9bb4cd87f26609422ced28098fad0a9b6ef446","anchors":{"dialog-clear-intent-before":1,"dialog-clear-intent-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-host-adapter.ts","sha256":"b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba","anchors":{"dialog-clear-intent-before":1,"dialog-clear-intent-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/dialog/dialog-box.ts","sha256":"a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d","anchors":{"beforeAutoAdvance":1,"dialog-open-before":1,"dialog-open-after":1,"dialog-advance-before":1,"dialog-advance-after":1,"dialog-close-before":1,"dialog-close-after":1,"dialog-update-before":1,"dialog-update-after":1,"dialog-render-before":1,"dialog-render-after":1}}
+# Subtest: real script-cue draws retain source identity and reject early disappearance or missing presentation evidence
+ok 309 - real script-cue draws retain source identity and reject early disappearance or missing presentation evidence
+  ---
+  duration_ms: 706.144709
+  type: 'test'
+  ...
+# Subtest: actual main position writer and sparse collector prove an unchanged factory restoration without inventing a change
+ok 310 - actual main position writer and sparse collector prove an unchanged factory restoration without inventing a change
+  ---
+  duration_ms: 372.266667
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-project-core.ts","sha256":"84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5","anchors":{"move-observation-end":1,"move-observation-start":1,"move-observation-commit":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-wake-gate.ts","sha256":"9fc2eb2ab5adf79c240f47c8b6195f0a725cd43f4e63c74851e9d3f9ff3a396f","anchors":{"gate-rejected":2,"gate-ready":1,"gate-wait":1}}
+# [opening-trace] {"file":"packages/reforge/src/motion-runtime-coordinator.ts","sha256":"8262afc1e9e8109c2da837929ef308c3885f733a5729fa80d360e7b227d41958","anchors":{"session-invalidated":1,"authority-setAuthority-before":1,"authority-setAuthority-after":1,"authority-releaseAuthority-before":1,"authority-releaseAuthority-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# Subtest: a settled real timer gates on an authored take and resumes before the first release draw
+ok 311 - a settled real timer gates on an authored take and resumes before the first release draw
+  ---
+  duration_ms: 380.789334
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-project-core.ts","sha256":"84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5","anchors":{"move-observation-end":1,"move-observation-start":1,"move-observation-commit":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-wake-gate.ts","sha256":"9fc2eb2ab5adf79c240f47c8b6195f0a725cd43f4e63c74851e9d3f9ff3a396f","anchors":{"gate-rejected":2,"gate-ready":1,"gate-wait":1}}
+# Subtest: a real self-hiding leaf completes before its next effect blocks at the actual wake gate
+ok 312 - a real self-hiding leaf completes before its next effect blocks at the actual wake gate
+  ---
+  duration_ms: 321.268166
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/dialog/dialog-box.ts","sha256":"a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d","anchors":{"beforeAutoAdvance":1,"dialog-open-before":1,"dialog-open-after":1,"dialog-advance-before":1,"dialog-advance-after":1,"dialog-close-before":1,"dialog-close-after":1,"dialog-update-before":1,"dialog-update-after":1,"dialog-render-before":1,"dialog-render-after":1}}
+# Subtest: actual automatic narration closes on its authored deadline frame (terminal=false)
+ok 313 - actual automatic narration closes on its authored deadline frame (terminal=false)
+  ---
+  duration_ms: 337.4585
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/dialog/dialog-box.ts","sha256":"a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d","anchors":{"beforeAutoAdvance":1,"dialog-open-before":1,"dialog-open-after":1,"dialog-advance-before":1,"dialog-advance-after":1,"dialog-close-before":1,"dialog-close-after":1,"dialog-update-before":1,"dialog-update-after":1,"dialog-render-before":1,"dialog-render-after":1}}
+# Subtest: actual automatic narration closes on its authored deadline frame (terminal=true)
+ok 314 - actual automatic narration closes on its authored deadline frame (terminal=true)
+  ---
+  duration_ms: 280.742
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# Subtest: native automatic animation cycles and probabilistic control words obey the source transition relation
+ok 315 - native automatic animation cycles and probabilistic control words obey the source transition relation
+  ---
+  duration_ms: 451.91
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# Subtest: native loop words preserve lexical transfers, ambiguous branches, restored frames and end kinds
+ok 316 - native loop words preserve lexical transfers, ambiguous branches, restored frames and end kinds
+  ---
+  duration_ms: 183.864791
+  type: 'test'
+  ...
+# Subtest: a loadScene occurrence cannot authorize an extra gameplay wait after its fade
+ok 317 - a loadScene occurrence cannot authorize an extra gameplay wait after its fade
+  ---
+  duration_ms: 0.200125
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# Subtest: native automatic state synchronization uses the addressed pre-state, including signed state operands
+ok 318 - native automatic state synchronization uses the addressed pre-state, including signed state operands
+  ---
+  duration_ms: 176.162416
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# Subtest: actual Game automatic recursion records every dispatch and keeps its native owner
+ok 319 - actual Game automatic recursion records every dispatch and keeps its native owner
+  ---
+  duration_ms: 185.698041
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/game/src/core/event-system.ts","sha256":"c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397","anchors":{"tickEventSystem":1,"applyRawOpcode":1,"npcWalkTo":1,"partyWalkTo":1,"partyRideEventObject":1,"monsterChasePlayer":1,"game-auto-before":1,"game-auto-after":1,"game-command-auto":1,"game-event-before":1,"game-event-after":1,"game-wait-frames-end":1,"game-delay-end":1,"game-dialog-input":1,"game-command-trigger":1,"game-wait-frames":1,"game-redraw":1,"game-delay":1,"game-command-onEnter":1,"auto-batch-start":1,"auto-batch-end":1,"auto-batch-visit":1,"auto-label-resolution":1,"auto-selection-commit":1}}
+# Subtest: actual Game synchronous entry records writes and termination, with a fresh owner for each invocation
+ok 320 - actual Game synchronous entry records writes and termination, with a fresh owner for each invocation
+  ---
+  duration_ms: 172.095375
+  type: 'test'
+  ...
+# Subtest: Game dialogue phase cannot overwrite the causal event discriminator
+ok 321 - Game dialogue phase cannot overwrite the causal event discriminator
+  ---
+  duration_ms: 0.258416
+  type: 'test'
+  ...
+# Subtest: every Game dialogue input is paired with its real dispatch, not just one example
+ok 322 - every Game dialogue input is paired with its real dispatch, not just one example
+  ---
+  duration_ms: 0.232458
+  type: 'test'
+  ...
+# Subtest: normal motion must commit on every actual eligible frame, without a time tolerance
+ok 323 - normal motion must commit on every actual eligible frame, without a time tolerance
+  ---
+  duration_ms: 0.432083
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# [opening-trace] {"file":"packages/reforge/src/dialog/dialog-box.ts","sha256":"a0830592bcd98dc6dd5630558fae1a17920d50a4c6fe89a2aaa463b526738a0d","anchors":{"beforeAutoAdvance":1,"dialog-open-before":1,"dialog-open-after":1,"dialog-advance-before":1,"dialog-advance-after":1,"dialog-close-before":1,"dialog-close-after":1,"dialog-update-before":1,"dialog-update-after":1,"dialog-render-before":1,"dialog-render-after":1}}
+# Subtest: instrumented real runner, frame timer and dialogue produce causal receipts, not synthetic elapsed totals
+ok 324 - instrumented real runner, frame timer and dialogue produce causal receipts, not synthetic elapsed totals
+  ---
+  duration_ms: 774.576
+  type: 'test'
+  ...
+# Subtest: loaded state is not enough: black/partial frame and wrong room hash fail
+ok 325 - loaded state is not enough: black/partial frame and wrong room hash fail
+  ---
+  duration_ms: 0.422625
+  type: 'test'
+  ...
+# Subtest: pixel reader hashes actual RGBA and does not mutate the supplied pixels
+ok 326 - pixel reader hashes actual RGBA and does not mutate the supplied pixels
+  ---
+  duration_ms: 6.436125
+  type: 'test'
+  ...
+# Subtest: handoff requires real title pixels, natural completion and an opaque black gap
+ok 327 - handoff requires real title pixels, natural completion and an opaque black gap
+  ---
+  duration_ms: 1.139291
+  type: 'test'
+  ...
+# Subtest: DOM removal observer reads actual RGBA without writing the canvas or engine
+ok 328 - DOM removal observer reads actual RGBA without writing the canvas or engine
+  ---
+  duration_ms: 1.3255
+  type: 'test'
+  ...
+# Subtest: game: scene materialization starts a new state chain without inventing a route transition
+ok 329 - game: scene materialization starts a new state chain without inventing a route transition
+  ---
+  duration_ms: 9.23525
+  type: 'test'
+  ...
+# Subtest: game: full rows, speakers, atomic replacement and out/back movement pass
+ok 330 - game: full rows, speakers, atomic replacement and out/back movement pass
+  ---
+  duration_ms: 4.2665
+  type: 'test'
+  ...
+# Subtest: game: missing body text fails even if requested IDs remain
+ok 331 - game: missing body text fails even if requested IDs remain
+  ---
+  duration_ms: 2.468792
+  type: 'test'
+  ...
+# Subtest: game: wrong speaker, dropped actor event and later stand-in hide fail
+ok 332 - game: wrong speaker, dropped actor event and later stand-in hide fail
+  ---
+  duration_ms: 3.681708
+  type: 'test'
+  ...
+# Subtest: reforge: scene materialization starts a new state chain without inventing a route transition
+ok 333 - reforge: scene materialization starts a new state chain without inventing a route transition
+  ---
+  duration_ms: 2.505666
+  type: 'test'
+  ...
+# Subtest: reforge: full rows, speakers, atomic replacement and out/back movement pass
+ok 334 - reforge: full rows, speakers, atomic replacement and out/back movement pass
+  ---
+  duration_ms: 1.454042
+  type: 'test'
+  ...
+# Subtest: reforge: missing body text fails even if requested IDs remain
+ok 335 - reforge: missing body text fails even if requested IDs remain
+  ---
+  duration_ms: 1.034084
+  type: 'test'
+  ...
+# Subtest: reforge: wrong speaker, dropped actor event and later stand-in hide fail
+ok 336 - reforge: wrong speaker, dropped actor event and later stand-in hide fail
+  ---
+  duration_ms: 2.720709
+  type: 'test'
+  ...
+# Subtest: collector is sparse, detached, bounded, and flags unobserved movement
+ok 337 - collector is sparse, detached, bounded, and flags unobserved movement
+  ---
+  duration_ms: 10.061166
+  type: 'test'
+  ...
+# Subtest: 001 keeps real draws separate from actor commits in one event order
+ok 338 - 001 keeps real draws separate from actor commits in one event order
+  ---
+  duration_ms: 2.198542
+  type: 'test'
+  ...
+# Subtest: only genuinely idle room qualifies; scene alone is not enough
+ok 339 - only genuinely idle room qualifies; scene alone is not enough
+  ---
+  duration_ms: 0.483375
+  type: 'test'
+  ...
+# Subtest: only real dialogue wait states produce Confirm; typing and tail waits run normally
+ok 340 - only real dialogue wait states produce Confirm; typing and tail waits run normally
+  ---
+  duration_ms: 1.085167
+  type: 'test'
+  ...
+# Subtest: unknown scene, battle, menu and video fail closed
+ok 341 - unknown scene, battle, menu and video fail closed
+  ---
+  duration_ms: 1.715792
+  type: 'test'
+  ...
+# Subtest: scene transition cannot fake the opening: video ended and three scene-bound anchors required
+ok 342 - scene transition cannot fake the opening: video ended and three scene-bound anchors required
+  ---
+  duration_ms: 1.077834
+  type: 'test'
+  ...
+# Subtest: bounded log fails at overflow; no frame or glyph progress in state keys
+ok 343 - bounded log fails at overflow; no frame or glyph progress in state keys
+  ---
+  duration_ms: 1.47575
+  type: 'test'
+  ...
+# Subtest: semantic two-engine comparison ignores unlike coordinates/clocks while proving ordered intervals
+ok 344 - semantic two-engine comparison ignores unlike coordinates/clocks while proving ordered intervals
+  ---
+  duration_ms: 5.79675
+  type: 'test'
+  ...
+# Subtest: out-and-back during dialogue is a semantic difference even though endpoints are identical
+ok 345 - out-and-back during dialogue is a semantic difference even though endpoints are identical
+  ---
+  duration_ms: 0.593125
+  type: 'test'
+  ...
+# Subtest: incomplete, wrong identity, plan-only, missing wait, missing commit and fake control fail closed
+ok 346 - incomplete, wrong identity, plan-only, missing wait, missing commit and fake control fail closed
+  ---
+  duration_ms: 2.752333
+  type: 'test'
+  ...
+# Subtest: native boat steering leaves the primary down picture intact; real opposite frame changes drawn pixels
+ok 347 - native boat steering leaves the primary down picture intact; real opposite frame changes drawn pixels
+  ---
+  duration_ms: 656.512541
+  type: 'test'
+  ...
+# Subtest: real world projection records readiness after both successful exits, never after failure
+ok 348 - real world projection records readiness after both successful exits, never after failure
+  ---
+  duration_ms: 1304.68225
+  type: 'test'
+  ...
+# Subtest: real Game scene loader emits readiness only after awaited resources and restored actor binding
+ok 349 - real Game scene loader emits readiness only after awaited resources and restored actor binding
+  ---
+  duration_ms: 537.934166
+  type: 'test'
+  ...
+# Subtest: all real source modules match exact trace anchors, source drift fails closed
+ok 350 - all real source modules match exact trace anchors, source drift fails closed
+  ---
+  duration_ms: 1590.98975
+  type: 'test'
+  ...
+# Subtest: real render early returns and failed draws never claim a freshly rendered world
+ok 351 - real render early returns and failed draws never claim a freshly rendered world
+  ---
+  duration_ms: 864.381875
+  type: 'test'
+  ...
+# Subtest: opening matrix observes bootstrap placement before the story runner is initialized
+ok 352 - opening matrix observes bootstrap placement before the story runner is initialized
+  ---
+  duration_ms: 629.089208
+  type: 'test'
+  ...
+# Subtest: real npcWalkTo outward/return commits in one sample window cannot disappear; return and state equal uninstrumented implementation
+ok 353 - real npcWalkTo outward/return commits in one sample window cannot disappear; return and state equal uninstrumented implementation
+  ---
+  duration_ms: 159.968
+  type: 'test'
+  ...
+# Subtest: noncommitted plans produce no move; changed position first seen at render is evidence loss
+ok 354 - noncommitted plans produce no move; changed position first seen at render is evidence loss
+  ---
+  duration_ms: 1.21225
+  type: 'test'
+  ...
+# Subtest: dialogue context is captured at commit and own DTOs survive caller mutation
+ok 355 - dialogue context is captured at commit and own DTOs survive caller mutation
+  ---
+  duration_ms: 0.630917
+  type: 'test'
+  ...
+# Subtest: bounded collector flags overflow and malformed points without throwing into gameplay
+ok 356 - bounded collector flags overflow and malformed points without throwing into gameplay
+  ---
+  duration_ms: 13.446458
+  type: 'test'
+  ...
+# Subtest: instrumented real function preserves original thrown error identity
+ok 357 - instrumented real function preserves original thrown error identity
+  ---
+  duration_ms: 147.031958
+  type: 'test'
+  ...
+# Subtest: removing real npcWalkTo commit hook is detected by next boundary, not accepted as stationary
+ok 358 - removing real npcWalkTo commit hook is detected by next boundary, not accepted as stationary
+  ---
+  duration_ms: 123.301542
+  type: 'test'
+  ...
+# Subtest: real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing
+ok 359 - real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing
+  ---
+  duration_ms: 59.984792
+  type: 'test'
+  ...
+# Subtest: actual fade/dither drivers and successful output callers prove explicit effects; missing, truncated and wrong-owner output fail
+ok 360 - actual fade/dither drivers and successful output callers prove explicit effects; missing, truncated and wrong-owner output fail
+  ---
+  duration_ms: 767.280375
+  type: 'test'
+  ...
+# Subtest: Reforge driver only confirms a rendered input wait, never a typing page or auto tail
+ok 361 - Reforge driver only confirms a rendered input wait, never a typing page or auto tail
+  ---
+  duration_ms: 1.8905
+  type: 'test'
+  ...
+# Subtest: room is not accepted during presentation, transition, dialogue or script execution
+ok 362 - room is not accepted during presentation, transition, dialogue or script execution
+  ---
+  duration_ms: 0.298625
+  type: 'test'
+  ...
+# Subtest: player position and fade progress do not acknowledge a dialogue key or create frame logs
+ok 363 - player position and fade progress do not acknowledge a dialogue key or create frame logs
+  ---
+  duration_ms: 0.98525
+  type: 'test'
+  ...
+# Subtest: future declared rows and typing pages cannot fake a displayed story anchor
+ok 364 - future declared rows and typing pages cannot fake a displayed story anchor
+  ---
+  duration_ms: 3.140458
+  type: 'test'
+  ...
+# Subtest: checkpoint comparison is read-only and only normalizes explicitly optional/transient fields
+ok 365 - checkpoint comparison is read-only and only normalizes explicitly optional/transient fields
+  ---
+  duration_ms: 4.680417
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/world-scene-presentation.ts","sha256":"e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0","anchors":{"npcDrawIdentity":1,"npcDrawSelection":1,"partyDrawSelection":1}}
+# [opening-trace] {"file":"packages/reforge/src/render.ts","sha256":"bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1","anchors":{"bakedFramePayload":1,"npcDrawPass":1,"npcBlitGeometry":1,"npcDrawCompleted":1}}
+# Subtest: real Reforge sprite assembly and draw preserve entity identity and publish only a complete pass
+ok 366 - real Reforge sprite assembly and draw preserve entity identity and publish only a complete pass
+  ---
+  duration_ms: 1087.812625
+  type: 'test'
+  ...
+# Subtest: actual projection completion retains a repeated party pose after its redundant setter
+ok 367 - actual projection completion retains a repeated party pose after its redundant setter
+  ---
+  duration_ms: 2059.420958
+  type: 'test'
+  ...
+# Subtest: collectors retain viewport changes without splitting unchanged actor geometry or claiming a culled draw
+ok 368 - collectors retain viewport changes without splitting unchanged actor geometry or claiming a culled draw
+  ---
+  duration_ms: 22.933292
+  type: 'test'
+  ...
+# Subtest: scene lifecycle boundaries share the state log order and preserve initialization and draw evidence
+ok 369 - scene lifecycle boundaries share the state log order and preserve initialization and draw evidence
+  ---
+  duration_ms: 18.783083
+  type: 'test'
+  ...
+# Subtest: one completed draw uses its boundary clock for all derived events and releases it before later observations
+ok 370 - one completed draw uses its boundary clock for all derived events and releases it before later observations
+  ---
+  duration_ms: 23.011583
+  type: 'test'
+  ...
+# Subtest: per-frame clocks do not consume state-change budgets and remain bounded
+ok 371 - per-frame clocks do not consume state-change budgets and remain bounded
+  ---
+  duration_ms: 2276.05225
+  type: 'test'
+  ...
+# Subtest: all collectors retain completed draw clocks and split identical poses across scene visits
+ok 372 - all collectors retain completed draw clocks and split identical poses across scene visits
+  ---
+  duration_ms: 10.315458
+  type: 'test'
+  ...
+# Subtest: Game collector adapters consume renderer evidence and never use predicted pose as a drawn frame
+ok 373 - Game collector adapters consume renderer evidence and never use predicted pose as a drawn frame
+  ---
+  duration_ms: 5.904958
+  type: 'test'
+  ...
+# Subtest: Reforge collectors consume only actual draws, not the selected-frame cache or a previous pass
+ok 374 - Reforge collectors consume only actual draws, not the selected-frame cache or a previous pass
+  ---
+  duration_ms: 4.055708
+  type: 'test'
+  ...
+# Subtest: restore input matches the actual current codec defaults without losing nonempty save state
+ok 375 - restore input matches the actual current codec defaults without losing nonempty save state
+  ---
+  duration_ms: 902.0515
+  type: 'test'
+  ...
+# [opening-trace] {"file":"packages/reforge/src/runtime-frame-session.ts","sha256":"1d2542fe358a80dd03a12614fee0343991f35e2e3ab43415d5ce99a91b8630c5","anchors":{"reforge-wait-abort":1,"reforge-wait-start":1,"reforge-wait-pause":1,"reforge-wait-resume":1,"reforge-wait-clear":1,"reforge-clock":1,"reforge-wait-deadline":1,"wait-remaining":1,"wait-handle":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-work-queue.ts","sha256":"50e7384ef8e712dd2b521bf9e70e180df297af7c42d92e3048cac77502cdff93","anchors":{"script-inherit":1,"script-detach":1,"script-io-bind":1,"script-io-wake":1}}
+# [opening-trace] {"file":"packages/reforge/src/world-motion-runtime.ts","sha256":"a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6","anchors":{"cadence-before":1,"cadence-after":1,"move-slot-committed":1,"move-slot-settled":1,"move-slot-cancelled":1,"move-slot-register":1,"step-slot-dropped":1,"step-slot-commit":1,"step-slot-settle":1,"step-slot-cancel":1,"step-slot-register":1}}
+# [opening-trace] {"file":"packages/reforge/src/motion-runtime-coordinator.ts","sha256":"8262afc1e9e8109c2da837929ef308c3885f733a5729fa80d360e7b227d41958","anchors":{"session-invalidated":1,"authority-setAuthority-before":1,"authority-setAuthority-after":1,"authority-releaseAuthority-before":1,"authority-releaseAuthority-after":1}}
+# [opening-trace] {"file":"packages/reforge/src/script-runner-core.ts","sha256":"885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5","anchors":{"reforge-run-started":1,"reforge-result-init":1,"reforge-result-success":1,"reforge-run-ended":1,"reforge-safe-point-result":1,"reforge-stage-settled":1,"reforge-command":1,"reforge-leaf-completed":1}}
+# Subtest: actual capture/project/automatic-wait callers preserve exact timer provenance across a scene cache and save load
+ok 376 - actual capture/project/automatic-wait callers preserve exact timer provenance across a scene cache and save load
+  ---
+  duration_ms: 2281.425583
+  type: 'test'
+  ...
+# Subtest: actual decoded render bytes match source independently of claimed asset names; mutation, wrong binding and loss are detected
+ok 377 - actual decoded render bytes match source independently of claimed asset names; mutation, wrong binding and loss are detected
+  ---
+  duration_ms: 189.593375
+  type: 'test'
+  ...
+# Subtest: stationary incoming census follows real Game self and selected-object effects
+ok 378 - stationary incoming census follows real Game self and selected-object effects
+  ---
+  duration_ms: 780.969792
+  type: 'test'
+  ...
+# Subtest: common pose algebra checks real host setters, rendered frame priority, geometry and captured animation
+ok 379 - common pose algebra checks real host setters, rendered frame priority, geometry and captured animation
+  ---
+  duration_ms: 1072.817333
+  type: 'test'
+  ...
+# Subtest: SW caches a complete asset even when the client consumes it before cache opening completes
+ok 380 - SW caches a complete asset even when the client consumes it before cache opening completes
+  ---
+  duration_ms: 24.084
+  type: 'test'
+  ...
+# Subtest: SW serves a partial response without placing it into the full-asset cache
+ok 381 - SW serves a partial response without placing it into the full-asset cache
+  ---
+  duration_ms: 1.840084
+  type: 'test'
+  ...
+# Subtest: 001/002 actual projection commit captures each real selection immediately, with detached native state and scene identity
+ok 382 - 001/002 actual projection commit captures each real selection immediately, with detached native state and scene identity
+  ---
+  duration_ms: 2135.912417
+  type: 'test'
+  ...
+# Subtest: 001 actual Game snapshot preserves equal-visibility state and script changes; state-only overflow fails the producer gate
+ok 383 - 001 actual Game snapshot preserves equal-visibility state and script changes; state-only overflow fails the producer gate
+  ---
+  duration_ms: 48.702583
+  type: 'test'
+  ...
+# Subtest: actual causal observer permits repeated IP but rejects a lost, late or forged dispatch
+ok 384 - actual causal observer permits repeated IP but rejects a lost, late or forged dispatch
+  ---
+  duration_ms: 2.771667
+  type: 'test'
+  ...
+# Subtest: actual Game dialog lifecycle binds source text, drawn page, consumption and cross-engine row identity
+ok 385 - actual Game dialog lifecycle binds source text, drawn page, consumption and cross-engine row identity
+  ---
+  duration_ms: 45.881791
+  type: 'test'
+  ...
+# Subtest: persistent override model consumes actual world selection effects, inherit and page reset; missing evidence never proves effects
+ok 386 - persistent override model consumes actual world selection effects, inherit and page reset; missing evidence never proves effects
+  ---
+  duration_ms: 321.262458
+  type: 'test'
+  ...
+# Subtest: finite author model accepts actual compiler/runner entry and nested repetition; every lost command is a counterexample
+ok 387 - finite author model accepts actual compiler/runner entry and nested repetition; every lost command is a counterexample
+  ---
+  duration_ms: 263.376125
+  type: 'test'
+  ...
+# Subtest: all six independent author paths are supported before any matching recording is available
+ok 388 - all six independent author paths are supported before any matching recording is available
+  ---
+  duration_ms: 1.863583
+  type: 'test'
+  ...
+# Subtest: persistent own-deadline proof checks real host money, inventory, music and appearance effects before the next command
+ok 389 - persistent own-deadline proof checks real host money, inventory, music and appearance effects before the next command
+  ---
+  duration_ms: 95.162792
+  type: 'test'
+  ...
+# Subtest: party replacement retains live instances and seeds new templates; relative positioning uses actual host coordinates
+ok 390 - party replacement retains live instances and seeds new templates; relative positioning uses actual host coordinates
+  ---
+  duration_ms: 282.153917
+  type: 'test'
+  ...
+# Subtest: authority effect projection follows actual host-adapter dispatch for implicit and explicit NPC takes
+ok 391 - authority effect projection follows actual host-adapter dispatch for implicit and explicit NPC takes
+  ---
+  duration_ms: 10.041458
+  type: 'test'
+  ...
+# Subtest: Game frame abstraction agrees with actual renderer pixels for directional and nondirectional layouts
+ok 392 - Game frame abstraction agrees with actual renderer pixels for directional and nondirectional layouts
+  ---
+  duration_ms: 261.713583
+  type: 'test'
+  ...
+# Subtest: terminal subdivision is an exact, direction-independent relation over motion and every actual draw
+ok 393 - terminal subdivision is an exact, direction-independent relation over motion and every actual draw
+  ---
+  duration_ms: 161.256833
+  type: 'test'
+  ...
+# Subtest: follow-camera evidence is tied to party commits, not to its own projected rectangles
+ok 394 - follow-camera evidence is tied to party commits, not to its own projected rectangles
+  ---
+  duration_ms: 164.83975
+  type: 'test'
+  ...
+# Subtest: timed observation quotient ignores duplicate draws but preserves every pose change and its duration
+ok 395 - timed observation quotient ignores duplicate draws but preserves every pose change and its duration
+  ---
+  duration_ms: 0.548292
+  type: 'test'
+  ...
+# Subtest: model-specific copying preserves the full failed-transition pre-state
+ok 396 - model-specific copying preserves the full failed-transition pre-state
+  ---
+  duration_ms: 1.713291
+  type: 'test'
+  ...
+# Subtest: fixed village routes clear the recorded chicken choke point with native collision, in both directions
+ok 397 - fixed village routes clear the recorded chicken choke point with native collision, in both directions
+  ---
+  duration_ms: 5.505458
+  type: 'test'
+  ...
+1..397
+# tests 397
+# suites 0
+# pass 397
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16795.708709
+
+> type-pal@ test:script-governance /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/script-governance/*.test.mjs
+
+TAP version 13
+# Subtest: confirmation refusal remains structurally reachable with its real caller owner
+ok 1 - confirmation refusal remains structurally reachable with its real caller owner
+  ---
+  duration_ms: 2.469666
+  type: 'test'
+  ...
+# Subtest: current loadScene.scene contributes its actual canonical scene token
+ok 2 - current loadScene.scene contributes its actual canonical scene token
+  ---
+  duration_ms: 0.307458
+  type: 'test'
+  ...
+# Subtest: keeps every physical edge, including duplicates, no-op and clear
+ok 3 - keeps every physical edge, including duplicates, no-op and clear
+  ---
+  duration_ms: 6.879083
+  type: 'test'
+  ...
+# Subtest: maps by explicit identity and unique body, never legacy number or array position
+ok 4 - maps by explicit identity and unique body, never legacy number or array position
+  ---
+  duration_ms: 1.472875
+  type: 'test'
+  ...
+# Subtest: missing explicit source/canonical identities remain unknown
+ok 5 - missing explicit source/canonical identities remain unknown
+  ---
+  duration_ms: 0.420958
+  type: 'test'
+  ...
+# Subtest: self is resolved from each caller owner, not the source array or a default NPC
+ok 6 - self is resolved from each caller owner, not the source array or a default NPC
+  ---
+  duration_ms: 0.360417
+  type: 'test'
+  ...
+# Subtest: scene/item self lacks a world owner even when its item id resembles an entity
+ok 7 - scene/item self lacks a world owner even when its item id resembles an entity
+  ---
+  duration_ms: 0.219375
+  type: 'test'
+  ...
+# Subtest: a known self owner does not erase another unknown caller context
+ok 8 - a known self owner does not erase another unknown caller context
+  ---
+  duration_ms: 0.613083
+  type: 'test'
+  ...
+# Subtest: call override uses its own 1-based identity; 65535 is not self in call opcode
+ok 9 - call override uses its own 1-based identity; 65535 is not self in call opcode
+  ---
+  duration_ms: 0.446791
+  type: 'test'
+  ...
+# Subtest: duplicate canonical bodies and distinct source entries with identical bodies are ambiguous
+ok 10 - duplicate canonical bodies and distinct source entries with identical bodies are ambiguous
+  ---
+  duration_ms: 0.510584
+  type: 'test'
+  ...
+# Subtest: author edits are unmapped or protected, not converted into a missing-script verdict
+ok 11 - author edits are unmapped or protected, not converted into a missing-script verdict
+  ---
+  duration_ms: 0.320333
+  type: 'test'
+  ...
+# Subtest: unknown instruction or source branch cannot yield a confident simple-body match
+ok 12 - unknown instruction or source branch cannot yield a confident simple-body match
+  ---
+  duration_ms: 0.122625
+  type: 'test'
+  ...
+# Subtest: successor content elsewhere never proves the installed cursor is fixed
+ok 13 - successor content elsewhere never proves the installed cursor is fixed
+  ---
+  duration_ms: 0.172667
+  type: 'test'
+  ...
+# Subtest: reward then source advance flags a risk even when the successor starts with a condition
+ok 14 - reward then source advance flags a risk even when the successor starts with a condition
+  ---
+  duration_ms: 0.132667
+  type: 'test'
+  ...
+# Subtest: self-rebinding and explicit completion are not labelled a repeating reward
+ok 15 - self-rebinding and explicit completion are not labelled a repeating reward
+  ---
+  duration_ms: 0.251958
+  type: 'test'
+  ...
+# Subtest: source and author explicit successor handoff is separate from missing-successor risks
+ok 16 - source and author explicit successor handoff is separate from missing-successor risks
+  ---
+  duration_ms: 0.395333
+  type: 'test'
+  ...
+# Subtest: dynamic install reachability is propagated; unrelated unreachable source is not erased
+ok 17 - dynamic install reachability is propagated; unrelated unreachable source is not erased
+  ---
+  duration_ms: 0.156459
+  type: 'test'
+  ...
+# Subtest: invalid global addresses and duplicate source IDs fail closed
+ok 18 - invalid global addresses and duplicate source IDs fail closed
+  ---
+  duration_ms: 0.392292
+  type: 'test'
+  ...
+# Subtest: report carries hashes and token IDs but no dialogue plaintext; inputs are unchanged
+ok 19 - report carries hashes and token IDs but no dialogue plaintext; inputs are unchanged
+  ---
+  duration_ms: 0.245041
+  type: 'test'
+  ...
+# Subtest: CLI rejects repair and arbitrary input/output paths
+ok 20 - CLI rejects repair and arbitrary input/output paths
+  ---
+  duration_ms: 106.638541
+  type: 'test'
+  ...
+# Subtest: canonical scenes come from the manifest, not the directory containing index.json
+ok 21 - canonical scenes come from the manifest, not the directory containing index.json
+  ---
+  duration_ms: 0.613459
+  type: 'test'
+  ...
+# Subtest: real corpus inventory can be reproduced without an archived converter
+ok 22 - real corpus inventory can be reproduced without an archived converter
+  ---
+  duration_ms: 51.977416
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 291.346583
+Scope: 7 of 8 workspace projects
+
+> @type-pal/content@0.0.0 check /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/content
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/content@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/content
+> tsc --noEmit
+
+
+> @type-pal/content@0.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/content
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/content
+
+ ✓ src/frame-sequence.resource-boundaries.test.ts (20 tests) 9ms
+ ✓ src/frame-sequence.test.ts (13 tests) 15ms
+ ✓ src/validate-refs.test.ts (46 tests) 42ms
+ ✓ src/script-library.resource-boundaries.test.ts (20 tests) 73ms
+ ✓ src/project-map.test.ts (6 tests) 14ms
+ ✓ src/validate-author.test.ts (14 tests) 28ms
+ ✓ src/project-map.boundaries.test.ts (24 tests) 11ms
+ ✓ src/scene-index.boundaries.test.ts (10 tests) 7ms
+ ✓ src/validate.test.ts (94 tests) 27ms
+ ✓ src/script-library.test.ts (19 tests) 21ms
+ ✓ src/stamp.test.ts (3 tests) 5ms
+ ✓ src/enemy-script.test.ts (6 tests) 22ms
+ ✓ src/battle-field-reference.test.ts (2 tests) 2ms
+ ✓ src/asset.test.ts (27 tests) 18ms
+ ✓ src/author-script-core.wave2.test.ts (16 tests) 9ms
+ ✓ src/map-index.glm-leaf-wave.test.ts (5 tests) 3ms
+ ✓ src/script-library.glm-leaf-wave.test.ts (4 tests) 4ms
+ ✓ src/validate-refs.glm-o.test.ts (23 tests) 16ms
+ ✓ src/battle-choreography.leaf.test.ts (41 tests) 35ms
+ ✓ src/actor-condition.boundaries.test.ts (19 tests) 9ms
+ ✓ src/script-library.glm-o.test.ts (10 tests) 8ms
+ ✓ src/data-guards.glm-o.test.ts (12 tests) 9ms
+ ✓ src/actor-reference.contracts.test.ts (6 tests) 8ms
+ ✓ src/asset-closure.contracts.test.ts (5 tests) 21ms
+ ✓ src/item.test.ts (51 tests) 18ms
+ ✓ src/record-items.guard-residual.test.ts (39 tests) 15ms
+ ✓ src/command-target-reference.boundaries.test.ts (6 tests) 6ms
+ ✓ src/character.test.ts (25 tests) 10ms
+ ✓ src/frame-sequence.contracts.test.ts (19 tests) 11ms
+ ✓ src/validate-refs.data-refs.test.ts (4 tests) 16ms
+ ✓ src/author-script-core.test.ts (34 tests) 11ms
+ ✓ src/frame-sequence-provider-next2.glm-o.test.ts (12 tests) 11ms
+ ✓ src/item.effects.background.test.ts (10 tests) 11ms
+ ✓ src/frame-sequence.cursor-boundaries.test.ts (1 test) 11ms
+ ✓ src/item.inventory.background.test.ts (8 tests) 8ms
+ ✓ src/script-command.guard-residual.test.ts (21 tests) 12ms
+ ✓ src/validate.glm-o.test.ts (19 tests) 9ms
+ ✓ src/author-command.guard-residual.test.ts (11 tests) 7ms
+ ✓ src/enemy-ai.glm-o.test.ts (15 tests) 4ms
+ ✓ src/author-flow.guard-residual.test.ts (4 tests) 5ms
+ ✓ src/validate-enemy-crosscalls.test.ts (10 tests) 8ms
+ ✓ src/asset-catalog.contracts.test.ts (27 tests) 6ms
+ ✓ src/actor-reference.boundaries.test.ts (6 tests) 7ms
+ ✓ src/enemy-script.wave2.test.ts (18 tests) 9ms
+ ✓ src/runtime-script.boundaries.test.ts (4 tests) 6ms
+ ✓ src/author-battle-dialogue-boundary.test.ts (13 tests) 8ms
+ ✓ src/map-index.contracts.test.ts (15 tests) 5ms
+ ✓ src/asset.resource-boundaries.test.ts (13 tests) 7ms
+ ✓ src/author-dialogue.field-guards.test.ts (5 tests) 5ms
+ ✓ src/small-guards.glm-o.test.ts (14 tests) 7ms
+ ✓ src/item.cursor-pure-wave2.test.ts (1 test) 6ms
+ ✓ src/enemy-ai-condition-guard.leaf.test.ts (17 tests) 6ms
+ ✓ src/validate-refs.contracts.test.ts (6 tests) 6ms
+ ✓ src/author-script-core.glm-o.test.ts (15 tests) 6ms
+ ✓ src/frame-sequence.glm-o.test.ts (11 tests) 7ms
+ ✓ src/item.preflight.background.test.ts (6 tests) 5ms
+ ✓ src/frame-sequence.residual.test.ts (3 tests) 3ms
+ ✓ src/entities-near-condition.test.ts (11 tests) 6ms
+ ✓ src/record-skills-poisons.guard-residual.test.ts (9 tests) 6ms
+ ✓ src/battle-formulas.test.ts (25 tests) 6ms
+ ✓ src/enemy-validation-shapes.leaf.test.ts (33 tests) 6ms
+ ✓ src/runtime-scene.wave2.test.ts (9 tests) 7ms
+ ✓ src/enemy-hook.guard-residual.test.ts (7 tests) 6ms
+ ✓ src/project-map.resource-boundaries.test.ts (10 tests) 5ms
+ ✓ src/author-unified-control.test.ts (12 tests) 6ms
+ ✓ src/actor-condition.test.ts (11 tests) 5ms
+ ✓ src/author-state.guard-residual.test.ts (8 tests) 4ms
+ ✓ src/item.external.background.test.ts (6 tests) 4ms
+ ✓ src/item.derived.background.test.ts (8 tests) 5ms
+ ✓ src/author-dialogue.test.ts (5 tests) 4ms
+ ✓ src/item-effects.glm-o.test.ts (9 tests) 7ms
+ ✓ src/shop.test.ts (16 tests) 4ms
+ ✓ src/validate-skills-poisons.boundaries.test.ts (21 tests) 5ms
+ ✓ src/validate-author-items.boundaries.test.ts (4 tests) 3ms
+ ✓ src/author-script.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/command-target-reference.test.ts (5 tests) 4ms
+ ✓ src/battle-sprite.boundaries.test.ts (14 tests) 5ms
+ ✓ src/stamp.glm-leaf-wave.test.ts (3 tests) 4ms
+ ✓ src/battle-sprite.test.ts (5 tests) 5ms
+ ✓ src/item-equip.glm-o.test.ts (3 tests) 12ms
+ ✓ src/author-script.current-characterization.test.ts (4 tests) 10ms
+ ✓ src/item.ownership.background.test.ts (8 tests) 13ms
+ ✓ src/auto-script-continuation.test.ts (21 tests) 14ms
+ ✓ src/validate-runtime.test.ts (3 tests) 4ms
+ ✓ src/enemy-team-reference.resource-boundaries.test.ts (2 tests) 2ms
+ ✓ src/record-actors.guard-residual.test.ts (6 tests) 5ms
+ ✓ src/validate-start-world.boundaries.test.ts (20 tests) 6ms
+ ✓ src/project-map.contracts.test.ts (5 tests) 4ms
+ ✓ src/validate-runtime.wave2.test.ts (2 tests) 5ms
+ ✓ src/migration-diagnostic.boundaries.test.ts (4 tests) 4ms
+ ✓ src/runtime-script-lifecycle.test.ts (5 tests) 4ms
+ ✓ src/world-variable.boundaries.test.ts (6 tests) 4ms
+ ✓ src/enemy-script.glm-o.test.ts (10 tests) 5ms
+ ✓ src/runtime-scene.test.ts (9 tests) 5ms
+ ✓ src/map-index.test.ts (5 tests) 4ms
+ ✓ src/actor-condition.glm-o.test.ts (12 tests) 6ms
+ ✓ src/rewards.boundaries.test.ts (6 tests) 5ms
+ ✓ src/item-use.glm-o.test.ts (7 tests) 4ms
+ ✓ src/author-script-current.boundaries.test.ts (9 tests) 4ms
+ ✓ src/rewards.test.ts (6 tests) 4ms
+ ✓ src/runtime-hostile.glm-o.test.ts (7 tests) 4ms
+ ✓ src/tileset-stamp.contracts.test.ts (4 tests) 4ms
+ ✓ src/asset.residual.test.ts (3 tests) 3ms
+ ✓ src/validate-actors.boundaries.test.ts (6 tests) 3ms
+ ✓ src/ambience-skill.glm-o.test.ts (5 tests) 3ms
+ ✓ src/frame-sequence.glm-leaf-wave.test.ts (5 tests) 3ms
+ ✓ src/entity-lifecycle.test.ts (9 tests) 7ms
+ ✓ src/world-variable.test.ts (8 tests) 3ms
+ ✓ src/command-target-reference.contracts.test.ts (4 tests) 4ms
+ ✓ src/author-dialogue.contracts.test.ts (7 tests) 4ms
+ ✓ src/scene-index.test.ts (3 tests) 3ms
+ ✓ src/world-variable.glm-leaf-wave.test.ts (3 tests) 4ms
+ ✓ src/enemy-team.contracts.test.ts (11 tests) 4ms
+ ✓ src/battle-sprite-profile.contracts.test.ts (5 tests) 4ms
+ ✓ src/enemy-script.boundaries.test.ts (9 tests) 4ms
+ ✓ src/character.cursor-pure-wave2.test.ts (2 tests) 3ms
+ ✓ src/poison.glm-o.test.ts (12 tests) 5ms
+ ✓ src/run-entity-trigger.test.ts (2 tests) 3ms
+ ✓ src/frame-animation-control.test.ts (7 tests) 4ms
+ ✓ src/tileset.cursor-pure-wave2.test.ts (2 tests) 5ms
+ ✓ src/migration-diagnostic.glm-leaf-wave.test.ts (2 tests) 3ms
+ ✓ src/stamp.cursor-boundaries.test.ts (1 test) 8ms
+ ✓ src/grid.test.ts (11 tests) 16ms
+ ✓ src/enemy-script.cursor-pure-wave2.test.ts (1 test) 9ms
+ ✓ src/enemy-ai.test.ts (9 tests) 9ms
+ ✓ src/map-index.residual.test.ts (8 tests) 4ms
+ ✓ src/command-target-reference.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/rich-text-residual.glm-o.test.ts (9 tests) 4ms
+ ✓ src/author-script-core.cursor-pure-wave2.test.ts (1 test) 6ms
+ ✓ src/script.glm-o.test.ts (7 tests) 3ms
+ ✓ src/tileset.glm-leaf-wave.test.ts (2 tests) 3ms
+ ✓ src/ambience.test.ts (5 tests) 2ms
+ ✓ src/project-map.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/tileset.test.ts (3 tests) 2ms
+ ✓ src/hidden-exp-grid.glm-o.test.ts (1 test) 2ms
+ ✓ src/actor-condition.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/sprite-frame-demand.contracts.test.ts (4 tests) 3ms
+ ✓ src/asset.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/rewards-lifecycle.glm-o.test.ts (3 tests) 2ms
+ ✓ src/author-dialogue.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/migration-diagnostic.test.ts (2 tests) 2ms
+ ✓ src/rich-text.test.ts (6 tests) 3ms
+ ✓ src/rewards.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/script.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/enemy-ai.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/shop.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/item.cursor-boundaries.test.ts (1 test) 2ms
+ ✓ src/actor.test.ts (4 tests) 2ms
+ ✓ src/locale.test.ts (2 tests) 1ms
+
+ Test Files  149 passed (149)
+      Tests  1498 passed (1498)
+   Start at  14:52:54
+   Duration  4.84s (transform 1.45s, setup 0ms, import 4.20s, tests 1.10s, environment 8ms)
+
+
+> @type-pal/shared@0.0.0 check /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/shared
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/shared@0.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/shared
+> tsc --noEmit
+
+
+> @type-pal/shared@0.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/shared
+> vitest run --passWithNoTests --exclude 'dist/**' --exclude 'build/**'
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/shared
+
+ ✓ src/mkf.boundaries.test.ts (11 tests) 4ms
+ ✓ src/rle-encode.glm-runtime-resource.test.ts (4 tests) 13ms
+ ✓ src/rle-encode.test.ts (8 tests) 18ms
+ ✓ src/rng.boundaries.test.ts (16 tests) 13ms
+ ✓ src/rle.boundaries.test.ts (6 tests) 4ms
+ ✓ src/rle.test.ts (26 tests) 9ms
+ ✓ src/rle.glm-runtime-resource.test.ts (9 tests) 5ms
+ ✓ src/rle.glm-o.test.ts (13 tests) 8ms
+ ✓ src/yj2.boundaries.test.ts (9 tests) 5ms
+ ✓ src/rle-encode.boundaries.test.ts (4 tests) 3ms
+ ✓ src/pal-map-names.test.ts (2 tests) 3ms
+ ✓ src/rng.test.ts (7 tests) 4ms
+ ✓ src/events.test.ts (9 tests) 4ms
+ ✓ src/tables.test.ts (1 test) 1ms
+ ✓ src/input.test.ts (4 tests) 2ms
+ ✓ src/index.test.ts (2 tests) 1ms
+
+ Test Files  16 passed (16)
+      Tests  131 passed (131)
+   Start at  14:53:00
+   Duration  431ms (transform 213ms, setup 0ms, import 342ms, tests 98ms, environment 1ms)
+
+
+> @type-pal/game@1.0.0 check /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> pnpm typecheck && pnpm test
+
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> tsc --noEmit
+
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓
+
+ ✓ src/assets/tileset-blob-snapshot.test.ts (6 tests) 50ms
+ ✓ src/assets/rng-blob-snapshot.test.ts (13 tests) 1809ms
+     ✓ chunk 1: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)  433ms
+     ✓ chunk 9: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)  328ms
+stderr | src/shell/avi-player.test.ts > playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) > video error 事件触发 → Promise 仍 resolve(不抛)
+[avi-player] video load/decode failed: /extracted/videos/nonexistent.mp4
+
+ ✓ src/shell/avi-player.test.ts (12 tests) 2061ms
+     ✓ Space 键跳过 → Promise resolve + element 移除  503ms
+     ✓ Enter 键跳过  504ms
+     ✓ Escape 键跳过  503ms
+     ✓ 自定义 skipKeys 覆盖默认  513ms
+ ✓ src/shell/audio-midi.test.ts (12 tests) 834ms
+ ✓ src/shell/fbp-scroll.grok-r1.test.ts (6 tests) 580ms
+ ✓ src/shell/trademark-splash.grok-r1.test.ts (6 tests) 472ms
+ ✓ src/shell/rng-player.test.ts (14 tests) 383ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts (11 tests) 289ms
+ ✓ src/shell/fbp-player.test.ts (7 tests) 362ms
+ ✓ src/tools/tools-panel.test.ts (16 tests) 386ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts (10 tests) 171ms
+ ✓ src/present/__tests__/grok-composition/p14-battle-fades.test.ts (3 tests) 198ms
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts (13 tests) 161ms
+ ✓ src/tools/tools-panel.glm-phase1-leaves.test.ts (2 tests) 372ms
+     ✓ 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案  351ms
+ ✓ src/assets/snapshot-input-boundaries.test.ts (25 tests) 9837ms
+   ✓ 'effect-control' → 'pass' (real resource test runner)  609ms
+   ✓ 'missing-effect' → 'fail' (real resource test runner)  412ms
+   ✓ 'empty-enemy' → 'fail' (real resource test runner)  599ms
+   ✓ 'empty-player' → 'fail' (real resource test runner)  413ms
+   ✓ 'empty-fire' → 'fail' (real resource test runner)  362ms
+   ✓ 'empty-npc' → 'fail' (real resource test runner)  356ms
+   ✓ 'absent-sprite' → 'skip' (real resource test runner)  349ms
+   ✓ 'absent-sprite-extracted' → 'skip' (real resource test runner)  346ms
+   ✓ 'absent-rng' → 'skip' (real resource test runner)  478ms
+   ✓ 'absent-rng-directory' → 'skip' (real resource test runner)  693ms
+   ✓ 'absent-tileset' → 'skip' (real resource test runner)  453ms
+   ✓ 'absent-tileset-directory' → 'skip' (real resource test runner)  407ms
+   ✓ 'rng-control' → 'pass' (real resource test runner)  364ms
+   ✓ 'missing-rng-blob' → 'fail' (real resource test runner)  357ms
+   ✓ 'empty-rng-chunk' → 'pass' (real resource test runner)  384ms
+   ✓ 'zero-rng-chunks' → 'fail' (real resource test runner)  414ms
+   ✓ 'tileset-control' → 'pass' (real resource test runner)  625ms
+   ✓ 'missing-tileset' → 'fail' (real resource test runner)  533ms
+   ✓ 'denied-rng' → 'denied' (real resource test runner)  1094ms
+   ✓ 'denied-tileset' → 'denied' (real resource test runner)  585ms
+ ✓ src/present/screen-wave-mirror.grok-r1.test.ts (8 tests) 313ms

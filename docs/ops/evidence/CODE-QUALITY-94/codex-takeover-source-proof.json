@@ -1,0 +1,63 @@
+{
+  "candidate": "0a039271c",
+  "latestMain": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "manifestCount": 30,
+  "manifestMismatches": [],
+  "takeoverGameFiles": [
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9",
+      "lines": 88,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "b612967be12be73cc13897d38e45f0625e3d49e8091d7c126814c0994c44b519",
+      "lines": 94,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "399e127728fa93a913d8c7904bd0acc5de52c2ca6e025a3231f2c328c57da6aa",
+      "lines": 1053,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "7cbe225dae84eabb0a55cf3ba41640fd933f39e6ff6ad03ed5bb50645eae8a1e",
+      "lines": 648,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.test.ts",
+      "sha256": "c110a3a98cea0600b5b7d43be63b93d6f85ee2c9b37bed76fef5b17c0bd9e1e4",
+      "lines": 73,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "05af4f49fa95cd19b9e4ff84047188ad4824035130334a5d0a1a16a74dae7b0c",
+      "lines": 134,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88",
+      "lines": 176,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+      "lines": 93,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47",
+      "lines": 160,
+      "method": "full candidate source reading plus exact takeover diff review; no file closure"
+    }
+  ],
+  "limitation": "review/pending statuses remain unchanged; code changes are test fixes and comments only"
+}

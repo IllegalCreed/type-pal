@@ -38,7 +38,20 @@ runtime/原版理解/提取数据/测试模型分开核；没有归因迁移缺�
 以同成本 true/false 已学法术验证入列/禁用/确认零效果；保留排序/MP恰等/单多人/目标/取消回归。
 先失败反例再修复，纯重构分提交；完整模块窗口跑全部门与零诊断；Codex 最小菜单功能验证。
 
-## 当前推进与交接
+## 2026-10-15 三验后的待裁决最小方案
+
+用户本轮未批准③，并质疑原版大世界仅显示恢复术；立即保持停线。重新完整读取magicmenu.c及
+uigame.c大世界caller：:732传FALSE，magicmenu.c:245-291对入表项无隐藏分支，fEnabled只决定色彩与确认，
+与:338-372建表共同支持当前SDLPal源码“已学条目显示但禁用”。这不是DOS版pal.exe实机证据。
+原测试把305命名飞龙探云手是合成目录；当前提取数据305=鬼降、377=飞龙探云手，不把fixture文案当原始ID真值。
+此项未获产品实施批准；不改显示行为，后续先核DOS实机/用户产品意图，保持draft、无build allowed。
+
+真实反证已在候选5477af1e4复跑，见CODE94/codex-r3-review.md。用户已授权Codex接手低风险返工；
+此项改变当前第一阶段行为，按用户原治理约束，已在会话集中请求三项最小修复裁决，当前等待回复。
+最小方案：in-game-magic-menu的buildSpellMenu不再预过滤spells；沿用createMagicSelectMenu的已学排序/MP判定，对outside=false条目再置disabled。只在大世界包装层组合禁用，不改公共helper签名、战斗列表或数据。既有隐藏用例改为同成本true/false正负对照：两者入列，false灰且Confirm返回null、无目标/脚本/MP副作用；refresh后禁用仍保留。拟白名单in-game-magic-menu.ts及两个相邻测试（不扩公共接口）；实施后最小菜单功能验证。
+拟Coding Owner=Codex；批准前仍draft、无build allowed，不开始实现，不标done。
+
+## 先前交接记录（历史）
 
 2026-10-15 Codex：反证已核，设计、Owner、白名单 pending；**build 准入 blocked**。
 没有实现，未来须独立验收；done blocked，账本保持 review，未合 main。

@@ -7,7 +7,13 @@ Phase: phase1
 Capability: Q3 menu state contract integration
 Visual Verification Timing: N/A（无产品/UI行为修改）
 
-## Codex R3 当前验收与接手（2026-10-15）
+## Codex 接手修复（2026-10-15，作者自验证）
+
+测试/注释返工分提交6766a3c2e、01931b3f2、0a039271c；manifest当前摘要及比较revision已重算。
+详见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。当前重新集中跑完整门，
+机制/Save三卡保持draft，editor诊断另由QUALITY-EDITOR-DIAGNOSTICS-1登记，不静音、不强关30条。
+
+## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
 counter/rework：保留有效排重和 typed 修正；统一门非零诊断、法术机制反证、manifest 当前 SHA 待修。30 条不关闭。

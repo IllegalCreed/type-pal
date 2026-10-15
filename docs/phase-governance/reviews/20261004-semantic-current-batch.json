@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
-      "afterSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
+      "sourceSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
+      "afterSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
+        "implementationSha": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -846,14 +846,20 @@
             "date": "2026-10-15",
             "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
             "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "0a039271c",
+            "date": "2026-10-15",
+            "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
+            "notRun": ["E2E", "visual"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/board.md",
-        "sourceSha256": "220aacd9cea14c0697830bfe87d7a4b03ec14f96942ff276ba1b3bd11f6dc232",
-        "lineCount": 31,
+        "sourceSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
+        "lineCount": 32,
         "headings": [
           {
             "line": 1,
@@ -2108,8 +2114,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
-      "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
+      "sourceSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
+      "afterSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2145,7 +2151,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
+        "implementationSha": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2431,14 +2437,20 @@
             "date": "2026-10-15",
             "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
             "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "0a039271c",
+            "date": "2026-10-15",
+            "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
+            "notRun": ["E2E", "visual"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
-        "sourceSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
-        "lineCount": 400,
+        "sourceSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
+        "lineCount": 401,
         "headings": [
           {
             "line": 1,

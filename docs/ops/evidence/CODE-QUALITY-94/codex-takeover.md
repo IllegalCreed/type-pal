@@ -35,7 +35,26 @@ Coding Owner=Codex，白名单 equip叶测试、player-status测试、save-slot-
 因equip叶文件注释字节改变，精确退役记录只更新该文件SHA；旧/新计数与两端identity digest保持，
 matcher没有放宽。正式baseline由官方工具生成，不手填覆盖率。
 
-## 保留边界
+## 输出可见性补充（2026-10-15）
+
+安装的Vitest4.1.7在std-env识别Codex时默认使用agent reporter（继承minimal的passed-only），
+会隐藏通过用例的console。先前Codex原件的测试数与exit有效，**不能由安静输出推断零诊断**。
+未追溯改写旧receipt；后续显式default reporter/silent=false或仅为子进程移除agent reporter检测变量，
+并验证std-env.isAgent=false，保留启用的React act环境和原规则。完整输出定向36files/326tests恢复通过。
+完整门的最终可见性与诊断数按后续receipt记录；agent模式回执只证明测试/覆盖率数值，不证明零诊断。
+
+首跑check被本日志缺少README索引链接拦住，未运行全包；已补链接，失败原件保留，稍后完整复跑。
+editor诊断归属与有限首片待核见 [QUALITY-EDITOR-DIAGNOSTICS-1](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md)。
+
+## 用户后续裁决与实施窗口
+
+用户已明确批准①事务提交后报成功/失败传播、②标题读档取消复位；两卡由Codex核定build allowed。
+③大世界法术显示未批准，因用户对原版记忆提出质疑维持停线。完整SDLPal建表/调用/绘制复核
+已落GAME-OUTSIDE-MAGIC-DISABLED-1；不以合成fixture的名称充原始技能ID，不修改第三项显示。
+新批准到达时停止了尚未完成的旧候选check，保留SIGTERM原件；两项修好后统一跑最终窗口，
+不把中断运行算通过，不在coverage运行期间改源。
+
+## 保留边界（批准前检查点，历史）
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。
 全仓React act/jsdom诊断另需核Owner与有限白名单；没有为过门静音、ignore或降低规则。

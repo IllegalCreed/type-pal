@@ -7,7 +7,13 @@ Phase: phase1
 Capability: Q3 menu dispatch governance
 Visual Verification Timing: N/A（纯数据/路由层，无产品/UI行为修改）
 
-## Codex R3 当前验收与接手（2026-10-15）
+## Codex 接手修复（2026-10-15，作者自验证）
+
+C4空目标假正例先红后绿、同步handler双重强转已删除，82条相关回归与typecheck通过。
+详见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。标题取消产品风险和统一门未收，
+本卡继续rework；作者自验证不冒充独立accept，0新关闭。
+
+## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
 counter/rework：合法目录与不同库存 ID 成立；C4 空目标假正例已复现，新增双重强转待删。

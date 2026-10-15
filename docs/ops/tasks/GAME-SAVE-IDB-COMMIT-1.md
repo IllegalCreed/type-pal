@@ -1,9 +1,9 @@
 # GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: save transaction correctness
-Coding Owner: Unassigned
+Coding Owner: Codex
 Reviewer: Codex
 Visual Verification Timing: N/A（IO层；本轮无实现）
 
@@ -40,7 +40,20 @@ runtime 层直接执行，W3C 与 SDL 同步 IO 分开，无数据/提取/迁移
 要求成功/abort/失败传播与旧槽内容保留的真驱动反例；open错误缓存/close重置另核，不顺手扩范围。
 行为修复先失败反例，再实现，再相邻回归；纯重构分提交；完整模块窗口执行全部质量门与零诊断检查。
 
-## 当前推进与交接
+## 2026-10-15 用户批准与最小方案
+
+用户本轮明确批准前两项，其中本项为①；Codex依据真实Save→IDB合法abort反例、W3C事务生命周期、
+quick-save等待Save后反馈的caller核定premise verified / design agree，**build allowed**。
+单一写入Owner=Codex，白名单indexed-db.ts、独立indexed-db事务测试、game/package.json与pnpm-lock.yaml
+（仅显式测试依赖fake-indexeddb 6.2.5）；不改DB版本、store、schema、清档或公共接口。
+先保留失败业务断言再实现；旧交接的draft/no-build仅为历史，不覆盖此次用户批准。
+
+真实反证已在候选5477af1e4复跑，见CODE94/codex-r3-review.md。用户已授权Codex接手低风险返工；
+此项改变当前第一阶段行为，按用户原治理约束，已在会话集中请求三项最小修复裁决，现已明确批准本项。
+最小方案：仅写事务put/delete等待transaction complete再resolve；request success不当提交成功，error/abort向上reject。readonly读取、DB_VERSION/store/schema/清档/连接缓存策略不改。测试使用独立IDBFactory隔离，先写成功正控，再在request success后abort，证明保存拒绝且原槽未被覆盖；删除abort同样拒绝且旧槽保留。拟白名单indexed-db.ts、独立事务测试；若使用fake-indexeddb，作为game直接测试依赖明确接线并同步lock，不跨包偷借生产依赖。先保存失败反例再实现，不顺手改NaN输入或hot-reload策略。
+Coding Owner=Codex；按上述build白名单实施，完整验收前不标done。
+
+## 先前交接记录（历史）
 
 2026-10-15 Codex：反证已核，最终设计、Owner、白名单 pending；**build 准入 blocked**。
 没有实现，未来实现须独立验收；done blocked，相关账本保持 review，未合 main。

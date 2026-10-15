@@ -1,13 +1,19 @@
 # CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）
 
-Status: rework
+Status: review
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu helper state/contract governance
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
-## Codex R3 当前验收与接手（2026-10-15）
+## Codex 接手修复（2026-10-15，作者自验证）
+
+Important 与翻页锚已由Codex修正；未知test-only合同仍review。
+实改范围、红绿反例及后续统一门见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+这是作者修复/自验证，不冒充再次独立accept；本卡保持review、不标done、不增加closed。
+
+## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
 counter/rework：位序和独立负例成立，内联 Important 与测试翻页锚仍错误；test-only 合同保持 review。
