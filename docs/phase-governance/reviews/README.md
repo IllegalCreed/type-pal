@@ -26,3 +26,5 @@
 - [Testing 十份索引与公开 producer 冻结设计](20261016-testing-index-design.md)：保留设计冻结时准入与0/10基点；后续逐篇内容/producer验收及中央状态见专属记录，不从设计外推。
 
 - [Testing 十索引逐篇与生成链接入记录](20261016-testing-index-navigation.json)：保留固定738d作者候选和独立读域，当前中央/路由/矩阵按实际受审快照与记录核验；不授359来源或runtime信用。
+
+- [E2E 002–005 八篇治理冻结设计](20261016-e2e-stage-m-design.md)：A仅八MD，先002入口/报告两canonical pilot再另准余六；四配对JSON未纳入，006不改不重计。设计自身pending，不从设计/静态门授执行信用。

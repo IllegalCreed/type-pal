@@ -14,9 +14,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "解释九视图选择：阶段、状态、标签、Owner、工程域、模块、阶段归属、执行引擎及legacy来源。 九份自动视图及catalog→canonical/evidence读取顺序；不复刻18条catalog或359条分类账。 导航有效性为current；原文无Status/Owner/Last reviewed，不把目录名或Codex分组当原作者。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -56,6 +56,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/README.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -173,7 +199,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -368,7 +394,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "3489802dda76b58248f4c189adde86b6e78d6e114c90da76855150c8ee7c3958",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -399,6 +433,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/README.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "3489802dda76b58248f4c189adde86b6e78d6e114c90da76855150c8ee7c3958",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -419,7 +473,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -433,7 +487,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/README.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-domain.md",
@@ -445,9 +513,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "按e2e/editor/ops/phase1-runtime/runtime查已登记报告，不从路径重分类。 18个稳定ID，5组，分别9/2/1/1/5行；不增加来源/运行次数。 current仅指投影可用；每行原status及Owner由catalog保留，current11/proposal1/rework1/verified5是catalog出版轴。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -487,6 +555,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-domain.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -605,7 +699,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -993,7 +1087,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -1024,6 +1126,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-domain.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -1044,7 +1166,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -1058,7 +1180,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-domain.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-engine.md",
@@ -1070,9 +1206,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "按content/editor/game/reforge查相关文档及证据边界，不宣称全部引擎实际执行。 18个唯一ID，4组共31个成员关系：content1/editor4/game11/reforge15。 current为导航状态；多引擎成员重复不等于新测试，不把source audit升runtime执行。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -1112,6 +1248,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-engine.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -1232,7 +1394,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -1678,7 +1840,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -1713,6 +1883,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-engine.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -1733,7 +1923,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -1747,7 +1937,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-engine.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-module.md",
@@ -1759,9 +1963,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "按模块/功能进入对应canonical，区分同名模块在不同工程域的权威范围。 18个ID、17组；runtime/battle两篇，其他16组各一篇；组合键来自字段而非目录猜测。 current仅表示此组合投影可用，battle两篇不是重复执行或自动合并真源。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -1801,6 +2005,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-module.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -1919,7 +2149,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -2631,7 +2861,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -2662,6 +2900,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-module.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -2682,7 +2940,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -2696,7 +2954,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-module.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-owner.md",
@@ -2708,9 +2980,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "查每份登记文档的出版Owner；不把列表当独立审查签名或索引作者凭据。 1个Codex组/18个唯一ID；未覆盖catalog之外贡献者，也不替换历史原作者。 导航current；原所有行Owner=Codex是catalog事实，源索引本身无Owner元数据。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -2750,6 +3022,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-owner.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -2868,7 +3166,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -3131,7 +3429,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -3162,6 +3468,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-owner.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -3182,7 +3508,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -3196,7 +3522,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-owner.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-phase.md",
@@ -3208,9 +3548,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "按ops/phase1/phase2适用阶段导航，不以同页出现调换第一/二阶段机制真值。 18唯一ID、29成员关系：ops1/phase1 11/phase2 17；跨阶段重复保留。 current指导航；原phase数组不因模板化被扩大或减少，不把phase1验证继承给phase2。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -3250,6 +3590,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-phase.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -3370,7 +3736,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -3776,7 +4142,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -3811,6 +4185,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-phase.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -3831,7 +4225,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -3845,7 +4239,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-phase.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-stage.md",
@@ -3857,9 +4265,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "快速选择001–006的阶段报告，不声称是全catalog的顺序runner。 严格只含6个e2e-stage；跨阶段合同/路线建议/通病审计不混入阶段表。 投影current；001–005原verified、006原rework原值保留，导航current不把006转绿。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -3899,6 +4307,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-stage.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -4017,7 +4451,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -4198,7 +4632,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -4229,6 +4671,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-stage.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4249,7 +4711,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -4263,7 +4725,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-stage.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-status.md",
@@ -4275,9 +4751,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 4组/18ID：current11、proposal1、rework1、verified5。 页级current不统一改行状态；source publication current不认证runtime执行，历史verified不续期到今天。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -4317,6 +4793,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-status.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -4435,7 +4937,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -4790,7 +5292,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -4821,6 +5331,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-status.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -4841,7 +5371,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -4855,7 +5385,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-status.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/by-tag.md",
@@ -4867,9 +5411,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "用主题标签发现同一文档的不同检索面，不把标签当独立测试清单。 30个原标签组、66成员关系、18唯一ID；每条仍回同一canonical。 导航current；document-audit、visual等标签不构成已审/已看图/已实跑证明。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -4909,6 +5453,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-tag.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -5027,7 +5597,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -6006,7 +6576,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -6037,6 +6615,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/by-tag.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -6057,7 +6655,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -6071,7 +6669,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/by-tag.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     },
     {
       "path": "docs/testing/indexes/legacy-by-domain.md",
@@ -6083,9 +6695,9 @@
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Root current-record/central/route/matrix admission requires a distinct exact-snapshot non-author review.",
+      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
       "coreConclusion": "从历史原路径定位迁移后落点与旧分类原因，不重新授予359篇当前语义accept。 359原条目、11域、227个唯一目标；12lab旧条均汇入同一history，tools可能导向closeout计划，不是合法runner。 页级current；原migrated/reviewed/reviewed-migration-batch完整保留，但reviewed只表示旧movedTo/closeout成员关系。",
-      "documentStatus": "current navigation projection only; exact738d source-specific content independently accepted, downstream publication/execution unchanged",
+      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
       "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
       "originalIdentity": {
         "ownerFields": [],
@@ -6125,6 +6737,32 @@
           "rootOwner": "Codex",
           "scope": "Same accepted author bodies remain exact. Root changes no index text/code/SSOT; only full current records, central/routes, existing legacy relation and navigation/card maintenance.",
           "rootBase": "9318cead1100c01031f1c917c88c1119962076af"
+        },
+        {
+          "date": "2026-10-16",
+          "rootOwner": "Codex",
+          "action": "Record actual independent afb149b9 central/current-record intake acceptance",
+          "acceptance": {
+            "reviewer": "receipt_review",
+            "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+            "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+            "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+            "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
+          },
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/legacy-by-domain.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "bodyChanged": false
         }
       ],
       "primarySource": [
@@ -6250,7 +6888,7 @@
       },
       "counterReworkBlocked": {
         "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Root normalized records/central/routes/existing-matrix delta must receive separate non-author approval before integration commit; original content acceptance does not preapprove those later bytes.",
+        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
         "historicalLimits": [
           "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
           "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
@@ -9187,7 +9825,15 @@
           "strictIssues": 0,
           "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
           "bodyAfterSha256Unchanged": "e837dab12883d4b592646c75f72a76ff5417692f08d13553bee318937dadde3c",
-          "scope": "Actual same-body source/structure/projection in current root candidate; no fresh downstream report/product audit or independent normalized-record admission implied."
+          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
+        },
+        "independentRootIntake": {
+          "reviewer": "receipt_review",
+          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
         }
       },
       "history": [
@@ -9218,6 +9864,26 @@
           "rootMerge": "9318cead1100c01031f1c917c88c1119962076af",
           "proofSha256": "330523737e5c281b1375bef32d4c3b472750ac7b4ccfbba55bffc8d2efe3fcc7",
           "scope": "Exact13 import plus one newpending test inventory; not central10 acceptance."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Root records actual independently accepted L current intake",
+          "acceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "fullPrior": {
+            "kind": "complete-prior-current-record-in-fixed-reachable-git",
+            "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+            "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "selector": {
+              "entries.path": "docs/testing/indexes/legacy-by-domain.md",
+              "uniqueMatches": 1
+            },
+            "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+          },
+          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+          "bodyAfterSha256Unchanged": "e837dab12883d4b592646c75f72a76ff5417692f08d13553bee318937dadde3c",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -9238,7 +9904,7 @@
         "templateVersion": "1.0.0",
         "historyOverlay": false,
         "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
-        "method": "Actual fixed738d source-specific body/mapping semantics independently accepted; unchanged body is included in actual current215-body model0. Complete new normalized/central/route/matrix delta requires its own source-scoped non-author approval before integration."
+        "method": "Actual fixed738d body/mapping semantics and exactafb149b9 normalized-current/central/route/matrix intake independently accepted. Unchanged body included in fixedafb215-body model0. Later root-owned metadata is distinct; all publication/history/runtime boundaries remain."
       },
       "authorCandidateSource": {
         "kind": "complete-author-candidate-record-in-fixed-reachable-git",
@@ -9252,7 +9918,21 @@
         },
         "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-record-in-fixed-reachable-git",
+          "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+          "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+          "selector": {
+            "entries.path": "docs/testing/indexes/legacy-by-domain.md",
+            "uniqueMatches": 1
+          },
+          "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ]
     }
   ],
   "frozenDesign": {
@@ -10387,7 +11067,7 @@
   "centralIntegration": {
     "owner": "root Codex",
     "base": "9318cead1100c01031f1c917c88c1119962076af",
-    "status": "draft10normalized current records/central/routes/existinglegacy matrix candidate; independent scoped intake and full gates separate",
+    "status": "Exact afb149b9 L10 normalized current-record/central/routing/existinglegacy matrix intake independently accepted; whole-goal active/incomplete",
     "newBaselineMigrations": 10,
     "expectedBodyContracts": 215,
     "expectedStrictRecords": 724,
@@ -10419,7 +11099,7 @@
       "currentCandidates": 1970,
       "currentPending": 1755
     },
-    "nextStep": "Independent complete10normalized-record/central/route/matrix review and exact-byte wholezero gates; then continue M and all pending baseline/increment candidates.",
+    "nextStep": "Continue separately frozen M canonical pilot, F1 design admission and all baseline/increment/artifact work. Actual later-root-signoff zero gates required before its commit.",
     "actualConsumerObservations": {
       "model": {
         "bodies": 215,
@@ -10441,7 +11121,343 @@
         "currentPending": 1755,
         "issues": []
       },
-      "scope": "Actual current source/structure/projection only; root normalized/central/matrix non-author acceptance and same-byte whole gates remain separate."
+      "scope": "Actual observed fixed afb149b9 candidate, independently accepted with185checks; historical1970 snapshot. Later root signoff and any new design increment have different bytes/counts and separate checks."
+    },
+    "independentAcceptance": {
+      "reviewer": "receipt_review",
+      "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
+      "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+      "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
+      "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+      "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance.",
+      "review": {
+        "kind": "independent-non-author-L10-normalized-current-record-and-central8-intake-review",
+        "date": "2026-10-16",
+        "reviewer": "receipt_review",
+        "result": "accept exact8file snapshot;10/10 current normalized records and scoped central/routing/matrix intake accept; no open counter found",
+        "baseHEAD": "9318cead1100c01031f1c917c88c1119962076af",
+        "candidateManifest": "/tmp/type-pal-l-central-candidate-manifest-20261016.json",
+        "candidateManifestSha256": "4affcb6366a44fcdb07ca1f83cd7cfecfaf571fe0170d5a6b4ace6dbdefb6a5a",
+        "snapshotDirectory": "/tmp/type-pal-l-central-independent-reviewed-snapshot-20261016",
+        "snapshot": [
+          {
+            "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            "sha256": "a08c305e5720aecae4790aae41968218060eecc097a29429d1a3362657a209ac",
+            "bytes": 157239,
+            "lines": 816
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "sha256": "0f3562d44f7900dc88300a1ad65bf4cf91058e8d34adf4a86d104273f59b8722",
+            "bytes": 54035,
+            "lines": 925
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.md",
+            "sha256": "98461f19594e5f734c69c78a8bfd8e6c8b975e9516e5c885a831e2167ab515cd",
+            "bytes": 8911,
+            "lines": 70
+          },
+          {
+            "path": "docs/phase-governance/document-registry.json",
+            "sha256": "5951a9d76cee37b9f4fed2ae4acc444c490e1caeb9319bd996f6f6b334a5c623",
+            "bytes": 340304,
+            "lines": 8417
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "sha256": "eb0cc4c1e5e8474550992cae1d09cb7094231122bc458f64310ef8aeb9d74e90",
+            "bytes": 362947,
+            "lines": 6119
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "sha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+            "bytes": 586670,
+            "lines": 10494
+          },
+          {
+            "path": "docs/phase-governance/reviews/README.md",
+            "sha256": "e5f5fbf21cb9e2d53b686f332fecf1e92c109217e33636b8d39aa8cef2c0758c",
+            "bytes": 3051,
+            "lines": 28
+          },
+          {
+            "path": "docs/phase-governance/routing.json",
+            "sha256": "237a7129ca5d55d2b63725fe2d38b6ea7e2285b05cb58cfd402ad1e00de62f5d",
+            "bytes": 34455,
+            "lines": 1055
+          }
+        ],
+        "actualReadScope": {
+          "currentRecords": "All49 current field identities and meanings checked: read exact common values once after equality factoring, then all10 complete distinct-field extracts. Freshly read every unique core/phase/caller/oracle/source/owner/provenance/version/input/dedupe/counter/history/beforeAfter/next/evidence/conformity value and all85 heading-ID metadata. The758 unchanged sourceToAfterLineMapping objects were parsed/deep-compared in full to author738d originals, not freshly manually reread line-by-line; original map semantics/source921/current1241 coverage explicitly reuses fixed independent tail acceptance. This is not a fabricated fresh8167-line receipt/10494-line control/359source-document reading.",
+          "rootDelta": "Read root control status/design/import/proof pointers/centralIntegration/artifact rules/engine clarification; embedded tail report mechanically equals exact accepted report, not claimed newly full-read1006 lines. Read all matrix-current changes, root taskcard8added lines and reviewsREADME status/link delta. Reused unchanged accepted old current and other38matrix/source scopes.",
+          "primaryDirectChecks": "Actual Git9e/738d/9318 object and byte identities at required fixed paths, full43-field original author records retrieved with all fields/maps and unique selector, current SSOT navigation projection fields parsed for18IDs/359rows/dimension facts; actual read-only MarkedGFM and actual validateCatalog engine counter. No product/downstream/native report reread."
+        },
+        "perDocument": [
+          {
+            "path": "docs/testing/indexes/README.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "解释九视图选择：阶段、状态、标签、Owner、工程域、模块、阶段归属、执行引擎及legacy来源。 九份自动视图及catalog→canonical/evidence读取顺序；不复刻18条catalog或359条分类账。 导航有效性为current；原文无Status/Owner/Last reviewed，不把目录名或Codex分组当原作者。",
+            "phaseSourceRead": "解释九视图选择：阶段、状态、标签、Owner、工程域、模块、阶段归属、执行引擎及legacy来源。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "ff1e27cce0cfeb67d6b7229f5da2410aab074c35",
+            "sourceSha256": "685f06b819e1e7bc5f7349e9e7073a56a3bc1a904dbee34837ab30d4726db8b9",
+            "afterSha256": "3489802dda76b58248f4c189adde86b6e78d6e114c90da76855150c8ee7c3958",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-domain.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "按e2e/editor/ops/phase1-runtime/runtime查已登记报告，不从路径重分类。 18个稳定ID，5组，分别9/2/1/1/5行；不增加来源/运行次数。 current仅指投影可用；每行原status及Owner由catalog保留，current11/proposal1/rework1/verified5是catalog出版轴。",
+            "phaseSourceRead": "按e2e/editor/ops/phase1-runtime/runtime查已登记报告，不从路径重分类。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "c35b4e3f7b3029620452b8b1761bdfb73a8b1d07",
+            "sourceSha256": "56a10e113a89246c2ab40e8cdb236e9782122a8d83435b538c637a7fd6e06840",
+            "afterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-engine.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "按content/editor/game/reforge查相关文档及证据边界，不宣称全部引擎实际执行。 18个唯一ID，4组共31个成员关系：content1/editor4/game11/reforge15。 current为导航状态；多引擎成员重复不等于新测试，不把source audit升runtime执行。",
+            "phaseSourceRead": "按content/editor/game/reforge查相关文档及证据边界，不宣称全部引擎实际执行。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "ccc429af12d63c23c8faa0e21cf26de87a0e0822",
+            "sourceSha256": "b352588f442cfa27137a59f81c77b5b12a43b4234261a4bde4ac4b8a13da1337",
+            "afterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-module.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "按模块/功能进入对应canonical，区分同名模块在不同工程域的权威范围。 18个ID、17组；runtime/battle两篇，其他16组各一篇；组合键来自字段而非目录猜测。 current仅表示此组合投影可用，battle两篇不是重复执行或自动合并真源。",
+            "phaseSourceRead": "按模块/功能进入对应canonical，区分同名模块在不同工程域的权威范围。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "9b0fe4b9308a37ee959e41fb6d37efbd3572c0b5",
+            "sourceSha256": "5fc38a5b75e94f4d90c25a0d2530d9e2c41784d464ded3884df747e0a8e465ca",
+            "afterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-owner.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "查每份登记文档的出版Owner；不把列表当独立审查签名或索引作者凭据。 1个Codex组/18个唯一ID；未覆盖catalog之外贡献者，也不替换历史原作者。 导航current；原所有行Owner=Codex是catalog事实，源索引本身无Owner元数据。",
+            "phaseSourceRead": "查每份登记文档的出版Owner；不把列表当独立审查签名或索引作者凭据。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "ffc5f19e30c1b27b08d3abe529afabf5a70b9bac",
+            "sourceSha256": "cef0b440d5d84fc327a5c15b8f2c4ccf2e84b373a1cb1726345384bf90ebcada",
+            "afterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-phase.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "按ops/phase1/phase2适用阶段导航，不以同页出现调换第一/二阶段机制真值。 18唯一ID、29成员关系：ops1/phase1 11/phase2 17；跨阶段重复保留。 current指导航；原phase数组不因模板化被扩大或减少，不把phase1验证继承给phase2。",
+            "phaseSourceRead": "按ops/phase1/phase2适用阶段导航，不以同页出现调换第一/二阶段机制真值。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "95dfa17c30c9b2bd1e94fdd96f667ae9465d2701",
+            "sourceSha256": "55798fa795c271b19a87f993c3c83c9dec4ef90e1fe06e7c0cdab1357204a839",
+            "afterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-stage.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "快速选择001–006的阶段报告，不声称是全catalog的顺序runner。 严格只含6个e2e-stage；跨阶段合同/路线建议/通病审计不混入阶段表。 投影current；001–005原verified、006原rework原值保留，导航current不把006转绿。",
+            "phaseSourceRead": "快速选择001–006的阶段报告，不声称是全catalog的顺序runner。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "c887a184f605d4a41878f49b93ee1a8c9e6c4e2d",
+            "sourceSha256": "93ddee5ce07bd190d124bf96895c42844936a0ee429a41cc5c7ce73d9b38cddd",
+            "afterSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-status.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 4组/18ID：current11、proposal1、rework1、verified5。 页级current不统一改行状态；source publication current不认证runtime执行，历史verified不续期到今天。",
+            "phaseSourceRead": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "47e6e10b02e02b3d1822d72448da0b8f3f4e5740",
+            "sourceSha256": "0db02acf1366a466045f97f72567354af5ffed019ef89b04b74a2474c0512241",
+            "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/by-tag.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "用主题标签发现同一文档的不同检索面，不把标签当独立测试清单。 30个原标签组、66成员关系、18唯一ID；每条仍回同一canonical。 导航current；document-audit、visual等标签不构成已审/已看图/已实跑证明。",
+            "phaseSourceRead": "用主题标签发现同一文档的不同检索面，不把标签当独立测试清单。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "4e6bef1917fbe9def8a5f9a9003531dd0921fd74",
+            "sourceSha256": "d7be03fca69db05770ee02cc4c044b6137991dbffb9b740d401c6b9b64e0609d",
+            "afterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          },
+          {
+            "path": "docs/testing/indexes/legacy-by-domain.md",
+            "result": "accept current normalized record/intake",
+            "coreConclusionRead": "从历史原路径定位迁移后落点与旧分类原因，不重新授予359篇当前语义accept。 359原条目、11域、227个唯一目标；12lab旧条均汇入同一history，tools可能导向closeout计划，不是合法runner。 页级current；原migrated/reviewed/reviewed-migration-batch完整保留，但reviewed只表示旧movedTo/closeout成员关系。",
+            "phaseSourceRead": "从历史原路径定位迁移后落点与旧分类原因，不重新授予359篇当前语义accept。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
+            "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+            "sourceBlob": "897d9a634eb4fb88b6c17208fb44b13dc84b283c",
+            "sourceSha256": "12274d26fa4c69ec56bf43d7028e014efc98fad4af1bbe3485ba89e597bcc47b",
+            "afterSha256": "e837dab12883d4b592646c75f72a76ff5417692f08d13553bee318937dadde3c",
+            "version": "1.0.0",
+            "historyOverlay": false,
+            "preservation": "Full43 author entry in reachable738d receipt; complete originalPreservation and all map objects identical. No quote-inverse claim."
+          }
+        ],
+        "directComparisons": {
+          "checks": 185,
+          "issues": [],
+          "proof": "/tmp/type-pal-l-central-independent-checks-20261016.json",
+          "proofSha256": "8ec61eb2a3922e95d383f7ae2d0f925f2a6f0d002976a7a6caceeff04b9ed98d",
+          "facts": {
+            "catalogIDs": 18,
+            "statuses": {
+              "current": 11,
+              "proposal": 1,
+              "verified": 5,
+              "rework": 1
+            },
+            "domain": {
+              "e2e": 9,
+              "runtime": 5,
+              "ops": 1,
+              "editor": 2,
+              "phase1-runtime": 1
+            },
+            "engine": {
+              "game": 11,
+              "reforge": 15,
+              "editor": 4,
+              "content": 1
+            },
+            "phase": {
+              "phase1": 11,
+              "phase2": 17,
+              "ops": 1
+            },
+            "tags": {
+              "groups": 30,
+              "memberships": 66
+            },
+            "moduleGroups": 17,
+            "stages": 6,
+            "legacyRows": 359,
+            "legacyDomains": 11,
+            "legacyTargets": 227,
+            "labRows": 12,
+            "labTargets": ["archive/architecture-regression-lab-history.md"]
+          },
+          "summary": [
+            "Old714registry and205route entries retained in exact original order; exactly10unique matching governance-index1.0/no-overlay records/routes added; registry reviewRecord resolves to this one current control.",
+            "Each source9e path/blob/wholeSHA, author738d body and root9318/current body match. All13prior author import files, twoSSOTs, shared checker/template registry, inventory ledger/Drecord untouched.",
+            "All10 complete43field author objects remain actually retrievable via strict fixed738d receiptcommit/blob/wholeSHA/uniqueentries.path; completeAuthorRecordSources equals per-entry pointer list, author is actual ancestor of9318. Original pending/counter/history not rewritten as current.",
+            "All758 original mapping objects preserved exactly, no K-style quoteinverse invented. Original85heading metadata and572source href occurrences retained by actual lexer; current612links.",
+            "39matrix objects total; only existinglegacy-classification relation changes, other38 fullobjects identical. MDonlyline40 changes and realGFM1table39data. Matrix current fields and after/source truth synchronized; complete old current and all priorReadings retained, other old reviewentries exact.",
+            "Current controls and author receipt remain pending incremental bodies; neither self-certified. Original owner/date absence, publication11/1/1/5,6stage/006rework, fixed reviewDate and source-specific phase limitations remain."
+          ]
+        },
+        "actualGfmAndOracle": {
+          "path": "/tmp/type-pal-l-central-independent-gfm-20261016.json",
+          "sha256": "9973a8926e41894a2ae07e72c35d58ce87fc2066f5e187365e5cebbacdf5ee99",
+          "issues": [],
+          "matrix": {
+            "tables": 1,
+            "dataRows": 39
+          },
+          "engineBoundary": {
+            "original": [],
+            "new-label": [],
+            "missing": [
+              "e2e-contract: missing engines",
+              "e2e-contract: engines must contain non-empty strings"
+            ],
+            "empty-array": ["e2e-contract: engines must contain non-empty strings"]
+          },
+          "engineInterpretation": "Missing and empty engines rejected by existing validateCatalog, legitimate new non-empty label accepted. No allowed-engine enum exists or is claimed in current oracle; original candidate wording remains available in full historical author record."
+        },
+        "counterAssessment": "No candidate counter found in this scoped8delta. The preemptive by-engine contract narrowing accurately reflects direct real-consumer observations; root state is explicitly candidate until this independent intake. Historical202body context is correctly marked fixed738d rather than current215.",
+        "independentActualConsumers": [
+          {
+            "path": "/tmp/type-pal-l-central-independent-model-20261016.log",
+            "sha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
+            "exitCode": 0,
+            "stdout": "document model: PASS (7 routes; 215 body contracts; 0 issues; structure only)\n"
+          },
+          {
+            "path": "/tmp/type-pal-l-central-independent-strict-20261016.log",
+            "sha256": "3d204c1343633066de5629c6a91ce49e4a5db56fb2ad2885f92f8ffff962d187",
+            "exitCode": 0,
+            "stdout": "content review: PASS (724 documents; {\"content-reviewed\":724})\n"
+          },
+          {
+            "path": "/tmp/type-pal-l-central-independent-testing-20261016.log",
+            "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+            "exitCode": 0,
+            "stdout": "testing docs: PASS (0 issues)\n"
+          },
+          {
+            "path": "/tmp/type-pal-l-central-independent-links-20261016.log",
+            "sha256": "e28b7d06ef1e8a8c53640f269a8040002e133c2316bb1e6e42492f46a2eedd75",
+            "exitCode": 0,
+            "stdout": "docs: 1224 Markdown / 7917 local links / 361 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n"
+          },
+          {
+            "path": "/tmp/type-pal-l-central-independent-ledger-20261016.log",
+            "sha256": "ce88c41b5f11612531578322b6b1da1a7331293a3b208c5b4ed200c04c5288e2",
+            "exitCode": 0,
+            "stdout": "code-quality ledger: PASS — 3292 files; 229 closed / 5 review / 3058 pending; semantic review still required\n"
+          },
+          {
+            "path": "/tmp/type-pal-l-central-independent-diff-20261016.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "exitCode": 0,
+            "stdout": ""
+          }
+        ],
+        "independentProgress": {
+          "approvedCohort": 1838,
+          "cohortMigrated": 211,
+          "incrementalMigrated": 4,
+          "currentCandidates": 1970,
+          "currentPending": 1755,
+          "issues": []
+        },
+        "rootWholeGatesSeparate": {
+          "proof": "/tmp/type-pal-l-central-gates-20261016.json",
+          "sha256": "5767b69fe1c9237c61248322b01a32f519b74dad6dd1fb65688c8fc5167a81d2",
+          "observed": "Root same8snapshot check:docs82tests/0fail/0skip,1224MD/7917links/model215/strict724/testing0/phase184; lint4102/0error/0warning/0info; diffunstaged/cached0. Reviewer inspected gate metadata and own targeted actual consumers, not independently rerun all82docs tests or lint."
+        },
+        "reviewerProbeCalibration": "Own first helper assumed historyOverlay explicitly present in every route and raisedKeyError; actual absent value is the existing false default. Then own predicate appended the already included phaseAnchor suffix twice and falsely flagged10anchors. Direct fixed-author string read established exact equality; corrected helper has185checks/0issues without any candidate/source/code changes. No candidate counter or passing proof credited to those intermediate probe errors.",
+        "limits": [
+          "Repo read-only; wrote only/tmp proofs/copies. Did not execute writer/CLI in shared root, old business tools,112toolsemantics/raw/browser/runtime/E2E/coverage/product/old tests/remoteCI or Git integration/main changes.",
+          "Scope accepts10 unchanged content documents via their previously independent738d audit plus this new full-current/root8delta; no additional authorreceipt/control governance credit, no renewed18canonical-report or359downstream-source semantic acceptance.",
+          "Whole goal active/build/incomplete:211/1838+4, current1970/pending1755. Other38 matrix relationship source/technical premises were reused, not freshly reaudited;39relations are not exhaustive.",
+          "Root later signoff metadata/full-prior locators and any source/SSOT/producer changes are new bytes and must preserve exact accepted8candidate and receive appropriate scoped validation. This acceptance does not preapprove future metadata or F1implementation."
+        ],
+        "nextStep": "Preserve exact8 accepted snapshot in reachable Git before root-only administrative signoff; protect author738d ancestry and complete records, run exact-byte static zero gates. Lroot acceptance is scoped, then F1 may separately proceed only after its own frozen design/admission and clean basis; continue all remaining M/baseline/increment governance."
+      }
     }
   },
   "artifactRules": {
@@ -10480,6 +11496,18 @@
       ],
       "scope": "Exact16 implementation-import/onependinginventory delta; not future10central acceptance.",
       "retention": "Keep exact source/candidate/proof and received authority; author738d retained by natural root merge in final published ancestry. No old raw reconstruction or retention renewal."
+    },
+    "type-pal-l-central-independent-review-20261016.json": {
+      "path": "/tmp/type-pal-l-central-independent-review-20261016.json",
+      "sha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+      "producer": "receipt_review",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Full exact8 independent intake report embedded in centralIntegration.independentAcceptance.review, including truthful read scope/failures/limits",
+      "retention": "Preserve immutable proof and exactafb149b9 reachable complete Git snapshot in final published history; later root metadata not preapproved."
     }
   },
   "rootNormalizationClarifications": [
@@ -10490,5 +11518,210 @@
       "sha256": "6040086ec56f2b6f5a5a9dc684d7783b791aace1eaf37414a71fbecf842dadbe",
       "codeOrBodyChanged": false
     }
-  ]
+  ],
+  "rootSignoff": {
+    "date": "2026-10-16",
+    "owner": "root Codex",
+    "preservedAcceptedCandidate": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+    "completePriorRecordSources": [
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/README.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-domain.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-engine.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-module.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-owner.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-phase.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-stage.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-status.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/by-tag.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      },
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "entries.path": "docs/testing/indexes/legacy-by-domain.md",
+          "uniqueMatches": 1
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      }
+    ],
+    "completePriorControlSources": [
+      {
+        "kind": "complete-prior-current-record-in-fixed-reachable-git",
+        "revision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
+        "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+        "gitObject": "19c0fc71dd6a8dc26740afb5daa56f47e74efb55",
+        "fileSha256": "fea7f62aa5b028d814e491e37565511356c312f89fec1830813e6af3fa86b0e4",
+        "selector": {
+          "topLevelField": "centralIntegration"
+        },
+        "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+      }
+    ],
+    "independentProofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
+    "candidateGates": {
+      "manifest": "/tmp/type-pal-l-central-candidate-manifest-20261016.json",
+      "manifestSha256": "4affcb6366a44fcdb07ca1f83cd7cfecfaf571fe0170d5a6b4ace6dbdefb6a5a",
+      "candidateUnchanged": true,
+      "checkDocs": {
+        "exitCode": 0,
+        "tests": 82,
+        "fail": 0,
+        "skip": 0,
+        "markdown": 1224,
+        "localLinks": 7917,
+        "tasks": 361,
+        "modelBodies": 215,
+        "strictRecords": 724,
+        "diagnostics": 0
+      },
+      "lint": {
+        "exitCode": 0,
+        "files": 4102,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diffChecks": {
+        "unstaged": 0,
+        "cached": 0,
+        "diagnostics": 0
+      },
+      "scope": "L8 frozen central candidate; actual static gates, independent intake separate",
+      "logs": [
+        {
+          "path": "/tmp/type-pal-l-central-docs-20261016.log",
+          "sha256": "641278c51ac1d7330adc9b82d1892c72966646807deee58cf2785c1a5faaa313",
+          "bytes": 20371
+        },
+        {
+          "path": "/tmp/type-pal-l-central-lint-20261016.log",
+          "sha256": "aee8c52a89236a7645dab3d17255dbce975213c3951498a23909c41f40981432",
+          "bytes": 201
+        },
+        {
+          "path": "/tmp/type-pal-l-central-model-20261016.log",
+          "sha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
+          "bytes": 78
+        },
+        {
+          "path": "/tmp/type-pal-l-central-strict-20261016.log",
+          "sha256": "3d204c1343633066de5629c6a91ce49e4a5db56fb2ad2885f92f8ffff962d187",
+          "bytes": 63
+        },
+        {
+          "path": "/tmp/type-pal-l-central-progress-20261016.json",
+          "sha256": "f42173f5dace25f6ec47be068b7cfc00b84299f0ac30abb6ba40fa859727b047",
+          "bytes": 70016
+        },
+        {
+          "path": "/tmp/type-pal-l-central-matrix-gfm-20261016.json",
+          "sha256": "864ab93411e9113aa4e201ca08cdf49f0315c10c94cbc51c291ca165dc2680ed",
+          "bytes": 3641
+        }
+      ]
+    },
+    "laterBytePolicy": "This signoff plus new M design/entry/card are separate root bytes; actual exact-snapshot independent scoped validation and check:docs/lint/diff required before commit. No future PASS or body/runtime credit.",
+    "limits": "211/1838+4 accepted at fixedafb; new design remainspending. Whole-goal/main/runtime/E2E/visual/coverage incomplete."
+  }
 }
