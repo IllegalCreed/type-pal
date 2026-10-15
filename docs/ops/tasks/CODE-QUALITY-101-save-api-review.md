@@ -1,13 +1,20 @@
 # CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
 
-Status: rework
+Status: review
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 save domain governance（schema/IndexedDB 高风险域）
 Visual Verification Timing: N/A（纯 IO/数据层，无产品/UI行为修改）
 
-## Codex R3 当前验收与接手（2026-10-15）
+## Codex 用户批准后修复（2026-10-15，作者自验）
+
+用户批准事务提交成功/失败传播修复，c81f469e3已落commitWrite与真实IDB三条回归。
+提交时机、成功存读删、put/delete success后abort拒绝与旧槽保留均通过；125条相邻回归及typecheck通过。
+详见GAME-SAVE-IDB-COMMIT-1与 [接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+本卡回review等完整门；open失败缓存/连接生命周期/输入域等未决项不因此关闭，0新闭合。
+
+## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。
 counter/rework：双路径头注成立；事务 abort 仍 resolve 再次复现，GAME-SAVE-IDB-COMMIT-1 不开始实现。

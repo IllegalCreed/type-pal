@@ -9,20 +9,20 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）](CODE-QUALITY-100-save-slot-menu-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-102 — 快存快读工具审核（quick-save）](CODE-QUALITY-102-quick-save-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-94 — menu 独立阶段集成窗口](CODE-QUALITY-94-menu-integration-window.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-95 — menu 测试夹具合法性 counter](CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）](CODE-QUALITY-98-menu-opening-player-status.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）](CODE-QUALITY-99-menu-driver-review.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）](CODE-QUALITY-99-menu-driver-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |

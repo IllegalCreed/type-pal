@@ -69,6 +69,14 @@ GAME-OPENING-CANCEL-CURSOR-1仅修改driver标题取消窄分支；先真实标�
 实际ArrowDown/Enter/Escape后读取dev探针cursor0，pageErrors为空；截图已直接查看，未写gs伪造界面。
 浏览器回执和两张截图以codex-opening-*留存，独立Vite6025服务在验证后停止。
 
+## 最终模块窗口的候选
+
+行为修复分别提交c81f469e3、23f4effbf并推送；仅新增IDB测试一份，账本更新为
+3284 inventory /229 closed /45 review /3010 pending，0新关闭。CODE94仍rework；其余CODE95/97–102及两张修复卡保持review。
+第三项法术显示维持draft，不改实现。官方完整门在稳定候选集中跑；使用4workers与官方editor并行选项，
+仅子进程移除agent reporter检测变量以显露全部console，记录std-env.isAgent=false，不改任何规则/ignore。
+中断的单worker/旧候选回执、首次docs索引失败原件均保留，不计通过。
+
 ## 保留边界（批准前检查点，历史）
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。

@@ -9,6 +9,11 @@
 
 ## 2026-10-15 menu候选独立再验收
 
+Codex随后接手已证低风险返工，并按用户明确批准修复存档事务与标题取消（c81f469e3、23f4effbf）；
+第三项法术显示未批准、不实施。当前CODE95/97–102及两张修复卡保持review；CODE94与统一门尚未闭合。
+新增真实IDB回归文件列review，机器账本须重新读取；0新关闭。最新修复及门状态见
+[Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)，下文R3为冻结作者旧候选的独立结论。
+
 当前三验见 [Codex R3](../evidence/CODE-QUALITY-94/codex-r3-review.md)，候选5477af1e4、main=f98d0ddd8。
 CODE95三份夹具局部accept；其余批次有效增量接收但仍有测试/注释counter、机制/Save风险和全仓非零诊断。
 3283 inventory /229 closed /44 review /3010 pending，0新关闭、未合main。用户本轮授权后由Codex接手低风险返工。

@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG与音乐音源）：3,283。
-当前已闭合核验：229；已读但待审：44；尚未逐文件核验：3,010；合计未闭合：3,054。
+起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG、音乐音源与IDB事务回归）：3,284。
+当前已闭合核验：229；已读但待审：45；尚未逐文件核验：3,010；合计未闭合：3,055。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -28,6 +28,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 专项四合同、像素回归与反控见[修复证据](../evidence/game-rng-scene-restore-1/README.md)，不自动增加本账本治理闭合数量。
 
 2026-10-15 第一阶段音乐音源与缓存回归新增16项tracked记录，均计入待核；功能/独立复核不自动增加本专项语义治理闭合数。精确路径见[新增机器清单](../evidence/game-rix-music-1/release-inventory-delta.json)。
+
+2026-10-15 用户批准的IDB事务修复新增一份真实驱动回归，列review等待完整门，未增加closed。
+当前机器3284/229closed/45review/3010pending；此前3283/44review是新增前快照。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -305,7 +308,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/save-slot-menu.ts` | product | review | Codex takeover: removed self-model test; documented actual direct Save/handler, cancel ownership and dual storage path | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 | `packages/game/src/core/save/api.ts` | product | review | CODE-101 C5 返工后：头注释已更正（E-10 关闭，双路径现状）；"hot-reload 已处理"过 claim 已回收（openDb 失败缓存/未 close 未证） | NaN/小数合同列 review 不改接口；U-1 引用既有卡；待 Codex 再验收 |
-| `packages/game/src/core/save/indexed-db.ts` | product | review | CODE-101：C4 事务缺口维持（Codex 反控已复现 request.onsuccess≠commit） | GAME-SAVE-IDB-COMMIT-1 停线（draft 无 build allowed）；E-12 维持；待该卡收口 |
+| `packages/game/src/core/save/indexed-db.ts` | product | review | 用户批准后c81f469e3修复：put/delete等transaction complete；success后abort拒绝并保留旧槽，真实Save调用回归通过 | GAME-SAVE-IDB-COMMIT-1仍review等完整门；连接/失败缓存未决不关闭 |
+| `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | 用户批准事务修复的新三条真实Save→IDB回归：提交时机/正常存读删、覆盖abort保旧槽、删除abort保旧槽；完整typed GameState，独立IDBFactory及连接/global/spy清理 | 作者自验，尚未独立闭合；不以3绿或覆盖率升高关闭文件 |
 | `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState and feedback tests retained; anonymous keydown listener removed; balance probe green; Save transaction risk stays open | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 
 2026-10-15 Codex三验：候选5477af1e4、main=f98d0ddd8，独立0behind/17ahead；[R3逐文件与反证](../evidence/CODE-QUALITY-94/codex-r3-review.md)。C5有效typed/排重/错误反馈局部接收；CODE95三份局部accept但仍review；新发现quick-save匿名监听器泄漏、driver C4空角色假正例、无必要双重强转、残留错误注释及一条candidate SHA过时。三份GAME高风险draft维持；所有原review/pending状态保持，0新关闭；3283/229closed/44review/3010pending。用户授权Codex接手低风险返工，后续修复另记，不追溯改作者回执。

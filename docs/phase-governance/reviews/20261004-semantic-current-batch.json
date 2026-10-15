@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
-      "afterSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
+      "sourceSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+      "afterSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
+        "implementationSha": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -852,13 +852,19 @@
             "date": "2026-10-15",
             "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
             "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "23f4effbf",
+            "date": "2026-10-15",
+            "action": "Two user-approved phase1 fixes implemented and author-verified; third display change on hold; no file closure",
+            "notRun": ["full quality window pending"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/board.md",
-        "sourceSha256": "34cc2d351d24be665e921e704b631256e6437f0c182e648d5092c2738c59e841",
+        "sourceSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
         "lineCount": 32,
         "headings": [
           {
@@ -2114,8 +2120,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
-      "afterSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
+      "sourceSha256": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
+      "afterSha256": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2151,7 +2157,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
+        "implementationSha": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2443,13 +2449,19 @@
             "date": "2026-10-15",
             "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
             "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "23f4effbf",
+            "date": "2026-10-15",
+            "action": "Two user-approved phase1 fixes implemented and author-verified; third display change on hold; no file closure",
+            "notRun": ["full quality window pending"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
-        "sourceSha256": "dddcf21455249c02a068defeabe1a26aabb52205f7827bf18d9a83f2117f700b",
+        "sourceSha256": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
         "lineCount": 401,
         "headings": [
           {

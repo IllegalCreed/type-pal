@@ -1,4 +1,4 @@
-import { IDBFactory, IDBObjectStore as FakeObjectStore } from 'fake-indexeddb'
+import { IDBObjectStore as FakeObjectStore, IDBFactory } from 'fake-indexeddb'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../../game-state.js'
 import { Save } from '../api.js'

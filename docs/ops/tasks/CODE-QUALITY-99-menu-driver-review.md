@@ -1,6 +1,6 @@
 # CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）
 
-Status: rework
+Status: review
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -10,8 +10,9 @@ Visual Verification Timing: N/A（纯数据/路由层，无产品/UI行为修改
 ## Codex 接手修复（2026-10-15，作者自验证）
 
 C4空目标假正例先红后绿、同步handler双重强转已删除，82条相关回归与typecheck通过。
-详见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。标题取消产品风险和统一门未收，
-本卡继续rework；作者自验证不冒充独立accept，0新关闭。
+详见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。用户随后批准标题取消修复，
+23f4effbf已修，125条相邻回归/typecheck与真实浏览器验证通过；本卡回review等统一门，
+作者自验证不冒充独立accept，0新关闭。
 
 ## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
