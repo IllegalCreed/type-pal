@@ -617,3 +617,88 @@ Branch: codex/docs-full-template-proposal
 - I3后根71工具/0fail0skip/docs/model150/strict659、lint4092零诊断属早于I4及本签收字节；提交前按本签收新字节全门重跑，失败原日志/快照永久保持时点，不回写首次即通过。
 
 - I14根签收后真实全门通过：71工具0fail/0skip、docs1223/7437/361/content22SAVE12/model150/7routes0、testing0/phase184/strict659；lint4092文件零error/warning/info，diff及相对main检查0。本次结果与日志SHA入I集成；该结果追加是后续元数据，提交前再按最终字节实跑，不冒用独立旧hash。146/1838+4、1811pending仍非全量完成；main干净f98d0ddd未改。
+
+
+### 2026-10-16 J6后继合同冻结与K49设计准入前提
+
+- I14稳定根`8aa698c4038bc6553a1a524ca83508cb16e06a32`，全门71工具/150合同/659中央、lint4092零诊断，当前146/1838+4/1811pending；main仍f98d0ddd干净。J/K本节设计冻结均0新增迁移，目标active/build。
+- J最终223行提案SHA`f7c2502460941b1d1e2c96d143671dda0c5778751f72b0d301ec9be3848e3278`已根/非作者全文读及独立agree，精确三原生15/10/22键合同与三33cc pin已附[模板提案](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-16-j三种历史集成机器对象15设计冻结)。原始6源1570行/manifest`ccb992ab7aaeacd3770c63deab1379a1a4552f781a6698d821932d57fce376f6`及wave2 storedSHA旧href时序保持，不修改原迁移账。
+- J0文档build allowed：根Codex唯一共享Owner，可原子添加三变体/pin、machine父版本1.5及默认示例、下列已接收15对象一值声明滚动和真实registry/review全字段/prior、现行模板入口说明及必要本目标新docs来源测试扩展；不改实际consumer/固定baseline/旧变体/产品/旧tests/coverage。非作者tail/receipt实际复核后接收，J3JSON仍等J0稳定另明确准入。三MD及三JSON正文此时不准写，不能先标J6完成。
+
+| J0既有机器路径（仅治理1.4→1.5声明） | 当前完整SHA256 |
+|---|---|
+| docs/testing/e2e/evidence/e2e-001.json | 25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8 |
+| docs/testing/domains/runtime/scene/active-scene/evidence.json | 25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311 |
+| docs/testing/domains/runtime/battle/battle-host/evidence.json | c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e |
+| docs/testing/domains/runtime/battle/battle-session-owners/evidence.json | 71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d |
+| docs/testing/domains/runtime/world/world-runtime/evidence.json | 46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a |
+| docs/testing/domains/editor/commands/command-form-families/evidence.json | 391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353 |
+| docs/testing/domains/editor/map/map-workspace-sessions/evidence.json | 13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b |
+| docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json | be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf |
+| docs/testing/domains/runtime/menu/menu-session/evidence.json | ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be |
+| docs/testing/e2e/evidence/e2e-contract.json | 9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a |
+| docs/testing/e2e/evidence/e2e-route.json | 3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349 |
+| docs/testing/e2e/evidence/e2e-common-issues.json | 0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83 |
+| docs/testing/domains/ops/testing-governance/legacy-flat-audit.json | b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04 |
+| docs/testing/e2e/evidence/e2e-006.json | 71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174 |
+| docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json | 271f776f962925609b3bcca786d88614fc123e037acf3376c868c35e33bbfe98 |
+
+- K49根/作者/非作者receipt各已全文读49源400行，原Owner/Status缺席、中央实际0/49；根完整读49逐篇具体目的/判型依据/唯一真源/时态投影，设计前200MD及工具保护全文，未冒领13176行设计JSON或112工具/16830账本全文。完整设计JSON SHA`c037cb924db962999f12119ceb211b2e08cc9deb90f7c68388561c162d38bc77`，逐path/blob/SHA manifest`9ad30d9ed5c2b0ba3efb03c6859681283409366dd59a40407993e200e8f5e609`，49源与8aa逐项相同。
+- K绑定冻结为既有governance-index1.0共49：12聚合/20工具/9配对/8历史导航；36篇附archive1.0（20工具、8含历史源核版本leaf、8历史出版），13纯当前导航无overlay。不是按README路径直接判型；每篇真实正文仅导航、无独立gate/执行/域claim表，具体目的如下。当前catalog的22/11出版轴保留，10-06/10-11源刷新另分时点，不机械替SAVE12；不镜像catalogOwner为原Owner。
+- K仍draft，正文不准写：必须先独立接收K0两旧批次writer的写前所有权保护。工具generator确可覆写20页并追加重复；deepen另覆盖8current/8history，早期源ref/Git读与全部固定/rename输出须核。上游保护仅“不要运行”不成立；具体方案由根单独freeze/实施/非作者验收，作者只读准备不擅改共享工具。
+- K目标是49页真实5章+36历史5章、原标题与原文字节证据；root新增20工具目录导航使49/49从domains根可达，battle/scene当前三次tools去重为一，scene空索引说明零工具不恢复归档。112现列脚本仅逐path/hash关联旧122账、另10unresolved归档；坏caller源码片段只线索不授合法runner/执行。所有脚本/旧raw不运行，历史日期/诊断/期限不延长，native机器/报告/catalog不在作者白名单。
+
+| K固定源路径 | 原行 | archive | 逐篇目的/停止线 |
+|---|---:|---|---|
+| docs/testing/domains/README.md | 8 | false | 将 runtime、ops、editor、phase1-runtime 四个 canonical 工程域入口分工导航；增补历史工具入口以解除18个无入链工具目录。 |
+| docs/testing/domains/content/authoring-and-runtime/tools/README.md | 22 | true | 内容创作与runtime相关的16份mutant/config/witness历史工具清单，名称不等于已证当前调用域。 |
+| docs/testing/domains/content/editor-workflows/tools/README.md | 7 | true | item-logic-review-witnesses历史工具导航，不把witness名称当功能已验。 |
+| docs/testing/domains/content/engine-boundaries/tools/README.md | 7 | true | runtime-state-review-witnesses历史工具导航；旧caller含源码片段，不能照抄为合法命令。 |
+| docs/testing/domains/content/testing-records/tools/README.md | 8 | true | architecture-review-witnesses与reference-mutants历史工具导航，不继承lab整批accept。 |
+| docs/testing/domains/editor/README.md | 4 | false | 只路由命令表单族与地图工作区两种编辑器所有权记录，不承担编辑器质量总审。 |
+| docs/testing/domains/editor/authoring-and-runtime/tools/README.md | 9 | true | 地图pointer/workspace/reference三份历史工具导航，执行准入另核。 |
+| docs/testing/domains/editor/battle/tools/README.md | 7 | true | battle-simulator-s1历史工具单入口，不认证模拟器当前通过。 |
+| docs/testing/domains/editor/commands/README.md | 3 | false | 命令域的单一 command-form-families 子入口，不复制表单报告的业务结论。 |
+| docs/testing/domains/editor/commands/command-form-families/README.md | 7 | true | 命令表单族current报告/evidence与历史出版三向导航；旧SAVE11明确为10-04出版轴。 |
+| docs/testing/domains/editor/commands/command-form-families/history/README.md | 6 | true | 命令表单族current报告/evidence与历史出版三向导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/editor/editor-workflows/tools/README.md | 28 | true | 编辑器命令/地图/预览/item/menu等22份历史工具导航；不把混合文件清单当editor整域测试合同。 |
+| docs/testing/domains/editor/map/README.md | 3 | false | 地图域的单一 map-workspace-sessions 子入口，不复制工作区报告的业务结论。 |
+| docs/testing/domains/editor/map/map-workspace-sessions/README.md | 7 | true | 地图工作区会话current报告/evidence与历史出版三向导航；旧SAVE11不得当现行运行版本。 |
+| docs/testing/domains/editor/map/map-workspace-sessions/history/README.md | 6 | true | 地图工作区会话current报告/evidence与历史出版三向导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/editor/supply-and-import/tools/README.md | 8 | true | import-codec的png-host与preview历史审查工具入口，非资产导入通过。 |
+| docs/testing/domains/editor/testing-records/tools/README.md | 8 | true | nine-intake/nine-rework历史witness入口，不继承nine批次结论。 |
+| docs/testing/domains/migration/supply-and-import/tools/README.md | 16 | true | import/migration/write-guard/resource十份历史工具导航，禁止未经核验执行迁移/发布副作用。 |
+| docs/testing/domains/ops/README.md | 3 | false | Testing operations 到 testing-governance 审计的唯一导航，旧 census/迁移不当全docs完成。 |
+| docs/testing/domains/ops/testing-governance/README.md | 4 | false | legacy-flat审计Markdown/JSON两入口；旧自动分类reviewed不等于本次1838深审完成。 |
+| docs/testing/domains/ops/testing-records/tools/README.md | 10 | true | game-host与pal-tables四份历史config/mutant入口，不把清单当ops审计通过。 |
+| docs/testing/domains/persistence/save-and-recovery/tools/README.md | 7 | true | save-lineage-mutants单入口；不重新授予save迁移/旧兼容行为。 |
+| docs/testing/domains/phase1-runtime/README.md | 3 | false | 第一阶段 runtime 的依赖所有权入口，不把二阶段版本轴授予Game执行。 |
+| docs/testing/domains/phase1-runtime/dependencies/README.md | 3 | false | 依赖模块到 dependency-ownership 的中层路由，不新增验收。 |
+| docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md | 7 | true | Game依赖所有权报告/evidence与原历史导航；二阶段SAVE常量不证明Game执行。 |
+| docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md | 6 | true | Game依赖所有权报告/evidence与原历史导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md | 8 | true | phase1-main/phase1-player-opcode两份历史mutant入口，不认证原版真值。 |
+| docs/testing/domains/quality/quality-gates/tools/README.md | 27 | true | 覆盖率/guard/reference等21份历史工具导航；目录名quality-gates不令README变为quality-gate报告。 |
+| docs/testing/domains/runtime/README.md | 8 | false | 将 battle/menu/scene/world 的source audit职责分开，明确不新增运行信用。 |
+| docs/testing/domains/runtime/battle/README.md | 10 | false | 将BattleHost、BattleSession和历史battle工具分开；将三次tools链接在当前层排重为一次。 |
+| docs/testing/domains/runtime/battle/battle-host/README.md | 7 | true | BattleHost报告/evidence/历史导航；10-06 SAVE12仅既有源核验注记，不是重跑。 |
+| docs/testing/domains/runtime/battle/battle-host/history/README.md | 6 | true | BattleHost报告/evidence/历史导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/runtime/battle/battle-session-owners/README.md | 7 | true | BattleSession报告/evidence/历史导航；10-06源审计与10-04出版11及旧动态验收分开。 |
+| docs/testing/domains/runtime/battle/battle-session-owners/history/README.md | 6 | true | BattleSession报告/evidence/历史导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/runtime/battle/tools/README.md | 14 | true | 八份BattleHost/session/simulator/workflow历史工具导航；runner仅历史线索。 |
+| docs/testing/domains/runtime/editor-workflows/tools/README.md | 7 | true | menu-session-parity历史工具导航，不复跑菜单或浏览器。 |
+| docs/testing/domains/runtime/engine-boundaries/tools/README.md | 19 | true | 十三份dependency/asset/contracts/input/frame/shell/state历史工具导航；先核真实imports/cwd再授权。 |
+| docs/testing/domains/runtime/menu/README.md | 3 | false | 菜单与物品会话的单一报告路由，不宣称存储链已执行。 |
+| docs/testing/domains/runtime/menu/menu-session/README.md | 7 | true | 菜单/物品会话source audit与历史A1出版导航，保留当前发布与旧执行分轴。 |
+| docs/testing/domains/runtime/menu/menu-session/history/README.md | 6 | true | 菜单/物品会话source audit与历史A1出版导航，保留当前发布与旧执行分轴。；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/runtime/save-and-recovery/tools/README.md | 7 | true | checkpoint-export-mutants历史工具入口，不授予当前save/recovery执行。 |
+| docs/testing/domains/runtime/scene/README.md | 9 | false | 将ActiveScene与历史scene工具索引分开；三次tools入口排重但空目录不虚构工具。 |
+| docs/testing/domains/runtime/scene/active-scene/README.md | 7 | true | ActiveScene报告/evidence/历史导航；SAVE12源分支不把旧replaceScene测试升级为恢复验收。 |
+| docs/testing/domains/runtime/scene/active-scene/history/README.md | 6 | true | ActiveScene报告/evidence/历史导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+| docs/testing/domains/runtime/scene/tools/README.md | 6 | true | 空的历史工具索引；明确0个现存可列工具，不把空页或归档parity恢复为可执行入口。 |
+| docs/testing/domains/runtime/testing-records/tools/README.md | 7 | true | skill-trial-premise历史工具入口，不授予技能当前机制或数值真值。 |
+| docs/testing/domains/runtime/world/README.md | 3 | false | 世界移动/绘制状态的单一所有权路由，不承担ActiveScene或整场景E2E结论。 |
+| docs/testing/domains/runtime/world/world-runtime/README.md | 7 | true | 世界移动/绘制报告/evidence/历史导航；保存恢复源核验与旧执行各保原轴。 |
+| docs/testing/domains/runtime/world/world-runtime/history/README.md | 6 | true | 世界移动/绘制报告/evidence/历史导航；保存原报告/原机账、警告与候选身份，supersedes仅当前导航/状态范围。 |
+
+- K36历史层完整可逆quote与原source SHA，旧208出链/0fragment/35现有MD入链按真实GFM核验；现18工具页无入链/README图仅31可达，不能把check:docs绿视为无孤儿。新增入口与排重必须实际图复核，非作者逐篇candidate/receipt全读后根才接中央/矩阵/计数。
+- K0保护设计待冻，作者49正文待准入；J0仅共享合同实施准入，不等J6迁移/新格式pilot已验。原C/D/F/H/I候选branches/immutable receipts留存至全目标完成，未合推main、不清除其它任务工作树。无用户转交，由Codex内部推进。

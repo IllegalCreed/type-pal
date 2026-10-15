@@ -145,3 +145,160 @@ Codex根与非作者history_cards_c_tail完整读取最终238行设计，独立�
 十四份归一_governance.templateVersion后必须逐篇对象深等，原native字段/状态/版本/日期/执行/history/source SHA/pins不变；source-backed不变runtime-backed。默认机器模板示例仅同声明升1.4，原三个变体配置对象不变。版本滚动不新增迁移数，不刷新冻结作者回执、旧review历史或baseline。修改已接收模板入口说明则同提交维护其review各当前字段与after，不只刷SHA；未改正文不刷新。
 
 实施Owner为根Codex，非作者独立复核后才接收；I13Markdown可在现有1.0合同下隔离推进，I r10 JSON须等根1.4原子配置/旧14保真/实际工具反例门稳定后才能实施。I14实际源清单、逐篇大纲与白名单见任务卡；任何未核前提保持draft/待验，不因设计agree宣布完成。
+
+
+## 2026-10-16 J：三种历史集成机器对象1.5设计冻结
+
+I14在根`8aa698c4038bc6553a1a524ca83508cb16e06a32`已获独立接收并稳定，machine现为1.4，实际已接收机器对象15份。Codex根与history_cards_c_tail各自全文读取三MD134行/三JSON1436行及最终223行设计，固定提案SHA256 `f7c2502460941b1d1e2c96d143671dda0c5778751f72b0d301ec9be3848e3278`；独立design agree。现冻结1.5设计供下一次原子实施，不把本节当已切registry、pilot通过或J6完成。类型仍17。
+
+三个原生对象15/10/22键互不兼容，不能用现1.4或gov-only通配。沿用共同治理字段，三个变体均新增sourceGitRevision/lifecycle/currentAudit，固定historical/本轮执行false，完整原生对象去_governance与批准Git源深等。旧native的status/verdict不是新catalog发布状态，不改原runtime/visual值，不补造schema/id/Owner。以下是冻结精确合同：
+
+```json
+{
+  "historical-continuation-integration-v1": {
+    "format": "json",
+    "requiredFields": [
+      "schemaVersion",
+      "status",
+      "owner",
+      "candidate",
+      "protectedBase",
+      "validatedImplementation",
+      "queues",
+      "priorCompleted",
+      "logDirectory",
+      "gates",
+      "coverage",
+      "negativeControls",
+      "unchanged",
+      "notClaimed",
+      "remoteCi",
+      "_governance"
+    ],
+    "requiredValues": {
+      "schemaVersion": 1,
+      "status": "accepted; all local integration gates passed",
+      "negativeControls.scope": "previous per-slice evidence, not rerun during integration",
+      "_governance.lifecycle": "historical",
+      "_governance.currentAudit.runtimeExecutionPerformed": false
+    },
+    "requiredGovernanceFields": [
+      "sourceGitRevision",
+      "lifecycle",
+      "currentAudit"
+    ],
+    "preservedSource": {
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    }
+  },
+  "historical-intake-completion-v1": {
+    "format": "json",
+    "requiredFields": [
+      "schemaVersion",
+      "date",
+      "integrationBase",
+      "cursor",
+      "glm",
+      "unifiedGates",
+      "baseline",
+      "visual",
+      "followups",
+      "activeSceneArchitectureWipIncluded",
+      "_governance"
+    ],
+    "requiredValues": {
+      "schemaVersion": 1,
+      "date": "2026-09-26",
+      "activeSceneArchitectureWipIncluded": false,
+      "unifiedGates.fullOrQ1Q2": false,
+      "visual.userProjectSavesWritten": false,
+      "_governance.lifecycle": "historical",
+      "_governance.currentAudit.runtimeExecutionPerformed": false
+    },
+    "requiredGovernanceFields": [
+      "sourceGitRevision",
+      "lifecycle",
+      "currentAudit"
+    ],
+    "preservedSource": {
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    }
+  },
+  "historical-command-integration-v1": {
+    "format": "json",
+    "requiredFields": [
+      "task",
+      "candidate",
+      "productHead",
+      "integration",
+      "protectedBase",
+      "owner",
+      "reviewer",
+      "verdict",
+      "closedCounters",
+      "counts",
+      "total",
+      "baselineHash",
+      "addedSources",
+      "selfTests",
+      "cases",
+      "mechanical",
+      "quality",
+      "scope",
+      "visual",
+      "logs",
+      "limits",
+      "retirement",
+      "_governance"
+    ],
+    "requiredValues": {
+      "task": "ARCH-F2-CURSOR-BATCH-2",
+      "verdict": "accept",
+      "scope.glmCandidateIncluded": false,
+      "scope.allCoverageMetricsUnchanged": true,
+      "visual.userProjectWrites": false,
+      "_governance.lifecycle": "historical",
+      "_governance.currentAudit.runtimeExecutionPerformed": false
+    },
+    "requiredGovernanceFields": [
+      "sourceGitRevision",
+      "lifecycle",
+      "currentAudit"
+    ],
+    "preservedSource": {
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    }
+  }
+}
+```
+
+批准来源pin（只为可变批准元数据；独立根仍是固定33cc baseline/Git对象，不变造pin.variant为信任根）：
+
+```json
+[
+  {
+    "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+    "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "gitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+    "sha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b"
+  },
+  {
+    "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+    "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "gitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+    "sha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d"
+  },
+  {
+    "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+    "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "gitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+    "sha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c"
+  }
+]
+```
+
+根独立真实Git consumer内存3正控/47删原生键/6交叉shape与15旧声明投影均按预期；非作者另核006联合换标/自有pin/补齐全部字段仍由固定源深等拒绝。此为设计探针，不代替实施后model/progress CLI、真实canonical pilot与独立接受。强反证是原生改值或完整006联合换标获计完成；出现则停线修设计，不降低旧门。
+
+一次1.5原子滚动15份已接收machine和默认示例声明，逐篇只改治理templateVersion并同步registry/各review当前所有版本字段/after及完整prior；原生字段/日期/源pin/历史版本/旧变体配置/固定baseline/consumer逻辑保持。新增三JSON须在J0稳定后各自pilot、来源/合法输入/oracle/排重/原始失败与未证项逐篇独立验收，不因登记新变体接收任意同形JSON。完整15路径/固定来源与准入见任务卡；所有产品/旧测/coverage/raw/browser仍禁执行或改写。
+
+历史109针不算本次重跑，9573check与9081/728coverage分母不同；Cursor24/32modules与GLM42candidate/41formal/75ledger、共享8707/strict8215/686排重；wave2新增16测试未新增四维covered，原62/53/55warning及6info、旧CI/zoom/B1/E1缺口保留。wave2旧storedSHA对应4548a895之前仅工具href版本，当前source是该href修复后33cc字节，不刷新旧migration账来伪造无漂移。
