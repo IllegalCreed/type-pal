@@ -65,3 +65,7 @@ Branch: codex/code-quality-3y
 - Codex 独立验收：最新 baseline ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 均 exit 0；7 包/731 files/19,870 tests；lint/docs/content-review/ledger 收口门待本次全仓 check 后补写。
 - 30/30 当前源码与各自关闭提交字节一致；恢复 CODE83–89/CODE91 的30条账本记录为 `已验证`。CODE90 两文件、latest event-system 与其它 pending/review 不在本卡范围。
 - 无下一位 Agent 提示词；本工程门纠错卡已完成，后续从最新账本选择下一批。
+
+## 2026-10-16 当前候选复审（历史done保留）
+
+本轮完整读取工程门与原件，核两份rawCombinedOutput SHA/exit以及同一收口commit中的full check真实原件；历史执行有直接支持，不能因“待补写”文案认定未跑。30源码当前20字节相同/10变化，旧30/30不能沿用；全部仍review，本轮不恢复关闭。成功输出未记录结构化环境，后续真实门须保存环境/refs/SHA，不能追补伪造旧捕获。详见[当前92复审](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。本轮partial，非当前统一门或整卡accept。

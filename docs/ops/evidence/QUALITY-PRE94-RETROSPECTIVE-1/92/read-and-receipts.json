@@ -1,0 +1,96 @@
+{
+  "readBoundaries": [
+    {
+      "path": "scripts/coverage/run.mjs",
+      "lines": 567,
+      "sha256": "82560c261acf4262124b4e0a52389b8ddd1a8b2d8dbaf31a07d88d505feae512",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.mjs",
+      "lines": 5,
+      "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.test.mjs",
+      "lines": 18,
+      "sha256": "23cd620707e5f0b31c5cafdde9aa84fa504182f62c9cb34cd9c556fc0d1fd0e9",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "lines": 61,
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/inventory.test.mjs",
+      "lines": 63,
+      "sha256": "9a71b7339d90691fec2c1f0b70ab44b2808d17a7936e4e56ffd5a70ab53eaa36",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "lines": 83,
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/metrics.test.mjs",
+      "lines": 69,
+      "sha256": "e5dd24df46957702ac44fbe82987dfe33eb8b25c12d3e0d3e9693a6a0b2a27bc",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "lines": 265,
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    },
+    {
+      "path": "scripts/coverage/environment.mjs",
+      "lines": 6,
+      "sha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3",
+      "reading": "complete; dependency boundary only, not current full-file acceptance"
+    }
+  ],
+  "receipts": [
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-92/protected-fast-current.raw.json",
+      "sha256": "f7fda245e2eb00e15567b4370875f3db7552ce910c3110d2292eccb9e4886e10",
+      "rawBytes": 18252,
+      "exit": 1,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0,
+      "historicalOnly": true,
+      "capturedEnvironmentObject": false
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-92/protected-fast-after-ratchet.raw.json",
+      "sha256": "93142fc1e7eb0038e27709a6354a65123a54cc91b9d5261e4aec01175d799b38",
+      "rawBytes": 18118,
+      "exit": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0,
+      "historicalOnly": true,
+      "capturedEnvironmentObject": false
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-check-after-boundary.txt",
+      "sha256": "de61f39bde0f9a552fc93e2d380c0aac12e53b9d361191b37f1887f97d516f66",
+      "rawBytes": 156873,
+      "exit": 0,
+      "presentInClosureCommit": "f52a10e40b3bf8795beff39149774c0a2e78668e",
+      "act": 0,
+      "environment": 0,
+      "navigation": 0,
+      "historicalOnly": true
+    }
+  ],
+  "semanticReadsOfThirtyFiles": false,
+  "newProtectedRun": false,
+  "scope": "engineering evidence review; no implementation/test/config changes"
+}

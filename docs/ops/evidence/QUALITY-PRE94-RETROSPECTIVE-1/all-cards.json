@@ -3719,7 +3719,7 @@
       "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48",
       "lines": 67,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3775,7 +3775,9 @@
           "text": "- 30/30 当前源码与各自关闭提交字节一致；恢复 CODE83–89/CODE91 的30条账本记录为 `已验证`。CODE90 两文件、latest event-system 与其它 pending/review 不在本卡范围。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md",
+      "findings": "historical raw hashes/exits and same-commit full check supported; current source snapshot 20 identical/10 changed; all 30 ledger records stay review; new unified gates pending"
     },
     {
       "id": "93",

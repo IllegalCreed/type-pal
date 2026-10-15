@@ -57,3 +57,7 @@ Codex build allowed补证白名单仅两份现有测试：ledger.test.mjs新增�
 两枚隔离反控旧绿/新精确单例红，恢复11/11、相邻quality-tools38/38；工具实现未修改，仅两测试补证。ledger测试旧关闭撤回review，inventory测试pending→review，0新增关闭。四源职责/输入/caller/oracle/注释/复用与未核范围见[6a证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md)。全仓check/ratchet/protected未重跑，editor诊断未清，6a整卡partial，本轮83卡accept仍0。下一片92工程门原件和源码快照。
 
 6a检查点docs/lint-zero/ledger/diff-check均通过，lint4376文件0/0/0；机器3287/222closed/201review/2864pending。全仓check/ratchet/protected未重跑，editor诊断仍未清，保持build/partial，禁止合main。
+
+## CODE92当前复审
+
+历史protected失败/成功与同commit全仓check原件已核SHA/exit，旧收口实际有门执行；当前30源20相同/10变化，全部继续review。成功raw缺结构化环境，后续保存环境白名单/ref/baseline SHA，不追补原件。工程门实现/依赖与原生定向测试实际读取见[92证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。0新增关闭、全83卡accept仍0；下一片CODE1 shared RLE，94–102/editor原返工继续保留。

@@ -59,6 +59,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-16 94前全83卡复审恢复；6a四文件全文核验发现两份测试判别力缺口，补安静导入与--out字节合同。两反控旧绿/新单例红，恢复定向11及quality-tools38绿。精确撤回ledger测试一条旧关闭、inventory测试pending→review，0新增关闭。机器重跑确认222closed/201review/2864pending，统一门待续。
 
+2026-10-16 CODE92原件复审：历史门与同commit全仓check存在，当前30源20字节相同/10变化，30项当前已review，未恢复关闭或新增重开。本片只核工程证据，3287/222/201/2864不变；当前统一门未重跑。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |

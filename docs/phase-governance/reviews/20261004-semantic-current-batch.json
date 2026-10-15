@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
-      "afterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
+      "sourceSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
+      "afterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1382,6 +1382,15 @@
             "previousAfterSha256": "222c1df2f1a1462d5fb99e73e2eec16827dc9f20ff9b985ba50f7620b833aa89",
             "afterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8b1213805",
+            "action": "pre94-code92-original-receipts-and-current-source-snapshot-review",
+            "scope": "docs/ops/board.md owned navigation only; 30 records stay review; 0 current card acceptance",
+            "previousAfterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
+            "afterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md"
           }
         ]
       },
@@ -1692,8 +1701,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
-      "afterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
+      "sourceSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
+      "afterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2174,6 +2183,15 @@
             "previousAfterSha256": "054ae27f34ebdd52a6df8801d54a47419f3ca27af43f69184ebc6c4f0d7918e3",
             "afterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "8b1213805",
+            "action": "pre94-code92-original-receipts-and-current-source-snapshot-review",
+            "scope": "docs/ops/evidence/README.md owned navigation only; 30 records stay review; 0 current card acceptance",
+            "previousAfterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
+            "afterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
