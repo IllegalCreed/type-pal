@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
-      "afterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
+      "sourceSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
+      "afterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1391,6 +1391,15 @@
             "previousAfterSha256": "3c9e4235bb3a2388ac705322b3d0eb39e8f84bedc6d4eaa8c76602956397e30f",
             "afterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "07b856bc2",
+            "action": "pre94-code1-RLE-test-oracle-and-native-format-stop-line-review",
+            "scope": "docs/ops/board.md own rows only; RLE format draft, no product build/closure; other owner states unchanged",
+            "previousAfterSha256": "577e153ebe8c4d39bd71ac587e83b15ab1e05280c46e2e67095e71130ed7e86e",
+            "afterSha256": "e74849161a8df8f83effb8f9234ed5e00a9fd350821b7e4b268c1b5ba4ec62a6",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
           }
         ]
       },
@@ -1701,8 +1710,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
-      "afterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
+      "sourceSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
+      "afterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2192,6 +2201,15 @@
             "previousAfterSha256": "703b01f3db71ff516dbd17f4d22ab00720d8ee678dd0705e6b2d4b88cd07c0ef",
             "afterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "07b856bc2",
+            "action": "pre94-code1-RLE-test-oracle-and-native-format-stop-line-review",
+            "scope": "docs/ops/evidence/README.md own rows only; RLE format draft, no product build/closure; other owner states unchanged",
+            "previousAfterSha256": "0974102a012ebd59d957866717df8d56163bdcba979af4389bc949013948f0a6",
+            "afterSha256": "013af1a19825ee094164a4e3eb8d608a0fdfe88ffd7721969551e13d5be5d390",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2944,8 +2962,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
-      "afterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
+      "sourceSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
+      "afterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -3798,6 +3816,15 @@
             "previousAfterSha256": "c68fe0ca830e00ca645488517ae667fa00f5c6595cd3823df81e9e094940e28d",
             "afterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "07b856bc2",
+            "action": "pre94-code1-RLE-test-oracle-and-native-format-stop-line-review",
+            "scope": "docs/ops/tasks/index.md own rows only; RLE format draft, no product build/closure; other owner states unchanged",
+            "previousAfterSha256": "a4bc516983907ef6c1822897499084dfda580e0694f01a5d1bdfc61862df75cd",
+            "afterSha256": "285e08932eab08f103b0e008351987056d83e1d1a2a032d7cfe3712472f69935",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md"
           }
         ]
       },

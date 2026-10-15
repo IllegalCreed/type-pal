@@ -1,0 +1,154 @@
+{
+  "primary": "reference/sdlpal/palcommon.c",
+  "primarySha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+  "extractedFunctionSha256": "f6950b835570da4ffe830726fa6740882ae6cda7fb100cc54414c9c5e7d309cd",
+  "functionUnmodified": true,
+  "nativeSurface": "2x66 unclipped surface, shadow=false",
+  "limits": "SDLPal source executed; pal.exe not executed; synthetic bytes, not a shipped-asset census",
+  "runs": [
+    {
+      "label": "native-compile",
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O0",
+        "-g",
+        "-Werror",
+        "-fsanitize=address",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/primary.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/primary"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "high-literal-native",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/high-literal.rle",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/high-literal.pixels"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "a1d26d79f50ffa69a66b4e888da7ac4f43a0499ccc51c2e064f4faa8796299e1"
+    },
+    {
+      "label": "high-literal-ts",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "--eval",
+        "\nimport { readFileSync } from 'node:fs';\nimport { decodeRle, parseSpriteChunkStrict } from './packages/shared/src/rle.ts';\nconst bytes = new Uint8Array(readFileSync(process.argv[1]));\nconst summarize = (action) => { try { const frame = action(); return { ok: true, width: frame.width,\n height: frame.height, pixels: [...frame.pixels], opaque: [...frame.opaque] }; }\n catch (reason) { return { ok: false, error: reason.message }; } };\nconst chunk = new Uint8Array(2 + bytes.length + bytes.length % 2); chunk.set([1,0]); chunk.set(bytes,2);\nconsole.log(JSON.stringify({ generic: summarize(() => decodeRle(bytes)),\n strict: summarize(() => parseSpriteChunkStrict(chunk)[0]) }));\n",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/high-literal.rle"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "d04fbd023715eeec65e9999261041e4d6d5c35d494ed8c0a7efaa992430eab70"
+    },
+    {
+      "label": "split-control-native",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/primary",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/split-control.rle",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/split-control.pixels"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "a1d26d79f50ffa69a66b4e888da7ac4f43a0499ccc51c2e064f4faa8796299e1"
+    },
+    {
+      "label": "split-control-ts",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "--eval",
+        "\nimport { readFileSync } from 'node:fs';\nimport { decodeRle, parseSpriteChunkStrict } from './packages/shared/src/rle.ts';\nconst bytes = new Uint8Array(readFileSync(process.argv[1]));\nconst summarize = (action) => { try { const frame = action(); return { ok: true, width: frame.width,\n height: frame.height, pixels: [...frame.pixels], opaque: [...frame.opaque] }; }\n catch (reason) { return { ok: false, error: reason.message }; } };\nconst chunk = new Uint8Array(2 + bytes.length + bytes.length % 2); chunk.set([1,0]); chunk.set(bytes,2);\nconsole.log(JSON.stringify({ generic: summarize(() => decodeRle(bytes)),\n strict: summarize(() => parseSpriteChunkStrict(chunk)[0]) }));\n",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-primary-8xzaa2rv/split-control.rle"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "37f5ab68a0e78b64c30ff8528e6985dc76207173a8a2c2851b621d3f5cbae5a6"
+    }
+  ],
+  "cases": {
+    "high-literal": {
+      "frameHex": "0200420084111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+      "frameSha256": "b78d26c87b2afd0f27640e829d47409731013bdaaba706badca2eff1346ce587",
+      "native": {
+        "status": 0,
+        "width": 2,
+        "height": 66,
+        "pixels": 132,
+        "mismatch": 0
+      },
+      "ts": {
+        "generic": {
+          "ok": false,
+          "error": "RLE: pixel run exceeds frame"
+        },
+        "strict": {
+          "ok": false,
+          "error": "sprite chunk frame 0 \u50cf\u7d20\u6bb5\u8d8a\u754c"
+        }
+      }
+    },
+    "split-control": {
+      "frameHex": "020042007f11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111051111111111",
+      "frameSha256": "7c5cbe207b037e07223c148c414c35f513822248b45c04613b24ccf0746d6440",
+      "native": {
+        "status": 0,
+        "width": 2,
+        "height": 66,
+        "pixels": 132,
+        "mismatch": 0
+      },
+      "ts": {
+        "generic": {
+          "ok": true,
+          "width": 2,
+          "height": 66,
+          "pixels": [
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17
+          ],
+          "opaque": [
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+          ]
+        },
+        "strict": {
+          "ok": true,
+          "width": 2,
+          "height": 66,
+          "pixels": [
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
+            17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17
+          ],
+          "opaque": [
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+          ]
+        }
+      }
+    }
+  },
+  "temporaryDirectoryRemoved": true
+}

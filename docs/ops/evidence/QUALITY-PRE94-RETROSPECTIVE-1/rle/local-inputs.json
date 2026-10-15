@@ -1,0 +1,205 @@
+{
+  "purpose": "Read-only use of main ignored inputs in isolated governance tree; do not write through links; no tracked/generated data modified",
+  "createdLinks": [
+    {
+      "path": "data/raw/mus.mkf",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/mus.mkf",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/LOGO.ICO",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/LOGO.ICO",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/PAL.EXE",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/PAL.EXE",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/ABC.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/ABC.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/VB40032.DLL",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/VB40032.DLL",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/.DS_Store",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/.DS_Store",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/MAP.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/MAP.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/GOP.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/GOP.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/PAT.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/PAT.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/SSS.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/sdlpal.cfg",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/sdlpal.cfg",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/BALL.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/BALL.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/FBP.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/FBP.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/Pal.ini",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/Pal.ini",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/FIRE.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/FIRE.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/M.MSG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/M.MSG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/PALOLD.DLL",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/PALOLD.DLL",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/Pal.dll",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/Pal.dll",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/6.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/6.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/RGM.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/RGM.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/4.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/4.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/F.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/F.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/5.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/5.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/PAL.illegal.INI",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/PAL.illegal.INI",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/1.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/1.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/2.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/2.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/MGO.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/MGO.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/SOUNDS.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/SOUNDS.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/3.avi",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/3.avi",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/README.txt",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/README.txt",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/DATA.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/3.RPG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/3.RPG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/WORD.DAT",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/WORD.DAT",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/2.RPG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/2.RPG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/1.RPG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/1.RPG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/5.RPG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/5.RPG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/4.RPG",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/4.RPG",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/RNG.MKF",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/RNG.MKF",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/Musics",
+      "target": "/Users/zhangxu/illegal/type-pal/data/raw/Musics",
+      "ignored": true
+    },
+    {
+      "path": "data/extracted",
+      "target": "/Users/zhangxu/illegal/type-pal/data/extracted",
+      "ignored": true
+    }
+  ]
+}

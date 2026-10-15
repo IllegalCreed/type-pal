@@ -177,3 +177,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ## 下一位 Agent 提示词
 
 无，等待后续 Q2–Q6 窄批；本卡已完成，不得把历史归档卡当作新的实现授权。
+
+## 2026-10-16 当前成果复审（历史done保留）
+
+RLE四文件全文复审发现宽容坏帧测试未进入decoder catch：隔离rethrow原54例仍绿，补现有fixture/oracle后同54身份精确一红；恢复shared typecheck/131例、三相邻47例通过。boundary标题与实际轴存在直接差异，待窄修。SDLPal原函数native手列样本证实高位literal判定与TS分歧，canonical作者格式不得盲改，另开QUALITY-RLE-COMMAND-TRUTH-1 draft冻结实现。三条旧关闭精确撤回review，0新关闭，当前整卡partial；工程清单/Q1b未随本片复验。见[复审证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md)。

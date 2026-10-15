@@ -1,0 +1,36 @@
+# QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验
+
+Status: draft
+Owner: Codex
+Phase: shared cross-phase resource decoding
+Capability: RLE resource format truth
+Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受影响另登记
+
+## 停线与范围
+
+94前全量复审CODE1时完整读取shared/rle.ts及三专属测试、相邻GLM-o测试与真实game/extract caller，发现primary palcommon.c判定为(T & 0x80)且T<=0x80+uiWidth才是透明段，TS generic和strict均用>=0x80。当前仅证明源码存在分歧，真实资源可达性、canonical作者格式与影响范围待核；不直接宣布生产故障。跨包公共解码/资源管线属高风险，立即停止实现，无build allowed。
+
+只允许读取primary/真实caller、隔离原生C与TS字节探针、现有测试和只读资源census；不得修改算法、资源、生成物、公开接口或产品行为。当前全部文件不因原卡done或包绿重新accept。
+
+| 方向 | 当前直接证据与未知 |
+|---|---|
+| Primary | reference/sdlpal/palcommon.c:133-137，宽度参与透明判定；需要直接执行原函数验证手列literal样本。 |
+| 第一阶段 | shared decodeRle/parseSpriteChunk被game tileset/dialog与pal-extract sprite/map/ball/rgm消费；真实caller读取分段与全文件分别登记，源资源census待核。 |
+| 第二阶段 | shared strict/indexed被reforge assets和migrate pal-assets消费；phase2 READ-FIRST优先，不能把SDL兼容条件自动扩到canonical作者格式。 |
+| 目标 | 核清格式合同与真实输入，不改行为；若需要产品/API/管线变更先明确修复层与可证伪反例。 |
+
+最强替代解释：所有当前资源/作者编码器只使用<=127的literal，TS实现范围有限但合法当前资源输出无差异；或者SDL分支仅接受非canonical帧，不能直接移植。可证伪观察：直接执行原函数未按literal解读该样本，或有效真实输入在TS/原版结果一致且该指令从不可达。尚未验证的项保持unknown/draft。
+
+另有低风险测试证据缺口：rle.test.ts所谓“截断坏帧/后续合法帧”样本实际合法帧在前、坏帧连完整header都没有，走sanity guard而非decodeRle catch；原catch合同判别力需隔离反控，未修测试前不得关闭。
+
+无下一位Agent提示词，Codex仅继续前提取证；不请求用户代替事实核查。
+
+## 与独立测试补证的边界
+
+原生C探针已直接执行未改函数：2×66、132长度literal正确写132个0x11，TS generic/strict拒绝；分成127+5的同像素正控两端成功。仅为SDLPal已验/原版pal.exe未验，非真实资产census。encoder原文还使用不按行界分段的127透明游程，说明canonical作者格式不能盲目套SDL条件；修复层仍unknown，卡留draft。
+
+另由QUALITY-PRE94-RETROSPECTIVE-1单独批准现有坏帧catch测试的fixture/oracle补证，只修改主测试，不改变任何实现或本卡格式范围。格式风险继续冻结，不把低风险测试补证当作本卡build。
+
+## 当前只读原件
+
+[未改SDL函数native探针与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json)：两正/反字节向量、AddressSanitizer编译运行、函数SHA/完整命令，临时目录已清理。GOP只读trace226chunks/67715个TS成功帧，0分类分歧，不是native全资源像素比对。MGO/ABC、当前catalog origin域与其它真实资源仍unknown。任何算法修复仍无build allowed，未请求用户替代事实核验。

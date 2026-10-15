@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：222；已读但待审：201；尚未逐文件核验：2,864；合计未闭合：3,065。
+当前已闭合核验：219；已读但待审：204；尚未逐文件核验：2,864；合计未闭合：3,068。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -61,12 +61,14 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-16 CODE92原件复审：历史门与同commit全仓check存在，当前30源20字节相同/10变化，30项当前已review，未恢复关闭或新增重开。本片只核工程证据，3287/222/201/2864不变；当前统一门未重跑。
 
+2026-10-16 CODE1 RLE四文件复审：主测试catch合同已补证，54身份不变；native SDL高位literal分歧停线draft，boundary描述问题待核修。三条旧关闭精确撤回review，0新增关闭；机器已确认3287/219/204/2864。当前统一门未重跑，editor诊断未清。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |
-| `packages/shared/src/rle.test.ts` | test | 已验证 | CODE-QUALITY-1；合法帧与回归 oracle | 只登记合同，不以数量验收 |
-| `packages/shared/src/rle.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-1；截断/越界反例 | 高判别力反例 |
+| `packages/shared/src/rle.ts` | product | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | SDLPal高位literal与当前TS格式域存在分歧，转QUALITY-RLE-COMMAND-TRUTH-1 draft；禁止直接改算法，旧关闭撤回review |
+| `packages/shared/src/rle.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 原坏帧fixture绕过catch，现有身份补证；反控旧54绿/新53绿1红，恢复shared131及相邻47；统一门待续 |
+| `packages/shared/src/rle.boundaries.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 标题/注释声称header轴但实际尺寸非法、1长度正控实际2；直接证据待窄修，不把描述当已验证 |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-1；真实 runtime resource caller | 宽容入口合同 |
 | `packages/shared/src/mkf.ts` | product | 已验证 | CODE-QUALITY-2；raw 2,373 chunks、shared 全包、全仓门 | offset table 边界 |
 | `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；截断/越界/倒序 offset | 纯 codec 合同 |

@@ -21,7 +21,7 @@
       "sha256": "3893c7855c67c0135815bafb3dbf004b7126d659ee1879f2c6c91738ad74f98f",
       "lines": 179,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -81,7 +81,9 @@
           "text": "- 2026-10-04 Codex：复核 raw/primary source 后修正 Q1 前提：generic `decodeRle` 的 0/0x80 no-op 只要后续 source 能填满帧就属于合法 framing；严格 sprite container 仍拒绝 zero-length command。Q1 收紧范围为截断/越界失败，避免把 sprite 上限或 strict 合同错误扩到通用 codec。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
+      "findings": "RLE four-file slice; existing catch oracle strengthened with valid counter; native SDL format discrepancy stopped in draft; three old file closures reopened; Q1b/engineering scope still incomplete"
     },
     {
       "id": "2",

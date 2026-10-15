@@ -190,19 +190,23 @@ describe('parseSpriteChunk', () => {
       0x00, // imagecount = 2
       0x05,
       0x00, // frame 1 at byte 10
+      0x0a,
+      0x00,
+      0x01,
+      0x00, // frame 0: complete 10×1 header passes the dimension guard
+      0x0a,
+      0xaa, // literal needs 10 bytes; only 7 remain even including frame 1
       0x01,
       0x00,
       0x01,
       0x00,
       0x01,
-      0x55, // frame 0: valid 1×1
-      0x02,
-      0x00, // frame 1: 1×2
-      0x81, // skip one pixel, then source ends -> malformed
+      0x55, // frame 1: valid 1×1, preserved after the decoder rejects frame 0
     ])
     const frames = parseSpriteChunk(buf)
-    expect(frames).toHaveLength(1)
-    expect(Array.from(frames[0]!.pixels)).toEqual([0x55])
+    expect(frames).toEqual([
+      { width: 1, height: 1, pixels: new Uint8Array([0x55]), opaque: new Uint8Array([1]) },
+    ])
   })
 })
 

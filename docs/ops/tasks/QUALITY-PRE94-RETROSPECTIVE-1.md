@@ -61,3 +61,13 @@ Codex build allowed补证白名单仅两份现有测试：ledger.test.mjs新增�
 ## CODE92当前复审
 
 历史protected失败/成功与同commit全仓check原件已核SHA/exit，旧收口实际有门执行；当前30源20相同/10变化，全部继续review。成功raw缺结构化环境，后续保存环境白名单/ref/baseline SHA，不追补原件。工程门实现/依赖与原生定向测试实际读取见[92证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。0新增关闭、全83卡accept仍0；下一片CODE1 shared RLE，94–102/editor原返工继续保留。
+
+## CODE1 RLE有限复审与测试补证准入
+
+已全文读取rle.ts/主测试/boundaries/runtime-resource及相邻glm-o，核shared公共barrel、game tileset/rle-decode、extract sprite全文件与reforge assets实际caller分段；读取SDLPal原函数和phase2铁律。发现高位literal语义差异已立即停线至QUALITY-RLE-COMMAND-TRUTH-1 draft，算法/格式/资源与公共接口不得实现。
+
+独立的已定测试合同：原CODE1明确宽容入口必须捕获decoder畸形输入并保留其后合法帧。隔离副本把catch改成rethrow，四份原RLE测试54/54仍绿；主测试所谓截断样本连header不完整，实际未进入catch。Codex build allowed仅修packages/shared/src/rle.test.ts这一现有测试的合法容器/坏帧字节和精确oracle，保持测试身份数量；先验证旧反控存活，再新反控精确一红、恢复定向/共享包与相邻。rle.ts与encoder/资源/格式probe边界全部只读；这不是允许实施高位literal修复。其它原卡范围仍pending/partial，0新增关闭。
+
+### CODE1本片结果
+
+只补主RLE测试一例，54身份保持，rethrow反控旧54绿→新53绿1业务红，恢复shared typecheck/131例与game21/extract6/reforge20通过。decoder/主测试/boundary三旧关闭撤回review；高位literal格式真值专卡draft，未改算法或资源。GOP67715成功帧结构trace未见分类分歧，不等同SDL native像素对比。全83卡accept仍0、统一门待续；下一片CODE2 MKF/RNG。

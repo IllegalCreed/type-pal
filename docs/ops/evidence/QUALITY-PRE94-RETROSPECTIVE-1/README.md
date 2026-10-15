@@ -52,3 +52,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 6a切片机器重新对账：3287 inventory /222closed /201review /2864pending，0新增关闭；撤回一条旧测试关闭，另一测试pending→review。原83卡本轮accept仍0。
 
 2026-10-16 [CODE92工程门复审](92/README.md)：历史回执与同commit全仓check原件真实；当前30源20相同/10变化，全部review；0关闭。下一片CODE1 shared RLE，不以工程工具绿替代模块逐文件核验。
+
+2026-10-16 [CODE1 RLE四文件复审](rle/README.md)：原catch测试补证，native格式分歧停线draft；三旧关闭转review，0新关闭。当前219closed/204review/2864pending，续CODE2 MKF/RNG。
