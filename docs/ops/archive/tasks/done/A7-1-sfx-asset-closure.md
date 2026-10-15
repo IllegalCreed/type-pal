@@ -27,7 +27,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-最终side-aware毒链按side/poison/tick推进，两侧回合快照；预算须在adapter/decode之前拒绝，recoverable等allSettled后1诊断降级继续，fatal阻断。prepare串行、token+world/session identity挡住giveItem与battle launch迟到；最后5项counter覆盖驻留LRU、真实进度字节、删除结算100%、mock FSA undo/save/reopen/missing及跨回合毒链。51+6×2=63≤64、五人61、leased0为最后模型，早期1665/3019/327/36与GLM grep 1675/325不作终值。
+最终side-aware毒链按side/poison/tick推进，两侧回合快照；预算须在adapter/decode之前拒绝，recoverable等allSettled后1诊断降级继续，fatal阻断。prepare串行、token+world/session identity挡住giveItem与battle launch迟到；最后5项counter覆盖驻留LRU、真实进度字节、删除结算100%、mock FSA替换/删除→保存→undo→再保存→重开恢复catalog与原字节及跨回合毒链。51+6×2=63≤64、五人61、leased0为最后模型，早期1665/3019/327/36与GLM grep 1675/325不作终值。
 
 ## 状态与交接
 
@@ -145,11 +145,11 @@ July17两轮readiness撤签、重设与最终反证闭合，July18用户收口�
 
 ## 当时证据
 
-原卡完整保留两轮反证、计数及路径；[A7总审计](../../../../phase2/archive/audits/a7-resource-closure-audit.md)为后继汇总。Opus OPFS记录1300文件/469二进制、504引用替换108B WAV、013删除撤销、045四引用及900×720零溢出；013选错文件是探针输入问题，不能改写成产品错误。原生OS picker未跑，物理听觉也不由源码或OPFS推导。
+原卡完整保留两轮反证、计数及路径；[A7总审计](../../../../phase2/archive/audits/a7-resource-closure-audit.md)为后继汇总。Opus OPFS记录1300文件/469二进制、504引用替换108B WAV、013删除撤销、045四引用及900×720零溢出；原探针本想替换013，却取错file input而命中当时选中504；产品按选中项替换正确，013邻项未误伤。原生OS picker未跑，物理听觉也不由源码或OPFS推导。
 
 ## 当前有效性
 
-historical。readiness最终51基底/27队伍/26入口与最大单技能2（315）及active poison额外0只适用该轮模型；早期违规规模不再是最终失败数。未重跑产品/浏览器/coverage，未验证旧测试是否符合今天少而精门槛。旧upgrader/legacy由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不恢复兼容，也不把消费矩阵未事件槽扩成新B5能力。
+historical。readiness最终普查380个enemy teams，team-27是队伍ID、其battleBase峰值51；默认入口base与startBattle峰值均26，最大单技能2（315）及active poison额外0只适用该轮模型；早期违规规模不再是最终失败数。未重跑产品/浏览器/coverage，未验证旧测试是否符合今天少而精门槛。旧upgrader/legacy由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不恢复兼容，也不把消费矩阵未事件槽扩成新B5能力。
 
 ## 继任文档
 

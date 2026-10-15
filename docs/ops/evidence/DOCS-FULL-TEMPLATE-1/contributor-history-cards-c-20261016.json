@@ -201,8 +201,8 @@
       "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "sourceGitObject": "7fd3f7a40a6f038805b5a2274eae24a2f5846d39",
       "sourceSha256": "cbb319c5b0ba01f90c583df81c8f612f19143b03d66a5351edae5ce01a594b94",
-      "afterSha256": "ac5e138cae5fa5c545b0e1300e828ac204ed7edda494035211c682e6eb64a4b0",
-      "candidateSha256": "ac5e138cae5fa5c545b0e1300e828ac204ed7edda494035211c682e6eb64a4b0",
+      "afterSha256": "4d65ea08d6b68e6e119d7e4664973aa8a6cba8713c451ae90ff86c85e7275149",
+      "candidateSha256": "4d65ea08d6b68e6e119d7e4664973aa8a6cba8713c451ae90ff86c85e7275149",
       "beforeAfter": {
         "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
         "after": "historical。五角色修正取代A7-0的四角色穷尽说法，用户当时听验结论保留；不能将旧v3 fallback或旧签字当作当前运行时/测试质量认证。当前只支持canonical的政策以[二阶段规则](../../../../phase2/READ-FIRST.md)及[保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)为后继边界。",
@@ -313,7 +313,20 @@
         "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
         "docs/phase2/READ-FIRST.md",
         "docs/ops/agent-workflow.md"
-      ]
+      ],
+      "reviewRework": {
+        "counterId": "CC-front-1",
+        "raisedBy": "non-author independent review",
+        "before": "新增归纳把持久字段写成WorldState.currentMusic，并误述CDP链和performance-timing零取证次数。",
+        "after": "改为WorldState.audio.currentMusic；spessasynth_lib → soundfont.sf3 → 004.mid（reqid1051–1053）；performance-timing三轮零取证，不冒充物理听觉。",
+        "primaryEvidenceReread": [
+          "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3:docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md:57–60,169–181"
+        ],
+        "quotedHistoricalBytesChanged": false,
+        "status": "author-corrected-candidate-pending-independent-recheck",
+        "closureCandidate": true,
+        "validation": "PASS scoped strict original byte round-trip/source+after SHA/task+history body/GFM old headings and local fragments; independent recheck pending."
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
@@ -341,11 +354,11 @@
       "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "sourceGitObject": "73a04f1936c45c9b10b20b6b7d01ee583b9aa54a",
       "sourceSha256": "1e2dd1fa8a526c9dbc9ace79f01c10ff03836cc17c08a5000a9afe520a434857",
-      "afterSha256": "8470d329cc1921d5adffce79ad1533234a4689af00fd2991c846d8aacdb1da04",
-      "candidateSha256": "8470d329cc1921d5adffce79ad1533234a4689af00fd2991c846d8aacdb1da04",
+      "afterSha256": "e4e689e8a6a2721afbd49d9ea5a11f32315d869a3f7d24eb54290dab69807ee3",
+      "candidateSha256": "e4e689e8a6a2721afbd49d9ea5a11f32315d869a3f7d24eb54290dab69807ee3",
       "beforeAfter": {
         "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
-        "after": "historical。readiness最终51基底/27队伍/26入口与最大单技能2（315）及active poison额外0只适用该轮模型；早期违规规模不再是最终失败数。未重跑产品/浏览器/coverage，未验证旧测试是否符合今天少而精门槛。旧upgrader/legacy由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不恢复兼容，也不把消费矩阵未事件槽扩成新B5能力。",
+        "after": "historical。readiness最终普查380个enemy teams，team-27是队伍ID、其battleBase峰值51；默认入口base与startBattle峰值均26，最大单技能2（315）及active poison额外0只适用该轮模型；早期违规规模不再是最终失败数。未重跑产品/浏览器/coverage，未验证旧测试是否符合今天少而精门槛。旧upgrader/legacy由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不恢复兼容，也不把消费矩阵未事件槽扩成新B5能力。",
         "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
       },
       "primarySource": [
@@ -467,7 +480,20 @@
         "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
         "docs/phase2/READ-FIRST.md",
         "docs/ops/agent-workflow.md"
-      ]
+      ],
+      "reviewRework": {
+        "counterId": "CC-front-2",
+        "raisedBy": "non-author independent review",
+        "before": "新增归纳将team-27队伍ID压成27队伍，并为mock FSA添写无直接证据的missing，013探针错误也未准确说清当时选中504。",
+        "after": "明确普查380队、team-27的battleBase峰值51、默认入口与startBattle峰值26；mock FSA替换/删除→保存→undo→再保存→重开恢复catalog/原字节；原探针欲替013实际命中选中504，产品按选中项替换正确。",
+        "primaryEvidenceReread": [
+          "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3:docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md:500–505,575–578,597–607,620–622"
+        ],
+        "quotedHistoricalBytesChanged": false,
+        "status": "author-corrected-candidate-pending-independent-recheck",
+        "closureCandidate": true,
+        "validation": "PASS scoped strict original byte round-trip/source+after SHA/task+history body/GFM old headings and local fragments; independent recheck pending."
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
@@ -958,8 +984,8 @@
       "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "sourceGitObject": "cfe4fdd02bc8141f3e1e22d5636aa10680026616",
       "sourceSha256": "89be2bbfee9e3044941e2fafcdd7563ae3fc2330044bbd51bd9d60046a9d9634",
-      "afterSha256": "a0bdb23d61281613d8134132b977328664c15f4231d510387b14ef27f726a88e",
-      "candidateSha256": "a0bdb23d61281613d8134132b977328664c15f4231d510387b14ef27f726a88e",
+      "afterSha256": "8de5002548d1d9a46997def5df6a7d06fc595f69d414075da81e80441fa7902c",
+      "candidateSha256": "8de5002548d1d9a46997def5df6a7d06fc595f69d414075da81e80441fa7902c",
       "beforeAfter": {
         "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
         "after": "historical。223范围、gzip原字节、两层删除与保存顺序是原轮合同；原OFL失败依后继修复闭合但旧222/1/1必须保留，不变成当时通过。当前只支持canonical的边界以[二阶段规则](../../../../phase2/READ-FIRST.md)与[版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)为准，本卡旧upgrader/兼容路径不恢复。",
@@ -990,14 +1016,20 @@
           "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
           "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
           "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "packages/shared/src/rle.ts:126–139",
+          "revision": "0c7a665796e1cb6580e465581b8f4b04b30490de",
+          "gitBlob": "8a8a34c58f07a572e0edf57744049c2f1776e1b0",
+          "reading": "直接重读parseSpriteChunkStrict完整函数；单零尾/无尾均合法，无origin参数。不是当前runtime重验。"
         }
       ],
       "phaseAnchor": {
         "phase": "phase2",
         "rules": "docs/phase2/READ-FIRST.md",
-        "boundary": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL单个零尾sentinel有来源限制，作者输入不得带尾。tuple摘要与五集合一致的原证据原样保留。"
+        "boundary": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL源具有单零尾sentinel，作者编码器无尾；两种合法结构均由严格parser接受（无origin参数，不按来源拒绝），拒绝中间空洞或多个空帧。tuple摘要与五集合一致的原证据原样保留。"
       },
-      "scope": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL单个零尾sentinel有来源限制，作者输入不得带尾。tuple摘要与五集合一致的原证据原样保留。",
+      "scope": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL源具有单零尾sentinel，作者编码器无尾；两种合法结构均由严格parser接受（无origin参数，不按来源拒绝），拒绝中间空洞或多个空帧。tuple摘要与五集合一致的原证据原样保留。",
       "versionAndApplicability": "July19设计、实现、反证与用户收口。原截图按用户要求删除，不能说现在仍有可回读raw；503 extracted source阻断只覆盖该HTTP探针，不能推广所有legacy输入都已验证。历史catalog1071与后续W/B递增不是冲突的今天全库数量。",
       "publicEntry": {
         "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
@@ -1029,7 +1061,7 @@
         ],
         "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
       },
-      "legalInputs": "合法gzip索引RLE与完整SHA；PAL单尾sentinel仅来源限定，作者文件严格解析，缺168/171不伪造。",
+      "legalInputs": "合法gzip索引RLE与完整SHA；PAL源具有单零尾，作者编码器无尾，两种合法结构均由严格parser接受，无origin参数且不按来源拒绝；拒绝中间空洞/多个空帧，缺168/171不伪造。",
       "publicCallers": "地图/图章tilesetId、编辑器导入/替换/共享定义删除、FSA save/clone/retry与runtime resolver。",
       "businessOracle": "byte-exact gzip克隆、等长修改可保存、maxTileId不越界、失败IO可恢复且不误删未触达文件。",
       "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
@@ -1083,8 +1115,23 @@
         "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
         "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
         "docs/phase2/READ-FIRST.md",
-        "docs/ops/agent-workflow.md"
-      ]
+        "docs/ops/agent-workflow.md",
+        "0c7a665796e1cb6580e465581b8f4b04b30490de:packages/shared/src/rle.ts:126–139"
+      ],
+      "reviewRework": {
+        "counterId": "CC-tail-1",
+        "raisedBy": "non-author independent review",
+        "before": "新增范围和receipt把PAL单零尾/作者无尾的结构差异误写为按来源拒绝，收窄了真实parser合法输入。",
+        "after": "PAL源具有单零尾、作者编码器无尾；严格parser接受两种合法结构，不接收origin参数、不按来源拒绝，仍拒绝中间空洞/多个空帧。",
+        "primaryEvidenceReread": [
+          "0c7a665796e1cb6580e465581b8f4b04b30490de:packages/shared/src/rle.ts:126–139",
+          "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3:docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:419–421"
+        ],
+        "quotedHistoricalBytesChanged": false,
+        "status": "author-corrected-candidate-pending-independent-recheck",
+        "closureCandidate": true,
+        "validation": "PASS scoped strict original byte round-trip/source+after SHA/task+history body/GFM old headings and local fragments; independent recheck pending."
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
@@ -1244,7 +1291,7 @@
     }
   ],
   "checks": {
-    "status": "author static checks passed; integration review/SHA gate intentionally pending root update",
+    "status": "Initial author checks retained at initialAuthorCheckCandidate; current text-only rework uses reviewRework.validation. Central integration remains pending root.",
     "documentToolTests": {
       "command": "node --test scripts/docs/*.test.mjs",
       "tests": 63,
@@ -1432,7 +1479,8 @@
       "command": "biome format --write <candidate receipt only>",
       "scope": "仅本专属JSON回执；八张Markdown及原文引用未格式化",
       "status": "PASS"
-    }
+    },
+    "initialAuthorCheckCandidate": "7ddc35d65ce9a88f14db3a341dbca0a43003fc53"
   },
   "independentAcceptance": {
     "status": "pending",
@@ -1452,5 +1500,91 @@
     "main合并/推送"
   ],
   "nextStep": "根线程从固定源全文读新章节/原文/直接一手证据，独立决定accept或counter并更新中央review/SHA/矩阵；本贡献者不推main。",
-  "authorChecksCompletedLocalDate": "2026-10-16"
+  "authorChecksCompletedLocalDate": "2026-10-16",
+  "reviewRework": {
+    "baseCandidate": "7ddc35d65ce9a88f14db3a341dbca0a43003fc53",
+    "entries": [
+      {
+        "id": "CC-front-1",
+        "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+        "correction": "改为WorldState.audio.currentMusic；spessasynth_lib → soundfont.sf3 → 004.mid（reqid1051–1053）；performance-timing三轮零取证，不冒充物理听觉。",
+        "status": "author-corrected-candidate-pending-independent-recheck"
+      },
+      {
+        "id": "CC-front-2",
+        "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+        "correction": "明确普查380队、team-27的battleBase峰值51、默认入口与startBattle峰值26；mock FSA替换/删除→保存→undo→再保存→重开恢复catalog/原字节；原探针欲替013实际命中选中504，产品按选中项替换正确。",
+        "status": "author-corrected-candidate-pending-independent-recheck"
+      },
+      {
+        "id": "CC-tail-1",
+        "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+        "correction": "PAL源具有单零尾、作者编码器无尾；严格parser接受两种合法结构，不接收origin参数、不按来源拒绝，仍拒绝中间空洞/多个空帧。",
+        "status": "author-corrected-candidate-pending-independent-recheck"
+      }
+    ],
+    "rootIndependentAcceptance": "pending; author may not claim accept",
+    "scope": "仅三卡新增层与专属receipt；原quote、所有原头字段及其它五卡不变。",
+    "validation": {
+      "scope": "仅本轮三卡新增层与专属receipt；未重复全仓门。",
+      "packageByteHashTemplateSlug": {
+        "status": "pass",
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "method": "Marked GFM real heading parse; compare exact original heading text and derived local Unicode slug before quote; local outbound fragment lookup limited to three revised cards; unchanged inbound links are not rescanned; not online GitHub rendering.",
+        "perFile": [
+          {
+            "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+            "sourceLines": 407,
+            "sourceHeadings": 21,
+            "livePreservedHeadings": 21,
+            "typedHistoryIssues": 0,
+            "exactOriginal": true,
+            "shaMatch": true,
+            "outgoingFragments": 18
+          },
+          {
+            "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+            "sourceLines": 936,
+            "sourceHeadings": 29,
+            "livePreservedHeadings": 29,
+            "typedHistoryIssues": 0,
+            "exactOriginal": true,
+            "shaMatch": true,
+            "outgoingFragments": 26
+          },
+          {
+            "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+            "sourceLines": 602,
+            "sourceHeadings": 23,
+            "livePreservedHeadings": 23,
+            "typedHistoryIssues": 0,
+            "exactOriginal": true,
+            "shaMatch": true,
+            "outgoingFragments": 20
+          }
+        ],
+        "outgoingCount": 64,
+        "inboundCount": 0,
+        "inbound": [],
+        "nonMaterializedGitFallback": [],
+        "issues": []
+      },
+      "deltaWhitelist": {
+        "files": 4,
+        "paths": [
+          "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+          "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+          "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-c-20261016.json"
+        ],
+        "otherFiveCardsChanged": false,
+        "sharedOrProductWrites": 0
+      },
+      "receiptFormatterAndCheck": "PASS scoped receipt Biome format/check; zero error/warning/info",
+      "diffCheck": "PASS scoped git diff --check; zero output",
+      "runtimeExecution": false,
+      "productTests": false,
+      "independentAccept": false
+    }
+  }
 }

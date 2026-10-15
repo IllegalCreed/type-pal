@@ -23,11 +23,11 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-源卡区分setEnabled(false)留账与stop清账，标题菜单finally停止后才转新游戏/读档，不能污染WorldState.currentMusic；request serial须同时挡住初始化与MIDI await后的迟到播放。typed walker和删除保护新增1引用是业务边，不能以“扫描只有四类”排除第五类需求。
+源卡区分setEnabled(false)留账与stop清账，标题菜单finally停止后才转新游戏/读档，不能污染WorldState.audio.currentMusic；request serial须同时挡住初始化与MIDI await后的迟到播放。typed walker和删除保护新增1引用是业务边，不能以“扫描只有四类”排除第五类需求。
 
 ## 验收
 
-历史3581 passed/1 skipped及后续357/183/192等分包轮次不相加。Opus CDP观察004 → spessasynth → soundfont → 004链，performance buffer三项全零属于取证方式失败，不证明没有播放；浏览器网络链也不等于物理听觉。原中间态“待用户听验”由2026-07-16用户“听了没问题”收口，不能继续列作未决。
+历史3581 passed/1 skipped及后续357/183/192等分包轮次不相加。Opus CDP观察spessasynth_lib → soundfont.sf3 → 004.mid链（reqid 1051–1053），performance-timing观察器三轮零取证属于取证方式失败，不证明没有播放；浏览器网络链也不等于物理听觉。原中间态“待用户听验”由2026-07-16用户“听了没问题”收口，不能继续列作未决。
 
 ## 状态与交接
 
