@@ -151,6 +151,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',
       fileSha256: '3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3',
     },
+    // Codex 2026-10-15, standing test-quality rule: C01 G01-10/G03-09/G03-10
+    // are strict subsets of G07-06/G03-04/G03-05. Exact snapshots, no relaxed matcher.
+    {
+      file: 'packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx',
+      previous: 70,
+      current: 67,
+      previousIdentityDigest: '46baea1df50d2f6a042bf0921c9e8d1bb1316a3a85a872893003acc20ba90386',
+      currentIdentityDigest: 'c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892',
+      fileSha256: '3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

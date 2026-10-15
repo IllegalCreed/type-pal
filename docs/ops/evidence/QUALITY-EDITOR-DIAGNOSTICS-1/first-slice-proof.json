@@ -1,0 +1,103 @@
+{
+  "checks": [
+    {
+      "name": "target",
+      "exitCode": 0,
+      "rawArtifact": "target-final.raw.gz",
+      "bytes": 404,
+      "sha256": "02e0cb10c5075b862891bcc87ffba2c5aefa8d22cb60b386a867a6f3de23a075",
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [" Test Files  1 passed (1)", "      Tests  67 passed (67)"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-editor-final-target.json",
+        "--silent=false"
+      ]
+    },
+    {
+      "name": "adjacent",
+      "exitCode": 0,
+      "rawArtifact": "adjacent-final.raw.gz",
+      "bytes": 96030,
+      "sha256": "83b457d0464bd5ee12704a554dd744972fb0006fa85cebed8bcfef45af2a1d48",
+      "unwrappedAct": 231,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [" Test Files  6 passed (6)", "      Tests  54 passed (54)"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.test.tsx",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "src/ui/SpriteResourceViewer.test.tsx",
+        "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+        "src/core/editor-asset-reader.test.ts",
+        "--reporter=default",
+        "--silent=false"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "rawArtifact": "typecheck-final.raw.gz",
+      "bytes": 189,
+      "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194",
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"]
+    }
+  ],
+  "coverageTools": {
+    "exitCode": 0,
+    "tests": 63,
+    "sha256": "57d6af4c239358fee286be8928bcd64e0d2748d66dd8a76fa699252696f97537",
+    "bytes": 13450,
+    "command": ["pnpm", "test:coverage-tools"]
+  },
+  "sourceFiles": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "sha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "sha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "6150fb0bbc2ad56c792a005ce733752eee4362c314fab164275c78bb21091969"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "38aeb41d3ae26b49c4d32ab7b9db7bd55450858bab04ed4457d5afc47e434ce8"
+    }
+  ],
+  "assessment": "Targeted 67 clean; adjacent 54 pass with 231 act diagnostics; all files remain review, full gates pending; no merge"
+}

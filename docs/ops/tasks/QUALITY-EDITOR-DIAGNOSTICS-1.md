@@ -1,11 +1,19 @@
 # QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（后续实现自验证与独立验收分开记录）
 Phase: phase2
 Capability: editor test lifecycle correctness
 Visual Verification Timing: N/A（拟只修测试调度与隔离，不改产品）
+
+## 首片交付与完整门窗口（当前）
+
+三个测试文件的生命周期修复、3个oracle补强、3个已证重复精简完成；67定向0诊断，3/3有效业务反控，typecheck与coverage-tools63通过。
+相邻54通过但有231条其它act；本卡review，统一门待完整窗口，不标done、不合main。
+必要支持白名单补充：approved-test-retirements.mjs仅精确C01数据行、其test固定表计数；所有判据/规则保持。
+实际逐文件结论、未核caller域/排重、原件/hash/临时树清理见[本片证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md)。
+机器3284/229closed/48review/3007pending，0文件关闭。其余editor诊断未接管，后续按另一个不重叠有限切片推进。
 
 ## 2026-10-15 首片准入（当前）
 

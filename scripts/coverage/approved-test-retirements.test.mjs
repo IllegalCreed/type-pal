@@ -23,12 +23,12 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
-  // 2026-10-15 CODE94 C5 退役 +3（用户批准：Codex codex-r2-review R2 已证重复删除指令）。
-  assert.equal(approvedTestRetirements.length, 17)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 17)
+  // CODE94 C5 +3；2026-10-15 editor C01 按用户测试质量规则再精确退役3条已证重复。
+  assert.equal(approvedTestRetirements.length, 18)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 18)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    44,
+    47,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

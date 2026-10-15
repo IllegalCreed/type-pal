@@ -1,0 +1,130 @@
+{
+  "isolatedTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+  "productionFileInWorkingTreeUnchanged": true,
+  "note": "Only one test selected per run; pending tests are explicit -t filtering, not green recovery. No core mocking.",
+  "runs": [
+    {
+      "phase": "old-complete",
+      "case": "C01-G04-08",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/old-complete-stem.json",
+        "--silent=false",
+        "-t",
+        "C01-G04-08"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "2a610f82c27feab05ce79eb25e9070582140e7927aea9637f00d9e61fa298f39",
+      "rawBytes": 515,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "56d340559ff030283efd1af194d383dbac9b2721067e83a3b676649a741a78d4",
+      "rebuiltMutantSha256": "56d340559ff030283efd1af194d383dbac9b2721067e83a3b676649a741a78d4",
+      "testSha256": "ff3c3531c5cf11e1c4991859797d8f339ae8e48fa3d3b7d2056941daaa4da2fc",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-08 默认草稿 id 从资源 label stem 派生且含 static 后缀",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "numFailedTests": 0,
+      "numPassedTests": 1,
+      "numPendingTests": 69,
+      "unwrappedAct": 0
+    },
+    {
+      "phase": "old-complete",
+      "case": "C01-G05-10",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/old-complete-pending.json",
+        "--silent=false",
+        "-t",
+        "C01-G05-10"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "b1d301b27af72cb16b8bf4ae5ec9cb5a8db2d21d7e29c248606f0ca3338c354a",
+      "rawBytes": 518,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "b49cd49802153669cf0d1e567ad57183159293d33bdedd2324172b2ff8ecd604",
+      "rebuiltMutantSha256": "b49cd49802153669cf0d1e567ad57183159293d33bdedd2324172b2ff8ecd604",
+      "testSha256": "ff3c3531c5cf11e1c4991859797d8f339ae8e48fa3d3b7d2056941daaa4da2fc",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-10 布局类型 select 在 proof 未就绪前保持 disabled 然后启用",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "numFailedTests": 0,
+      "numPassedTests": 1,
+      "numPendingTests": 69,
+      "unwrappedAct": 0
+    },
+    {
+      "phase": "old-complete",
+      "case": "C01-G07-07",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/old-complete-count.json",
+        "--silent=false",
+        "-t",
+        "C01-G07-07"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "63d5ad5a0aae44b87f8a90966b1b745ecea2d453e234fef523ec7f0cca62a7d7",
+      "rawBytes": 605,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "44069ac2129a4a6495e9d2b4b4244b867398344629396ea6468bb54ac3f66574",
+      "rebuiltMutantSha256": "44069ac2129a4a6495e9d2b4b4244b867398344629396ea6468bb54ac3f66574",
+      "testSha256": "ff3c3531c5cf11e1c4991859797d8f339ae8e48fa3d3b7d2056941daaa4da2fc",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-07 精灵库计数单位为「项」且 count≥authored+starter",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "numFailedTests": 0,
+      "numPassedTests": 1,
+      "numPendingTests": 69,
+      "unwrappedAct": 0
+    }
+  ]
+}
