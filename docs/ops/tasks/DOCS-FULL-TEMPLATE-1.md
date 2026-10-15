@@ -515,3 +515,26 @@ Branch: codex/docs-full-template-proposal
 - receipt_review对三正文和根2新+1旧中央/四段Q3k窄同步/32矩阵/两行政resolution逐项最终accept。G1反例“234产品”实际129product+92test+13tool已改234条原记录，两个history.before移除新增空history后精确等于22ee旧row，counter独立闭合；原错误与修正留G集成，不以新history掩盖current错误。其它29row、旧ops05其它entry、D其它11entry/F全部条目不变，candidate可精确重建已签45cf旧快照。
 - 独立实际strict642/model123/ledger3290-229-5-3056-3061/docs1223-7273-361/progress完整性0/diff0；根全check:docs68工具0fail0skip、testing0/phase184/review642，lint4087文件零error/warning/info。受审维护SHA写G集成，后续根签收维护独立复跑，不说新record字节等于原签。只关闭库存/记录与共享摘要错误，不授234条记录重审、runtime或全量质量完成。
 - 当前119/1838基线+4增量已迁移，1956候选/1833pending、519governed-legacy无保留豁免；main未写，goal active。本G源三篇及Q3k0信用更正收本根隔离分支，H852a982作者14文件已冻结、非作者正全文验收；I14份testing历史lab材料仅只读预审，不实施/不计数。
+
+### 2026-10-16 H十三卡语义接收与中央接入复核
+
+- H作者候选`852a982882dd2f1d956463e9ccef7b72bbd4c0cc`保持冻结，以`d797120bab009e86a53b71f28aef9196ccb6c0ff`导入根隔离树；14文件白名单为13历史卡及专属回执。源`22eead43a6c825e1345feb92441e09d340d22c18`的4338行与预审83750一致，13项source/blob/SHA manifest为`c5774d16f19cc56bd5a125a3f11325589c60c794e72dd0bf9bb767c9ca394f1c`。
+- 非作者history_cards_c_tail完整原文此前已读，本轮完整1756新层及2824回执已读，13/13语义accept无counter；263原标题、240出链fragment、0外部入链及原metadata/quote逆变换成立。必要primary读域与本人实跑范围写入[H中央接入记录](../../phase-governance/reviews/20261016-historical-cards-h.json)，不把作者68工具/lint4088冒领成非作者执行。
+- 根实际核13篇实质新段/原metadata、逐篇receipt结论/oracle/排重/counter/继任/停止线及全部字节接入；未冒领4338原文或整2824回执的根全文语义阅读。十三篇只窄改新增Governance Owner与状态交接一段，原正文与原元数据字节不变；作者回执SHA`8f7543c1e85fb5db1539e6a17fc27357190ce98aad98517761ebd724704b959b`保持immutable pending历史快照，当前接受另记中央记录。
+- 真实旧覆盖为10 ARCH旧governed-legacy、3 CODE缺席；十条完整旧review保留后替换，三条新增，不以十处已知after漂移冒充正文通过。中央现645项、136正文合同；132/1838基线+4增量、1822当前候选pending、509 governed-legacy仍无保留豁免。机器投影只说明已登记迁移，不代表全量最终验收。
+- 矩阵32→35只新增三条已读关系：角色基线/入口/condition维护权、current-only版本轴/PAL作者供应退役、准备包/正式接入计数与责任；原32对象不变，导航及当前review各字段同步，原32读域留历史，不冒领全35来源本轮重审。
+- H原非零诊断、SFX失败、zoom/boot/options、17图丢失的10-02原结论与未新查盘范围均保留。G已完成的inventory记录修正另分时点，不给H新增closed或代码质量信用；材料accept不授产品build，旧prompt不恢复执行。
+- 根model136/strict645零问题，progress完整性0；根中央接入delta待receipt_review非作者独立验收，全门尚待本接入实际运行。第一次把无`--json`的人读进度输出交JSON parser曾失败，只是临时读取命令，随后按真实CLI格式核清；没有改工具或治理结论。main未写，goal active，不标全量done。
+
+#### H1中央身份字段反证与修正
+
+- receipt_review直接核13原header后提出counter：F2后批原只有`Owner: Cursor`，CONTINUATION原为`Coding / Integration Owner: Codex`；根归一化把原Owner/Coding Owner互相镜像，不能称原字段存在。
+- 根逐篇直接回读13固定源header；当前`originalIdentity`与`producerReferences.originalIdentity`改为原字段名/值/行/原行文本及缺席名单，`derivedResponsibleOwner`单独标derived和sourceField。原`Review / Integration Owner`、`Reviewer / Integration Owner`、中文负责人/参与审查、Contribution Owner不再折成伪原字段。初次根归因留各篇history，作者receipt和13正文完全不动；待非作者定点复核后闭合H1。
+- 首次根全门实跑为68工具/0fail/0skip、docs1223MD/7327links/361tasks/content22 SAVE12、model136/7routes/0issues、testing0、phase184、strict645；lint4089文件0error/0warning/0info，diff0。该轮早于H1元数据修正，不借其证明之后字节；最终签收后重新运行本接入门。
+
+#### H独立接入接受
+
+- receipt_review对根接入明确accept，H1经13源header逐字段复核闭合，无剩余counter。实际受审中央维护八文件的SHA快照完整留H.integration；后续本签收/门追加字节另标为root维护，不伪称非作者已签后来哈希。
+- 非作者实际strict645/model136/docs1223-7327-361/ledger3290-229-5-3056-3061/progress/diff均0问题；原32矩阵对象不动，3新增guarded与35导航一致。非作者13实质层/中央字段/来源身份/集成读域不等于tail的4338源/2824回执全文语义读域；两者分别记录。
+- 本接收仅13历史文档，原runtime/旧测/coverage/浏览器未执行；main仍干净f98d0ddd，目标active，全量尚未完成。
+- H签收后根全门实际通过：68工具/0fail/0skip、docs1223/7327/361/content22 SAVE12、model136/7routes/0issues、testing0、phase184、strict645；lint4089文件零error/warning/info，diff0。原各次失败/身份归因counter保留历史；最终门写入仅元数据并复跑，不改变13正文after或独立受审快照。

@@ -11,7 +11,7 @@ Visual Verification Timing: N/A
 Unavailable Agents: none
 Branch: `codex/arch-current-only-1`
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、Codex Coding Owner及Kimi+GLM Reviewer、08-23用户验收保持。旧GLM pending、等待review/草稿风险段由最终接受解释，不重新开启三签或build；治理候选只交根独立接收。
+原done、Codex Coding Owner及Kimi+GLM Reviewer、08-23用户验收保持。旧GLM pending、等待review/草稿风险段由最终接受解释，不重新开启三签或build；本次只治理历史文档。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

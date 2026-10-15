@@ -7,7 +7,7 @@ Coding Owner: Codex
 Reviewer: Codex（复核并执行质量门；不冒充第三方）
 Branch: codex/code-quality-governance
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -28,7 +28,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、Coding Owner Codex、Reviewer“复核质量门不冒充第三方”保留，10-05原两条交接不重开。作者只做H文档候选；中央登记、当前共享ledger与机器门修正由根G负责，未独立接受不计进度。
+原done、Coding Owner Codex、Reviewer“复核质量门不冒充第三方”保留，10-05原两条交接不重开。作者只贡献H历史文档；G已独立接收当前共享ledger的记录对账修正，机器PASS仍不授代码语义信用。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

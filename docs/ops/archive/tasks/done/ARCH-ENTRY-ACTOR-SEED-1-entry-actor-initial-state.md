@@ -7,7 +7,7 @@
 > **风险级别**：高（schema / save / migration / 新游戏初始化）
 
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -28,7 +28,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原中文blockquote“状态done/负责人Codex/参与审查Kimi、GLM”等完整保留；治理元数据另列。08-26用户最终accept及三方历史签字不恢复为新三签门；旧复审/实现prompt全部历史化。
+原中文blockquote“状态done/负责人Codex/参与审查Kimi、GLM”等完整保留；治理元数据另列。08-26用户最终accept及三方历史签字不恢复为新三签门；旧复审/实现prompt全部历史化。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: `main`（用户已裁决个人开发直接在 main 推进）
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status、Coding Owner Codex、Reviewer Kimi/GLM及08-31三方accept+用户功能验收保留。旧main推进、前序WIP等待与Agent提示只属当时授权；本次是文档作者候选，等待根非作者验收，不重新执行原脚本、重迁或浏览器流程。
+原Status、Coding Owner Codex、Reviewer Kimi/GLM及08-31三方accept+用户功能验收保留。旧main推进、前序WIP等待与Agent提示只属当时授权；本次只治理历史文档，不重新执行原脚本、重迁或浏览器流程。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

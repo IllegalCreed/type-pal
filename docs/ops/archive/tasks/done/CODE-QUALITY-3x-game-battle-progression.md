@@ -11,7 +11,7 @@ Visual Verification Timing: e2e-deferred（结算视觉集中 E2E；本卡只验
 Contributor: Codex
 Branch: codex/code-quality-governance
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done与Codex身份、10-05接续Q3w和无实现改动保持。旧prompt的活动tasks路径只在完整原文中保留为历史producer引用，本页仍以稳定归档路径公开；新反例另开不重叠卡，不重新执行旧全门/coverage。
+原done与Codex身份、10-05接续Q3w和无实现改动保持。旧prompt的活动tasks路径只在完整原文中保留为历史producer引用，本页仍以稳定归档路径公开；新反例另开不重叠卡，不重新执行旧全门/coverage。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

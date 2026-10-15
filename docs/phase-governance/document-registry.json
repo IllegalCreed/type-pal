@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 642,
+    "total": 645,
     "byPhase": {
-      "ops": 414,
+      "ops": 417,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -23,7 +23,7 @@
       "evidence-receipt": 45,
       "design-spec": 43,
       "governance-index": 25,
-      "task-card": 330,
+      "task-card": 333,
       "quality-gate": 1,
       "reference-canon": 16,
       "narrative-idea": 2,
@@ -36,11 +36,11 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 642
+      "content-reviewed": 645
     },
     "templateCompliance": {
-      "template-compliant": 123,
-      "governed-legacy": 519
+      "template-compliant": 136,
+      "governed-legacy": 509
     }
   },
   "entries": [
@@ -615,10 +615,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
@@ -626,10 +628,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
@@ -637,10 +641,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
@@ -648,10 +654,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
@@ -659,10 +667,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
@@ -670,10 +680,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
@@ -681,10 +693,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
@@ -731,10 +745,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
@@ -794,10 +810,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md",
@@ -805,10 +823,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
@@ -7321,6 +7341,45 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-h.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

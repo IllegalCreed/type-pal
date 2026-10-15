@@ -6,7 +6,7 @@ Coding / Integration Owner: Codex
 Base: `0cb32631`
 Visual Verification Timing: dev-functional；剧情E2E另排
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -27,7 +27,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Status done与Coding/Integration Owner Codex保持。09-26用户追加“完成并合并推送”替代该批早期不合main交接，但只属原批；旧“整卡仍build”与新Codex提示历史化，本轮不接管或执行旧分支。
+原Status done与Coding/Integration Owner Codex保持。09-26用户追加“完成并合并推送”替代该批早期不合main交接，但只属原批；旧“整卡仍build”与新Codex提示历史化，本轮不接管或执行旧分支。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

@@ -62,6 +62,10 @@ Template: governance-index-v1 / 1.0.0
 
 | 质量账本记录完整性 ↔ 源码语义 | 唯一live表/汇总，旧状态保留、新库存只加pending | resolved | 机器PASS不自动关闭源码/旧测试/运行验收 |
 
+| 角色/入口基线 ↔ condition生命周期 | owner分层、undefined首次播种、restore与战后不同 | guarded | 保留query变化和历史失败，不把状态塞入ActorDef/setParty |
+| current-only版本轴 ↔ PAL作者维护权 | 只退完整脚本转换，资源等窄供应链继续 | guarded | 不混PB4与重建失败，不复活退休核或删整个migrate |
+| 架构准备包 ↔ 正式接入信用 | 42候选/41正式/75账/109针与拆分组数各自排重 | guarded | 材料accept不授产品build，未证视觉与非零诊断保留 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步

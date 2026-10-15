@@ -16,7 +16,7 @@ Revision: r1
 Production freeze: 86e928b5
 
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -37,7 +37,7 @@ GLM只在隔离实验目录贡献测试/诊断/功能视觉，正式接入与产
 
 ## 状态与交接
 
-原Coding Owner Codex、Contribution Owner GLM及Reviewer Codex保持；GLM贡献不是独立第三方自证。原多轮draft/counter到正式接入build与r12done按时间解释，所有旧交接/启动宿主/复跑prompt只作历史，不新跑或占用端口。
+原Coding Owner Codex、Contribution Owner GLM及Reviewer Codex保持；GLM贡献不是独立第三方自证。原多轮draft/counter到正式接入build与r12done按时间解释，所有旧交接/启动宿主/复跑prompt只作历史，不新跑或占用端口。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

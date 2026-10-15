@@ -9,7 +9,7 @@ Branch: `codex/cursor-architecture-batch-r1`
 Worktree: `/Users/zhangxu/illegal/type-pal-cursor-architecture-batch`
 Visual Verification Timing: dev-functional（Codex最终核验）
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -30,7 +30,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原Coding Owner Cursor、Review/Integration Owner Codex及done保留。作者交付未标done、counter窄返工与Codex最终accept分开；旧Cursor再开worktree/推分支/修改产品提示不恢复执行，本轮作者候选只交根独立接收。
+原Coding Owner Cursor、Review/Integration Owner Codex及done保留。作者交付未标done、counter窄返工与Codex最终accept分开；旧Cursor再开worktree/推分支/修改产品提示不恢复执行，本轮只治理历史文档。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

@@ -11,7 +11,7 @@ Visual Verification Timing: build期最小功能验证；剧情E2E不在范围
 Contributor: pal_supply_audit（r1只读准备）、pal_author_check（r2首批实现）、pal_supply_boundary（r5独立前提审查）、pal_resource_supply（r5实现）
 Branch: codex/pal-resource-supply-r1（基点d3df4bbb；r5/r6冻结903f833da，已合main 3cfa22d3）
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ r1直接依赖盘点证明静态与脚本推导混合，先拆再退；真实Nod
 
 ## 状态与交接
 
-原Coding Owner pal_resource_supply（r5/r6）、Reviewer Codex、r2 pal_author_check及各贡献者责任保留。903f833da冻结→3cfa22d3集成→d7e94a09推送/归档是原时点；旧白名单/CLI/退休提示不是本轮执行授权，不在主工程运行migrate:content，含dry-run。
+原Coding Owner pal_resource_supply（r5/r6）、Reviewer Codex、r2 pal_author_check及各贡献者责任保留。903f833da冻结→3cfa22d3集成→d7e94a09推送/归档是原时点；旧白名单/CLI/退休提示不是本轮执行授权，不在主工程运行migrate:content，含dry-run。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 

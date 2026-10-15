@@ -744,6 +744,67 @@
         "scripts/quality/code-quality-inventory.mjs:131"
       ],
       "stopLine": "只关闭本次记录结构/库存漂移，不自动改已验证、不授234条原记录的语义复审或全仓完成、runtime/coverage信用。"
+    },
+    {
+      "id": "startup-character-baseline-vs-condition-lifecycle",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+        "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+        "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md"
+      ],
+      "to": ["docs/phase2/READ-FIRST.md", "packages/reforge/src/actor-condition-lifecycle.ts"],
+      "relationship": "角色ActorDef基线、入口当前hp/mp覆盖、入口condition快照和剧情apply/clear各有维护权；undefined首次learnedSkills播种与空数组/再入队不同，restore清incurable与战后severe封顶不同。稳定defaultEntryId不共享StartWorld，旧query组合语义变化仍披露。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原非零静态诊断、SFX失败与剧情视觉未由历史功能验收或本轮迁移清零；本轮不重审全部当前产品。"
+      ],
+      "stopLine": "不把condition放ActorDef/setParty、不把最大值放入口、不以入队替undefined判据，不复活旧版本。"
+    },
+    {
+      "id": "current-only-axes-vs-pal-author-ownership",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+        "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md"
+      ],
+      "to": ["docs/phase2/READ-FIRST.md", "docs/phase2/guides/content-publication.md"],
+      "relationship": "开发期current-only按产品epoch/本地格式/源与平台分轴；PAL作者正文独立后完整原版脚本转换与动作audit按r6退役，资源/地图/商店/角色及批准窄输入仍有供应真源。PB4 leaf通过与current-v4表示重建失败不同，不删除整个migrate。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原raw mismatch6/residual4/height3及临时oracle/日志未重验；历史G0无例外不等永久拒绝已批准不可重建输入。"
+      ],
+      "stopLine": "先核字段owner，不恢复退休转换核、不手改供应生成产物、不执行含journal恢复的旧dry-run。"
+    },
+    {
+      "id": "architecture-preparation-vs-formal-integration-credit",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "24+9组、11项加A1/A2、八准备包与十二回归/视觉准备包是各自范围。42候选/41正式/75账/109沿用针不相加；G06-11与E2十三项去重，材料accept不开放产品build，原作者/独立集成/当前治理三身份分开。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原zoom/boot/options、720与separator命中区及旧warning/info不因done或数量关闭；17图丢失是10-02原记录，本轮未新查盘。"
+      ],
+      "stopLine": "不以机械拆分/绿数/材料接受授当前代码质量、完整E2E或视觉通过，不恢复旧Agent交接执行。"
     }
   ],
   "acceptance": {

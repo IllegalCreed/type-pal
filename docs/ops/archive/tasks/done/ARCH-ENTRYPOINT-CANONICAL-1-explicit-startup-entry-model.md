@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: codex/arch-entrypoint-canonical-1
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 H 文档治理候选，待根线程非作者独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、Codex Owner/both Reviewer与08-22用户验收保持。旧draft/build/review提示和后续PERF-B恢复顺序只属当时；本次不运行6010或改任何工程/存档，待根独立验收文档候选。
+原done、Codex Owner/both Reviewer与08-22用户验收保持。旧draft/build/review提示和后续PERF-B恢复顺序只属当时；本次不运行6010或改任何工程/存档，本次只治理历史文档。 2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex接收；不增加产品或动态验收。
 
 以下同名标题保留原GFM入口，仅导航到本次具体归纳或完整历史原文。旧prompt、命令、分支和签字均按原日期读取，不恢复执行授权。
 
