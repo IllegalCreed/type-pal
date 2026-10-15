@@ -1,0 +1,21 @@
+{
+  "url": "http://127.0.0.1:6025/?build=win95",
+  "browser": "155.0.8059.80",
+  "steps": [
+    "real boot to title",
+    "ArrowDown selects load",
+    "Enter opens save-slot",
+    "Escape returns title with cursor 0"
+  ],
+  "slot": {
+    "kind": "save-slot",
+    "mode": "menu"
+  },
+  "after": {
+    "kind": "opening",
+    "cursor": 0,
+    "mode": "menu"
+  },
+  "pageErrors": [],
+  "passed": true
+}

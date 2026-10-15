@@ -983,9 +983,16 @@ function dispatchSaveSlotMenu(
   if (input.pressed.has('Menu')) {
     // DH9:in-game 存/读档槽**取消**在 C 也走 PAL_SystemMenu return TRUE → goto out 关整个菜单
     //   (uigame.c:584/605 的 if 只包住保存/读档动作,CANCELLED 照样落到 :650 return TRUE);
-    //   opening(标题读档)上下文保持 pop 回 opening(uigame.c:146-151)。
+    //   opening(标题读档)取消后 pop，并复位到新游戏(uigame.c:143-150 wDefaultItem=0)。
     if (inGameCtx) gs.menuStack = []
-    else closeTopMenu(gs)
+    else {
+      closeTopMenu(gs)
+      const parent = gs.menuStack.at(-1)
+      if (parent?.kind === 'opening') {
+        const opening = parent.state as OpeningMenuState
+        opening.selection.cursor = 0
+      }
+    }
     return
   }
   if (input.pressed.has('Up') || input.pressed.has('Left')) saveSlotMenuUp(s) // DL21

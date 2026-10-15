@@ -62,6 +62,13 @@ GAME-SAVE-IDB-COMMIT-1由Codex实施，private commitWrite等待complete，abort
 delete success后abort拒绝/旧槽保留。用例每次关闭连接并恢复global/spy/cache，不借别包私有依赖，不改schema/版本。
 红例1fail（-t过滤2skip），恢复完整3/3；相邻11files/125tests、game typecheck通过，0新关闭。
 
+## C2：用户批准的标题取消修复
+
+GAME-OPENING-CANCEL-CURSOR-1仅修改driver标题取消窄分支；先真实标题链cursor1→取消断言0失败，再修为pop后复位。
+原游戏内取消清整栈回归保留。相邻11files/125tests及typecheck通过；系统Chrome155真实boot到标题，
+实际ArrowDown/Enter/Escape后读取dev探针cursor0，pageErrors为空；截图已直接查看，未写gs伪造界面。
+浏览器回执和两张截图以codex-opening-*留存，独立Vite6025服务在验证后停止。
+
 ## 保留边界（批准前检查点，历史）
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。

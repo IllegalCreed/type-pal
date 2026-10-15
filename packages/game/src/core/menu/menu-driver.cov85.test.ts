@@ -834,11 +834,17 @@ describe('cov85 存档槽菜单(save-slot)', () => {
     expect(gs.menuStack).toHaveLength(0)
 
     const gs2 = mkGs()
-    openMenu(gs2, { kind: 'opening', state: createOpeningMenu() })
-    openMenu(gs2, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    const opening = createOpeningMenu()
+    openMenu(gs2, { kind: 'opening', state: opening })
+    dispatchMenuInput(gs2, snap(['Down']), createCommandBus())
+    expect(opening.selection.cursor).toBe(1)
+    dispatchMenuInput(gs2, snap(['Confirm']), createCommandBus())
+    expect(gs2.menuStack.at(-1)?.kind).toBe('save-slot')
     dispatchMenuInput(gs2, snap(['Menu']), createCommandBus())
     expect(gs2.menuStack).toHaveLength(1)
     expect(gs2.menuStack[0]?.kind).toBe('opening')
+    expect(gs2.menuStack[0]?.state).toBe(opening)
+    expect(opening.selection.cursor).toBe(0) // uigame.c:150 cancels back to new game.
   })
 
   it('save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)', () => {

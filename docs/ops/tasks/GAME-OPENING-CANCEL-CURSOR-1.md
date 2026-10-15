@@ -1,6 +1,6 @@
 # GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
 
-Status: build
+Status: review
 Phase: phase1
 Capability: opening menu fidelity
 Coding Owner: Codex
@@ -39,6 +39,13 @@ Visual Verification Timing: dev-functional（实施后最小验证；本轮未�
 先失败反例再修复，纯重构分提交；完整模块窗口跑全部门与零诊断；实施后 Codex 最小功能界面取证。
 
 ## 2026-10-15 用户批准与最小方案
+
+实现与定向自验：标题读档取消pop后仅对opening父菜单selection.cursor归0；游戏内取消仍清整栈。
+沿真实Down→Confirm→Menu链的原用例先恰一业务断言失败（cursor1≠0），修后相邻11files/125tests、game typecheck通过。
+最小真实浏览器验证完成：独立Vite6025、系统Chrome155、真实启动到标题，经ArrowDown/Enter/Escape返回标题cursor0，pageErrors=[]。
+截图CODE94/codex-opening-selected-load.png与codex-opening-cancel-new-game.png已直接查看；读取dev探针只用于断言，无写gs造状态。
+默认Playwright捆绑headless缺失，改用已安装Chrome的独立无用户profile会话；未安装浏览器、未写用户浏览器资料。
+回执codex-opening-browser.json。当前作者自验，完整模块质量门仍待最终窗口，不标done、不关闭账本。
 
 用户本轮明确批准前两项，其中本项为②；Codex已核uigame.c:143-150、真实标题dispatch反例和
 游戏内取消清栈caller，premise verified / design agree，**build allowed**。
