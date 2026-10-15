@@ -4,7 +4,12 @@ import { createItemSelectMenu } from '../item-select.js'
 import { createMagicSelectMenu } from '../magic-select.js'
 import { getSelected } from '../primitives.js'
 
-function makeItem(id: number, partial: Partial<Item> = {}): Item {
+// R3(2026-10-15):flags 参数域显式 Partial — 构造方负责补全默认位,调用处不再用强转
+// 把残缺 flags 伪装成完整 ItemFlags(类型合同交给 typecheck)。
+function makeItem(
+  id: number,
+  partial: Omit<Partial<Item>, 'flags'> & { flags?: Partial<Item['flags']> } = {},
+): Item {
   return {
     id,
     _name: partial._name ?? `item${id}`,
@@ -22,23 +27,23 @@ function makeItem(id: number, partial: Partial<Item> = {}): Item {
       applyToAll: false,
       sellable: true,
       equipableBy: [false, false, false, false, false, false],
-      ...(partial.flags ?? {}),
-    } as Item['flags'],
+      ...partial.flags,
+    },
   }
 }
 
 describe('M-w0.2 ItemSelectMenu', () => {
   const items: Item[] = [
-    makeItem(1, { _name: '剑', flags: { equipable: true, sellable: true } as Item['flags'] }),
+    makeItem(1, { _name: '剑', flags: { equipable: true, sellable: true } }),
     makeItem(2, {
       _name: '草药',
-      flags: { usable: true, consuming: true, sellable: true } as Item['flags'],
+      flags: { usable: true, consuming: true, sellable: true },
     }),
     makeItem(3, {
       _name: '飞镖',
-      flags: { throwable: true, consuming: true, sellable: true } as Item['flags'],
+      flags: { throwable: true, consuming: true, sellable: true },
     }),
-    makeItem(4, { _name: '剧情玉', flags: { sellable: false, equipable: false } as Item['flags'] }),
+    makeItem(4, { _name: '剧情玉', flags: { sellable: false, equipable: false } }),
   ]
 
   it('filter=equip:只显装备类', () => {
@@ -133,7 +138,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
       usableInBattle: true,
       usableToEnemy: true,
       applyToAll: false,
-    } as Spell['flags'],
+    },
     _name: name,
   })
 

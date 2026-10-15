@@ -58,6 +58,14 @@ Visual Verification Timing: N/A（无产品/UI行为修改）
 - 发现登记（不在本窗口执行）：E-1 equip-menu.confirmEquipItem 死参（公共签名，另卡）；E-2 5 处测试内联 PlayerRole/Magic 工厂可统一至 harness（~150 行重复）；E-3 item-magic-select flags 展开强转清理。
 - 30 条账本保持 review 交 Codex 独立验收；不标 done、不合 main。
 
+## GLM R1–R4 返工（2026-10-15，响应 Codex counter 8c951cd7a）
+
+- R1：三门"PASS exit 0"报告已更正为"带存量诊断非干净通过"（act 警告 3,489/3,527/3,499+jsdom 导航 2）；归属量化：**全部 editor 包**（139 个 .tsx，Top=WorldSpriteLibrary/BattleSpriteLibrary 系），game 域零贡献；不静音不越界，交 Codex 集中清理卡核 Owner/白名单。
+- R2：inventory-menu.ts 两处过时注释已更正（stub log→startOverworldItemScript 真链；id 0"观音符"→wObjectID 61..294/0 哨兵，一手核提取器 items.ts）。
+- R3：item-magic-select makeItem 改显式 Partial flags 参数域+删 6 处强转；menu-mode/shop-menu 残留掩盖 3 处同清；21 份测试逐文件证据表重写（caller/oracle/合法输入/隔离/判别/强转账六列）；"重复≥3必须提取"自创规则删除。
+- R4：inventory-menu.test 200 改单体 usable 合成 fixture（真实 caller 选人域前提，注释声明合成属性）；死人/取消 oracle 未动；相邻 driver applyToAll/单体回归保留。
+- manifest 5 文件 candidateSha 更新+reworkCounter 标注；返工门禁回执 glm-r2-*.txt 同证据目录。30 条仍 review 交 Codex 再验收。
+
 ## 下一位 Agent 提示词（GLM，2026-10-14 用户指定接手）
 
 继续 type-pal 有限模块代码治理，默认单 Agent。先读 AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md、board.md、code-quality-governance.md、code-quality-file-ledger.md、phase1 engineering-notes/game-mechanics，以及 CODE94/95 与 CODE83–89/91/92 的历史卡和证据。工作目录 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`，分支 `codex/code-quality-menu-integration`；main 基点 cddf65557e60619e40e38168b276cf01981a106a。先 fetch/status/show/ledger，核对最新 main；不得写主工作树 `/Users/zhangxu/illegal/type-pal` 或覆盖别人未提交文件。

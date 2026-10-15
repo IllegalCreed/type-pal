@@ -19,7 +19,8 @@
  *  - cursor clamp [0, numInventory - 1](itemmenu.c:107-112,不 wrap)
  *
  * 大世界打开物品菜单 → 选物品 → if usable 进 ItemUseMenu(选目标 role)→
- * Confirm → 跑 item.scriptOnUse(M5 stub log)。
+ * Confirm → 由 caller(menu-driver)走 startOverworldItemScript 执行 item.scriptOnUse
+ * 完整脚本链(applyToAll 单体两分支,见 dispatchInventoryMenu)。
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
@@ -123,8 +124,11 @@ export function createInventoryMenu(
   // INACTIVE 红色(0x18 / 光标停其上 0x1C,itemmenu.c:148/171),确认时 no-op(itemmenu.c:289)。
   // 所以「使用/装备/卖」菜单都是全显示 + 非匹配项红色,不是把非匹配项从列表删掉。
   //
-  // 注(2026-05-27 session 3):items.json id 0 是真值物品(观音符),不是 "wItem=0 = no item"
-  // 哨兵;inventory entries 由 addItemToInventory 维护(count=0 自动清掉),故全部保留。
+  // 注(2026-10-15 更正):items.json 的 id 是全局 wObjectID(61..294,梦蛇 295 归 spells 排除;
+  //   提取器 resources/parsers/items.ts `id = ITEM_OBJ_START + i`),0 是"无物品"哨兵,不是真值物品
+  //   ——2026-05-27 旧注"id 0 是观音符"是 0-based local id 时代的历史误会,已废弃。
+  //   本表全显示语义照旧:库存条目由 addItemToInventory 维护(count=0 自动清掉),
+  //   进表的 entry 本身就代表真实持有,无需再按 id 过滤。
   const inv: InventorySlot[] = gs.inventory.map((e) => ({
     itemId: e.itemId,
     count: e.count ?? 0,

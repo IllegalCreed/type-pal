@@ -37,10 +37,16 @@
       "currentSourceSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
       "byteIdentical": true,
       "mainSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
-      "candidateSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+      "candidateSha256": "30ea14829d10b7c2a9ef1bf634970a251f4ee6427082f47c44b48f52f764ced2",
       "sourceChanged": false,
       "changedAfterPriorClosure": false,
-      "fixtureCounter": null
+      "fixtureCounter": null,
+      "reworkCounter": {
+        "card": "CODE-QUALITY-94 codex-review 8c951cd7a",
+        "from": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+        "to": "30ea14829d10b7c2a9ef1bf634970a251f4ee6427082f47c44b48f52f764ced2",
+        "items": "R3 删 as unknown as PlayerRoles 掩盖"
+      }
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.ts",
@@ -50,10 +56,16 @@
       "currentSourceSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
       "byteIdentical": true,
       "mainSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
-      "candidateSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+      "candidateSha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
       "sourceChanged": false,
       "changedAfterPriorClosure": false,
-      "fixtureCounter": null
+      "fixtureCounter": null,
+      "reworkCounter": {
+        "card": "CODE-QUALITY-94 codex-review 8c951cd7a",
+        "from": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+        "to": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+        "items": "R2 注释更正×2"
+      }
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.test.ts",
@@ -63,10 +75,16 @@
       "currentSourceSha256": "060994a9e7a67f9488d7cee1fcf72b561adb3c96201c946c64cd07f75ea6684e",
       "byteIdentical": true,
       "mainSha256": "060994a9e7a67f9488d7cee1fcf72b561adb3c96201c946c64cd07f75ea6684e",
-      "candidateSha256": "e198e51372afbb27b447f460482978d200944a2e992cb101bf25b55a728d1cbf",
+      "candidateSha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
       "sourceChanged": false,
       "changedAfterPriorClosure": true,
-      "fixtureCounter": "CODE-QUALITY-95"
+      "fixtureCounter": "CODE-QUALITY-95",
+      "reworkCounter": {
+        "card": "CODE-QUALITY-94 codex-review 8c951cd7a",
+        "from": "e198e51372afbb27b447f460482978d200944a2e992cb101bf25b55a728d1cbf",
+        "to": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+        "items": "R4 单体 fixture"
+      }
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
@@ -115,10 +133,16 @@
       "currentSourceSha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
       "byteIdentical": true,
       "mainSha256": "980913fd4160f877b09dbdac4dca13991cec99118953f6a62d9fe18880ccbae0",
-      "candidateSha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+      "candidateSha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2",
       "sourceChanged": true,
       "changedAfterPriorClosure": false,
-      "fixtureCounter": null
+      "fixtureCounter": null,
+      "reworkCounter": {
+        "card": "CODE-QUALITY-94 codex-review 8c951cd7a",
+        "from": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+        "to": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2",
+        "items": "R3 删 as never + 冗余 ItemFlags 断言"
+      }
     },
     {
       "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
@@ -297,10 +321,16 @@
       "currentSourceSha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
       "byteIdentical": true,
       "mainSha256": "7e755b64947798ca2e37aafda166eacb0aa53df24846586f276867ed69a6b442",
-      "candidateSha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+      "candidateSha256": "d6e3b88800594adeb0cf1fcf73c511da49de35452f48098941ed379052a48db4",
       "sourceChanged": true,
       "changedAfterPriorClosure": false,
-      "fixtureCounter": null
+      "fixtureCounter": null,
+      "reworkCounter": {
+        "card": "CODE-QUALITY-94 codex-review 8c951cd7a",
+        "from": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+        "to": "d6e3b88800594adeb0cf1fcf73c511da49de35452f48098941ed379052a48db4",
+        "items": "R3 makeItem Partial flags 参数域+删 6 处强转"
+      }
     },
     {
       "path": "packages/game/src/core/menu/in-game-magic-menu.ts",

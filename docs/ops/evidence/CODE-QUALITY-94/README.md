@@ -13,3 +13,4 @@
 2026-10-15 Codex独立验收counter：见codex-review.md/proof.json；原GLM回执存在大量React act与jsdom导航诊断，不计干净统一门。CODE94/95均返工，CODE95完整字段/数组修正不消除真实caller前提counter；30条保持review，未合main。Codex真实定向241与typecheck原件/exit/raw.json同目录。
 
 CODE95补充counter R4：applyAll物品fixture不可冒称真实单体目标入口；局部typed合法性结论已收紧为返工，不增加任何闭合。
+2026-10-15 R1–R4 返工（Codex counter 8c951cd7a）：回执 glm-r2-targeted（24files/241tests 零诊断）、glm-r2-typecheck、glm-r2-ledger、glm-r2-docs、glm-r2-lint、glm-r2-ratchet、glm-r2-protected；[codex-review.md](codex-review.md) 为 Codex counter 原件；manifest 已按 reworkCounter 更新 5 文件 SHA。act 警告归属量化见 glm-review.md 返工段（全部 editor 包，game 零贡献）。

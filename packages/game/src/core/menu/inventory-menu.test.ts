@@ -62,7 +62,10 @@ function mkItem(id: number, name: string, flagsPart: Partial<Item['flags']>): It
 const ITEMS: Item[] = [
   mkItem(105, '木剑', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
   mkItem(106, '短刀', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
-  mkItem(200, '观音符', { usable: true, applyToAll: true, consuming: true }),
+  // R4(2026-10-15):单体检伤类合成 fixture —— 真实 caller(menu-driver dispatchInventoryMenu)
+  // 只对非 applyToAll 物品进 use-target 选人(applyToAll 直接跑脚本,play.c:268-323 同);
+  // 名字/flags 为合成示意,不声明是 items.json 原始物品属性。
+  mkItem(200, '观音符', { usable: true, consuming: true }),
   mkItem(201, '玉佛珠', {
     equipable: true,
     equipableBy: [false, true, false, false, false, false],

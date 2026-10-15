@@ -1,4 +1,4 @@
-import type { AbstractKey, InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { AbstractKey, InputSnapshot, Item, Magic, Spell } from '@type-pal/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
@@ -10,7 +10,7 @@ const MOCK_CATALOGS = {
   items: [] as Item[],
   spells: [] as Spell[],
   magics: [] as Magic[],
-  playerRoles: { roles: [] } as unknown as PlayerRoles,
+  playerRoles: { roles: [] },
 }
 
 beforeEach(() => {
