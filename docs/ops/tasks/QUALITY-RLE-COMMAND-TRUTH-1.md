@@ -34,3 +34,5 @@ Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受�
 ## 当前只读原件
 
 [未改SDL函数native探针与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json)：两正/反字节向量、AddressSanitizer编译运行、函数SHA/完整命令，临时目录已清理。GOP只读trace226chunks/67715个TS成功帧，0分类分歧，不是native全资源像素比对。MGO/ABC、当前catalog origin域与其它真实资源仍unknown。任何算法修复仍无build allowed，未请求用户替代事实核验。
+
+2026-10-16 只读影响域新增证据：[DATA9/10、RGM/BALL/FIRE共1332图像](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)执行未改SDL取帧/绘制/YJ2与当前TS/PNG全RGBA摘要一致；四原盘SHA/所有frame记录保留。仅支持这五个canonical原盘cohort当前输出相同，不解决作者canonical与高位literal的一般格式分歧，也不替代GOP/MGO/其它资源census；本风险卡仍draft，无算法build授权。

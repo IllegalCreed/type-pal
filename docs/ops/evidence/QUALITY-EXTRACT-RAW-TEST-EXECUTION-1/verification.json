@@ -1,0 +1,111 @@
+{
+  "reviewer": "Codex separate verification process, not third-party acceptance",
+  "nativeFrames": 1332,
+  "nativeSourceAndPixelRecordsVerified": true,
+  "rawArchivesUnchanged": 4,
+  "finalSingleBusinessFailures": [
+    {
+      "mutation": "data9-pixel",
+      "file": "data-misc.test.ts",
+      "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "data10-frame",
+      "file": "data-misc.test.ts",
+      "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "rgm-pixel",
+      "file": "misc-mkf.test.ts",
+      "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "ball-pixel",
+      "file": "misc-mkf.test.ts",
+      "fullName": "decodeBallIcon real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "fire-index",
+      "file": "misc-mkf.test.ts",
+      "fullName": "parseFirSprite real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "fire-direct",
+      "file": "misc-mkf.test.ts",
+      "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "raw-fallback",
+      "file": "misc-mkf.test.ts",
+      "fullName": "parseFirSprite fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+      "type": "AssertionError"
+    }
+  ],
+  "allTwentyFourCounterRunsVerified": true,
+  "emptyTransferFailures": [2, 1],
+  "otherThreeGlmTestBodiesUnchanged": true,
+  "canonicalEmptyIndexInputs": [0, 7],
+  "nativeIdentityCounts": [21, 20],
+  "identityRemovalsIncludingRenames": 8,
+  "identityAdditionsIncludingRenames": 7,
+  "missingInputFailsInsteadOfPassing": 6,
+  "temporaryCopiesRemoved": true,
+  "baselineScopeAndRetirementRulesUnchanged": [
+    "scripts/coverage/config.mjs",
+    "scripts/coverage/baseline.fast.json",
+    "scripts/coverage/approved-test-retirements.mjs",
+    "scripts/coverage/approved-test-retirements.test.mjs",
+    "packages/pal-extract/src/cli.ts",
+    "packages/shared/src/rle.ts"
+  ],
+  "newFileClosures": 0,
+  "wholeCardAcceptance": false,
+  "recoveryReceiptsVerified": [
+    {
+      "name": "extract-targeted",
+      "exit": 0,
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0,
+        "stderrBlocks": 0
+      }
+    },
+    {
+      "name": "extract-package",
+      "exit": 0,
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0,
+        "stderrBlocks": 4
+      }
+    },
+    {
+      "name": "extract-typecheck",
+      "exit": 0,
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0,
+        "stderrBlocks": 0
+      }
+    },
+    {
+      "name": "shared-adjacent",
+      "exit": 0,
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0,
+        "stderrBlocks": 0
+      }
+    }
+  ]
+}

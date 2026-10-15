@@ -139,3 +139,7 @@ Codex premise verified/design agree/build allowed白名单为annotate.test.ts、
 本片两旧关闭撤回review，0新增关闭；CODE3/3f仍partial，全83卡9partial/74pending/0accept。原卡范围其它文件/统一check、ratchet、protected和editor诊断未清；不合main。先处理六条假绿，再续3b及94–102/editor；无下一位Agent提示词，单Agent继续。
 
 本检查点docs/ledger/diff-check通过，lint-zero4428文件error/warning/info全0。机器3287 inventory /209closed /216review /2862pending；没有新增关闭或统一门通过声明。恢复、原件与精确退役已另进程复核，不冒充第三方验收。
+
+### 原盘执行完整性支持片
+
+[原盘任务/证据](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)已修两测试六假绿，native SDL1332图像完整RGBA oracle、七旧绿新红；一空块重复转移，21→20。共享test-only摘要与相邻事实注释均review，0关闭；完整extract432仍4stderr块，统一门未清。全83卡仍9partial/74pending/0accept；本支持片不替代CODE3b/3g/其它卡全文复审。先核四处诊断真实输出合同，再续编号卡与94–102/editor。

@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
-      "afterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
+      "sourceSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
+      "afterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1445,6 +1445,15 @@
             "previousAfterSha256": "5e09a575d1db12157114ebf353e651814df19894fd1cc222da941f4ce4c63ad1",
             "afterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "b41dc8d53",
+            "action": "extract-raw-test-execution-and-native-pixel-oracle-checkpoint",
+            "scope": "docs/ops/board.md own retrospective/raw-test navigation only; no numbered-card acceptance; four parser stderr blocks remain; no other-owner/product state change",
+            "previousAfterSha256": "01e097d147e33abd7de1c865ef9392c5b6ce47e724e91cac5ce0b0aa9d252955",
+            "afterSha256": "bf4f6d9f59b109d70a7828bf2167560cbe4597c377473522f8ff5b0e560cc230",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
           }
         ]
       },
@@ -1755,8 +1764,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
-      "afterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
+      "sourceSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
+      "afterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2300,6 +2309,15 @@
             "previousAfterSha256": "ffeb8722a95a159b53d5793343186cd6010db9b67e0f1395ef8c171df7a37b00",
             "afterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "b41dc8d53",
+            "action": "extract-raw-test-execution-and-native-pixel-oracle-checkpoint",
+            "scope": "docs/ops/evidence/README.md own retrospective/raw-test navigation only; no numbered-card acceptance; four parser stderr blocks remain; no other-owner/product state change",
+            "previousAfterSha256": "fb93fe4c7bdf53ac9603e7a1d7699305384fb95c3ba071c21656462fca3aaac9",
+            "afterSha256": "8fc1a0a8b01ac2c058f9bdb544275980539e3d559f40953f06d4cfff65626fed",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -3052,8 +3070,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
-      "afterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
+      "sourceSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
+      "afterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -3933,6 +3951,15 @@
             "previousAfterSha256": "7d429f23d74fed40dcc43b05de348550ac55eb577749431638c85ef8beda3c0b",
             "afterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "b41dc8d53",
+            "action": "extract-raw-test-execution-and-native-pixel-oracle-checkpoint",
+            "scope": "docs/ops/tasks/index.md own retrospective/raw-test navigation only; no numbered-card acceptance; four parser stderr blocks remain; no other-owner/product state change",
+            "previousAfterSha256": "6218827548e0c174880bdc69e5901423f18d38bcafdab16111a5721750a94d42",
+            "afterSha256": "0ff614c8098f6fd16347e4a13f283139d04a2eb8463f009f8cb31f7e5b69df9f",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md"
           }
         ]
       },

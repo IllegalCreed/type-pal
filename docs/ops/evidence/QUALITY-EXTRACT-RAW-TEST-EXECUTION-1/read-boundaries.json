@@ -1,0 +1,190 @@
+{
+  "baseCommit": "b41dc8d535ab3bd58797136d8e6121cd7762111f",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+      "method": "full-text",
+      "lines": 188,
+      "sha256": "3f13dc170743e59be27cd006bb5bac11b84e0058b480f536ed93435373dc32d0",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "method": "full-text",
+      "lines": 178,
+      "sha256": "6a4f30672f726cc9ec5b3d4066953762051b2562fa074edb984cbc09e74acdb2",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts",
+      "method": "full-text",
+      "lines": 26,
+      "sha256": "ccdb9eeb55af7027c94087451e27286bfb90a969730addcef0d9b39433284850",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
+      "method": "full-text",
+      "lines": 68,
+      "sha256": "53ad57980bdb47bf3a90832cb87b052bbdd4a3d8eecd6c83e9ad67754335cc15",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "method": "full-text",
+      "lines": 102,
+      "sha256": "be0f30fa87b04813a7f3e8247ceecceb104d6575df573feb6fdc2970f5e6e74c",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "method": "full-text",
+      "lines": 55,
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "method": "full-text",
+      "lines": 51,
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/fire.ts",
+      "method": "full-text",
+      "lines": 62,
+      "sha256": "0cfc135544de7ae6e1a2571fdb643333eac35833649e17a4e1b57a167849ac76",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "method": "full-text",
+      "lines": 94,
+      "sha256": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "method": "full-text",
+      "lines": 316,
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "method": "full-text",
+      "lines": 6,
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+      "method": "full-text",
+      "lines": 42,
+      "sha256": "7fbc1f8639c9190f32b886cf261115a0125c156fa6d11cdb5fa709662f6684b3",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "method": "full-text",
+      "lines": 115,
+      "sha256": "fcf8681c1e85fe78bb8dd2d40ffc0f9daac02900f92af2da5d81b214ae5aaff3",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "method": "full-text",
+      "lines": 22,
+      "sha256": "c4b6353eb6789454a794048b416f148e02318afe41f5ab5908cda286d8c97482",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "method": "full-text",
+      "lines": 239,
+      "sha256": "010e628bcdb81ec708b8658c5899d29a45191b968e04bad4929b5fb615317a04",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "method": "ranges",
+      "ranges": [[348, 405], [452, 538]],
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "method": "ranges",
+      "ranges": [[20, 245], [800, 862]],
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "method": "ranges",
+      "ranges": [[55, 82]],
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "method": "ranges",
+      "ranges": [[1770, 1797]],
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "method": "ranges",
+      "ranges": [[2465, 2510]],
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "method": "ranges",
+      "ranges": [[285, 310]],
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "method": "ranges",
+      "ranges": [[380, 395]],
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "method": "ranges",
+      "ranges": [[1268, 1294]],
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "method": "ranges",
+      "ranges": [[190, 209]],
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "docs/phase1/status/resource-status.md",
+      "method": "ranges",
+      "ranges": [[14, 44], [70, 106]],
+      "sha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "method": "ranges",
+      "ranges": [[32, 58], [115, 140]],
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+      "wholeFileAccepted": false
+    }
+  ],
+  "nativeBodyReading": "YJ2 function previously read in CODE2b; exact unchanged body extracted/executed now. Source extraction/hash is not a new full-file semantic read.",
+  "priorContext": "../QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/read-boundaries.json",
+  "notClaimed": "No whole CLI/game/resource-status acceptance; primary ranges only; old whole-card done states not promoted."
+}

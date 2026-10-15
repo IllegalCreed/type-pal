@@ -1,0 +1,96 @@
+{
+  "rows": [
+    {
+      "phase": "before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-empty-transfer-before-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-empty-transfer-before-misc-mkf.test.ts",
+        "src/resources/parsers/pre94-raw-empty-transfer-before-fire.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-empty-transfer-final-4vv_871c/before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "passed": 23,
+      "failed": 2,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "fire.glm-runtime-resource.test.ts",
+          "fullName": "R03 parseFirSprite 空 chunk：frameCount=0、frames=[]、chunkIndex 透传",
+          "messages": [
+            "AssertionError: expected { chunkIndex: 7, frameCount: 1, …(1) } to deeply equal { chunkIndex: 7, frameCount: +0, …(1) }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-raw-empty-transfer-before-fire.glm-runtime-resource.test.ts:16:50\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "messages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-empty-transfer-before-misc-mkf.test.ts:124:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "rawSha256": "8922af7a511e13f0ca4593c87474e202fa702cb661849ff5a11d932e05383ddb",
+      "runnerSha256": "ca286571dd249179d8f36ad236c145d553dbff6c1df2f6efbfbe4eabca2ea9d7",
+      "wrapperSha256": "46607cbf83a0cf4d7501cd095d5dee21bfb98594357b2f3ac11c0ff3590ec3b5",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-empty-transfer-before-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-empty-transfer-before-misc-mkf.test.ts": "a1248cf2762da0e9ffceeecfe94d25d4a60364fe9d338f0327c42c007849639e",
+        "packages/pal-extract/src/resources/parsers/pre94-raw-empty-transfer-before-fire.glm-runtime-resource.test.ts": "253a2e959b13c8fccca95a3d5199c288359fa330fa4200dd2a162dc3c23b78ef"
+      }
+    },
+    {
+      "phase": "after",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-empty-transfer-after-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-empty-transfer-after-misc-mkf.test.ts",
+        "src/resources/parsers/pre94-raw-empty-transfer-after-fire.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-empty-transfer-final-4vv_871c/after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "passed": 23,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "file": "fire.glm-runtime-resource.test.ts",
+          "fullName": "R03 parseFirSprite 空 chunk：frameCount=0、frames=[]、chunkIndex 透传",
+          "messages": [
+            "AssertionError: expected { chunkIndex: +0, frameCount: 1, …(1) } to deeply equal { Object (chunkIndex, frameCount, ...) }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/pre94-raw-empty-transfer-after-fire.glm-runtime-resource.test.ts:16:61\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "rawSha256": "dbe1cd06fef0909adcaed5e832ced22c144fed75d4c0388b71bd31a6cd5f788d",
+      "runnerSha256": "b88efe3e84be29d2dcc55c96fad56b1adf402b01de643ab112d2fc4f2ef386ab",
+      "wrapperSha256": "46607cbf83a0cf4d7501cd095d5dee21bfb98594357b2f3ac11c0ff3590ec3b5",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-empty-transfer-after-data-misc.test.ts": "3f13dc170743e59be27cd006bb5bac11b84e0058b480f536ed93435373dc32d0",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-empty-transfer-after-misc-mkf.test.ts": "c0894af09234b0dda9aad13d7ba62eaf3fb511b11ac304f82b21a475dc95f7d2",
+        "packages/pal-extract/src/resources/parsers/pre94-raw-empty-transfer-after-fire.glm-runtime-resource.test.ts": "408462601e79e4d7e8d60a57dc77a66fee22050e4a3f8b06616edfec8c80a7d8"
+      }
+    }
+  ],
+  "temporaryCopiesRemoved": true,
+  "kind": "multi-red oracle transfer, not single-failure credit",
+  "retainedEmptyIndexInputs": [0, 7]
+}

@@ -1,10 +1,8 @@
 /**
- * TEST-GLM-RUNTIME-RESOURCE-2 R03（pal-extract/resources/parsers/fire.ts）。
- * 该文件此前无任何测试。合同：空 chunk 0 帧、已知输出的 YJ2 压缩 sprite chunk
- * （fixture 注释手推明文，派生工具见 wave 目录 tools/）→ 1 帧真 PNG、
- * 退化 raw（<4B 抛错回退 → count=0）、压缩标记 uncompLen<2 → 0 帧。
- * 不声称覆盖「原始分支成功解析多帧」：计数与 uncompLen 双用使该组合在
- * 公开入口不可达，已在回执登记未证项。
+ * TEST-GLM-RUNTIME-RESOURCE-2 R03：FIRE空块、压缩像素与短输入输出合同。
+ * 两帧raw fallback的合法合成向量、真实全表和FIRE0直解由misc-mkf.test.ts承接。
+ * 本文件的YJ2向量明文是2×2，PNG真解码逐像素核透明/实心/opaque-0；
+ * 退化raw只验证<4B拒绝后的短容器，不能据此声称raw多帧入口不可达。
  */
 import { PNG } from 'pngjs'
 import { describe, expect, test } from 'vitest'
@@ -13,11 +11,14 @@ import { parseFirSprite } from './fire.js'
 
 describe('R03 parseFirSprite', () => {
   test('空 chunk：frameCount=0、frames=[]、chunkIndex 透传', () => {
-    expect(parseFirSprite(7, new Uint8Array(0))).toEqual({
-      chunkIndex: 7,
-      frameCount: 0,
-      frames: [],
-    })
+    // 原misc-mkf空块的0与本合同的7一并保留，避免零ID的保真边界丢失。
+    for (const chunkIndex of [0, 7]) {
+      expect(parseFirSprite(chunkIndex, new Uint8Array(0))).toEqual({
+        chunkIndex,
+        frameCount: 0,
+        frames: [],
+      })
+    }
   })
 
   test('YJ2 压缩 chunk（已知输出 2×2）：1 帧、PNG 真解码透明/实心/opaque-0', () => {

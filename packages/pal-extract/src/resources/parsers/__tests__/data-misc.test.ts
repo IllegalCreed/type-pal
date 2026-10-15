@@ -10,13 +10,14 @@
  *   chunk 9  → SPRITEUI(单 sprite group,PAL_SpriteGetFrame flat index)
  *   chunk 10 → lpEffectSprite(单 sprite group,PAL_SpriteGetFrame flat index)
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { openMkf, readChunk } from '../../../io/mkf.js'
 import { framesToOut, parseSpriteChunk } from '../../sprite.js'
 import { parseBattleEffectIndex, parseLevelUpExp, parseLevelUpMagic } from '../data-misc.js'
+import { createFrameDigest } from './indexed-frame-digest.js'
 
 describe('parseLevelUpExp', () => {
   it('parses sdlpal rgLevelUpExp shape: 100 WORD entries', () => {
@@ -97,6 +98,12 @@ describe('parseBattleEffectIndex', () => {
 
 // ── chunk 9 (SPRITEUI) + chunk 10 (battle effect sprite) ─────────────────
 
+// 原盘是本文件的必需输入，缺失直接失败；fast既有排除不由测试内部假passed替代。
+const DATA_MKF_PATH = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../../../../../data/raw/DATA.MKF',
+)
+
 /**
  * 合成 sprite group chunk:N 帧,每帧 1×1 RLE。
  * sdlpal PAL_SpriteGetFrame 格式:
@@ -106,7 +113,7 @@ describe('parseBattleEffectIndex', () => {
  * frame[0] 的 byte-offset = imagecount * 2。
  */
 function makeFakeSpriteChunk(frameCount: number): Uint8Array {
-  // 每帧:4 字节 header(w=1,h=1) + 1 RLE pixel + 1 end-of-row = 6 字节
+  // 每帧:4 字节 header(w=1,h=1) + 1 run长度 + 1 pixel = 6 字节，无行尾标记。
   // frame byte-offset 起点 = frameCount * 2
   const frameDataSize = 6 // 1×1 RLE: w(2) + h(2) + 0x01 run + 0xaa pixel = 6
   const headerSize = frameCount * 2
@@ -131,7 +138,6 @@ describe('chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut', () 
     // sdlpal ui.h: SPRITENUM_ITEMBOX = 70 是已知最高 frame index;实测 imagecount = 72
     const buf = makeFakeSpriteChunk(72)
     const frames = parseSpriteChunk(buf)
-    expect(frames.length).toBeGreaterThanOrEqual(1)
     // 合成 chunk 全有效帧 — 应全部解出
     expect(frames).toHaveLength(72)
     expect(frames[0]!.width).toBe(1)
@@ -147,26 +153,17 @@ describe('chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut', () 
     expect(out[0]!.pngBytes[0]).toBe(0x89) // PNG magic
   })
 
-  it('real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)', () => {
-    // data/extracted 是 gitignored;clean checkout 直接 skip
-    const HERE = dirname(fileURLToPath(import.meta.url))
-    const REPO_ROOT = resolve(HERE, '../../../../..')
-    const dataMkfPath = resolve(REPO_ROOT, 'data/raw/DATA.MKF')
-    if (!existsSync(dataMkfPath)) {
-      console.warn('[chunk 9 test skip] data/raw/DATA.MKF 不存在,需原盘')
-      return
-    }
-    const mkf = openMkf(new Uint8Array(readFileSync(dataMkfPath)))
+  it('real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA', () => {
+    const mkf = openMkf(new Uint8Array(readFileSync(DATA_MKF_PATH)))
     const chunk9 = readChunk(mkf, 9)
     expect(chunk9.byteLength).toBe(25532)
     const frames = parseSpriteChunk(chunk9)
-    expect(frames.length).toBeGreaterThanOrEqual(71) // SPRITENUM_ITEMBOX=70 必须存在
-    for (const f of frames) {
-      expect(f.width).toBeGreaterThan(0)
-      expect(f.height).toBeGreaterThan(0)
-      expect(f.width).toBeLessThanOrEqual(400)
-      expect(f.height).toBeLessThanOrEqual(400)
-    }
+    // imagecount=72包含末尾0 offset；SDLPal有效槽为0..70，共71帧。
+    expect(frames).toHaveLength(71)
+    const digest = createFrameDigest()
+    digest.add(9, framesToOut(frames))
+    // 未改SDLPal两底色绘制得到的全部RGBA与chunk/slot/尺寸摘要，见本卡native-proof。
+    expect(digest.hex()).toBe('8b75275668872322a4c933eee3a65cb6b1d38722e659a13795501648051b4b5b')
   })
 })
 
@@ -178,24 +175,14 @@ describe('chunk 10 battle effect sprite — parseSpriteChunk + framesToOut', () 
     expect(frames).toHaveLength(86)
   })
 
-  it('real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)', () => {
-    const HERE = dirname(fileURLToPath(import.meta.url))
-    const REPO_ROOT = resolve(HERE, '../../../../..')
-    const dataMkfPath = resolve(REPO_ROOT, 'data/raw/DATA.MKF')
-    if (!existsSync(dataMkfPath)) {
-      console.warn('[chunk 10 test skip] data/raw/DATA.MKF 不存在,需原盘')
-      return
-    }
-    const mkf = openMkf(new Uint8Array(readFileSync(dataMkfPath)))
+  it('real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA', () => {
+    const mkf = openMkf(new Uint8Array(readFileSync(DATA_MKF_PATH)))
     const chunk10 = readChunk(mkf, 10)
     expect(chunk10.byteLength).toBe(17478)
     const frames = parseSpriteChunk(chunk10)
-    expect(frames.length).toBeGreaterThanOrEqual(1)
-    for (const f of frames) {
-      expect(f.width).toBeGreaterThan(0)
-      expect(f.height).toBeGreaterThan(0)
-      expect(f.width).toBeLessThanOrEqual(400)
-      expect(f.height).toBeLessThanOrEqual(400)
-    }
+    expect(frames).toHaveLength(85) // 86个声明槽，最后一个是0 offset。
+    const digest = createFrameDigest()
+    digest.add(10, framesToOut(frames))
+    expect(digest.hex()).toBe('1d2ae53fae5d912b3307c0a4d7f09404304b61b19c39e7e35bb8e0244517d3bb')
   })
 })

@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：209；已读但待审：216；尚未逐文件核验：2,862；合计未闭合：3,078。
+起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,288。
+当前已闭合核验：209；已读但待审：220；尚未逐文件核验：2,859；合计未闭合：3,079。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -123,6 +123,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/src/resources/parsers/ball.ts` | product | 已验证 | RLE header/坏帧 skip、BALL caller 与 parser tests；全包通过 | 保留空 chunk skip |
 | `packages/pal-extract/src/resources/parsers/battle-fields.ts` | product | 已验证 | 12B fixed record/signed effects guard、真实 DATA caller 与 tests | 非整除显式失败 |
 | `packages/pal-extract/src/resources/parsers/data-misc.ts` | product | 已验证 | level-up/effect table contracts、现有短输入宽容测试与 real DATA caller | 宽容截断合同有直接测试，未擅改 |
+| `packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts` | test | review | [原盘caller/SDL像素与反控](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 修两原盘早退，71/85完整RGBA；表测试排重/统一门仍待，未关闭 |
+| `packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts` | test | review | [真实输入/固定oracle/精简/反控](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 修四早退，88/251/837及FIRE0完整RGBA；9→8，helper非CLI实际调用，统一门未清 |
+| `packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts` | test | review | [唯一test-only摘要接线与caller](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 新tracked helper；每例独立SHA，PNG真解码，只产actual不产expected；0关闭 |
+| `packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts` | test | review | [四合同全文/空块转移与注释counter](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 空块原合同保留0与7，另外三体/四身份不变；纠正raw多帧不可达注释，未整文件accept |
 | `packages/pal-extract/src/resources/parsers/enemies.ts` | product | 已验证 | ENEMY/OBJECT fixed layout、signed fields、name/map callers 与 tests | short map helper 合同保留 |
 | `packages/pal-extract/src/resources/parsers/enemy-teams.ts` | product | 已验证 | 10B team record、slot sentinel/translation/name map tests | 0/FFFF 语义保真 |
 | `packages/pal-extract/src/resources/parsers/fire.ts` | product | 已验证 | FIRE YJ2/raw fallback、empty/short group guard 与 callers/tests | 不改资源降级 |
@@ -562,3 +566,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 CODE3复审：两测试修A2/reset/EO三个判别力缺口，四文件28身份保留，三针旧28绿/新各27绿1指定AssertionError。元数据伪边/计数goto停线专卡draft，生产与资源未改。raw43503指令roundtrip一致、当前元数据投影相同，17非零goto待核实际影响；定向45、extract72/434+typecheck、shared16/126+typecheck通过，0新关闭。机器已重跑确认211closed/214review/2862pending，统一门及editor诊断未清。
 
 2026-10-16 CODE3/3f标注测试复审：两测试完整expected与真实输入守恒补证，六针旧17绿/新各15绿1指定AssertionError；四重复精简/混合合同拆分，总17→16，精确退役表25项净59，matcher/baseline不改。定向52/shared126/工具70与typecheck通过；完整extract虽433 passed，但完整stderr十块、六例原盘路径错误早退，包验收不通过，优先draft原盘执行卡。此前434包结果的“零诊断”仅三模式计数，现明确纠正，原日志保留。两旧关闭撤回review、0新增关闭；机器已按本轮原命令确认209closed/216review/2862pending。全83卡9partial/74pending/0accept，统一门及editor未清，不合main。
+
+2026-10-16 Extract原盘执行完整性：修两测试错误root/六早退，native SDL1332图像固定RGBA，七反控旧21绿/新各19绿1指定AssertionError，空块重复由GLM承接21→20。新增唯一test-only摘要helper，四文件仅登记review；机器原命令已确认库存3288、209closed/220review/2859pending，0新关闭。定向36/shared126及typecheck通过；完整extract432绿仍4stderr块/46行，包级零诊断不通过。规则/baseline/25项退役表与生产/资源原字节不动；统一门及editor待续，未合main。

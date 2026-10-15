@@ -1,0 +1,73 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/resources/parsers/__tests__/pre94-raw-missing-data-misc.test.ts",
+    "src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--silent=false",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-list-8bh570wl/missing.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "passed": 14,
+  "failed": 6,
+  "pending": 0,
+  "failures": [
+    {
+      "file": "pre94-raw-missing-data-misc.test.ts",
+      "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/DATA.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-data-misc.test.ts:157:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "file": "pre94-raw-missing-data-misc.test.ts",
+      "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/DATA.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-data-misc.test.ts:179:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "file": "pre94-raw-missing-misc-mkf.test.ts",
+      "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/RGM.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts:60:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "file": "pre94-raw-missing-misc-mkf.test.ts",
+      "fullName": "decodeBallIcon real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/BALL.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts:92:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "file": "pre94-raw-missing-misc-mkf.test.ts",
+      "fullName": "parseFirSprite real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/FIRE.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts:146:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    },
+    {
+      "file": "pre94-raw-missing-misc-mkf.test.ts",
+      "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+      "messages": [
+        "Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/data/raw/FIRE.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts:169:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)"
+      ]
+    }
+  ],
+  "rawSha256": "cbd1d34efab734eb8d067db2be29532d4306aa5e42b6bd97a48ced9dcb21abdd",
+  "runnerSha256": "976b11c23acb002104672dd56fed0d60e88122812b26966d690b8f9f1dd41811",
+  "copySha256": {
+    "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-data-misc.test.ts": "0241d160d7565d17633aeb19e4fd9c92a27939f3de9d5890737d4a0928b9d911",
+    "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-missing-misc-mkf.test.ts": "7e3640f6011928f9ec28d5b9167aadd57b7f9bdea8ae0cd48129938d529a097f"
+  },
+  "kind": "IO refusal, not business AssertionError credit"
+}
