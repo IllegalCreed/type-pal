@@ -190,17 +190,18 @@
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "all text/JSON fields manually read; specific authority and scope rewrite; real consumer",
+      "readMethod": "Root full current index text read, actual I1.4 config/design/source-chain and14 declaration-only object proof; earlier template/catalog semantic scopes retained in priorReadings, not reread all underlying reports.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "17类用途与单一事实源保持；test-catalog使用冻结1.1.0 JSON，17类已有实际迁移pilot后 registry转frozen-for-migration。每篇正文、机器consumer及新增格式变体仍须独立核验，不宣称全docs完成。",
+      "coreConclusion": "17类唯一registry与原starter/导航入口保持；补机器1.4历史九字段变体的独立lifecycle、固定Git保真及pilot待验边界；旧14只治理版本对齐、0新迁移/执行，不把新格式注册当全量或运行通过。",
       "truthAnchors": [
         "docs/phase-governance/templates/registry.json:1",
-        "docs/phase-governance/templates/registry-proposal-20261011.md:1"
+        "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1"
       ],
       "unresolved": [
-        "17类有真实pilot不等于全量文档已迁移，机器证据其他schema/HTML仍须按实际consumer核验。"
+        "全testing/全docs逐篇迁移与artifact归属仍未完成；I0实施已独立接受，新native canonical单篇pilot仍待接受，不由fixture通过替代。"
       ],
-      "nextStep": "继续逐篇模板迁移与artifact归属；缺原始执行证据按停止线保留，不延长reviewBy或伪造新通过。",
+      "nextStep": "I0配置/旧14版本保真/真实CLI反例已独立接收；准入r10 JSON canonical单篇pilot，完成独立语义/来源/消费者验收后再计迁移；继续其它全量治理。",
       "phase": "phase-governance",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -208,13 +209,21 @@
         "full original document read",
         "frozen 1.1.0 design",
         "manual JSON/Markdown semantic migration",
-        "real publication consumers"
+        "real publication consumers",
+        {
+          "date": "2026-10-16",
+          "scope": "Full current template-index reread plus I1.4 navigation/source/acceptance boundary; original lower-level documents not fully re-audited."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "receipt_review I0implementation accept/I1closed; metadata-only next-step signoff leaves actual template-index body/afterSHA unchanged."
+        }
       ],
       "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "5a58b135c89c6ec25e116bb71397363e41816c3e",
       "sourceState": "present",
-      "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+      "afterSha256": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -227,9 +236,9 @@
       "businessOracle": {
         "type": "catalog-preservation-and-publication-contract",
         "assertions": [
-          "保持已核的17类导航和事实权界线，只将test-catalog入口修正为冻结1.1.0 JSON模板；Markdown说明不再冒充canonical机器模板，其余用途/门禁不改。",
-          "仅登记的分类更正可变；机器字段顶层与真实consumer保持相容",
-          "原样例/历史日期/状态与当前模板合同分开，非本批已执行"
+          "17类与原既有模板/starter链接保持，不把新增机器变体计第18类。",
+          "历史native九字段+固定Git原对象深等，保原counter/MISSED/诊断/exit；本轮false/lifecycle historical与catalog/执行状态分轴。",
+          "旧14仅声明升版、0新增迁移或执行；新变体独立pilot待验，结构与静态门不授runtime/E2E/视觉/coverage。"
         ]
       },
       "dedupe": {
@@ -243,7 +252,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+        "implementationSha": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -271,9 +280,9 @@
       "evidence": {
         "kind": "static-catalog-consumer-and-semantic-reading",
         "path": "docs/phase-governance/templates/registry.json",
-        "sourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
-        "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
-        "lineCount": 49
+        "sourceSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+        "afterSha256": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
+        "lineCount": 53
       },
       "history": [
         {
@@ -302,12 +311,25 @@
           "sourceSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
           "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
           "beforeAfter": "Add status-axis navigation to frozen registry and C1 design; no parallel vocabulary, no publication/execution status changes."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "I1.4 native machine variant navigation and explicit pilot boundary",
+          "sourceSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+          "afterSha256": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "I0independent-implementation-accept",
+          "scope": "Two index metadata next steps now reflect accepted I0; canonical native pilot pending;0new migration/execution."
         }
       ],
       "supersedes": [],
       "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
-      "userVisibleBeforeAfter": "test-catalog.md作为机器模板入口 → test-catalog.json，设计说明与JSON合同分工显式。",
-      "reviewedLines": "1-49",
+      "userVisibleBeforeAfter": "既有17类型导航→同一导航补1.4历史native变体/固定源/pilot边界；原入口不删，0新增迁移信用。",
+      "reviewedLines": "1-53",
       "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。",
       "priorReadings": [
         {
@@ -546,11 +568,166 @@
               "method": "concrete body/schema plus actual source/consumer and migration review"
             }
           }
+        },
+        {
+          "path": "docs/phase-governance/templates/README.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "governance-index",
+          "templateId": "governance-index-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/governance-index.md",
+          "templateCompliance": "template-compliant",
+          "readMethod": "all text/JSON fields manually read; specific authority and scope rewrite; real consumer",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "17类用途与单一事实源保持；test-catalog使用冻结1.1.0 JSON，17类已有实际迁移pilot后 registry转frozen-for-migration。每篇正文、机器consumer及新增格式变体仍须独立核验，不宣称全docs完成。",
+          "truthAnchors": [
+            "docs/phase-governance/templates/registry.json:1",
+            "docs/phase-governance/templates/registry-proposal-20261011.md:1"
+          ],
+          "unresolved": [
+            "17类有真实pilot不等于全量文档已迁移，机器证据其他schema/HTML仍须按实际consumer核验。"
+          ],
+          "nextStep": "继续逐篇模板迁移与artifact归属；缺原始执行证据按停止线保留，不延长reviewBy或伪造新通过。",
+          "phase": "phase-governance",
+          "module": "catalog-and-template-navigation",
+          "owner": "Codex",
+          "provenance": [
+            "full original document read",
+            "frozen 1.1.0 design",
+            "manual JSON/Markdown semantic migration",
+            "real publication consumers"
+          ],
+          "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
+          "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+          "sourceGitObject": "5a58b135c89c6ec25e116bb71397363e41816c3e",
+          "sourceState": "present",
+          "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+          "publicCallers": [
+            "node scripts/docs/check-document-model.mjs",
+            "node scripts/docs/check-testing.mjs",
+            "node scripts/docs/generate-testing-index.mjs"
+          ],
+          "legalInputs": [
+            "schemaVersion2 JSON publication records or explicitly labelled template examples",
+            "real canonical paths, source anchors, unchanged lifecycle and candidate axes; not invented runtime input"
+          ],
+          "businessOracle": {
+            "type": "catalog-preservation-and-publication-contract",
+            "assertions": [
+              "保持已核的17类导航和事实权界线，只将test-catalog入口修正为冻结1.1.0 JSON模板；Markdown说明不再冒充canonical机器模板，其余用途/门禁不改。",
+              "仅登记的分类更正可变；机器字段顶层与真实consumer保持相容",
+              "原样例/历史日期/状态与当前模板合同分开，非本批已执行"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/testing/catalog.json",
+              "docs/testing/indexes",
+              "docs/phase-governance/templates/registry.json"
+            ],
+            "notes": "catalog是published索引唯一源；Markdown导航、模板示例和各片段执行报告各有责任，不能平行维护不同状态。"
+          },
+          "revision": {
+            "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+            "implementationSha": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+            "contentVersion": "N/A-doc-publication; original candidate versions retained",
+            "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "manual-routing-and-authority-rewrite",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-15",
+                "action": "actual catalog pilot or navigation alignment",
+                "sourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+                "afterSha256": "f8e16718afca8d86e51d7ca2dfe13585837fe623dfb1dc51d6c9a4d6e34c8c58",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-15",
+                "action": "real type pilot freeze, no product execution",
+                "sourceSha256": "f8e16718afca8d86e51d7ca2dfe13585837fe623dfb1dc51d6c9a4d6e34c8c58",
+                "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "static-catalog-consumer-and-semantic-reading",
+            "path": "docs/phase-governance/templates/registry.json",
+            "sourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+            "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+            "lineCount": 49
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
+              "afterSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+              "beforeAfter": "10 类旧范围与永久 governed-legacy 表述 -> 17 类全 docs 模板与有效 pilot 准入。",
+              "scope": "documentation semantics only"
+            },
+            {
+              "date": "2026-10-15",
+              "beforeAfter": "test-catalog.md作为机器模板入口 → test-catalog.json，设计说明与JSON合同分工显式。",
+              "sourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+              "afterSha256": "f8e16718afca8d86e51d7ca2dfe13585837fe623dfb1dc51d6c9a4d6e34c8c58",
+              "previousAfterSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d"
+            },
+            {
+              "date": "2026-10-15",
+              "action": "registry phase reflected after real pilots",
+              "beforeSha256": "f8e16718afca8d86e51d7ca2dfe13585837fe623dfb1dc51d6c9a4d6e34c8c58",
+              "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd"
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-route-readers-to-separate-publication-and-execution-contracts",
+              "sourceSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+              "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+              "beforeAfter": "Add status-axis navigation to frozen registry and C1 design; no parallel vocabulary, no publication/execution status changes."
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
+          "userVisibleBeforeAfter": "test-catalog.md作为机器模板入口 → test-catalog.json，设计说明与JSON合同分工显式。",
+          "reviewedLines": "1-49",
+          "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。",
+          "primarySource": [
+            "docs/phase-governance/templates/registry.json:1",
+            "docs/phase-governance/templates/registry-proposal-20261011.md:1"
+          ],
+          "documentStatus": "current-publication-or-navigation; no execution acceptance",
+          "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
+          "dependencies": [
+            "docs/phase-governance/templates/registry.json",
+            "docs/testing/catalog.json",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+          ],
+          "applicability": "Published catalog/schema and template navigation only; historical execution/canon/product facts do not inherit acceptance.",
+          "publicEntry": "docs/phase-governance/templates/README.md",
+          "counterReworkBlocked": {
+            "migration": "no open conformity counter after real consumer checks",
+            "catalogScopeCorrections": "3 records/4 fields explained, old values retained",
+            "deferred": [
+              "17类有真实pilot不等于全量文档已迁移，机器证据其他schema/HTML仍须按实际consumer核验。"
+            ]
+          },
+          "reviewedSourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.0.0",
+            "method": "concrete body/schema plus actual source/consumer and migration review"
+          }
         }
       ],
       "primarySource": [
         "docs/phase-governance/templates/registry.json:1",
-        "docs/phase-governance/templates/registry-proposal-20261011.md:1"
+        "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1"
       ],
       "documentStatus": "current-publication-or-navigation; no execution acceptance",
       "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
@@ -568,7 +745,7 @@
           "17类有真实pilot不等于全量文档已迁移，机器证据其他schema/HTML仍须按实际consumer核验。"
         ]
       },
-      "reviewedSourceSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+      "reviewedSourceSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.0.0",

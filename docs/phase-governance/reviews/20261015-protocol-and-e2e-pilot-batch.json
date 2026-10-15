@@ -483,7 +483,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.3.0",
+      "templateVersion": "1.4.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-semantic-migration",
@@ -507,7 +507,7 @@
       "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+      "afterSha256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -537,7 +537,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+        "implementationSha": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -561,7 +561,7 @@
         "kind": "full-text-preservation-and-consumer-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
         "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
-        "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+        "afterSha256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
         "lineCount": 129
       },
       "history": [
@@ -589,6 +589,16 @@
           "sourceSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
           "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
           "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.3-to1.4",
+          "beforeSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+          "afterSha256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
+          "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -605,7 +615,138 @@
           "C1b: HTML pre and lazy quote rejected",
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
-      }
+      },
+      "priorReadings": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-001.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.3.0",
+          "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+          "templateCompliance": "template-compliant",
+          "readMethod": "full-text-read-plus-semantic-migration",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "这是 source publication 的 document-audit，非 runtime-execution；所有原顶层字段/值原样，增添非覆盖治理 envelope；真实 consumer 验证零问题，performed 仍 false。",
+          "truthAnchors": [
+            "scripts/docs/check-testing.mjs:187",
+            "docs/testing/e2e/stages/001-opening/report.md:1"
+          ],
+          "unresolved": [],
+          "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+          "phase": "testing",
+          "module": "protocol-and-e2e-pilot",
+          "owner": "Codex",
+          "provenance": [
+            "source-document-full-text",
+            "user-approved-agent-first-adoption",
+            "manual-semantic-migration"
+          ],
+          "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+          "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+          "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+          "sourceState": "present",
+          "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+          "publicCallers": [
+            "AGENTS.md operation routing",
+            "node scripts/docs/check-document-model.mjs",
+            "node scripts/docs/check-testing.mjs"
+          ],
+          "legalInputs": [
+            "对应当前协作/文档读取流程；不作为产品运行输入",
+            "原 E2E 记录的版本、日期、同引擎 checkpoint 与 paired evidence 合同不变"
+          ],
+          "businessOracle": {
+            "type": "semantic-preservation-and-real-document-consumer",
+            "assertions": [
+              "这是 source publication 的 document-audit，非 runtime-execution；所有原顶层字段/值原样，增添非覆盖治理 envelope；真实 consumer 验证零问题，performed 仍 false。",
+              "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+              "不新增 runtime/E2E/visual/coverage 通过结论"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "AGENTS.md",
+              "docs/ops/agent-workflow.md",
+              "docs/testing/catalog.json",
+              "docs/phase-governance/templates/registry.json"
+            ],
+            "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+          },
+          "revision": {
+            "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+            "implementationSha": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+            "contentVersion": "N/A-document-migration",
+            "minimumSaveVersion": "N/A-document-migration",
+            "history": [
+              {
+                "date": "2026-10-15",
+                "action": "full-text-protocol-or-e2e-pilot-migration",
+                "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+                "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-16",
+                "action": "C2-backward-contract-version-declaration-only",
+                "sourceSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+                "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+                "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "full-text-preservation-and-consumer-review",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
+            "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+            "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+            "lineCount": 129
+          },
+          "history": [
+            {
+              "date": "2026-10-15",
+              "beforeAfter": "原 paired JSON -> 原顶层对象 + governance envelope，未搬 payload、未制造 exit/steps。",
+              "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+              "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+              "previousAfterSha256": null
+            },
+            {
+              "date": "2026-10-15",
+              "action": "C1-publication-versus-execution-status-contract-correction",
+              "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+              "sourceSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+              "afterSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+              "templateVersionBefore": "1.1.0",
+              "templateVersionAfter": "1.2.0",
+              "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "date": "2026-10-16",
+              "action": "C2-backward-contract-version-declaration-only",
+              "sourceSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+              "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+              "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
+          "userVisibleBeforeAfter": "原 paired JSON -> 原顶层对象 + governance envelope，未搬 payload、未制造 exit/steps。",
+          "reviewedLines": "1-129",
+          "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+          "templateVariant": "document-audit-v2",
+          "statusContractReview": {
+            "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+            "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+            "runtimeCredit": false,
+            "containerCounters": [
+              "C1b: HTML pre and lazy quote rejected",
+              "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+            ]
+          }
+        }
+      ]
     }
   ]
 }

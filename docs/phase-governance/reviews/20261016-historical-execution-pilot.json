@@ -8,7 +8,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.3.0",
+      "templateVersion": "1.4.0",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateVariant": "historical-execution-publication-v2",
       "templateCompliance": "template-compliant",
@@ -84,10 +84,10 @@
       "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
       "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "sourceGitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
-      "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+      "afterSha256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
       "revision": {
         "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
-        "implementationSha": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+        "implementationSha": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
         "historicalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
         "historicalVersions": {
           "content": 22,
@@ -105,7 +105,7 @@
         "kind": "actual-machine-envelope-pilot-with-pinned-original-inverse",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
         "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
-        "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+        "afterSha256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
         "lineCount": 120
       },
       "history": [
@@ -129,6 +129,16 @@
           "reviewByBefore": "2026-10-15",
           "reviewByAfter": "2026-10-23",
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "machine-parent-declaration-only1.3-to1.4",
+          "beforeSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+          "afterSha256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
+          "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "proof": "Exact UTF-8 body differs only at one governance templateVersion value; normalized JSON object deep-equal; original full current review retained priorReadings.",
+          "newMigrationCredit": 0,
+          "executionPerformed": false
         }
       ],
       "supersedes": [],
@@ -140,8 +150,8 @@
       "module": "e2e-006-historical-execution-publication",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.3.0",
-        "method": "Actual1.3.0 historical machine envelope; complete original object and trusted Git proof, real consumer and non-author implementation/pilot accept"
+        "version": "1.4.0",
+        "method": "Original1.3 historical publication pilot remains accepted;1.4 changes only governance parent version declaration, original machine object and source/publication contracts unchanged; no new migration or execution credit."
       },
       "priorReadings": [
         {
@@ -269,6 +279,147 @@
           "supersedes": [],
           "stopLine": "Do not change original performed true to pass the false-only variant, manufacture source pins, renew dates by formatting or claim current E2E/raw/visual/coverage acceptance.",
           "nextStep": "Migrate paired006 Markdown, independently audit publication/expiry duty, and continue all docs/control-artifact governance; current rework and dynamic limits remain.",
+          "userVisibleBeforeAfter": "Original JSON retains every machine field; governance adds historical-vs-current audit boundary and non-self-selected source proof.",
+          "reviewedLines": "1-120",
+          "phase": "testing",
+          "module": "e2e-006-historical-execution-publication",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.3.0",
+            "method": "Actual1.3.0 historical machine envelope; complete original object and trusted Git proof, real consumer and non-author implementation/pilot accept"
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-006.json",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "test-machine-evidence",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.3.0",
+          "template": "docs/testing/_templates/test-machine-evidence.json",
+          "templateVariant": "historical-execution-publication-v2",
+          "templateCompliance": "template-compliant",
+          "readMethod": "Full original JSON and paired 006 stage/report, active 006 card and entire 364-line Reforge caller; source ranges/version constant and paired consumer directly read; strict original-object inverse",
+          "reviewDepth": "deep-semantic",
+          "coreConclusion": "Original document-audit/performed=true represents historical 10-04 paths, not this audit. Preserve rework/candidate22-SAVE11/claims/history/raw references unchanged, add currentAudit=false and approved external Git provenance. Later 10-11 continuous frozen acceptance does not renew this publication or certify current source.",
+          "documentStatus": "rework (catalog publication; original historical runtime flag retained)",
+          "owner": "Codex（文档审查，不代签旧执行）",
+          "provenance": [
+            "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+            "Full 96-line original machine JSON and paired 17/78-line Markdown read",
+            "Independent C2.1/C2.2 design counters closed before build"
+          ],
+          "primarySource": [
+            "docs/testing/e2e/evidence/e2e-006.json @ 33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "docs/testing/e2e/stages/006-doctor-boat/README.md",
+            "docs/testing/e2e/stages/006-doctor-boat/report.md",
+            "scripts/e2e/boat-journey.mjs:1-364",
+            "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:1-160"
+          ],
+          "truthAnchors": [
+            "docs/testing/e2e/evidence/e2e-006.json:1",
+            "scripts/e2e/boat-journey.mjs:233-241",
+            "scripts/docs/check-testing.mjs:187-340"
+          ],
+          "phaseAnchors": ["phase1/game and phase2/reforge E2E006", "docs/testing/e2e/contract.md"],
+          "dependencies": [
+            "docs/testing/catalog.json",
+            "docs/testing/e2e/stages/006-doctor-boat/report.md",
+            "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md"
+          ],
+          "applicability": "Historical mixed audit/runtime publication; current semantic governance only; old raw bytes not recovered and later continuous card only top160/3510 read",
+          "publicEntry": "docs/testing/e2e/evidence/e2e-006.json",
+          "publicCallers": [
+            "node scripts/docs/check-testing.mjs",
+            "validateCanonicalEvidence e2e-006",
+            "node scripts/docs/check-document-model.mjs",
+            "node scripts/docs/report-governance-progress.mjs"
+          ],
+          "legalInputs": [
+            "current SAVE12/content22 001→005 chain",
+            "normal movement to boat",
+            "current phase1 and reforge NPC logs",
+            "Pinned full original JSON bytes, not a newly generated runtime recording"
+          ],
+          "businessOracle": {
+            "type": "preserved-historical-machine-execution-identity",
+            "assertions": [
+              "All original top-level JSON fields deep-equal pinned pre-migration source",
+              "Historical performed=true and d02278dc/22/11/raw/claims remain unchanged; currentAudit false",
+              "Original source-backed claims remain source-backed; actual consumer does not grant runtime credit",
+              "Original C2 audit preserved rework/lastVerified10-03 and reviewBy10-15; subsequent explicit scoped publication review renews deadline10-23 while retaining original local10-16 rejection and no runtime credit"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-no-new-test-credit",
+            "against": ["e2e-005", "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md"],
+            "notes": "Original stage publication and later frozen continuous batch have distinct scope; no additional product tests or runtime acceptance."
+          },
+          "counterReworkBlocked": {
+            "migration": "accepted by independent receipt_review; C2.1/.2 design and C2.3/.4/metadata/human-denominator implementation counters closed",
+            "designCountersClosed": [
+              "C2.1 external approved source pin",
+              "C2.2 shared per-document model/progress validation and matching route"
+            ],
+            "publication": "rework remains; original local10-16 expiry failure retained; after actual paired publication review explicitly renewed10-15→10-23 without execution credit"
+          },
+          "unresolved": [
+            "Original ignored raw artifacts not recovered/replayed",
+            "Full continuous card not read (only1-160/3510); no whole-card migration credit"
+          ],
+          "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+          "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "sourceGitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+          "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+          "revision": {
+            "currentSha": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "implementationSha": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+            "historicalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "historicalVersions": {
+              "content": 22,
+              "minimumSave": 11
+            },
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "C2-historical-execution-envelope-pilot",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "actual-machine-envelope-pilot-with-pinned-original-inverse",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+            "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+            "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+            "lineCount": 120
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "actual-machine-evidence-migration",
+              "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+              "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+              "originalFieldsChanged": false
+            },
+            {
+              "date": "2026-10-16",
+              "action": "independent-C2-implementation-and-actual-JSON-pilot-accepted",
+              "reviewer": "receipt_review",
+              "scope": "Single machine document;13 existing version-only amendments are not new migrations; no runtime or expiry credit"
+            },
+            {
+              "date": "2026-10-16",
+              "action": "paired-Markdown independently accepted and publication date duty explicitly renewed after substantive review",
+              "notChanged": "JSON bytes/performed/candidate/versions/raw; migration credit unchanged",
+              "reviewByBefore": "2026-10-15",
+              "reviewByAfter": "2026-10-23",
+              "runtimeCredit": false
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "Do not change original performed true to pass the false-only variant, manufacture source pins, renew dates by formatting or claim current E2E/raw/visual/coverage acceptance.",
+          "nextStep": "Final paired-publication delta/gates and continued all docs/control-artifact governance; rework/dynamic limits remain; next publication review10-23.",
           "userVisibleBeforeAfter": "Original JSON retains every machine field; governance adds historical-vs-current audit boundary and non-self-selected source proof.",
           "reviewedLines": "1-120",
           "phase": "testing",

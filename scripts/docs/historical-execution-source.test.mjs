@@ -13,12 +13,19 @@ import { readGitDocumentSource } from './git-document-source.mjs'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const path = 'docs/testing/e2e/evidence/e2e-006.json'
 const variant = 'historical-execution-publication-v2'
+const executionPath = path
+const executionVariant = variant
+const nativePath =
+  'docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json'
+const nativeVariant = 'historical-review-payload-v1'
 const registryPath = 'docs/phase-governance/templates/registry.json'
 const baselinePath = 'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json'
 const digest = (text) => createHash('sha256').update(text).digest('hex')
 const readJson = (relative) => JSON.parse(readFileSync(join(root, relative), 'utf8'))
 
-function fixture(t) {
+function fixture(t, target) {
+  const path = target?.path ?? executionPath
+  const variant = target?.variant ?? executionVariant
   const directory = mkdtempSync(join(tmpdir(), 'type-pal-doc-source-'))
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   const write = (relative, text) => {
@@ -47,7 +54,7 @@ function fixture(t) {
     )
     return { revision: git('rev-parse', 'HEAD'), gitObject: git('rev-parse', `HEAD:${path}`) }
   }
-  const candidate = readJson(path)
+  const candidate = target?.candidate ?? readJson(path)
   const registry = readJson(registryPath)
   const pin = structuredClone(registry.historicalSourcePins.find((source) => source.path === path))
   const sourceText = readGitDocumentSource(root, pin).text
@@ -100,13 +107,13 @@ function fixture(t) {
   write(baselinePath, baselineText)
   json('docs/testing/catalog.json', { entries: [{ id: candidate.id, status: candidate.status }] })
   json('docs/phase-governance/routing.json', routing)
-  const publishCandidate = () => {
-    json(path, candidate)
+  const publishCandidate = (value = candidate) => {
+    json(path, value)
     json('docs/phase-governance/document-registry.json', {
       entries: [
         {
           ...document,
-          templateVariant: variant,
+          templateVariant: document.variant,
           templateCompliance: 'template-compliant',
           reviewRecord: 'fixture.json',
         },
@@ -333,4 +340,199 @@ test('actual progress CLI refuses a compliant review with its route removed or r
   assert.equal(unavailable.status, 1)
   assert.match(unavailable.stdout, /0\/1838 baseline/)
   assert.match(unavailable.stderr, /full governance incomplete/)
+})
+
+function nativeFixture(t) {
+  const registry = readJson(registryPath)
+  const pin = registry.historicalSourcePins.find((source) => source.path === nativePath)
+  const original = JSON.parse(readGitDocumentSource(root, pin).text)
+  const candidate = {
+    ...original,
+    _governance: {
+      ...readJson('docs/testing/_templates/test-machine-evidence.json')._governance,
+      variant: nativeVariant,
+      lastReviewed: '2026-10-16',
+      owner: 'Docs source-proof fixture',
+      provenance: ['real frozen historical review source; no historical command replay'],
+      scope: 'Historical r10 source contract fixture only',
+      lifecycle: 'historical',
+      currentAudit: { runtimeExecutionPerformed: false },
+      beforeAfter: 'Add governance metadata to an unchanged nine-field native object',
+      stopLine: 'Never convert the original counter or MISSED into a successful execution',
+      nextStep: 'Exercise real source and progress consumers in the temporary fixture',
+    },
+  }
+  return fixture(t, { path: nativePath, variant: nativeVariant, candidate })
+}
+
+function runModel(f) {
+  cpSync(join(root, 'scripts/docs'), join(f.directory, 'scripts/docs'), { recursive: true })
+  return spawnSync(process.execPath, ['scripts/docs/check-document-model.mjs'], {
+    cwd: f.directory,
+    encoding: 'utf8',
+  })
+}
+
+test('native historical review keeps its counter and missed control through real model/progress entry points', (t) => {
+  const f = nativeFixture(t)
+  assert.deepEqual(f.check(), [])
+  const preserved = { ...f.candidate }
+  delete preserved._governance
+  assert.deepEqual(preserved, f.original)
+  assert.equal(preserved.verdict, 'counter')
+  assert.equal(preserved.g08DropOutput.verdict, 'MISSED')
+  assert.equal(preserved.g08DropOutput.exit, 0)
+  assert.equal(preserved.checks.biomeWarnings, 1)
+  assert.equal(f.candidate._governance.currentAudit.runtimeExecutionPerformed, false)
+  assert.equal(runModel(f).status, 0)
+  const result = runProgress(f)
+  assert.equal(result.code, 0)
+  assert.equal(result.report.cohortMigrated, 1)
+  assert.equal(result.report.issues.length, 0)
+})
+
+test('native review business verdicts and provenance cannot be changed even with a matching review SHA', (t) => {
+  const f = nativeFixture(t)
+  const mutations = [
+    ['overall counter', (v) => (v.verdict = 'accept')],
+    ['missed output', (v) => (v.g08DropOutput.verdict = 'detected')],
+    ['successful mutant exit', (v) => (v.g08DropOutput.exit = 1)],
+    ['historical warning', (v) => (v.checks.biomeWarnings = 0)],
+    ['new top-level schema', (v) => (v.schemaVersion = 2)],
+    ['new nested claim', (v) => (v.g01.currentlyVerified = true)],
+    [
+      'fake current execution',
+      (v) => (v._governance.currentAudit.runtimeExecutionPerformed = true),
+    ],
+    ['promoted lifecycle', (v) => (v._governance.lifecycle = 'verified')],
+    ['missing lifecycle', (v) => delete v._governance.lifecycle],
+    ['missing audit', (v) => delete v._governance.currentAudit],
+    ['wrong template version', (v) => (v._governance.templateVersion = '1.3.0')],
+    ['wrong variant', (v) => (v._governance.variant = executionVariant)],
+    ['wrong source revision', (v) => (v._governance.sourceGitRevision = '0'.repeat(40))],
+    ['wrong source blob', (v) => (v._governance.sourceGitObject = '0'.repeat(40))],
+    ['wrong source digest', (v) => (v._governance.sourceSha256 = '0'.repeat(64))],
+    ...Object.keys(f.original).map((key) => [`missing ${key}`, (v) => delete v[key]]),
+    [
+      'payload wrapper',
+      (v) => {
+        for (const key of Object.keys(f.original)) delete v[key]
+        v.payload = f.original
+      },
+    ],
+  ]
+  for (const [label, mutate] of mutations) {
+    const value = structuredClone(f.candidate)
+    mutate(value)
+    f.publishCandidate(value)
+    assert.notDeepEqual(f.check(), [], label)
+    const result = runProgress(f)
+    assert.equal(result.code, 1, label)
+    assert.equal(result.report.cohortMigrated, 0, label)
+    assert(result.report.issues.length > 0, label)
+  }
+})
+
+test('publication cannot bypass its old contract by jointly retagging the route, pin, envelope and review', (t) => {
+  const f = fixture(t)
+  const nativePin = readJson(registryPath).historicalSourcePins.find(
+    (source) => source.path === nativePath,
+  )
+  const native = JSON.parse(readGitDocumentSource(root, nativePin).text)
+  f.document.variant = nativeVariant
+  f.pin.variant = nativeVariant // Mutable approval metadata is not a trust root.
+  f.json(registryPath, f.registry)
+  f.json('docs/phase-governance/routing.json', f.routing)
+  const value = structuredClone(f.candidate)
+  Object.assign(value._governance, { variant: nativeVariant, lifecycle: 'historical' })
+  f.publishCandidate(value)
+  const assertJointIdentity = () => {
+    const entry = JSON.parse(f.read('docs/phase-governance/document-registry.json')).entries[0]
+    const route = JSON.parse(f.read('docs/phase-governance/routing.json')).migratedDocuments[0]
+    const current = JSON.parse(f.read(path))
+    const review = JSON.parse(f.read('docs/phase-governance/reviews/fixture.json')).entries[0]
+    assert.equal(entry.templateVariant, nativeVariant)
+    assert.equal(route.variant, nativeVariant)
+    assert.equal(current._governance.variant, nativeVariant)
+    const pin = JSON.parse(f.read(registryPath)).historicalSourcePins[0]
+    assert.equal(pin.variant, nativeVariant)
+    assert.equal(current._governance.sourceGitRevision, pin.revision)
+    assert.equal(current._governance.sourceGitObject, pin.gitObject)
+    assert.equal(current._governance.sourceSha256, pin.sha256)
+    assert.equal(review.afterSha256, digest(f.read(path)))
+  }
+  const assertNoIdentityRejection = (report) => {
+    assert(
+      report.issues.every(
+        (issue) =>
+          !issue.includes('governance variant mismatch') &&
+          !issue.includes('one matching migrated route') &&
+          !issue.includes('machine template declaration mismatch') &&
+          !issue.includes('source declaration differs from approved external pin'),
+      ),
+    )
+  }
+  assertJointIdentity()
+  let result = runProgress(f)
+  assert.equal(result.code, 1)
+  assert.equal(result.report.cohortMigrated, 0)
+  assertNoIdentityRejection(result.report)
+  assert.deepEqual(
+    new Set(result.report.issues.map((issue) => issue.split('missing machine field: ')[1])),
+    new Set(Object.keys(native)),
+  )
+  assert.equal(runModel(f).status, 1)
+
+  Object.assign(value, native)
+  f.publishCandidate(value)
+  assertJointIdentity()
+  result = runProgress(f)
+  assert.equal(result.code, 1)
+  assert.equal(result.report.cohortMigrated, 0)
+  assertNoIdentityRejection(result.report)
+  assert(result.report.issues.some((issue) => issue.includes('original machine fields changed')))
+  assert.equal(runModel(f).status, 1)
+
+  // Calibrate this oracle by removing the actual source guard only in the fixture.
+  const contract = f.registry.types.find((type) => type.templateId === f.document.templateId)
+    .variants[nativeVariant]
+  const guard = contract.preservedSource
+  delete contract.preservedSource
+  f.json(registryPath, f.registry)
+  result = runProgress(f)
+  assert.equal(result.code, 0)
+  assert.equal(result.report.cohortMigrated, 1)
+  assert.equal(runModel(f).status, 0)
+  contract.preservedSource = guard
+
+  // Replacing the entire native object and jointly rebinding its declared source
+  // still cannot change which original belongs to this frozen baseline path.
+  for (const key of Object.keys(value)) if (key !== '_governance') delete value[key]
+  Object.assign(value, native)
+  Object.assign(f.pin, { gitObject: nativePin.gitObject, sha256: nativePin.sha256 })
+  Object.assign(value._governance, {
+    sourceGitObject: f.pin.gitObject,
+    sourceSha256: f.pin.sha256,
+  })
+  f.json(registryPath, f.registry)
+  f.publishCandidate(value)
+  assertJointIdentity()
+  result = runProgress(f)
+  assert.equal(result.code, 1)
+  assert.equal(result.report.cohortMigrated, 0)
+  assertNoIdentityRejection(result.report)
+  assert(result.report.issues.some((issue) => issue.includes('pin differs from frozen baseline')))
+  assert.equal(runModel(f).status, 1)
+
+  const baseline = JSON.parse(f.read(baselinePath))
+  baseline.entries.find((entry) => entry.path === path).sourceSha256 = f.pin.sha256
+  f.json(baselinePath, baseline)
+  f.publishCandidate(value)
+  assertJointIdentity()
+  result = runProgress(f)
+  assert.equal(result.code, 1)
+  assert.equal(result.report.cohortMigrated, 0)
+  assertNoIdentityRejection(result.report)
+  assert(result.report.issues.some((issue) => issue.includes('baseline working tree drift')))
+  assert.equal(runModel(f).status, 1)
 })

@@ -1,0 +1,516 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "I historical testing-lab documents; I0 native machine contract/old declaration roll is not an I14 migration acceptance.",
+  "contractDesign": {
+    "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+    "proposedVersion": "test-machine-evidence-v1/1.4.0",
+    "variant": "historical-review-payload-v1",
+    "designStatus": "independently frozen and I0 implementation accepted; canonical I14 migration/pilot not accepted here",
+    "designReviewer": "history_cards_c_tail",
+    "proposal": "docs/phase-governance/templates/registry-proposal-20261011.md",
+    "fullDraftSha256": "bae8b334330e0007863091ccf317c5e7a32a9481c9b9edbfc7b3453a02235f34",
+    "sourcePin": {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "approvedBy": "Codex root and independent history_cards_c_tail source/design review 2026-10-16; exact nine-key contract frozen at fd504255",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    "sourcePinPolicy": "Mutable approval metadata only; fixed baseline/Git proof and exact native shape/deep equality enforce source.",
+    "oldMachineContract": {
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateVersion": "1.3.0",
+      "requiredSections": [
+        "Machine envelope",
+        "Execution identity",
+        "Steps and hashes",
+        "Exit and cleanup",
+        "Limits"
+      ],
+      "purpose": "机器执行身份、步骤与退出清理",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "json",
+      "requiredFields": [
+        "schemaVersion",
+        "id",
+        "status",
+        "execution",
+        "sourceRefs",
+        "publicCallers",
+        "legalInputs",
+        "businessOracle",
+        "dedupe",
+        "steps",
+        "hashes",
+        "artifacts",
+        "failures",
+        "cleanup",
+        "history"
+      ],
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "variant",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "scope",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "variants": {
+        "document-audit-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          }
+        },
+        "historical-execution-publication-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": true,
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "requiredValues": {
+              "schemaVersion": 2,
+              "kind": "document-audit",
+              "runtimeExecution.performed": true
+            }
+          }
+        }
+      },
+      "statusPolicy": {
+        "axis": "execution"
+      }
+    },
+    "unchangedOldContracts": true,
+    "consumerCodeChanged": false,
+    "frozenBaselineChanged": false,
+    "declaredVersionRoll": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-001.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+        "afterSha256": "25fc383a515df4960a6b1558a16a1133c37546a971f67ad6dd604b6702fa32b8",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+        "afterSha256": "25ec3891bd718bb1f323f8c4225fdc8bd8f4b97204f7c6d3ca7280262edf1311",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+        "afterSha256": "c81437a220e96596b16230d60d17fb4a7a424be2987db680413374c5eda81b0e",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+        "afterSha256": "71482d930889fd84b66c019218189bba0bd98dfe8e011b1898c98d3a85bbc88d",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+        "afterSha256": "46f2eecc35b69abc155510d2db3ae72a17a2c45226a953386a35446928a15c0a",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+        "afterSha256": "391492695f6ecaf2e8b7839db48f12a57c24622acfa3ccfacb5b9dba3d200353",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+        "afterSha256": "13daa6935c018a36635c0a86e6d9ee73ba65b4daac97f0097df1da29cc78706b",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+        "afterSha256": "be52316aae5f333ddf6e6b52d469a3aa0de353c95d92622bdfdd193429b817cf",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+        "afterSha256": "ec6712526892587b3d64e54946bda0ae0b1ad10a57dc38ec341acf2c84b650be",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-contract.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+        "afterSha256": "9982bc405e45b8edf116cc96e5a01070df52b39f270777b7eaf1a357e97ea30a",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-route.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+        "afterSha256": "3ae7725a439d7653debc2a2fb6d42b60e4634a35029cbb7576d5b0c884612349",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+        "afterSha256": "0d80757ee112ad48676ea395b89b24c7b035ce75e949288fa7cde977c76f2d83",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+        "variant": "document-audit-v2",
+        "beforeSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+        "afterSha256": "b86767d1d65662979f4a4507c1d2b7627b4d1399338bc3ed2255721939b5af04",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-006.json",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+        "variant": "historical-execution-publication-v2",
+        "beforeSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+        "afterSha256": "71ce887784f729da195f0f1a486d627dac4820fea5849ddf004a8d8f2fb08174",
+        "exactSingleVersionValueChange": true,
+        "normalizedObjectDeepEqual": true,
+        "newMigrationCredit": 0
+      }
+    ],
+    "readScope": "Root fullI496 and finaldraft238; source/model full previously listed; current14 version/hash/conformity metadata projection only, not new14 full semantic audit. Non-author same source/design read scope in task.",
+    "acceptance": {
+      "reviewer": "receipt_review",
+      "result": "I0 implementation accept;I1 independently closed",
+      "scope": "New1.4 native contract/source pin/real source and progress tests,14 declaration-only bodies and16 current maintenance records,2 template indexes; no I14 canonical migration or new migration credit.",
+      "readScope": "Actual contract/67-line original r10/full new test and all corrections/related consumers/two complete template indexes/control and maintenance fields. Not a claim of tail I14 source full reading.",
+      "actualChecks": "8/8 source tests0fail0skip; model136/strict645/testing0/docs1223-7329-361/ledger3290-229-5-3056/progress132of1838+4/current1959pending1823/0integrity/diff0",
+      "reviewedMaintenanceSha256": {
+        "scripts/docs/historical-execution-source.test.mjs": "1acc6a18bd7ba255d40f2105e34eadcd5026326a45d13ba807af213f7de26022",
+        "docs/phase-governance/templates/registry.json": "062c0eed6b8ccbb93efa75bb2cf53b39d4bdaf7188553bf08274f8d37e307578",
+        "docs/phase-governance/templates/README.md": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
+        "docs/testing/_templates/README.md": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
+        "docs/testing/_templates/test-machine-evidence.json": "a3e9a36d7ce532124890c11e7190886efeaa1aacfe908e9fceb2d33b4cef67d7",
+        "docs/phase-governance/document-registry.json": "f9806218fa248bef64f51686990402f2b80f4025ca1a0b5aff6335d32b135bae",
+        "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json": "6a3afbc1a1dca73bbca96a6064a169acf26bd0ebe5dda96255323f5ab6f2172d",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json": "eb5bbbe6ed1af48b868e1be2ee8975562df86b2545246f8c6200f1b3787d092a",
+        "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json": "c4215c1e9947f1e10c84622e678e779e1c405e4689fbb5c7ae0b6c82c1c30687",
+        "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json": "7db446289d6af4000e7b8df744aeb6d4ff7eaf6b7326e85cb32ab0f788b276db",
+        "docs/phase-governance/reviews/20261016-historical-execution-pilot.json": "542b2178f7e4bec46abbcc046199ffe17f0651971883e9ebbbf2a6907a914ce6",
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json": "4ef862bcbf626ab776f1144e7de29bbaae95684968ab18b9202ed8e4d4321686",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "ac7ecf3e0abc35497ff4dabd6164efb49a611ed3134cb1698e39d0b4912631dc"
+      },
+      "snapshotPolicy": "Hashes identify independently reviewed bytes BEFORE this root-only metadata signoff/next-step/gate append; later hashes are not retroactively certified.",
+      "notRun": ["product", "old tests", "runtime", "E2E", "visual", "coverage", "main"]
+    },
+    "notRun": ["product", "old tests", "runtime", "E2E", "visual", "coverage", "main"],
+    "templateNavigation": [
+      {
+        "path": "docs/testing/_templates/README.md",
+        "beforeSha256": "4ab1fbb1d0a843f7c83879e77f6e39bc76f49c754109a086532288a398988c54",
+        "afterSha256": "ba4a246715846f39d877d0809aeb2c9216381c82c82445f4bf966b2e01898567",
+        "newMigrationCredit": 0,
+        "readScope": "Full current index; lower-level reading separately limited."
+      },
+      {
+        "path": "docs/phase-governance/templates/README.md",
+        "beforeSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+        "afterSha256": "c34e17c7b9251a13cd9dbcedab326bf88f237e10e6adeac9055faca40cd561cb",
+        "newMigrationCredit": 0,
+        "readScope": "Full current index; lower-level reading separately limited."
+      }
+    ],
+    "authorChecks": {
+      "sourceTools": {
+        "command": "node --test scripts/docs/historical-execution-source.test.mjs",
+        "tests": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "log": "/tmp/type-pal-i0-source-tools-20261016.log",
+        "scope": "5 existing C2 tests plus3 new native-review tests/25 payload-governance mutations and actual model/progress joint retagging scenarios; pure docs temporary Git fixtures only",
+        "validity": "Historical green before I1; the claimed complete joint-progress proof was invalidated because fixture registry still declared the old variant. Counts are real; this run does not close I1."
+      },
+      "exactVersionProof": "14 bodies byte-identical after reversing one1.3→1.4 governance value; full original current review retained; all current version/conformity/evidence hashes checked.",
+      "unchangedBytes": [
+        "original r10 canonical JSON",
+        "fixed baseline",
+        "document-model.mjs",
+        "frozen-document-source.mjs",
+        "git-document-source.mjs",
+        "original three variant contracts/006pin"
+      ],
+      "ledger": "3290files/229closed/5review/3056pending; semantic review still required",
+      "strict": "645 entries;0issues",
+      "model": "7routes/136bodycontracts/0issues",
+      "priorReadProbeFailure": "An initial invocation used nonexistent scripts/quality/check-code-quality-ledger.mjs; corrected by actual file discovery to code-quality-ledger.mjs, which passed. No source change or waived gate.",
+      "currentSourceTools": {
+        "tests": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "log": "/tmp/type-pal-i0-source-tools-i1-final-20261016.log",
+        "sourcePath": "scripts/docs/historical-execution-source.test.mjs",
+        "sourceSha256": "1acc6a18bd7ba255d40f2105e34eadcd5026326a45d13ba807af213f7de26022",
+        "scope": "Original5 C2 tests retained;3 native tests include25 payload/governance mutations and fully joint registry/route/pin/envelope/review changes, exact rejection reasons, source-guard-removal calibration in temp only, full replacement plus pin and working-baseline joint attacks.",
+        "acceptance": "Independent receipt_review verified exact1acc test source and reran8/8;I1 closed.",
+        "productionCodeChanged": false,
+        "oldProductTestsChanged": false
+      }
+    },
+    "implementationCounters": [
+      {
+        "id": "I1-joint-retagging-test-registry-stale-variant",
+        "reviewer": "receipt_review",
+        "status": "closed-after-independent-final-recheck",
+        "finding": "Fixture publishCandidate used captured old variant for document-registry.templateVariant after document.variant changed. Model produced missing9, but progress still followed old publication contract; the original green test did not prove the fully joint native progress case.",
+        "originalCode": "templateVariant: variant",
+        "resolution": "Use document.variant; assert registry/route/envelope/pin identities and reviewSHA match. N1 compares missing-key/type sets, forbids identity/declaration mismatch masking. N2 verifies source-deepEqual rejection; temporary guard-removal calibration must admit and count1; guard restored, complete native replacement+joint pin rejects frozen-baseline path binding; working baseline joint edit rejects frozen integrity. Both real model/progress CLI exercised.",
+        "limits": "Root author did not pre-save initial whole-file hash. Independent receipt_review actually captured the first uncommitted475-line candidate SHA before raising I1; that source hash is now recorded with its provenance. No Git commit or separate retained old file bytes are invented.",
+        "initialReviewedSource": {
+          "path": "scripts/docs/historical-execution-source.test.mjs",
+          "sha256": "4ad5e360519b288bd047e35811ca6a18a4584f5a0b6c33653143381e017e51b0",
+          "lineCount": 475,
+          "provenance": "receipt_review first actual uncommitted maintenance snapshot before I1; reported after correction",
+          "gitCommit": null,
+          "limits": "SHA snapshot only; root did not separately retain original uncommitted byte file."
+        },
+        "independentResolution": "receipt_review read final1acc source and independently reran8/8; full joint identities and actual guard-calibration/full replacement/baseline scenarios verified, no implementation counter remains."
+      }
+    ],
+    "artifactRules": [
+      {
+        "path": "/tmp/type-pal-i0-source-tools-20261016.log",
+        "sha256": "aac003a9839f851ad121536c2569ecc0624006490bb116869abb12bd8c202ab6",
+        "producer": "Root Codex command runner; exact commands recorded in task/control",
+        "owner": "Codex documentation governance",
+        "callers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json"
+        ],
+        "scope": "Initial8green beforeI1; does not prove fully joint progress case",
+        "retention": "Retain exact /tmp log while this whole goal is active; historical missing log later remains missing, never reconstruct. Final checks use different filenames so these hashes do not silently change."
+      },
+      {
+        "path": "/tmp/type-pal-i0-source-tools-i1-final-20261016.log",
+        "sha256": "05119df34c95c9dd88de897c5afed194108036a16f54be277fe7dd14144401bc",
+        "producer": "Root Codex command runner; exact commands recorded in task/control",
+        "owner": "Codex documentation governance",
+        "callers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json"
+        ],
+        "scope": "Current root8green afterI1 and stronger source-guard calibration/full replacement",
+        "retention": "Retain exact /tmp log while this whole goal is active; historical missing log later remains missing, never reconstruct. Final checks use different filenames so these hashes do not silently change."
+      },
+      {
+        "path": "/tmp/type-pal-i0-root-docs-20261016.log",
+        "sha256": "6f8f0f684cf5761da70c67dbe837af51976af58d94323a29d57a865472af3f06",
+        "producer": "Root Codex command runner; exact commands recorded in task/control",
+        "owner": "Codex documentation governance",
+        "callers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json"
+        ],
+        "scope": "Initial71green full docs beforeI1 source-test correction; not final implementation accept",
+        "retention": "Retain exact /tmp log while this whole goal is active; historical missing log later remains missing, never reconstruct. Final checks use different filenames so these hashes do not silently change."
+      },
+      {
+        "path": "/tmp/type-pal-i0-root-lint-20261016.log",
+        "sha256": "4e3139caefbf74661fac60fc9032d108cfc3e4c9cb6f94ce9efe154319feebe7",
+        "producer": "Root Codex command runner; exact commands recorded in task/control",
+        "owner": "Codex documentation governance",
+        "callers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json"
+        ],
+        "scope": "Initial4090zero diagnostics beforeI1 source-test correction",
+        "retention": "Retain exact /tmp log while this whole goal is active; historical missing log later remains missing, never reconstruct. Final checks use different filenames so these hashes do not silently change."
+      }
+    ],
+    "temporaryFixtureRule": {
+      "producer": "New docs source tests: mkdtemp Git fixture; only approved historical paths/blobs/baseline copied",
+      "owner": "Root Codex docs tooling",
+      "caller": "scripts/docs/historical-execution-source.test.mjs",
+      "retention": "Each owned temp directory is removed by node:test after hook, no product/user directory touched; fixture count1 under deliberately removed guard is fault calibration only, not repository migration credit."
+    },
+    "correctedRootGates": {
+      "result": "passed after I1 source correction, before this metadata signoff",
+      "docsLog": "/tmp/type-pal-i0-corrected-docs-20261016.log",
+      "lintLog": "/tmp/type-pal-i0-corrected-lint-20261016.log",
+      "tools": {
+        "tests": 71,
+        "passed": 71,
+        "failed": 0,
+        "skipped": 0
+      },
+      "docs": {
+        "markdown": 1223,
+        "localLinks": 7329,
+        "tasks": 361,
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "issues": 0
+      },
+      "model": {
+        "routes": 7,
+        "bodyContracts": 136,
+        "issues": 0
+      },
+      "testingIssues": 0,
+      "phaseLoreDocuments": 184,
+      "strictContentDocuments": 645,
+      "lint": {
+        "files": 4090,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diffCheck": 0,
+      "requiredBeforeCommit": "Run check:docs, lint and diff again after this metadata-only signoff; retain earlier immutable logs under their own hashes."
+    }
+  },
+  "entries": []
+}

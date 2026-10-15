@@ -568,3 +568,26 @@ Branch: codex/docs-full-template-proposal
 
 - 本表14项path-NUL-blob-NUL-SHA256-LF有序manifest SHA256：`16324c3d4a7747fcdf42ae685d814e88a9775ec536da7ab6a6525764666d72f5`。迁移源先以本准入稳定commit为准，原blob与777d/22ee/33cc逐项相同，不自行刷新原迁移清单历史SHA。
 - 当前全量仍132/1838+4，I未计迁移。main干净f98d0ddd未写；goal active，全量完成与最终main集成仍待。无用户转交提示词，由Codex内部协调；贡献者不得自标done或写中央accept。
+
+#### I0实施候选与真实来源反例
+
+- 根按冻结设计注册machine1.4/new九字段变体及批准r10 pin，旧三个合同对象/006pin/固定baseline/实际consumer源码逐字节不变。原r10 canonical仍是原九字段raw，未迁移；I13MD在隔离树推进，JSON继续等I0稳定接收提交。
+- 已接收14份JSON逐篇严格验证只改一个_governance.templateVersion值，逆改即原字节相等；registry/3review当前conformity单/双版本、after/revision/evidence齐同，完整旧当前record保prior。无新14迁移数，无原native字段/旧历史/日期/源pin更改。两模板入口全文读后说明新lifecycle/固定源/旧14版本滚动/新canonical pilot待验，当前review全字段同步；同样0新增迁移。
+- 新来源反例只扩本持续目标新增的historical-execution-source.test.mjs（main原不存在），不改旧产品测试或源码；原5项C2测试保持，新加3项包括真实model/progress正例、25项原生/治理变造与刷reviewSHA后的拒绝、006联合标签/pin/route/envelope/review及补字段/改baseline的真实CLI拒绝。定向8/8、0fail/0skip；当前model136/strict645/ledger3290-229-5-3056均通过，代码语义信用仍不由ledger授予。
+- I0证据/14版本before→after/精确来源与未验项记[testing-lab中央候选](../../phase-governance/reviews/20261016-testing-lab-history.json)；entries仍空，不授I14或新格式canonical pilot完成。新增控制JSON仍是待治理增量，当前132/1838+4、1959候选/1823pending；新格式正例只在临时真实Git fixture，不冒充历史命令重放。
+- 根初次质量ledger调用路径猜错曾报module-not-found；按实际文件检索改为code-quality-ledger.mjs后真实通过，没有修规则或消音。实施尚待receipt_review非作者独立接受及本轮完整静态门；main未写，goal active。
+
+#### I1独立发现的联合换标测试counter
+
+- receipt_review指出初始8绿的fixture仍把闭包旧variant写到registry.templateVariant，尽管route/envelope已换native；真实progress因此还走旧publication分支，model的九项缺字段不能替progress证明。接受此counter；初次71/8绿色只保真实机械结果，不据其关闭I0实施验收。
+- 正式fixture改用document.variant，逐项断言registry/route/envelope/pin/afterSHA一致，按缺九键的具体集合核，不靠诊断总数。补九键后以source deepEqual拒绝；仅在自有temp删source guard时两个CLI应接受/count1，作为判别校准，恢复guard后全对象替换并联合换pin仍被冻结baseline路径绑定拒绝，再改working baseline也被拒绝；所有场景真实model/progress，未改生产合同。
+- 最新正式定向8/8、0fail/0skip；原5项保留。先前初次日志及本次日志有独立SHA/producer/owner/caller/retention，初始未提交整份测试SHA没有保留就明确缺失，不补造Git源。临时fixture反控count1不进入仓库进度或覆盖率；当前I1待非作者最终定点复核，全门将按新字节再跑。
+- I1来源补证：root作者未预存初始整份测试SHA，但receipt_review在首次counter前实际保存过475行受审未提交快照SHA`4ad5e360519b288bd047e35811ca6a18a4584f5a0b6c33653143381e017e51b0`，现按独立来源补入控制记录；没有Git提交/单独旧字节留存的限制仍保留，先前“未保留整SHA”仅适用于作者当时掌握证据，不再当作当前unknown。
+
+#### I0独立接受与canonical pilot后继
+
+- receipt_review最终I0实施accept，I1已对正式1acc测试源码独立读/8项真实重跑闭合，无剩余实施counter；完整联合变造被来源/固定根挡住，temp移除guard能计1说明反例有鉴别力。原合同/consumer/006pin/baseline未改，原14body一值升版、16维护记录prior无损、两入口当前语义均获独立复核。
+- 本次非作者受审13维护文件SHA快照完整入I0.acceptance；后续root签收/nextStep/门追加为新字节，不伪称已签后来hash。非作者实读合同/r10原67/完整测试与修正/必要consumer/两入口/控制及维护字段，不冒领tail的I14全文；其实际检查与root执行范围分别记录。
+- I1修后根全门71工具0fail0skip/docs1223-7329-361/content22 SAVE12/model136-7routes0/testing0/phase184/strict645、lint4090文件零诊断/diff0；本签收后按新字节再复跑。原初次71/8机械绿及I1盲点保持历史，不回写为首次即有完全联合证明。
+- 文档build allowed后继：待本I0根稳定提交通知，history_cards_a可另建codex/docs-testing-lab-history-i-json从该commit出发，cherry-pick冻结I13候选271464843b29e169f4f67d440d475797d82a7e7f（原I分支保留），只新增原r10 JSON的_governance和专属contributor-testing-lab-json-i-20261016.json；I13正文/原回执8eb88b...不可顺手改写。pin源固定33cc，迁移读源基点另记I0commit，两者原JSON/13源blob须相同；JSON全原对象去gov深等，实际model/progress及原consumer核验后非作者独立accept，才准根接入/计数。I13也仍在tail全文候选审查，不预签I14完成。
+- 当前仍132/1838+4；I0仅合同和已有声明维护，native canonical仍原raw，1959当前候选/1823pending；main干净f98d0ddd未写，目标active/build。

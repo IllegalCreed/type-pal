@@ -394,7 +394,7 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "../../testing/_templates/test-machine-evidence.json",
-      "templateVersion": "1.3.0",
+      "templateVersion": "1.4.0",
       "requiredSections": [
         "Machine envelope",
         "Execution identity",
@@ -540,6 +540,29 @@
               "runtimeExecution.performed": true
             }
           }
+        },
+        "historical-review-payload-v1": {
+          "format": "json",
+          "requiredFields": [
+            "candidate",
+            "candidateBase",
+            "reviewedMain",
+            "verdict",
+            "checks",
+            "g01",
+            "v01ActorName",
+            "g06AuthorGuard",
+            "g08DropOutput",
+            "_governance"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
         }
       },
       "statusPolicy": {
@@ -592,6 +615,14 @@
       "gitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
       "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
       "approvedBy": "Codex and independent receipt_review design review 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "approvedBy": "Codex root and independent history_cards_c_tail source/design review 2026-10-16; exact nine-key contract frozen at fd504255",
       "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
     }
   ]
