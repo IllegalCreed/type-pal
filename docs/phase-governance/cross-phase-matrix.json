@@ -334,23 +334,32 @@
       "from": [
         "scripts/docs/classify-testing-legacy.mjs",
         "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
-        "docs/testing/legacy-flat-classification.json"
+        "docs/testing/legacy-flat-classification.json",
+        "docs/testing/indexes/README.md",
+        "docs/testing/indexes/legacy-by-domain.md",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "to": [
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
         "docs/ops/guides/documentation-model.md",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/testing/catalog.json",
+        "docs/testing/indexes/by-phase.md",
+        "docs/testing/indexes/by-engine.md"
       ],
-      "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership.",
+      "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership. L ten indexes preserve18 stable IDs,359 old classification rows/227targets and12lab-to-one-history dedupe. Nine generated plus one manual entry separate navigation current, source publication states and legacy reviewStatus. Required two-SSOT parsing precedes any writer output; fixed review date never renews downstream acceptance.",
       "status": "guarded",
       "evidence": [
         "scripts/docs/classify-testing-legacy.mjs:120",
         "scripts/docs/classify-testing-legacy.mjs:136",
-        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1"
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1",
+        "docs/phase-governance/reviews/20261016-testing-index-navigation.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1"
       ],
       "unresolved": [
         "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
-        "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review."
+        "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review.",
+        "L index acceptance does not audit the359 source bodies,112 tools/raw or every future dimension change; actual changed report/body requires new review."
       ],
       "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant."
     },

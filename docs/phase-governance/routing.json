@@ -1009,6 +1009,46 @@
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/indexes/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-domain.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-engine.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-module.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-owner.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-phase.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-stage.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-status.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-tag.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/legacy-by-domain.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

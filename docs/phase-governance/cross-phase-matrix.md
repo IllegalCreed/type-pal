@@ -37,7 +37,7 @@ Template: governance-index-v1 / 1.0.0
 | 正文锚点 ↔ 当前sourceRefs | 6处已读源码后校正行号，原映射/Git blob留存 | resolved | 只关闭这些导航漂移，不推断全库锚点或运行通过 |
 | Testing发布状态 ↔ execution状态 | catalog唯一id决定发布投影，执行回执有独立词表 | resolved | current/verified发布不授予本次实跑信用；伪Status不放行 |
 | 历史UI/质量报告 ↔ 当前验收 | 09-28UI与10-03审计保留各次候选/计数/首次失败 | guarded | 机器筛选不自动删测试，旧截图/绿数不证明当前动态通过 |
-| Legacy分类reviewed ↔ 本次语义深审 | movedTo/closeout成员关系只解释旧账状态，分类规则不是内容验收 | guarded | 不继承旧359/331或零待审信用；逐篇核读及artifact归属另验 |
+| Legacy分类/十索引 ↔ 本次语义深审 | 旧reviewStatus与18ID/359来源/227目标分轴；九生成+一人工入口守双SSOT | guarded | 不继承旧359/331或零待审信用；固定审查日不续期，报告/tool/raw另验 |
 | Phase3导航 ↔ 实施成熟度 | 两个current索引只导航，议题/地图设计draft，已拍板归属仍有效 | guarded | 48e旧源码/估期/MMO愿景不变成当前build或二阶段预留 |
 | Phase3入口 ↔ 候选正文事实权 | 14原块重组，长篇目标移入原议题池，原路径/标题继续导航 | resolved | 原块保真还须语义/链接/模板复核，不等运行或全量完成 |
 | F2贡献/集成 ↔ 历史独立验收 | 作者与真实生产加载针、额外登记、最终接收各有身份；09-25/26状态不倒写 | guarded | 不把原生confirm替身或旧截图/绿数外推为当前通过 |
