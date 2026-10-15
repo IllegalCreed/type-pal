@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 640,
+    "total": 642,
     "byPhase": {
-      "ops": 412,
+      "ops": 414,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -22,12 +22,12 @@
       "audit-report": 56,
       "evidence-receipt": 45,
       "design-spec": 43,
-      "governance-index": 24,
+      "governance-index": 25,
       "task-card": 330,
       "quality-gate": 1,
       "reference-canon": 16,
       "narrative-idea": 2,
-      "plan-status": 63,
+      "plan-status": 64,
       "test-e2e-stage": 2,
       "test-run-report": 2,
       "test-machine-evidence": 14,
@@ -36,11 +36,11 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 640
+      "content-reviewed": 642
     },
     "templateCompliance": {
-      "template-compliant": 120,
-      "governed-legacy": 520
+      "template-compliant": 123,
+      "governed-legacy": 519
     }
   },
   "entries": [
@@ -3713,10 +3713,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
@@ -7293,6 +7295,32 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-governance.md",
+      "phase": "ops",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-d.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

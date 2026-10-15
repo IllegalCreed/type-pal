@@ -1,234 +1,350 @@
 # 全仓代码质量治理总纲
 
-基点：`b9ba7e0faadf56519da024c0343f5b44b9a5c447`（`origin/main`，2026-10-04）。
-本文件是 CODE-QUALITY-1 的治理路线与证据入口，不是“全仓已审完”声明；逐文件机器清单由
-[`scripts/quality/code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs)按基点生成，
-使用 `node scripts/quality/code-quality-inventory.mjs --out=/tmp/type-pal-code-quality-inventory.json` 获取完整 JSON，
-不把机器快照当作产品源文件提交。
-已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
+Status: active
+Last reviewed: 2026-10-16
+Owner: Codex
+Template: plan-status-v1 / 1.0.0
 
-## 边界与当前责任
+## 目标与时间范围
 
-本专项按工程 → 模块 → 功能 → 文件推进，Coding Owner 为 Codex，单批单一写入者；不接管
-`TEST-COVERAGE85-*`、`E2E-*` 或测试文档线程，不重领 `architecture-debt.md` 已完成的 13 批架构拆分。
-生产行为、公共 API、schema/save、生成物和用户可见形态默认保持不变；若一手证据证明必须改变，另开产品/高风险卡。
+本页维护 CODE-QUALITY 专项的路线、批次边界和证据入口。原路线始于2026-10-04的 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`；当前只修正文档事实权与机器账本一致性，不授权新的产品审计、修复或旧测试执行。专项仍未全仓完成。
 
-`docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md` 记录本轮范围、前提真值门、首批白名单和验收；本文件只写已经
-核实的治理路线，未知职责与候选问题保留为“待核”，不从行数、`any`、重复片段或静态图直接推出缺陷。
+模块地图按 shared 字节/类型、pal-extract 纯解析与IO、game 机制/生命周期/呈现、content canonical、migrate 真源/事务、reforge新架构、editor会话/命令/设计系统及 scripts 工具分域。原八行地图完整保留在历史原稿；它是入口地图，静态依赖和行数不构成缺陷证据，也不代表完整调用图。
 
-## 工程 / 模块 / 功能地图
+## 里程碑
 
-| 工程 | 模块 | 功能面 | 公开出口 / 生产 caller 形态 | 状态所有权与质量审计重点 | 当前 Owner / 决定 |
-|---|---|---|---|---|---|
-| 第一阶段 | `@type-pal/shared` | MKF/RLE/YJ2/RNG 编解码、资源与输入类型 | 根 barrel `packages/shared/src/index.ts`；game、pal-extract、migrate、reforge 直接消费 | 纯字节解码器；检查游标进度、边界、错误传播、透明度不变量，不能把测试 fixture 当生产输入 | Codex；首批 RLE 边界，需修 |
-| 第一阶段 | `@type-pal/pal-extract` | 原始 MKF/事件/资源解析与 CLI 写出 | `src/cli.ts` 及各 parser；调用 shared 纯 codec | IO、纯解析、写盘职责与失败策略；不改 `data/raw` 或提取产物 | Codex；待核 |
-| 第一阶段 | `@type-pal/game` | shell 启动、事件/战斗/地图、呈现和资源加载 | Vite app；`assets/`、`core/`、`present/`、`shell/` | 机制真值、状态生命周期、取消/清理、资源失败降级；不得把静态计数当债 | Codex；待核 |
-| 第二阶段 | `@type-pal/content` | canonical 内容类型、作者校验、引用闭包 | `src/index.ts` 与各领域类型/validator | schema 所有权、稳定 ID、验证层与运行时层方向；不主动改 content20 | Codex；待核 |
-| 第二阶段 | `@type-pal/migrate` | 迁移纯函数、源规划、写保护与 PAL 供给 | `src/`、`scripts/migrate-content.mts`、`scripts/bake-assets.mts` | 上游真源、幂等、事务/写盘边界；不单点改 `projects/pal` | Codex；待核，保留已收口 PAL supply 边界 |
-| 第二阶段 | `@type-pal/reforge` | 新运行时 main、world、battle、script、assets、author IO | `src/index.ts` 及 `author-io`/`entity-action-player`/`script-compiler-core` | READ-FIRST 架构优先、稳定 ID、显式状态所有权、取消/资源释放；不把一阶段代码结构搬回去 | Codex；待核，不重领 A1–F2 |
-| 第二阶段 | `@type-pal/editor` | React App、工作区会话、命令/表单、设计系统与工具脚本 | Vite app、`src/core`/`src/ui`、`scripts/design-system-audit*` | UI 状态与 IO/纯规则分层、异步竞态、焦点/可访问性、公共命令边界；不夹带 UI 形态变更 | Codex；待核 |
-| 工具 | `scripts` | quality/docs/coverage/script-governance/E2E 工具 | package scripts 与 Node CLI | 子进程、临时目录、失败/取消/清理、确定性；E2E 文件与文档当前不占用 | Codex；质量工具可审，E2E 保持隔离 |
+下表归纳原卡已记载的有限结果；`done`仅指当时该窄批。各批原执行者、失败、数字与准入以原卡及本页历史原稿为准，不把本次文档治理写成再次代码验收。
 
-## 机器清单口径
+| 批次 | 有来源的历史结果 | 当前读取边界 |
+|---|---|---|
+| Q1/Q1b | RLE合法/非法边界与PAL引用census过期oracle的有限修正 | generic framing允许0/0x80 no-op，strict sprite零长拒绝；不改collector或项目内容来凑数 |
+| Q2/Q2b | MKF/RNG/YJ2及shared类型子批按后继卡收口 | 空槽、尾部、early-EOS/重叠回引有合法域；剩余caller/数据语义不因codec收口自动完成 |
+| Q3 extract | events/io/PNG/symbols/其它解析器及CLI分批登记 | CLI审计无新增生产缺陷；原资源宽容合同按caller读，不把所有fallback删去 |
+| Q3 game h–w | 资产、UI、工具、present、battle helpers及主流程的各有限批次记录 | fetch参数、音量NaN、比例NaN、wave与catalog分别有原窄修；其它只读审计不算生产修复 |
+| Q3x | progression与两专属测试的原3条新增记录 | 4个相邻测试文件/205项不是4条新增关闭；活人gate、池顺序、主/隐藏经验上限不混 |
+| Q4/Q5 | 原总表为draft，账本有部分content/migrate逐文件条目 | 不能由局部条目宣布content/migrate/reforge/editor整域完成或自动进入build |
+| Q6/Q6a | 部分工具与ledger记录完整性门登记 | 工具PASS只核记录，不赋予源码语义信用；E2E另属其Owner |
 
-生成器以 Git 追踪树为输入，只扫描 `packages/{content,editor,game,migrate,pal-extract,reforge,shared}` 与 `scripts`，
-记录路径、category、domain/module/feature、行数、公开出口、静态直接依赖与反向 caller，并预留
-`stateOwnership/qualityIssues/evidence/risk/decision/status/verification` 字段。生产 callers 排除 test/fixture；
-静态关系只是取证入口，不等同完整运行时调用图。
+具体入口：[Q1](../archive/tasks/done/CODE-QUALITY-1-governance.md)、[Q2b](../archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md)、[Q3k](../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md)、[Q3t](../archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md)、[Q3u](../archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md)、[Q3w](../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md)、[Q3x](../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md)、[Q6a](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md)。
 
-基点清单当前为 2,962 个记录：
+## 当前状态
 
-| category | 文件数 | 解释 |
-|---|---:|---|
-| product | 772 | 包内生产 TypeScript/TSX/MTS/MJS 与工具生产代码 |
-| test | 1,744 | `*.test.*` / `__tests__`，只作为合同与 caller 证据，不把数量当质量 |
-| fixture | 9 | 独立测试输入/构造器 |
-| generated | 356 | baselines、oracle、adoption/evidence 等机器产物；不直接改 |
-| tool | 81 | `scripts` 非测试工具；E2E 工具在本轮只登记不修改 |
+当前逐路径状态及库存汇总只由[逐文件账本](code-quality-file-ledger.md)保存，由[真实完整性消费者](../../../scripts/quality/code-quality-ledger.mjs)与[追踪清单生成器](../../../scripts/quality/code-quality-inventory.mjs)对账。不能复制原稿多个“当前”数字作为今天进度；通过记录完整性门仍需后继源码语义审查。
 
-以上统计由 `node scripts/quality/code-quality-inventory.mjs` 生成；
-重新生成后 `base` 必须与审计基点一致，若基点变化需在卡内记录 revision。所有记录初始为 `待核`，首批完成后
-只把有直接 caller/oracle/验证证据的文件改为 `已验证`，未知候选不能自动删除或标成无问题。
+生成器实际纳入所有Git tracked的 `packages/` 或 `scripts/` 路径中 `.js/.mjs/.mts/.ts/.tsx/.json` 文件；代码中的七包集合用于domain标记，不是过滤硬门。机器 `scope` 文案与旧总纲七包说法只能作概述，精确输入以该filter为准；输出每项默认待核，不能据此重置账本既有状态。只从显式记录及真实调用证据增量更新，不把机器快照提交成产品源。
 
-## 问题优先级与停止线
+## 阻塞与决策
+
+历史计数冲突分开记载：Q2b原131/129差异未解释；Q3k的原ledger“3 fail”与卡/总纲“3 passed/1 failed”相反，现行账本只纠正该摘要并保留完整旧稿；Q3t/u均写215且u又写新增5，统计时点仍unknown；u/w排重按明确新增5/3，不凭相邻总数补出执行顺序。原末尾“YJ2/resources/tables待核”与前部及后继收口不一致，作为旧残句保留，不恢复今天待实施或默认删YJ2合同。
+
+P0要求直接失败证据、真实caller/oracle、before→after与相邻回归，静态诊断零error/warning/info；P1只有ownership/调用/生命周期证据齐全才拆边界；P2命名/公共出口全量跟caller且不以注释换词计整改；P3删除先证真实输入/唯一caller/替代方案，未知不自动删。旧版本例外仍按[现行工作流](../agent-workflow.md)与[二阶段规则](../../phase2/READ-FIRST.md)核定，不能由历史fallback名称决定。
+
+schema/save/迁移/资产管线、第一阶段机制或可感知行为变化须停止受影响批次，另卡核primary与可证伪观察。CODE-QUALITY原路线不接管TEST-COVERAGE85、E2E或已完成架构拆分；本次没有新的产品取舍或三签要求。
+
+## 下一步
+
+新批先按[任务卡](../tasks/README.md)固定范围、证据、单一Coding Owner及验收；只修有直接反例的问题。先有限合同/typecheck/静态门，再按卡面要求执行全仓门，独立接收后同提交回写账本，不能以本次docs门代替产品测试/coverage或全仓逐文件完成。
+
+复查时若账本/真实inventory不一致先报告并核路径增量；若失败推翻前提先停线，不以多数全绿、缩范围、ignore、强转或降低规则过门。专项完成仍要求全部待核/待审有实际闭环，当前没有该证据。
+
+以下保留原有标题入口；其具体原句仍在完整历史原稿，新增导航不恢复原命令或build。
+
+### 边界与当前责任
+
+原内容见下方完整原稿；当前组织见[目标与时间范围](#目标与时间范围)。
+
+### 工程 / 模块 / 功能地图
+
+原内容见下方完整原稿；当前组织见[目标与时间范围](#目标与时间范围)。
+
+### 机器清单口径
+
+原内容见下方完整原稿；当前组织见[当前状态](#当前状态)。
+
+### 问题优先级与停止线
+
+原内容见下方完整原稿；当前组织见[阻塞与决策](#阻塞与决策)。
 
 ### P0：安全/确定性/硬门
 
-只收有直接执行证据的问题：无限循环、越界/未定义输入、未处理 Promise、资源/临时目录泄漏、共享状态竞态、
-lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 caller、失败 oracle 和相邻回归；不得用 ignore、
-强转、缩小扫描范围或降低规则过门。
+原内容见下方完整原稿；当前组织见[阻塞与决策](#阻塞与决策)。
 
 ### P1：职责与公共边界
 
-收状态/IO/纯逻辑/呈现 ownership 混杂、反向依赖、隐式全局、过宽 RuntimeContext、公共出口不清晰或失败策略
-由相邻层吞掉的问题。只在调用关系和生命周期证据齐全时拆分；不以“文件变小”作为验收。
+原内容见下方完整原稿；当前组织见[阻塞与决策](#阻塞与决策)。
 
 ### P2：合同可读性与可维护性
 
-收会误导维护者的过时注释、模糊业务命名、布尔模式参数、重复防御和与业务合同不一致的复用。改名/公共出口
-必须全量更新 caller，并评估测试身份保护；纯表面注释不计整改。
+原内容见下方完整原稿；当前组织见[阻塞与决策](#阻塞与决策)。
 
 ### P3：死代码/历史兼容/低价值复杂度
 
-只有生产 caller、输入域和替代证据均证明后才删除；开发期旧版本 fallback/upgrader 默认退役，除非任务卡列出
-无法重建的真实输入、唯一调用者、删除条件和用户批准。未知项留 `待核`，不为凑数量改代码。
+原内容见下方完整原稿；当前组织见[阻塞与决策](#阻塞与决策)。
 
-任何发现 schema/save/migration/asset pipeline、第一阶段机制真值、用户可见 UI/玩法或生成物影响时，立即停线，
-升级高风险卡并重新过前提真值门。
+### 有限批次与文件所有权
 
-## 有限批次与文件所有权
+原内容见下方完整原稿；当前组织见[里程碑](#里程碑)。
 
-| 批次 | 白名单 | 目标 | 当前状态 |
-|---|---|---|---|
-| Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | generic framing 的截断/越界失败、strict sprite 零长 guard；合法像素/opaque 保真 | `done` |
-| Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | MKF/RNG/YJ2 codec 边界已收；resources/tables/events/input/index/rle-encode 纯类型/合同文件已逐文件核验；剩余 caller/数据语义复核仍待后续账本批次 | `done`（codec/type 子批）；不得把剩余 caller/数据语义复核视作全仓已审完 |
-| Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | pal-extract 生产文件（events/io/font/resources/parsers/CLI）已逐文件核验并分批收口；game assets/core/present/shell 仍待逐文件治理 | `draft`，不得与覆盖率/E2E线程重叠 |
-| Q4 phase2 content/migrate | content validators/types、migrate pure/IO 薄壳 | canonical schema、迁移源、事务/幂等边界；不改生成物 | `draft`，不得开始实现 |
-| Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
-| Q6 scripts tools | quality/docs/script-governance 等非 E2E 工具 | 子进程/临时树/失败语义/确定性；E2E 留给其 Owner | `draft`，按 caller 另卡 |
+### 首批结论（Q1 / Q1b）
 
-2026-10-05 Q3h 已闭合 game 资产/启动窄批：`assets/{loader,tileset-blob,png,rle-decode}.ts` 与
-`shell/{fetch-retry,bootstrap-resources}.ts` 已逐文件直接核验；仅 `fetch-retry` 非法配置的悬空
-`throw undefined` 有证据并修复。定向 77、game 全包 3,397、全仓第二轮 `pnpm check`、官方 ratchet、
-protected fast、Biome 零诊断均通过；game 其余 core/present/shell/analytics/tools 仍待账本逐文件核验，
-不可把本窄批写成 Q3 或全仓完成。
+原内容见下方完整原稿；当前组织见[里程碑](#里程碑)。
 
-2026-10-05 Q3i 已闭合 game 对话资源/预缓存 UI 窄批：`assets/dialog-assets.ts` 与
-`shell/{precache-client,precache-ui,audio-volume,trademark-fallback}.ts` 已逐文件核验；仅音量
-controller 的 NaN 输入有直接证据并按 0 修复，另纠正一条与 `playRng` 真值冲突的过时注释。定向 68、
-game 全包 3,398、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
-game 其余 core/present/shell/analytics/tools 仍待逐文件治理。
 
-2026-10-05 Q3j 已闭合 game tools/speedrun 小批：`tools/{display-scale,fps-overlay,toast,map-names}.ts`
-与 `tools/speedrun/{time-format,countdown,checkpoints}.ts` 已逐文件核验；仅 display-scale 的 NaN
-百分比有直接证据并按默认 100% 修复，速通 checkpoint 坐标继续保留“需真实运行证据”的未知项。
-定向 47、game 全包 3,399、全仓 check、official ratchet、protected fast、Biome 零诊断均通过；
-不得把本小批写成 game 或全仓治理完成。
+## 历史范围
 
-Q3k 审计发现并修复一个真实 present 缺陷：sdlpal `wScreenWave` 是 unsigned WORD，而 TS
-`number` 在真实 raw opcode 0x71 `[255,65532,0]` 的负 progression 收尾时会越过 0；现以
-`<=0` 关断，避免负波幅继续参与扫描线位移。mutant `4 total / 3 passed / 1 failed`，恢复后
-`4/4`；完整质量门尚待本卡收口。
+原234行以2026-10-04 b9ba7e0为起点，追加多个有限批次至Q3x/库存同步；其2962/2964/2966/3058以及“当前”均按各段时点读取，不从段落排列猜原执行顺序。原产品content20断语不复制成今天版本。
 
-Q3k 已完成全仓质量门：game 全包 3,400、全仓 `pnpm check`、official ratchet、protected fast、
-Biome 零诊断均通过；coverage baseline 只升不降更新至 total 19,282 tests。六个 present primitive
-已直接核验，但 present/battle/menu/dialog 其余生产文件仍未逐文件清点。
+## 原始结论
 
-Q3l 已完成 game battle-present 七文件窄批：背景、effect、数字弹幕、结算、精灵、战斗 UI 与
-`present-battle.ts` 逐文件核验，14 个直接测试文件/179 tests 通过；未发现需修的直接缺陷。
-全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；battle core、
-menu/dialog 与其它 present 生产文件仍待逐文件治理。
+路线优先证真实caller/合法输入/oracle与单批Owner，首批及多个Q3子批有限收口，Q4–Q6与全仓逐文件未完成。Q3u/w排重、YJ2旧残句和多个库存时点均保留原文，不用总表done覆盖未知。
 
-Q3m 已完成 game battle core 合同六文件窄批：formulas、magic-damage、status、turn-queue、
-battle-positions、rng 逐文件读取 primary source/caller/tests，未发现直接缺陷或需要行为修复。
-game 全包 3,400、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
-其它 battle core/actions/system/menu/scene/save 文件仍待逐文件核验。
+## 当时证据
 
-Q3n 已完成 game core fade/identity/catalog 四文件窄批：palette fade、scene identity、WORD
-lookup、global script catalog 逐文件核验；发现并修复 global label map 对 inherited
-`toString`/`constructor`/`__proto__` 的误解析，补 own-property/null-prototype 合同。全仓第二轮
-`pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；scene-system、event-system
-及其它 core 生产文件仍待逐文件清点。
+各原卡、raw计数、full/ratchet/protected结果仅引用。当前可重核的是下方固定Git原稿及实际inventory/ledger记录结构；本轮未重新读全部生产或执行原测试/对拍，不由路径地图或旧绿数授全仓源码深审。
 
-Q3o 已完成 game core mode/history/poison/search 四文件窄批：逐文件核对 play.c/scene.c/global.c
-与真实 callers/tests，未发现直接缺陷；定向 42、game 全包 3,403、全仓第二轮 check、official
-ratchet、protected fast、Biome 零诊断均通过。event-opcode-player、scene-system、battle-system
-及其它 core 生产文件仍待核验。
+## 当前有效性
 
-Q3p 已完成高风险 event player/equipment/poison opcode 单文件核验：`event-opcode-player.ts`
-及 3 个专属测试文件逐段对照 `script.c/global.c`、event-system/equipment/inventory/poison callers；
-未发现直接缺陷或需改行为。全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断
-均通过；event-system、scene-system、battle-system、save 等大型 core 文件仍待逐文件核验。
+当前有效部分是路线/证据入口与明确停止线，具体产品build仍须新卡准入。原done、原全门与暂时待核残句均只属于原批；三签退休、零诊断和测试质量按现行流程，不倒写旧执行。
 
-Q3q 已完成高风险 `scene-system.ts` 逐文件核验：662 行实现与 2064 行 scene-system tests 全文读取，
-逐段对照 `play.c`/`scene.c`/`map.c`/`res.c`/`global.h` 及 `mode.ts`、`event-system.ts`、bootstrap/dev
-callers；输入顺序、移动步长、trigger/vanish/revive、blocker push、菱形碰撞、camera/trail、loadScene/onEnter
-均有直接 caller/oracle 证据，未发现直接缺陷。定向 131、game 全包 3,403、完整 check、official ratchet、
-protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3q 只关闭这两个 scene-system 文件，event-system、
-battle-system、save 及账本剩余 2,760 个待核记录仍未关闭。
+## 继任文档
 
-Q3r 已完成高风险 `event-system.ts` 逐文件核验：5110 行实现与 5973 行主测试全文读取，逐段对照
-`script.c`/`play.c`/`scene.c`/`text.c`/`global.h` 及 mode/bootstrap/scene/battle/menu/equipment/poison callers；
-全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析、移动/镜头与
-runEnterScript 均有直接 caller/oracle 证据，未发现直接缺陷。定向 370、game 全包 3,403、完整 check、official
-ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3r 只关闭 event-system 与其主测试，
-battle-opcodes、save 及账本剩余 2,758 个待核记录仍未关闭。
+[逐文件账本](code-quality-file-ledger.md)保存唯一现行汇总；[本轮文档治理卡](../tasks/DOCS-FULL-TEMPLATE-1.md)仅接收文档，不关闭CODE-QUALITY。新的产品问题按单一Owner互斥任务推进。
 
-Q3s 已完成高风险 `battle-system.ts` 逐文件核验：3139 行实现与 4182 行主 lifecycle/UI 测试全文读取，另核
-cov85/GLM/runtime-context、anim/death-fade/dialog/settlement/finalization callers；逐段对照 `battle.c`/`fight.c`/
-`script.c`、bootstrap/mode/actions。startBattle 资源/敌槽/波场、phase guards、queue/UI、动画/dialog、逃跑/淡出、
-毒/status/cleanup/resume 均有直接证据，未发现直接缺陷。定向 242、game 全包 3,403、完整 check、official ratchet、
-protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3s 只关闭 battle-system 与四个直接 lifecycle oracle，
-battle-opcodes、其它 actions/present、save 及账本剩余 2,753 个待核记录仍未关闭。
+固定原稿来自revision `22eead43a6c825e1345feb92441e09d340d22c18`，Git blob `2cd85b53f57292d8f8373ee5633eaeecef199938`；保留所有原日期、结论和证据边界。
 
-Q3t 已完成高风险 `battle-opcodes.ts` 与 4 个专属测试逐文件核验：1528 行实现、主/coverage/GLM opcode tests、summon slot reuse、
-cross-module、actions、magic-damage、throw-item、coop-magic、anim-timeline caller 逐段对照
-`script.c`/`fight.c`/`battle.c`、`runScript` battle caller 与 `BattleCtx` ownership。目标/状态/伤害/毒、召唤/分裂/变身/
-逃跑、动画/偷窃/战斗结果和 `consumed/newIp` 均有直接证据，未发现直接缺陷；0x2E 的 `>=` 是既有
-`game-mechanics.md` 记录的原版后期产品决策，不回改为 SDL 的 `>`。定向/相邻 470 tests、完整 check、official
-ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3t 关闭 5 条账本记录（1 个 product + 4 个 test），
-当前账本为 2,964 条：已闭合 215、已读待审 5、尚未逐文件核验 2,744；其余 battle actions/present、save 及其它
-pending 文件仍未完成，不得宣布全仓治理收口。
+<!-- original-source-quote:start -->
 
-Q3u 完成 `battle-state.ts`、`battle-runtime-context.ts`、`battle-positions.ts` 三个基础文件的生产实现核验：918/98/93
-行实现与 state/runtime/finalization/animation 相邻 tests 运行结果逐段对照 `battle.h`/`global.h`/`battle.c`/`fight.c`
-及 `battle-system`/`battle-finalization` callers。BattleState 快照/phase/UI/空槽/对象身份、runtime resource/runner
-ownership 与清理、玩家/敌人位置表和 y offset/fallback 均有直接证据，未发现直接缺陷。定向/相邻 55 tests、完整 check、
-official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3u 的新增记录为 5 条（2 个 product + 3 个
-test）；`battle-positions.ts` 与 `battle-runtime-context.test.ts` 沿用 Q3m/Q3s 历史核验，不重复计数。当前账本仍为
-2,964 条：已闭合 215、已读待审 5、尚未逐文件核验 2,744；battle
-actions/present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
-
-Q3v 已完成 `actions/attack.ts`、`attack-mate.ts`、`defend.ts`、`flee.ts` 四个基础 action 文件逐文件核验：826 行
-实现与真实 `performBattleAction` caller、`fight.c`/`battle.c` primary source、attack-mate/attack GLM 专属测试及
-actions/anim/formula 相邻 oracle 全文/相关段读取。普通/群攻/DualAttack、敌攻格挡/替挡/protect、混乱攻友、逃跑
-装备与 boss gate、equiv poison、动画与 legacy fallback 均有直接证据，未发现直接缺陷；`performFlee` 敌吉运修复按
-`game-mechanics.md` 用户裁决保留。定向/相邻 154 tests、完整 check、official ratchet、protected fast、Biome 零诊断
-均通过；ratchet 基线未变化。Q3v 关闭 6 条账本记录（4 个 product + 2 个 test），`actions.test.ts` 只作相关段相邻
-oracle，不计入本批关闭。当前账本为 2,964 条：已闭合 221、已读待审 5、尚未逐文件核验 2,738；battle 其它 actions、
-present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
-
-Q3w 已完成 `battle-finalization.ts` 与 `battle-settlement.ts` 两个结算/清理文件逐文件核验：313 行实现、`battle.c:991-1373,1822-1857`、
-真实 `tickBattle`/finalize caller、finalization/settlement 专属测试和 progression 相邻 oracle 全文对照。exp/cash/HP-MP 回写、
-结算屏序与 timeout、Phase E 一次性执行、对话 hold、半血恢复、mode/wave/runtime/postBattle resume 清理均有直接证据，未发现直接缺陷。
-定向/相邻 196 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3w 关闭 3 条新增账本记录
-（2 个 product + 1 个 test）；`battle-finalization.test.ts` 沿用 Q3u 历史记录，不重复计数。当前账本为 2,964 条：已闭合 224、已读待审 5、尚未逐文件核验 2,735；其它 battle actions/present、
-save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
-
-CODE-QUALITY-6a 增加了逐文件账本机器完整性门：真实 inventory 与 Markdown ledger 逐路径对账，重复/未知路径、非法状态、缺证据、
-tracked 数量和状态汇总漂移均 fail-closed；37 个 quality-tool tests（含 9 个账本反例/真实仓库调用）通过。该门只验证记录完整性，
-明确不把机器 PASS 当作源码语义审查；新增 `code-quality-ledger.mjs` 与其测试本身已登记为已验证文件。当前 tracked inventory 2,966：
-已闭合 226、review 5、pending 2,735；全仓仍未完成。
-
-随后已把治理分支同步到最新 `origin/main`（merge 后 0 behind）；主线新增的 tracked records 经 ledger integrity gate 重新纳入，均保留
-pending，不作语义审查信用。当前 inventory 为 3,058，已闭合 229、review 5、pending 2,824；分支可继续增量治理，但不应把新增主线
-文件误认为已核验。
-
-Q3x 已完成 `battle-progression.ts` 与两个专属 progression/levelup 测试逐文件核验：306 行实现、`battle.c:991-1373,1226-1328`、
-`global.c:2347-2454`、settlement caller 和 battle-system progression 相邻段均有直接证据。主升级活人 gate、隐藏经验池顺序/截断/
-99 边界与无 cap、主升级 cap、HP/MP 回满时机、法术 level gate/去重/槽写入和 snapshot 有效值均闭合，未发现直接缺陷。定向/相邻
-205 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3x 关闭 3 条账本记录（1 个 product +
-2 个 test），当前账本为 2,966 条：已闭合 229、review 5、pending 2,732；全仓仍未完成。
-
-同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
-清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
-受保护 strict；不借测试候选或历史门替代独立验收。
-
-## 首批结论（Q1 / Q1b）
-
-`packages/shared/src/rle.ts:61-100` 对 header、source 游标、literal/透明段边界缺少显式失败；strict sprite container 的
-`command === 0/0x80` 仍拒绝无像素进度命令。通用 `decodeRle` 则保留 PAL 帧 framing 中的 0/0x80 no-op，只要后续指令
-能填满帧；源流耗尽或段越界时显式失败。真实 callers 为 game tileset/dialog 资源、pal-extract 资产导出和 reforge
-资产加载；本批没有改变合法帧结果或资源格式。
-
-Q1b 复核了 editor PAL project-reference census：`379304503` 将历史总数更新为 22,666，随后
-`66676dc9f` 增加 `projects/pal` 场景状态字段后，当前 collector 的直接结果变为 22,663；同一漂移同步影响
-blockers、behavior-reference edges、compact rows/target edges（4,353 / 4,448 / 25,196 / 28,092）。本批只更新
-过期测试 oracle，不改 collector、项目内容或 UI。Q1/Q1b 的完整 check、官方 ratchet 和 protected fast 已通过；
-这只关闭首批问题，不关闭 Q2–Q6，也不代表全仓逐文件治理完成。
-
-Q2 的 MKF/RNG 子批已完成：真实 raw 的 2,373 个 chunks 与 1,464 个 RNG frames 通过新边界检查，完整 check、
-official ratchet、protected fast 和 lint 全绿。剩余 YJ2、resources、tables 仍保持待核，下一批从 Q3 phase1
-extract/game 开始。
-
-验证完成前本节不标“已验证”；完整质量门与全仓逐文件治理仍未完成。
+> # 全仓代码质量治理总纲
+>
+> 基点：`b9ba7e0faadf56519da024c0343f5b44b9a5c447`（`origin/main`，2026-10-04）。
+> 本文件是 CODE-QUALITY-1 的治理路线与证据入口，不是“全仓已审完”声明；逐文件机器清单由
+> [`scripts/quality/code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs)按基点生成，
+> 使用 `node scripts/quality/code-quality-inventory.mjs --out=/tmp/type-pal-code-quality-inventory.json` 获取完整 JSON，
+> 不把机器快照当作产品源文件提交。
+> 已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
+>
+> ## 边界与当前责任
+>
+> 本专项按工程 → 模块 → 功能 → 文件推进，Coding Owner 为 Codex，单批单一写入者；不接管
+> `TEST-COVERAGE85-*`、`E2E-*` 或测试文档线程，不重领 `architecture-debt.md` 已完成的 13 批架构拆分。
+> 生产行为、公共 API、schema/save、生成物和用户可见形态默认保持不变；若一手证据证明必须改变，另开产品/高风险卡。
+>
+> `docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md` 记录本轮范围、前提真值门、首批白名单和验收；本文件只写已经
+> 核实的治理路线，未知职责与候选问题保留为“待核”，不从行数、`any`、重复片段或静态图直接推出缺陷。
+>
+> ## 工程 / 模块 / 功能地图
+>
+> | 工程 | 模块 | 功能面 | 公开出口 / 生产 caller 形态 | 状态所有权与质量审计重点 | 当前 Owner / 决定 |
+> |---|---|---|---|---|---|
+> | 第一阶段 | `@type-pal/shared` | MKF/RLE/YJ2/RNG 编解码、资源与输入类型 | 根 barrel `packages/shared/src/index.ts`；game、pal-extract、migrate、reforge 直接消费 | 纯字节解码器；检查游标进度、边界、错误传播、透明度不变量，不能把测试 fixture 当生产输入 | Codex；首批 RLE 边界，需修 |
+> | 第一阶段 | `@type-pal/pal-extract` | 原始 MKF/事件/资源解析与 CLI 写出 | `src/cli.ts` 及各 parser；调用 shared 纯 codec | IO、纯解析、写盘职责与失败策略；不改 `data/raw` 或提取产物 | Codex；待核 |
+> | 第一阶段 | `@type-pal/game` | shell 启动、事件/战斗/地图、呈现和资源加载 | Vite app；`assets/`、`core/`、`present/`、`shell/` | 机制真值、状态生命周期、取消/清理、资源失败降级；不得把静态计数当债 | Codex；待核 |
+> | 第二阶段 | `@type-pal/content` | canonical 内容类型、作者校验、引用闭包 | `src/index.ts` 与各领域类型/validator | schema 所有权、稳定 ID、验证层与运行时层方向；不主动改 content20 | Codex；待核 |
+> | 第二阶段 | `@type-pal/migrate` | 迁移纯函数、源规划、写保护与 PAL 供给 | `src/`、`scripts/migrate-content.mts`、`scripts/bake-assets.mts` | 上游真源、幂等、事务/写盘边界；不单点改 `projects/pal` | Codex；待核，保留已收口 PAL supply 边界 |
+> | 第二阶段 | `@type-pal/reforge` | 新运行时 main、world、battle、script、assets、author IO | `src/index.ts` 及 `author-io`/`entity-action-player`/`script-compiler-core` | READ-FIRST 架构优先、稳定 ID、显式状态所有权、取消/资源释放；不把一阶段代码结构搬回去 | Codex；待核，不重领 A1–F2 |
+> | 第二阶段 | `@type-pal/editor` | React App、工作区会话、命令/表单、设计系统与工具脚本 | Vite app、`src/core`/`src/ui`、`scripts/design-system-audit*` | UI 状态与 IO/纯规则分层、异步竞态、焦点/可访问性、公共命令边界；不夹带 UI 形态变更 | Codex；待核 |
+> | 工具 | `scripts` | quality/docs/coverage/script-governance/E2E 工具 | package scripts 与 Node CLI | 子进程、临时目录、失败/取消/清理、确定性；E2E 文件与文档当前不占用 | Codex；质量工具可审，E2E 保持隔离 |
+>
+> ## 机器清单口径
+>
+> 生成器以 Git 追踪树为输入，只扫描 `packages/{content,editor,game,migrate,pal-extract,reforge,shared}` 与 `scripts`，
+> 记录路径、category、domain/module/feature、行数、公开出口、静态直接依赖与反向 caller，并预留
+> `stateOwnership/qualityIssues/evidence/risk/decision/status/verification` 字段。生产 callers 排除 test/fixture；
+> 静态关系只是取证入口，不等同完整运行时调用图。
+>
+> 基点清单当前为 2,962 个记录：
+>
+> | category | 文件数 | 解释 |
+> |---|---:|---|
+> | product | 772 | 包内生产 TypeScript/TSX/MTS/MJS 与工具生产代码 |
+> | test | 1,744 | `*.test.*` / `__tests__`，只作为合同与 caller 证据，不把数量当质量 |
+> | fixture | 9 | 独立测试输入/构造器 |
+> | generated | 356 | baselines、oracle、adoption/evidence 等机器产物；不直接改 |
+> | tool | 81 | `scripts` 非测试工具；E2E 工具在本轮只登记不修改 |
+>
+> 以上统计由 `node scripts/quality/code-quality-inventory.mjs` 生成；
+> 重新生成后 `base` 必须与审计基点一致，若基点变化需在卡内记录 revision。所有记录初始为 `待核`，首批完成后
+> 只把有直接 caller/oracle/验证证据的文件改为 `已验证`，未知候选不能自动删除或标成无问题。
+>
+> ## 问题优先级与停止线
+>
+> ### P0：安全/确定性/硬门
+>
+> 只收有直接执行证据的问题：无限循环、越界/未定义输入、未处理 Promise、资源/临时目录泄漏、共享状态竞态、
+> lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 caller、失败 oracle 和相邻回归；不得用 ignore、
+> 强转、缩小扫描范围或降低规则过门。
+>
+> ### P1：职责与公共边界
+>
+> 收状态/IO/纯逻辑/呈现 ownership 混杂、反向依赖、隐式全局、过宽 RuntimeContext、公共出口不清晰或失败策略
+> 由相邻层吞掉的问题。只在调用关系和生命周期证据齐全时拆分；不以“文件变小”作为验收。
+>
+> ### P2：合同可读性与可维护性
+>
+> 收会误导维护者的过时注释、模糊业务命名、布尔模式参数、重复防御和与业务合同不一致的复用。改名/公共出口
+> 必须全量更新 caller，并评估测试身份保护；纯表面注释不计整改。
+>
+> ### P3：死代码/历史兼容/低价值复杂度
+>
+> 只有生产 caller、输入域和替代证据均证明后才删除；开发期旧版本 fallback/upgrader 默认退役，除非任务卡列出
+> 无法重建的真实输入、唯一调用者、删除条件和用户批准。未知项留 `待核`，不为凑数量改代码。
+>
+> 任何发现 schema/save/migration/asset pipeline、第一阶段机制真值、用户可见 UI/玩法或生成物影响时，立即停线，
+> 升级高风险卡并重新过前提真值门。
+>
+> ## 有限批次与文件所有权
+>
+> | 批次 | 白名单 | 目标 | 当前状态 |
+> |---|---|---|---|
+> | Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | generic framing 的截断/越界失败、strict sprite 零长 guard；合法像素/opaque 保真 | `done` |
+> | Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | MKF/RNG/YJ2 codec 边界已收；resources/tables/events/input/index/rle-encode 纯类型/合同文件已逐文件核验；剩余 caller/数据语义复核仍待后续账本批次 | `done`（codec/type 子批）；不得把剩余 caller/数据语义复核视作全仓已审完 |
+> | Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | pal-extract 生产文件（events/io/font/resources/parsers/CLI）已逐文件核验并分批收口；game assets/core/present/shell 仍待逐文件治理 | `draft`，不得与覆盖率/E2E线程重叠 |
+> | Q4 phase2 content/migrate | content validators/types、migrate pure/IO 薄壳 | canonical schema、迁移源、事务/幂等边界；不改生成物 | `draft`，不得开始实现 |
+> | Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
+> | Q6 scripts tools | quality/docs/script-governance 等非 E2E 工具 | 子进程/临时树/失败语义/确定性；E2E 留给其 Owner | `draft`，按 caller 另卡 |
+>
+> 2026-10-05 Q3h 已闭合 game 资产/启动窄批：`assets/{loader,tileset-blob,png,rle-decode}.ts` 与
+> `shell/{fetch-retry,bootstrap-resources}.ts` 已逐文件直接核验；仅 `fetch-retry` 非法配置的悬空
+> `throw undefined` 有证据并修复。定向 77、game 全包 3,397、全仓第二轮 `pnpm check`、官方 ratchet、
+> protected fast、Biome 零诊断均通过；game 其余 core/present/shell/analytics/tools 仍待账本逐文件核验，
+> 不可把本窄批写成 Q3 或全仓完成。
+>
+> 2026-10-05 Q3i 已闭合 game 对话资源/预缓存 UI 窄批：`assets/dialog-assets.ts` 与
+> `shell/{precache-client,precache-ui,audio-volume,trademark-fallback}.ts` 已逐文件核验；仅音量
+> controller 的 NaN 输入有直接证据并按 0 修复，另纠正一条与 `playRng` 真值冲突的过时注释。定向 68、
+> game 全包 3,398、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
+> game 其余 core/present/shell/analytics/tools 仍待逐文件治理。
+>
+> 2026-10-05 Q3j 已闭合 game tools/speedrun 小批：`tools/{display-scale,fps-overlay,toast,map-names}.ts`
+> 与 `tools/speedrun/{time-format,countdown,checkpoints}.ts` 已逐文件核验；仅 display-scale 的 NaN
+> 百分比有直接证据并按默认 100% 修复，速通 checkpoint 坐标继续保留“需真实运行证据”的未知项。
+> 定向 47、game 全包 3,399、全仓 check、official ratchet、protected fast、Biome 零诊断均通过；
+> 不得把本小批写成 game 或全仓治理完成。
+>
+> Q3k 审计发现并修复一个真实 present 缺陷：sdlpal `wScreenWave` 是 unsigned WORD，而 TS
+> `number` 在真实 raw opcode 0x71 `[255,65532,0]` 的负 progression 收尾时会越过 0；现以
+> `<=0` 关断，避免负波幅继续参与扫描线位移。mutant `4 total / 3 passed / 1 failed`，恢复后
+> `4/4`；完整质量门尚待本卡收口。
+>
+> Q3k 已完成全仓质量门：game 全包 3,400、全仓 `pnpm check`、official ratchet、protected fast、
+> Biome 零诊断均通过；coverage baseline 只升不降更新至 total 19,282 tests。六个 present primitive
+> 已直接核验，但 present/battle/menu/dialog 其余生产文件仍未逐文件清点。
+>
+> Q3l 已完成 game battle-present 七文件窄批：背景、effect、数字弹幕、结算、精灵、战斗 UI 与
+> `present-battle.ts` 逐文件核验，14 个直接测试文件/179 tests 通过；未发现需修的直接缺陷。
+> 全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；battle core、
+> menu/dialog 与其它 present 生产文件仍待逐文件治理。
+>
+> Q3m 已完成 game battle core 合同六文件窄批：formulas、magic-damage、status、turn-queue、
+> battle-positions、rng 逐文件读取 primary source/caller/tests，未发现直接缺陷或需要行为修复。
+> game 全包 3,400、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
+> 其它 battle core/actions/system/menu/scene/save 文件仍待逐文件核验。
+>
+> Q3n 已完成 game core fade/identity/catalog 四文件窄批：palette fade、scene identity、WORD
+> lookup、global script catalog 逐文件核验；发现并修复 global label map 对 inherited
+> `toString`/`constructor`/`__proto__` 的误解析，补 own-property/null-prototype 合同。全仓第二轮
+> `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；scene-system、event-system
+> 及其它 core 生产文件仍待逐文件清点。
+>
+> Q3o 已完成 game core mode/history/poison/search 四文件窄批：逐文件核对 play.c/scene.c/global.c
+> 与真实 callers/tests，未发现直接缺陷；定向 42、game 全包 3,403、全仓第二轮 check、official
+> ratchet、protected fast、Biome 零诊断均通过。event-opcode-player、scene-system、battle-system
+> 及其它 core 生产文件仍待核验。
+>
+> Q3p 已完成高风险 event player/equipment/poison opcode 单文件核验：`event-opcode-player.ts`
+> 及 3 个专属测试文件逐段对照 `script.c/global.c`、event-system/equipment/inventory/poison callers；
+> 未发现直接缺陷或需改行为。全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断
+> 均通过；event-system、scene-system、battle-system、save 等大型 core 文件仍待逐文件核验。
+>
+> Q3q 已完成高风险 `scene-system.ts` 逐文件核验：662 行实现与 2064 行 scene-system tests 全文读取，
+> 逐段对照 `play.c`/`scene.c`/`map.c`/`res.c`/`global.h` 及 `mode.ts`、`event-system.ts`、bootstrap/dev
+> callers；输入顺序、移动步长、trigger/vanish/revive、blocker push、菱形碰撞、camera/trail、loadScene/onEnter
+> 均有直接 caller/oracle 证据，未发现直接缺陷。定向 131、game 全包 3,403、完整 check、official ratchet、
+> protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3q 只关闭这两个 scene-system 文件，event-system、
+> battle-system、save 及账本剩余 2,760 个待核记录仍未关闭。
+>
+> Q3r 已完成高风险 `event-system.ts` 逐文件核验：5110 行实现与 5973 行主测试全文读取，逐段对照
+> `script.c`/`play.c`/`scene.c`/`text.c`/`global.h` 及 mode/bootstrap/scene/battle/menu/equipment/poison callers；
+> 全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析、移动/镜头与
+> runEnterScript 均有直接 caller/oracle 证据，未发现直接缺陷。定向 370、game 全包 3,403、完整 check、official
+> ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3r 只关闭 event-system 与其主测试，
+> battle-opcodes、save 及账本剩余 2,758 个待核记录仍未关闭。
+>
+> Q3s 已完成高风险 `battle-system.ts` 逐文件核验：3139 行实现与 4182 行主 lifecycle/UI 测试全文读取，另核
+> cov85/GLM/runtime-context、anim/death-fade/dialog/settlement/finalization callers；逐段对照 `battle.c`/`fight.c`/
+> `script.c`、bootstrap/mode/actions。startBattle 资源/敌槽/波场、phase guards、queue/UI、动画/dialog、逃跑/淡出、
+> 毒/status/cleanup/resume 均有直接证据，未发现直接缺陷。定向 242、game 全包 3,403、完整 check、official ratchet、
+> protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3s 只关闭 battle-system 与四个直接 lifecycle oracle，
+> battle-opcodes、其它 actions/present、save 及账本剩余 2,753 个待核记录仍未关闭。
+>
+> Q3t 已完成高风险 `battle-opcodes.ts` 与 4 个专属测试逐文件核验：1528 行实现、主/coverage/GLM opcode tests、summon slot reuse、
+> cross-module、actions、magic-damage、throw-item、coop-magic、anim-timeline caller 逐段对照
+> `script.c`/`fight.c`/`battle.c`、`runScript` battle caller 与 `BattleCtx` ownership。目标/状态/伤害/毒、召唤/分裂/变身/
+> 逃跑、动画/偷窃/战斗结果和 `consumed/newIp` 均有直接证据，未发现直接缺陷；0x2E 的 `>=` 是既有
+> `game-mechanics.md` 记录的原版后期产品决策，不回改为 SDL 的 `>`。定向/相邻 470 tests、完整 check、official
+> ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3t 关闭 5 条账本记录（1 个 product + 4 个 test），
+> 当前账本为 2,964 条：已闭合 215、已读待审 5、尚未逐文件核验 2,744；其余 battle actions/present、save 及其它
+> pending 文件仍未完成，不得宣布全仓治理收口。
+>
+> Q3u 完成 `battle-state.ts`、`battle-runtime-context.ts`、`battle-positions.ts` 三个基础文件的生产实现核验：918/98/93
+> 行实现与 state/runtime/finalization/animation 相邻 tests 运行结果逐段对照 `battle.h`/`global.h`/`battle.c`/`fight.c`
+> 及 `battle-system`/`battle-finalization` callers。BattleState 快照/phase/UI/空槽/对象身份、runtime resource/runner
+> ownership 与清理、玩家/敌人位置表和 y offset/fallback 均有直接证据，未发现直接缺陷。定向/相邻 55 tests、完整 check、
+> official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3u 的新增记录为 5 条（2 个 product + 3 个
+> test）；`battle-positions.ts` 与 `battle-runtime-context.test.ts` 沿用 Q3m/Q3s 历史核验，不重复计数。当前账本仍为
+> 2,964 条：已闭合 215、已读待审 5、尚未逐文件核验 2,744；battle
+> actions/present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
+>
+> Q3v 已完成 `actions/attack.ts`、`attack-mate.ts`、`defend.ts`、`flee.ts` 四个基础 action 文件逐文件核验：826 行
+> 实现与真实 `performBattleAction` caller、`fight.c`/`battle.c` primary source、attack-mate/attack GLM 专属测试及
+> actions/anim/formula 相邻 oracle 全文/相关段读取。普通/群攻/DualAttack、敌攻格挡/替挡/protect、混乱攻友、逃跑
+> 装备与 boss gate、equiv poison、动画与 legacy fallback 均有直接证据，未发现直接缺陷；`performFlee` 敌吉运修复按
+> `game-mechanics.md` 用户裁决保留。定向/相邻 154 tests、完整 check、official ratchet、protected fast、Biome 零诊断
+> 均通过；ratchet 基线未变化。Q3v 关闭 6 条账本记录（4 个 product + 2 个 test），`actions.test.ts` 只作相关段相邻
+> oracle，不计入本批关闭。当前账本为 2,964 条：已闭合 221、已读待审 5、尚未逐文件核验 2,738；battle 其它 actions、
+> present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
+>
+> Q3w 已完成 `battle-finalization.ts` 与 `battle-settlement.ts` 两个结算/清理文件逐文件核验：313 行实现、`battle.c:991-1373,1822-1857`、
+> 真实 `tickBattle`/finalize caller、finalization/settlement 专属测试和 progression 相邻 oracle 全文对照。exp/cash/HP-MP 回写、
+> 结算屏序与 timeout、Phase E 一次性执行、对话 hold、半血恢复、mode/wave/runtime/postBattle resume 清理均有直接证据，未发现直接缺陷。
+> 定向/相邻 196 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3w 关闭 3 条新增账本记录
+> （2 个 product + 1 个 test）；`battle-finalization.test.ts` 沿用 Q3u 历史记录，不重复计数。当前账本为 2,964 条：已闭合 224、已读待审 5、尚未逐文件核验 2,735；其它 battle actions/present、
+> save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
+>
+> CODE-QUALITY-6a 增加了逐文件账本机器完整性门：真实 inventory 与 Markdown ledger 逐路径对账，重复/未知路径、非法状态、缺证据、
+> tracked 数量和状态汇总漂移均 fail-closed；37 个 quality-tool tests（含 9 个账本反例/真实仓库调用）通过。该门只验证记录完整性，
+> 明确不把机器 PASS 当作源码语义审查；新增 `code-quality-ledger.mjs` 与其测试本身已登记为已验证文件。当前 tracked inventory 2,966：
+> 已闭合 226、review 5、pending 2,735；全仓仍未完成。
+>
+> 随后已把治理分支同步到最新 `origin/main`（merge 后 0 behind）；主线新增的 tracked records 经 ledger integrity gate 重新纳入，均保留
+> pending，不作语义审查信用。当前 inventory 为 3,058，已闭合 229、review 5、pending 2,824；分支可继续增量治理，但不应把新增主线
+> 文件误认为已核验。
+>
+> Q3x 已完成 `battle-progression.ts` 与两个专属 progression/levelup 测试逐文件核验：306 行实现、`battle.c:991-1373,1226-1328`、
+> `global.c:2347-2454`、settlement caller 和 battle-system progression 相邻段均有直接证据。主升级活人 gate、隐藏经验池顺序/截断/
+> 99 边界与无 cap、主升级 cap、HP/MP 回满时机、法术 level gate/去重/槽写入和 snapshot 有效值均闭合，未发现直接缺陷。定向/相邻
+> 205 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3x 关闭 3 条账本记录（1 个 product +
+> 2 个 test），当前账本为 2,966 条：已闭合 229、review 5、pending 2,732；全仓仍未完成。
+>
+> 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
+> 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
+> 受保护 strict；不借测试候选或历史门替代独立验收。
+>
+> ## 首批结论（Q1 / Q1b）
+>
+> `packages/shared/src/rle.ts:61-100` 对 header、source 游标、literal/透明段边界缺少显式失败；strict sprite container 的
+> `command === 0/0x80` 仍拒绝无像素进度命令。通用 `decodeRle` 则保留 PAL 帧 framing 中的 0/0x80 no-op，只要后续指令
+> 能填满帧；源流耗尽或段越界时显式失败。真实 callers 为 game tileset/dialog 资源、pal-extract 资产导出和 reforge
+> 资产加载；本批没有改变合法帧结果或资源格式。
+>
+> Q1b 复核了 editor PAL project-reference census：`379304503` 将历史总数更新为 22,666，随后
+> `66676dc9f` 增加 `projects/pal` 场景状态字段后，当前 collector 的直接结果变为 22,663；同一漂移同步影响
+> blockers、behavior-reference edges、compact rows/target edges（4,353 / 4,448 / 25,196 / 28,092）。本批只更新
+> 过期测试 oracle，不改 collector、项目内容或 UI。Q1/Q1b 的完整 check、官方 ratchet 和 protected fast 已通过；
+> 这只关闭首批问题，不关闭 Q2–Q6，也不代表全仓逐文件治理完成。
+>
+> Q2 的 MKF/RNG 子批已完成：真实 raw 的 2,373 个 chunks 与 1,464 个 RNG frames 通过新边界检查，完整 check、
+> official ratchet、protected fast 和 lint 全绿。剩余 YJ2、resources、tables 仍保持待核，下一批从 Q3 phase1
+> extract/game 开始。
+>
+> 验证完成前本节不标“已验证”；完整质量门与全仓逐文件治理仍未完成。

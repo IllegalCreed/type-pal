@@ -499,3 +499,19 @@ Branch: codex/docs-full-template-proposal
 - 根实际全check:docs68工具0fail0skip、1223MD/7247links/361tasks、120正文合同、testing0、phase184、review640全部通过；lint4087文件零error/warning/info，diff0。签收维护后再同门实测；仅本文档范围通过，qualityledger库存3283/3290漂移仍open、等待G真实修复，不标统一质量门或全量done。
 - 当前116/1838基线+4增量已接收，1956候选中1836pending，520governed-legacy无保留豁免；新增控制JSON/快照与产物仍计后继治理，main仍f98d0ddd未改，目标active。F候选原branch77保留，H13设计/4338源manifest和10旧+3新中央前提已由根实际复核相同。待本签收稳定提交后把明确SHA发history_cards_a开H隔离branch；tail在并行独立全文预审H，未对尚无候选预签accept。
 - G范围窄补：3共享源实际独立接受后，可将已接收Q3k新增历史说明中“ledger摘要仍待根治理”的当前时态改为已纠正live摘要并保原错句snapshot，限新增层相关段落与after/current review/matrix同步、原quote不动、0新增迁移信用。其它历史guarded计数/缺raw不因此闭合。G正文尚未写；后继仍需真实machine consumer/逐行状态与source/after/原snapshot保真检查，不能只用内存pilot过门。
+
+
+### 2026-10-16 包G三正文接受与中央候选
+
+- receipt_review全文605源、三新实质层与候选回执、358机器consumer/inventory及197探针/config源码，逐篇accept无内容counter；原605行完整逆回读、19旧GFM标题/16outgoing/0external、真实ledger3290/229/5/3056/3061和docs1223/7273/361、diff均零问题。原两项库存FAIL和普通quote反例保留，不假称从未失败；五临时证据引用真实全missing，不运行producer或重验raw。三精确bodySHA及45cf候选DJSON受审SHA另存G集成，后续根维护不冒用旧字节签名。
+- 原237表tuple保持，236旧整行不变，仅Q3k evidence误述纠为3passed1failed并保旧273行snapshot；原234消费/末3pending归并与新7pending构成唯一244行live表，不增closed229/review5。inventory真实filter、九月reorder与十月Workbench、YJ2末旧残句及t/u215未知均有具体正文，不借模板简化历史。
+- 根新增gov/ledger2中央记录、迁移旧coverage1并保完整旧current：registry642/model123，coverage唯一afterSHA漂移随真实接收写回清零，不豁免；实际progress119/1838基线+4增量，1956候选/1833pending，519governed-legacy无保留豁免。G原作者候选snapshot原样保留，接受与后继gate另列。
+- Q3k只四个新增历史/当前来源段落同步为live摘要已纠、原误述snapshot/raw缺口保留，原quote/身份/日期不动，0新迁移信用；current core/oracle/beforeAfter/successor/unresolved/nextStep/provenance与afterSHA全部同步，原完整current flatten prior。矩阵31→32，新增1记录完整性边界、修2来源关系，其余29对象不变；MD current review也同步真实计数/读域。中央及窄delta正由receipt_review独立复核，未先签其integration accept。
+- 当前D/F回执中原库存失败保留原exit1/declared/actual并追加G已修current resolution；只闭合7库存漂移，不声称全仓代码语义完成。原“open等待G”不能作为当前状态继续误导，根仅同步这两个行政resolution块、不改F12正文/记录条目。H14文件作者候选在独立树准备，原环境WARN经offline frozen安装已清，strict10旧SHA漂移如实待根接入，不授H计数。main未写，goal active。
+
+
+### 2026-10-16 包G最终独立接收
+
+- receipt_review对三正文和根2新+1旧中央/四段Q3k窄同步/32矩阵/两行政resolution逐项最终accept。G1反例“234产品”实际129product+92test+13tool已改234条原记录，两个history.before移除新增空history后精确等于22ee旧row，counter独立闭合；原错误与修正留G集成，不以新history掩盖current错误。其它29row、旧ops05其它entry、D其它11entry/F全部条目不变，candidate可精确重建已签45cf旧快照。
+- 独立实际strict642/model123/ledger3290-229-5-3056-3061/docs1223-7273-361/progress完整性0/diff0；根全check:docs68工具0fail0skip、testing0/phase184/review642，lint4087文件零error/warning/info。受审维护SHA写G集成，后续根签收维护独立复跑，不说新record字节等于原签。只关闭库存/记录与共享摘要错误，不授234条记录重审、runtime或全量质量完成。
+- 当前119/1838基线+4增量已迁移，1956候选/1833pending、519governed-legacy无保留豁免；main未写，goal active。本G源三篇及Q3k0信用更正收本根隔离分支，H852a982作者14文件已冻结、非作者正全文验收；I14份testing历史lab材料仅只读预审，不实施/不计数。

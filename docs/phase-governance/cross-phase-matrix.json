@@ -567,17 +567,45 @@
         "docs/ops/audits/code-quality-governance.md",
         "docs/ops/audits/code-quality-file-ledger.md"
       ],
-      "relationship": "Q2b原shared131与129两数并存且轮次未知；Q3k卡/总纲明确4total/3passed/1failed而ledger182误述3fail。迁移并列来源并guarded，不择数补造执行解释；共享正文由后继完整治理。",
+      "relationship": "Q2b原131/129轮次仍unknown；Q3k卡/原总纲明确4total/3passed/1failed，旧ledger3fail误述现由G纠正live摘要且完整273行snapshot保留。只关闭文档误述，不补造旧反控执行。",
       "status": "guarded",
       "evidence": [
         "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1",
-        "docs/ops/audits/code-quality-file-ledger.md:182"
+        "docs/ops/audits/code-quality-file-ledger.md#证据与下一步",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md:1"
       ],
       "unresolved": [
-        "131/129轮次差异未解释；ledger摘要冲突尚未在本批越界重写。原wave反控raw/JSON缺失，不补造新回读。"
+        "Q2b131/129差异未解释；原wave反控raw/JSON缺失和未知动态/视觉未由live摘要纠错闭合。"
       ],
-      "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。"
+      "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "quality-history-count-conflicts-vs-current-acceptance",
+            "from": [
+              "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md"
+            ],
+            "to": [
+              "docs/ops/audits/code-quality-governance.md",
+              "docs/ops/audits/code-quality-file-ledger.md"
+            ],
+            "relationship": "Q2b原shared131与129两数并存且轮次未知；Q3k卡/总纲明确4total/3passed/1failed而ledger182误述3fail。迁移并列来源并guarded，不择数补造执行解释；共享正文由后继完整治理。",
+            "status": "guarded",
+            "evidence": [
+              "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1",
+              "docs/ops/audits/code-quality-file-ledger.md:182"
+            ],
+            "unresolved": [
+              "131/129轮次差异未解释；ledger摘要冲突尚未在本批越界重写。原wave反控raw/JSON缺失，不补造新回读。"
+            ],
+            "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。"
+          },
+          "reason": "G liveledger summary corrected; original snapshot retained, no replay"
+        }
+      ]
     },
     {
       "id": "coverage-determinism-history-vs-runner-assumption",
@@ -592,14 +620,45 @@
         "docs/ops/audits/code-quality-governance.md",
         "docs/ops/audits/code-quality-file-ledger.md"
       ],
-      "relationship": "同census292/identity的editor单branch缺口由具体Workbench回归闭合，原worker/runner猜测收窄；24165→24166原全门、266fast/417full与4682probe分属不同分母。提取器单包绿灯不替代全仓门。",
+      "relationship": "十月同census292/identity的Workbench174单branch回归收窄旧runner猜测，24165→24166/266fast/417full/4682probe不同分母；九月2ac4a9de的reorder23→24及hold/flush另属独立事件，不能合并或把探针当正式gate。",
       "status": "guarded",
       "evidence": [
         "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
-        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1"
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1",
+        "docs/ops/audits/pre-e2e/coverage-determinism.md:1"
       ],
       "unresolved": ["未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"],
-      "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。"
+      "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "coverage-determinism-history-vs-runner-assumption",
+            "from": [
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md"
+            ],
+            "to": [
+              "docs/ops/audits/pre-e2e/coverage-determinism.md",
+              "docs/testing/governance.md",
+              "docs/ops/audits/code-quality-governance.md",
+              "docs/ops/audits/code-quality-file-ledger.md"
+            ],
+            "relationship": "同census292/identity的editor单branch缺口由具体Workbench回归闭合，原worker/runner猜测收窄；24165→24166原全门、266fast/417full与4682probe分属不同分母。提取器单包绿灯不替代全仓门。",
+            "status": "guarded",
+            "evidence": [
+              "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1"
+            ],
+            "unresolved": [
+              "未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"
+            ],
+            "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。"
+          },
+          "reason": "G full September source review distinguishes two historical events"
+        }
+      ]
     },
     {
       "id": "catalog-own-labels-vs-inherited-properties",
@@ -665,6 +724,26 @@
         "四测试619只数行，不授新测试语义信用；旧统计/执行先后未有raw解释；w复用同轮全门不是再跑一次。"
       ],
       "stopLine": "不重复关闭或造执行时序，不把74+1特定超时推广所有屏，不把宿主审计扩成全部actions/save/视觉通过。"
+    },
+    {
+      "id": "quality-ledger-integrity-vs-code-semantic-acceptance",
+      "from": [
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/code-quality-governance.md"
+      ],
+      "to": [
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "唯一live汇总/连续表与真实tracked集合对账；原234消费+3尾pending归并、7新增仅pending，原closed229/review5不变；完整旧稿fenced避免重复机器输入，机器PASS不等源码语义或旧测试质量。",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "scripts/quality/code-quality-ledger.mjs:42",
+        "scripts/quality/code-quality-inventory.mjs:131"
+      ],
+      "stopLine": "只关闭本次记录结构/库存漂移，不自动改已验证、不授234条原记录的语义复审或全仓完成、runtime/coverage信用。"
     }
   ],
   "acceptance": {

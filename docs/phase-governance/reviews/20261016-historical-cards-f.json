@@ -180,10 +180,23 @@
     ],
     "additionalQualityLedgerFailure": {
       "command": "node scripts/quality/code-quality-ledger.mjs",
-      "status": "open inherited root preflight, documented at D; F does not change inventory code scope",
+      "status": "resolved by G live ledger inventory input correction; original exit1 and declared/actual preserved",
       "declared": [3283, 229, 5, 3049, 3054],
       "actual": [3290, 229, 5, 3056, 3061],
-      "noWaiver": true
+      "noWaiver": true,
+      "originalRecordedFailure": {
+        "command": "node scripts/quality/code-quality-ledger.mjs",
+        "status": "open inherited root preflight, documented at D; F does not change inventory code scope",
+        "declared": [3283, 229, 5, 3049, 3054],
+        "actual": [3290, 229, 5, 3056, 3061],
+        "noWaiver": true
+      },
+      "resolution": {
+        "date": "2026-10-16",
+        "source": "docs/phase-governance/reviews/20261016-historical-cards-d.json.sharedQualityIntegration",
+        "actualConsumer": "node scripts/quality/code-quality-ledger.mjs PASS3290/229/5/3056/3061",
+        "scope": "Seven new pending records and explicit trailing3pending; closed229/review5 unchanged. Only record/count drift closed, no code semantic or runtime credit."
+      }
     }
   },
   "entries": [

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-16",
-  "scope": "Twelve historical quality task cards, new central intake after independent semantic accept; no product execution",
+  "scope": "Twelve D historical quality cards plus three fully read quality shared sources; independently reviewed semantic migrations and scoped current-source correction, no product execution or full-goal completion.",
   "integration": {
     "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
     "authorCandidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
@@ -147,8 +147,22 @@
       "exitCode": 1,
       "declared": [3283, 229, 5, 3049, 3054],
       "actual": [3290, 229, 5, 3056, 3061],
-      "status": "open for G shared-source migration; no waiver",
-      "meaning": "Seven added docs tools/tests pending; no increase to code semantic review or229closed."
+      "status": "resolved by G live ledger inventory input correction; original exit1 and declared/actual preserved",
+      "meaning": "Seven added docs tools/tests pending; no increase to code semantic review or229closed.",
+      "originalRecordedFailure": {
+        "command": "node scripts/quality/code-quality-ledger.mjs",
+        "exitCode": 1,
+        "declared": [3283, 229, 5, 3049, 3054],
+        "actual": [3290, 229, 5, 3056, 3061],
+        "status": "open for G shared-source migration; no waiver",
+        "meaning": "Seven added docs tools/tests pending; no increase to code semantic review or229closed."
+      },
+      "resolution": {
+        "date": "2026-10-16",
+        "source": "docs/phase-governance/reviews/20261016-historical-cards-d.json.sharedQualityIntegration",
+        "actualConsumer": "node scripts/quality/code-quality-ledger.mjs PASS3290/229/5/3056/3061",
+        "scope": "Seven new pending records and explicit trailing3pending; closed229/review5 unchanged. Only record/count drift closed, no code semantic or runtime credit."
+      }
     }
   },
   "entries": [
@@ -2378,8 +2392,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
-      "coreConclusion": "保存2026-10-05六个present primitive治理：只有screen-wave负progression跨零未关断有直接raw/WORD证据，以<=0关断；其余framebuffer/shake/dither/number/follower公式与边界保留。不能把基础helper关闭扩大为battle/menu/全仓完成。",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration. G root four new-layer current-scope paragraphs updated after shared-source full accept; original quote unchanged, non-author delta independently accepted.",
+      "coreConclusion": "保存2026-10-05六个present primitive治理：只有screen-wave负progression跨零未关断有直接raw/WORD证据，以<=0关断；其余framebuffer/shake/dither/number/follower公式与边界保留。不能把基础helper关闭扩大为battle/menu/全仓完成。 G只纠正共享live摘要，完整原误述保留，原raw/动态缺口未闭合。",
       "documentStatus": "historical; original done",
       "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
       "originalIdentity": {
@@ -2402,6 +2416,15 @@
           "candidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
           "result": "accept documentation semantic migration only",
           "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Gshared-source-accepted-current-scope-writeback",
+          "scope": "Only four new-layer paragraphs/current record; original quote byte-identical; non-author integration review pending."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "receipt_review accepted G four-paragraph/current-field delta; exact quote and original metadata unchanged;0newmigrationcredit."
         }
       ],
       "primarySource": [
@@ -2419,6 +2442,11 @@
           "anchor": "docs/ops/audits/code-quality-file-ledger.md:171–189",
           "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
           "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-file-ledger.md",
+          "role": "Gaccepted live summary and full original273-line fenced snapshot",
+          "sha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d"
         }
       ],
       "truthAnchors": [
@@ -2467,7 +2495,8 @@
         "assertions": [
           "真实负progression跨零应关断，旧===0 mutant唯一业务断言失败；其余公式/坐标不臆改，不以静态断言代视觉。",
           "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
-          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected.",
+          "Shared live ledger3fail误述按原卡/总纲明确3passed1failed纠正；原snapshot/quote不动，0新迁移计数或runtime信用。"
         ]
       },
       "dedupe": {
@@ -2488,21 +2517,20 @@
         "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
       },
       "counterReworkBlocked": [
-        "ledger182“3 fail”与卡48/60、总纲110“3 passed/1 failed”相反：guarded，根后继治理共享源。",
-        "未知视觉坐标保留；两个mutant raw/JSON不存在，不声称重验；旧build prompt失效。"
+        "旧ledger182摘要错误已由G纠正live且原稿保留；只关闭文档误述，不补原反控raw。",
+        "未知视觉/其它五primitive当前代码与测试质量仍未重新验，旧build不恢复。"
       ],
       "unresolved": [
-        "ledger182“3 fail”与卡48/60、总纲110“3 passed/1 failed”相反：guarded，根后继治理共享源。",
-        "未知视觉坐标保留；两个mutant raw/JSON不存在，不声称重验；旧build prompt失效。"
+        "两个原mutant raw/JSON在D复核时缺失，未重新回读；未知视觉坐标与其它五primitive当前质量未核。"
       ],
       "sourceSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "8bd9f00f0273177f370a687e5d480e839e00a228",
       "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
-      "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+      "afterSha256": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
-        "implementationSha": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+        "implementationSha": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
         "history": [
           {
             "date": "2026-10-16",
@@ -2518,7 +2546,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
         "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
-        "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+        "afterSha256": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
         "lineCount": 171,
         "exactOriginalBytes": 5978,
         "originalPreservation": {
@@ -2541,6 +2569,14 @@
           "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
           "originalHistory": "10-05、基点c1bce8b42；原146已闭合/5 review/2813待核属于当时清单。总纲108–111“门尚待收口”由113–115后继全门记录更新；两时点都保留，不把旧等待视作新阻塞或抹去。",
           "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Gshared-live-summary correction and scoped authority writeback",
+          "previousAfterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+          "afterSha256": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
+          "originalQuoteUnchanged": true,
+          "newMigrationCredit": 0
         }
       ],
       "supersedes": [
@@ -2549,13 +2585,13 @@
           "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
         }
       ],
-      "successor": "[总纲](../../../audits/code-quality-governance.md)117起另记后续battle-present，只作历史导航、不授本包阅读信用；新任务按[现行工作流](../../../agent-workflow.md)准入。共享ledger纠错由根维护，无可执行旧提示词。",
-      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
-      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "successor": "[总纲](../../../audits/code-quality-governance.md)固定bb904原稿117起另记battle-present，只作历史导航；当前路线/ledger已分别模板化并纠正摘要，不授本卡额外产品阅读信用。新任务按[现行工作流](../../../agent-workflow.md)准入，无可执行旧提示词。",
+      "stopLine": "共享文档摘要纠正不等旧反控重跑，不执行旧prompt、不改产品/旧tests/coverage，不扩大原wave或六helper当前质量信用。",
+      "nextStep": "本卡与三共享来源文档及窄delta已独立接收；继续全量治理。原raw/视觉等缺口只由有真实输入/场次的新任务验证，不重新关闭已修文档摘要。",
       "userVisibleBeforeAfter": {
-        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
-        "after": "historical；共享计数冲突guarded。采用卡面与总纲明确记录的3 passed/1 failed，并并列说明ledger误述，未把文档一致当第二次执行。未知视觉坐标、其它五primitive当前代码/测试质量未在本轮重新全文核；不从wave源码读完推广全present已审。",
-        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+        "before": "Shared live ledger3fail误述尚待治理，原卡/总纲已有3passed1failed。",
+        "after": "historical。共享live摘要误述已在G纠正，原错误和来源仍可回读；raw缺失与未知视觉坐标继续guarded。采用卡/原总纲明确3passed/1failed，不把两文档一致当第二次运行；其它五primitive当前代码/测试质量未重新全文核，不从wave源码读完推广全present已审。",
+        "semanticChange": "Only current document authority/summary correction; exact original quote and product decisions unchanged."
       },
       "reviewedLines": "1-171",
       "phase": "ops",
@@ -2573,7 +2609,1489 @@
         ],
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "priorReadings": [
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "task-card",
+          "templateId": "task-card-v1",
+          "templateVersion": "1.0.0",
+          "template": "docs/phase-governance/templates/task-card.md",
+          "historyOverlay": true,
+          "templateCompliance": "template-compliant",
+          "reviewDepth": "deep-semantic",
+          "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+          "coreConclusion": "保存2026-10-05六个present primitive治理：只有screen-wave负progression跨零未关断有直接raw/WORD证据，以<=0关断；其余framebuffer/shake/dither/number/follower公式与边界保留。不能把基础helper关闭扩大为battle/menu/全仓完成。",
+          "documentStatus": "historical; original done",
+          "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+          "originalIdentity": {
+            "owner": "not present; preserve original Coding Owner field",
+            "codingOwner": "Codex",
+            "reviewer": "Codex（独立验收）"
+          },
+          "provenance": [
+            {
+              "governanceOwner": "Codex / contributor history_cards_a",
+              "role": "author candidate; not independent acceptance",
+              "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+              "preflightGitBlob": "8bd9f00f0273177f370a687e5d480e839e00a228",
+              "sourceBlobEqualityVerified": true,
+              "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+              "generationOwner": "N/A"
+            },
+            {
+              "nonAuthorReviewer": "history_cards_c_tail",
+              "candidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
+              "result": "accept documentation semantic migration only",
+              "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+            }
+          ],
+          "primarySource": [
+            {
+              "anchor": "packages/game/src/present/screen-wave.ts:1–73",
+              "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+              "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+            },
+            {
+              "anchor": "docs/ops/audits/code-quality-governance.md:108–118",
+              "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+              "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+            },
+            {
+              "anchor": "docs/ops/audits/code-quality-file-ledger.md:171–189",
+              "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+              "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+            }
+          ],
+          "truthAnchors": [
+            "packages/game/src/present/screen-wave.ts:1–73",
+            "docs/ops/audits/code-quality-governance.md:108–118",
+            "docs/ops/audits/code-quality-file-ledger.md:171–189"
+          ],
+          "phaseAnchors": [
+            {
+              "phase": "phase1 game",
+              "boundary": "原framebuffer、screen-shake、screen-wave、dither-fade、draw-number、follower-pos及对应测试；不改battle present/dialog/menu、剧情E2E、坐标重判、save/schema或runner。非法边界概括不能删除framebuffer等既有合法宽容合同。",
+              "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+            }
+          ],
+          "dependencies": [
+            "packages/game/src/present/screen-wave.ts:1–73",
+            "docs/ops/audits/code-quality-governance.md:108–118",
+            "docs/ops/audits/code-quality-file-ledger.md:171–189",
+            "docs/ops/agent-workflow.md"
+          ],
+          "applicability": "10-05、基点c1bce8b42；原146已闭合/5 review/2813待核属于当时清单。总纲108–111“门尚待收口”由113–115后继全门记录更新；两时点都保留，不把旧等待视作新阻塞或抹去。",
+          "publicEntry": {
+            "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+            "stablePath": true,
+            "originalHeadings": [
+              "CODE-QUALITY-3k - game present 基础 primitive 逐文件治理",
+              "目标与范围",
+              "前提真值门",
+              "上下文锚点",
+              "验证",
+              "当前模式推进记录",
+              "交接日志",
+              "反控证据",
+              "下一位 Agent 提示词"
+            ],
+            "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+          },
+          "publicCallers": [
+            "present真实wave/framebuffer/actor/fade/number/follower调用按原卡引用；本轮仅wave生产全文，非六文件全部。"
+          ],
+          "legalInputs": [
+            "合法320×200索引framebuffer、typed wave状态与advance=false补帧；保留opaque mask、相位及各helper既有合法宽容，不能扩为所有边界必须抛错。"
+          ],
+          "businessOracle": {
+            "type": "historical-quality-contract-and-source-scope-preserved",
+            "assertions": [
+              "真实负progression跨零应关断，旧===0 mutant唯一业务断言失败；其余公式/坐标不臆改，不以静态断言代视觉。",
+              "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+              "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed-document-migration-only",
+            "against": [
+              "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md"
+            ],
+            "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+          },
+          "counterReworkBlocked": [
+            "ledger182“3 fail”与卡48/60、总纲110“3 passed/1 failed”相反：guarded，根后继治理共享源。",
+            "未知视觉坐标保留；两个mutant raw/JSON不存在，不声称重验；旧build prompt失效。"
+          ],
+          "unresolved": [
+            "ledger182“3 fail”与卡48/60、总纲110“3 passed/1 failed”相反：guarded，根后继治理共享源。",
+            "未知视觉坐标保留；两个mutant raw/JSON不存在，不声称重验；旧build prompt失效。"
+          ],
+          "sourceSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+          "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "sourceGitObject": "8bd9f00f0273177f370a687e5d480e839e00a228",
+          "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
+          "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+          "revision": {
+            "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+            "implementationSha": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "full-semantic-task-and-history-migration",
+                "authorCandidate": "fcd4098ddd377a1c2ccc1e48f97dcb4df6e9c143",
+                "independentReviewer": "history_cards_c_tail",
+                "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "independent-semantic-review-and-strict-byte-integration",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "sourceSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+            "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
+            "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+            "lineCount": 171,
+            "exactOriginalBytes": 5978,
+            "originalPreservation": {
+              "startMarker": "<!-- original-source-quote:start -->",
+              "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+              "sourceBytes": 5978,
+              "sourceLines": 74,
+              "sourceFinalNewline": true,
+              "inverseSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+              "exactRoundTrip": true,
+              "originalLinkDestinationsChanged": false,
+              "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+            }
+          },
+          "history": [
+            {
+              "date": "2026-10-16",
+              "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+              "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
+              "afterSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+              "originalHistory": "10-05、基点c1bce8b42；原146已闭合/5 review/2813待核属于当时清单。总纲108–111“门尚待收口”由113–115后继全门记录更新；两时点都保留，不把旧等待视作新阻塞或抹去。",
+              "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+            }
+          ],
+          "supersedes": [
+            {
+              "scope": "document organization only; no replacement of historical product conclusion",
+              "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+            }
+          ],
+          "successor": "[总纲](../../../audits/code-quality-governance.md)117起另记后续battle-present，只作历史导航、不授本包阅读信用；新任务按[现行工作流](../../../agent-workflow.md)准入。共享ledger纠错由根维护，无可执行旧提示词。",
+          "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+          "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+          "userVisibleBeforeAfter": {
+            "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+            "after": "historical；共享计数冲突guarded。采用卡面与总纲明确记录的3 passed/1 failed，并并列说明ledger误述，未把文档一致当第二次执行。未知视觉坐标、其它五primitive当前代码/测试质量未在本轮重新全文核；不从wave源码读完推广全present已审。",
+            "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+          },
+          "reviewedLines": "1-171",
+          "phase": "ops",
+          "module": "historical-quality-contracts",
+          "templateConformity": {
+            "result": "template-compliant",
+            "version": "1.0.0",
+            "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+            "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+            "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+          },
+          "producerReferences": {
+            "references": [
+              "原screen-wave mutant/restored vitest与/tmp/type-pal-q3k-counter输出只引用、对应mutant raw/JSON不存在；原03cc513df推送只引用"
+            ],
+            "executedThisMigration": false,
+            "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+          }
+        }
+      ],
+      "dependencyReadingScope": "Old line references into shared docs are fixed bb904 original paragraphs, preserved in full G snapshots; current source links follow G typed sections."
+    },
+    {
+      "path": "docs/ops/audits/code-quality-governance.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root full605 original/new source bodies, full142ledger+216inventory+197probe/config source; receipt_review full605original/all3new bodies and declared actual independent evidence. No production/old-test/full-code credit.",
+      "coreConclusion": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+      "documentStatus": "active",
+      "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+      "provenance": [
+        {
+          "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
+          "sourceLines": 234,
+          "method": "full original/new prose manual semantic rewrite; exact original bytes preserved"
+        },
+        {
+          "reviewer": "receipt_review",
+          "result": "independent accept exact3bodySHA",
+          "candidateRecordSha256": "45cf623c38e488ca6126dc64712c0883e0ca2f75a1f2557115ad8f9be8d4fdec",
+          "scope": "Full605 source and all3new substantive bodies/receipt, full197probe/config and358ledger/inventory sources; exact original inverse,237old tuples/236old whole rows/oneQ3k evidence correction,7newpending and244live rows;19oldheadings16outgoing0external; five literal oldtmp references actually absent. No producer/oldtests/coverage/runtime execution.",
+          "subsequentRootMaintenance": "Central/current-scope writeback separately reviewed; do not reuse candidate record SHA for new bytes."
+        }
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/code-quality-governance.md",
+          "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "lines": "1-234",
+          "reading": "Full fixed original/new semantic review by root and receipt_review; body independently accepted, no product execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+          "reading": "full root source; no execution claim"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:1",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs"
+      ],
+      "phaseAnchors": [
+        "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs"
+      ],
+      "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+      "publicEntry": "docs/ops/audits/code-quality-governance.md",
+      "publicCallers": [
+        "docs/ops/audits/README.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "Tracked packages/scripts指定代码扩展及JSON；静态map/caller仅入口，P0–P3需直接反例，合法宽容合同按各原卡。"
+      ],
+      "businessOracle": {
+        "type": "source-specific-quality-governance-and-machine-consumer-preservation",
+        "assertions": [
+          "Current路线只引用唯一ledger汇总；原全部路线/地图/批次/失败/限制保留，旧done不关闭未核全仓。",
+          "Complete original UTF8/source bytes inverse exactly, all original identities/dates/failures/statuses/commands recover.",
+          "Docs/record structure grants no runtime/E2E/visual/coverage or current old-test-quality credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "scripts/quality/code-quality-ledger.mjs",
+          "scripts/quality/code-quality-inventory.mjs"
+        ],
+        "notes": "不重领13架构批或TEST/E2E；u/w重复记录不再关闭；旧多轮总数不相加。"
+      },
+      "counterReworkBlocked": {
+        "migration": "body and root central integration independently accepted; no remaining migrationcounter",
+        "historicalLimits": [
+          "原Q2b131/129与Q3t/u同215统计时点仍unknown，保留来源，不造执行先后。",
+          "原产品/旧测试/全仓语义质量未在此文档迁移重验；未来批次仍另准入。"
+        ]
+      },
+      "unresolved": [
+        "原Q2b131/129与Q3t/u同215统计时点仍unknown，保留来源，不造执行先后。",
+        "原产品/旧测试/全仓语义质量未在此文档迁移重验；未来批次仍另准入。"
+      ],
+      "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
+      "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+      "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
+      "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+      "revision": {
+        "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "implementationSha": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-template-history-and-record-consumer-migration",
+            "reviewer": "receipt_review",
+            "notRun": [
+              "product source execution",
+              "old tests",
+              "coverage/probes/mutants",
+              "runtime/E2E/browser/visual",
+              "main merge/push"
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-full-source-and-real-record-consumer-review",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+        "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
+        "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+        "lineCount": 350,
+        "originalPreservation": {
+          "originalPreserved": true,
+          "method": "Full original each line prefixed > space or >; no body after quote; byte-exact inverse.",
+          "startMarker": "<!-- original-source-quote:start -->\n\n",
+          "endMarker": "",
+          "sourceBytes": 22187,
+          "inverseSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "full-content migration accepted after actual source/candidate review",
+          "beforeAfter": {
+            "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+            "after": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+            "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+          },
+          "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "originalDatesRemain": "fixed source complete snapshot",
+          "notRun": [
+            "product source execution",
+            "old tests",
+            "coverage/probes/mutants",
+            "runtime/E2E/browser/visual",
+            "main merge/push"
+          ]
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization/current-authority ambiguity only",
+          "note": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable."
+        }
+      ],
+      "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+      "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+      "nextStep": "本篇文档迁移已独立接受；继续全docs及真实质量专项逐文件治理，现行机器完整性只核记录，不为旧runtime/coverage/测试质量补签。",
+      "userVisibleBeforeAfter": {
+        "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+        "after": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+        "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+      },
+      "reviewedLines": "1-350",
+      "phase": "ops",
+      "module": "quality-governance-and-historical-causality",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": "archive-record-v1/1.0.0",
+        "method": "Specific five typed+five history sections, non-author full semantic review, actual template/GFM/inverse/ledger consumers; no generic wrapper-only pass."
       }
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root full605 original/new source bodies, full142ledger+216inventory+197probe/config source; receipt_review full605original/all3new bodies and declared actual independent evidence. No production/old-test/full-code credit.",
+      "coreConclusion": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+      "documentStatus": "current",
+      "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+      "provenance": [
+        {
+          "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+          "sourceLines": 273,
+          "method": "full original/new prose manual semantic rewrite; exact original bytes preserved"
+        },
+        {
+          "reviewer": "receipt_review",
+          "result": "independent accept exact3bodySHA",
+          "candidateRecordSha256": "45cf623c38e488ca6126dc64712c0883e0ca2f75a1f2557115ad8f9be8d4fdec",
+          "scope": "Full605 source and all3new substantive bodies/receipt, full197probe/config and358ledger/inventory sources; exact original inverse,237old tuples/236old whole rows/oneQ3k evidence correction,7newpending and244live rows;19oldheadings16outgoing0external; five literal oldtmp references actually absent. No producer/oldtests/coverage/runtime execution.",
+          "subsequentRootMaintenance": "Central/current-scope writeback separately reviewed; do not reuse candidate record SHA for new bytes."
+        }
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/code-quality-file-ledger.md",
+          "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "lines": "1-273",
+          "reading": "Full fixed original/new semantic review by root and receipt_review; body independently accepted, no product execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+          "reading": "full root source; no execution claim"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-file-ledger.md:1",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs"
+      ],
+      "phaseAnchors": [
+        "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs"
+      ],
+      "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+      "publicEntry": "docs/ops/audits/code-quality-file-ledger.md",
+      "publicCallers": [
+        "docs/ops/audits/README.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "scripts/quality/code-quality-ledger.mjs",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "真实inventory路径集合；唯一live汇总及连续5列表、允许类别与中文状态；未显式行缺省pending。"
+      ],
+      "businessOracle": {
+        "type": "source-specific-quality-governance-and-machine-consumer-preservation",
+        "assertions": [
+          "真实auditCodeQualityLedger零问题且229closed/5review不变；旧234消费记录状态相等，另三旧pending+七新增pending明示，fenced源不重复计数。",
+          "Complete original UTF8/source bytes inverse exactly, all original identities/dates/failures/statuses/commands recover.",
+          "Docs/record structure grants no runtime/E2E/visual/coverage or current old-test-quality credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "scripts/quality/code-quality-ledger.mjs",
+          "scripts/quality/code-quality-inventory.mjs"
+        ],
+        "notes": "只有唯一live表/汇总；旧原文fenced不被parser读；已读/已验证身份不按本次文档或inventory默认状态重置。"
+      },
+      "counterReworkBlocked": {
+        "migration": "body and root central integration independently accepted; no remaining migrationcounter",
+        "historicalLimits": [
+          "CODE-QUALITY仍大量待核，229closed/5review仅原登记状态；record integrity不等源码语义accept。",
+          "缺失旧raw不补造，Q3k仅历史摘要纠错，没有新反控执行。"
+        ]
+      },
+      "unresolved": [
+        "CODE-QUALITY仍大量待核，229closed/5review仅原登记状态；record integrity不等源码语义accept。",
+        "缺失旧raw不补造，Q3k仅历史摘要纠错，没有新反控执行。"
+      ],
+      "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+      "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+      "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+      "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+      "revision": {
+        "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "implementationSha": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-template-history-and-record-consumer-migration",
+            "reviewer": "receipt_review",
+            "notRun": [
+              "product source execution",
+              "old tests",
+              "coverage/probes/mutants",
+              "runtime/E2E/browser/visual",
+              "main merge/push"
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-full-source-and-real-record-consumer-review",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+        "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+        "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+        "lineCount": 582,
+        "originalPreservation": {
+          "originalPreserved": true,
+          "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
+          "startMarker": "<!-- original-source-fenced:start -->\n~~~~text\n",
+          "endMarker": "~~~~\n<!-- original-source-fenced:end -->\n",
+          "sourceBytes": 51844,
+          "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "full-content migration accepted after actual source/candidate review",
+          "beforeAfter": {
+            "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+            "after": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+            "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+          },
+          "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+          "originalDatesRemain": "fixed source complete snapshot",
+          "notRun": [
+            "product source execution",
+            "old tests",
+            "coverage/probes/mutants",
+            "runtime/E2E/browser/visual",
+            "main merge/push"
+          ]
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization/current-authority ambiguity only",
+          "note": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable."
+        }
+      ],
+      "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+      "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+      "nextStep": "本篇文档迁移已独立接受；继续全docs及真实质量专项逐文件治理，现行机器完整性只核记录，不为旧runtime/coverage/测试质量补签。",
+      "userVisibleBeforeAfter": {
+        "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+        "after": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+        "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+      },
+      "reviewedLines": "1-582",
+      "phase": "ops",
+      "module": "quality-governance-and-historical-causality",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": "archive-record-v1/1.0.0",
+        "method": "Specific five typed+five history sections, non-author full semantic review, actual template/GFM/inverse/ledger consumers; no generic wrapper-only pass."
+      }
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root full605 original/new source bodies, full142ledger+216inventory+197probe/config source; receipt_review full605original/all3new bodies and declared actual independent evidence. No production/old-test/full-code credit.",
+      "coreConclusion": "九月reorder合法无容器帧因果与23→24补测/反控分时，hold/flush与正式gate分开，旧raw缺失不补造；十月Workbench是另一事件。",
+      "documentStatus": "historical",
+      "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+      "provenance": [
+        {
+          "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "sourceGitObject": "c97b397f4ba9d22ea772cfc73c0779e47a744251",
+          "sourceLines": 98,
+          "method": "full original/new prose manual semantic rewrite; exact original bytes preserved"
+        },
+        {
+          "reviewer": "receipt_review",
+          "result": "independent accept exact3bodySHA",
+          "candidateRecordSha256": "45cf623c38e488ca6126dc64712c0883e0ca2f75a1f2557115ad8f9be8d4fdec",
+          "scope": "Full605 source and all3new substantive bodies/receipt, full197probe/config and358ledger/inventory sources; exact original inverse,237old tuples/236old whole rows/oneQ3k evidence correction,7newpending and244live rows;19oldheadings16outgoing0external; five literal oldtmp references actually absent. No producer/oldtests/coverage/runtime execution.",
+          "subsequentRootMaintenance": "Central/current-scope writeback separately reviewed; do not reuse candidate record SHA for new bytes."
+        }
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+          "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+          "lines": "1-98",
+          "reading": "Full fixed original/new semantic review by root and receipt_review; body independently accepted, no product execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "reading": "full root source; no execution claim"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+          "reading": "full root source; no execution claim"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/coverage-determinism.md:1",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+      ],
+      "phaseAnchors": [
+        "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "dependencies": [
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+      ],
+      "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+      "publicEntry": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "publicCallers": [
+        "docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "原2ac4a9de及7c447c38、原环境/测试identity和无容器有效拖动；不把历史探针23项输入用于当前24项门。"
+      ],
+      "businessOracle": {
+        "type": "source-specific-quality-governance-and-machine-consumer-preservation",
+        "assertions": [
+          "同树调度仅返回statement/branch0→1，原受控回归与删guard独立负控保留；7叶值变更不改精确covered/total；未执行新的测试/coverage。",
+          "Complete original UTF8/source bytes inverse exactly, all original identities/dates/failures/statuses/commands recover.",
+          "Docs/record structure grants no runtime/E2E/visual/coverage or current old-test-quality credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-product-test-or-runtime-credit",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+        ],
+        "notes": "reorder九月与Workbench十月分开；六次绿非概率证明，probe --full仅editor fast，复用原指标不新增执行信用。"
+      },
+      "counterReworkBlocked": {
+        "migration": "body and root central integration independently accepted; no remaining migrationcounter",
+        "historicalLimits": [
+          "五个精确旧临时路径本轮实际均不存在；未重新回读raw或运行probe。",
+          "未追认其它早期失败/1/6统计；未执行full coverage、旧测试或浏览器，Sept与Oct调查分开。"
+        ]
+      },
+      "unresolved": [
+        "五个精确旧临时路径本轮实际均不存在；未重新回读raw或运行probe。",
+        "未追认其它早期失败/1/6统计；未执行full coverage、旧测试或浏览器，Sept与Oct调查分开。"
+      ],
+      "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+      "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+      "sourceGitObject": "c97b397f4ba9d22ea772cfc73c0779e47a744251",
+      "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+      "revision": {
+        "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "implementationSha": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-template-history-and-record-consumer-migration",
+            "reviewer": "receipt_review",
+            "notRun": [
+              "product source execution",
+              "old tests",
+              "coverage/probes/mutants",
+              "runtime/E2E/browser/visual",
+              "main merge/push"
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-full-source-and-real-record-consumer-review",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+        "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+        "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+        "lineCount": 187,
+        "originalPreservation": {
+          "originalPreserved": true,
+          "method": "Full original each line prefixed > space or >; no body after quote; byte-exact inverse.",
+          "startMarker": "<!-- original-source-quote:start -->\n\n",
+          "endMarker": "",
+          "sourceBytes": 7362,
+          "inverseSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "full-content migration accepted after actual source/candidate review",
+          "beforeAfter": {
+            "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+            "after": "九月reorder合法无容器帧因果与23→24补测/反控分时，hold/flush与正式gate分开，旧raw缺失不补造；十月Workbench是另一事件。",
+            "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+          },
+          "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+          "originalDatesRemain": "fixed source complete snapshot",
+          "notRun": [
+            "product source execution",
+            "old tests",
+            "coverage/probes/mutants",
+            "runtime/E2E/browser/visual",
+            "main merge/push"
+          ]
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "structured review organization only; old historical facts preserved",
+          "priorReview": "docs/phase-governance/reviews/20261004-structured-content-ops-05.json"
+        },
+        {
+          "scope": "document organization/current-authority ambiguity only",
+          "note": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable."
+        }
+      ],
+      "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+      "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+      "nextStep": "本篇文档迁移已独立接受；继续全docs及真实质量专项逐文件治理，现行机器完整性只核记录，不为旧runtime/coverage/测试质量补签。",
+      "userVisibleBeforeAfter": {
+        "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+        "after": "九月reorder合法无容器帧因果与23→24补测/反控分时，hold/flush与正式gate分开，旧raw缺失不补造；十月Workbench是另一事件。",
+        "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+      },
+      "reviewedLines": "1-187",
+      "phase": "ops",
+      "module": "quality-governance-and-historical-causality",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": "archive-record-v1/1.0.0",
+        "method": "Specific five typed+five history sections, non-author full semantic review, actual template/GFM/inverse/ledger consumers; no generic wrapper-only pass."
+      },
+      "priorReadings": [
+        {
+          "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+          "contentReviewStatus": "content-reviewed",
+          "docType": "audit-report",
+          "templateId": "audit-report-v1",
+          "template": "docs/phase-governance/templates/audit-report.md",
+          "templateCompliance": "governed-legacy",
+          "readMethod": "full-text-structured-review",
+          "reviewDepth": "structured-content",
+          "coreConclusion": "编辑器覆盖率确定性调查与修复回执：这是 audit-report，当前文档状态为 current。全文 99 行、9 个标题；摘要/首段为「日期：2026-09-06；Owner：Codex；产品/测试基线：`2ac4a9de`，取证前工作树干净。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "truthAnchors": [
+            "docs/ops/audits/pre-e2e/coverage-determinism.md:1",
+            "1:编辑器覆盖率确定性调查与修复回执",
+            "7:修复收口",
+            "22:结论与因果证据",
+            "38:取证方式",
+            "62:边界与替代解释"
+          ],
+          "unresolved": [
+            "正文信号 17:该卡未重跑 full coverage，纯测试维护无需浏览器验收；此次文档收口不重跑未变的重型检查。",
+            "正文信号 34:既有 `reorder.test.tsx:370` 的 mouse/touch/pen 用例未控制 RAF，pointermove 后立即 pointerup，",
+            "正文信号 59:未运行 ratchet，未修改任何基线、生产源码、正式测试、锁文件或全局配置。没有使用 stash/checkout。",
+            "正文信号 60:这是诊断调度干预的结果，**不是未经修改测试配置的正式 fast gate，也不是七包 full coverage**。",
+            "正文信号 68:- 未发现需要改变产品行为的证据。先补明确业务回归，不全局同步 RAF、不延长 sleep、不降低门槛。",
+            "正文信号 85:产品树有未提交变化时拒绝启动，不自动还原文件。每次保存 SHA/环境/源摘要、命令、测试 JSON、覆盖率 JSON 与差异。",
+            "正文信号 86:它断言的是修复前缺口，现已不再作为当前通过条件；属于历史审计证据，不作为正式回归或 CI 门禁，源码未改。"
+          ],
+          "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+          "phase": "ops",
+          "module": "audits",
+          "capability": "ops-audits-pre-e2e-coverage-determinism",
+          "owner": "Codex",
+          "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+          "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+          "afterSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+          "publicCallers": [
+            "docs/ops/audits/pre-e2e/coverage-determinism.md → ../../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md",
+            "docs/ops/audits/pre-e2e/coverage-determinism.md → ../../../phase2/specs/editor-design-system.md",
+            "docs/ops/audits/pre-e2e/coverage-determinism.md → tools/probe-editor-coverage-timing.config.mts"
+          ],
+          "legalInputs": [
+            "current repository documentation",
+            "docs/ops/audits/pre-e2e/coverage-determinism.md"
+          ],
+          "businessOracle": {
+            "type": "content-review",
+            "assertions": [
+              "full file bytes and text were read and hashed",
+              "title, sections, state signals and unresolved markers were recorded",
+              "structured review is not runtime/E2E/visual/coverage proof"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": [
+              "docs/ops/audits/pre-e2e/coverage-determinism.md",
+              "docs/phase-governance/templates/audit-report.md"
+            ],
+            "notes": "Type/template and content review are distinct from product verification."
+          },
+          "revision": {
+            "currentSha": "working-tree",
+            "implementationSha": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "working-tree",
+                "date": "2026-10-04",
+                "action": "full-text-structured-content-review",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "content-reading",
+            "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+            "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+            "lineCount": 99,
+            "headings": [
+              {
+                "line": 1,
+                "text": "编辑器覆盖率确定性调查与修复回执"
+              },
+              {
+                "line": 7,
+                "text": "修复收口"
+              },
+              {
+                "line": 22,
+                "text": "结论与因果证据"
+              },
+              {
+                "line": 38,
+                "text": "取证方式"
+              },
+              {
+                "line": 62,
+                "text": "边界与替代解释"
+              },
+              {
+                "line": 71,
+                "text": "历史复现与证据位置"
+              },
+              {
+                "line": 77,
+                "text": "快速因果对照：既有 reorder 23 项，两个帧时机各跑一次"
+              },
+              {
+                "line": 80,
+                "text": "同一干预扩到整个 editor fast 范围（不是 pnpm coverage:full）"
+              },
+              {
+                "line": 95,
+                "text": "后续边界"
+              }
+            ],
+            "unresolvedSignals": [
+              "17:该卡未重跑 full coverage，纯测试维护无需浏览器验收；此次文档收口不重跑未变的重型检查。",
+              "34:既有 `reorder.test.tsx:370` 的 mouse/touch/pen 用例未控制 RAF，pointermove 后立即 pointerup，",
+              "59:未运行 ratchet，未修改任何基线、生产源码、正式测试、锁文件或全局配置。没有使用 stash/checkout。",
+              "60:这是诊断调度干预的结果，**不是未经修改测试配置的正式 fast gate，也不是七包 full coverage**。",
+              "68:- 未发现需要改变产品行为的证据。先补明确业务回归，不全局同步 RAF、不延长 sleep、不降低门槛。",
+              "85:产品树有未提交变化时拒绝启动，不自动还原文件。每次保存 SHA/环境/源摘要、命令、测试 JSON、覆盖率 JSON 与差异。",
+              "86:它断言的是修复前缺口，现已不再作为当前通过条件；属于历史审计证据，不作为正式回归或 CI 门禁，源码未改。"
+            ]
+          },
+          "history": [
+            {
+              "revision": "working-tree",
+              "action": "read-and-reviewed",
+              "contentReviewStatus": "content-reviewed",
+              "reviewDepth": "structured-content"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+          "userVisibleBeforeAfter": null,
+          "reviewedLines": "1-99"
+        }
+      ]
     }
-  ]
+  ],
+  "sharedQualityCandidate": {
+    "status": "author-candidate-pending-independent-acceptance",
+    "date": "2026-10-16",
+    "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+    "sourceBlobEqualAtPreflight": "83750d8425709257a609c1b9f62b8c6686d53987",
+    "owner": "root Codex",
+    "reviewer": "receipt_review",
+    "readScope": {
+      "rootFullOriginalLines": 605,
+      "rootFullFiles": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/pre-e2e/coverage-determinism.md"
+      ],
+      "rootAdditionalFullSources": {
+        "scripts/quality/code-quality-ledger.mjs": 142,
+        "scripts/quality/code-quality-inventory.mjs": 216,
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs": 138,
+        "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts": 59
+      },
+      "notClaimed": "No entire234 products/callers/tests or raw execution reading; probe source reading is not a run."
+    },
+    "templateDesign": "Existing plan-status1.0(active),governance-index1.0(current),audit-report1.0(historical), all archive1.0; tail independent full605+consumer358 design agree; no new template/variant.",
+    "entries": [
+      {
+        "path": "docs/ops/audits/code-quality-governance.md",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "active",
+        "coreConclusion": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+        "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+        "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
+        "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
+        "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+        "sourceLines": 234,
+        "candidateLines": 350,
+        "beforeAfter": {
+          "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+          "after": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
+          "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+        },
+        "primarySource": [
+          {
+            "path": "docs/ops/audits/code-quality-governance.md",
+            "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+            "lines": "1-234",
+            "reading": "full original semantic reading by root; non-author candidate acceptance pending"
+          }
+        ],
+        "legalInputs": [
+          "Tracked packages/scripts指定代码扩展及JSON；静态map/caller仅入口，P0–P3需直接反例，合法宽容合同按各原卡。"
+        ],
+        "businessOracle": "Current路线只引用唯一ledger汇总；原全部路线/地图/批次/失败/限制保留，旧done不关闭未核全仓。",
+        "dedupe": "不重领13架构批或TEST/E2E；u/w重复记录不再关闭；旧多轮总数不相加。",
+        "phaseAnchor": "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "publicEntry": "docs/ops/audits/code-quality-governance.md",
+        "publicCallers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "related original quality cards/source routes; ledger actual consumer where applicable"
+        ],
+        "dependencies": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "scripts/quality/code-quality-ledger.mjs",
+          "scripts/quality/code-quality-inventory.mjs"
+        ],
+        "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+        "history": {
+          "originalPreserved": true,
+          "method": "Full original each line prefixed > space or >; no body after quote; byte-exact inverse.",
+          "startMarker": "<!-- original-source-quote:start -->\n\n",
+          "endMarker": "",
+          "sourceBytes": 22187,
+          "inverseSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
+          "exactRoundTrip": true
+        },
+        "supersedes": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable.",
+        "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+        "counterReworkBlocked": [
+          "Historical raw/product execution not re-certified.",
+          "Whole docs and CODE-QUALITY semantic completion remain pending."
+        ],
+        "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+        "nextStep": "Non-author full source/candidate/real-consumer/fragment review; only after accept integrate central2new+1legacy record, routing and related current shared-source writeback.",
+        "templateConformity": {
+          "templateId": "plan-status-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "status": "author candidate; actual consumer checks pending, no self-accept"
+        },
+        "execution": {
+          "product": false,
+          "oldTests": false,
+          "runtime": false,
+          "e2e": false,
+          "visual": false,
+          "coverage": false
+        }
+      },
+      {
+        "path": "docs/ops/audits/code-quality-file-ledger.md",
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "current",
+        "coreConclusion": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+        "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+        "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "sourceGitObject": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+        "sourceSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+        "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+        "sourceLines": 273,
+        "candidateLines": 582,
+        "beforeAfter": {
+          "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+          "after": "保持原path/category/status，原三pending显式归并，新增7仅pending；live3290/229/5/3056/3061准确，Q3k反控摘要纠错且完整旧稿可逆。",
+          "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+        },
+        "primarySource": [
+          {
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+            "lines": "1-273",
+            "reading": "full original semantic reading by root; non-author candidate acceptance pending"
+          }
+        ],
+        "legalInputs": [
+          "真实inventory路径集合；唯一live汇总及连续5列表、允许类别与中文状态；未显式行缺省pending。"
+        ],
+        "businessOracle": "真实auditCodeQualityLedger零问题且229closed/5review不变；旧234消费记录状态相等，另三旧pending+七新增pending明示，fenced源不重复计数。",
+        "dedupe": "只有唯一live表/汇总；旧原文fenced不被parser读；已读/已验证身份不按本次文档或inventory默认状态重置。",
+        "phaseAnchor": "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "publicEntry": "docs/ops/audits/code-quality-file-ledger.md",
+        "publicCallers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "related original quality cards/source routes; ledger actual consumer where applicable"
+        ],
+        "dependencies": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "scripts/quality/code-quality-ledger.mjs",
+          "scripts/quality/code-quality-inventory.mjs"
+        ],
+        "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+        "history": {
+          "originalPreserved": true,
+          "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
+          "startMarker": "<!-- original-source-fenced:start -->\n~~~~text\n",
+          "endMarker": "~~~~\n<!-- original-source-fenced:end -->\n",
+          "sourceBytes": 51844,
+          "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+          "exactRoundTrip": true
+        },
+        "supersedes": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable.",
+        "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+        "counterReworkBlocked": [
+          "Historical raw/product execution not re-certified.",
+          "Whole docs and CODE-QUALITY semantic completion remain pending."
+        ],
+        "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+        "nextStep": "Non-author full source/candidate/real-consumer/fragment review; only after accept integrate central2new+1legacy record, routing and related current shared-source writeback.",
+        "templateConformity": {
+          "templateId": "governance-index-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "status": "author candidate; actual consumer checks pending, no self-accept"
+        },
+        "execution": {
+          "product": false,
+          "oldTests": false,
+          "runtime": false,
+          "e2e": false,
+          "visual": false,
+          "coverage": false
+        }
+      },
+      {
+        "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "historical",
+        "coreConclusion": "九月reorder合法无容器帧因果与23→24补测/反控分时，hold/flush与正式gate分开，旧raw缺失不补造；十月Workbench是另一事件。",
+        "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
+        "sourceRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "sourceGitObject": "c97b397f4ba9d22ea772cfc73c0779e47a744251",
+        "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+        "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+        "sourceLines": 98,
+        "candidateLines": 187,
+        "beforeAfter": {
+          "before": "Complete original retained at fixed source revision, with original misleading current/historical boundaries or inventory count drift.",
+          "after": "九月reorder合法无容器帧因果与23→24补测/反控分时，hold/flush与正式gate分开，旧raw缺失不补造；十月Workbench是另一事件。",
+          "semanticChange": "Documentation authority/structure and explicit ledger count+one evidence-summary correction only; no product behavior/test/coverage change."
+        },
+        "primarySource": [
+          {
+            "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+            "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+            "lines": "1-98",
+            "reading": "full original semantic reading by root; non-author candidate acceptance pending"
+          }
+        ],
+        "legalInputs": [
+          "原2ac4a9de及7c447c38、原环境/测试identity和无容器有效拖动；不把历史探针23项输入用于当前24项门。"
+        ],
+        "businessOracle": "同树调度仅返回statement/branch0→1，原受控回归与删guard独立负控保留；7叶值变更不改精确covered/total；未执行新的测试/coverage。",
+        "dedupe": "reorder九月与Workbench十月分开；六次绿非概率证明，probe --full仅editor fast，复用原指标不新增执行信用。",
+        "phaseAnchor": "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
+        "publicEntry": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "publicCallers": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "related original quality cards/source routes; ledger actual consumer where applicable"
+        ],
+        "dependencies": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/registry.json",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+        ],
+        "applicability": "Document migration at2026-10-16; original dates/candidates/versions/execution counts remain historical. Live ledger is record integrity only.",
+        "history": {
+          "originalPreserved": true,
+          "method": "Full original each line prefixed > space or >; no body after quote; byte-exact inverse.",
+          "startMarker": "<!-- original-source-quote:start -->\n\n",
+          "endMarker": "",
+          "sourceBytes": 7362,
+          "inverseSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
+          "exactRoundTrip": true
+        },
+        "supersedes": "Only original document organization/current-authority ambiguity; original product conclusions/dates/identities remain recoverable.",
+        "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
+        "counterReworkBlocked": [
+          "Historical raw/product execution not re-certified.",
+          "Whole docs and CODE-QUALITY semantic completion remain pending."
+        ],
+        "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
+        "nextStep": "Non-author full source/candidate/real-consumer/fragment review; only after accept integrate central2new+1legacy record, routing and related current shared-source writeback.",
+        "templateConformity": {
+          "templateId": "audit-report-v1",
+          "templateVersion": "1.0.0",
+          "historyOverlay": "archive-record-v1/1.0.0",
+          "status": "author candidate; actual consumer checks pending, no self-accept"
+        },
+        "execution": {
+          "product": false,
+          "oldTests": false,
+          "runtime": false,
+          "e2e": false,
+          "visual": false,
+          "coverage": false
+        }
+      }
+    ],
+    "ledgerDelta": {
+      "beforeDeclared": [3283, 229, 5, 3049, 3054],
+      "actualAndAfter": [3290, 229, 5, 3056, 3061],
+      "oldConsumedRows": 234,
+      "oldTrailingPendingRowsNowExplicitlyConsumed": 3,
+      "newPendingRows": 7,
+      "liveRows": 244,
+      "newPaths": [
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/document-model.test.mjs",
+        "scripts/docs/frozen-document-source.mjs",
+        "scripts/docs/git-document-source.mjs",
+        "scripts/docs/historical-execution-source.test.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "changedExistingPathCategoryStatus": 0,
+      "onlyExistingEvidenceCorrection": {
+        "before": "| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；advance=false/循环/跨帧相位/真实 raw 负 progression 收尾合同；mutant 4 total/3 fail→恢复 4/4 | typed indices + raw oracle |",
+        "scope": "Q3k3fail→3passed1failed, old raw summary preserved in original fenced snapshot; no replay"
+      },
+      "consumerPurpose": "Record integrity only; not current semantic code review."
+    },
+    "artifactRules": {
+      "historicalProbeSources": {
+        "paths": [
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+        ],
+        "producer": "Original Codex historical timing diagnosis",
+        "owner": "Codex",
+        "callers": [
+          "docs/ops/audits/pre-e2e/coverage-determinism.md",
+          "historical manual CLI only; no official CI adoption"
+        ],
+        "retention": "Keep source as historical producer; do not run old23-case assertions as current regression or silently delete missing raw claims. Source bytes unchanged."
+      },
+      "historicalTempEvidence": {
+        "paths": [
+          "/tmp/type-pal-editor-cov-det.LMxDo9/",
+          "/tmp/cov2.log",
+          "/tmp/cov4.log",
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-coverage-timing.IdnFzT/",
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-coverage-timing.AckhLk/"
+        ],
+        "availability": "All five exact references checked absent2026-10-16; missing-not-recovered",
+        "producer": "Original timing hold/flush/manual runs as source prose; not executed now",
+        "owner": "Original Codex evidence owner; Kimi/Codex independent controls retain original attribution",
+        "callers": ["docs/ops/audits/pre-e2e/coverage-determinism.md"],
+        "retention": "Keep literal paths/digests/original conclusions in Git snapshot; no fabricated raw reconstruction or present evidence claim."
+      }
+    },
+    "notRun": [
+      "product source execution",
+      "old tests",
+      "coverage/probes/mutants",
+      "runtime/E2E/browser/visual",
+      "main merge/push"
+    ],
+    "checks": {
+      "candidateTemplates": "PASS actual checkTemplateBody three1.0 types +archive required chapters, zero issues",
+      "originalInverse": "PASS all605 exact Git/source/after/byte inverses",
+      "ledgerActualConsumer": {
+        "command": "node scripts/quality/code-quality-ledger.mjs",
+        "result": "PASS",
+        "total": 3290,
+        "closed": 229,
+        "review": 5,
+        "pending": 3056,
+        "semanticCredit": 0
+      },
+      "scopedFragments": {
+        "method": "Actual Marked GFM and locally derived Unicode slugs; not hosted browser clicks or semantic reads of all scanned targets",
+        "per": [
+          {
+            "path": "docs/ops/audits/code-quality-governance.md",
+            "originalHeadings": 11,
+            "outgoingFragments": 10
+          },
+          {
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "originalHeadings": 1,
+            "outgoingFragments": 0
+          },
+          {
+            "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+            "originalHeadings": 7,
+            "outgoingFragments": 6
+          }
+        ],
+        "oldHeads": 19,
+        "outgoing": 16,
+        "incoming": 0,
+        "issues": []
+      },
+      "docsActualConsumer": {
+        "markdown": 1223,
+        "localLinks": 7273,
+        "tasks": 361,
+        "issues": 0
+      },
+      "centralGate": {
+        "status": "expected pending one coverage afterSHA drift, no waiver",
+        "documents": 640,
+        "diagnostics": 1,
+        "exactDiagnostic": "docs/ops/audits/pre-e2e/coverage-determinism.md: after SHA drift",
+        "govAndLedgerCentralCoverage": "0/2; not covered by existing strict gate"
+      },
+      "diff": "PASS zero diagnostics"
+    },
+    "acceptance": "pending non-author full candidate and necessary primary review; author does not self-accept"
+  },
+  "sharedQualityIntegration": {
+    "date": "2026-10-16",
+    "result": "independent body and root central/Q3k/current-resolution integration accept; G1counter closed",
+    "reviewer": "receipt_review",
+    "candidateAcceptance": {
+      "result": "accept",
+      "reviewer": "receipt_review",
+      "candidateRecordSha256": "45cf623c38e488ca6126dc64712c0883e0ca2f75a1f2557115ad8f9be8d4fdec",
+      "date": "2026-10-16",
+      "scope": "Full605 source and all3new substantive bodies/receipt, full197probe/config and358ledger/inventory sources; exact original inverse,237old tuples/236old whole rows/oneQ3k evidence correction,7newpending and244live rows;19oldheadings16outgoing0external; five literal oldtmp references actually absent. No producer/oldtests/coverage/runtime execution.",
+      "actualIndependentChecks": {
+        "ledger": [3290, 229, 5, 3056, 3061],
+        "templates": 0,
+        "docs": [1223, 7273, 361, 0],
+        "diff": 0,
+        "central": "FAIL exactlycoverage1afterSHA;govledger0/2pending,no waiver"
+      },
+      "notRun": ["product", "oldtests", "probe", "coverage", "runtime/E2E/visual/browser", "main"]
+    },
+    "documents": [
+      {
+        "path": "docs/ops/audits/code-quality-governance.md",
+        "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311"
+      },
+      {
+        "path": "docs/ops/audits/code-quality-file-ledger.md",
+        "afterSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d"
+      },
+      {
+        "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044"
+      }
+    ],
+    "authorCandidatePreserved": "sharedQualityCandidate remains immutable pending author snapshot; current acceptance separate here",
+    "ledgerDelta": {
+      "beforeDeclared": [3283, 229, 5, 3049, 3054],
+      "actualAndAfter": [3290, 229, 5, 3056, 3061],
+      "oldConsumedRows": 234,
+      "oldTrailingPendingRowsNowExplicitlyConsumed": 3,
+      "newPendingRows": 7,
+      "liveRows": 244,
+      "newPaths": [
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/document-model.test.mjs",
+        "scripts/docs/frozen-document-source.mjs",
+        "scripts/docs/git-document-source.mjs",
+        "scripts/docs/historical-execution-source.test.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "changedExistingPathCategoryStatus": 0,
+      "onlyExistingEvidenceCorrection": {
+        "before": "| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；advance=false/循环/跨帧相位/真实 raw 负 progression 收尾合同；mutant 4 total/3 fail→恢复 4/4 | typed indices + raw oracle |",
+        "scope": "Q3k3fail→3passed1failed, old raw summary preserved in original fenced snapshot; no replay"
+      },
+      "consumerPurpose": "Record integrity only; not current semantic code review."
+    },
+    "artifactRules": {
+      "historicalProbeSources": {
+        "paths": [
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+        ],
+        "producer": "Original Codex historical timing diagnosis",
+        "owner": "Codex",
+        "callers": [
+          "docs/ops/audits/pre-e2e/coverage-determinism.md",
+          "historical manual CLI only; no official CI adoption"
+        ],
+        "retention": "Keep source as historical producer; do not run old23-case assertions as current regression or silently delete missing raw claims. Source bytes unchanged."
+      },
+      "historicalTempEvidence": {
+        "paths": [
+          "/tmp/type-pal-editor-cov-det.LMxDo9/",
+          "/tmp/cov2.log",
+          "/tmp/cov4.log",
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-coverage-timing.IdnFzT/",
+          "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-coverage-timing.AckhLk/"
+        ],
+        "availability": "All five exact references checked absent2026-10-16; missing-not-recovered",
+        "producer": "Original timing hold/flush/manual runs as source prose; not executed now",
+        "owner": "Original Codex evidence owner; Kimi/Codex independent controls retain original attribution",
+        "callers": ["docs/ops/audits/pre-e2e/coverage-determinism.md"],
+        "retention": "Keep literal paths/digests/original conclusions in Git snapshot; no fabricated raw reconstruction or present evidence claim."
+      }
+    },
+    "existingQ3kCorrection": {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "beforeSha256": "d425702d1eb3f3c9d66ed61090bac03584e959c82086f86e32c94689c31cb7ab",
+      "afterSha256": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
+      "changedScope": "Four new-layer current shared-source paragraphs only; quote byte-identical",
+      "newMigrationCredit": 0
+    },
+    "notRun": [
+      "product source execution",
+      "old tests",
+      "coverage/probes/mutants",
+      "runtime/E2E/browser/visual",
+      "main merge/push"
+    ],
+    "integratedGates": {
+      "status": "PASS required docs/lint/diff and actual ledger record consumer; no full-goal/code-semantic/runtime acceptance",
+      "docs": {
+        "tools": 68,
+        "failed": 0,
+        "skipped": 0,
+        "markdown": 1223,
+        "links": 7273,
+        "tasks": 361,
+        "bodyContracts": 123,
+        "testingIssues": 0,
+        "phase": 184,
+        "review": 642
+      },
+      "lint": {
+        "files": 4087,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "ledger": [3290, 229, 5, 3056, 3061],
+      "diff": 0
+    },
+    "counterHistory": [
+      {
+        "id": "G1-mixed-record-scope-and-exact-row-history",
+        "reviewer": "receipt_review",
+        "before": [
+          "Matrix stopLine incorrectly called234 consumed records products; actual129product92test13tool.",
+          "Two history.before copies had added history:[] absent from actual22ee source row."
+        ],
+        "correction": [
+          "stopLine now234 original records semantic review, not products.",
+          "Removed only added empty history from both before snapshots; now exact original row objects."
+        ],
+        "status": "closed by receipt_review exact current-row and original-history delta recheck",
+        "bodyChanges": 0
+      }
+    ],
+    "readScopeClarification": {
+      "oldConsumedRows": 234,
+      "categoryCounts": {
+        "product": 129,
+        "test": 92,
+        "tool": 13
+      },
+      "meaning": "Historical candidate mixed shorthand does not mean234 products or current semantic rereading; categories/rows preserved, no semantic progress credit."
+    },
+    "integrationAcceptance": {
+      "reviewer": "receipt_review",
+      "result": "accept; no remainingcounter",
+      "scope": "2new+1legacy central entries/unique routes, exact old coverage/Q3k current prior preservation, four Q3k paragraphs/current fields,32matrix1new2corrected29unchanged/exact oldrow snapshots, D/F originalfailure preservation/currentresolution;3bodySHAunchanged.",
+      "actualIndependentChecks": {
+        "strict": 642,
+        "model": 123,
+        "ledger": [3290, 229, 5, 3056, 3061],
+        "docs": [1223, 7273, 361, 0],
+        "progressIssues": 0,
+        "diff": 0
+      },
+      "reviewedSnapshotSha256": {
+        "Drecord": "4307ccadbe9e43a9e5dad987a33a838f051dbcd4c09c20523c1cfd50cdc46418",
+        "Fadmin": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
+        "oldOps05": "1549828a9876a005c31b15399891bfcb1c9a9d5c93ab7456176eddb05f72f959",
+        "matrixReview": "1a1efaaeb0b3190f03599e569287bc03d7beedc1fcf0911e915d68165725ab1a",
+        "registry": "f7794935ecaf5b8b8dff4e242dd076840afb2c622607385cd6fae20177f73f95",
+        "routing": "1ddd467dc9f519550fb5780f3e606796770777f058285be4a59c0d91d26bcf4e",
+        "matrixJson": "fb57e5db0808e03ba5e4215a3decd0b4898bf347f06e13814862f41fe0f0aba5",
+        "matrixMd": "b32170d9f7993b2e5cb3d11f9b8c67e7dad0d0286fc8a0743d4dc080c1b5fa71",
+        "Q3k": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f"
+      },
+      "rootMaintenanceBoundary": "Later root signoff/gate append changes metadata bytes, not body; reviewed snapshot SHA is not falsely reused for newrecord bytes."
+    }
+  }
 }

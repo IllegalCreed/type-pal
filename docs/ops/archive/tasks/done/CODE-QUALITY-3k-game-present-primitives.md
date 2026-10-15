@@ -33,7 +33,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done、03cc513df已推送与Owner/Reviewer保留；旧fenced build prompt不执行。共享ledger182的mutant摘要冲突明确guarded，由根后继治理，当前作者不越界改账本；2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收。
+原done、03cc513df已推送与Owner/Reviewer保留；旧fenced build prompt不执行。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收；G共享来源治理已纠正live ledger反控摘要并保留完整旧稿，未重跑反控或扩大产品验收。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 
@@ -75,15 +75,15 @@ Template: task-card-v1 / 1.0.0
 
 ## 当时证据
 
-原卡48/60和[总纲](../../../audits/code-quality-governance.md)110一致为4总/3过/1败，[账本](../../../audits/code-quality-file-ledger.md)182却写4 total/3 fail→4/4，不能继承该摘要计数。固定源wave全文已读；原卡60列两个mutant raw/JSON路径本轮查不存在，不冒充重新执行/回读。
+固定bb904原卡48/60和[总纲](../../../audits/code-quality-governance.md)原稿110行一致为4总/3过/1败，原[账本](../../../audits/code-quality-file-ledger.md)182行却写4 total/3 fail→4/4。G已将live摘要纠为3passed/1failed，旧273行fenced snapshot保留错句；这只修文档摘要，不是第二次执行。固定源wave全文的原阅读范围保留；原卡60列两个mutant raw/JSON路径在D复核时不存在，不冒充新回读。
 
 ## 当前有效性
 
-historical；共享计数冲突guarded。采用卡面与总纲明确记录的3 passed/1 failed，并并列说明ledger误述，未把文档一致当第二次执行。未知视觉坐标、其它五primitive当前代码/测试质量未在本轮重新全文核；不从wave源码读完推广全present已审。
+historical。共享live摘要误述已在G纠正，原错误和来源仍可回读；raw缺失与未知视觉坐标继续guarded。采用卡/原总纲明确3passed/1failed，不把两文档一致当第二次运行；其它五primitive当前代码/测试质量未重新全文核，不从wave源码读完推广全present已审。
 
 ## 继任文档
 
-[总纲](../../../audits/code-quality-governance.md)117起另记后续battle-present，只作历史导航、不授本包阅读信用；新任务按[现行工作流](../../../agent-workflow.md)准入。共享ledger纠错由根维护，无可执行旧提示词。
+[总纲](../../../audits/code-quality-governance.md)固定bb904原稿117起另记battle-present，只作历史导航；当前路线/ledger已分别模板化并纠正摘要，不授本卡额外产品阅读信用。新任务按[现行工作流](../../../agent-workflow.md)准入，无可执行旧提示词。
 
 ## 原始结论
 
