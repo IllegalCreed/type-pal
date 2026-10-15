@@ -356,3 +356,14 @@ Branch: codex/docs-full-template-proposal
 
 
 - 本轮签收维护后再次完整实跑：pnpm check:docs全部68工具/91正文合同/616review通过，pnpm lint4083files零error/warning/info、diff0；原首次1format失败保留。仅根结果登记不改已签正文SHA；继续包D和剩余全量，最终目标仍active/build。
+
+
+### 2026-10-16 包E共享来源设计与文档准入
+
+- 固定源bb90428668808368e816bd8e2ddeb5da57e4b166，根全文读五源1293行（98/117/612/354/112）；非作者history_cards_c_tail和receipt_review直接核同一批blob并独立agree内容分类及历史边界。两音乐/静态结果报告→evidence-receipt1.0.0，总审计保audit-report1.0.0，过场设计保design-spec1.0.0，G0 retention从evidence-receipt纠为design-spec1.0.0；均加archive-record1.0.0五节。不新增模板类别/变体，沿用已冻结合同和有效pilot。
+- build allowed仅文档；Codex为唯一正文Owner，receipt_review非作者独立验收。白名单：docs/phase2/archive/audits/a7-0-music-resource-closure-report.md、a7-2-static-images-engine-chrome-report.md、a7-resource-closure-audit.md，docs/phase2/archive/designs/cutscene-asset-workbench-design.md，docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md；配套本卡/现有20261016-historical-cards-c.json的E候选与逐篇记录、旧review迁移保留/registry/routing/矩阵。接收后可窄改A7-3卡“共享来源仍待治理”的当下时态和其after账，原quote不动。
+- 两receipt具体身份/来源合法输入/oracle/结果/限制：音乐87文件6737214B与四→五角色、81动态战斗槽/1327引用/12unused；静态engine-chrome双归属、旧6face/10392B与raw后继5/10324/absence、原数据/全绿/OFL后继冲突及六缺失截图。当前复核不重新加载原资产、听音或发行合法性认证。
+- 总audit五实质章节保留July基线与各批数据/首尾状态、08-30 content19→20/1934/effect56三轴时点、09-03版权替换phase3归属；不把旧legacy欠账恢复为今天待实施。§3.8旧skip PASS被A7-3 C1–C5撤回，且其视频/帧动画“实际清单”误路由music报告，新有效导航纠为A7-3卡，原链接原文留存。static原全绿与A7-3T对58c3150f的OFL失败不能仅推测不同轮次消解；两数及5b7b49c8恢复原文字节后继均明确，不补造一致性。
+- 两design具体问题/真值/方案/风险/验收：过场完整帧作者模型与TPFS codec、BGM分层、32帧原型/正式字节和默认不可跳；G0版本轴、disposition/allowlist、PERF-B failed rewind与characterization是原准入，不代表已实施。归档发布状态使用superseded仅表示不能作为当前准入/旧时点断语被后继取代，明确不宣布全部技术设计废弃，也不以“读旧写新codec”恢复产品epoch兼容。
+- 原标题入口/完整UTF-8 quote逐字节可逆，全部原日期/结论/历史计数/命令保留。新具体五型章节+五历史章节，全文root新旧/consumer/fragment/状态/证据约束独立核后接收，不把wrapper或substring通过当语义accept。六截图root/main实际均不存在，producer/原caller/关联任务/保留与停止线写清missing-not-recovered，不能补签视觉。
+- 四向前提：primary为固定原五blob及A7后继卡明确纠错；phase1 raw解码属旧记录，不重新认证；phase2现行READ-FIRST当前canonical与分层规则；目标仅历史文档真值/导航治理。若直接后继证明skip未被撤回、6face仍属有效raw或G0处置是当前消费者合同，则停受影响正文重核；不由数量/全绿猜真值。原始素材/产品/旧测试/coverage/browser/E2E均禁止新执行或改动。
