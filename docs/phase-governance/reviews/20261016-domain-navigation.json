@@ -1,0 +1,1034 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "K0 retired historical documentation writers; future K49 README migrations not accepted here.",
+  "frozenK0Design": {
+    "schemaVersion": 1,
+    "kind": "K0-frozen-retired-document-writer-design",
+    "date": "2026-10-16",
+    "status": "root selected;independent design agree;implementation not yet accepted",
+    "designerReviewer": "receipt_review",
+    "implementationOwner": "Root Codex only",
+    "sourceRevision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+    "rootDecision": "Retire both Oct4 one-shot writers. No current tracked/package/CI caller and no regeneration authorization. Keep paths as explicit immediate-refusal CLI entries; old complete implementations retained only by fixed Git identities.",
+    "sourcePins": [
+      {
+        "path": "scripts/docs/generate-testing-tools-readmes.mjs",
+        "revision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+        "gitObject": "a0707a059983e390f8dfcb13c1492e5db766e5f8",
+        "sha256": "2792c47e9c026e38b32bcc7ef0ead83b42b3cddb5e82cfd3eae0ad923f4ed08c",
+        "lines": 41,
+        "readScope": "entire source actually read; referenced product/test files not read or executed for K0"
+      },
+      {
+        "path": "scripts/docs/deepen-testing-records.mjs",
+        "revision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+        "gitObject": "3284d420482ee494122fbf0b011fc0b55048c034",
+        "sha256": "1e865d6eb8772f1b883ca32bd2dc41068f2636783ef53889f48b14e953fcb632",
+        "lines": 767,
+        "readScope": "entire source actually read; referenced product/test files not read or executed for K0"
+      }
+    ],
+    "readScope": {
+      "fullSource": ["generate-testing-tools-readmes.mjs1-41", "deepen-testing-records.mjs1-767"],
+      "packageFiles": "all8scripts object values read;other package config fields not semantically audited",
+      "ciWorkflows": "both full workflow sources read",
+      "search": "exact tracked-name search at8aa plus package/CI invocation paths; no static caller found, external/dynamic/manual invocation remains possible",
+      "notClaimed": "No all336scripts audit, producer30source full audit, linked product/raw semantic review or old writer execution."
+    },
+    "unchangedPriorDesign": {
+      "path": "/tmp/type-pal-k-domains-readme-design-20261016.json",
+      "sha256": "c037cb924db962999f12119ceb211b2e08cc9deb90f7c68388561c162d38bc77",
+      "meaning": "49body/source binding proposal unchanged; earlier callable-generator guard idea superseded only for K0 by this root retirement decision."
+    },
+    "priorK0Draft": {
+      "path": "/tmp/type-pal-k0-generator-protection-design-20261016.json",
+      "sha256": "5574e377d37761a57c0f5f6c0001893ed257f0828f5fa8decdebf733d95f5618",
+      "meaning": "Contains evaluated guard alternative; current frozen option is retirement only, not permission to preserve the alternative regen capability."
+    },
+    "producerAppendix": {
+      "path": "/tmp/type-pal-k49-producer-appendix-20261016.json",
+      "sha256": "c8aed69159674bd2e8f9338eb548c5f69dcf899c8fe1f78d83bbda02e9d41076",
+      "readScope": "confirmedFixedWriters/writerUnion/currentCommandCallGraph/searchScope/unknownAndLimits keyblocks read; not a personal full audit of all336scripts or all30pinned sources"
+    },
+    "callerEvidence": {
+      "exactTrackedSearch": {
+        "command": "git grep -n -E generate-testing-tools-readmes|deepen-testing-records HEAD -- .",
+        "exit": 1,
+        "hits": [],
+        "meaning": "No exact named tracked caller found; arbitrary external shell, dynamic construction and future calls remain unknown."
+      },
+      "packageScriptAndCiInputs": [
+        {
+          "path": "package.json",
+          "sha256": "bedabf28aea36e5f600b81196fe0a609e86279d9dbf73c2a83f47c779b6bb3de",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/content/package.json",
+          "sha256": "32971e26aafa1eafd955481b31998519864e4f865474e43249fb3f152e7756b9",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/editor/package.json",
+          "sha256": "42163ff55b01dc9db58eb1d5d7b730ca79efe853a1cd797c7928da2243033009",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/game/package.json",
+          "sha256": "83ea7789432e4937b7e7f7ca4ae093f0487b6f772f7acb3c8bcf7f8084528d14",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/migrate/package.json",
+          "sha256": "909dcd796e0caabd08a1d0c63d27e7df4d7fb5eebc94e810f7c1257602168eda",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/pal-extract/package.json",
+          "sha256": "95ee7652070927b0af6014f8bb41af2985f7d869a65b96ea7aca510be6cd2277",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/reforge/package.json",
+          "sha256": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": "packages/shared/package.json",
+          "sha256": "574bb6698c420e6e2858b496676943ba179e671a53127463b3a9c840ad29aa9a",
+          "readScope": "all scripts object values",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": ".github/workflows/coverage.yml",
+          "sha256": "25f76037b61cb5c96a76f3c4f9456387e975748e27da9f28f0b578b08a6f398b",
+          "readScope": "entire workflow source",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        },
+        {
+          "path": ".github/workflows/docs.yml",
+          "sha256": "839e04b34367d0cd83d98da74845f991b8fcbf2525a86d026808da14c01f7f27",
+          "readScope": "entire workflow source",
+          "result": "no direct writer invocation; check:docs uses only *.test.mjs and explicit checkers"
+        }
+      ],
+      "exports": "Neither source exports a reusable library API; both execute old writer top-level.",
+      "currentDocsPipeline": "test:docs-tools matches *.test.mjs; checkers do not call either writer.",
+      "manualCLI": "Both files still permit direct node invocation before K0; absence of static caller does not mean impossible execution."
+    },
+    "contract": {
+      "before": "Named node CLI runs eager Git/ref reads and potentially overwrites canonical metadata/README/report/evidence or renames history; current documentation is governed manually.",
+      "after": "Both named CLI paths immediately give explicit retired error and exit1 before old catalog/Git/ref reads or any documentation filesystem mutation.",
+      "entryRequirements": [
+        "Replace old executable bodies, including private mutation/ref helpers and top-level execution, with self-contained refusal entries. No unreachable old body left behind.",
+        "Reason names retired writer and read-only frozen Git source. No generated success line, no --force/legacy/unmanaged mode, no environment/path/argv bypass.",
+        "No relocated executable legacy copy. Git preserves exact old source; displaying source is not an execution instruction.",
+        "Missing docs/catalog/packages/.git/anchors, empty/unknown Template and any_governance value cannot change retired behavior. Node loading its own source file is outside the claimed documentation-I/O prohibition.",
+        "No template registry/schema/product/runtime/old tests/coverage changes. Generic link tools not retired; task-owned explicit rewrite and same-commit review/SHA maintenance continue."
+      ],
+      "singleWriter": "K navigation is owned by task-assigned manual contributor/root after build admission; neither old producer owns current pages.",
+      "futureRegeneration": "Only a separately frozen current-template/source-preservation/caller/owner design plus independent pilot can create a future generator. No revival flag on these retired entries."
+    },
+    "fullMutationInventory": {
+      "toolsWriter": {
+        "toolREADMEwrites": [
+          "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+          "docs/testing/domains/content/editor-workflows/tools/README.md",
+          "docs/testing/domains/content/engine-boundaries/tools/README.md",
+          "docs/testing/domains/content/testing-records/tools/README.md",
+          "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+          "docs/testing/domains/editor/battle/tools/README.md",
+          "docs/testing/domains/editor/editor-workflows/tools/README.md",
+          "docs/testing/domains/editor/supply-and-import/tools/README.md",
+          "docs/testing/domains/editor/testing-records/tools/README.md",
+          "docs/testing/domains/migration/supply-and-import/tools/README.md",
+          "docs/testing/domains/ops/testing-records/tools/README.md",
+          "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+          "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+          "docs/testing/domains/quality/quality-gates/tools/README.md",
+          "docs/testing/domains/runtime/battle/tools/README.md",
+          "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+          "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+          "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+          "docs/testing/domains/runtime/scene/tools/README.md",
+          "docs/testing/domains/runtime/testing-records/tools/README.md"
+        ],
+        "candidateParentWrites": [
+          "docs/testing/domains/runtime/battle/README.md",
+          "docs/testing/domains/runtime/scene/README.md"
+        ],
+        "counts": [20, 2]
+      },
+      "deepenWriter": {
+        "e2eIds": [
+          "e2e-contract",
+          "e2e-route",
+          "e2e-common-issues",
+          "e2e-001",
+          "e2e-002",
+          "e2e-003",
+          "e2e-004",
+          "e2e-005",
+          "e2e-006"
+        ],
+        "domainIds": [
+          "runtime-active-scene",
+          "runtime-battle-host",
+          "runtime-battle-session-owners",
+          "runtime-world-owners",
+          "editor-command-form-families",
+          "reforge-menu-session",
+          "editor-map-workspace-sessions",
+          "phase1-dependency-ownership"
+        ],
+        "uniqueDirectWrites51": [
+          "docs/testing/catalog.json",
+          "docs/testing/domains/editor/commands/command-form-families/README.md",
+          "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+          "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+          "docs/testing/domains/editor/commands/command-form-families/report.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+          "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+          "docs/testing/domains/runtime/battle/battle-host/README.md",
+          "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+          "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+          "docs/testing/domains/runtime/battle/battle-host/report.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+          "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+          "docs/testing/domains/runtime/menu/menu-session/README.md",
+          "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+          "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+          "docs/testing/domains/runtime/menu/menu-session/report.md",
+          "docs/testing/domains/runtime/scene/active-scene/README.md",
+          "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+          "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+          "docs/testing/domains/runtime/scene/active-scene/report.md",
+          "docs/testing/domains/runtime/world/world-runtime/README.md",
+          "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+          "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+          "docs/testing/domains/runtime/world/world-runtime/report.md",
+          "docs/testing/e2e/contract.md",
+          "docs/testing/e2e/cross-stage/common-issues.md",
+          "docs/testing/e2e/evidence/e2e-001.json",
+          "docs/testing/e2e/evidence/e2e-002.json",
+          "docs/testing/e2e/evidence/e2e-003.json",
+          "docs/testing/e2e/evidence/e2e-004.json",
+          "docs/testing/e2e/evidence/e2e-005.json",
+          "docs/testing/e2e/evidence/e2e-006.json",
+          "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "docs/testing/e2e/evidence/e2e-contract.json",
+          "docs/testing/e2e/evidence/e2e-route.json",
+          "docs/testing/e2e/route-proposal.md",
+          "docs/testing/e2e/stages/001-opening/report.md",
+          "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+          "docs/testing/e2e/stages/003-kitchen/report.md",
+          "docs/testing/e2e/stages/004-meal/report.md",
+          "docs/testing/e2e/stages/005-shrimp/report.md",
+          "docs/testing/e2e/stages/006-doctor-boat/report.md"
+        ],
+        "conditionalRename16": [
+          {
+            "from": "docs/testing/domains/runtime/scene/active-scene/report.md",
+            "to": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+            "to": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/battle/battle-host/report.md",
+            "to": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+            "to": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+            "to": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+            "to": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/world/world-runtime/report.md",
+            "to": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+            "to": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/editor/commands/command-form-families/report.md",
+            "to": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+            "to": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/menu/menu-session/report.md",
+            "to": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+            "to": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+            "to": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+            "to": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+            "to": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          },
+          {
+            "from": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+            "to": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+            "condition": "only when destination absent",
+            "sourceOwnerMustRead": true,
+            "destinationOwnerMustReadEvenIfAbsent": true
+          }
+        ],
+        "historyDirectoryCreates8": [
+          "docs/testing/domains/editor/commands/command-form-families/history",
+          "docs/testing/domains/editor/map/map-workspace-sessions/history",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history",
+          "docs/testing/domains/runtime/battle/battle-host/history",
+          "docs/testing/domains/runtime/battle/battle-session-owners/history",
+          "docs/testing/domains/runtime/menu/menu-session/history",
+          "docs/testing/domains/runtime/scene/active-scene/history",
+          "docs/testing/domains/runtime/world/world-runtime/history"
+        ],
+        "writeSites": [
+          "json helper24",
+          "decorate evidence662",
+          "E2E report678",
+          "history mkdir685/rename689",
+          "domain report740/746",
+          "currentREADME754",
+          "historyREADME758",
+          "catalog766"
+        ],
+        "earlyReads": ["Git HEAD line11", "eager ref evaluation begins40", "catalog only read605"],
+        "originalDanger": "Hardcoded22/SAVE11/review dates and false evidence reconstruction would overwrite accepted envelopes/metadata, including006original true history, if replayed. Existing anchor drift or missing file is not a protection contract."
+      },
+      "currentDirectWriterUnion": 73,
+      "K49DirectlyTouched": 38,
+      "K49NotDirectlyGenerated": [
+        "docs/testing/domains/README.md",
+        "docs/testing/domains/editor/README.md",
+        "docs/testing/domains/editor/commands/README.md",
+        "docs/testing/domains/editor/map/README.md",
+        "docs/testing/domains/ops/README.md",
+        "docs/testing/domains/ops/testing-governance/README.md",
+        "docs/testing/domains/phase1-runtime/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/README.md",
+        "docs/testing/domains/runtime/README.md",
+        "docs/testing/domains/runtime/menu/README.md",
+        "docs/testing/domains/runtime/world/README.md"
+      ],
+      "K49PlusDirectWrites": [
+        "docs/testing/catalog.json",
+        "docs/testing/domains/README.md",
+        "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+        "docs/testing/domains/content/editor-workflows/tools/README.md",
+        "docs/testing/domains/content/engine-boundaries/tools/README.md",
+        "docs/testing/domains/content/testing-records/tools/README.md",
+        "docs/testing/domains/editor/README.md",
+        "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+        "docs/testing/domains/editor/battle/tools/README.md",
+        "docs/testing/domains/editor/commands/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/report.md",
+        "docs/testing/domains/editor/editor-workflows/tools/README.md",
+        "docs/testing/domains/editor/map/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+        "docs/testing/domains/editor/supply-and-import/tools/README.md",
+        "docs/testing/domains/editor/testing-records/tools/README.md",
+        "docs/testing/domains/migration/supply-and-import/tools/README.md",
+        "docs/testing/domains/ops/README.md",
+        "docs/testing/domains/ops/testing-governance/README.md",
+        "docs/testing/domains/ops/testing-records/tools/README.md",
+        "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+        "docs/testing/domains/phase1-runtime/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+        "docs/testing/domains/quality/quality-gates/tools/README.md",
+        "docs/testing/domains/runtime/README.md",
+        "docs/testing/domains/runtime/battle/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/tools/README.md",
+        "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+        "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+        "docs/testing/domains/runtime/menu/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+        "docs/testing/domains/runtime/scene/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/tools/README.md",
+        "docs/testing/domains/runtime/testing-records/tools/README.md",
+        "docs/testing/domains/runtime/world/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/report.md",
+        "docs/testing/e2e/contract.md",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/e2e/evidence/e2e-001.json",
+        "docs/testing/e2e/evidence/e2e-002.json",
+        "docs/testing/e2e/evidence/e2e-003.json",
+        "docs/testing/e2e/evidence/e2e-004.json",
+        "docs/testing/e2e/evidence/e2e-005.json",
+        "docs/testing/e2e/evidence/e2e-006.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "docs/testing/e2e/evidence/e2e-contract.json",
+        "docs/testing/e2e/evidence/e2e-route.json",
+        "docs/testing/e2e/route-proposal.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "docs/testing/e2e/stages/003-kitchen/report.md",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md"
+      ],
+      "writeOnlyClosureCount": 84,
+      "renameDestinationExtra": [
+        "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+        "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+        "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/history/report.md"
+      ],
+      "allMutationClosureIncludingK49": [
+        "docs/testing/catalog.json",
+        "docs/testing/domains/README.md",
+        "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+        "docs/testing/domains/content/editor-workflows/tools/README.md",
+        "docs/testing/domains/content/engine-boundaries/tools/README.md",
+        "docs/testing/domains/content/testing-records/tools/README.md",
+        "docs/testing/domains/editor/README.md",
+        "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+        "docs/testing/domains/editor/battle/tools/README.md",
+        "docs/testing/domains/editor/commands/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+        "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+        "docs/testing/domains/editor/commands/command-form-families/report.md",
+        "docs/testing/domains/editor/editor-workflows/tools/README.md",
+        "docs/testing/domains/editor/map/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+        "docs/testing/domains/editor/supply-and-import/tools/README.md",
+        "docs/testing/domains/editor/testing-records/tools/README.md",
+        "docs/testing/domains/migration/supply-and-import/tools/README.md",
+        "docs/testing/domains/ops/README.md",
+        "docs/testing/domains/ops/testing-governance/README.md",
+        "docs/testing/domains/ops/testing-records/tools/README.md",
+        "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+        "docs/testing/domains/phase1-runtime/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+        "docs/testing/domains/quality/quality-gates/tools/README.md",
+        "docs/testing/domains/runtime/README.md",
+        "docs/testing/domains/runtime/battle/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+        "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/tools/README.md",
+        "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+        "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+        "docs/testing/domains/runtime/menu/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+        "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+        "docs/testing/domains/runtime/scene/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+        "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+        "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/tools/README.md",
+        "docs/testing/domains/runtime/testing-records/tools/README.md",
+        "docs/testing/domains/runtime/world/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+        "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/report.md",
+        "docs/testing/e2e/contract.md",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/e2e/evidence/e2e-001.json",
+        "docs/testing/e2e/evidence/e2e-002.json",
+        "docs/testing/e2e/evidence/e2e-003.json",
+        "docs/testing/e2e/evidence/e2e-004.json",
+        "docs/testing/e2e/evidence/e2e-005.json",
+        "docs/testing/e2e/evidence/e2e-006.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "docs/testing/e2e/evidence/e2e-contract.json",
+        "docs/testing/e2e/evidence/e2e-route.json",
+        "docs/testing/e2e/route-proposal.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "docs/testing/e2e/stages/003-kitchen/report.md",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md"
+      ],
+      "allMutationClosureCount": 100,
+      "scopeLimit": "Counts are this fixed tree only. tools discovery/catalog-selected paths are dynamic, therefore fixed lists cannot authorize future output expansion."
+    },
+    "countCorrection": {
+      "toolsDirectWrites": 22,
+      "deepenDirectWrites": 51,
+      "currentDirectWriterUnion": 73,
+      "K49DirectlyTouched": 38,
+      "K49PlusDirectWriteClosure": 84,
+      "additionalConditionalRenameDestinations": 16,
+      "fullK49MutationClosure": 100,
+      "meaning": "84 is write-only closure; it cannot be presented as full write+rename protection. Rename sources already belong to direct writes;16destinations extend union to100. Missing targets and8potential history directories are part of absence oracle."
+    },
+    "newTestsOnly": {
+      "suggestedPath": "scripts/docs/retired-document-writers.test.mjs",
+      "scope": "Pure docs writer retirement/refusal/zero-mutation contracts. No runtime execution count.",
+      "contracts": [
+        {
+          "id": "cold-cli-retirement-before-old-prerequisites",
+          "commands": [
+            "node scripts/docs/generate-testing-tools-readmes.mjs",
+            "node scripts/docs/deepen-testing-records.mjs"
+          ],
+          "fixture": "Copy only new candidate entry files to owned temp root at their exact scripts/docs paths. No Git repo, product sources, catalog or old anchors. Also probe arbitrary flags.",
+          "oracle": [
+            "Exact intended exit1 with clear retired-writer reason, not ENOENT/missing-anchor/Git failure or silently empty output.",
+            "No generated-success text and no file/directory created/renamed/changed."
+          ]
+        },
+        {
+          "id": "whole-mutation-closure-byte-and-absence-preservation",
+          "commands": ["both candidate CLIs in separately owned temp fixtures"],
+          "fixture": "Use the explicit100-path list and16rename pairs. Two complementary existence masks make every output file present in one run and absent in the other. For each rename pair arrange source-present/destination-absent then inverse; capture all parent directories too. Seed early ungoverned outputs, late protected pages, empty/unknown Template, governed parent with linkpresent/absent, catalog_governance null/false/empty/object; no linked tools are run.",
+          "oracle": [
+            "Actual CLI exit1 with same deliberate retired reason.",
+            "Before/after complete path/type/bytes snapshots identical, not just selected file hashes.",
+            "Absent target files/history directories remain absent; no partial earlier writes or rename-source removal.",
+            "Repeat on entirely ungoverned inputs to prove unmarked history is not a backdoor authorizing old regeneration."
+          ]
+        }
+      ],
+      "countPolicy": "Prefer2 focused parameterized realCLI tests. More counts do not increase runtime or migration credit. One new source file must be inventoried pending and actual quality ledger rechecked; closed/review counts unchanged."
+    },
+    "optionalOwnedCalibration": {
+      "owner": "Root Codex, explicit temp-only allowance from parent instruction",
+      "script": "Only original41-line generate-testing-tools-readmes at its frozen Git blob. Never olddeepen.",
+      "method": "Create separate owned temp root/script path with tool-name sentinels and README/parent sentinel bytes. Run original generator against that temp, verify it really changes README/parent outputs; do not execute any listed .mjs tool. Destroy only owned temp afterwards.",
+      "purpose": "Calibrate observed overwrite risk and no-op comparison; not implementation acceptance or runtime test. New candidate CLI must refuse on equivalent input.",
+      "record": "Record exact oldsourceSHA, original command/cwd/tempownership, before/after bytes and cleanup. If not actually run, label notrun. Do not embed a still-callable legacy producer into production just for this calibration."
+    },
+    "buildAndAcceptance": {
+      "buildPrerequisites": [
+        "Root records this source-pinned decision and exact2scripts/newtest/receipt/ledger write scope in task card.",
+        "K49 contributor still cannot edit shared tools/config/catalog; K49body build waits K0independent implementation acceptance."
+      ],
+      "requiredEvidence": [
+        "Non-author independently reads exact candidate stubs/test and source-retention receipt.",
+        "Run realCLI cold and full100mutation/absence tests in ownedtemp, with honest failures/counters; no real production oldwriter run.",
+        "Actual pnpm check:docs,lint,diff and codequalityledger zeroerror/warning/info after root changes; tests of retired entries not business tests."
+      ],
+      "notCompletion": "K0 retirement alone migrates0README and accepts0linked tool/runtime/E2E/visual/coverage outcomes."
+    },
+    "notPerformed": [
+      "no repository writes",
+      "no old one-shot run in production or temp",
+      "no implementation/newtest written",
+      "no K49bodymigration/build",
+      "no linked product/source assertions rerun",
+      "no product/oldtest/runtime/E2E/visual/coverage/browser/mainwork"
+    ],
+    "independentSignoff": "design agree to THIS retirement-only frozen contract; no implementation accept, no K49build, no authority to run olddeepen or product/oldtests."
+  },
+  "frozenK0DesignSource": {
+    "path": "/tmp/type-pal-k0-retired-writers-frozen-20261016.json",
+    "sha256": "d12618ab8e847b3ef55225830b22aacd68cf3efb2d471f1a1f07cad61628599b",
+    "readScope": "Root full687-line readable proposal with truncated middle reread;683-line identical embeddedJSON object copied mechanically/deepEqual. Non-author receipt_review entire41/767 oldsources; root full41 and olddeepen1–60/630–EOF767 plus allwrite/ref sites, not whole old767."
+  },
+  "k0Implementation": {
+    "status": "independently accepted K0 implementation; root actual full gates zero; final metadata precommit gate rerun required",
+    "owner": "root Codex",
+    "newMigrationCredit": 0,
+    "independentReview": {
+      "reviewer": "receipt_review",
+      "result": "independent implementation and current-ledger maintenance accept",
+      "snapshot": "/tmp/type-pal-k0-independent-reviewed-snapshot-20261016.json",
+      "snapshotSha256": "f16689f3036473430ebaaeaf4f657503313ccf52ae0f69f41763741fbb1d1771",
+      "reviewedSnapshot": {
+        "kind": "non-author-exact-k0-implementation-reviewed-snapshot",
+        "reviewer": "receipt_review",
+        "rootHEAD": "ea9368e2d76988ec736da0e2477caa509e77c6b4",
+        "sourceSHA256": {
+          "scripts/docs/generate-testing-tools-readmes.mjs": "812b0483f51a94deb06e4637a171eabec08432b2bf0e7601a7725bf222628c86",
+          "scripts/docs/deepen-testing-records.mjs": "3aee56482a309807e30d9e39838964691cef4a10684112b40bd66e7cdfdb4ed2",
+          "scripts/docs/retired-document-writers.test.mjs": "a411538602c14b84a6da3ffd4a4196c5f217c10a93de177a889b25320350583d",
+          "docs/ops/audits/code-quality-file-ledger.md": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+          "docs/phase-governance/reviews/20261016-historical-cards-d.json": "ca991b38700fd5d9b68a13478d3d24ca27f2b90a07c41f5d2875c8e696182175",
+          "docs/phase-governance/reviews/20261016-domain-navigation.json": "12ba2fa71bd35cebb2e56dda0e76272eb2d2aeedacc7d31216843f697e160e9b",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "42548edf6dea7fcb2bdc552f25a3e4000720ac157888dc8c0a9bc5f8d253f8f1"
+        },
+        "scope": "2full stubs/170-line test/full nonhistorical K0 control; frozen design deep equal; current ledger delta/all corresponding current fields plus oldcomplete prior/244rows/273source inverse; task K0 delta. Earlier oldsources808 full review retained. Not K49 body migration or product/oldtests/runtime/E2E/visual/coverage. Parent full pnpm/lint execution recorded separately.",
+        "actualChecks": {
+          "candidateFocusedTests": {
+            "pass": 2,
+            "fail": 0,
+            "coldCLI": 4,
+            "closureCLI": 20,
+            "testSHA256": "a411538602c14b84a6da3ffd4a4196c5f217c10a93de177a889b25320350583d"
+          },
+          "independentDiscriminationProof": {
+            "path": "/tmp/type-pal-k0-independent-implementation-20261016.json",
+            "sha256": "97244039f0d5d87ca5ec21542d29d2b4dc8f1708fba4e69b95687a331866de59"
+          },
+          "model": "150 body/7routes/0issues",
+          "strict": "659/0issues",
+          "links": "1223MD/7439links/361tasks/0issues",
+          "progress": "146baseline+4incremental/1838;current1962,pending1812,0issues",
+          "ledger": "3291/229closed/5review/3057pending;0issues",
+          "diff": "0"
+        },
+        "acceptance": "implementation and current ledger delta accept; root two counters closed by current exact source and true consumer/discrimination; parent fullgates/signoff/stablecommit/K49 admission separate; no migration credit",
+        "postReviewMaintenance": "Any root signoff/gates append is later bytes and cannot reuse these exact7SHA as if independently read."
+      },
+      "laterMaintenance": "This root signoff, counter closure, gate logs and K49 admission are later metadata bytes; not retroactively covered by the seven prior SHAs."
+    },
+    "ledgerMaintenance": {
+      "date": "2026-10-16",
+      "action": "K0 append one pending docs-tool test inventory row",
+      "sourceSha256": "2ab49d9ea29e7185d806b593756548985e33a59e11aef86ea98eb8f09fd9a20d",
+      "afterSha256": "dda897858643ca7d45f4feebd58f20ecb23316f95353f43bebf78db202ff64db",
+      "inventoryBefore": 3290,
+      "inventoryAfter": 3291,
+      "closed": 229,
+      "review": 5,
+      "newPending": 1,
+      "originalLiveRowsUnchanged": 244,
+      "newMigrationCredit": 0,
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "reviewRecord": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sourceSnapshotRetained": true,
+      "originalRowsAllByteUnchanged": true,
+      "actualConsumer": "PASS actual3291/229closed/5review/3057pending;old244rows/original273snapshot unchanged"
+    },
+    "beforeAfter": {
+      "before": "Two top-level Oct4 writers could replace governedREADME/report/evidence/catalog or renamehistory, and toolswriter could duplicate parent routes.",
+      "after": "Both exact CLI paths now self-contained retired refusal andexit1 with no oldimports/helpers/flags or data/Git/ref reads. Original implementations remain fixedGit only."
+    },
+    "sourceChanges": [
+      {
+        "path": "scripts/docs/generate-testing-tools-readmes.mjs",
+        "sourceRevision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+        "sourceGitObject": "a0707a059983e390f8dfcb13c1492e5db766e5f8",
+        "sourceSha256": "2792c47e9c026e38b32bcc7ef0ead83b42b3cddb5e82cfd3eae0ad923f4ed08c",
+        "beforeLines": 41,
+        "afterSha256": "812b0483f51a94deb06e4637a171eabec08432b2bf0e7601a7725bf222628c86",
+        "afterLines": 7,
+        "newRole": "Retained refusal CLI/provenance pointer only;no regeneration branch",
+        "oldImplementationRetention": "fixedGit only,no callable legacy copy"
+      },
+      {
+        "path": "scripts/docs/deepen-testing-records.mjs",
+        "sourceRevision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+        "sourceGitObject": "3284d420482ee494122fbf0b011fc0b55048c034",
+        "sourceSha256": "1e865d6eb8772f1b883ca32bd2dc41068f2636783ef53889f48b14e953fcb632",
+        "beforeLines": 767,
+        "afterSha256": "3aee56482a309807e30d9e39838964691cef4a10684112b40bd66e7cdfdb4ed2",
+        "afterLines": 7,
+        "newRole": "Retained refusal CLI/provenance pointer only;no regeneration branch",
+        "oldImplementationRetention": "fixedGit only,no callable legacy copy"
+      }
+    ],
+    "newTest": {
+      "path": "scripts/docs/retired-document-writers.test.mjs",
+      "sha256": "a411538602c14b84a6da3ffd4a4196c5f217c10a93de177a889b25320350583d",
+      "lines": 170,
+      "owner": "root Codex docs tooling",
+      "category": "test",
+      "qualityLedgerState": "pending",
+      "notProductRuntimeCount": true
+    },
+    "readScope": {
+      "root": "Full41 oldtoolsource;olddeepen1–60/630–EOF767 and allwrite/ref sites, not whole767. Fullnew2entry bodies/newtest/calibration and currentledger scope/count/newrow/inverse delta read. Gpreviousfull source/old244row semantic read reused as labelled history. Full final170-line stricter test and root Error-only calibration proof outcomes/cleanup also read.",
+      "independentDesign": "receipt_review full41+767,8scriptsfields/2fullCI and complete100mutation inventory; implementation review separate pending",
+      "newSourceInventory": "Only newdedicatedtest added/staged;existing2script paths remain,no exclusions/closed increments"
+    },
+    "publicCallers": [
+      "Dedicated newtest realCLI in ownedtemp; current docs pipeline only runs *.test.mjs andread-only checkers.",
+      "Manual node callers now receive intendedretirement; bounded static scripts/package/CI search found no existing invocation. External/dynamic callers unproven."
+    ],
+    "legalInputs": [
+      "RetiredCLIs have no allowed generation mode: bare invocation and arbitrary arguments all return explicitretirement. No catalog/Git/product prerequisites are consumed.",
+      "Only self-owned temp fixtures supply complementary100file/16rename/8directory states and inerttool filenames;not product businessinput."
+    ],
+    "businessOracle": {
+      "type": "real-cli-retirement-and-complete-filesystem-nonmutation",
+      "assertions": [
+        "Both entries deliberately exit1 with exactly one retirement stderr line containing filename/reason/fixedGit commit/blob and empty stdout; accidental Error/stack or extra stderr must fail.",
+        "Acrosscold/unmarked/known-empty-unknownTemplate/any_governance states,fullpath/type/mode/bytes snapshot unchanged;every100target present/absent in complementaryruns and16rename source/dest opposite,8historydirs absent/present preserved.",
+        "Old41 tempcounteractually overwritesgovernedREADME andappends duplicateparent route;equivalentnewCLIrefuses/unchanged. No linked.mjs executed,olddeepenneverrun."
+      ]
+    },
+    "dedupe": {
+      "result": "Two newdocs-tool contracts only;not new product/test-quality closure or runtime/E2E/visual/coverage execution",
+      "against": [
+        "existing71 docs-tool tests",
+        "K49 futureREADME migrations",
+        "112 linkedhistoricaltools semantic review"
+      ]
+    },
+    "actualTargetedChecks": {
+      "command": "node --test scripts/docs/retired-document-writers.test.mjs",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "coldCliRuns": 4,
+      "wholeClosureCliRuns": 20,
+      "log": "/tmp/type-pal-k0-tools-strict-refusal-20261016.log",
+      "scope": "Actual candidateentry copies in selfownedtemp;no oldbusinessrunner",
+      "testSha256": "a411538602c14b84a6da3ffd4a4196c5f217c10a93de177a889b25320350583d",
+      "stderrOracle": "Exact single line including basename/fixed Git commit/blob, not substring or error-name exclusion."
+    },
+    "counterReworkBlocked": [
+      {
+        "id": "K0-stage-before-tracked-inventory",
+        "status": "closed by receipt_review actual consumer/oracle review; root accepted",
+        "finding": "First ledger invocation afternewrow but beforestaging newtest rejecteddeclared3291/actual3290 andunknownnewpath. Actualinventory usesgitls-files trackedonly.",
+        "resolution": "Staged only admitted newtest path,then actualledger3291/229/5/3057PASS. Did not changeinventory,ignore unknownpath,reset oldstates or countnewtest closed.",
+        "failureOutcome": "Real firstexit1 retained here; no saved standalone log from thatconsole invocation is invented."
+      },
+      {
+        "id": "K0-initial-retirement-oracle-false-positive",
+        "status": "closed by receipt_review actual consumer/oracle review; root accepted",
+        "finding": "Real ownedtemp Error-only CLI with identical retirement words/exit1/zero writes falsely passed exact reconstructed initial ba684 test (2/2). Initial good-source green event retained as history.",
+        "resolution": "Strengthened only new focused test to exact one-line stderr including source pin; same injected Error/stack now fails both tests with ERR_ASSERTION. Actual retired sources unchanged and current targeted tests 2/2.",
+        "proof": "/tmp/type-pal-k0-error-refusal-calibration-20261016.json",
+        "proofSha256": "0f599cdb8dc4bb94fcbfad38e4fff1f64cd459ddce0b1a1f49584a10337fe5be",
+        "limits": "Ownedtemp formal test calibration only; no product/old writer; all ownedtemps removed. Independent extra-stderr/write mutations reviewed separately."
+      }
+    ],
+    "fullGates": {
+      "runner": "root Codex",
+      "docs": {
+        "log": "/tmp/type-pal-k0-final-candidate-docs-20261016.log",
+        "sha256": "035e096f553b85bae90d11d25f00797661bdd38c5971e0f95b26ab6028b075d9",
+        "tests": 73,
+        "fail": 0,
+        "skip": 0,
+        "markdown": 1223,
+        "links": 7439,
+        "tasks": 361,
+        "bodyContracts": 150,
+        "centralReviews": 659,
+        "issues": 0
+      },
+      "lint": {
+        "log": "/tmp/type-pal-k0-final-candidate-lint-20261016.log",
+        "sha256": "2c7ec00e77ee5b3d1e5993cb2afb8fb10d270fee6c97004ad98601c9742bdfa9",
+        "files": 4094,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diffCheck": "exit0",
+      "ledger": "3291/229closed/5review/3057pending;0issues",
+      "progress": "146/1838+4;1962current/1812pending;0issues",
+      "limits": "Candidate checks before final root signoff bytes; final read-only gate rerun before commit. No product/oldtests/coverage execution."
+    },
+    "notRun": [
+      "olddeepen",
+      "oldwriter in actualrepo",
+      "linkedtools",
+      "product/oldtests",
+      "runtime/E2E/visual/coverage/browser",
+      "main merge/push"
+    ],
+    "nextStep": "Commit admitted K0 whitelist after final metadata gates; stable commit then admit K49 author branch; full docs goal remains active.",
+    "initialTargetedChecks": {
+      "command": "node --test scripts/docs/retired-document-writers.test.mjs",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "coldCliRuns": 4,
+      "wholeClosureCliRuns": 20,
+      "log": "/tmp/type-pal-k0-tools-initial-20261016.log",
+      "scope": "Actual candidateentry copies in selfownedtemp;no oldbusinessrunner",
+      "testSource": {
+        "path": "scripts/docs/retired-document-writers.test.mjs",
+        "sha256": "ba684a7d116f38b4c3360fb73573eae038975bea611a9f65b7c9e5ac5200e297",
+        "lines": 166,
+        "owner": "root Codex docs tooling",
+        "category": "test",
+        "qualityLedgerState": "pending",
+        "notProductRuntimeCount": true
+      },
+      "historyPolicy": "Actual first source/test green event retained; later root calibration exposed assertion blind spot, not a final acceptance."
+    }
+  },
+  "k49": {
+    "status": "build allowed after independently accepted K0 stable commit and explicit root handoff; no accepted migrations yet",
+    "sourceRevision": "8aa698c4038bc6553a1a524ca83508cb16e06a32",
+    "sourceManifestSha256": "9ad30d9ed5c2b0ba3efb03c6859681283409366dd59a40407993e200e8f5e609",
+    "documents": 49,
+    "centralCoverage": 0,
+    "templateId": "governance-index-v1",
+    "templateVersion": "1.0.0",
+    "historyOverlays": 36,
+    "independentDesignReview": "receipt_review/history_cards_c_tail agree actual49source400lines; no candidate implementation accept",
+    "codingOwner": "history_cards_a in separate candidate branch from root stable K0 commit",
+    "authorWhitelist": "49 frozen README paths plus contributor-domain-navigation-k-20261016.json receipt only; no central/shared scripts/catalog/product writes"
+  },
+  "artifactRules": {
+    "oldWriters": {
+      "producer": "OriginalOct4 batch source, old explicit metadata and source lines retained in immutable Git only",
+      "owner": "Codex documentation governance",
+      "callers": [
+        "scripts/docs/retired-document-writers.test.mjs",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/phase-governance/reviews/20261016-domain-navigation.json"
+      ],
+      "retention": "Keep source8aa/blob/SHA provenance and actual immediate-refusal CLI paths; no relocated callable legacy copy or bypassflag."
+    },
+    "ownedFixtures": {
+      "producer": "New dedicated docs-tool tests; optional explicit old41 calibration only inside self-owned temp",
+      "owner": "root Codex",
+      "callers": [
+        "scripts/docs/retired-document-writers.test.mjs",
+        "docs/phase-governance/reviews/20261016-domain-navigation.json"
+      ],
+      "retention": "All owned temporary fixture directories cleaned by afterhook/finally; source/CLI outcomes and counter history retained, never delete user/product directories."
+    },
+    "type-pal-k0-tools-initial-20261016.log": {
+      "path": "/tmp/type-pal-k0-tools-initial-20261016.log",
+      "sha256": "668226a132dc7bd7ed133e143447eb224da323d3d356d4b13a8e5fecb21519dd",
+      "producer": "root Codex actual command/ownedfixture runner",
+      "owner": "DOCS-FULL-TEMPLATE-1/rootCodex",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual firstnew2docs-tooltests passed;not runtime",
+      "retention": "Keep exactownedlog/proof duringactivegoal;neveroverwrite,restoremissingraw or runoldproducer in usertree."
+    },
+    "type-pal-k0-owned-calibration-20261016.json": {
+      "path": "/tmp/type-pal-k0-owned-calibration-20261016.json",
+      "sha256": "5a7ba30e77a007fd2e0d07145a2dd3e29d541a6d9bd7936118bb0f06a6f0a5aa",
+      "producer": "root Codex actual command/ownedfixture runner",
+      "owner": "DOCS-FULL-TEMPLATE-1/rootCodex",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual ownedtemp old41 overwrite/duplicate andequivalentretiredCLI nonmutation;ownedtemps removed",
+      "retention": "Keep exactownedlog/proof duringactivegoal;neveroverwrite,restoremissingraw or runoldproducer in usertree."
+    },
+    "type-pal-k0-tools-strict-refusal-20261016.log": {
+      "path": "/tmp/type-pal-k0-tools-strict-refusal-20261016.log",
+      "sha256": "f9efc8dd41ef97286e04493b9e09ca8debc79324c10f53e2339d93665eb09422",
+      "producer": "root Codex ownedtemp runner",
+      "owner": "DOCS-FULL-TEMPLATE-1/rootCodex",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual strict-stderr candidate2/2,24ownedfixtureCLI; no runtime",
+      "retention": "Keep exact owned log/proof during active goal; never overwrite or run old producers in usertree."
+    },
+    "type-pal-k0-error-refusal-calibration-20261016.json": {
+      "path": "/tmp/type-pal-k0-error-refusal-calibration-20261016.json",
+      "sha256": "0f599cdb8dc4bb94fcbfad38e4fff1f64cd459ddce0b1a1f49584a10337fe5be",
+      "producer": "root Codex ownedtemp runner",
+      "owner": "DOCS-FULL-TEMPLATE-1/rootCodex",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual initial oracle false-positive and strict oracle rejection of same Error-only CLI; ownedtemps removed",
+      "retention": "Keep exact owned log/proof during active goal; never overwrite or run old producers in usertree."
+    },
+    "type-pal-k0-independent-implementation-20261016.json": {
+      "path": "/tmp/type-pal-k0-independent-implementation-20261016.json",
+      "sha256": "97244039f0d5d87ca5ec21542d29d2b4dc8f1708fba4e69b95687a331866de59",
+      "producer": "receipt_review independently ownedtemp runner",
+      "owner": "DOCS-FULL-TEMPLATE-1/receipt_review",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Non-author actual candidate2/2 and extra-stderr/write rejection calibration; earlier control snapshot is explicitly pre-final maintenance",
+      "retention": "Keep exact owned log/proof during active goal; never overwrite or run old producers in usertree."
+    },
+    "type-pal-k0-independent-reviewed-snapshot-20261016.json": {
+      "path": "/tmp/type-pal-k0-independent-reviewed-snapshot-20261016.json",
+      "sha256": "f16689f3036473430ebaaeaf4f657503313ccf52ae0f69f41763741fbb1d1771",
+      "producer": "receipt_review",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Exact seven-file non-author accepted implementation snapshot; later root metadata separately labelled",
+      "retention": "Keep immutable log/proof through active goal and source Git history; never overwrite or claim product execution."
+    },
+    "type-pal-k0-final-candidate-docs-20261016.log": {
+      "path": "/tmp/type-pal-k0-final-candidate-docs-20261016.log",
+      "sha256": "035e096f553b85bae90d11d25f00797661bdd38c5971e0f95b26ab6028b075d9",
+      "producer": "root Codex actual quality gate",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual root73 docs-tool tests/150body/659central/7439links allzero before root signoff",
+      "retention": "Keep immutable log/proof through active goal and source Git history; never overwrite or claim product execution."
+    },
+    "type-pal-k0-final-candidate-lint-20261016.log": {
+      "path": "/tmp/type-pal-k0-final-candidate-lint-20261016.log",
+      "sha256": "2c7ec00e77ee5b3d1e5993cb2afb8fb10d270fee6c97004ad98601c9742bdfa9",
+      "producer": "root Codex actual quality gate",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "scope": "Actual root4094file lint zero error/warning/info before root signoff",
+      "retention": "Keep immutable log/proof through active goal and source Git history; never overwrite or claim product execution."
+    }
+  },
+  "entries": [],
+  "frozenK0DesignSnapshotPolicy": "This entire object is the immutable d126 source/design event including original pre-implementation status. Current code/acceptance only k0Implementation;not retroactivelychanging oldcounts/dates/sourceor approval."
+}

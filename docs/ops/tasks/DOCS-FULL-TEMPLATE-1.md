@@ -702,3 +702,22 @@ Branch: codex/docs-full-template-proposal
 
 - K36历史层完整可逆quote与原source SHA，旧208出链/0fragment/35现有MD入链按真实GFM核验；现18工具页无入链/README图仅31可达，不能把check:docs绿视为无孤儿。新增入口与排重必须实际图复核，非作者逐篇candidate/receipt全读后根才接中央/矩阵/计数。
 - K0保护设计待冻，作者49正文待准入；J0仅共享合同实施准入，不等J6迁移/新格式pilot已验。原C/D/F/H/I候选branches/immutable receipts留存至全目标完成，未合推main、不清除其它任务工作树。无用户转交，由Codex内部推进。
+
+
+#### K0双历史正文writer退休设计冻结与文档工具准入
+
+- 独立receipt_review已全文读旧41/767行，核8package scripts对象/2完整CI与真实写点，最终设计JSON SHA`d12618ab8e847b3ef55225830b22aacd68cf3efb2d471f1a1f07cad61628599b`/可读687行SHA`ab39ab14284ddd574d8ac54f2f748c1d80d6bc46f13feea91c8f305dce6ed819` agree；根完整读可读设计（截断中段已补读）并核当前源、实际有界package/CI/scripts caller搜索，不冒领旧deepen767全读。冻结全文快照与100路径/16rename/8目录精确清单入[domain-navigation控制记录](../../phase-governance/reviews/20261016-domain-navigation.json)。
+- 选退役CLI替代最初“guard后保留旧再生”方案：两者无当前已证静态调用，Oct4一次性职责已完成，本轮未授权重生旧schema/日期/evidence。旧实现仅固定Git8aa来源保留；现原路径入口立即明确retired/exit1，在任何catalog/Git/ref读取或docs写入前拒绝，移除原执行体/私有helper/所有变相开关，不迁移可调用旧副本。此只退两写入器，不退泛用链接维护或112历史工具。
+- K0文档工具build allowed：根Codex唯一Owner，白名单scripts/docs/generate-testing-tools-readmes.mjs、scripts/docs/deepen-testing-records.mjs、新scripts/docs/retired-document-writers.test.mjs及本卡/控制、必要quality-file-ledger当前库存一行与其current review完整prior。不得产品/旧tests/coverage/registry新类型、不得跑旧deepen；源两文件当前字节须等8aa的a0707a/3284d4及2792c4/1e865d。非作者独立读两新入口/新测试/来源保留与真实CLI结果后才接收K0，K49正文仍draft。
+- 完整mutation分母是100文件+8潜在history目录：73直接写，K49并集84，再加16rename目的地；原源均已在直接写入集合。不是84全写入保护，且仅固定树，不能授权未来动态输出。新测试只2个focused/参数化真实CLI：空环境明确retired而非缺文件/Git失败；100路径互补存在/缺席、16rename两向、marker null/false/empty/object/unknownTemplate及无marker均保持完整目录/类型/字节/缺席。新增测试入inventory pending，不增closed/review。
+- 可选实际反证仅root拥有tmp复制旧41行工具generator，设哨兵README/父页/假工具文件名，证明会覆盖/追加但不执行工具；记录确切源SHA/cwd/前后字节与finally清理。绝不在真实仓库跑旧generator、旧deepen或产品/旧tests/raw。K0本身0README迁移、0runtime/coverage信用，K49须等稳定接收提交另明确准入。
+
+- K0实施候选：两旧执行体已移除，原路径均7行立即retired/exit1并指固定Git源；无imports/旧helper/绕过flag/可调用旧副本。新增两focused docs测试实际2/2、0fail/skip（4coldCLI、20完整闭包参数化CLI），100文件/16rename/8目录完整类型/字节/存在缺席保持；只工具合同，不计产品运行。
+- 根在自有tmp实跑固定旧41行generator，确覆写含Template的README并给已规范化父页追加第二条同target；等价新入口exit1/前后字节不变。仅假工具文件名未执行，旧deepen从未运行，两个ownedtmp已finally清除；原before/after字节与SHA/cwd/command入专属proof5a7ba3...，不是正式产品反控。
+- 新test仅pending库存，原244live行与273原稿fence字节保持；当前3291/229closed/5review/3057pending/3062unclosed。首轮在gitadd前机器还只见3290、拒unknown新path，根查真实gitls-files生产者后仅stage本卡新test，复跑3291真实通过，不改工具/ignore/旧状态；该首次exit1保控制记录，不冒造未保存日志。
+- K0仍待非作者实施/ledgercurrent复核与全门，不准K49正文写；新控制JSON仍待后继真实治理，0新增迁移，main未写/goalactive。
+
+- K0根自审实际校准发现首版测试只按retired子串判断，会把相同消息的Error/stack误收为主动退休（自有tmp初版2/2假阳性）；已将新测试收紧为含固定commit/blob的精确单行stderr，同故障现实际两测试ERR_ASSERTION拒绝。最终170行测试SHA`a411538602c14b84a6da3ffd4a4196c5f217c10a93de177a889b25320350583d`真实2/2，两个7行CLI未变；初版green与反证proof0f599c...均保历史。非作者另实跑2/2及extra-stderr/偷偷write两变体拒绝，精确最终维护hash验收及全门仍待。
+
+- K0非作者receipt_review实施与账本维护独立accept，精确7文件快照SHA`f16689f3036473430ebaaeaf4f657503313ccf52ae0f69f41763741fbb1d1771`；两个根counter均依真实consumer/判别校准闭合。其自跑2focused/model150/strict659/7439links/ledger/progress/diff与根全pnpm分开。根全门73工具0fail/skip、1223MD/7439links/361tasks、model150/659central/testing0/phase184、lint4094零error/warning/info；本次根签收/门追加为新字节，提交前最后复跑。K0仍0迁移，146/1838+4/1812pending，总目标active。
+- K49正文build allowed（仅K0稳定提交后根明确交接）：history_cards_a单一作者，另建codex/docs-domain-navigation-k分支自根K0稳定基点；49固定README+`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json`，按上文49逐篇绑定及400行源manifest。必须49真实5章/36历史5章与完整源逆回读，49来源/blob/after/review字段，新增20tool导航、battle/scene当前排重/scene零工具及实际GFM图49/49；不改脚本/中央账/模板/catalog/产品/旧tests/coverage，112工具仅来源关联不执行。非作者tail完整逐篇candidate/receipt复核后根接中央/矩阵与计数，交付前仍pending/不替根签done。旧C/D/F/H/I分支/receipt保留。无用户转交。
