@@ -292,3 +292,8 @@ Branch: codex/docs-full-template-proposal
 - 当前77/1838基线+4增量实际迁移，1869当前候选待迁移；68文档工具、81正文合同、614旧+新账本、默认UTC15的check:docs通过；lint4081文件0 error/warning/info、diff0。已实测today=2026-10-16仍拒绝006 reviewBy过期，本项未关闭，不能宣称最终全仓准入。任务build/目标active，未动main/产品源码/旧测试/coverage。
 - 包C作者候选7ddc35d65ce9a88f14db3a341dbca0a43003fc53（源33cc2df5），隔离树干净，精确8卡+专属回执。作者200旧标题/176出站fragment/4930行完整逆回读自验并不等独立接收，未合并/未计数。根已全文A7-0源528行、全部新增章节/回执首条与顶层，直接全文音乐报告98行、静态图报告117行、MIG-PAL-ACTOR-FACE-1继任卡389行；其余原卡/回执与总审计/过场设计/retention尚待独立核，不提前accept。
 - 下一步继续006两篇Markdown的真实内容迁移与publication日期义务，及包C非作者独立复核；不由旧连续卡done拼出新实跑。无新的用户产品裁决项，不需反复审批或转发。
+
+### 2026-10-16 包C独立审查分工
+
+- 作者候选7ddc35d65ce9a88f14db3a341dbca0a43003fc53保持隔离/clean，源33cc2df5未变。非作者receipt_review只读前四卡A7-0/0A/1/2及对应完整回执/一手来源；非作者history_cards_c_tail只读后四卡A7-3/3B/3T/3W及对应完整回执/一手来源。两席可独立读公共来源，不等待或复述另一席结论，也不声称个人读满所有八卡。
+- 两席禁止任何仓库写入/旧产品测试/coverage/浏览器，只交逐篇accept/counter、源锚点、严格保真与模板/链接证据。根Codex分别接收真实阅读范围，独立核关键primary/新章节/原对象及统一质量门后才集成写中央账；现仍未cherry-pick、未计迁移数、不合main。无用户转发环节，当前无需额外审批。
