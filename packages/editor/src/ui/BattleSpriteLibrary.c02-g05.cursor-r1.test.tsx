@@ -12,17 +12,19 @@ import { expect, test, vi } from 'vitest'
 import { decodeBattleAsset } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
 import {
   A_SHARED,
+  applyAppearance,
+  applyBattleHistory,
   applyButton,
   clickButtonByText,
   deleteUsageButton,
   noticeErrors,
   pickImportFile,
   renameUsage,
+  runRawAction,
   selectSourceFrame,
   setupBattleSuite,
   usageNameInput,
   waitProof,
-  waitRawMessage,
 } from '../__tests__/cursor-asset-r1/battle-sprite-ui.js'
 import { atlasColors, pngFileOf, solidAtlasPng } from '../__tests__/cursor-asset-r1/image-ports.js'
 import {
@@ -66,16 +68,12 @@ test('C02-G05-01 改名提交→undo→redo：输入框与切换用途列表随�
   expect(choiceTitles(m.host)).toEqual(['甲·改', '乙战士'])
   expect(applyButton(m.host).disabled).toBe(true)
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(usageNameInput(m.host)?.value).toBe('甲战士')
   expect(choiceTitles(m.host)).toEqual(['甲战士', '乙战士'])
   expect(applyButton(m.host).disabled).toBe(true)
 
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   expect(usageNameInput(m.host)?.value).toBe('甲·改')
   expect(applyButton(m.host).disabled).toBe(true)
   assertProjectSaveValid(m.session.getState())
@@ -92,13 +90,9 @@ test('C02-G05-02 玩家施法特效基帧：草稿不动规范值，提交后 un
   expect(castBase(m.session.getState(), 'shared-fighter-a')).toBe(4)
   expect(castBase(m.session.getState(), 'shared-fighter-b')).toBe(0)
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(field().value).toBe('0')
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   expect(field().value).toBe('4')
   assertProjectSaveValid(m.session.getState())
 })
@@ -115,17 +109,13 @@ test('C02-G05-03 新增用途→undo 回落首个用途并上报宿主；redo �
   await waitProof(m.host, 12, 3)
   expect(m.viewHistory.at(-1)).toEqual({ view: 'definition', objectId: 'c02-enemy' })
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await waitProof(m.host, 12, 2)
   expect(m.session.getState().battleSprites.some((e) => e.id === 'c02-enemy')).toBe(false)
   expect(usageNameInput(m.host)?.value).toBe('甲战士')
   expect(m.viewHistory.at(-1)).toEqual({ view: 'definition', objectId: 'shared-fighter-a' })
 
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   await waitProof(m.host, 12, 3)
   expect(m.session.getState().battleSprites.some((e) => e.id === 'c02-enemy')).toBe(true)
   assertProjectSaveValid(m.session.getState())
@@ -139,16 +129,12 @@ test('C02-G05-04 删除用途→undo：回到原索引顺序，切换用途列�
   await act(async () => deleteUsageButton(m.host)!.click())
   expect(m.session.getState().battleSprites.map((e) => e.id)).not.toContain('shared-fighter-a')
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(m.session.getState().battleSprites.map((e) => e.id)).toEqual(order)
   await waitProof(m.host, 12, 2)
   expect(choiceTitles(m.host)).toEqual(['甲战士', '乙战士'])
 
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   expect(m.session.getState().battleSprites.map((e) => e.id)).not.toContain('shared-fighter-a')
   await waitProof(m.host, 12, 1)
 })
@@ -161,9 +147,7 @@ test('C02-G05-05 草稿进行中遇外部 undo：规范值回流并覆盖草稿�
   await renameUsage(m.host, '甲·二')
   expect(applyButton(m.host).disabled).toBe(false)
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(usageNameInput(m.host)?.value).toBe('甲战士')
   expect(applyButton(m.host).disabled).toBe(true)
   expect(label(m.session.getState(), 'shared-fighter-a')).toBe('甲战士')
@@ -182,19 +166,15 @@ test('C02-G05-06 UI 替换源文件增帧后 undo/redo：预览证明随字节�
     expect(m.host.textContent).toContain('共 13 帧（横排逐行切）')
   })
   vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await waitProof(m.host, 13, 2)
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await waitProof(m.host, 12, 2)
   expect((await decodeBattleAsset(m.project, m.session.getState(), A_SHARED)).frames).toHaveLength(
     12,
   )
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   await waitProof(m.host, 13, 2)
   expect((await decodeBattleAsset(m.project, m.session.getState(), A_SHARED)).frames).toHaveLength(
     13,
@@ -220,16 +200,12 @@ test('C02-G05-07 三步历史（改名→特效基帧→删用途）逐级 undo 
   expect(new Set(snapshots.map((s) => JSON.stringify(s))).size).toBe(4)
 
   for (const expected of [snapshots[2], snapshots[1], snapshots[0]]) {
-    await act(async () => {
-      expect(m.session.undo()).toBe(true)
-    })
+    expect(await applyBattleHistory(m, 'undo')).toBe(true)
     expect(m.session.getState().battleSprites).toEqual(expected)
   }
   expect(m.session.undo()).toBe(false)
   for (const expected of [snapshots[1], snapshots[2], snapshots[3]]) {
-    await act(async () => {
-      expect(m.session.redo()).toBe(true)
-    })
+    expect(await applyBattleHistory(m, 'redo')).toBe(true)
     expect(m.session.getState().battleSprites).toEqual(expected)
   }
   expect(m.session.redo()).toBe(false)
@@ -240,9 +216,7 @@ test('C02-G05-08 undo 后新的 UI 提交清空 redo 栈，且最终规范值是
   await waitProof(m.host, 12, 2)
   await renameUsage(m.host, '甲·一')
   await act(async () => applyButton(m.host).click())
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await renameUsage(m.host, '甲·三')
   await act(async () => applyButton(m.host).click())
   expect(label(m.session.getState(), 'shared-fighter-a')).toBe('甲·三')
@@ -265,15 +239,12 @@ test('C02-G05-09 追加两帧后选中新末帧再 undo：源帧选择收紧到�
     expect(m.host.textContent).toContain('将 16×8 图片切为')
   })
   await typeDraft(m.host.querySelector<HTMLInputElement>('.sprite-raw-append-panel input')!, '2')
-  await clickButtonByText(m.host, '确认追加')
-  await waitRawMessage(m.host)
+  await runRawAction(m, '确认追加')
   await waitProof(m.host, 14, 2)
   await selectSourceFrame(m.host, 13)
   expect(m.host.querySelector('.sprite-raw-toolbar b')?.textContent).toBe('#13')
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await waitProof(m.host, 12, 2)
   expect(m.host.querySelector('.sprite-raw-toolbar b')?.textContent).toBe('#11')
   expect(m.host.querySelector('[data-source-frame-index="12"]')).toBeNull()
@@ -291,9 +262,7 @@ test('C02-G05-10 撤销新增用途后再次新增：id 复用 c02-enemy 而非�
     })
   }
   await addEnemy()
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await waitProof(m.host, 12, 2)
   await addEnemy()
   expect(m.session.getState().battleSprites.some((e) => e.id === 'c02-enemy-2')).toBe(false)

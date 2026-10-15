@@ -1,0 +1,40 @@
+{
+  "base": "2eb5b1401cb003af91c7262b691dcbe788ec0e82",
+  "sources": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "beforeSha256": "0ff8f1b5ecf000cd6aee415b32d0ac20231ffbc78563cbc1c064d7c6872a9515",
+      "currentSha256": "79e76390490103d7632f37996078a9fcae6b6b8a82c7f5b604e60eff6575f00d",
+      "lines": 294,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "beforeSha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
+      "currentSha256": "c7540c442d470574eee17d4b3b4d3c21f3981aa8da4500d0b36de99ee909b7cc",
+      "lines": 375,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "beforeSha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
+      "currentSha256": "0f8ef862dcd04ab4cf810569508fd659e22655545356bfd612660e88fa1a120a",
+      "lines": 292,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "beforeSha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "currentSha256": "2c2ff9ffb243fd447d44d8cc1dbcd7853fd5edf863daef5b815797f8cd4248d2",
+      "lines": 272,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    }
+  ],
+  "priorReads": "QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json and read-boundaries.json",
+  "remaining": "G01 pending assertions need controlled IO; G05 unknown-profile cast and header novelty claims need precision review; historical pending navigation domain of host remains unverified",
+  "oldWaitRawMessageCallers": "Only G01/G05; global search preceded removal. New raw helper returns its fresh DOM result after real notice."
+}

@@ -74,3 +74,5 @@
 - [CODE-QUALITY-102 交付证据](CODE-QUALITY-102/README.md)（review-only：quick-save 逐文件四维结论 + E-13 fixture 登记，8 定向，待 Codex 验收）。
 
 - [C02宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2/README.md)（有限三文件，零关闭，统一门待续）。
+
+- [C02导入与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3/README.md)（有限四文件，30例535→0，精度与完整窗口待续）。

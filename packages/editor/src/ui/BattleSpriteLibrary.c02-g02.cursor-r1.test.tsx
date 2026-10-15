@@ -10,6 +10,8 @@
 import { act } from 'react'
 import { expect, test, vi } from 'vitest'
 import {
+  applyAppearance,
+  applyBattleHistory,
   buttonByText,
   catalogMetas,
   clickButtonByText,
@@ -81,7 +83,7 @@ test('C02-G02-02 玩家 9 帧图集导入失败：面板保留、零提交，换
   await openImportPanel(m.host)
   await pickImportFile(m.host, pngFileOf('九帧.png', atlas(9).bytes))
   await waitFrameSummary(m.host, 9)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m, 'error')
   await vi.waitFor(() => {
     expect(uploaderError(m.host)).toContain('玩家战斗精灵至少需要 10 帧')
   })
@@ -93,7 +95,7 @@ test('C02-G02-02 玩家 9 帧图集导入失败：面板保留、零提交，换
   await pickImportFile(m.host, pngFileOf('十帧.png', atlas(10).bytes))
   await waitFrameSummary(m.host, 10)
   expect(uploaderError(m.host)).toBe('')
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.host.querySelector('.battle-sprite-upload-panel')).toBeNull()
   })
@@ -127,7 +129,7 @@ test('C02-G02-04 单帧图导入为敌人：待机 1 帧、施法/攻击 0 帧�
   await pickCombobox(comboboxTrigger(m.host, '用途'), '敌人')
   await pickImportFile(m.host, pngFileOf('单帧.png', atlas(1).bytes))
   await waitFrameSummary(m.host, 1)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.session.getState().battleSprites.some((e) => e.id === 'authored-enemy')).toBe(true)
   })
@@ -152,7 +154,7 @@ test('C02-G02-05 同字节再导入为召唤：复用同一 AssetId，撤销链�
     await pickCombobox(comboboxTrigger(m.host, '用途'), kindLabel)
     await pickImportFile(m.host, pngFileOf('四帧.png', png.bytes))
     await waitFrameSummary(m.host, 4)
-    await clickButtonByText(m.host, '应用外观')
+    await applyAppearance(m)
     await vi.waitFor(() => {
       expect(m.host.querySelector('.battle-sprite-upload-panel')).toBeNull()
     })
@@ -168,11 +170,11 @@ test('C02-G02-05 同字节再导入为召唤：复用同一 AssetId，撤销链�
   await waitProof(m.host, 4, 2)
 
   const path = m.session.getState().assetCatalog.assets[asset]!.path
-  expect(m.session.undo()).toBe(true)
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(m.session.getState().battleSprites.some((e) => e.id === 'authored-summon')).toBe(false)
   expect(m.session.getState().assetCatalog.assets[asset]).toBeDefined()
   expect(m.session.getState().assetBlobs[path]).toBeDefined()
-  expect(m.session.undo()).toBe(true)
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(m.session.getState().assetCatalog.assets[asset]).toBeUndefined()
   expect(m.session.getState().assetBlobs[path]).toBeUndefined()
 })
@@ -185,7 +187,7 @@ test('C02-G02-06 相同前缀与用途、不同图的两次导入：定义 id �
     await pickCombobox(comboboxTrigger(m.host, '用途'), '敌人')
     await pickImportFile(m.host, pngFileOf('boss.png', atlas(4, rotate).bytes))
     await waitFrameSummary(m.host, 4)
-    await clickButtonByText(m.host, '应用外观')
+    await applyAppearance(m)
     await vi.waitFor(() => {
       expect(m.host.querySelector('.battle-sprite-upload-panel')).toBeNull()
     })
@@ -208,7 +210,7 @@ test('C02-G02-07 纯中文 ID 前缀回退 authored；显示名留空时定义�
   await pickCombobox(comboboxTrigger(m.host, '用途'), '召唤现身')
   await pickImportFile(m.host, pngFileOf('召唤.png', atlas(3).bytes))
   await waitFrameSummary(m.host, 3)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.session.getState().battleSprites.some((e) => e.id === 'authored-summon')).toBe(true)
   })
@@ -223,7 +225,7 @@ test('C02-G02-08 导入后 undo：选择回落到目录首项；redo 恢复资�
   await openImportPanel(m.host)
   await pickImportFile(m.host, pngFileOf('十帧.png', atlas(10).bytes))
   await waitFrameSummary(m.host, 10)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.host.querySelector('.battle-sprite-upload-panel')).toBeNull()
   })
@@ -232,17 +234,13 @@ test('C02-G02-08 导入后 undo：选择回落到目录首项；redo 恢复资�
     .battleSprites.find((e) => e.id === 'authored-player-fighter')!
   expect(selectedCatalogAsset(m.host)).toBe(imported.asset)
 
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   const metas = catalogMetas(m.host)
   expect(metas).not.toContain(imported.asset)
   expect(selectedCatalogAsset(m.host)).toBe(metas[0])
   expect(selectedCatalogAsset(m.host)).not.toBe(imported.asset)
 
-  await act(async () => {
-    expect(m.session.redo()).toBe(true)
-  })
+  expect(await applyBattleHistory(m, 'redo')).toBe(true)
   expect(catalogMetas(m.host)).toContain(imported.asset)
   expect(selectedCatalogAsset(m.host)).toBe(metas[0])
 })
@@ -260,7 +258,7 @@ test('C02-G02-09 用途下拉只提供三种导入类型，选召唤后写入 {k
   await fillAndBlur(controlByLabel<HTMLInputElement>(m.host, '配置 ID 前缀'), 'fx')
   await pickImportFile(m.host, pngFileOf('fx.png', atlas(5).bytes))
   await waitFrameSummary(m.host, 5)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.session.getState().battleSprites.some((e) => e.id === 'fx-summon')).toBe(true)
   })
@@ -282,7 +280,7 @@ test('C02-G02-10 取消后重开保留已填 ID 与显示名；随后导入按�
 
   await pickImportFile(m.host, pngFileOf('十帧.png', atlas(10).bytes))
   await waitFrameSummary(m.host, 10)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(m.session.getState().battleSprites.some((e) => e.id === 'keep-me-player-fighter')).toBe(
       true,

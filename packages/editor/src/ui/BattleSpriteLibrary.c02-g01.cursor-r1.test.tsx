@@ -18,6 +18,8 @@ import {
 } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
 import {
   A_SHARED,
+  applyAppearance,
+  applyBattleHistory,
   applyButton,
   chooseActionRow,
   clickButtonByText,
@@ -25,12 +27,12 @@ import {
   pickImportFile,
   rawEditorMessage,
   renameUsage,
+  runRawAction,
   STANDARD_SPECS,
   selectSourceFrame,
   setupBattleSuite,
   usageNameInput,
   waitProof,
-  waitRawMessage,
 } from '../__tests__/cursor-asset-r1/battle-sprite-ui.js'
 import { atlasColors, pngFileOf, solidAtlasPng } from '../__tests__/cursor-asset-r1/image-ports.js'
 import { UpdateBattleSpriteDefinitionCommand } from '../core/commands.js'
@@ -164,7 +166,7 @@ test('C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；
   await waitProof(m.host, 12, 3)
   await openAndPick()
   const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await clickButtonByText(m.host, '应用外观')
+  await applyAppearance(m)
   await vi.waitFor(() => {
     expect(confirm).toHaveBeenCalledWith(expect.stringContaining('替换共享帧源会影响 3 个用途'))
   })
@@ -198,8 +200,7 @@ test('C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务
     m.session.dispatch(late)
     return true
   })
-  await clickButtonByText(m.host, '删除当前帧')
-  const message = await waitRawMessage(m.host)
+  const message = await runRawAction(m, '删除当前帧')
   expect(confirm).toHaveBeenCalledOnce()
   expect(message.classList.contains('error')).toBe(true)
   expect(message.textContent).toBe('缩帧事务必须显式修复全部共享战斗精灵消费者')
@@ -225,8 +226,7 @@ test('C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不�
     m.session.dispatch(drift)
     return true
   })
-  await clickButtonByText(m.host, '删除当前帧')
-  const message = await waitRawMessage(m.host)
+  const message = await runRawAction(m, '删除当前帧')
   expect(message.classList.contains('error')).toBe(true)
   expect(message.textContent).toBe('缩帧消费者 shared-fighter-a 的 profile 已变化，请重新确认')
   expect(m.session.getHistoryVersion()).toBe(1)
@@ -247,7 +247,9 @@ test('C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒�
     13,
     4,
   )
-  expect(mounted.session.dispatch(command)).toBe(true)
+  await act(async () => {
+    expect(mounted.session.dispatch(command)).toBe(true)
+  })
   const nextProfile: PlayerFighterBattleSpriteProfile = {
     ...profileOf(mounted.session.getState(), 'shared-fighter-a'),
     attackEffectBase: 2,
@@ -266,15 +268,17 @@ test('C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒�
   expect(mounted.session.getState()).toBe(before)
   expect(mounted.session.getHistoryVersion()).toBe(history)
   const fresh = mounted.session.getState().assetCatalog.assets[A_SHARED]!
-  expect(
-    mounted.session.dispatch(
-      new UpdateBattleSpriteDefinitionCommand(
-        'shared-fighter-a',
-        { profile: nextProfile },
-        { asset: A_SHARED, sha256: fresh.sha256, actualFrameCount: 13 },
+  await act(async () => {
+    expect(
+      mounted.session.dispatch(
+        new UpdateBattleSpriteDefinitionCommand(
+          'shared-fighter-a',
+          { profile: nextProfile },
+          { asset: A_SHARED, sha256: fresh.sha256, actualFrameCount: 13 },
+        ),
       ),
-    ),
-  ).toBe(true)
+    ).toBe(true)
+  })
   expect(mounted.session.getHistoryVersion()).toBe(history + 1)
   expect(profileOf(mounted.session.getState(), 'shared-fighter-a').attackEffectBase).toBe(2)
 })
@@ -319,8 +323,7 @@ test('C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排
   const seeded = m.project.seeded.get(A_SHARED)!
   await selectSourceFrame(m.host, 3)
   const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await clickButtonByText(m.host, '删除当前帧')
-  const message = await waitRawMessage(m.host)
+  const message = await runRawAction(m, '删除当前帧')
   expect(message.classList.contains('error')).toBe(false)
   expect(confirm).toHaveBeenCalledWith(expect.stringContaining('甲战士：重排 7 个动作槽位'))
   expect(confirm).toHaveBeenCalledWith(expect.stringContaining('乙战士：重排 7 个动作槽位'))
@@ -344,7 +347,7 @@ test('C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排
   expect(decoded.frames[3]).toEqual(seeded.encoded.frames[4])
   assertProjectSaveValid(m.session.getState())
 
-  expect(m.session.undo()).toBe(true)
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(m.session.getState().battleSprites).toEqual(before)
   expect(m.session.getState().assetCatalog.assets[A_SHARED]?.sha256).toBe(seeded.sha256)
   expect(rawEditorMessage(m.host)).not.toBeNull()
@@ -355,8 +358,7 @@ test('C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧
   await waitProof(m.host, 5, 1)
   await selectSourceFrame(m.host, 2)
   vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await clickButtonByText(m.host, '删除当前帧')
-  const message = await waitRawMessage(m.host)
+  const message = await runRawAction(m, '删除当前帧')
   expect(message.textContent).toBe('删除战斗精灵原始帧 #2；可使用撤销恢复。')
   await waitProof(m.host, 4, 1)
   expect(m.session.getState().battleSprites.find((d) => d.id === 'summon-fox')?.profile).toEqual({
@@ -368,6 +370,6 @@ test('C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧
     'battle-sprite.authored.c02-summon',
   )
   expect(decoded.frames).toHaveLength(4)
-  expect(m.session.undo()).toBe(true)
+  expect(await applyBattleHistory(m, 'undo')).toBe(true)
   await waitProof(m.host, 5, 1)
 })

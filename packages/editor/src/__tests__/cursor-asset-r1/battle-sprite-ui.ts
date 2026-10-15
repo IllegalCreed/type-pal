@@ -1,5 +1,5 @@
 /**
- * C02 BattleSpriteLibrary 驱动助手：只经公开 DOM（aria/文本/类名）操作，等价真实用户。
+ * C02 BattleSpriteLibrary 驱动助手：经公开 DOM 操作，以真实 Session/notice/IO 完成信号等待。
  * 不读私有 state，不改产品代码。
  */
 import { act } from 'react'
@@ -18,7 +18,13 @@ import {
   waitForBattleSpriteResources,
 } from './battle-sprite-harness.js'
 import { installBrowserHardwarePorts } from './image-ports.js'
-import { buttonByText, clickButtonByText, loadFilesIntoInput, typeDraft } from './kit.js'
+import {
+  applyHistoryAction,
+  buttonByText,
+  clickButtonByText,
+  loadFilesIntoInput,
+  typeDraft,
+} from './kit.js'
 
 export const A_SHARED = 'battle-sprite.authored.c02-shared'
 export const A_ENEMY = 'battle-sprite.authored.c02-enemy'
@@ -206,13 +212,6 @@ export function rawEditorMessage(host: HTMLElement): HTMLElement | null {
   return host.querySelector<HTMLElement>('.sprite-raw-editor-message')
 }
 
-export async function waitRawMessage(host: HTMLElement): Promise<HTMLElement> {
-  await vi.waitFor(() => {
-    expect(rawEditorMessage(host)).not.toBeNull()
-  })
-  return rawEditorMessage(host)!
-}
-
 export function uploaderPicker(host: HTMLElement): HTMLInputElement {
   const picker = host.querySelector<HTMLInputElement>('input[aria-label="选择战斗精灵图片"]')
   expect(picker, '战斗精灵图片选择器').not.toBeNull()
@@ -228,6 +227,52 @@ export async function openImportPanel(host: HTMLElement): Promise<void> {
 
 export async function pickImportFile(host: HTMLElement, file: File): Promise<void> {
   await loadFilesIntoInput(uploaderPicker(host), [file])
+}
+
+/** Compression and validation finish before the real command or error notice is emitted. */
+export async function applyAppearance(
+  mounted: MountedBattleSpriteLibrary,
+  outcome: 'commit' | 'error' = 'commit',
+): Promise<void> {
+  const history = mounted.session.getHistoryVersion()
+  const notices = mounted.notices.length
+  await act(async () => {
+    buttonByText(mounted.host, '应用外观').click()
+    await vi.waitFor(() => {
+      if (outcome === 'commit') expect(mounted.session.getHistoryVersion()).toBe(history + 1)
+      else
+        expect(mounted.notices.slice(notices).some((notice) => notice?.kind === 'error')).toBe(true)
+    })
+  })
+  await waitForBattleSpriteResources(mounted.host)
+}
+
+/** Raw edits report a fresh success/error only after their real async command finishes. */
+export async function runRawAction(
+  mounted: MountedBattleSpriteLibrary,
+  label: '删除当前帧' | '确认追加',
+): Promise<HTMLElement> {
+  const notices = mounted.notices.length
+  await act(async () => {
+    buttonByText(mounted.host, label).click()
+    await vi.waitFor(() => {
+      expect(mounted.notices.slice(notices).some((notice) => notice !== undefined)).toBe(true)
+    })
+  })
+  await waitForBattleSpriteResources(mounted.host)
+  const message = rawEditorMessage(mounted.host)
+  expect(message, 'fresh raw editor result').not.toBeNull()
+  return message!
+}
+
+/** History notifies subscribers synchronously; asset changes can start a real preview load. */
+export async function applyBattleHistory(
+  mounted: MountedBattleSpriteLibrary,
+  action: 'undo' | 'redo',
+): Promise<boolean> {
+  const changed = await applyHistoryAction(mounted.session, action)
+  await waitForBattleSpriteResources(mounted.host)
+  return changed
 }
 
 export async function pressKey(target: Element, key: string): Promise<KeyboardEvent> {
