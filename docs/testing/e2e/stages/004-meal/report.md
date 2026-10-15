@@ -8,6 +8,102 @@ evidence: e2e/evidence/e2e-004.json
 {"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-game.mjs","lines":"3-3","anchor":"await runMealJourney","role":"caller","sha256":"a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f"},{"path":"scripts/e2e/meal-contract.mjs","lines":"395-415","anchor":"export function validateMealPredecessor(","role":"input","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-contract.mjs","lines":"302-325","anchor":"export function assertMealSuite(","role":"oracle","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-contract.mjs","lines":"744-769","anchor":"export function assertMealGameSaveInput(","role":"oracle","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/meal-contract.mjs","lines":"685-732","anchor":"export function assertMealCollector(","role":"collector consumer","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-observer.mjs","lines":"1-115","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves 六 case 分开","取消/错误 use 不扣酒","赠酒正文、消失、喊话后恢复控制权"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","e2e/stages/004-meal/report.md#历史"],"notes":"旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-004.json"}
 -->
 
+# 004 · 端菜、送菜与使用桂花酒赠道士
+
+Status: verified
+Owner: Codex（本轮治理责任）；history_cards_a（候选正文）
+Last reviewed: 2026-10-16
+Template: test-run-report-v1 / 1.0.0
+
+## Scope
+
+本报告限定004正常取菜、送菜和在NPC身上编辑/预览的桂花酒赠道士正文。[E2E-004-2](../../../../ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md)保留用户复验后分case与UI时钟返工的一手时序。Game/phase1与Reforge/phase2按各自真实003输入；story/items/saves是三个独立case，不把功能专项塞进连续演示。原六case候选9a488c02、早期独立候选和d02222/11审计分时点，当前窄源22/12不倒签历史。
+
+原frontmatter/testing-meta是唯一live声明，candidate d02278dc0154dd73b5db24388a35c30bb096cc81/content22/SAVE11/10月4日notRun原样不动。原报告无独立Owner/Last reviewed，新增只属本次治理；verified仅出版，不是今天的实跑或期限续期。
+
+## Execution and assertions
+
+正常held/菜单输入经取菜、送菜、选桂花酒面对目标；不造物品、不直起剧情。story连续40行/说话人、唯一扣酒、喝酒消失、207/209与恢复控制，无专项存读；items取消零dispatch，错误位置正常use一条失败dispatch、库存/绑定不变。saves独立慢读李大娘朝下姿态，208端菜中途及终点正式保存，在fresh空IDB读回完整World/Canvas。完整both要求两引擎三case六份同revision/source、各同本引擎真实003原档；唯一下一段前驱来自saves。
+
+720ms/72步dither是名义合同，原RF从预算起点到成功输出约733.8ms；隐藏提交、完整实绘、旁白阅读各记自己的时域。旧real/gameplay混钟修在两处主壳UI时钟，不改GameplayClock、字速、世界暂停或全局auto策略。10月6日后以真实storyEndControl收口，不能恢复被删尾部control-move；旧候选末尾137,72→136,72仅归旧轮。
+
+## Results
+
+- **六case连续性轮**：9a488c02六份实际casepassed；原both比较器把advisory当错误而failed，原comparison不改。004-continuity-reviewed-suite明确receipt-model-only-revalidation-not-new-e2e，只复核已有六份，不伪重跑。story各40行/1上下文，items15行/1上下文，saves40行/3上下文；原源404项为398Git+6资产。
+- **时钟与警告**：旧RF hidden→旁白17.334s与第一阶段约1.1s差异按两处混钟修复；重跑完整邀约实绘1.200/1.217s，hidden后1.101/1.173s。原warning game0/0/1、RF2/1/2保留；错误的warnings===[]比较器已撤，不新增过滤/ignore，不与今天静态门混记。
+- **唯一NPC正文/显式调用**：静止use反例1cf2e7f07只select/touch、2秒无172、酒仍1，属于counter-confirmed而非passed；工具未落步与缺materialization另归工具。aa340e033另有两结束边界counter，07816dc52窄修及邻接回归归旧来源；不可恢复private有正文就跳过NPC来源的撤销设计。
+- **原正式独立轮**：RF e5b43268实际003档进入，慢读3013ms、40行、208中途恢复及末档同引擎Canvas；Game6ac57440正式05:39重跑、3192ms、401项源和fresh存读各记原轮。更早4e1a5ab79/391源首份通过仍留史，不改工具revision。各完整world/save/Canvas hash原样在冻结原文。
+- **失败和后继**：厨房持久域undefined比较、save前auto转向、touch足迹/接管窗口、held整traceRPC、送菜已启动误读active、两次golden计数滞后失败不删；后续工具窄修或receipt-only不另算演出。10957/10971包测试、126/136工具、各lint文件数分轮不相加。录屏音轨、6012命名/可编辑性与用户连续观感未由本治理签完。
+
+完整链强结论的后继：[10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
+
+## Evidence
+
+下表保留原三case职责与唯一checkpoint合同。原两引擎各轮目录、源项400/401/391、三trace/两档、所有长hash和原6012截图交付留在完整原文，属于原报告的核验陈述，不是本轮重新打开或确认服务仍在。
+
+### 原三case职责与检查点表
+
+| case | 独立范围 | 检查点合同 |
+| --- | --- | --- |
+| story | 正常取菜→送菜→菜单赠酒→完整40行→恢复控制权，不插专项或保存读档 | 仅live结束World/画面，不生成005前驱 |
+| items | 从真实003正常取菜/送菜，验证取消与错误use不耗酒/不改绑定 | 酒仍1、道士可见；不冒充完整赠酒 |
+| saves | 慢读姿态、端菜208中途存读、完整成功剧情末尾存读 | 唯一产生合法`004.end.save.json`的case |
+
+配对[机器证据](../../evidence/e2e-004.json)是原16键document-audit，不是执行回执；sourceRefs、publication verified与runtimeExecution.performed=false/artifacts=[]保持，候选/版本/日期不改。实际producer为原公开journey/collector及各run，原观察身份不被本轮冒领；当前raw/截图/trace可用字节、存储Owner及retention未重核。原命令仅在非交互来源中保存，不运行旧工具、同步writer或raw。
+
+## Revision history
+
+同路径按五章重写，所有原日期、数字、SHA、失败、counter和非零警告在下方完整body留存；原live前缀+text payload严格恢复完整source。以下原题名仅作当时范围的导航，不因“当前/通过/已核”字样授今天信用。
+
+### 2026-10-04 文档深审
+
+旧9a488c02六case和d02222/11来源审计分开，receipt-only不改名新演出。
+
+### 当前状态
+
+10月2日技术六case与后来的10月6日停线分时点，见[结果](#results)。
+
+### 独立执行入口
+
+合法003/正常use与三个case各自合同见[执行合同](#execution-and-assertions)，命令仅作为历史来源保留。
+
+### 连续性修复与当前六case证据
+
+时钟/dither、六回执及advisory比较器原失败和复核见[结果](#results)。
+
+### NPC正文归属与修复入口
+
+唯一赠酒正文归s003/e62；静止use显式调用与原counter见[结果](#results)，不恢复private fallback。
+
+### 当前Reforge正式证据
+
+e5b43268、原003档和3013ms/208/fresh恢复的完整SHA见下方原文，不授当前运行。
+
+### 集中质量门与脚本合理化收据
+
+10957/126工具和后续10971/136各归旧轮；命名与动作保留边界不成为本次产品修改。
+
+### 第一阶段正式重跑证据
+
+6ac57440的05:39完整回执与工具窄修分开，见[结果](#results)和原字节来源。
+
+### 第一阶段历史候选证据
+
+4e1a5ab79早期通过及private来源counter留史，不给旧报告替换revision。
+
+### 6012交付与另排
+
+原PID/页面/截图是交付时点记录，用户观感/capture另验；原交付时005尚未定义，后继[005回执](../005-shrimp/report.md)独立维护实际买虾与报信范围。
+
+### 历史
+
+本活跃alias承接原native dedupe的report.md#历史；原JSON字段不改。原failed、receipt-only复核、正式重跑和用户/capture待办分别查上方结果及完整来源。
+
+### 冻结原始正文（source 5a125c37）
+
+本text保存全部原body，包括H1前来源刷新说明、旧命令和旧错误href；仅为历史来源，不可交互。顶部唯一原前缀加payload逐字节恢复原文件，固定Git blob提供第二条原始来源。
+
+````text
 2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
 
 2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
@@ -220,3 +316,4 @@ Root独立复算391来源项（385对应冻结Git字节、6资产当前原字节
 - 当前game正式重跑及最终工具窄修独立接收；旧失败记录不删除。
 - 用户判断命名/可编辑性与剧情观感；001–003既有流程无需重新验一遍。
 - capture视频与音轨另排，技术verify不自动证明capture；本节交付时005尚未定义，现行买虾至报信范围及实跑见[005回执](../005-shrimp/report.md)。
+````
