@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "b3903b4064cac4fe7a70ed68ff05b5e6753f3766d571179971bffc11ffa7c8a1",
+      "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -719,6 +719,11 @@
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted; CI and release pending; no other task status changed"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
           }
         ]
       },
@@ -965,7 +970,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "e2ee8c2dd74b21882c82f446d6d57cc80e650985f6e48ffb29a996d03b894b66",
+      "afterSha256": "f8e12ef73d092e976cde88f3ff289cb944e9dbcb165f1cbb06acc70c07d215d6",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1132,6 +1137,11 @@
             "reviewedRanges": ["9-11"],
             "scope": "新增第一阶段音源选择证据入口；核真实Chrome PCM、停服离线重新初始化、独立参考与反控；保留本地实现待用户试听及未部署边界。",
             "evidence": "docs/ops/evidence/game-rix-music-1/README.md"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1869,7 +1879,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "ef0e77926063b146d7c7171a8ed04a54ddc361e1dcfb8d93716b9652f1f0b1aa",
+      "afterSha256": "266d998304534b8c30d3a2ec5c68133576fb538d80eee459d17a9e5d772ff593",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2064,6 +2074,11 @@
             "previousAfterSha256": "69639ff6f028fe932f3e1cb90b0a94c13f63cb8bdc48ba958367ce07fc36ed20",
             "afterSha256": "ef0e77926063b146d7c7171a8ed04a54ddc361e1dcfb8d93716b9652f1f0b1aa",
             "scope": "删除生成输出末尾冗余空行；360卡内容、状态与排序不变。"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-15",
+            "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
           }
         ]
       },

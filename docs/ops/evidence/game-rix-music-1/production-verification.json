@@ -1,0 +1,156 @@
+{
+  "verifiedAt": "2026-10-15T01:51:36.404Z",
+  "base": "https://pal.illegalscreed.cn",
+  "commit": "8f5d17ff16f6352cf36e43c4d18895d60d808eaa",
+  "manifestVersion": "7b0cf09680554792",
+  "manifestFileCount": 2906,
+  "remoteInventoryExact": true,
+  "rollbackBuildExact": true,
+  "appleDoubleFiles": 0,
+  "files": [
+    {
+      "path": "assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "size": 268030,
+      "sha256": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=31536000, public, immutable"
+    },
+    {
+      "path": "assets/index-4Gdand3v.js",
+      "status": 200,
+      "size": 388596,
+      "sha256": "932c4ba524ae4a18257b889a1abb635899cb7a534917ac5cc71e200ebde124d9",
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=31536000, public, immutable"
+    },
+    {
+      "path": "assets/rix-DvAflSRQ.wasm",
+      "status": 200,
+      "size": 24294,
+      "sha256": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+      "contentType": "application/wasm",
+      "cacheControl": "max-age=31536000, public, immutable"
+    },
+    {
+      "path": "assets/rix-worklet-8yZToAqI.js",
+      "status": 200,
+      "size": 1405,
+      "sha256": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921",
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=31536000, public, immutable"
+    },
+    {
+      "path": "favicon.ico",
+      "status": 200,
+      "size": 2686,
+      "sha256": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29",
+      "contentType": "image/x-icon",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "size": 5991,
+      "sha256": "65b2ac7af5c7e62a8568ad76bf8fc9e3eac1afc03e86bfcefb4a17dd8ca98f3c",
+      "contentType": "text/html",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "soundfont-LICENSE.txt",
+      "status": 200,
+      "size": 1432,
+      "sha256": "e7d0c1143cef0862d5f42c9a54fe4fb2a36c9e02cd578addb9650899ebe92f56",
+      "contentType": "text/plain",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "soundfont.sf3",
+      "status": 200,
+      "size": 5969788,
+      "sha256": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854",
+      "contentType": "application/octet-stream",
+      "cacheControl": "max-age=2592000"
+    },
+    {
+      "path": "spessasynth_processor.min.js",
+      "status": 200,
+      "size": 394736,
+      "sha256": "2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25",
+      "contentType": "application/javascript",
+      "cacheControl": "max-age=2592000"
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "size": 7534,
+      "sha256": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+      "contentType": "application/javascript",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "extracted/asset-manifest.json",
+      "status": 200,
+      "size": 203539,
+      "sha256": "8d41cd12cd5ca53e20509cda97db690fb26d3a5ecacfcf4f2331ee76b6fad48d",
+      "contentType": "application/json",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "extracted/music/mus.mkf",
+      "status": 200,
+      "size": 331284,
+      "sha256": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+      "contentType": "application/octet-stream",
+      "cacheControl": "max-age=604800"
+    }
+  ],
+  "productionArtifactPcm": {
+    "browserAudioOutputMeasured": false,
+    "description": "Node rendered the exact WASM and MKF bytes fetched over production HTTPS; real browser UI smoke is recorded separately",
+    "results": [
+      {
+        "rate": 44100,
+        "track": 1,
+        "seconds": 2,
+        "peak": 0.279632568359375,
+        "sha256": "f4ee2b54d5041d0117cfb7ada23d5cd960574c74cd2f5c51c8e5fc63dd846191"
+      },
+      {
+        "rate": 44100,
+        "track": 2,
+        "seconds": 2,
+        "peak": 0.54522705078125,
+        "sha256": "2b0aac0c26b0d68cb272155c1c702900a0199c878bc6228d984ae8d05d6e4237"
+      },
+      {
+        "rate": 44100,
+        "track": 87,
+        "seconds": 2,
+        "peak": 0.104583740234375,
+        "sha256": "3c0034160ec82a6212708f0f9e5434fa8631b48c46ca5f8f7fccf707a1962114"
+      },
+      {
+        "rate": 48000,
+        "track": 1,
+        "seconds": 2,
+        "peak": 0.28643798828125,
+        "sha256": "03a01f1fbdb2283d7ce7edaa15165bb165d53c7e73e444b4ea4d3f3b7b43a3f8"
+      },
+      {
+        "rate": 48000,
+        "track": 2,
+        "seconds": 2,
+        "peak": 0.545745849609375,
+        "sha256": "753d19e4bc0438f80691bf4087a49ced2441a77706e0510b5973971f59bc8db5"
+      },
+      {
+        "rate": 48000,
+        "track": 87,
+        "seconds": 2,
+        "peak": 0.10400390625,
+        "sha256": "2820d00397017ae26377e15ce6e6224603ea9260f8e5985889369f7a6db0f312"
+      }
+    ]
+  }
+}
