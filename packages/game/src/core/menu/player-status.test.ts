@@ -15,7 +15,7 @@ import {
 describe('PlayerStatus state machine', () => {
   // C5 限定(2026-10-15)：本组 roleId 10/20/30 是任意非连续合法 id，只证明 cursor/party
   // 索引遍历与防御的通用性，不声明是生产 PlayerRoles 域真值（生产队伍是 0..5 的
-  // wObjectID 子集，见 shared PlayerRole 与 rgParty 语义）。
+  // PlayerRoles 角色索引，见 rgParty[].wPlayerRole；不是物品/法术使用的 wObjectID）。
   it('createPlayerStatus 拷贝 partyMembers 数组(不共享引用)', () => {
     const src = [0, 1, 2]
     const s = createPlayerStatus(src)

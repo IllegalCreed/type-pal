@@ -2,7 +2,7 @@
  * TEST-GLM-PHASE1-LEAVES-3 L04（equip-menu.ts）— 去重表：
  *  - equip-menu.test（.list 结构含 filter=equip/初始 phase+cursor/全显示/确认门/请求对象/cancel 复位/Up-Down wrap/list 相 noop）→ 不重复
  *  - equip-menu.boundaries.test（inUse 耗尽/非顺序 roleId/意图不改装备钱库存/done 相零副作用）→ 不重复
- *  - 新差异：createEquipMenu 固定 filter='equip' 入 list、目录缺 item 的确认 no-op（!item 分支）、
+ *  - 新差异：目录缺 item 的确认 no-op（!item 分支）、
  *    done 相 equipMoveUp/Down 与 cancelEquipMenu 零触达、单人队 pick-role Down 环绕自返。
  * 显示 vs 执行：confirmEquipRole 只回请求对象，不证明装备 swap 已发生（dispatcher 跑 0x18）。
  */

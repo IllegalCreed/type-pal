@@ -51,7 +51,7 @@ export const approvedTestRetirements = Object.freeze(
       current: 3,
       previousIdentityDigest: 'e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4',
       currentIdentityDigest: '1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619',
-      fileSha256: 'bcfe23ecda771cb5ab879746dc3c38b17ad742049adfb867b9378d284d3ed461',
+      fileSha256: '5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9',
     },
     {
       file: 'packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts',

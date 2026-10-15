@@ -28,6 +28,13 @@ Coding Owner=Codex，白名单 primitives.ts、其leaves测试、item-select.ts�
 真实依据为 global.h:134-142、ui.c:510-572、当前两个翻页实现及全仓caller搜索；没有改公开API或翻页行为。
 test-only边界仍review，不因注释诚实化升级闭合。定向与质量门在完整模块窗口共跑。
 
+## B2：菜单 caller 与去重说明（CODE94/98/100，build allowed）
+
+Coding Owner=Codex，白名单 equip叶测试、player-status测试、save-slot-menu.ts三文件；只改注释。
+去重表删除已退役轴，role index与对象ID分域，save-slot元数据/确认/取消ownership对照真实driver修正。
+因equip叶文件注释字节改变，精确退役记录只更新该文件SHA；旧/新计数与两端identity digest保持，
+matcher没有放宽。正式baseline由官方工具生成，不手填覆盖率。
+
 ## 保留边界
 
 三份GAME高风险draft卡尚无build allowed，不在本次测试/注释修复中改变产品行为。
