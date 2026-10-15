@@ -1,0 +1,412 @@
+{
+  "candidate": "1f8bcd468",
+  "fullSourceFiles": [
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "lines": 33,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "lines": 32,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "30ea14829d10b7c2a9ef1bf634970a251f4ee6427082f47c44b48f52f764ced2",
+      "lines": 88,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+      "lines": 280,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "lines": 371,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "lines": 107,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "lines": 186,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2",
+      "lines": 180,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "lines": 68,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "lines": 60,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "lines": 111,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "lines": 231,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "lines": 101,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "bef1ec6e11dd2ee1476325e7c16caea792e4338248095f4cc206a1a75ce88782",
+      "lines": 92,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+      "lines": 141,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "lines": 130,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+      "lines": 52,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "d80cb2670f407a8ae46178b5e2ed99dac2c6c0fb794e16c9269b506e60e82aab",
+      "lines": 74,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "lines": 56,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+      "lines": 141,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+      "lines": 138,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "d6e3b88800594adeb0cf1fcf73c511da49de35452f48098941ed379052a48db4",
+      "lines": 251,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "lines": 306,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "f9bdde69dac26275ed920a44113100933a90b5c93dbd9ddfa81408f02525b454",
+      "lines": 498,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+      "lines": 177,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+      "lines": 248,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "lines": 79,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "lines": 37,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "lines": 47,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "f94760c7ed26cc1beb9720cf55508d3d191e67b6316fc2b4e401d7b09e910ab7",
+      "lines": 174,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "ffc6433c185ec8fafe13ed4c2cf6421fd2e01d00b791da4fb3ea8208d84433c5",
+      "lines": 93,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+      "sha256": "6b47c482db8b9521de87db4478819442a1bc5478100cae308e817f00f52be0e2",
+      "lines": 195,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+      "sha256": "239a14e47bc1e8f9746857b94704ae62ed6b34648299dcd811ddab430dfe6c29",
+      "lines": 39,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "92454212ed2f97f9249f73e091623eb953fa934c842e828580cc27e388438816",
+      "lines": 128,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "d4c88c41354c17e9c06c1a63e9d70504df17d9d9d8197a8d99db827af135f91e",
+      "lines": 151,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+      "lines": 74,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37",
+      "lines": 58,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "sha256": "60bbd3908ce49764d23e522dfdef450a474235f71068a34086dac3825d41c0c2",
+      "lines": 56,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2c682d85300d431966f90ea49382a3523d4c9e2accc27bb46c00e0e5ecfae7e9",
+      "lines": 46,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.test.ts",
+      "sha256": "2feed7c64caf57d2270907ada91501c689587023f922138d51b006f0703190a7",
+      "lines": 70,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+      "lines": 1047,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "ce79079f73ae2b6e038029cd2fb334bf0910b5c8fee98fc5a84ee9824d567d8d",
+      "lines": 657,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "95d712c7f046cc827b67e2dae49ed8c0f43aee568f2dfccc75df83e1c1f051b3",
+      "lines": 1007,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0e10cdd94ad929cead8b01bc1277438ee649cc956633344ae0bf9c57f4dc2d97",
+      "lines": 92,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "sha256": "45b6b19d5e1bfa1ecd7e0903fe521db30b6be0d218fc131691e7af3fb2776107",
+      "lines": 208,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "b89031b5190be4ee68d3ece654d88a8ecda36370707612b2fd17d2da6170d8e7",
+      "lines": 52,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "9d387139ff1e7709a593dc310380c061ab2bc491b43e4490f65c59bcda31d610",
+      "lines": 97,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "a112e6d12f6602e5ebf7c02ee671e12359e8b9822fa0afccfc7bb708cd22244d",
+      "lines": 93,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/api.test.ts",
+      "sha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "lines": 82,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0",
+      "lines": 61,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "a25626e2f6034d3f49e0ea14159d6400a9d17897c5e534cb8695e649b8c8e307",
+      "lines": 52,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+      "lines": 81,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "1869a14855339f6d97921c499ad0e8e56d2c7bb5052989f15b74561acc685945",
+      "lines": 39,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
+      "sha256": "a19500d3cc06bd85841127459c51ad45f09fbc151e053b6854b9624e2d4cd83d",
+      "lines": 85,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25",
+      "lines": 31,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a",
+      "lines": 70,
+      "readMethod": "full-source-read",
+      "closure": "none; see per-file review/counter"
+    }
+  ],
+  "callerRanges": {
+    "packages/game/src/shell/bootstrap.ts": ["1080-1125", "1620-1788"],
+    "packages/game/src/present/menu/draw-inventory.ts": ["matchesFilter consumer"],
+    "packages/game/src/present/menu/draw-menu.ts": ["save slot metadata consumer"],
+    "packages/game/src/core/scene-system.ts": ["overworld shortcut caller"],
+    "packages/game/src/core/battle/battle-system.ts": ["player-status opening caller"]
+  },
+  "limitation": "caller ranges do not constitute whole-file governance closure"
+}

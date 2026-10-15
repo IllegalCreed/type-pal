@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+      "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -794,6 +794,17 @@
             "afterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
             "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
             "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "1f8bcd468",
+            "workingTree": true,
+            "action": "codex-r2-independent-review-94-95-97-102",
+            "previousAfterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+            "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+            "reviewedRanges": ["14-30"],
+            "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
           }
         ]
       },
@@ -980,13 +991,24 @@
           "reviewedRanges": ["7-7"],
           "scope": "GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "1f8bcd468",
+          "workingTree": true,
+          "action": "codex-r2-independent-review-94-95-97-102",
+          "previousAfterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+          "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+          "reviewedRanges": ["14-30"],
+          "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-20",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewNotes": "Codex R2 delta review: CODE95 fixture-local accept only; CODE94/97-102 counter; 3 high-risk draft cards; original other task statuses preserved.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -1982,7 +2004,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+      "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2249,6 +2271,17 @@
             "afterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
             "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
             "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "1f8bcd468",
+            "workingTree": true,
+            "action": "codex-r2-independent-review-94-95-97-102",
+            "previousAfterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+            "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
+            "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
+            "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
           }
         ]
       },
@@ -2483,13 +2516,24 @@
           "reviewedRanges": ["15-15", "192-192"],
           "scope": "官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "1f8bcd468",
+          "workingTree": true,
+          "action": "codex-r2-independent-review-94-95-97-102",
+          "previousAfterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+          "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
+          "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
+          "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-379",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewNotes": "Codex R2 delta review: CODE95 fixture-local accept only; CODE94/97-102 counter; 3 high-risk draft cards; original other task statuses preserved.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

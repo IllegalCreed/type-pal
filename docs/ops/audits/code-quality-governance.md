@@ -7,6 +7,16 @@
 不把机器快照当作产品源文件提交。
 已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
 
+## 2026-10-15 menu候选独立再验收
+
+CODE94/97–102当前counter/rework，CODE95仅三份fixture局部accept、仍review。
+[Codex R2逐文件证据](../evidence/CODE-QUALITY-94/codex-r2-review.md)钉候选1f8bcd468；0新闭合，
+3267 inventory /229 closed /44 review /2994 pending。全仓门含真实诊断不计通过，未合main。
+发现的机制/Save风险分别登记[标题取消](../tasks/GAME-OPENING-CANCEL-CURSOR-1.md)、
+[大世界法术禁用](../tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md)、
+[IDB事务](../tasks/GAME-SAVE-IDB-COMMIT-1.md)三张draft卡，无build allowed，不得直接实现。
+先完成有限测试/注释返工，再按完整模块窗口统一跑全门；不将包绿当作逐文件完成。
+
 ## 边界与当前责任
 
 本专项按工程 → 模块 → 功能 → 文件推进，Coding Owner 为 Codex，单批单一写入者；不接管

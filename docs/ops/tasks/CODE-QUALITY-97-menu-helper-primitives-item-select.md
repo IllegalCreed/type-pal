@@ -1,11 +1,26 @@
 # CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）
 
-Status: draft（review-only 交付，无实现改动）
+Status: rework
 Owner: GLM（2026-10-15 按总 goal 自主推进的下一批）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 menu helper state/contract governance
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
+
+## Codex R2 当前验收（2026-10-15）
+
+候选 `1f8bcd468`，独立验收分支 `codex/quality-menu-accept-94-95`，主线基点 `cddf65557`。
+counter：装备位注释反事实、伪disabled反例、否决位混淆，test-only出口需核。
+
+逐文件实际读取、primary/caller/oracle、反证、全部质量门状态和可直接复制的GLM返工提示词见
+[Codex R2再验收](../evidence/CODE-QUALITY-94/codex-r2-review.md)。本卡适用该提示词；
+仅修本卡已核测试/注释白名单，三个新GAME高风险draft卡无build allowed，不得开始实现。
+全仓check与新ratchet/protected仍带真实诊断，不能称完整门通过；本轮0新闭合，未合main。
+
+## GLM及前轮交付记录（历史）
+
+下文原签字、统计与“通过”是各自revision当时的作者/前轮声明，当前以本节Codex R2为准；
+不追溯改写旧回执，不用作者自验替代独立验收。交接到GLM时先fetch并核最新任务状态与独占Owner。
 
 ## 目标与范围
 

@@ -1,0 +1,32 @@
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ❯ src/dev/dev-panel.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/dev/dev-panel.test.ts [ src/dev/dev-panel.test.ts ]
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/extracted/data/enemy-teams.json'
+ ❯ src/dev/dev-panel.test.ts:18:37
+     16|   'BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对)',
+     17|   () => {
+     18|     const teams: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'en…
+       |                                     ^
+     19|     const enemies: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, '…
+     20|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 307 passed | 4 skipped (312)
+      Tests  3497 passed | 13 skipped (3510)
+   Start at  10:36:31
+   Duration  169.63s (transform 2.78s, setup 1.72s, import 9.31s, tests 32.01s, environment 104.14s)
+
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 test: `vitest run --passWithNoTests`
+Exit status 1

@@ -1,11 +1,26 @@
 # CODE-QUALITY-102 — 快存快读工具审核（quick-save）
 
-Status: draft（review-only 交付，无实现改动；quick-save.test.ts 带 fixture 登记）
+Status: rework
 Owner: GLM（2026-10-15 按总 goal 自主推进）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: Q3 tools governance
 Visual Verification Timing: N/A（工具层，无产品/UI行为修改）
+
+## Codex R2 当前验收（2026-10-15）
+
+候选 `1f8bcd468`，独立验收分支 `codex/quality-menu-accept-94-95`，主线基点 `cddf65557`。
+counter：partial GameState as never、DOM/计时器隔离及错误/解绑oracle未完成；toast功能语义不能因视觉延后免测。
+
+逐文件实际读取、primary/caller/oracle、反证、全部质量门状态和可直接复制的GLM返工提示词见
+[Codex R2再验收](../evidence/CODE-QUALITY-94/codex-r2-review.md)。本卡适用该提示词；
+仅修本卡已核测试/注释白名单，三个新GAME高风险draft卡无build allowed，不得开始实现。
+全仓check与新ratchet/protected仍带真实诊断，不能称完整门通过；本轮0新闭合，未合main。
+
+## GLM及前轮交付记录（历史）
+
+下文原签字、统计与“通过”是各自revision当时的作者/前轮声明，当前以本节Codex R2为准；
+不追溯改写旧回执，不用作者自验替代独立验收。交接到GLM时先fetch并核最新任务状态与独占Owner。
 
 ## 目标与范围
 
