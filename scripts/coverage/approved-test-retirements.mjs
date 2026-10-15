@@ -241,6 +241,15 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c',
       fileSha256: '1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83',
     },
+    // Codex C10: G07-03/09 weak subsets transfer to G07-02/04.
+    {
+      file: 'packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx',
+      previous: 10,
+      current: 8,
+      previousIdentityDigest: 'fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4',
+      currentIdentityDigest: 'c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f',
+      fileSha256: 'ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

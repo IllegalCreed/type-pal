@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+    "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+    "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-initial-0tyhgkuw/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 5.87,
+  "passed": 30,
+  "failed": 0,
+  "pending": 0,
+  "actWarnings": 2,
+  "environmentWarnings": 0,
+  "rawSha256": "713b36f96019cd347ea2ce02166b0483122e9c00c7c99a053a6b636f91e44573",
+  "runnerSha256": "44cb78ccf3cd338ac44b297e7c4cc9013342a4f64cd600c6b8d44e6f3cc15251",
+  "acceptedZeroDiagnostics": false
+}

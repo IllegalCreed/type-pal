@@ -187,4 +187,7 @@ Codex premise verified/design agree/build allowed：只改io/sss.test.ts与io/ms
 
 35定向相邻、extract72/428、shared126及双方typecheck、71工具通过，0stderr；原3b after按Git3a9重建7轮，当前16轮原件/源/副本/清理另进程核验。两raw仅review，MSG其余正文/fixup全量与其它边界仍待；机器3289/206closed/230review/2853pending不变，0新关闭。全83卡10partial/73pending/0accept，下一片3d PNG输入，再续3g和94–102/editor；统一check/ratchet/protected未新跑，不合main。无下一位Agent提示词。
 
-阶段合并优先级：本原盘片提交后先回QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1的C10阻塞，争取统一零诊断窗口与阶段合并，再续83卡队列中的3d/3g。范围仍含全部83卡及94–102/editor，未核项不变更为accept。
+当前优先级：C10恢复检查点保存后回83卡队列中的3d/3g；editor余诊断与94–102返工保留，并在稳定窗口集中执行统一门和阶段合并。全部83卡成果持续在范围内，未核项不变更为accept。
+
+
+用户再次重申全部83卡成果均须复审。C10恢复仅保存测试检查点：Wizard28零诊断，editor4943通过仍624act/243环境/1表单告警，0文件关闭、未合main。下一片回CODE3d PNG完整caller/alpha/输入合同，再3g；不继续以editor余诊断替代全量83卡队列。原10partial/73pending/0accept未变，94–102/editor返工与稳定窗口统一门仍保留。

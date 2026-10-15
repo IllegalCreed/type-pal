@@ -1,5 +1,7 @@
 # C10上传向导诊断与测试质量
 
+当前恢复结果见[recovery/README.md](recovery/README.md)：同30身份先清2act，再有证精简为28零诊断；两业务反控与退役转移已重建。完整editor4943通过仍624act/243环境/1表单告警，不合main、0关闭。下文保留原未完成检查点，不改写历史。用户重申94前全部83卡成果复审，本片提交后回3d/3g。
+
 归属[任务卡](../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md)。唯一codex/code-quality-3y，058e9202d，main=f98d0ddd8，0behind。前一C09完整包631/4945通过但759act/243环境及1表单诊断；本片只核Wizard的57act和候选重复，Uploader6act作为相邻边界，不宣称统一门通过或新增关闭。
 
 Primary：[React act](https://react.dev/reference/react/act)。实际读取、原始runner、失败/恢复与逐断言排重将随本片补齐；未核项保持pending/review，不把包绿当逐文件完成。

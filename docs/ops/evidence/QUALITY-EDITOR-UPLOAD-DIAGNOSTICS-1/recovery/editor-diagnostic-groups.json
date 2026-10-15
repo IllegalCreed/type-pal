@@ -1,0 +1,562 @@
+{
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 真实 PNG 导入：像素/尺寸/摘要落账，undo 停留缺失面板，redo 还原": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 同字节再导入派生 -2 后缀 id；真实资源间选择切换零提交且预览互换真实像素": {
+    "act": 27,
+    "environment": 0,
+    "blocks": 8
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 替换链：保留 label 真实换字节、撤销物化旧字节可解码、预览按新 sha 重载": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 失败不污染：损坏 PNG 替换保留原 record、战场背景尺寸守卫零提交": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 战场背景评审链：取消零提交选择不动；确认入库索引图合同、色盘重映射与 undo/redo": {
+    "act": 8,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 预览 viewer：fit 几何、键盘/滚轮/工具条缩放与拖拽平移真实合同": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/ImageTab.kimi-workflows.test.tsx > K05 ImageTab 真实图像工作流 > 删除真实资源：真实引用索引确认、选择回退与焦点、undo 字节级还原可真实解码": {
+    "act": 27,
+    "environment": 0,
+    "blocks": 8
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 真实 PNG 切格入库：量化/编码/字节链精确落账且 undo/redo 对称": {
+    "act": 15,
+    "environment": 0,
+    "blocks": 5
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 向导分页：超页帧数导航、改瓦宽缩减夹回首页，取消上传零提交且选中保持": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 移除：真实引用扫描下被引用瓦片集 fail-closed；未引用新集移除正控与撤销还原": {
+    "act": 12,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 替换：越界缩帧面板与提交双重 fail-closed；增帧正控真实换字节可撤销": {
+    "act": 14,
+    "environment": 0,
+    "blocks": 6
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 共享定义替换：confirm 取消零进入、放行后双定义保全且可撤销": {
+    "act": 12,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/TilesetTab.kimi-workflows.test.tsx > K04 TilesetTab 真实图集工作流 > 替换竞态：读取在途时源资源被改写则 fail-closed 保留草稿，重试正控成功": {
+    "act": 14,
+    "environment": 0,
+    "blocks": 6
+  },
+  "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx > C04-G01 总时长 metadata > C04-G01-07 保存重开后 index.frames 保留 override 槽": {
+    "act": 26,
+    "environment": 0,
+    "blocks": 3
+  },
+  "src/__tests__/architecture-lab/app-lifecycle.test.tsx > G03 App 所有权生命周期 > G03-01 真实 App 挂载：会话派发命令反映到页面（项目名可见），状态接线成立": {
+    "act": 4,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/ProjectWorkbenchTab.test.tsx > 入口开局世界资源 > [add-picker:project/startup-party] 队伍确认添加、排序和移出各自保持单命令边界": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/EnemyTab.test.tsx > EnemyTab shared workbench > [reorder-family:enemy-ai] AI handle 同值相邻移动零命令，有效移动单命令且 undo/redo 对称": {
+    "act": 18,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/CutsceneTab.kimi-workflows.test.tsx > K06 CutsceneTab 真实过场工作流 > 帧队列乱序输入自然排序、按钮重排与排除后真实创建：TPFS 帧序等于队列序且 undo/redo 对称": {
+    "act": 33,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/CutsceneTab.kimi-workflows.test.tsx > K06 CutsceneTab 真实过场工作流 > 帧序列尺寸不齐创建失败：错误可见、队列保留、排除坏帧后重试成功": {
+    "act": 33,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/SceneCanvas.kimi-workflows.test.tsx > K12 SceneCanvas 真实布置画布工作流 > 默认/命名落点：画布点选、拖动提交到真实命令并可撤销；拖动在途取消零提交": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SceneCanvas.kimi-workflows.test.tsx > K12 SceneCanvas 真实布置画布工作流 > 真实解码精灵帧命中 actor 实体：拖动提交 MoveEntityCommand 可撤销，拖动在途取消零提交": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SceneCanvas.kimi-workflows.test.tsx > K12 SceneCanvas 真实布置画布工作流 > 滚轮缩放保持光标锚格不变，平移后放置坐标精确；缩放下限夹回": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SceneCanvas.kimi-workflows.test.tsx > K12 SceneCanvas 真实布置画布工作流 > 磁盘回退迟到归属：切图在途的 tileset 解码完成也不覆盖当前场景资源": {
+    "act": 4,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 3
+  },
+  "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全": {
+    "act": 13,
+    "environment": 0,
+    "blocks": 3
+  },
+  "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 SoundTab 真实 wrapper 与 WAV transport 所有权 > 真实 .wav 导入经硬件端口真实解码出 PCM 峰值；同字节再导入覆盖稳定 id": {
+    "act": 16,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx > C03-G05 战斗精灵上传叶 > C03-G05-01 横排 3 帧：缺省帧尺寸猜测、预览数与应用 gzip 帧带": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx > C03-G05 战斗精灵上传叶 > C03-G05-05 色盘迟到：预览空白，放行后出现缩略图并可应用": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx > C03-G05 战斗精灵上传叶 > C03-G05-06 色盘失败回显 err；换合法 assetBase 并重选后可应用": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx > C03-G05 战斗精灵上传叶 > C03-G05-07 应用在途：compress 扣留期间按钮禁用且最终只 apply 一次": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx > C03-G05 战斗精灵上传叶 > C03-G05-10 onApply 拒绝：err 回显且提交门复位可再点": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-01 初始选中 starter 且 h1 含「起始地形」": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-02 搜索瓦片集过滤列表且清空恢复": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-03 分类筛选 outdoor 后只剩 starter 行": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-04 点击第二行切换检查器标题到新名称": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-05 瓦片帧预览网格含 1–4 / 4 块范围文案": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx > C08-G03 TilesetTab 库视图与预览 > C08-G03-06 瓦片预览 panel aria-label 可达": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx > C08-G07 Stamp 叶组件合同 > C08-G07-07 StampPreviewCanvas 渲染 canvas 元素": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx > C08-G07 Stamp 叶组件合同 > C08-G07-09 StampPreviewCanvas 缺帧模板显示 fail-visible 文案": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/EnemyTab.glm-m.test.tsx > M03 EnemyTab AI 动作未触达轴 > 召唤动作后「召唤数量」3 落账，undo 回缺省 1": {
+    "act": 14,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/EnemyTab.glm-m.test.tsx > M03 EnemyTab AI 动作未触达轴 > 分裂动作落 divide 缺省 copies=1，「分裂数量」改 5 单命令可撤销": {
+    "act": 14,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/TilesetTab.test.tsx > TilesetTab 全项目引用删除 > 页面已挂载时地图 undo/redo 失效事实，只异步补当前变化地图并恢复精确计数": {
+    "act": 3,
+    "environment": 0,
+    "blocks": 3
+  },
+  "src/ui/TilesetTab.test.tsx > TilesetTab 全项目引用删除 > 删除读取 bytes 期间资源变化时不提交旧许可或错配恢复字节": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id": {
+    "act": 11,
+    "environment": 0,
+    "blocks": 4
+  },
+  "src/ui/SkillTab.glm-ui-wave.test.tsx > U1a SkillTab 残差 > 添加效果提交缺省 damage，undo 精确移除": {
+    "act": 17,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SkillTab.glm-ui-wave.test.tsx > U1a SkillTab 残差 > gate 概率参数提交并精确 undo；目录行点击传出 onObjectFocus": {
+    "act": 19,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SkillTab.glm-ui-wave.test.tsx > U1a SkillTab 残差 > 目标/战外可用/说明提交；玩家施法分支增删单命令且 undo 还原": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteLibrary.glm-m.test.tsx > M05 BattleSpriteLibrary 敌人计时草稿 > 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交": {
+    "act": 3,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/SkillTab.glm-m.test.tsx > M01 SkillTab 效果分支字段当前合同 > 下毒 poisonId 提交真实毒 id 并生成 skill-poison 引用，undo 后引用消失": {
+    "act": 18,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SkillTab.glm-m.test.tsx > M01 SkillTab 效果分支字段当前合同 > 解状态多选数组按勾选序提交，取消一项精确摘除，undo 逐步还原": {
+    "act": 19,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/SkillTab.glm-m.test.tsx > M01 SkillTab 效果分支字段当前合同 > 属性增益：属性/持续切换提交，N 回合数 blur 精确落账并可整体撤销": {
+    "act": 19,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/SkillTab.glm-m.test.tsx > M01 SkillTab 效果分支字段当前合同 > 金钱伤害：消耗上限/分子/分母/五灵逐字段 blur 提交，undo 逐步还原": {
+    "act": 24,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/scene-stage.kimi-workflows.test.ts > K12 scene-stage 共享层真实工作流 > useSceneAssets：live 编辑只换 map 引用不重读；catalog 换字节真实重载解出新帧": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/BattleFieldTab.glm-m.test.tsx > M01 BattleFieldTab 提交/取消/资源失败边界 > 复制当前战场：单命令落账并选中新副本，undo 精确移除，源战场不受影响": {
+    "act": 9,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/BattleFieldTab.glm-m.test.tsx > M01 BattleFieldTab 提交/取消/资源失败边界 > 常驻波动强度 blur 一次提交精确值，undo 还原；兄弟战场键保持不变": {
+    "act": 8,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx > K01 BattleSpriteInlinePreview 异步归属 > 迟到解码结果不得覆盖已切换的新选择": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx > K01 BattleSpriteInlinePreview 异步归属 > record 缺失或 kind 不符立即 fail-loud，不冒充加载中": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx > K01 BattleSpriteInlinePreview 异步归属 > profile 期望不符走真实拒绝；缺资源空态与正常加载分明": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx > U2a BattleSpriteLibrary 残差 > 仅改名提交稳定 id 且无需 confirm；undo 还原旧名": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx > F04 BattleSpriteUploader 预览与取消零提交 > 合法小图集真实解码：缺省帧宽高猜测、逐帧预览、应用产出帧带": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx > BattleFieldTab 剩余合同 > background pick then clear writes and removes the asset key through real commands": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/SceneCanvas.glm-ui-wave.test.tsx > U4a SceneCanvas 残差 > 点击命中实体传出精确 onSelectEntity 实参；空白点击仍清选择": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SceneCanvas.glm-ui-wave.test.tsx > U4a SceneCanvas 残差 > 抓取实体拖动提交 onMoveEntity 精确目标格": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/SceneCanvas.glm-ui-wave.test.tsx > U4a SceneCanvas 残差 > 放置模式落下传出 onAddAt 精确格子": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/FireEffectPreview.glm-large-wave.test.tsx > 无音效特效可播放/暂停并切换倍速，figcaption 标注帧数与实速": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/FireEffectPreview.glm-large-wave.test.tsx > 音效准备失败时错误可见且不进入播放": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/FireEffectPreview.glm-large-wave.test.tsx > 闸门未释放时保持加载态不出现画布，释放后真实解码完成挂载": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/PoisonTab.glm-m.test.tsx > M04 PoisonTab 逐回合序列与关系当前合同 > 玩家 tick 四轴：扣血/半血/产道具/自解逐字段提交，undo 逐步还原": {
+    "act": 10,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/PoisonTab.glm-m.test.tsx > M04 PoisonTab 逐回合序列与关系当前合同 > 致死配对/所克之毒写入关系键并产生 poison-poison 引用；undo 精确删键": {
+    "act": 8,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/App.glm-next-wave.test.tsx > F01 App 路由→命令编辑回显与取消 > 脚本库路由打开共享脚本，命令编辑弹窗回显 ms=17，取消零历史零 dirty": {
+    "act": 0,
+    "environment": 34,
+    "blocks": 10
+  },
+  "src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门": {
+    "act": 6,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交": {
+    "act": 4,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx > StampTemplateDialog 剩余合同 > cancel keeps the session untouched and the map identical": {
+    "act": 0,
+    "environment": 3,
+    "blocks": 3
+  },
+  "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx > StampTemplateDialog 剩余合同 > a completed create passes the full template with renamed slots and anchor to the session": {
+    "act": 0,
+    "environment": 8,
+    "blocks": 7
+  },
+  "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx > StampTemplateDialog 剩余合同 > anchor validation reports integers only and keeps the dialog open": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 4
+  },
+  "src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原": {
+    "act": 7,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明": {
+    "act": 5,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > 新建时显式保存跨层槽、anchor 与 collision 0": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 6
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > 新建模板不会继承同 tileset 旧模板的名称、分类或局部槽名": {
+    "act": 0,
+    "environment": 17,
+    "blocks": 4
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > migrated 更新未经确认拒绝，确认后整项接管且可撤销": {
+    "act": 0,
+    "environment": 6,
+    "blocks": 5
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > 精确 update target 可接收来自其他瓦片源的当前选区": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > 校验失败会标记并聚焦首个错误字段": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 4
+  },
+  "src/ui/StampTemplateDialog.test.tsx > StampTemplateDialog > Esc 关闭 native dialog 并把焦点还给触发按钮": {
+    "act": 0,
+    "environment": 4,
+    "blocks": 4
+  },
+  "src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 「添加对应关系」经真实会话追加缺省配方：单命令落账，undo 精确移除": {
+    "act": 4,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 紫金葫芦「不可用提示」blur 提交；清空回空串删除 unavailableMessage 键": {
+    "act": 4,
+    "environment": 0,
+    "blocks": 2
+  },
+  "src/ui/AudioAssetWorkbench.test.tsx > AudioAssetWorkbench timeline completion > renders a fractional short sound at the exact visual and slider endpoint": {
+    "act": 2,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/MapSelectionInspector.test.tsx > MapSelectionInspector React output > 图标动作保留清空、调高和移动语义": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/MapSelectionInspector.test.tsx > MapSelectionInspector React output > 非法字段同时给出字段旁错误与全局通知，切换选区后清除": {
+    "act": 0,
+    "environment": 15,
+    "blocks": 5
+  },
+  "src/ui/MapSelectionInspector.test.tsx > MapSelectionInspector React output > 选区属性只编辑选中内容，不重复承载组合库操作": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/PreviewCanvas.glm-ui-wave.test.tsx > U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控） > 初次单步按钮直接驱动真实canonical首条命令，恢复播放仍是同一按钮": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 4
+  },
+  "src/ui/PreviewCanvas.glm-ui-wave.test.tsx > U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控） > 无 startPlayback 时播放/单步调用内部 play；运行态暂停/继续/重置走 playback API": {
+    "act": 0,
+    "environment": 8,
+    "blocks": 5
+  },
+  "src/ui/PreviewCanvas.glm-ui-wave.test.tsx > U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控） > 引擎试玩 deep link 携带 focus 实体落点（row+1, facing=up）": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/PreviewCanvas.glm-ui-wave.test.tsx > U4b PreviewCanvas 委派与防御（回放控制器局部合同，非完整工作流正控） > 对话行解析说话人并经继续按钮 confirmDialog": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/PreviewCanvas.test.tsx > PreviewCanvas confirm controls > 预览控制使用单行共享工具栏并保持播放、单步与倍速行为": {
+    "act": 0,
+    "environment": 22,
+    "blocks": 9
+  },
+  "src/ui/PreviewCanvas.test.tsx > PreviewCanvas confirm controls > 默认聚焦否，方向/提交/Escape 与按钮都走同一 playback API": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/ProjectPicker-recovery.test.tsx > 恢复中撤权在打开项目显示重新授权指引，下一次打开可成功": {
+    "act": 0,
+    "environment": 13,
+    "blocks": 8
+  },
+  "src/ui/ProjectPicker-recovery.test.tsx > 恢复中撤权在测试项目显示重新授权指引，下一次打开可成功": {
+    "act": 0,
+    "environment": 13,
+    "blocks": 8
+  },
+  "src/ui/ProjectPicker-recovery.test.tsx > 非权限恢复失败保留原原因；下一次未进入恢复的权限错误不冒称存在恢复数据": {
+    "act": 0,
+    "environment": 14,
+    "blocks": 8
+  },
+  "src/ui/ProjectPicker-recovery.test.tsx > 目录选择取消仍静默返回，不进入恢复或误报权限故障": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 5
+  },
+  "src/ui/ProjectPicker-recovery.test.tsx > 大项目克隆先显示准备再显示写入，失败后恢复操作且下一次成功不残留进度": {
+    "act": 0,
+    "environment": 14,
+    "blocks": 9
+  },
+  "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx > ProjectAudioPreviewButton 三态剩余合同 > replays from idle after the transport reports a paused snapshot": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/design-system/list-header.glm-leaf-wave.test.tsx > DsListHeader 剩余合同 > menu keyboard cycling covers enabled items only and Escape restores trigger focus": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/design-system/number-inputs.glm-leaf-wave.test.tsx > DsNumberInput 剩余合同 > field chrome links the label, surfaces errors and derives stepper labels": {
+    "act": 0,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/PreviewCanvas.glm-next-wave.test.tsx > F02 PreviewCanvas 资产失败态回显 > 资产读取中显示加载提示且不进入 rAF 渲染循环": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/PreviewCanvas.glm-next-wave.test.tsx > F02 PreviewCanvas 资产失败态回显 > 资产读取失败精确回显错误消息，同样不排帧": {
+    "act": 0,
+    "environment": 2,
+    "blocks": 2
+  },
+  "src/ui/ProjectAudioPreviewButton.test.tsx > 项目资源原位试听 > React 严格模式的 effect 演练不会提前销毁 transport": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/ProjectAudioPreviewButton.test.tsx > 项目资源原位试听 > 开始另一项试听会停止旧 owner，切换不共享 transport": {
+    "act": 1,
+    "environment": 0,
+    "blocks": 1
+  },
+  "src/ui/design-system/help-tips.test.tsx > U02 help tips > keeps tooltip and help-tip identity with visually-hidden descriptions and Escape dismiss": {
+    "act": 0,
+    "environment": 6,
+    "blocks": 5
+  },
+  "src/ui/StampPreviewCanvas.test.tsx > StampPreviewCanvas > 缺 tileId fail-visible，canvas 有文本等价且图层/碰撞可独立切换": {
+    "act": 0,
+    "environment": 5,
+    "blocks": 5
+  },
+  "src/ui/StampPreviewCanvas.test.tsx > StampPreviewCanvas > 同 AssetId/path 但 record sha 改变时重新载入图章预览帧": {
+    "act": 0,
+    "environment": 7,
+    "blocks": 6
+  },
+  "src/ui/MusicPicker.test.tsx > 音乐选择器的全局试听 ownership > 音乐试听会接管现有 owner，并在资源工作台接管时停止": {
+    "act": 0,
+    "environment": 3,
+    "blocks": 3
+  }
+}

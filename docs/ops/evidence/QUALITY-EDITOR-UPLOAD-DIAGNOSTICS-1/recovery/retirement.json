@@ -1,0 +1,262 @@
+{
+  "approval": {
+    "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+    "previous": 10,
+    "current": 8,
+    "previousIdentityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4",
+    "currentIdentityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f",
+    "fileSha256": "ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5"
+  },
+  "input": {
+    "removal": {
+      "kind": "test-count",
+      "value": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "previous": 10,
+      "current": 8
+    },
+    "previous": {
+      "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "testCount": 10,
+      "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+    },
+    "current": {
+      "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "testCount": 8,
+      "identityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f"
+    },
+    "fileSha256": "ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5"
+  },
+  "native": {
+    "initial": {
+      "identities": [
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-03 compress 在途：取消与 kind 均禁用，放行后恰好一次 onDone",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-05 重选前改的 id/label 在首次合法入库后落到定义",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-09 改 id 后第二次可成功且 onDone 两次",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）"
+      ],
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 10,
+        "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+      }
+    },
+    "before": {
+      "identities": [
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-03 compress 在途：取消与 kind 均禁用，放行后恰好一次 onDone",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-05 重选前改的 id/label 在首次合法入库后落到定义",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-09 改 id 后第二次可成功且 onDone 两次",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）"
+      ],
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 10,
+        "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+      }
+    },
+    "after": {
+      "identities": [
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx :: project root :: C03-G01 真实导入管线与用途布局 > C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx :: project root :: C03-G02 取消、迟到释放与恢复 > C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+        "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）"
+      ],
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 8,
+        "identityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f"
+      }
+    }
+  },
+  "receipts": [
+    {
+      "phase": "initial",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "list",
+        "src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-list-uG2TKM/initial.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "cff216ee277ec223975fc87ea9c30dbc1d49727e3b1118fdbe698836ed5e1a8f",
+      "copySha256": {
+        "packages/editor/src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+        "packages/editor/src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "20b80c0d593afdbc045f7404524e63ad0685993e42f1d638489da108de0c07f6",
+        "packages/editor/src/ui/pre94-c10-list-initial-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99"
+      }
+    },
+    {
+      "phase": "before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "list",
+        "src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-list-uG2TKM/before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "f9aaec6ec09331604c1c5b0ca32105ea8e30c127a2e15cac57a89f3017aef563",
+      "copySha256": {
+        "packages/editor/src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+        "packages/editor/src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "4c5e06fe231615ed6b19c756bd950f6e27bdbdb0e435b3cc845e511b4b785dc9",
+        "packages/editor/src/ui/pre94-c10-list-before-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "a7e8a808ce2033f3e0e8ac982f619a8ca0caa9e2a8a7fc098286272dbf46f5b1"
+      }
+    },
+    {
+      "phase": "after",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "list",
+        "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-list-uG2TKM/after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "a90e0a40c39e611ed2671212c81fd0c304ee62f99d21d13714d4bd5dbd5d237b",
+      "copySha256": {}
+    }
+  ],
+  "snapshots": [
+    {
+      "revision": "d261e1d17a41594f80f08a225ad4d2bbab75a932",
+      "fileSha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99",
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 10,
+        "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+      }
+    },
+    {
+      "revision": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "fileSha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99",
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 10,
+        "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+      }
+    },
+    {
+      "revision": "d4cf7f57d237895d920ddee72f69e0278680157a",
+      "fileSha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99",
+      "fileEntry": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "testCount": 10,
+        "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+      }
+    }
+  ],
+  "removedIdentities": [
+    "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-03 compress 在途：取消与 kind 均禁用，放行后恰好一次 onDone",
+    "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-05 重选前改的 id/label 在首次合法入库后落到定义",
+    "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-09 改 id 后第二次可成功且 onDone 两次"
+  ],
+  "addedIdentities": [
+    "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx :: project root :: C03-G07 入库锁与上传后重选 > C03-G07-05 首次入库前自定义 id/label：定义保存这两个值"
+  ],
+  "rejectedBeforeRegistration": true,
+  "acceptedAfterRegistration": true,
+  "sourceDriftRejected": true,
+  "extraRemovalRejected": true,
+  "identityDriftRejected": true,
+  "other26RowsAndMatcherUnchanged": true
+}

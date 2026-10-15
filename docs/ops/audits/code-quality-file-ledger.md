@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,289。
-当前已闭合核验：206；已读但待审：230；尚未逐文件核验：2,853；合计未闭合：3,083。
+当前已闭合核验：206；已读但待审：233；尚未逐文件核验：2,850；合计未闭合：3,083。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -472,8 +472,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/sell-menu.test.ts` | test | review | CODE-QUALITY-93；typed Item/GameState、公共导航/选择/意图与 cash/inventory ownership oracle；确认默认重置反控 | 已移除强转，独立导航/取消/意图合同；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | CODE-QUALITY-93；inUse 等值、confirm 期四键逐次不变、等长/空/增表与非零 cursor oracle；2 精确反控 | typed fixture；独立输入轴与快照不别名；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
 | `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-93；真实公共入口进入 confirm，空库存与重复选择/确认合同 | 已删与主测试重复的缩表用例；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |
-| `scripts/coverage/approved-test-retirements.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭 |
-| `scripts/coverage/approved-test-retirements.test.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 |
 | `packages/game/src/core/menu/primitives.ts` | product | review | Codex takeover: page helpers remain test-only/unknown; false SDL page anchor and selectable guarantees corrected; no API or behavior change | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/item-select.ts` | product | review | Codex takeover: equip bit and Important approximation comments corrected; production matchesFilter retained; factory cleanup remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
 | `packages/game/src/core/menu/opening-menu.ts` | product | review | Codex R3: choice dedupe accepted; title cancel fixed in driver after user approval, real chain/browser verified; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |
@@ -487,7 +487,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |
 | `packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 C09；全文/合法输入/caller/oracle与反控见[本片](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md) | 五例身份保留；宿主去重/真实IO与提交等待56→44→0act，两枚反控旧新各4绿1指定业务红；全域排重/统一门待续，0关闭 |
 | `packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |
-| `packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |
+| `packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭  C10恢复核命令失败真实SHA等待，28定向零诊断；[证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)，其它caller仍待。 |
+| `packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 真实gzip/SHA闸门finally排空与spy恢复；G05相邻仍有6act，其余caller待核；0关闭 |
+| `packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 十例保持；迟到close有效反控，真实命令失败等待清2act；跨族与统一门待续；0关闭 |
+| `packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 两弱子集有证转移，10→8；提交锁有效反控、05标题/完整值校正；跨族与统一门待续；0关闭 |
 | `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 另核QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；共享sprite/palette IO与finally清理，9定向/121相邻0诊断；全域caller/统一门待核，不关闭 |
 | `packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx` | test | review | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；全文/caller/原始诊断与有效反控见[证据](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md) | 9身份保留、121相邻零诊断；全域排重/其它caller/新窗口未完成，不关闭 |
 | `packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx` | test | review | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；全文/caller/原始诊断与有效反控见[证据](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md) | 9身份保留、121相邻零诊断；全域排重/其它caller/新窗口未完成，不关闭 |
@@ -583,3 +586,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 CODE3b当前复审：两boundary补六判别力缺口与父buffer/完整字段，原拒绝轴拆独立5+2；生产不变。独立raw struct全量对照一致，正文codec不冒称重验。42相邻/extract435/shared126/TC/71工具通过，0stderr；两test旧关闭精确重开，两个raw sanity pending→review，0关闭。机器3289/206closed/230review/2853pending；全83卡10partial/73pending/0accept，统一门仍待editor稳定窗口。
 
 2026-10-16 CODE3b两原盘测试9→2：SSS完整独立struct摘要、MSG五固定raw文本/精确条数和输入ownership；五新单例反控及两原oracle1→1。35相邻/extract428/shared126/TC/71工具零stderr，规则/baseline/产品未改；两文件继续review，MSG全正文/fixup待核，0关闭。机器3289/206/230/2853不变；83卡仍10partial/73pending/0accept，统一门未新跑。
+
+2026-10-16 C10恢复检查点：同30身份先清2act，再有证精简28；四测试/驱动review，新增登记三条，其余review保留，0关闭。完整editor4943绿仍624act/243环境/1表单告警，统一门拒绝；机器已重新核对3289/206closed/233review/2850pending。前94全部83卡仍10partial/73pending/0整卡accept；保存本片后回3d/3g。

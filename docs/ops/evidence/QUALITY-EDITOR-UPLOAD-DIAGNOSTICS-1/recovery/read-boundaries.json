@@ -1,0 +1,119 @@
+{
+  "base": "d261e1d17a41594f80f08a225ad4d2bbab75a932",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "finalSha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148",
+      "finalLines": 548,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "finalSha256": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+      "finalLines": 238,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "finalSha256": "4c5e06fe231615ed6b19c756bd950f6e27bdbdb0e435b3cc845e511b4b785dc9",
+      "finalLines": 310,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "finalSha256": "ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5",
+      "finalLines": 230,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "finalSha256": "cfa3f7e77b7ea886a7dcea8a8c51d1094b332e5ead307209b99df5909cd29c1d",
+      "finalLines": 485,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "finalSha256": "36c0677b43ddd885ffb029836b3d9ee5c3c4332d009a23ac612828d102f3911d",
+      "finalLines": 280,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts",
+      "finalSha256": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+      "finalLines": 230,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "finalSha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45",
+      "finalLines": 246,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "finalSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
+      "finalLines": 23,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "finalSha256": "950c8ec2c45cc51e68c88345d4b7fa3834e7ed8beb70a7bebdbce2597e6f95c0",
+      "finalLines": 271,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "finalSha256": "b08ead657bd4a56b518bac31ca63fae3f31ed400467f2e7e6140053cfe1e7a67",
+      "finalLines": 72,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    },
+    {
+      "path": "packages/editor/vite.config.ts",
+      "finalSha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0",
+      "finalLines": 152,
+      "readBoundary": "full; initial bytes and final edited delta inspected; no whole-file acceptance implied"
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "ranges": ["761-798"],
+      "sha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "wholeFileRead": false
+    },
+    {
+      "path": "packages/editor/src/core/sprite-commands.ts",
+      "ranges": ["181-281"],
+      "sha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+      "wholeFileRead": false
+    },
+    {
+      "path": "packages/editor/src/core/edit-session.ts",
+      "ranges": ["190-222", "352-365"],
+      "sha256": "57b82d62298c3981eb1c903ca400e8765f28f5d103b5c67d27e1cac249989eed",
+      "wholeFileRead": false
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "ranges": ["40-90"],
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+      "wholeFileRead": false
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+      "ranges": ["1-65"],
+      "sha256": "996bb74b3b36943d44275ff3c8bf546e1fd0dc99dad2a1a6527ecd460a11b971",
+      "wholeFileRead": false
+    },
+    {
+      "path": "node_modules/.pnpm/react@19.2.7/node_modules/react/cjs/react.development.js",
+      "ranges": ["826-875"],
+      "sha256": "a5a052eac47e030dc93231e9226defb5e44980eb014961a504c241285966910e",
+      "wholeFileRead": false
+    }
+  ],
+  "primary": "https://react.dev/reference/react/act",
+  "priorPhase2Read": "docs/phase2/READ-FIRST.md full read in ongoing task; no product modification",
+  "oldMockFamily": "SpriteUploadWizard.test.tsx only 1-65; selection family search only; cross-family legality/dedupe pending",
+  "closed": []
+}

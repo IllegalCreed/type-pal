@@ -100,4 +100,4 @@
 
 历史日志原件映射：[3y整合raw存储](CODE-QUALITY-3Y-CLOSEOUT-1/README.md)（仅17份显示副本规范空白，原字节/SHA无损保留，不改变历史质量结论）。
 
-- [C03上传向导检查点](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md)（30例仍2act、80相邻仍8act；未完成、0关闭，让位94前全量复审）。
+- [C03上传向导恢复](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md)（Wizard28零诊断/两有效反控/两重复转移；editor4943通过仍624act/243环境/1表单告警，0关闭；保存后回94前全83卡3d/3g）。

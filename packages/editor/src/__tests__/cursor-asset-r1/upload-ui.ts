@@ -109,10 +109,27 @@ export function wizardWaitDecoded(host: ParentNode): void {
   expect(host.querySelector('.sprite-upload-wizard')?.getAttribute('aria-busy')).toBe('false')
 }
 
-export async function wizardClickSubmit(host: ParentNode): Promise<void> {
-  await act(async () => {
-    wizardSubmit(host).click()
-  })
+export async function wizardClickSubmit(
+  host: ParentNode,
+  options: { waitForCommitDigest?: boolean } = {},
+): Promise<void> {
+  // Command failures have no onDone callback. Observe the real final hardware task,
+  // then let act apply catch/finally updates before the caller inspects the DOM.
+  const digest = options.waitForCommitDigest ? vi.spyOn(crypto.subtle, 'digest') : undefined
+  try {
+    await act(async () => {
+      wizardSubmit(host).click()
+      if (digest) {
+        await vi.waitFor(() => expect(digest).toHaveBeenCalledTimes(1))
+        const pending = digest.mock.results[0]
+        if (!pending || pending.type !== 'return')
+          throw new Error('Wizard commit digest did not return its hardware promise')
+        await pending.value
+      }
+    })
+  } finally {
+    digest?.mockRestore()
+  }
 }
 
 /** 等入库完成：onDone 被调用过至少 count 次。 */

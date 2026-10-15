@@ -189,6 +189,8 @@ export function framePixelSet(frame: RleFrame): number[] {
 export interface GatedCompressPort {
   hold: Deferred<void>
   calls: number
+  /** Release and settle actual gzip/SHA work; UI tests call this inside act in finally. */
+  drain(): Promise<void>
   restore(): void
 }
 
@@ -196,16 +198,33 @@ export function installGatedCompressPort(): GatedCompressPort {
   const hold = deferred<void>()
   let calls = 0
   const original = reforge.compressGzip.bind(reforge)
-  const spy = vi.spyOn(reforge, 'compressGzip').mockImplementation(async (input) => {
+  const reads: ReturnType<typeof reforge.compressGzip>[] = []
+  const digest = vi.spyOn(crypto.subtle, 'digest')
+  const spy = vi.spyOn(reforge, 'compressGzip').mockImplementation((input) => {
     calls += 1
-    await hold.promise
-    return original(input)
+    const pending = hold.promise.then(() => original(input))
+    reads.push(pending)
+    return pending
   })
   return {
     hold,
     get calls() {
       return calls
     },
-    restore: () => spy.mockRestore(),
+    async drain() {
+      hold.resolve()
+      await Promise.allSettled(reads)
+      // Submit starts its real SHA after gzip. No substitute hash or extra IO is run.
+      await Promise.allSettled(
+        digest.mock.results.flatMap((result) => (result.type === 'return' ? [result.value] : [])),
+      )
+    },
+    restore() {
+      try {
+        spy.mockRestore()
+      } finally {
+        digest.mockRestore()
+      }
+    },
   }
 }

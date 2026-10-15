@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
-      "afterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
+      "sourceSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
+      "afterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1490,6 +1490,15 @@
             "previousAfterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
             "afterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "d261e1d17",
+            "action": "C10-recovery-checkpoint-and-pre94-all83-priority",
+            "scope": "own retrospective/C10 navigation only; 83 cards remain 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
+            "afterSha256": "b154f71bc74464d00721fa45077d0948a1ad6cc69dbfca24b0b1b9039df7f778",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md"
           }
         ]
       },
@@ -1800,8 +1809,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
-      "afterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
+      "sourceSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
+      "afterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2390,6 +2399,15 @@
             "previousAfterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
             "afterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "d261e1d17",
+            "action": "C10-recovery-checkpoint-and-pre94-all83-priority",
+            "scope": "own retrospective/C10 navigation only; 83 cards remain 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
+            "afterSha256": "af58cee5ea4f4682aa51965da8474025583ea11145676399df3341dc3170c587",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

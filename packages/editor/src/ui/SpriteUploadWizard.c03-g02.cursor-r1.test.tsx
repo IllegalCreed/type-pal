@@ -289,10 +289,8 @@ describe('C03-G02 取消、迟到释放与恢复', () => {
     expect(mounted.scope.session.getHistoryVersion()).toBe(1)
 
     await mounted.setSpritesOverride('empty')
-    await wizardClickSubmit(mounted.host)
-    await vi.waitFor(() => {
-      expect(wizardError(mounted!.host)).toContain('精灵定义 id 已存在: once')
-    })
+    await wizardClickSubmit(mounted.host, { waitForCommitDigest: true })
+    expect(wizardError(mounted.host)).toContain('精灵定义 id 已存在: once')
     expect(mounted.done).toEqual(['once'])
     expect(mounted.scope.session.getHistoryVersion()).toBe(1)
     expect(wizardBusy(mounted.host)).toBe('false')
