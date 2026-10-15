@@ -101,6 +101,7 @@ async function runTailCli(withBdf: boolean): Promise<{ tree: string; result: Run
   symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
   const rawDir = join(tree, 'data', 'raw')
   mkdirSync(rawDir, { recursive: true })
+  writeFileSync(join(rawDir, 'mus.mkf'), new Uint8Array([8, 0, 0, 0, 8, 0, 0, 0]))
   const rawFiles: Record<string, Uint8Array> = {
     'SSS.MKF': buildSssArchive(),
     'M.MSG': new TextEncoder().encode(MSG_TEXT),

@@ -55,7 +55,11 @@ self.addEventListener('fetch', (event) => {
       // 若 await 且 put 抛(206),respondWith 会 reject → 资源 net::ERR_FAILED(开场 AVI 全挂 + 黑屏,
       // 2026-06-15 生产回归:改 caches.match 时误加了 await + 用 res.ok 含 206;原版本就是 fire-forget)。
       if (res.status === 200) {
-        caches.open(CACHE_NAME).then((cache) => cache.put(req, res.clone())).catch(() => {})
+        // Clone before returning the response: the client can consume it while caches.open awaits.
+        const copy = res.clone()
+        event.waitUntil(
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {}),
+        )
       }
       return res
     }),

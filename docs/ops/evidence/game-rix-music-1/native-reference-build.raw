@@ -1,0 +1,7 @@
+adplug/rix.cpp:242:35: warning: 'memset' call operates on objects of type 'uint8_t' (aka 'unsigned char') while the size is based on a different type 'uint8_t *' (aka 'unsigned char *') [-Wsizeof-pointer-memaccess]
+  242 |         memset(rix_buf, 0, sizeof(rix_buf));
+      |                ~~~~~~~            ^~~~~~~
+adplug/rix.cpp:242:35: note: did you mean to provide an explicit length?
+  242 |         memset(rix_buf, 0, sizeof(rix_buf));
+      |                                   ^~~~~~~
+1 warning generated.

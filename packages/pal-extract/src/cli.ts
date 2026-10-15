@@ -50,6 +50,7 @@ import {
   parseLevelUpMagic,
 } from './resources/parsers/data-misc.js'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
+import { inspectRixArchive } from './resources/parsers/rix.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
 import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
@@ -580,9 +581,13 @@ async function main(): Promise<void> {
       }
     }
     midiNums.sort((a, b) => a - b)
+    // Preserve the original RIX archive and sparse track numbering for DOS FM playback.
+    const rixBytes = new Uint8Array(readFileSync(resolve(RAW, 'mus.mkf')))
+    const rixTracks = inspectRixArchive(rixBytes)
+    writeBinary(resolve(OUT, 'music', 'mus.mkf'), rixBytes)
     writeJson(resolve(OUT, 'data', 'music-manifest.json'), { midi: midiNums, cdTracks })
     console.log(
-      `[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg → music/`,
+      `[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg + ${rixTracks.length} RIX → music/`,
     )
   }
 

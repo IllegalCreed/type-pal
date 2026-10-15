@@ -107,7 +107,8 @@ import {
   setSfxVolume,
   sfxForBattleEvent,
 } from './audio.js'
-import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
+import { createSpessaSynthBackend } from './audio-midi.js'
+import { createRixBackend } from './audio-rix.js'
 import { createAudioVolumeController } from './audio-volume.js'
 import { playAvi, setVideoVolume } from './avi-player.js'
 import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
@@ -122,6 +123,7 @@ import {
 import { scrollFbp, showFbp } from './fbp-player.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
+import { createMusicSourceController, readMusicSource } from './music-source.js'
 import { pausePrecache, resumePrecache } from './precache-client.js'
 import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
@@ -235,7 +237,12 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // (下方 await soundfontSettled)。不等它的话覆盖层收掉后它仍在后台占满带宽(生产
   // pal.illegalscreed.cn 实测 ~440KB/s,32MB 时代要 ~74s):3.mp4 流卡顿、loadScene 黑屏拉长、
   // BGM 等到 AVI 中途才响(2026-06-12 user 报)。失败不挡启动:audio-midi 回退自取,最终 BGM 静默 + warn。
-  const { soundfontData, soundfontSettled, resourcesReady } = startBootstrapResourceLoad(SCENE_ID)
+  const initialMusicSource = readMusicSource()
+  const { soundfontData, soundfontSettled, resourcesReady } = startBootstrapResourceLoad(
+    SCENE_ID,
+    undefined,
+    initialMusicSource === 'midi',
+  )
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
@@ -459,14 +466,19 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const audio = createAudioManager('/extracted')
   // BGM 后端:SpessaSynth 运行时 MIDI 合成(直接播 Musics/{NNN}.mid,开箱即响)。
   //   public/soundfont.sf3 已随仓库提供;缺失则 BGM 静默 + warn,见 audio-midi.ts。worklet 已 vendored 到 public/。
-  audio.setMusicBackend(
-    createSpessaSynthBackend({
-      baseUrl: '/extracted',
-      workletUrl: '/spessasynth_processor.min.js',
-      soundfontUrl: '/soundfont.sf3',
-      soundfontData, // bootstrap 顶部预取(boot 进度条覆盖),init 不再二次 fetch 32MB
-    }),
+  const musicSource = createMusicSourceController(
+    (source) =>
+      source === 'rix'
+        ? createRixBackend('/extracted')
+        : createSpessaSynthBackend({
+            baseUrl: '/extracted',
+            workletUrl: '/spessasynth_processor.min.js',
+            soundfontUrl: '/soundfont.sf3',
+            soundfontData: initialMusicSource === 'midi' ? soundfontData : undefined,
+          }),
+    initialMusicSource,
   )
+  audio.setMusicBackend(musicSource)
   // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
   //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
   //   → BGM/SFX 全哑(user 2026-06-03 实测控制台 "AudioContext was not allowed to start")。改:
@@ -1076,7 +1088,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   //   的「主静音」一键覆盖三路(setMuted 写同一键、保持一致);音量键独立,静音只叠加不改音量值。
   const audioVolume = createAudioVolumeController({
     applyVolume: (v) => {
-      setBgmVolume(v)
+      musicSource.setVolume?.(v)
       setOggVolumeScale(v)
     },
   })
@@ -1097,6 +1109,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
     displayScale,
     audioVolume,
+    musicSource,
     sfxVolume,
     videoVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
@@ -1858,7 +1871,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // 等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
   // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
   // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
-  setBootLoadingNote('音色库')
+  if (initialMusicSource === 'midi') setBootLoadingNote('音色库')
   await soundfontSettled
   setBootLoadingNote('')
 

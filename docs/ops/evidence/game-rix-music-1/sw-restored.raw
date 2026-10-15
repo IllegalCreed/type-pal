@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: SW caches a complete asset even when the client consumes it before cache opening completes
+ok 1 - SW caches a complete asset even when the client consumes it before cache opening completes
+  ---
+  duration_ms: 12.490667
+  type: 'test'
+  ...
+# Subtest: SW serves a partial response without placing it into the full-asset cache
+ok 2 - SW serves a partial response without placing it into the full-asset cache
+  ---
+  duration_ms: 1.223917
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46.912875

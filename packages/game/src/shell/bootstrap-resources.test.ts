@@ -30,6 +30,13 @@ function ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResour
 }
 
 describe('bootstrap resource lifecycle', () => {
+  it('FM boot loads the game resources without requesting or waiting for the MIDI soundfont', async () => {
+    const fetchSoundfont = vi.fn(() => new Promise<ArrayBuffer>(() => {}))
+    const load = startBootstrapResourceLoad(7, ports({ fetchSoundfont }), false)
+    expect(fetchSoundfont).not.toHaveBeenCalled()
+    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
+    await expect(load.soundfontSettled).resolves.toBeUndefined()
+  })
   it('starts soundfont first and all resource loaders before awaiting any result', async () => {
     const order: string[] = []
     const soundfont = deferred<ArrayBuffer>()
