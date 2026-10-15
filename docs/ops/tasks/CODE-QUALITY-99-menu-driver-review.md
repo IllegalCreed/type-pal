@@ -72,6 +72,12 @@ menu 域逐文件治理第四批（1 生产文件 + 2 测试文件，不碰 CODE
 - 全门：本批零代码改动，与 CODE94/95 批共用同一棵已过全门的树（`5cb6b9d22`）+ 97/98 批后 docs/lint 复验；本批追加文档后 check:docs / lint / ledger 复验见证据目录。
 - 账本：menu-driver.ts 新增 1 行 review；menu-driver.test.ts/cov85 按工具口径为 test 记录（本卡结论为准）。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- menu-driver.test.ts 全面 typed 化（E-7 修复）：新增 mkItem/mkSpell/mkMagic 构造器+复用 makeRole；清 as unknown as×6/as any×3（含对象形 equipableBy、equipPart 蛛网膜外键、部分 Spell/Magic/PlayerRoles）；三处循环"试出"目标的弱遍历改为确定性 cursor 安排（inGameCursorFor 按 choice 映射定位）+单次 dispatch+精确 kind 断言。
+- cov85.test.ts：两处 11 条库存改 11 个**不同**合法 itemId（真 addItemToInventory 按 id 合并，同 id 重复 push 非生产库存形态，目录同步扩展）；补 save/load handler 异步 reject（catch 域吞掉不外泄）与同步 throw（穿透 dispatch，Promise.resolve 不裹同步域）两条 ownership oracle。
+- C3 取消光标真值归高风险卡；E-8（_bus 死参）维持登记。
+
 ## 下一步
 
 Codex 独立验收；E-7/E-8/E-9 并入 E-1..E-6 待 94/95 验收后的实现批（E-7 触发 coverage 范围门，须同批 ratchet）。menu 域 core+driver 全覆盖完毕；后续换域选批。无用户裁决需求。

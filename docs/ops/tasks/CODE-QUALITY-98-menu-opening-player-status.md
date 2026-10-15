@@ -74,6 +74,12 @@ menu 域逐文件治理第三批（2 文件，最小不重叠，不碰 CODE94/95
 - 全门：本批零代码改动，与 CODE94/95 批共用同一棵已过全门的树（`5cb6b9d22`：全仓 pnpm check exit 0、official ratchet、protected fast exit 0、lint-zero 零诊断）+ CODE-97 批后 docs/lint 复验；本批追加文档后 check:docs / lint / ledger 复验见证据目录。
 - 账本：新增 2 行 review（GLM 结论待 Codex 验收）。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- opening-menu.glm-phase1-leaves：删除与主测试重复的 choice 映射条（new→load→new 三面全覆盖），保留词表注入同步与空表防御两条新差异轴；头注释去重表同步更正。
+- player-status.test：10/20/30 roleId 加限定注释——证明索引遍历通用性，非生产 PlayerRoles 域真值。
+- C3（标题读档取消未复位光标）归 GAME-OPENING-CANCEL-CURSOR-1 高风险卡（draft，无 build allowed），本卡不偷改 driver 行为。
+
 ## 下一步
 
 Codex 独立验收后收口；E-6 并入 E-1..E-5 待 94/95 验收后的实现批。menu 域 core 状态机至此全部覆盖（save-slot-menu 属存档域、menu-driver/sell-menu 另域处理）。无用户裁决需求。

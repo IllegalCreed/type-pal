@@ -65,6 +65,11 @@ counter：partial GameState as never、DOM/计时器隔离及错误/解绑oracle
 - 全门：零代码改动，共用 `5cb6b9d22` 树完整门禁 + 97-101 批后复验；本批追加文档后复验见证据目录。
 - 账本：新增 1 行 review。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- quick-save.test.ts 重写（E-13 修复）：真实 createInitialGameState 替代 as never 残缺对象（dialogBox 用合法完整 DialogBoxState，参照 mode.test 先例）；fake timers + afterEach 清 toast 容器 DOM 与未走完计时器；补 oracle：F5/F9 preventDefault（cancelable:true 判例）、解绑后键无效、save reject/load false/load reject 三条反馈路径。
+- E-13 关闭；toast 展示原语仍由相邻 toast.test 承担，不重复像素断言。
+
 ## 下一步
 
 Codex 独立验收；E-13 并入 E-批。后续候选：tools 剩余（display-scale/fps-overlay/map-names 已 3j 闭合、speedrun 已闭合、analytics 待核）或 game present 剩余 pending。无用户裁决需求。

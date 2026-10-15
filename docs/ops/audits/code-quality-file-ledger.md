@@ -295,18 +295,18 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/inventory-action-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |
 | `packages/game/src/core/menu/inventory-action-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |
 | `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |
-| `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-97 review-only；GLM 逐文件四维结论（L38 双语义锚齐/caller 10+ 生产文件/纯 data），E-4 pageUp/pageDown/findNextSelectable 无生产 caller 已登记 | 死面删除须另卡；不借本批复核关闭 |
-| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-97 review-only；GLM 逐文件四维结论（matchesFilter 3 真实 caller/sellPrice floor/M5 近似显式标注），E-5 createItemSelectMenu 无生产 caller 已登记 | 同上 |
-| `packages/game/src/core/menu/opening-menu.ts` | product | review | CODE-QUALITY-98 review-only；GLM 逐文件四维结论（WORD id 7/8 byte 级验证备注/caller=bootstrap+menu-driver+draw-opening/纯状态机） | Codex R2：choice测试重复、取消链反证；保持review |
-| `packages/game/src/core/menu/player-status.ts` | product | review | CODE-QUALITY-98 review-only；GLM 逐文件四维结论（输入循环逐键锚 uigame.c:1271/1276/1281/done 幂等/caller=menu-driver+battle-system+draw） | E-6 currentRoleId test-only 已登记；待 Codex 验收 |
+| `packages/game/src/core/menu/primitives.ts` | product | review | CODE-97 C5 返工后：PgUp 锚错误已更正（ui.c 无 kKeyPgUp，一手核）；pageUp/pageDown test-only 保留依据已入源码注释；pageDown 钳制优先于跳过的真实语义已钉真 | E-4 死面删除另卡；待 Codex 再验收 |
+| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-97 C5 返工后：equip 位序注释更正（kItemFlagEquipable=1<<1，global.h:136 一手核）；kItemFlagImportant 声明为工程近似（枚举无此项） | E-5 test-only 工厂另卡；待 Codex 再验收 |
+| `packages/game/src/core/menu/opening-menu.ts` | product | review | CODE-98 C5 返工后：leaves 重复 choice 条已删（保留词表/空防御轴） | Codex R2 取消链反证归 GAME-OPENING-CANCEL-CURSOR-1（draft）；待 Codex 再验收 |
+| `packages/game/src/core/menu/player-status.ts` | product | review | CODE-98 C5 返工后：测试 roleId 10/20/30 域限定注释已补（索引通用性，非生产 role 域真值） | E-6 维持；待 Codex 再验收 |
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
-| `packages/game/src/core/menu/menu-driver.ts` | product | review | CODE-QUALITY-99 review-only；GLM 逐文件四维结论（11 kind 路由/DH9 goto-out/C4 INNER/DM23 锚全/caller=menu-mode+bootstrap） | E-8 _bus 死参、E-9 makeEquipMenuEntry 死导出登记；menu-driver.test.ts E-7 fixture counter；待 Codex 验收 |
+| `packages/game/src/core/menu/menu-driver.ts` | product | review | CODE-99 C5 返工后：menu-driver.test 全面 typed（E-7 关闭：构造器+makeRole+确定性 cursor 安排替弱遍历）；cov85 库存改 11 不同 id+异步 reject/同步 throw oracle | E-8/E-9 维持；C3 归高风险卡；待 Codex 再验收 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
-| `packages/game/src/core/menu/save-slot-menu.ts` | product | review | CODE-QUALITY-100 review-only；GLM 逐文件四维结论（WORD id 43+i/DM24 id 反查/只读 listSlots IO 边界；caller=menu-driver×5+draw-menu） | Codex R2：内存误称IDB、simulateSave不是生产oracle；保持review |
+| `packages/game/src/core/menu/save-slot-menu.ts` | product | review | CODE-100 C5 返工后：simulateSave 重复模型已删（真 driver 聚合归 menu-save-chain）；幽灵引用 createSaveSlotMenuAsync 注释已更正；"IndexedDB 隔离"错误声明已收回（实为内存 fallback） | 待 Codex 再验收 |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
-| `packages/game/src/core/save/api.ts` | product | review | CODE-QUALITY-101 review-only；GLM 逐文件四维结论（双路径门面/deepClone 双向隔离/槽位域校验；caller=menu-driver+save-slot-menu+bootstrap+quick-save） | E-10 头注释过时（仍称 in-memory stub）登记 E-批；U-1 引用既有卡；待 Codex 验收 |
-| `packages/game/src/core/save/indexed-db.ts` | product | review | CODE-QUALITY-101 review-only；GLM 逐文件四维结论（P2#5 版本纪律范本注释/单例+hot-reload 重置/错误传播不吞） | Codex R2 P1：事务abort后API仍resolve，GAME-SAVE-IDB-COMMIT-1停线；保持review |
-| `packages/game/src/tools/quick-save.ts` | product | review | CODE-QUALITY-102 review-only；GLM 逐文件四维结论（三条件脏档门+全路径 toast+deps 注入；caller=bootstrap:98） | quick-save.test.ts E-13 as never fixture 登记并入 E-批；待 Codex 验收 |
+| `packages/game/src/core/save/api.ts` | product | review | CODE-101 C5 返工后：头注释已更正（E-10 关闭，双路径现状）；"hot-reload 已处理"过 claim 已回收（openDb 失败缓存/未 close 未证） | NaN/小数合同列 review 不改接口；U-1 引用既有卡；待 Codex 再验收 |
+| `packages/game/src/core/save/indexed-db.ts` | product | review | CODE-101：C4 事务缺口维持（Codex 反控已复现 request.onsuccess≠commit） | GAME-SAVE-IDB-COMMIT-1 停线（draft 无 build allowed）；E-12 维持；待该卡收口 |
+| `packages/game/src/tools/quick-save.ts` | product | review | CODE-102 C5 返工后：测试重写为真实 GameState+toast DOM/计时器清理+preventDefault/解绑/三异步反馈 oracle（E-13 关闭） | C4 写成功语义继承高风险卡；待 Codex 再验收 |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 
@@ -326,3 +326,4 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-15 Codex R2独立再验收：候选1f8bcd468，CODE94/97–102 counter/rework；CODE95三份fixture局部accept、状态review，完整门未收。30条manifest源码与额外97–102范围逐文件全文读取，实际caller段落、SDLPal/W3C及反证详见[evidence/CODE-QUALITY-94/codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。所有既有review/pending保持，0新关闭；3267/229closed/44review/2994pending，不借36files/323tests或包绿关闭。三份GAME高风险draft卡仅登记，未改产品/schema/save/公共接口。原GLM的完整门声明被counter覆盖，旧原件保留。
 
 2026-10-15 Codex R2同步最新main 8f5d17ff1：保留本候选44条review与主线新增16条音乐pending；3283/229closed/44review/3010pending。没有新closed，没有把治理合main；此前3267口径仅历史候选。
+2026-10-15 C5 返工（codex-r2-review）：94/97-102 白名单内注释/fixture/排重/判别力修正（E-7/E-10/E-13 关闭，E-1..E-6/E-8/E-9/E-12 维持）；pageDown 钳制真实语义钉真；三个高风险机制（C2/C3/C4）归 GAME-* draft 卡未动。计数不变（229/44）。

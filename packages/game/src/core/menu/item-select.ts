@@ -13,11 +13,12 @@ import type { InventoryEntry } from '../game-state.js'
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu } from './primitives.js'
 
-/** sdlpal `palcommon.h kItemFlag*` 真值分类(简版,完整 flag 解码留 follow-up):
- *  - equip:武器 / 头盔 / 衣甲 / 鞋 / 饰品 / 护身符(item.flags & 0x01 是装备类)
- *  - potion:可使用恢复类
- *  - battle:战斗道具
- *  - important:剧情道具(不可丢弃 / 不可用) */
+/** 按 ItemFlags 具名布尔的工程分类(简版):
+ *  - equip := kItemFlagEquipable(global.h:136 = 1<<1;注意 1<<0 是 kItemFlagUsable,
+ *    旧注"0x01 是装备类"位序写反,2026-10-15 更正)
+ *  - potion/battle:按 usable/throwable/consuming 组合的工程近似
+ *  - important:工程近似 —— SDLPal ITEMFLAG 枚举(global.h:134-141)**没有** kItemFlagImportant,
+ *    此处以"非卖且非装备"近似剧情道具,不代表原版标志 */
 export type ItemFilter = 'equip' | 'potion' | 'battle' | 'important' | 'usable' | 'sellable' | 'all'
 
 /** 显示模式:inventory(默认无价格)/ buy(显价)/ sell(显卖价 = 价格 / 2). */

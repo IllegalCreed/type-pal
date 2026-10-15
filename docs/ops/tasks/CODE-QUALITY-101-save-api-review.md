@@ -77,6 +77,13 @@ counter/P1：真实Save→IDB在request success后事务abort仍resolve，已开
 - 全门：零代码改动，共用 `5cb6b9d22` 树完整门禁 + 97-100 批后复验；本批追加文档后复验见证据目录。
 - 账本：新增 2 行 review（api.ts / indexed-db.ts）。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- api.ts 头注释更正（E-10 修复）：双路径门面现状（浏览器 IndexedDB 主路径/无 IDB 环境内存 fallback），旧"stub(in-memory) 后切"历史声明废弃。
+- 回收本卡过 claim："P2#5 版本纪律范本注释"维持，但原"hot-reload 已处理重开"表述过强——_resetDbConnectionForTest 仅重置句柄，无 db.close()，未闭合句柄行为无主路径测试证实；openDb 失败时 rejected Promise 会被缓存（后续调用复用失败）同样未证。事实登记，不改接口。
+- api.saveSlot 只比较上下界不拒 NaN/小数：公开输入合同收紧与否列 review（生产 caller 当前整数 1..5），不据此改 save 接口。
+- **C4（IDB 事务成功≠保存成功）已由 Codex 反控复现（codex-r2-idb-counter），归 GAME-SAVE-IDB-COMMIT-1 高风险卡（draft，无 build allowed）——本卡与 C5 返工均不触碰 indexed-db.ts 事务语义。**
+
 ## 下一步
 
 Codex 独立验收；E-10/E-12 并入 E-批；U-1（记录级版本）由既有卡跟踪。后续候选：quick-save 工具域、word-lookup 已闭合域复核、或 game present 剩余 pending。无用户裁决需求。

@@ -42,6 +42,33 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '6ff88bee5f7e7fd6fb2b7d4103d73c9db56948d05fabb39498f3746bdeb0cb4a',
       fileSha256: 'a4a475aea163b36b20a457cf1ca28805c2d3dec55c63e47d9b507e0301aed3da',
     },
+    // User-approved 2026-10-15 CODE94 C5 rework (Codex codex-r2-review R2 counter
+    // ordered removal of proven-duplicate / self-model tests; GLM handoff instruction
+    // of the same date). Exact snapshots only, same rules as above.
+    {
+      file: 'packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4',
+      currentIdentityDigest: '1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619',
+      fileSha256: 'bcfe23ecda771cb5ab879746dc3c38b17ad742049adfb867b9378d284d3ed461',
+    },
+    {
+      file: 'packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: 'bd2f2514088aac7ebd9d4c4dc924499c960d819ed3b6e12fad431342ef311b1a',
+      currentIdentityDigest: '9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112',
+      fileSha256: '28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46',
+    },
+    {
+      file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
+      previous: 15,
+      current: 14,
+      previousIdentityDigest: 'f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581',
+      currentIdentityDigest: '6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda',
+      fileSha256: 'e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174',
+    },
     // User-approved 2026-10-03 audit baseline reconciliation. These six files
     // were already stale relative to main 8efe0486; pin exact identities so
     // protected strict distinguishes this migration from later deletions.

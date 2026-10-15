@@ -16,3 +16,4 @@ CODE95补充counter R4：applyAll物品fixture不可冒称真实单体目标入�
 2026-10-15 R1–R4 返工（Codex counter 8c951cd7a）：回执 glm-r2-targeted（24files/241tests 零诊断）、glm-r2-typecheck、glm-r2-ledger、glm-r2-docs、glm-r2-lint、glm-r2-ratchet、glm-r2-protected；[codex-review.md](codex-review.md) 为 Codex counter 原件；manifest 已按 reworkCounter 更新 5 文件 SHA。act 警告归属量化见 glm-review.md 返工段（全部 editor 包，game 零贡献）。
 
 - [Codex R2：94/95及97–102再验收](codex-r2-review.md)：分批counter/局部accept、逐文件读取表、三个真实函数反证及GLM提示词。codex-r2-*为独立原件，未覆盖前轮报告。
+2026-10-15 C5 返工回执：glm-c5-targeted（36files/326tests 零诊断）、glm-c5-check、glm-c5-ratchet、glm-c5-protected（链式，含 act 警告计数与终态）。manifest 布尔已按当前候选重算（booleanRevision）。

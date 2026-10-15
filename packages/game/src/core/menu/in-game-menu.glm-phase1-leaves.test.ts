@@ -50,7 +50,7 @@ describe('L04 SystemMenu 剩余合同', () => {
     expect(systemMenuChoice(s)).toBe('save')
   })
 
-  it('defaultCursor 越上界 → 归 0；词表载入取 flat[11..15] 文案', () => {
+  it('defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）', () => {
     expect(createSystemMenu(99).selection.cursor).toBe(0)
   })
 

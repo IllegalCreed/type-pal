@@ -34,8 +34,9 @@ export interface SaveSlotMenuState {
 const SAVE_SLOT_LABELS = ['进度一', '进度二', '进度三', '进度四', '进度五']
 
 /**
- * 创建 save-slot 菜单。slotMetas 起初空 Map,createSaveSlotMenuAsync 异步 fetch 后填。
- * 单测 / e2e 用本同步版本传入预 mock slotMetas。
+ * 创建 save-slot 菜单（同步工厂）。slotMetas 起初空 Map,由 caller(menu-driver)在
+ * push 后 fire-and-forget 调 fetchSlotMetas 异步填充(2026-10-15 更正:旧注引用的
+ * createSaveSlotMenuAsync 不存在);单测可直接读 slotMetas 断言。
  */
 export function createSaveSlotMenu(
   mode: SaveSlotMode,

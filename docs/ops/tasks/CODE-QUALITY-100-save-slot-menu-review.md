@@ -72,6 +72,12 @@ menu 域收完后换域第一批：存档槽菜单切片（1 生产 + 2 专属�
 - 全门：零代码改动，共用 `5cb6b9d22` 树完整门禁 + 97/98/99 批后 docs/lint 复验；本批追加文档后复验见证据目录。
 - 账本：新增 1 行 review。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- 删除 simulateSave 聚合模拟测试（自写模型重复 dispatcher 逻辑不算 caller 证据；真 driver 聚合由 menu-save-chain.glm-msio 承担）。
+- 更正本卡与账本的错误声明：原"真实 IndexedDB 集成带 _clearAllForTest 隔离"不实——game vitest(jsdom) 无 indexedDB，走 api.ts 内存 fallback（CODE-101 已核环境事实）；leaves 头注释"fetchSlotMetas×IndexedDB"同步更正。
+- save-slot-menu.ts 头注释幽灵引用 createSaveSlotMenuAsync 更正为 fetchSlotMetas 真链；leaves 补 slot10/20 公开工厂防御域限定注释（生产槽位恒 1..5）。
+
 ## 下一步
 
 Codex 独立验收；E-1..E-9 仍等 94/95 验收。后续候选：Save API 存档域本体（save/api.ts，须先核 schema/IndexedDB 边界）或 game present 剩余 pending。无用户裁决需求。

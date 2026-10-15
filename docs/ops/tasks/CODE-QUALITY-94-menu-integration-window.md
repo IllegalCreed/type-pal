@@ -81,6 +81,13 @@ counter：R1诊断未清，另有C2机制反证、C5测试质量与manifest旧�
 - R4：inventory-menu.test 200 改单体 usable 合成 fixture（真实 caller 选人域前提，注释声明合成属性）；死人/取消 oracle 未动；相邻 driver applyToAll/单体回归保留。
 - manifest 5 文件 candidateSha 更新+reworkCounter 标注；返工门禁回执 glm-r2-*.txt 同证据目录。30 条仍 review 交 Codex 再验收。
 
+## GLM C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- C5-94：menu-mode.test 两处假 inventory state 改真工厂；equip leaves 重复 filter/phase/cursor 条删除（主测试全覆盖）；in-game-magic-menu.test 三处 JSON.parse any 改 structuredClone（恢复类型检查并补非空断言）；in-game-menu leaves 拆分残留标题更正；manifest 30 条布尔按当前候选全量重算（10 条修正，candidate==closure 20/30，"27/30"旧断言作废并注明 revision 归属）。
+- C5-97..102（详见各卡 R2 段）：item-select 位序/虚构枚举注释更正（global.h:135-136 一手核）；primitives PgUp 虚构锚更正+pageDown 钳制优先真实语义钉真；potion/important 否决位独立化；opening leaves 重复删除；player-status 域限定；menu-driver.test 全面 typed（E-7 关闭）+确定性 cursor 安排；cov85 11 条库存改不同 id+异步 reject/同步 throw oracle；simulateSave 重复模型删除+IDB 隔离错误声明收回+幽灵引用更正；api.ts 头注释更正（E-10 关闭）+过 claim 回收；quick-save.test 重写（E-13 关闭：真 GameState/计时器与 DOM 清理/preventDefault/解绑/三异步反馈）。
+- C1 存量诊断维持（editor 域，归属已量化，Codex 集中清理卡）；C2/C3/C4 三高风险机制归 GAME-OUTSIDE-MAGIC-DISABLED-1 / GAME-OPENING-CANCEL-CURSOR-1 / GAME-SAVE-IDB-COMMIT-1（draft 无 build allowed，本返工零触碰）。
+- 门禁：定向+相邻 36 files/326 tests 零诊断、game typecheck 0、docs、lint-zero 4073 files 0/0/0、ledger PASS；全仓 check/ratchet/protected fast 链回执 glm-c5-*.txt（含 act 警告计数）。30 条仍 review。
+
 ## 下一位 Agent 提示词（GLM，2026-10-14 用户指定接手）
 
 继续 type-pal 有限模块代码治理，默认单 Agent。先读 AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md、board.md、code-quality-governance.md、code-quality-file-ledger.md、phase1 engineering-notes/game-mechanics，以及 CODE94/95 与 CODE83–89/91/92 的历史卡和证据。工作目录 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`，分支 `codex/code-quality-menu-integration`；main 基点 cddf65557e60619e40e38168b276cf01981a106a。先 fetch/status/show/ledger，核对最新 main；不得写主工作树 `/Users/zhangxu/illegal/type-pal` 或覆盖别人未提交文件。

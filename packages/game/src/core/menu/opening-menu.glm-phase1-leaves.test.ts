@@ -1,31 +1,20 @@
 /**
  * TEST-GLM-PHASE1-LEAVES-3 L06（opening-menu.ts）— 去重表：
- *  - opening-menu.test（2 项起手/Down/Up wrap/labels 暴露真 WORD id 7/8）→ 不重复
- *  - 新差异：openingMenuChoice 的 'new-game'/'load-game' 映射值、词表载入后 menu items 与
- *    openingMenuLabels 同步取 flat[7]/flat[8]、空表 choice 防御 undefined。
+ *  - opening-menu.test（2 项起手/Down→load-game/Up wrap/Down+Up 来回/labels 暴露真 WORD id 7/8）→ 不重复
+ *  - 新差异：词表载入后 menu items 与 openingMenuLabels 同步取 flat[7]/flat[8]、
+ *    空表 choice 防御 undefined。（原 choice 映射条已证重复删除，C5）
  * 锚：sdlpal uigame.c:105-109（value 0/1）+ ui.h:48-49（MAINMENU_LABEL 7/8）。
  */
 import { afterEach, describe, expect, it } from 'vitest'
 import { setWordTable } from '../word-lookup.js'
-import {
-  createOpeningMenu,
-  openingMenuChoice,
-  openingMenuDown,
-  openingMenuLabels,
-  openingMenuUp,
-} from './opening-menu.js'
+import { createOpeningMenu, openingMenuChoice, openingMenuLabels } from './opening-menu.js'
 
 describe('L06 OpeningMenu 剩余合同', () => {
   afterEach(() => setWordTable([]))
 
-  it('choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）', () => {
-    const s = createOpeningMenu()
-    expect(openingMenuChoice(s)).toBe('new-game')
-    openingMenuDown(s)
-    expect(openingMenuChoice(s)).toBe('load-game')
-    openingMenuUp(s)
-    expect(openingMenuChoice(s)).toBe('new-game')
-  })
+  // C5 排重(2026-10-15)：原"choice 映射 new→load→new"条与主测试
+  // 'createOpeningMenu 起手 new-game'/'Down 一次 → load-game'/'Down + Up → 来回'三面
+  // 完全重复，删除；本文件保留词表注入同步与空表防御两条新差异轴。
 
   it('词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）', () => {
     const flat: string[] = []

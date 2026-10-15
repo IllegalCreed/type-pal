@@ -22,17 +22,22 @@ import {
 } from './primitives.js'
 
 describe('L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成）', () => {
-  it('pageDown 目标位 disabled → 落到其后第一个可选项', () => {
+  it('pageDown 目标位 disabled → 落点被钳回目标位（target 钳制优先于跳过禁用）', () => {
+    // C5 更正(2026-10-15)：原 fixture target=2 是 enabled，"跳禁用"路径从未执行，标题与
+    // 行为不符。真实语义：findNextSelectable 越过 target 找到的可选项(3)会被
+    // `if (cursor > target) cursor = target` 钳回 disabled 的 target —— 与 pageUp 方向
+    // 不对称（pageUp 只从下方钳，可越过 disabled target 落到其后可选项，见下一条）。
+    // 本测试钉住当前真实行为；仅当环绕找到 <target 的可选项时跳过才生效（见环绕条）。
     const items: SelectionMenuItem[] = [
       { id: 0, label: 'a' },
       { id: 1, label: 'b', disabled: true },
-      { id: 2, label: 'c' },
-      { id: 3, label: 'd', disabled: true },
+      { id: 2, label: 'c', disabled: true },
+      { id: 3, label: 'd' },
     ]
     const s = createSelectionMenu(items, 2)
-    pageDown(s) // target = min(3, 0+2) = 2；从 1 起向后找可选 → 2
+    pageDown(s) // target = min(3, 0+2) = 2（disabled）；skip 找到 3 但被钳回 2
     expect(s.cursor).toBe(2)
-    expect(getSelected(s)?.id).toBe(2)
+    expect(getSelected(s)?.disabled).toBe(true)
   })
 
   it('pageDown 目标位及之后全 disabled → 环绕回前面可选项', () => {
@@ -46,7 +51,7 @@ describe('L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成�
     expect(s.cursor).toBe(0)
   })
 
-  it('pageUp 目标位 disabled → 落到其后第一个可选项', () => {
+  it('pageUp 目标位 disabled → 落到其后第一个可选项（pageUp 方向可越过 disabled target）', () => {
     const items: SelectionMenuItem[] = [
       { id: 0, label: 'a' },
       { id: 1, label: 'b', disabled: true },

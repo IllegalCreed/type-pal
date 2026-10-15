@@ -105,8 +105,11 @@ function ensureCursorVisible(s: SelectionMenuState): void {
 }
 
 /**
- * M5.6 T6:PgUp 翻页 — cursor 跳到上一页第一个可选项;若已在第一页,跳到首项。
- * sdlpal ui.c:540+ PAL_ReadMenu kKeyPgUp 真值。
+ * PgUp 翻页 — cursor 跳到上一页第一个可选项;若已在第一页,跳到首项。
+ * 2026-10-15 更正:PAL_ReadMenu(ui.c)无 kKeyPgUp 分支,旧注"ui.c:540+ 真值"锚错误
+ * (该行是 Up/Left 分支);sdlpal 物品翻页在 itemmenu.c:63-94,由 inventory-menu 的
+ * inventoryPageUp/Down 独立实现。pageUp/pageDown 当前无生产 caller(test-only 保留),
+ * 公共出口删除须另卡走准入,不因覆盖率留存也不擅自删。
  */
 export function pageUp(s: SelectionMenuState): void {
   const target = Math.max(0, s.cursor - s.pageSize)
@@ -115,9 +118,7 @@ export function pageUp(s: SelectionMenuState): void {
   ensureCursorVisible(s)
 }
 
-/**
- * M5.6 T6:PgDn 翻页 — cursor 跳到下一页第一个可选项;末页时跳到末项。
- */
+/** PgDn 翻页 — 同 pageUp 的 test-only 状态说明(见上)。 */
 export function pageDown(s: SelectionMenuState): void {
   const target = Math.min(s.items.length - 1, s.cursor + s.pageSize)
   s.cursor = findNextSelectable(s.items, target - 1, 1)

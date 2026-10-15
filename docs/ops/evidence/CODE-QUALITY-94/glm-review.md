@@ -11,7 +11,7 @@ Owner: GLM（按 CODE94/95 卡提示词接手）；Reviewer: Codex 独立验收�
 ## 机械核验
 
 - manifest candidate/main SHA 30/30 与实际字节一致（`glm-manifest-verify` 记录于本文件末）。
-- closure 身份 27/30 候选=闭合版本字节一致；恰 3 份（inventory-menu.test / inventory-menu.boundaries.test / shop-menu.boundaries.test）按 manifest 标记偏离闭合版 = CODE95 fixture 修复，closureSha256 本身记录准确。
+- closure 身份：1f8bcd468 时 27/30 候选=闭合字节一致、恰 3 份 CODE95 修复偏离；R2-R4/C5 返工后再改 5+4 文件，Codex 机械复核指出 7 条旧布尔未随 reworkCounter 更新——已按当前候选全量重算（byteIdentical/sourceChanged/changedAfterPriorClosure 三布尔多条被修正，现 candidate==closure 20/30；每 SHA 字段归属其声明 revision，见 manifest booleanRevision；本行 27/30 旧断言作废）。
 - 候选未改 `scripts/coverage/baseline.fast.json`、未改 sell-menu.ts（CODE93 域，main 已有版本原样）、无 CODE53/57/79/80/81/90 实现或毒键/状态页/战斗/Dev Panel/thumbnail/save/音频/生成物导入；新增 0 处 `as never`/`as unknown as`。
 
 ## CODE95 三份修复裁定（全文复核）

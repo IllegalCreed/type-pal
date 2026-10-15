@@ -68,6 +68,13 @@ CODE94/95 的 30 文件窗口不含 menu 模块两个基础 helper，本批补�
 - 全门：本批零代码改动，与 CODE94/95 批共用同一棵已过全门的树（`5cb6b9d22`：全仓 pnpm check exit 0、official ratchet、protected fast exit 0、lint-zero 4012 零诊断、docs、ledger）；本批仅追加文档，追加后 check:docs/lint 复验见证据目录。
 - 账本：新增 2 行 review（GLM 结论待 Codex 验收）。
 
+## R2/C5 返工（2026-10-15，响应 Codex codex-r2-review）
+
+- item-select.ts 注释更正：equip 位引用改 kItemFlagEquipable=1<<1（global.h:136 一手核；旧注"0x01 装备类"位序反）；kItemFlagImportant 声明为工程近似（枚举无此项，global.h:134-141）。
+- primitives.ts：PgUp 注释锚更正——PAL_ReadMenu(ui.c)无 kKeyPgUp 分支（旧 ui.c:540 锚系 Up/Left 行）；pageUp/pageDown 显式标注 test-only 保留与另卡删除路径（E-4 维持）。
+- primitives.glm-phase1-leaves：pageDown"跳过 disabled"标题与行为不符已改真——发现并钉住 target 钳制优先于跳过的真实语义（与 pageUp 方向不对称），注释说明；potion 投掷否决隔离（usable+throwable）；important 双守卫各自单真用例隔离。
+- item-select.glm-phase1-leaves：同上否决位独立化。
+
 ## 下一步
 
 Codex 独立验收后收口为已验证；E-4/E-5 与 CODE94/95 登记的 E-1/E-2/E-3 合并为后续实现批候选。无用户裁决需求。

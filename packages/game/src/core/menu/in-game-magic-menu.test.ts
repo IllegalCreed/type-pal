@@ -222,8 +222,8 @@ describe('createInGameMagicMenu', () => {
   })
 
   it('caster disabled when hp <= 0', () => {
-    const deadRoles = JSON.parse(JSON.stringify(PLAYER_ROLES))
-    deadRoles.roles[0].hp = 0
+    const deadRoles = structuredClone(PLAYER_ROLES)
+    deadRoles.roles[0]!.hp = 0
     const s = createInGameMagicMenu(deadRoles, [0, 1, 2], SPELLS)
     expect(s.casterMenu.items[0]?.disabled).toBe(true)
   })
@@ -259,8 +259,8 @@ describe('confirmCaster', () => {
   })
 
   it('Confirm 死 caster → noop', () => {
-    const dead = JSON.parse(JSON.stringify(PLAYER_ROLES))
-    dead.roles[0].hp = 0
+    const dead = structuredClone(PLAYER_ROLES)
+    dead.roles[0]!.hp = 0
     const s = createInGameMagicMenu(dead, [0, 1, 2], SPELLS)
     s.casterMenu.cursor = 0
     confirmCaster(s, dead, SPELLS, MAGICS)
@@ -484,9 +484,9 @@ describe('refreshSpellMenu', () => {
 
 describe('outside-battle filter', () => {
   it('飞龙探云手(battle-only)不出现 outside spell list', () => {
-    const xiaoyao = JSON.parse(JSON.stringify(PLAYER_ROLES))
+    const xiaoyao = structuredClone(PLAYER_ROLES)
     // 加飞龙(magicNumber 60)到李逍遥学过的法术
-    xiaoyao.roles[0].magic = [296, 305, 297, ...Array(29).fill(0)]
+    xiaoyao.roles[0]!.magic = [296, 305, 297, ...Array(29).fill(0)]
     const s = createInGameMagicMenu(xiaoyao, [0, 1, 2], SPELLS)
     s.casterMenu.cursor = 0
     confirmCaster(s, xiaoyao, SPELLS, MAGICS)

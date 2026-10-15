@@ -1,6 +1,6 @@
 /**
  * TEST-GLM-PHASE1-LEAVES-3 L04（equip-menu.ts）— 去重表：
- *  - equip-menu.test（.list 结构/全显示/确认门/请求对象/cancel 复位/Up-Down wrap/list 相 noop）→ 不重复
+ *  - equip-menu.test（.list 结构含 filter=equip/初始 phase+cursor/全显示/确认门/请求对象/cancel 复位/Up-Down wrap/list 相 noop）→ 不重复
  *  - equip-menu.boundaries.test（inUse 耗尽/非顺序 roleId/意图不改装备钱库存/done 相零副作用）→ 不重复
  *  - 新差异：createEquipMenu 固定 filter='equip' 入 list、目录缺 item 的确认 no-op（!item 分支）、
  *    done 相 equipMoveUp/Down 与 cancelEquipMenu 零触达、单人队 pick-role Down 环绕自返。
@@ -47,12 +47,8 @@ function gsOne(): ReturnType<typeof createInitialGameState> {
 }
 
 describe('L04 equip-menu 剩余合同', () => {
-  it('createEquipMenu 的 list 固定 filter=equip（equipable 入口合同）', () => {
-    const state = createEquipMenu(gsOne(), ITEMS)
-    expect(state.list.filter).toBe('equip')
-    expect(state.phase).toBe('list')
-    expect(state.playerCursor).toBe(0)
-  })
+  // C5 排重(2026-10-15)：原首测 filter/phase/cursor 三断言已被主测试
+  // '.list 是 InventoryMenuState'（filter+phase）与 '初始 phase=list,playerCursor=0' 覆盖，删除。
 
   it('库存条目 itemId 不在目录 → confirmEquipItem no-op 留 list（!item 分支）', () => {
     const gs = gsOne()
