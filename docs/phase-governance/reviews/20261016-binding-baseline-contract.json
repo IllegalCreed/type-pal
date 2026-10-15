@@ -582,6 +582,15 @@
       "beforeProbeSha256": "b8a5805c606c8b226e92626e48bc12fb34b4edcc8370b92a23176ab6adbb6ddb",
       "correction": "Require lastReviewed string before date operations and primarySource actualarray before includes; require reader functions/revision string before invocation/coercion. Actual bothCLIs now reject object/toString and noncallableincludes inputs with structuredissues/count0. Strictscope onlynewroot/view and newreader, no defaultbehavior hardening.",
       "scope": "No oldtest or product changes; earlier86green retained as datedprehardeningevent."
+    },
+    {
+      "date": "2026-10-16",
+      "kind": "root-administrative-semantic-counter",
+      "ids": ["F1-CENTRAL-C1", "F1-CENTRAL-C2"],
+      "candidate": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+      "reportSha256": "a00a22c01642bbd29a3725255f7a455831c7ce3f844b22e41baf22e1a007133a",
+      "result": "counter first root14 despite static zero; narrow correction candidate pending independent closure",
+      "runtimeExecutionPerformed": false
     }
   ],
   "artifactRules": {
@@ -1780,7 +1789,7 @@
   },
   "rootCentralIntake": {
     "base": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-    "status": "current separate administrative/central/matrix candidate pending non-author reception",
+    "status": "First root14 semantic review counter C1/C2; current narrow temporal repair candidate requires independent closure and new exact zero gates.",
     "eligibleBaselineMigrations": 0,
     "eligibleIncrementalMigrations": 1,
     "expectedModel": 218,
@@ -1792,6 +1801,501 @@
       "currentPending": 1758
     },
     "originalNativeAndCodeUnchanged": true,
-    "fullGoalComplete": false
+    "fullGoalComplete": false,
+    "firstCandidateCommit": "0e7c883648647e650139b08d9ca2c10f5e409e6e"
+  },
+  "firstRootIndependentCounter": {
+    "path": "/tmp/type-pal-f1-central-independent-review-first-20261016.json",
+    "sha256": "a00a22c01642bbd29a3725255f7a455831c7ce3f844b22e41baf22e1a007133a",
+    "fullReview": {
+      "kind": "F1-central14-new-root-layer-independent-first-review",
+      "date": "2026-10-16",
+      "reviewer": "history_cards_a, non-author of current root14, F1 code and canonical author",
+      "result": "counter; two concrete temporal/current-navigation issues require scoped rework, no automatic acceptance from passing static gates",
+      "base": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+      "manifest": {
+        "path": "/tmp/type-pal-f1-central-manifest-20261016.json",
+        "sha256": "88350b841e110214f31d7284d7b8216d2cc2a1407e793d6e3e468fd1ae27df4d"
+      },
+      "frozenFiles": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+          "sha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d",
+          "bytes": 854465,
+          "lines": 18469
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "sha256": "39a52431d3998cd34f11c66413cdba396fe2278924f0d3ca81dd534ecf0a645f",
+          "bytes": 175895,
+          "lines": 874
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.json",
+          "sha256": "2998cf04b01333f79639b7fb0195607190932158c709a7d9095a579d2cbc7811",
+          "bytes": 55555,
+          "lines": 935
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.md",
+          "sha256": "34777e21f7f5664b729f304d2834bbd381f6a36cb7485d0c962af9f1e9048435",
+          "bytes": 9054,
+          "lines": 70
+        },
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "sha256": "3f9f7702353d5cedac121eabfc7f866e133b2c2d1b0463a25cd0695062533a62",
+          "bytes": 341878,
+          "lines": 8457
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "sha256": "6c63a94ff688801dc48401253d04ebcdb3f2975c18bac8a6bb14f131f45cd4a6",
+          "bytes": 181289,
+          "lines": 2975
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "sha256": "3f05e8d121745a55136547d0adc79d3180cde1c97f8459de5a89bec4efe8b4ce",
+          "bytes": 193059,
+          "lines": 3101
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "sha256": "0fd38d9be6ed5719e316e7536d316b68014460d267079b1a461c69f027f2bd49",
+          "bytes": 418263,
+          "lines": 7058
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+          "sha256": "d49332f5eb86764e8f8addef38ad315d9c26cb115ddd575303e26078be4bf082",
+          "bytes": 108171,
+          "lines": 1797
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "sha256": "58c830a05ca455aee3a83104d5a299c9f314fcd5cca1deb1e80d053c4d76304a",
+          "bytes": 294661,
+          "lines": 4936
+        },
+        {
+          "path": "docs/phase-governance/reviews/README.md",
+          "sha256": "ab4adbf9af6dfdc4966232f435dd2df64e314b7acb8e7bb8ebd3e061f45c7edc",
+          "bytes": 4539,
+          "lines": 40
+        },
+        {
+          "path": "docs/phase-governance/templates/README.md",
+          "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+          "bytes": 5769,
+          "lines": 58
+        },
+        {
+          "path": "docs/testing/_templates/README.md",
+          "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+          "bytes": 4519,
+          "lines": 54
+        },
+        {
+          "path": "docs/testing/_templates/test-catalog.md",
+          "sha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+          "bytes": 2967,
+          "lines": 38
+        }
+      ],
+      "immutableOwnSnapshot": "/tmp/type-pal-f1-central-first-snapshot-20261016",
+      "newReadScope": {
+        "directSemanticRead": "Complete baseline4 changed governance values/history; three full changed template sentences; all new baseline current entry values; all control top-level changed strings; complete new maintenance/matrix scalar values and appended provenance/history/whole-prior locators; one machine matrix row delta and corresponding GFM row; new central entry/summary; all task/reviewindex added prose. Two README six current fields additionally directly read; all unique changed semantics were read, no path-based type credit.",
+        "reusedScope": "My earlier exact e136 non-author canonical/maintenance full read is reused at reportf1b398 and compared unchanged portions, not a fresh18407-line/1838 source-document review. Root code acceptance6d25 full1522 reading/14actualCLI/focused4 execution is reused, not performed afresh by me. New complete tail import acceptance report was directly read1–EOF and all four embedded independent reports were deepEqual/hash matched external originals.",
+        "mechanicalScope": "All14 raw hashes/lengths; full native8 object and1838 ordered metadata deepEqual;849646 rawbyte inverse; full19gov/8capture unchanged except4 permitted fields; six complete fixeddd current/pilot unique objects actually retrieved, whole-file/blob pins checked and selected values deepEqual; all prior readings/revision-history and history/provenance prefixes unchanged; all non-target entries/container top metadata exact; registry other726 exact; route218/template17/machine1.5 unchanged.",
+        "notFreshlyReadOrRun": "No full6427 nested prior prose, original1838 document bodies, fresh1522 source-code audit, product or old-test full reading, raw/trace/saves/screenshots, runtime/E2E/browser/visual/coverage, terminalF2 codec or final-goal acceptance."
+      },
+      "acceptedSourceEvidenceReuse": [
+        {
+          "name": "code",
+          "path": "/tmp/type-pal-f1-root-code-acceptance-20261016.json",
+          "sha256": "6d25c2b70a00411b6e7edb28cbe8a3eb50c1931b7ba07ba75b26e70538d5d43d",
+          "embeddedEqualExternal": true
+        },
+        {
+          "name": "canonical",
+          "path": "/tmp/type-pal-f1-independent-canonical-review-20261016.json",
+          "sha256": "f1b398801be29fb1ebea4e76df3499b76f06132226707f7bb03d24fb68e4d493",
+          "embeddedEqualExternal": true
+        },
+        {
+          "name": "import",
+          "path": "/tmp/type-pal-f1-root-import-independent-review-20261016.json",
+          "sha256": "08ebf9f841a855327d39be70ffc95120f8eee00eada15a358806aa5b8b78dd35",
+          "embeddedEqualExternal": true
+        },
+        {
+          "name": "gates",
+          "path": "/tmp/type-pal-f1-root-import-gates-20261016.json",
+          "sha256": "e351bb444ddac564c9a0c3e7b24ce07e24f3108876988189f3fc3017b4730ae0",
+          "embeddedEqualExternal": true
+        }
+      ],
+      "actualOwnChecks": {
+        "proof": {
+          "path": "/tmp/type-pal-f1-central-independent-proof-first-20261016.json",
+          "sha256": "a1d8905b57dc7a884da57edf4ff9dc1cc32fb433b3b4a3b76e8b909133ce2010"
+        },
+        "sourceByteInverse": {
+          "fields": 8,
+          "entries": 1838,
+          "summaryTypes": 15,
+          "sourceSha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
+          "wholeSourceByteInverse": true,
+          "selfMembership": 0,
+          "changedGov": ["owner", "history", "stopLine", "nextStep"],
+          "governanceKeys": 19,
+          "captureKeys": 8,
+          "originalUnreadAndCreditFalsePreserved": true
+        },
+        "realGitImmediatePriors": [
+          {
+            "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+            "subject": "docs/phase-governance/templates/README.md",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "e52896e32811e4b99636a7bc34eb5b80d3a3db12f68efe13588fa9cda3d4aa0b",
+            "gitObject": "d78eece314f3e3def84e4495537277cc1730848e",
+            "wholeObjectSha256": "f9b7bda047d96110fa1c358768842d1567b384e48e4b934f77da0dc3c1b591cc",
+            "uniqueMatches": 1
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "subject": "docs/testing/catalog.json",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
+            "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
+            "wholeObjectSha256": "3ee2f57e8418124f6575058f30b5db9794729b2f098df3eca1d2f033f7d27c3a",
+            "uniqueMatches": 1
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "subject": "docs/testing/_templates/README.md",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
+            "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
+            "wholeObjectSha256": "65a62fa86cd2a44606f18c131ed6d1fb9a4b8afd5697eccfa99a15edc892fff3",
+            "uniqueMatches": 1
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "subject": "docs/ops/audits/code-quality-file-ledger.md",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "5298e5dc4ac1ca7995092b0cf28aa586648dae438630639f40b7dc9a7c80feb2",
+            "gitObject": "4949a6c773114c457f83e96893d967ecb9a539d9",
+            "wholeObjectSha256": "23f2365d7ab149701304dd63675d43f86af1c26e50e07b7dbefa675f23b5f4af",
+            "uniqueMatches": 1
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "subject": "docs/phase-governance/cross-phase-matrix.md",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "2fd95d795de0846a8104bcd1faeacd8af5dd281fb07471b5d8a2dc050477371d",
+            "gitObject": "a244fbb9ef5f4edf0f97c23a27d588cc7af3b094",
+            "wholeObjectSha256": "ab5dace1cffe003fd99a15630bc57541b34b5dd1222b2bd0348fa02d79ce65ff",
+            "uniqueMatches": 1
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+            "subject": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+            "sha256": "0cdcd124dd9969365d65ee714ea232744a82d453426e5f7a3a8258f42ca30f08",
+            "gitObject": "d368e0dbc27d4ed5d413b786b5e217b9a74a579d",
+            "wholeObjectSha256": "aa6600794380842f3c37619998aba31837848b475bf36bb9ca29d829132c83bb",
+            "uniqueMatches": 1
+          }
+        ],
+        "maintenanceAndMatrix": [
+          {
+            "path": "docs/phase-governance/templates/README.md",
+            "priorFieldCount": 47,
+            "currentFieldCount": 47,
+            "oldPriorReadingsAndHistoryPreserved": true,
+            "otherEntriesAndTopPreserved": true,
+            "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+            "bodyChanged": true
+          },
+          {
+            "path": "docs/testing/catalog.json",
+            "priorFieldCount": 45,
+            "currentFieldCount": 45,
+            "oldPriorReadingsAndHistoryPreserved": true,
+            "otherEntriesAndTopPreserved": true,
+            "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+            "bodyChanged": false
+          },
+          {
+            "path": "docs/testing/_templates/README.md",
+            "priorFieldCount": 45,
+            "currentFieldCount": 45,
+            "oldPriorReadingsAndHistoryPreserved": true,
+            "otherEntriesAndTopPreserved": true,
+            "afterSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+            "bodyChanged": true
+          },
+          {
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "priorFieldCount": 47,
+            "currentFieldCount": 47,
+            "oldPriorReadingsAndHistoryPreserved": true,
+            "otherEntriesAndTopPreserved": true,
+            "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+            "bodyChanged": false
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.md",
+            "priorFieldCount": 46,
+            "currentFieldCount": 46,
+            "oldPriorReadingsAndHistoryPreserved": true,
+            "otherEntriesAndTopPreserved": true,
+            "afterSha256": "34777e21f7f5664b729f304d2834bbd381f6a36cb7485d0c962af9f1e9048435",
+            "bodyChanged": true
+          }
+        ],
+        "matrix": {
+          "rows": 39,
+          "other38ObjectsExact": true,
+          "topMetadataUnchanged": true,
+          "gfmTables": 1,
+          "gfmRows": 39,
+          "status": "guarded"
+        },
+        "bodyModel": [
+          {
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "issues": []
+          },
+          {
+            "path": "docs/phase-governance/templates/README.md",
+            "issues": []
+          },
+          {
+            "path": "docs/testing/_templates/README.md",
+            "issues": []
+          },
+          {
+            "path": "docs/testing/catalog.json",
+            "issues": []
+          },
+          {
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "issues": []
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.md",
+            "issues": []
+          }
+        ],
+        "negativeControls": [
+          {
+            "name": "native original entry promoted",
+            "issues": [
+              "frozen baseline native fields changed",
+              "frozen baseline migration requires governed view"
+            ]
+          },
+          {
+            "name": "source1838 semantic credit forged",
+            "issues": [
+              "baseline capture reading must describe original eight fields without source-review/current-binding credit",
+              "frozen baseline migration requires governed view"
+            ]
+          }
+        ],
+        "actualCli": [
+          {
+            "name": "model",
+            "command": ["node", "scripts/docs/check-document-model.mjs"],
+            "exit": 0,
+            "path": "/tmp/type-pal-f1-central-independent-model-first-20261016.log",
+            "sha256": "9ccf483a30e4b769239d4999561ac66eee9a0d03cc280bf0b908579e20bc2c84"
+          },
+          {
+            "name": "strict",
+            "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "exit": 0,
+            "path": "/tmp/type-pal-f1-central-independent-strict-first-20261016.log",
+            "sha256": "537e97e925a0d3221cf7f50788cbcb2fa0d7eb7234a5fca016f814e93d90008c"
+          },
+          {
+            "name": "progress",
+            "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "exit": 0,
+            "path": "/tmp/type-pal-f1-central-independent-progress-first-20261016.log",
+            "sha256": "47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6"
+          },
+          {
+            "name": "require-complete",
+            "command": [
+              "node",
+              "scripts/docs/report-governance-progress.mjs",
+              "--json",
+              "--require-complete"
+            ],
+            "exit": 1,
+            "path": "/tmp/type-pal-f1-central-independent-require-complete-first-20261016.log",
+            "sha256": "dbd9f27250480eccff440a8ca0eb89b21f3edb45a07d580da193a0e04541ad6a"
+          }
+        ],
+        "parsedLiveLocalLinks": 84,
+        "all14BeforeAfterHashesExact": true,
+        "structuralCounts": {
+          "before": 726,
+          "after": 727,
+          "other726Exact": true,
+          "structuralRoutesUnchanged": 218
+        },
+        "progress": {
+          "approvedCohort": 1838,
+          "cohortMigrated": 213,
+          "cohortPending": 1625,
+          "incrementalMigrated": 5,
+          "currentCandidates": 1976,
+          "currentPending": 1758,
+          "issues": []
+        },
+        "fullGoalNegative": "Actual --require-complete exited1 with integrityissues[] and1758 pending; incompleteness was not waived."
+      },
+      "rootSameBytesHardGatesReused": {
+        "path": "/tmp/type-pal-f1-central-gates-20261016.json",
+        "sha256": "d88038f144eb8ea7a21833535006461e54f1a6c6c4b6d2b9fbff753184edbb57",
+        "all5RealLogHashesVerified": true,
+        "fullPnpmRerunByMe": false,
+        "docs": {
+          "tests": 86,
+          "pass": 86,
+          "fail": 0,
+          "skip": 0,
+          "markdown": 1227,
+          "links": 7939,
+          "bodyContracts": 218,
+          "strictRecords": 727,
+          "testingIssues": 0,
+          "phaseLore": 184
+        },
+        "lint": {
+          "files": 4107,
+          "errors": 0,
+          "warnings": 0,
+          "infos": 0
+        },
+        "diffCheck": {
+          "exit": 0,
+          "diagnostics": 0
+        },
+        "semanticCountersNotCoveredByStaticGreen": true
+      },
+      "counter": [
+        {
+          "id": "F1-CENTRAL-C1",
+          "severity": "semantic-current-history-conflict",
+          "path": "docs/phase-governance/reviews/README.md",
+          "lines": [38, 40],
+          "observation": "Line38 unqualified current navigation says entries empty and complete pilotCandidate awaits independent code/body reception. Current control.entries has1 and line40/source reports record completed exacte136/DD source reception.",
+          "requiredRework": "Label line38 as the preserved e136 author-time empty/pending snapshot, and route current readers to the current entries1/source-accepted/root-administration-separate state. Preserve original source text in fixed prior; do not erase original failures."
+        },
+        {
+          "id": "F1-CENTRAL-C2",
+          "severity": "current-maintenance-scope-time-conflict",
+          "subjects": [
+            {
+              "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+              "selector": {
+                "entries.path": "docs/phase-governance/templates/README.md",
+                "uniqueMatches": 1
+              },
+              "currentLines": {
+                "coreConclusion": 195,
+                "legalInputs[4]": 306,
+                "businessOracle.assertions[0]": 311,
+                "evidence.sourceScope": 382,
+                "userVisibleBeforeAfter.after": 551,
+                "applicability": 2830
+              }
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+              "selector": {
+                "entries.path": "docs/testing/_templates/README.md",
+                "uniqueMatches": 1
+              },
+              "currentLines": {
+                "coreConclusion": 462,
+                "applicability": 482,
+                "legalInputs[4]": 593,
+                "businessOracle.assertions[0]": 598,
+                "evidence.sourceScope": 657,
+                "userVisibleBeforeAfter.after": 813
+              }
+            }
+          ],
+          "fields": [
+            "coreConclusion",
+            "applicability",
+            "userVisibleBeforeAfter.after",
+            "evidence.sourceScope",
+            "businessOracle.assertions[0]",
+            "legalInputs[4]"
+          ],
+          "observation": "First five current fields still describe an independent-pilot-pending boundary without an e136 historical qualifier; legalInputs[4] still says current candidate awaits independent reception without specifying only the later root administrative delta. They conflict with newly correct current readMethod/counter/conformity and body source-accepted statements.",
+          "requiredRework": "Precisely time-scope the e136 author maintenance summary and state exact source reception is accepted, while current root administrative/central bytes alone remain independently pending. Preserve whole prior e136/dd objects and all original pending-at-source statements as historical evidence.",
+          "unaffectedSubjects": "Catalog and code-quality ledger values contain no equivalent undated source-pending assertions in these six fields; their native dates/default/3294 pending boundaries remain valid."
+        }
+      ],
+      "preservedBoundaries": [
+        "Original pilotCandidate and authorChecks/counterHistory/priorAuthorCheckEvents/old complete maintenance-prior sources exactly unchanged; all original failures retained.",
+        "Baseline source has ownmembership0 and only the nonmember baseline file qualifies incremental1, no1838 approval or original15-type summary refresh.",
+        "Actual catalog remains original18 payload entries; e2e-006 rework/lastVerified2026-10-03/reviewBy2026-10-23 and route proposal/lastVerified2026-10-04/reviewBy2026-10-18 exact, not silent renewal.",
+        "Matrix39 stays39 and remains nonexhaustive/guarded; other38 machine objects and prior M relation preserved;1table39 actual GFM rows.",
+        "No new publication/product/originalcode or oldtest semantic credit, runtime/E2E/visual/coverage, F2implementation or whole-goal completion.",
+        "Only current root14 exactmanifest reviewed; later bytes require exact delta re-review and new gates, not retroactive signature."
+      ],
+      "repositoryWrites": 0,
+      "ownTmpWritesOnly": true,
+      "nextStep": "Root preserve this exact first candidate/report/gates; revise the specified current time scopes, preserve complete immediate first-candidate priors in reachable fixedGit, submit exact new manifest and zero gates for narrow independent re-review. M21d andL738 remain frozen."
+    },
+    "completeFirstCandidate": {
+      "revision": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+      "manifestSha256": "88350b841e110214f31d7284d7b8216d2cc2a1407e793d6e3e468fd1ae27df4d",
+      "scope": "All14 exact bytes preserved in this reachable candidate commit; not an accepted snapshot."
+    }
+  },
+  "rootTemporalRepairCandidate": {
+    "base": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+    "scope": "Only review index original author-time qualifier and two README current six semantic fields plus exact prior/history/counter provenance; baseline/native/code/body/after/routes/registry/matrix unchanged.",
+    "completeImmediatePriors": [
+      {
+        "kind": "complete-counter-candidate-current-in-reachable-fixed-git",
+        "revision": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+        "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+        "gitObject": "08b29cfeb9b67e8903c6e442d062590c9d26cf57",
+        "fileSha256": "6c63a94ff688801dc48401253d04ebcdb3f2975c18bac8a6bb14f131f45cd4a6",
+        "selector": {
+          "entries.path": "docs/phase-governance/templates/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true,
+        "scope": "Entire first root current object, including every six temporally incorrect field and prior histories, retained without summary replacement."
+      },
+      {
+        "kind": "complete-counter-candidate-current-in-reachable-fixed-git",
+        "revision": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+        "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "gitObject": "2186ed550202f8906138295e395d093695dab359",
+        "fileSha256": "3f05e8d121745a55136547d0adc79d3180cde1c97f8459de5a89bec4efe8b4ce",
+        "selector": {
+          "entries.path": "docs/testing/_templates/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true,
+        "scope": "Entire first root current object, including every six temporally incorrect field and prior histories, retained without summary replacement."
+      }
+    ],
+    "independentClosure": "pending",
+    "firstCounterPreserved": true
   }
 }
