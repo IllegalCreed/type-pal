@@ -69,3 +69,25 @@ Pilot 反证：顶层字段被搬移、任何未登记业务字段变化、错�
 反例 C1c 保留首个非空行的缩进：只跳过空白行，不用 trimStart 把四空格代码 Status 或代码 H1 变成正文。两种缩进伪元数据同样由真实报告反控拒绝；已剥离注释/围栏的空白占位可跳过，真实内容的缩进不可被规范化掉。
 
 先在 runtime-active-scene report/evidence 做版本 pilot：原字段、catalog、testing-meta、candidate、版本和执行状态不变；逆向移除 envelope 后保真，跑实际配对 consumer。补拒绝反例：execution 使用 current、未知发布状态、注释/代码中的伪 Status、正文或 JSON 与 catalog 状态漂移。通过后只更新已完整核读的另外十四篇版本声明与 review/SHA，不把合同修订算作十六篇新增迁移。尚未核读文档不自动套用此合同。
+
+## 2026-10-16 C2：混合历史执行记录的机器变体提案
+
+状态：proposed，待非作者设计复核后冻结。新增同类变体，不新增第18类；计划将test-machine-evidence升至1.3.0。现有default execution词表和document-audit-v2的performed=false保持原限制，不以修改旧JSON来通过模板。
+
+一手反例是已全文读的 `docs/testing/e2e/evidence/e2e-006.json`：原kind=document-audit、status=rework、candidate=d02278dc、versions=22/11，但runtimeExecution.performed=true及三组10-04 raw引用也真实存在；findings另记后续源码/终点核验。现行1.2.0若强制此值false将破坏机器原字段。实际validateCanonicalEvidence只在kind=runtime-execution或runtime-backed claim时授予运行证据门，原006的source-backed claim不能因此晋升。
+
+拟冻结 `historical-execution-publication-v2`：沿用原document-audit全部顶层必填字段和唯一catalog id/status配对，强制原performed=true，追加统一_governance及sourceGitRevision、currentAudit.runtimeExecutionPerformed=false。source SHA/Git blob/完整40位commit固定首次迁移前原JSON；currentAudit是本次文档审查，旧true只属原批次。不修改原candidate/versions/history/claims/artifacts/runtimeExecution，不变payload、不将旧source-backed改runtime-backed，也不新增旧产物存在/重放声明。
+
+除一般字段/状态门，还必须由实际Git reader读取声明commit下同一路径，核其Git blob和SHA256；去除新增_governance后与原JSON逐字段deep-equal，且原source必须确为document-audit/performed=true、原来没有本治理envelope。缺源、错误commit/path/blob/hash、任何原键值变化、伪本次执行或错catalog都拒绝；仅把variant标签换掉不能放行。check-document-model与progress两入口都接真实Git reader；纯body结构检查不能独自签accept。
+
+Pilot只选全文读的006 JSON；待实际consumer、严格原对象回读、来源/本次执行/原performed变造/旧false换标签/顶层字段搬移反例和非作者复核通过后，才能用于其他同类文档。既有13份machine迁移只更新模板版本声明/外部after SHA并保留原机器对象，不新增迁移数；未读JSON不批量套用。提案/pilot状态、失败、冻结版本与实际门在任务卡及专属回执记录。
+
+006的stage/report另按现有test-e2e-stage1.0.0和test-run-report1.0.0迁移。保留rework、lastVerified、原reviewBy和原testing-meta（不为模板排版续期）；文档来源核读不是动态验收。旧state3、原船偏移/朝向与10-10源码state2、更晚连续卡固定批次done分别标日期/范围，不能拼成新同revision通过。此处只读连续卡顶部1–160行，不能认证整卡3510行或原ignored产物；当前发布rework与后继冻结批次的差异明确保留，未来核验依真实输入/来源决定。
+
+### C2独立设计counter与补强（冻结前）
+
+非作者指出，仅验证envelope自选commit中确有对象仍可借后来伪造的false→true提交通过。冻结来源必须在envelope外：模板registry顶层登记经独立核定的historicalSourcePins，以实际文档path唯一匹配；006首个pin固定commit `33cc2df50c7279d2750ddad4fcf6c373b7b2bda3`、同路径blob `a7148a1c5087e2fcef899cb79818560fc3dd7bc5`、SHA256 `9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb`，并核与已冻结1838基线该项sourceSHA一致。真实reader只读取批准pin，不接受envelope提供的任意新源；envelope四项必须与pin相同。今后新增/变更pin必须先有逐篇独立来源核定和设计写回，不能从candidate JSON自动采纳，更不能改原false来申请此变体。
+
+另一counter是progress完成数原来独立检查registry，但model的provenance校验仅覆盖routing；删除某篇routing可绕开新门。将提取统一逐篇验收函数，model和progress对每个待计完成的compliant registry条目都执行body、声明、catalog及批准pin/Git原对象验证；不因routing缺失而省源验证，且compliant registry必须在routing恰有一条相符记录。删除路由、只改variant/source元数据或制造后来提交都应作为真实反例拒绝。
+
+C2设计冻结（2026-10-16）：非作者receipt_review独立核006原文、实际Git pin/固定基线、consumer与progress路径后agree，C2.1/C2.2设计counter已闭合。上述1.3.0合同冻结用于006 pilot；实现/反例/真实consumer和非作者pilot accept仍待，不据设计签字宣称迁移或动态通过。

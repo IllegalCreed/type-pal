@@ -267,3 +267,14 @@ Branch: codex/docs-full-template-proposal
 - A7-2旧6face/10,392B与68B透明stub结论，后由2026-08-23/24 raw独立字节复核更正为5face/10,324B，盖罗娇全透明占位走通用头像兜底。原文保留，当前有效性指向MIG-PAL-ACTOR-FACE-1与A7-2后继报告，不把旧accept变当前真值。共享audit/design未在本包白名单改写，只记录冲突及继任权威。
 - 包C隔离基点由根在本接收提交后fast-forward核同一批八源blob，再执行；原设计盘点67cc95eb作为历史来源。贡献者交逐篇source/blob/after/保真及具体历史缺口，根全文核源/候选/一手证据后决定accept/rework；不以作者自验或数量替代验收。
 - E2E-006三份文档已全文预读：原publication rework与后继连续卡顶部固定批次done并存；连续卡只读前160/3510行，不计整卡深审/迁移。boat-journey364行完整及当前版本窄源已读，未实跑；后续需逐篇区分原runtimeExecution=true历史与本次未执行，不得为reviewBy续期或排版伪造动态通过。
+
+### 2026-10-16 006机器模板C2前置提案
+
+- 全文读006 stage17行、report78行、JSON96行、活动006卡85行；boat-journey364行及boat-reforge/版本常量窄源直接读。实际consumer187–340行已读。原JSON document-audit+performed=true不符合现行1.2.0，不能改false或丢原raw使模板绿；先提C2历史执行publication变体、严格Git原对象核验和1.3.0修订，非作者设计复核/冻结前不实现此变体或迁移006正文。
+- 提案在templates/registry-proposal-20261011.md末节；不放宽既有document-audit false限制，不新增模板类别，不改产品/旧测试/coverage。Pilot核完整原字段/Git来源/本轮未执行/真实consumer与有效反控；13篇既有machine只版本声明维护，不重计迁移。截止日期与rework不因格式续期或晋升，最终质量门过期会明确失败，不能伪造新实跑。
+
+### 2026-10-16 C2设计冻结与工具/006文档准入
+
+- receipt_review非作者设计agree，独立核定006外部path/commit/blob/SHA pin与固定1838基线一致；C2.1自选后来真Git源、C2.2移除routing绕progress两counter在设计层闭合，反例仍须实际实现验证。machine1.3.0合同按提案冻结用于pilot；Codex为唯一实现Owner，docs工具与006文档build allowed，无产品/旧测试/coverage授权。
+- 白名单：templates registry/proposal与说明、docs工具新源码/必要反例测试、model/progress两个入口、006三文档、既有13机器仅版本声明与对应after账、专属pilot回执/中央review/registry/routing/catalog若仅附加审查说明/矩阵/本卡。实际字段保持、真实Git读取和外部pin比对为硬门，未通过不得签pilot accept；不放宽旧default/false门。
+- 本次未实跑；006原rework/lastVerified与reviewBy原字段保留。按2026-10-16检查的reviewBy过期属于明确未闭合门，不用静态排版伪造延期。全量done/main推送仍禁止；独立审查后按真实语义与前提处理，不把旧连续批次done等同本轮动态通过。
