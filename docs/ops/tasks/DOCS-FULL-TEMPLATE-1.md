@@ -297,3 +297,10 @@ Branch: codex/docs-full-template-proposal
 
 - 作者候选7ddc35d65ce9a88f14db3a341dbca0a43003fc53保持隔离/clean，源33cc2df5未变。非作者receipt_review只读前四卡A7-0/0A/1/2及对应完整回执/一手来源；非作者history_cards_c_tail只读后四卡A7-3/3B/3T/3W及对应完整回执/一手来源。两席可独立读公共来源，不等待或复述另一席结论，也不声称个人读满所有八卡。
 - 两席禁止任何仓库写入/旧产品测试/coverage/浏览器，只交逐篇accept/counter、源锚点、严格保真与模板/链接证据。根Codex分别接收真实阅读范围，独立核关键primary/新章节/原对象及统一质量门后才集成写中央账；现仍未cherry-pick、未计迁移数、不合main。无用户转发环节，当前无需额外审批。
+
+
+### 2026-10-16 006配对Markdown内容迁移候选
+
+- Codex按已批准范围迁移006 stage/report，分别test-e2e-stage1.0.0与test-run-report1.0.0；完整17/78行原文已读。入口保留原H1/YAML/结论，报告原frontmatter/testing-meta不变、完整正文仅标题降两级可严格逆回读。当前state2与旧state3、首句撤信、原两段偏移/朝向未解释冲突、后继固定批次done均明确分域；不删除旧通过/失败或日期。
+- 当前仅候选，未写中央template-compliant/未计迁移数，待非作者全文核原/新两篇、原对象保真、实际caller/consumer与模板。机器JSON未改，未运行产品/旧测试/coverage/浏览器，不继承旧动态信用。候选SHA及真实阅读边界在C2专属回执pairedMarkdownCandidate。
+- 日期义务设计待独立核：原10-15已过期，候选保持不变。若实际内容/配对证据/状态边界审查足以构成发布复核，可明确记录本次内容结论并将catalog与README的下一次publication reviewBy设10-23；lastVerified10-03、rework、原revision/versions/机器执行字段不变，不把续期当新的E2E。只靠排版不得延期；尚未执行此提案，非作者不认可则保留门失败并记录前提。

@@ -235,5 +235,58 @@
       "status": "closed by independent non-author recheck"
     }
   ],
-  "approvedBaselineScope": "Frozen original binding identity and1838 paths only, not baseline semantic migration credit; baseline remains candidate requiring own future control-metadata design/migration, no permanent legacy exemption"
+  "approvedBaselineScope": "Frozen original binding identity and1838 paths only, not baseline semantic migration credit; baseline remains candidate requiring own future control-metadata design/migration, no permanent legacy exemption",
+  "pairedMarkdownCandidate": {
+    "state": "candidate-pending-non-author-review",
+    "date": "2026-10-16",
+    "sourceRevision": "2522c4531d68f7fd43be72380059316672c681a3",
+    "documents": [
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+        "sourceGitObject": "65d23a97019de02e779462caa7087156b6e54e65",
+        "sourceSha256": "a1564b1c8a7614424e0114412fbdfbdc2493034b7ef17bd3608899f0c99e84d4",
+        "afterSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
+        "sourceLines": 17,
+        "afterLines": 42,
+        "originalPreserved": true
+      },
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "sourceGitObject": "bdec5b721d95aeed9532af501ff4b21460f17e57",
+        "sourceSha256": "880f782826e30e349d226fbe3525fc29717dffd0e52e1983dad37f1bf66420b8",
+        "afterSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
+        "sourceLines": 78,
+        "afterLines": 119,
+        "originalPreserved": true
+      }
+    ],
+    "templates": ["test-e2e-stage-v1/1.0.0", "test-run-report-v1/1.0.0"],
+    "readScope": {
+      "originalMarkdown": "17+78 lines fully read; all new candidate prose read",
+      "reforgeCaller": "boat-journey.mjs1-364 fully read and wrapper3lines",
+      "active006Card": "85lines fully read",
+      "continuousCard": "only1-160/3510; no full-card credit",
+      "gameCaller": "narrow source reading only; no complete-caller audit or runtime credit"
+    },
+    "preservation": {
+      "stage": "Original H1, YAML block and original conclusion preserved byte-for-byte, new required sections supply content-specific premise/status/evidence/history",
+      "report": "Frontmatter/testing-meta exact prefix unchanged; full original body recoverable by reversing only ATX heading demotion of2, including original chronology and conflicting numbers",
+      "machine": "Previously accepted JSON unchanged; all original machine fields preserved"
+    },
+    "semanticFindings": [
+      "state3 belongs original report/card; directly read current Reforge caller asserts primary state2",
+      "Original independent Reforge [0,0]/down and comparison [-2,-4]/up remain unexplained without per-round raw/revision; preserve both, no invented reconciliation",
+      "First-sentence stop credit withdrawn10-07; end requires all island dialogue confirmed and control returned",
+      "Later continuous done has distinct frozen scope; top160lines not full-card governance or current-runtime proof",
+      "Original31xx lint/migrate failure counts stay historical; no new runtime/E2E/visual/coverage execution"
+    ],
+    "expiryDuty": {
+      "observed": "2026-10-15 reviewBy expired on2026-10-16; unchanged in candidate",
+      "proposal": "After substantive paired publication review and independent confirmation of rework/no-current-pass boundaries, explicitly renew publication reviewBy to2026-10-23 in catalog+README only with dated renewal reason; leave lastVerified10-03, revision, machine historical fields and rework unchanged",
+      "rationale": "reviewBy schedules next review of published evidence/status; not execution freshness. Do not extend only for formatting or inherit later continuous done. Reviewer must agree actual substantive review suffices; otherwise leave expiry failed."
+    },
+    "notRun": ["runtime", "E2E", "visual", "coverage"],
+    "independentReview": "pending",
+    "migrationCredit": 0
+  }
 }
