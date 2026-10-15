@@ -15,15 +15,10 @@ import {
   type MountedBattleSpriteLibrary,
   mountBattleSpriteLibrary,
   unmountBattleSpriteLibrary,
+  waitForBattleSpriteResources,
 } from './battle-sprite-harness.js'
 import { installBrowserHardwarePorts } from './image-ports.js'
-import {
-  buttonByText,
-  clickButtonByText,
-  loadFilesIntoInput,
-  typeDraft,
-  useActEnvironment,
-} from './kit.js'
+import { buttonByText, clickButtonByText, loadFilesIntoInput, typeDraft } from './kit.js'
 
 export const A_SHARED = 'battle-sprite.authored.c02-shared'
 export const A_ENEMY = 'battle-sprite.authored.c02-enemy'
@@ -81,18 +76,19 @@ export function selectedCatalogAsset(host: HTMLElement): string | undefined {
 }
 
 export async function waitProof(host: HTMLElement, frames: number, consumers: number) {
+  await waitForBattleSpriteResources(host)
   await vi.waitFor(() => {
     expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
   })
 }
 
 export async function selectAssetRow(host: HTMLElement, asset: string): Promise<void> {
-  await vi.waitFor(() => {
-    const row = catalogRow(host, asset)
-    expect(row, `目录行 ${asset}`).toBeDefined()
+  const row = catalogRow(host, asset)
+  expect(row, `目录行 ${asset}`).toBeDefined()
+  await act(async () => {
     row!.click()
   })
-  await act(async () => Promise.resolve())
+  await waitForBattleSpriteResources(host)
 }
 
 export function usageNameInput(host: HTMLElement): HTMLInputElement | null {
@@ -161,14 +157,17 @@ export { buttonByText, clickButtonByText }
 export function setupBattleSuite() {
   let mounted: MountedBattleSpriteLibrary | undefined
   beforeEach(() => {
-    useActEnvironment()
+    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
     installBrowserHardwarePorts()
   })
   afterEach(async () => {
-    if (mounted) await unmountBattleSpriteLibrary(mounted)
-    mounted = undefined
-    vi.unstubAllGlobals()
-    vi.restoreAllMocks()
+    try {
+      if (mounted) await unmountBattleSpriteLibrary(mounted)
+    } finally {
+      mounted = undefined
+      vi.unstubAllGlobals()
+      vi.restoreAllMocks()
+    }
   })
   return {
     async mount(

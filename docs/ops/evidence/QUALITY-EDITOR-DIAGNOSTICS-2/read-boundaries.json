@@ -1,0 +1,99 @@
+{
+  "baseCandidate": "75e9eb7d70a9de0f64669e7af4eb859b8e7ac081",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "sha256": "01864a4c900179d9be655eb306eac888ce9b063788e90e630ad478c09322fdf4",
+      "lines": 213,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "sha256": "0ff8f1b5ecf000cd6aee415b32d0ac20231ffbc78563cbc1c064d7c6872a9515",
+      "lines": 249,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "sha256": "588ed3f60b9f67b66b0aeafd5ac103cad69a53f1da39b73b09c1d0278f69885f",
+      "lines": 252,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "lines": 1793,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "sha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+      "lines": 369,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "sha256": "5d9fe768b3825cbb1cca4c848ea8ca3fa18b6bcc89de749b4414407ae2929391",
+      "lines": 337,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-oracle.ts",
+      "sha256": "184ac62a7c7e14886cd45391e20741d7ec04a0c2efdd6f3bad435f94c9cb693a",
+      "lines": 43,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45",
+      "lines": 246,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf",
+      "lines": 59,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "sha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "lines": 303,
+      "credit": "review only; no dependency closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "sha256": "e784719c4d73f37127870bebe442e312b0141e39297bd5e538735f11b741134a",
+      "lines": 188,
+      "credit": "review only; no dependency closure"
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "sections": "palette 1-105, battle decode/cache 275-435"
+    },
+    {
+      "path": "packages/editor/src/core/edit-session.ts",
+      "sections": "constructor/state/dispatch/undo/redo, subscribe/notify"
+    },
+    {
+      "path": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sections": "RemoveDefinition and DeleteUnusedAsset 304-395"
+    },
+    {
+      "path": "packages/editor/src/ui/DataMode.tsx",
+      "sections": "actual production boundary 675-730"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+      "sections": "390-540; external dedupe incomplete"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx",
+      "sections": "IO gate and pending caller 75-206"
+    }
+  ],
+  "remaining": "Other helper callers, full external dedupe, failure-cleanup fault regression; do not close files from passing suite"
+}

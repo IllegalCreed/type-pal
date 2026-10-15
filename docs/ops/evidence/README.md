@@ -72,3 +72,5 @@
 - [CODE-QUALITY-100 交付证据](CODE-QUALITY-100/README.md)（review-only：save-slot-menu 逐文件四维结论 + 存档域边界核验，56 定向，待 Codex 验收）。
 - [CODE-QUALITY-101 交付证据](CODE-QUALITY-101/README.md)（review-only：save api+indexed-db 逐文件四维结论 + schema 边界核验零触碰，29 定向，待 Codex 验收）。
 - [CODE-QUALITY-102 交付证据](CODE-QUALITY-102/README.md)（review-only：quick-save 逐文件四维结论 + E-13 fixture 登记，8 定向，待 Codex 验收）。
+
+- [C02宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2/README.md)（有限三文件，零关闭，统一门待续）。
