@@ -1,0 +1,360 @@
+{
+  "runs": [
+    {
+      "phase": "legacy-3y",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/pre94-3h-list-legacy-3y-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-list-legacy-3y-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-4ar10efk/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.499,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-list-legacy-3y-bootstrap-resources.test.ts": "537a5f44f4ea0f2ad73a48aec5889db407a97ad9845f15dab353251e7cc1eb34",
+        "packages/game/src/shell/pre94-3h-list-legacy-3y-bootstrap-resources.grok-mid-1.test.ts": "8b8757e173027db463d4904a398654e6de1bb449ce2af84b43bd91164c1c98c4",
+        "packages/game/src/__tests__/grok-boot-mid-1/pre94-3h-list-legacy-3y-legal.ts": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "77e51b93407f116a8b543ce55e44efb86b6fc52147d20a5aa7ba0a16fe623bdf"
+    },
+    {
+      "phase": "before",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/pre94-3h-list-before-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-list-before-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-muocz5b7/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.185,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-list-before-bootstrap-resources.test.ts": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+        "packages/game/src/shell/pre94-3h-list-before-bootstrap-resources.grok-mid-1.test.ts": "0dc9d635d47fe69d76a81bdc448871fae32796df82bb46c673f6266df22035b6",
+        "packages/game/src/__tests__/grok-boot-mid-1/pre94-3h-list-before-legal.ts": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "527f05d4373f7ec71e957f9dd71008d86c5ac1faf62c8ba4b5dd9ad5585b5888"
+    },
+    {
+      "phase": "before",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-list-before-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-list-before-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/shell/bootstrap-resources.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-muocz5b7/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-muocz5b7/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.445,
+      "rawSha256": "443cdebdec4bd641fc92126c30ecc979281735f5bd5186cf0ba2b4895b4674a4",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-list-before-bootstrap-resources.test.ts": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+        "packages/game/src/shell/pre94-3h-list-before-bootstrap-resources.grok-mid-1.test.ts": "0dc9d635d47fe69d76a81bdc448871fae32796df82bb46c673f6266df22035b6",
+        "packages/game/src/__tests__/grok-boot-mid-1/pre94-3h-list-before-legal.ts": "1840d053d5b1daf5c9c00ff9f5a9ba0c52d0aa239025df2e31f364ee6ba42441"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "555d752b5fc9871e94bf082ba2718d2cdd8a7e7a0eb6662d1bc3a8fadd56dae2"
+    },
+    {
+      "phase": "after",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-72qlrdiw/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.132,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "ff45a098352beb7f4e2be9668ca772bfc811af77429c60dffeae6f4a9bbbf0cc"
+    },
+    {
+      "phase": "after",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/shell/bootstrap-resources.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-72qlrdiw/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-72qlrdiw/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.327,
+      "rawSha256": "9cfba6c42475607bcc902553986f2f4759bc45d02631b2f1e1f665e10fc00699",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "d098149cd0f71ee378d6af3a84a1e9a8631d03fc7ac1c52d7bd1afa733415d36"
+    }
+  ],
+  "snapshots": {
+    "origin/main": {
+      "commit": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "files": {
+        "shell/bootstrap-resources.test.ts": {
+          "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+          "equalsBefore": true
+        },
+        "shell/bootstrap-resources.grok-mid-1.test.ts": {
+          "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "equalsBefore": true
+        }
+      }
+    },
+    "d4cf7f57d": {
+      "commit": "d4cf7f57d237895d920ddee72f69e0278680157a",
+      "files": {
+        "shell/bootstrap-resources.test.ts": {
+          "sha256": "537a5f44f4ea0f2ad73a48aec5889db407a97ad9845f15dab353251e7cc1eb34",
+          "equalsBefore": false
+        },
+        "shell/bootstrap-resources.grok-mid-1.test.ts": {
+          "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "equalsBefore": true
+        }
+      }
+    },
+    "f2529c5fa": {
+      "commit": "f2529c5fa65ba0abd4a737fcb32577888d391335",
+      "files": {
+        "shell/bootstrap-resources.test.ts": {
+          "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+          "equalsBefore": true
+        },
+        "shell/bootstrap-resources.grok-mid-1.test.ts": {
+          "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+          "equalsBefore": true
+        }
+      }
+    }
+  },
+  "identities": {
+    "legacy-3y": {
+      "identities": [
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > degrades a glyph failure without blocking the other initial resources",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+          "testCount": 9,
+          "identityDigest": "95bc371fff19dc752439647d4dec2ef3d37e6e6cbad9307c233ed2db2520e420"
+        },
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "testCount": 3,
+          "identityDigest": "d2837c8efbc5aa534a83d8ac84604b7536b1cc4573ccff97c079c86d83ed183f"
+        }
+      ]
+    },
+    "before": {
+      "identities": [
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > degrades a glyph failure without blocking the other initial resources",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+          "testCount": 9,
+          "identityDigest": "95bc371fff19dc752439647d4dec2ef3d37e6e6cbad9307c233ed2db2520e420"
+        },
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "testCount": 4,
+          "identityDigest": "820efc27ef15c3c737fb37250049bcc193e09461862305b53dd1cd415ad22d24"
+        }
+      ]
+    },
+    "after": {
+      "identities": [
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > assets 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > dialog 未兑现时 resourcesReady 保持未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 两轮 boot 的拒绝与成功资产互不穿越",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts :: project root :: grok-mid-1 bootstrap barriers > 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > keeps the original soundfont rejection while its settle barrier still resolves",
+        "packages/game/src/shell/bootstrap-resources.test.ts :: project root :: bootstrap resource lifecycle > starts soundfont first and all resource loaders before awaiting any result"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+          "testCount": 9,
+          "identityDigest": "95bc371fff19dc752439647d4dec2ef3d37e6e6cbad9307c233ed2db2520e420"
+        },
+        {
+          "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+          "testCount": 3,
+          "identityDigest": "a9f2fee19cf165466ec949abbcb3cb5a56d1edae92d106402365d34e495b96e9"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "before": {
+      "lines": {
+        "total": 12,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 91.66
+      },
+      "functions": {
+        "total": 7,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 85.71
+      },
+      "statements": {
+        "total": 13,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 92.3
+      },
+      "branches": {
+        "total": 6,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "after": {
+      "lines": {
+        "total": 12,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 91.66
+      },
+      "functions": {
+        "total": 7,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 85.71
+      },
+      "statements": {
+        "total": 13,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 92.3
+      },
+      "branches": {
+        "total": 6,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "formalSha256": {
+    "scripts/coverage/approved-test-retirements.mjs": "7aabf543cdc9cc8354e39b06da23281881e6a9b5666a290e217680d37c400f7f",
+    "scripts/coverage/approved-test-retirements.test.mjs": "6375e5d3d50f74baa8087f8a047196e3c3cb9aec88188a7b2397a6730de7015a",
+    "packages/game/src/shell/bootstrap-resources.ts": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+    "packages/game/src/shell/bootstrap-resources.test.ts": "4ae59bab77937826270a8f005dd6ad4bd64a5f75668365ac09a1a697b8e1d47b",
+    "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts": "a24ecd452ca31eb32eb012dc3d7517524ab323066549ce746541c6a8236d62f3"
+  }
+}

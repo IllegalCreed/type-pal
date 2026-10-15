@@ -2,6 +2,8 @@
 
 基点46fb9d5fe，main=f98d0ddd8，唯一codex/code-quality-3y。原[3h卡](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)的done保留历史身份；本片不替整卡补accept。四份测试10→9，0新增文件关闭；只改测试、注释和两项精确退役数据，生产/规则/官方基线/资源保持。全83卡范围以及94–102/editor返工继续。
 
+后续[启动屏障与fixture切片](bootstrap/README.md)：两个旧绿新红、弱重复13→12、默认端口真实Promise收尾；三文件仍review，fetch-retry留下一有限片，整3h与统一门未收口。
+
 ## 逐文件结论与真实消费链
 
 实际全文/分段读取和SHA见[读取边界](read-boundaries.json)，不把grep、执行过相邻测试或导入helper写成全文验收。生产png.ts、loader/tileset-blob/rle-decode、fetch-retry/bootstrap-resources六文件已全文读取，后五文件整域caller/异步/排重仍待后续切片；本片只补PNG测试证据。bootstrap.ts只读所列调用段，不触碰活跃57实现。

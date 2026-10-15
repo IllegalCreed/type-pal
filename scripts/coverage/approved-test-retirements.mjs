@@ -267,6 +267,15 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'd7224527d2ccf4893eefb5ec6fad84b84b1d11824e99ecd7b6e5092affd7bd86',
       fileSha256: '5b087d2c8d8d530a3a5d8b636de3289354441b84abc95da121563eb51ab61428',
     },
+    // Codex CODE3h bootstrap: glyph degradation transfers to the stronger held-resource case.
+    {
+      file: 'packages/game/src/shell/bootstrap-resources.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '820efc27ef15c3c737fb37250049bcc193e09461862305b53dd1cd415ad22d24',
+      currentIdentityDigest: 'a9f2fee19cf165466ec949abbcb3cb5a56d1edae92d106402365d34e495b96e9',
+      fileSha256: '4ae59bab77937826270a8f005dd6ad4bd64a5f75668365ac09a1a697b8e1d47b',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

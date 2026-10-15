@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
-      "afterSha256": "6778cac33d3fba65d0bd43e2d8d169970242febc65e2e4ece9a0db39ee9fea69",
+      "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1526,6 +1526,15 @@
             "previousAfterSha256": "471b46af8d567cd372642957126e5a4417fdbbb04008d56357eaaa1100d124c7",
             "afterSha256": "6778cac33d3fba65d0bd43e2d8d169970242febc65e2e4ece9a0db39ee9fea69",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "f2529c5fa",
+            "action": "pre94-CODE3h-bootstrap-identity-barrier-and-test-IO-cleanup",
+            "scope": "Own retrospective navigation only; all83 remains13partial/70pending/0accept; three records review, no new closures or other owner changes.",
+            "previousAfterSha256": "6778cac33d3fba65d0bd43e2d8d169970242febc65e2e4ece9a0db39ee9fea69",
+            "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md"
           }
         ]
       },
@@ -1554,7 +1563,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "6778cac33d3fba65d0bd43e2d8d169970242febc65e2e4ece9a0db39ee9fea69",
+        "afterSha256": "95ae9d9ab11255617861526b4231ff6076842a2ec9b200361914101ae05489af",
         "currentReading": {
           "date": "2026-10-14",
           "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
@@ -1837,7 +1846,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
-      "afterSha256": "3dbe31db9c7169cd4e8cd8991d6fc2dc2ec000b863d7f0ca661c2f2cd6175dbd",
+      "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2462,6 +2471,15 @@
             "previousAfterSha256": "2187ac60775d7e9368a914b948f550cce87d140d7638dd0f1f57c6498fb6743f",
             "afterSha256": "3dbe31db9c7169cd4e8cd8991d6fc2dc2ec000b863d7f0ca661c2f2cd6175dbd",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "f2529c5fa",
+            "action": "pre94-CODE3h-bootstrap-identity-barrier-and-test-IO-cleanup",
+            "scope": "Own retrospective navigation only; all83 remains13partial/70pending/0accept; three records review, no new closures or other owner changes.",
+            "previousAfterSha256": "3dbe31db9c7169cd4e8cd8991d6fc2dc2ec000b863d7f0ca661c2f2cd6175dbd",
+            "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2484,7 +2502,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "3dbe31db9c7169cd4e8cd8991d6fc2dc2ec000b863d7f0ca661c2f2cd6175dbd",
+        "afterSha256": "75b2743375c75017ca12802a3a5e5a01721d5e8d0a26e29c65cd3b04d6b07d3a",
         "currentReading": {
           "date": "2026-10-14",
           "sha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",

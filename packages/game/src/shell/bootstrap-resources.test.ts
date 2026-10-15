@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { legalLoadedAssets } from '../__tests__/grok-boot-mid-1/legal.js'
 import type { DialogAssets } from '../assets/dialog-assets.js'
 import type { LoadedAssets } from '../assets/loader.js'
 import type { GlyphTable } from '../present/font.js'
@@ -14,7 +15,7 @@ function deferred<T>() {
   return { promise, resolve, reject }
 }
 
-const assets = {} as LoadedAssets
+const assets: LoadedAssets = legalLoadedAssets('bootstrap-main')
 const glyphs: GlyphTable = { has: () => false, get: () => undefined }
 const dialogAssets: DialogAssets = { portraitFrames: new Map(), iconFrames: new Map() }
 
@@ -31,7 +32,7 @@ function ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResour
 
 describe('bootstrap resource lifecycle', () => {
   it('FM boot loads the game resources without requesting or waiting for the MIDI soundfont', async () => {
-    const fetchSoundfont = vi.fn(() => new Promise<ArrayBuffer>(() => {}))
+    const fetchSoundfont = vi.fn(async () => new ArrayBuffer(1))
     const load = startBootstrapResourceLoad(7, ports({ fetchSoundfont }), false)
     expect(fetchSoundfont).not.toHaveBeenCalled()
     await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
@@ -62,53 +63,37 @@ describe('bootstrap resource lifecycle', () => {
       }),
     )
 
-    expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])
-    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
+    try {
+      expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])
+      await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
 
-    let settled = false
-    void load.soundfontSettled.then(() => {
-      settled = true
-    })
-    await Promise.resolve()
-    expect(settled).toBe(false)
-    soundfont.resolve(new ArrayBuffer(2))
-    await expect(load.soundfontSettled).resolves.toBeUndefined()
-  })
-
-  it('degrades a glyph failure without blocking the other initial resources', async () => {
-    const error = new Error('glyph unavailable')
-    const warn = vi.fn()
-    const load = startBootstrapResourceLoad(
-      0,
-      ports({ loadGlyphs: async () => Promise.reject(error), warn }),
-    )
-
-    const loaded = await load.resourcesReady
-    expect(loaded).toEqual({
-      assets,
-      glyphs: undefined,
-      dialogAssets,
-    })
-    expect(warn).toHaveBeenCalledWith(
-      '[bootstrap] loadGlyphs failed, text will render as tofu:',
-      error,
-    )
+      let settled = false
+      void load.soundfontSettled.then(() => {
+        settled = true
+      })
+      await Promise.resolve()
+      expect(settled).toBe(false)
+      soundfont.resolve(new ArrayBuffer(2))
+      await expect(load.soundfontSettled).resolves.toBeUndefined()
+    } finally {
+      soundfont.resolve(new ArrayBuffer(0))
+      await Promise.allSettled([load.resourcesReady, load.soundfontData, load.soundfontSettled])
+    }
   })
 
   it('keeps the original soundfont rejection while its settle barrier still resolves', async () => {
     const soundfont = deferred<ArrayBuffer>()
     const load = startBootstrapResourceLoad(0, ports({ fetchSoundfont: () => soundfont.promise }))
 
-    soundfont.reject(new Error('soundfont failed'))
-
-    let rejection: unknown
+    const originalError = new Error('soundfont failed')
     try {
-      await load.soundfontData
-    } catch (error) {
-      rejection = error
+      soundfont.reject(originalError)
+      await expect(load.soundfontData).rejects.toBe(originalError)
+      await expect(load.soundfontSettled).resolves.toBeUndefined()
+      await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })
+    } finally {
+      soundfont.resolve(new ArrayBuffer(0))
+      await Promise.allSettled([load.resourcesReady, load.soundfontData, load.soundfontSettled])
     }
-    expect(rejection).toBeInstanceOf(Error)
-    expect((rejection as Error).message).toBe('soundfont failed')
-    await expect(load.soundfontSettled).resolves.toBeUndefined()
   })
 })

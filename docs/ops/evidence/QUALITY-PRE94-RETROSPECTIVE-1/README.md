@@ -10,6 +10,8 @@
 
 最新[3h PNG测试切片](3h/README.md)：完整平面与真实cause两个旧绿新红，重复精简10→9；game相邻107、extract16和coverage工具74零诊断。四测试仅review、0新增关闭，下一片3h启动/重试测试；CLI未决策略与全83卡、94–102/editor及统一门继续待收口。
 
+最新[3h启动屏障切片](3h/bootstrap/README.md)：两个旧13绿新单例红、弱重复精简13→12，真实默认fetch正常/失败收尾均结局；相邻129零诊断。三文件仅review，0新关闭，下一片fetch-retry三测试。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

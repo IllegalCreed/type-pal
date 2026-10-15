@@ -2,24 +2,7 @@
  * 本波专属合法输入。屏障测试只比较引用；场景缓存与对话图标走完整公开类型。
  * 不从原 400 legal-host 导入。
  */
-import type {
-  BattleField,
-  Enemy,
-  EnemyObject,
-  EnemyTeam,
-  EventFile,
-  Item,
-  LevelUpMagicEntry,
-  Magic,
-  ObjectMagicView,
-  ObjectPlayerView,
-  ObjectPoisonView,
-  Palette,
-  SceneEventObject,
-  Spell,
-  Store,
-  Tilemap,
-} from '@type-pal/shared'
+import type { EventFile, Palette, SceneEventObject, Tilemap } from '@type-pal/shared'
 import type { LoadedAssets, SceneAssets } from '../../assets/loader.js'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleBgAsset } from '../../present/battle/draw-battle-bg.js'
@@ -47,7 +30,7 @@ export function legalEventObject(id: number, spriteNum: number): SceneEventObjec
   return { id, x: 16, y: 32, spriteNum, triggerMode: 1, sState: 1, direction: 0 }
 }
 
-/** 屏障端口的完整 LoadedAssets。words[0] 只区分引用，测试不把它当加载结果。 */
+/** 屏障端口输入，满足 loadAll 的 role0/首段前提；words[0] 只区分引用，不代表跑过完整 bootstrap。 */
 export function legalLoadedAssets(label: string): LoadedAssets {
   const tileImages = new Map<number, IndexedImage>()
   const characterSprites = new Map<
@@ -58,31 +41,65 @@ export function legalLoadedAssets(label: string): LoadedAssets {
     tilemap: legalTilemap(),
     palette: legalPalette(),
     scene: { sceneId: 1, mapNum: 1, eventObjects: [legalEventObject(1, 4)] },
-    events: { segments: [] } satisfies EventFile,
-    playerRoles: { roles: [] },
+    events: {
+      scene: 1,
+      segments: [{ name: 'scene-001.onEnter', commands: [] }],
+    } satisfies EventFile,
+    playerRoles: {
+      roles: [
+        {
+          id: 0,
+          avatar: 1,
+          spriteNumInBattle: 1,
+          spriteNum: 2,
+          name: 36,
+          attackAll: 0,
+          level: 1,
+          maxHP: 100,
+          maxMP: 20,
+          hp: 100,
+          mp: 20,
+          attackStrength: 10,
+          magicStrength: 8,
+          defense: 5,
+          dexterity: 5,
+          fleeRate: 0,
+          poisonResistance: 0,
+          elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+          walkFrames: 3,
+          attackSound: -1,
+          weaponSound: -1,
+          criticalSound: -1,
+          magicSound: -1,
+          deathSound: -1,
+          equipment: [0, 0, 0, 0, 0, 0],
+          magic: [],
+        },
+      ],
+    },
     tileImages,
     characterSprites,
     battleSprites: new Map<string, SpriteAsset>(),
     battleBgs: new Map<number, BattleBgAsset>(),
     magicSprites: new Map<number, SpriteAsset>(),
-    enemies: [] as Enemy[],
-    enemyObjects: [] as EnemyObject[],
-    enemyTeams: [] as EnemyTeam[],
-    battleFields: [] as BattleField[],
+    enemies: [],
+    enemyObjects: [],
+    enemyTeams: [],
+    battleFields: [],
     enemyPos: { layouts: [] },
     battleEffectIndex: [],
-    items: [] as Item[],
-    spells: [] as Spell[],
-    magics: [] as Magic[],
-    objectMagics: [] as ObjectMagicView[],
-    objectPoisons: [] as ObjectPoisonView[],
-    objectPlayers: [] as ObjectPlayerView[],
-    stores: [] as Store[],
+    items: [],
+    spells: [],
+    magics: [],
+    objectMagics: [],
+    objectPoisons: [],
+    objectPlayers: [],
+    stores: [],
     words: [label],
     uiSpriteFrames: [],
     itemIcons: new Map<number, IndexedImage>(),
     levelUpExp: [],
-    levelUpMagic: [] as LevelUpMagicEntry[][],
+    levelUpMagic: [],
   }
 }
 

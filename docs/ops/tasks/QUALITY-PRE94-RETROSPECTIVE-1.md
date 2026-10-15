@@ -235,3 +235,21 @@ Grok5→4、GLM2→1只有在原生list/三快照与当前SHA精确确认后，�
 原生list和main/旧3y/基点三快照确认两精确退役，29项/net64、旧27与matcher/拒绝合同不变；真实png.ts局部V8 20/20 statements、2/2 functions、4/4 branches保持。相邻game17/107、extract4/16、coverage工具74、game typecheck通过，0运行时诊断。初轮探针分类/首次resume表示错误保留，原四native回执未重跑；另进程只读重建10轮反控与4轮list/V8。
 
 四测试仅pending→review，0新增关闭；全83卡13partial/70pending/0整卡accept，原94–102/editor目标保留。机器计数、docs/lint/diff最终以本片gates实际回执为准；统一check/official ratchet/protected未新跑，editor诊断未清，不合main。下一片3h bootstrap-resources两测试及fetch-retry边界，先合法fixture/真实caller/排重，不触碰bootstrap.ts或CLI未决策略。无下一位Agent提示词，Codex单Agent继续全部83卡。
+
+## CODE3h 启动测试与fixture有限准入
+
+f2529c5fa基点、main仍f98d0ddd8、0behind，机器3289/203closed/245review/2841pending。完整读取bootstrap-resources.ts及两测试、fetch-retry.ts与三测试、grok-boot-mid-1/legal.ts、font.ts、main.ts及原BOOT-MEDIUM卡；bootstrap和audio-midi只读实际注入/资源ready/settle caller段。fetch三测试有相邻待核项，本片冻结留下一片；活跃57与其它Owner实现不改。
+
+Codex premise verified/design agree/build allowed仅bootstrap-resources.test.ts、bootstrap-resources.grok-mid-1.test.ts及共用grok-boot-mid-1/legal.ts三文件。前者移除空对象/异常强转、用完整typed fixture与原始soundfont错误身份；后者将原同时放行三端口例改为assets/dialog已结局但glyph仍pending，核真实屏障，所有deferred和默认真实fetch端口均在finally结局/消费，不残留永远pending请求。fixture补齐真实loadAll要求的role0、事件segment并移除无必要空数组强转；只作端口输入，不冒充完整bootstrap或游戏可玩性。
+
+原main的glyph降级例是Grok“glyph失败后仍等assets/dialog”完整值/警告/屏障合同弱子集，待旧/新原生集合和转移反控确认后精简4→3、族13→12，Grok9身份保持。两新缺口候选：soundfont错误替换但消息相同、glyph错误跟随assets/dialog提早放行；须旧全绿、新各指定单例AssertionError。丢glyph警告/错误fallback值两个原oracle转移另列，不混作新针。所有副本/源/原件/集合/清理SHA保存；两默认fetch例另核实际四pending→全部结局，失败断言也须收尾。
+
+退役数据仅在原生list与main/旧3y/当前基点对照后为主测试追加一项精确4→3，并同步固定计数29/net64→30/net65；旧29/matcher/拒绝合同及baseline/配置不动。产品/音色库/资产/启动行为保持只读；不引入core mock、新依赖或ignore/强转。定向、相邻、必要typecheck、局部V8与静态门按实际输出登记；稳定模块窗口集中全仓check/ratchet/protected，0新增关闭，全部83卡与94–102/editor目标继续。
+
+### CODE3h 启动测试本片结果
+
+[逐文件/primary/caller/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md)：两个旧13绿缺口已各新11绿1指定AssertionError，正常族12绿；glyph警告/降级值两oracle由2→1转移，主4→3精简，Grok九身份保持。实际透传IO观测旧两默认例各4 pending，新正常及两故意失败断言后的恢复边界均0。三测试/fixture补证，生产、音色库、资源、规则与baseline不改。
+
+三轮原生list核清main/基点4+9、旧3y3+9（未有FM例）的真实差异，精确批准仅当前4→3且旧digest等于官方baseline记录。表30/net65、旧29/matcher/拒绝合同不变；真实源局部V8 statements12/13、functions6/7、branches6/6保持，不虚称全覆盖。相邻22文件129例、game typecheck、75覆盖工具通过，零运行时诊断；另进程重建10业务/转移轮、3 IO轮与5 list/V8。collector历史快照差异停机和verifier相同hook错误分组误判保留，原生回执未重跑/改写。
+
+三文件仅pending→review，0新关闭，全83卡仍13partial/70pending/0整卡accept。最新机器与静态门以本片gates回执为准；全仓check/official ratchet/protected未新跑，editor诊断未清，不合main。下一片fetch-retry三测试，优先不同attempt Error身份、真实卸载/重装及method/取消/退避边界，逐合同补证和排重；bootstrap.ts/CLI策略与活跃Owner实现继续只读。无下一位Agent提示词，单Agent继续全部83卡与94–102/editor。

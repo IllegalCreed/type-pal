@@ -25,11 +25,12 @@ const proof = (approval) => ({
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条；CODE2退役1条重复delta；CODE2b转移4条YJ2合同；CODE3主文件转移3条注释合同；C1精简一条同输入BALL弱重复；C10合并G07两弱子集。
   // CODE3h 两个坏 PNG 弱摘要并入完整上下文与真实 cause oracle。
-  assert.equal(approvedTestRetirements.length, 29)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 29)
+  // CODE3h 启动主测试的 glyph 降级并入保留的独立屏障例。
+  assert.equal(approvedTestRetirements.length, 30)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 30)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    64,
+    65,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
