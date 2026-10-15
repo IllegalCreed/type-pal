@@ -92,8 +92,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | review | [CODE3b完整输入ownership/原子拒绝/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 两输入修改旧绿/新指定AssertionError；纠正政策未定注释，3→4独立轴；旧关闭撤回review |
 | `packages/pal-extract/src/io/sss.ts` | product | 已验证 | CODE-QUALITY-3b；chunk2/3/4 对齐反例，真实 SSS，全包/check/ratchet/protected | Q3b done |
 | `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | review | [CODE3b父buffer/完整EO与scene/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 原view不含guard，四反控旧绿/新指定AssertionError；4→7独立chunk拒绝，生产未改，旧关闭撤回review |
-| `packages/pal-extract/src/io/msg.test.ts` | test | review | [CODE3b真实raw读取/caller与oracle核验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 三sanity仅规模/类型/含逍遥；完整文本oracle未证，类型smoke与排重待独立精简，本片未改 |
-| `packages/pal-extract/src/io/sss.test.ts` | test | review | [CODE3b真实raw读取/独立struct全量对照](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 六sanity不能证明完整字段；探针对拍不自动提升测试质量，raw例精度/排重留下一片，本片未改 |
+| `packages/pal-extract/src/io/msg.test.ts` | test | review | [CODE3b真实raw读取/caller与oracle核验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 三smoke→一精确条数/五原文与输入ownership；独立raw区间/严格GBK支持，完整正文与fixup仍待；[raw补证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md) |
+| `packages/pal-extract/src/io/sss.test.ts` | test | review | [CODE3b真实raw读取/独立struct全量对照](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 六sanity→一完整独立struct oracle；5077 EO/295 scene/3955 WORD/13514 offsets/43503指令摘要保真，局部反控通过；[raw补证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md)，统一门未过不关闭 |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
 | `packages/shared/src/events.ts` | product | 已验证 | 直接读取 Command union；shared typecheck/events 合同 | 类型 schema，未改公共接口 |
@@ -581,3 +581,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 C2敌队测试：完整DTO/ownership/真实诊断，七旧绿新红与两既有oracle保留/转移；生产和baseline未改，完整extract431零stderr，相邻shared126/game186/TC通过。两测试pending→review；enemies.ts注释不存在的slots字段直接counter，旧关闭撤回review。机器3289/208closed/226review/2855pending，0新关闭；统一门未新跑，83卡复审未完成。
 
 2026-10-16 CODE3b当前复审：两boundary补六判别力缺口与父buffer/完整字段，原拒绝轴拆独立5+2；生产不变。独立raw struct全量对照一致，正文codec不冒称重验。42相邻/extract435/shared126/TC/71工具通过，0stderr；两test旧关闭精确重开，两个raw sanity pending→review，0关闭。机器3289/206closed/230review/2853pending；全83卡10partial/73pending/0accept，统一门仍待editor稳定窗口。
+
+2026-10-16 CODE3b两原盘测试9→2：SSS完整独立struct摘要、MSG五固定raw文本/精确条数和输入ownership；五新单例反控及两原oracle1→1。35相邻/extract428/shared126/TC/71工具零stderr，规则/baseline/产品未改；两文件继续review，MSG全正文/fixup待核，0关闭。机器3289/206/230/2853不变；83卡仍10partial/73pending/0accept，统一门未新跑。

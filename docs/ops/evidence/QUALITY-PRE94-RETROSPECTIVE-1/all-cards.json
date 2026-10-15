@@ -264,7 +264,7 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md",
-      "findings": "Both parsers/four tests fully read; six old-green/new-single-AssertionError oracle gaps fixed in two boundary files, structured refusal axes split. Independent raw struct comparison covers all 5077 EO/295 scenes/3955 words/13514 offsets/43503 instructions. Production unchanged; raw smoke precision and unified/editor gates remain; no whole-card acceptance."
+      "findings": "Both parsers/four tests fully read; six boundary oracle gaps fixed and rejection axes split. Raw 9→2: full independent SSS struct oracle and five exact raw MSG samples; five additional old-green/new-single-AssertionError probes and two old-oracle transfers. Production unchanged; full MSG/fixup and unified/editor gates remain, no whole-card acceptance."
     },
     {
       "id": "3c",

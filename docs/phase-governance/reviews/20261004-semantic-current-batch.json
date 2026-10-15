@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
-      "afterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
+      "sourceSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
+      "afterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -1481,6 +1481,15 @@
             "previousAfterSha256": "86184a35e6e43a8efc42ddeec203d5290fc9602442461c12bff6e5fb13213784",
             "afterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "3a9f47043",
+            "action": "pre94-CODE3b-raw-oracle-deduplication-and-C10-integration-window",
+            "scope": "docs/ops/board.md own retrospective/C10 navigation only; 83 cards remain 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "346b2029df46879d70cc59a2164219f754b37bb5e3c2062c2ee1f3ff9eeab09d",
+            "afterSha256": "7903495028cecdbf9620d29b04e6492cf8336a4022376eac5254e9b8ada78483",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md"
           }
         ]
       },
@@ -1791,8 +1800,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
-      "afterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
+      "sourceSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
+      "afterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -2372,6 +2381,15 @@
             "previousAfterSha256": "3d506ec0c14eb0444f105183f8bdb7abdea578f5df77225abd960a1709e8e77e",
             "afterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md"
+          },
+          {
+            "date": "2026-10-16",
+            "revision": "3a9f47043",
+            "action": "pre94-CODE3b-raw-oracle-deduplication-and-C10-integration-window",
+            "scope": "docs/ops/evidence/README.md own retrospective/C10 navigation only; 83 cards remain 10 partial/73 pending/0 accept; other owners unchanged",
+            "previousAfterSha256": "dc869978f4607b0e60c6656b789b6bc933fef7f3913163df9c146158e031f697",
+            "afterSha256": "b1497ff6e0f21ffb2481bdc821b883678c9e30908450262d2a5049b6e6ffdf53",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"

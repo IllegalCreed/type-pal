@@ -1,0 +1,82 @@
+[
+  {
+    "name": "adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/pal-extract",
+      "exec",
+      "vitest",
+      "run",
+      "src/io/msg.boundaries.test.ts",
+      "src/io/sss.boundaries.test.ts",
+      "src/io/msg.test.ts",
+      "src/io/sss.test.ts",
+      "src/io/mkf.test.ts",
+      "src/io/word.test.ts",
+      "src/utils/gbk.test.ts",
+      "src/events/roundtrip.test.ts",
+      "--maxWorkers=1",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.302,
+    "rawSha256": "79dae81d853ed1905aa2e7d72c6c0bae1572e923fde12ad2019e5bb6c2ce1bc0",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "extract-full",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/pal-extract",
+      "exec",
+      "vitest",
+      "run",
+      "--maxWorkers=1",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 48.224,
+    "rawSha256": "5a044f04f3bd89157e2e8fe8e3bd8f9103a406f5ac88a5545ab680e91240932e",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "shared",
+    "command": ["pnpm", "--filter", "@type-pal/shared", "test"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.666,
+    "rawSha256": "77962dcfc04f7c551a95882594adf71295b558db4bc04f477006963222c3fbf1",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "extract-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/pal-extract", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.107,
+    "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "shared-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/shared", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.531,
+    "rawSha256": "7170766449aaa5b66a2c04f973ef245caa95478cf92b4da4bf8dd08974a51cc3",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "coverage-tools",
+    "command": ["pnpm", "test:coverage-tools"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 3.221,
+    "rawSha256": "a89e9dfcbf1f4d9490b4765388df21883c3094edfd38b139e8f237230fe598f6",
+    "stderrBlocks": 0
+  }
+]

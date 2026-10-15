@@ -171,3 +171,20 @@ Codex premise verified/design agree/build allowed白名单仅sss.boundaries.test
 [逐文件与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md)：六针旧16绿→新各19绿1指定AssertionError，恢复20绿；保护父buffer、两完整EO/scene、两MSG输入ownership，原拒绝轴拆独立5+2例并修过期注释。生产两个parser字节不变；独立Python struct全量5077 EO/295 scene/3955 WORD/13514 offsets/43503指令一致，正文摘要只作观察，不冒充native/text oracle。
 
 42定向相邻含真实roundtrip、extract72/435、shared126及双方typecheck、71工具通过，0stderr；全仓check/ratchet/protected未新跑。两boundary旧关闭撤回review，两个raw sanity pending→review待精度/排重，0关闭。机器3289/206closed/230review/2853pending；83卡10partial/73pending/0accept。下一片先两raw测试，再3d/3g；94–102/editor保留，未统一零诊断不合main。无下一位Agent提示词。
+
+## CODE3b raw测试有限准入
+
+Codex premise verified/design agree/build allowed：只改io/sss.test.ts与io/msg.test.ts两现有原盘测试，生产/共享fixture/资源/规则/baseline保持。SSS沿上片独立Python struct全5077 EO/295 scene/3955 WORD/13514 offsets/43503指令结果与原件SHA，固定完整字段/表/字节码摘要；expected不由当前TS生成。MSG仅以独立raw DWORD偏移和Python严格GBK直接读出的0/1/100/6757/13512五条原字节为固定文本oracle，保留控制标记/标点/全角空格，明确是当前原盘已核子集，不冒充全正文/fixup/native验证。
+
+原SSS六sanity→一个完整同次解析结果合同，固定count/全字段/原字节摘要蕴含旧非空、8B和raw16槽；MSG三smoke→一个精确count/五文本合同，13513条蕴含旧规模、ID1明确逍遥、ID100精确字符串承接旧类型抽查。类型smoke不另计业务。两文件均既有fast排除，不新增退役豁免，不动matcher/基线；须原生JSON公开9→2及身份变化，不把少测等于质量。
+
+反控先证五缺口旧绿（后续EO字段丢失、真实字节码尾损、正文首/中/末错值），再新各一指定AssertionError；字节码空与逍遥名字替换的旧有oracle转移单列1→1，不计新缺口。完整四测试集合、源/副本/原生JSON/raw/exit/signal与临时清理全保留；恢复后定向/相邻/TC及静态门。正文全量未知、其它旧卡及94–102/editor原目标继续；统一门未过不关闭/合main。
+
+
+### CODE3b raw测试本片结果
+
+[raw逐文件/独立oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md)：两raw测试9→2，完整四文件20→13；SSS固定全5077 EO/295 scene/3955 WORD/13514offsets/43503指令的独立struct oracle，MSG独立raw区间/严格GBK五原文与13513条数。五针旧20绿/新各12绿1指定AssertionError，字节码空/逍遥替换两原oracle各1→1单列，恢复13绿；两生产实现未改，原盘/规则/baseline不动，无新增退役豁免。
+
+35定向相邻、extract72/428、shared126及双方typecheck、71工具通过，0stderr；原3b after按Git3a9重建7轮，当前16轮原件/源/副本/清理另进程核验。两raw仅review，MSG其余正文/fixup全量与其它边界仍待；机器3289/206closed/230review/2853pending不变，0新关闭。全83卡10partial/73pending/0accept，下一片3d PNG输入，再续3g和94–102/editor；统一check/ratchet/protected未新跑，不合main。无下一位Agent提示词。
+
+阶段合并优先级：本原盘片提交后先回QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1的C10阻塞，争取统一零诊断窗口与阶段合并，再续83卡队列中的3d/3g。范围仍含全部83卡及94–102/editor，未核项不变更为accept。
