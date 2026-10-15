@@ -1,5 +1,50 @@
 import { dirname, posix } from 'node:path'
+import { parseTestingFrontMatter } from './check-testing.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
+
+function documentStatus(text, contract) {
+  if (contract.format === 'json') {
+    try {
+      return JSON.parse(text)?.status
+    } catch {
+      return undefined
+    }
+  }
+  // The live field belongs to the first root metadata paragraph after the title.
+  // Searching all raw lines also matches HTML pre blocks and lazy blockquotes.
+  const skipBlankLines = (value) => value.replace(/^(?:[ \t]*\n)+/, '')
+  const content = skipBlankLines(withoutFences(text.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '')))
+  if (!/^# [^\n]+\n/.test(content)) return undefined
+  const paragraph = skipBlankLines(content.slice(content.indexOf('\n') + 1)).split(
+    /\n[ \t]*\n/,
+    1,
+  )[0]
+  if (
+    !paragraph.split('\n').every((line) => /^(Status|Owner|Last reviewed|Template): .+/.test(line))
+  )
+    return undefined
+  const fields = [...paragraph.matchAll(/^Status: (.*)$/gm)]
+  if (fields.length !== 1) return undefined
+  return /^([a-z][a-z-]*)(?=$|[\s（(])/.exec(fields[0][1])?.[1]
+}
+
+function publicationIssues(text, contract, read) {
+  const catalogPath = contract.statusPolicy?.catalog
+  if (!catalogPath) return []
+  let catalog
+  let id
+  try {
+    catalog = JSON.parse(read(catalogPath))
+    id = contract.format === 'json' ? JSON.parse(text)?.id : parseTestingFrontMatter(text)?.id
+  } catch {
+    return ['publication status catalog or document identity invalid']
+  }
+  const entries = catalog?.entries?.filter((entry) => entry.id === id) ?? []
+  if (!id || entries.length !== 1) return ['publication status requires one catalog identity']
+  return documentStatus(text, contract) === entries[0].status
+    ? []
+    : ['publication status differs from catalog']
+}
 
 function section(text, heading) {
   const lines = withoutFences(text).split('\n')
@@ -55,6 +100,12 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
   const issues = []
   const contract = variant ? template.variants?.[variant] : template
   if (!contract) return [`unknown template variant: ${variant}`]
+  if (contract.statusPolicy) {
+    const status = documentStatus(text, contract)
+    if (status === undefined) issues.push('one valid document status required')
+    else if (!contract.statuses.includes(status))
+      issues.push(`invalid ${contract.statusPolicy.axis} status: ${status}`)
+  }
   if (contract.format === 'json') {
     let value
     try {
@@ -139,6 +190,10 @@ export function checkDocumentModel(config, registry, read) {
           : [],
       }))
         issues.push(`${doc.path}: ${issue}`)
+      const contract = doc.variant ? template.variants?.[doc.variant] : template
+      if (contract)
+        for (const issue of publicationIssues(text, contract, read))
+          issues.push(`${doc.path}: ${issue}`)
       if (template.format === 'json') {
         let metadata
         try {

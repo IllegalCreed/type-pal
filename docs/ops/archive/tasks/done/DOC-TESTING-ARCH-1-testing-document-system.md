@@ -7,7 +7,7 @@ Reviewer: Codex
 Phase: ops
 Capability: documentation / testing governance
 Last reviewed: 2026-10-15
-Governance Owner: Codex（历史卡包 A 候选；待独立验收）
+Governance Owner: Codex（历史卡包 A 文档治理）
 Template: task-card-v1 / 1.0.0
 
 ## 目标

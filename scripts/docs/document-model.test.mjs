@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { auditDocuments, renderTaskIndex, taskInfo } from './check.mjs'
-import { checkRouting, checkTemplateBody } from './document-model.mjs'
+import { checkDocumentModel, checkRouting, checkTemplateBody } from './document-model.mjs'
 
 const config = {
   entry: 'AGENTS.md',
@@ -135,6 +135,133 @@ test('a source audit cannot become execution evidence by changing its performed 
   mislabeled._governance.variant = 'execution'
   assert.deepEqual(checkTemplateBody(JSON.stringify(mislabeled), template, options), [
     'governance variant mismatch',
+  ])
+})
+
+test('publication current is valid for a source audit but cannot pass an execution lifecycle', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const template = registry.types.find((type) => type.docType === 'test-machine-evidence')
+  const audit = JSON.parse(
+    readFileSync(
+      new URL(
+        '../../docs/testing/domains/runtime/scene/active-scene/evidence.json',
+        import.meta.url,
+      ),
+    ),
+  )
+  assert.equal(audit.status, 'current')
+  assert.equal(audit.runtimeExecution.performed, false)
+  const options = { variant: 'document-audit-v2' }
+  assert.deepEqual(checkTemplateBody(JSON.stringify(audit), template, options), [])
+  audit.status = 'recorded'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(audit), template, options), [
+    'invalid catalog-publication status: recorded',
+  ])
+  const execution = JSON.parse(
+    readFileSync(
+      new URL('../../docs/testing/_templates/test-machine-evidence.json', import.meta.url),
+    ),
+  )
+  assert.deepEqual(checkTemplateBody(JSON.stringify(execution), template), [])
+  execution.status = 'current'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(execution), template), [
+    'invalid execution status: current',
+  ])
+})
+
+test('status examples cannot replace the report publication field or make duplicate fields unambiguous', () => {
+  const template = {
+    format: 'markdown',
+    requiredSections: [],
+    statuses: ['current'],
+    statusPolicy: { axis: 'catalog-publication' },
+  }
+  const examples =
+    '# Report\n<!-- Status: current -->\n```md\nStatus: current\n```\n> Status: current'
+  assert.deepEqual(checkTemplateBody(examples, template), ['one valid document status required'])
+  assert.deepEqual(
+    checkTemplateBody('# Report\n\nStatus: current（source only）\n\nText.', template),
+    [],
+  )
+  assert.deepEqual(checkTemplateBody(`${examples}\nStatus: current\nStatus: current`, template), [
+    'one valid document status required',
+  ])
+})
+
+test('both report and source audit must project the unique catalog publication state', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const base = 'docs/testing/domains/runtime/scene/active-scene/'
+  const model = {
+    entry: 'AGENTS.md',
+    entrySection: 'Routes',
+    routes: [],
+    forwardingEntries: [],
+    migratedDocuments: [
+      { path: `${base}report.md`, templateId: 'test-domain-report-v1' },
+      {
+        path: `${base}evidence.json`,
+        templateId: 'test-machine-evidence-v1',
+        variant: 'document-audit-v2',
+      },
+    ],
+  }
+  const catalogPath = 'docs/testing/catalog.json'
+  const catalog = JSON.parse(readFileSync(new URL(`../../${catalogPath}`, import.meta.url)))
+  const documents = new Map([
+    ['AGENTS.md', '# Agent\n## Routes\nNo live operations in this fixture.'],
+    [catalogPath, JSON.stringify(catalog)],
+    ...model.migratedDocuments.map(({ path }) => [
+      path,
+      readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8'),
+    ]),
+  ])
+  const run = () => checkDocumentModel(model, registry, (path) => documents.get(path))
+  assert.deepEqual(run(), [])
+  const reportPath = `${base}report.md`
+  const originalReport = documents.get(reportPath)
+  const liveStatus = /^Status: .*$/m.exec(originalReport)[0]
+  for (const example of [
+    '<pre>\nStatus: current\n</pre>',
+    '> Historical status example\nStatus: current',
+  ]) {
+    documents.set(reportPath, originalReport.replace(liveStatus, example))
+    assert.deepEqual(run(), [
+      `${reportPath}: one valid document status required`,
+      `${reportPath}: publication status differs from catalog`,
+    ])
+  }
+  const indentedStatus = originalReport.replace(
+    /^Owner: Codex\nStatus: [^\n]+\nLast reviewed: [^\n]+\nTemplate: [^\n]+/m,
+    '    Status: current\n\nOwner: Codex\nLast reviewed: 2026-10-15\nTemplate: test-domain-report-v1 / 1.1.0',
+  )
+  const indentedTitle = originalReport
+    .replace(liveStatus, '')
+    .replace(/^# /m, '    # Historical example\n\nStatus: current\n\n# ')
+  for (const example of [indentedStatus, indentedTitle]) {
+    documents.set(reportPath, example)
+    assert.deepEqual(run(), [
+      `${reportPath}: one valid document status required`,
+      `${reportPath}: publication status differs from catalog`,
+    ])
+  }
+  documents.set(reportPath, originalReport)
+  const entry = catalog.entries.find((item) => item.id === 'runtime-active-scene')
+  entry.status = 'verified'
+  documents.set(catalogPath, JSON.stringify(catalog))
+  assert.deepEqual(run(), [
+    `${base}report.md: publication status differs from catalog`,
+    `${base}evidence.json: publication status differs from catalog`,
+  ])
+  entry.status = 'current'
+  catalog.entries.push(structuredClone(entry))
+  documents.set(catalogPath, JSON.stringify(catalog))
+  assert.deepEqual(run(), [
+    `${base}report.md: publication status requires one catalog identity`,
+    `${base}evidence.json: publication status requires one catalog identity`,
   ])
 })
 

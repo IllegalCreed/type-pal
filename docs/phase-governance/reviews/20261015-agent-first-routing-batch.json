@@ -214,7 +214,7 @@
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "5a58b135c89c6ec25e116bb71397363e41816c3e",
       "sourceState": "present",
-      "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+      "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -295,6 +295,13 @@
           "action": "registry phase reflected after real pilots",
           "beforeSha256": "f8e16718afca8d86e51d7ca2dfe13585837fe623dfb1dc51d6c9a4d6e34c8c58",
           "afterSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-route-readers-to-separate-publication-and-execution-contracts",
+          "sourceSha256": "09738be52610523bd8dd2aa9d27494c3d77159ea8f5dd6cc842b8e47adc218fd",
+          "afterSha256": "8cb8a886b4b3177faf27cd5a5ec33c738e943aa342aff3dadaaf5f5b3763b153",
+          "beforeAfter": "Add status-axis navigation to frozen registry and C1 design; no parallel vocabulary, no publication/execution status changes."
         }
       ],
       "supersedes": [],

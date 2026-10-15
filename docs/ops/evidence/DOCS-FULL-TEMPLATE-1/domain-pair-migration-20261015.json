@@ -221,6 +221,30 @@
       "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
       "lineCount": 102,
       "preservation": "Original top header/Status/Owner exact and complete original card quoted; specific finite scope, input/counter/gate/retirement/date limits; no new runtime or cleanup."
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "type": "evidence-receipt",
+      "historyOverlay": true,
+      "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+      "sourceGitObject": "b912f54e55839861f3ae220266dd52adc2a9cf90",
+      "sourceSha256": "6c4b0a6eadd2530b0aebdd7ba02c5d514697175fcd117ecee9418764936286d4",
+      "afterSha256": "8580d623c62fe01806dc1e968241da9d3caaa963f3440e9905e90770a33aa7b5",
+      "originalDate": "2026-09-28",
+      "preservation": "Complete original text retained as quoted source; manual content-specific body separates audit/evidence obligations from historical validity and successors.",
+      "lineCount": 97
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "type": "audit-report",
+      "historyOverlay": true,
+      "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+      "sourceGitObject": "5721f3589545ac64b0264f9ed7d12c2751ecdc10",
+      "sourceSha256": "9663eebdf1c33afb9420e059e6bc4f33c3a8067eb0d23b7fc773b1d1e98a62c5",
+      "afterSha256": "17845b833f879586ef0352b093c72f47f808741e3bc6aa2165325e5cd60f9c94",
+      "originalDate": "2026-10-03",
+      "preservation": "Complete original text retained as quoted source; manual content-specific body separates audit/evidence obligations from historical validity and successors.",
+      "lineCount": 110
     }
   ],
   "notRun": ["runtime", "E2E", "visual", "coverage"],
@@ -261,5 +285,511 @@
       "issues": []
     }
   ],
-  "executionClaim": "Static publication and original object/body preservation only; runtimeExecution.performed remains false."
+  "executionClaim": "Static publication and original object/body preservation only; runtimeExecution.performed remains false.",
+  "acceptedContributorCards": [
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "617225dfad1f9793a16000458769863542a12995",
+      "sourceSha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "d41d4a264e176a567d886ebdb5bbc10aedcc50c0f9b966b3ac3a1968ac36d6dd",
+      "afterSha256": "cfdf21ebf410f753a00de6e233681d66e7a8bb9d21fc74f4c6bfa7049508410c",
+      "independentConclusion": "原19例和三产品源不变只界定有限历史接收，不增加净新或反控信用；旧不done中间态由d8a统一封板来源解释，原顶端done/Owner保持。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "原卡没有列出逐针身份或独立 raw 路径；错误反控统一不计有效，本次不补造启动/资源反控。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "c7bb3d562cca7499ecd6ed48eb424ce84420879d",
+      "sourceSha256": "ae535926e0b6f56d3e45dd5a9d740c66237ce0574830055b1aa8b4fc1190b002",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "a90295442c21411c7f2c34e81911264362bbfaefcd0537831f2648671e6caa55",
+      "afterSha256": "bf1f8d1ba6c8ad63f799ae7fe3b55189908de203d8a2ce5f2cfe8f4e9344421e",
+      "independentConclusion": "400例、46源byte-exact与40三态原复核分属旧回归/保护/反控范围，不等同净新或当前像素验证；done时序有统一卡来源。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "40 是旧三态证据的历史复核数。本次没有执行 mutant、像素 readback 或宿主流程，不能据此宣称当前 40 针有效。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "32998f147597f3a0f1b84aa2ad08c4c82c27a7f2",
+      "sourceSha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "372b6fc0fbd9f306bf53d953a847531593815585d322ed8487e1b64587f37f11",
+      "afterSha256": "961765555d8e1162a32be21f9140f595f21fad7c7300b95dad494b69b78a0299",
+      "independentConclusion": "717旧回归与54针对应保留；原702净新估算明确拒绝、700预算终止，不因模板化恢复配额或把hash对应当当前反控通过。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "54 针的字节/hash 对应是原卡裁决；本轮不复跑反控，不把重建 mutant hash 单独转换成现行运行信用。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "9e4a82feb8aa90335251e288e288574c1b6316f7",
+      "sourceSha256": "ffdfa79443199bcc466a0e101aa300f9ef1c20df66cae6924dd2a180f52978af",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "2266ef807e1cb66ec565b55f1d957226f551b7b68700f1d1d6413866a2c69ad4",
+      "afterSha256": "3174bfdbb1bec1caa18d58ba9fe9dac234377b57c55e43113a6de062cdbac7ab",
+      "independentConclusion": "16例与相邻50/50不相加，M01真实结算counter仅按原有限闭合保留，不扩大生命周期覆盖或当前执行；旧待done时序显式。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "原 M01 真实结算 counter 已按历史裁决闭合，不再交作者返工；不把此结算闭合扩张为所有生命周期边界或当前执行通过。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "498c76643caed9e650033072fac0df0f520e3090",
+      "sourceSha256": "279c26dba33afc2ac19ac5d03d18e656eda4d345461f0fb26574bc4cb684f224",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "2007b79128ea7788032b4ee637f69cc2126db11efdea27a95a48141744299a43",
+      "afterSha256": "55dcd10c076778c9c3fb1ba2db073f3ca9297accf03c596ac038cc6c1de53560",
+      "independentConclusion": "32回归、退出2状态机合同、6针三态/单红/恢复和清理保留各自旧维度，不累加净新、不授予当前预览/E2E通过。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "六针的指定单红/恢复与清理是历史复核结果；本次没有运行预览、反控或浏览器，不代表现行编辑器起点已验。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "a3d3343ecdf6264e12dee3360cf5638fbdf6a0a1",
+      "sourceSha256": "3afb1930ca8b431dbfa2dddc3a65db08acb5611b535235fa598a4057481d4783",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "f42674aa6cb287d64aaccc8a12adfeee2212830daf3763deeeec68d2780be8bc",
+      "afterSha256": "d8499e5387145719e3a0dd72ee40de4fd6361616deeb73019de3f117475b633c",
+      "independentConclusion": "24回归、退出8旧合同、两针/61身份与两删除API退休分别保留，不能混算或复活旧模型；当前续跑未重新执行。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "两针与 61 身份是当时源下的证据范围，不授权复活删除的 API 或旧模型；本次未重采当前续跑证据。",
+        "原正文“当前不标done”/“下一步再done”与顶部done存在时序冲突；统一封板卡给出闭合，不静默删除旧语句。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "3d36ffad1cbc8210deda1fa8afae04ad10bdfc54",
+      "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+      "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+      "independentConclusion": "A5磁盘整树ZIP/dirty提醒与次日另存为闭包按原意保留；4ZIP轴、2内存FSA测与无句柄菜单验证不替代仍缺凭据的真实FSA用户点验。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "未给日期、实现SHA、打包产物或用户点验回执。",
+        "顶部done保留FSA待用户点验，不能静默升级完成。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "485da5a3081c9c4d94e7457b20f31ee1cca78357",
+      "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+      "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+      "independentConclusion": "catalog/index/report/evidence分工及39/39旧门保留；顶部done与Closed Evidence待main/CI并存的历史缺凭据明确，不用现在17模板或E2E结果反填。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "顶部done与Closed Evidence待合入main/CI并存；本卡没有最终SHA/CI身份，本轮保留明确缺口。",
+        "39/39与877/4654是历史数字，不复用为本次全仓结果。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "41feabcb3db944de9bd03daf2f1fcbca71bfbb40",
+      "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+      "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+      "independentConclusion": "原用户截图触发的步骤卡/继续按钮修复、真实6010/10px/键盘范围、首次登记/格式失败与覆盖不变保留；原功能最小验证不关闭E2E001/002或当前视觉。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "首轮两条nowrap登记失败和一处格式问题已据原回执修正；不抹除首次失败。",
+        "原本地截图/临时日志未在本轮重取；UI历史收口不关闭E2E-001/002。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "type": "task-card",
+      "historyOverlay": true,
+      "sourceRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "23fff034a1946d5a57d66958a8d587574fb1582b",
+      "sourceSha256": "97c022d58368f151c5e1d25425e5f15d3600a6c4b7d13806d67ad042c27ca453",
+      "authorCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "authorCandidateSha256": "8a174f4c0e3e3c2d826bd87b3ca7ca208c0c23dfc126c0e841758519bcad8c56",
+      "afterSha256": "cc9e7b2e39aba470c9c426071400c6ccf584e576a32ccb7c3d07af97f462d7be",
+      "independentConclusion": "旧122工具/652文件/根白名单accept与用户接受按原时点保留；头部/一个例子的存在不构成当前652逐项runner、imports、清理或artifact归属通过。",
+      "independentChecks": [
+        "full original/candidate/receipt reading",
+        "primary unified closeout / UI receipt / partial layout header as applicable",
+        "strict inverse complete quoted source bytes",
+        "original top Status/Owner/Title preserved",
+        "actual referenced commit objects exist, no CI/execution revalidation"
+      ],
+      "rootOnlyChangeAfterCandidate": "Removed pending-candidate qualifier in governance-owner label; original task header/body and source quote unchanged.",
+      "historicalLimits": [
+        "本轮只读布局计划头部/示例，不把旧accept转换为652逐项审核。",
+        "原卡没有raw命令路径/最终commit；当前断链与附件归属须全量另核。"
+      ]
+    }
+  ],
+  "independentAcceptanceScope": "Ten source/candidate/primary/read-and-compare document migrations only. Integrated hard static gates are separate; no runtime/CI/coverage reexecution.",
+  "statusContractAmendment": {
+    "counter": "C1",
+    "originalSnapshotEntriesRetained": true,
+    "pilot": "runtime-active-scene report and evidence passed new body contracts, unchanged audit object and actual paired consumer before applying other declarations",
+    "validation": {
+      "decision": "accept",
+      "independentReviewer": "history_cards_a (not author of root domain/report/tool changes)",
+      "frozenContract": "test-domain-report 1.1.0; test-machine-evidence 1.2.0; first-metadata-paragraph for Markdown publication projection",
+      "closedCounters": [
+        "C1: publication/execution axes and vocabulary",
+        "C1b: HTML pre and lazy quote Status",
+        "C1c: indented Status and fake H1 without semantic whitespace stripping"
+      ],
+      "reviewedSourceHashes": {
+        "scripts/docs/document-model.mjs": "61498acbc4856d8cc60821ffe3cb707bb36573eeda6e429b755fbabea20ffc86",
+        "scripts/docs/document-model.test.mjs": "4a67d5505ab13f0f23532363b957e3fb9777ef9c551d41f5090ad104bd215bc3",
+        "docs/phase-governance/templates/registry.json": "62b57d3f89d17e6f94294bc06a04c11dbced6b4860eb8fafd2bd76aac505bd5a"
+      },
+      "evidence": [
+        "four actual-report rejection cases and eight report positive cases",
+        "15 document-model tests; full 63 docs-tool tests",
+        "56 body contracts, actual testing consumer, 603 content-review entries",
+        "catalog bytes unchanged; eight JSON objects unchanged except envelope version"
+      ],
+      "limits": [
+        "Author does not independently review their own ten cards",
+        "No product/runtime/browser/coverage execution",
+        "Full 1838 and incremental audit remains incomplete"
+      ]
+    },
+    "entries": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-001.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+        "afterSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "720b44911acf172e6f02779534b7e28902bef875e2b758b678252adf0f353942",
+        "afterSha256": "5770b7aca6103de457ffcab806ea23e340822cfab82f52440ea0335076415730",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration; add missing menu report publication projection.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+        "afterSha256": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+        "afterSha256": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+        "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "ac2c0d7be4ee3489c129797cc95a4796880243f7e72430e3d2961f08855a628b",
+        "afterSha256": "d5a248d2cb52d654e553b9b7c08a539f6dc9547f1474c7a1835ba6b43a5e9520",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
+        "afterSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "7001d9e5cd06de2088d18b26dd7906e5d325c8caa5d3a0405b26a228a898a35c",
+        "afterSha256": "402f4656f07d5a9fc4d2e229cae5e28da98058b8cc5c321a3453da6ade05bda5",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
+        "afterSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "44a5151642c34ee0449bdff361b91f8fc8e0740a0a03fa4b4157feba37c8739c",
+        "afterSha256": "b10c81de0418f0315d3126cd54fb3a1d8ef39f7bcb35fcffff45a112ff062921",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
+        "afterSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "78360ba902e95548d93d4ef3d41e2d5c41ef26bef0bd609272e96b5c626df2dc",
+        "afterSha256": "ecab8d3fcd8802ba8f504f44ca09729544d89e20f23d64a0e36f0b551606cb23",
+        "templateVersionBefore": "1.0.0",
+        "templateVersionAfter": "1.1.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
+        "afterSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
+        "afterSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
+        "afterSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "date": "2026-10-15",
+        "action": "C1-publication-versus-execution-status-contract-correction",
+        "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+        "sourceSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
+        "afterSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+        "templateVersionBefore": "1.1.0",
+        "templateVersionAfter": "1.2.0",
+        "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ]
+  },
+  "independentRootReportReview": {
+    "decision": "accept",
+    "reviewer": "history_cards_a",
+    "rootImplementationCommit": "d0fc80e868b52bca69bd573a151aa06bce35433f",
+    "scope": "13 root migrations plus two subsequent historical reports, with status contract C1 correction separately frozen and verified",
+    "checks": [
+      "13 source and initial after SHA matches",
+      "7 original JSON inverse object matches",
+      "43 sourceRef ranges/hashes and actual 7 paired consumers",
+      "four domain reports retain original nonempty lines except declared headings/anchors",
+      "historical README/card and later two full reports preserve complete source bytes"
+    ],
+    "notRun": ["runtime", "E2E", "visual", "coverage"]
+  },
+  "staticGateResults": {
+    "docs": {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "toolTests": 63,
+      "routes": 7,
+      "bodyContracts": 56,
+      "registeredContentReviews": 603,
+      "issues": 0
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "files": 4072,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "diff": {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    "scope": "Candidate partial migration; not whole-docs or execution acceptance"
+  }
 }

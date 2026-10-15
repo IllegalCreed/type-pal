@@ -5492,94 +5492,90 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "A5 - 工程打包导出 zip(分享/备份)：这是 task-card，当前文档状态为 done。全文 32 行、5 个标题；摘要/首段为「Status: done(FSA 真导出留用户点验:工程菜单 → 🗜 导出 zip → 得 <id>.zip)」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "independent root full original + every new candidate chapter + complete receipt; primary closure/UI receipt/layout-header read; inverse exact source bytes and field/SHA checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A5磁盘整树ZIP/dirty提醒与次日另存为闭包按原意保留；4ZIP轴、2内存FSA测与无句柄菜单验证不替代仍缺凭据的真实FSA用户点验。",
       "truthAnchors": [
-        "docs/ops/archive/tasks/done/A5-project-export-zip.md:1",
-        "1:A5 - 工程打包导出 zip(分享/备份)",
-        "9:设计",
-        "13:落地",
-        "21:验证",
-        "26:发现债 → 已修(次日)"
+        "docs/ops/archive/tasks/done/A5-project-export-zip.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118"
       ],
       "unresolved": [
-        "正文信号 11:一个 zip 即可分享/备份。读磁盘:未保存改动不入包(dirty 时 confirm 提醒先保存)。"
+        "未给日期、实现SHA、打包产物或用户点验回执。",
+        "顶部done保留FSA待用户点验，不能静默升级完成。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "文档本次内容已独立接收；原FSA/main-CI/raw/逐项工具缺口按各卡范围保留，未来需要新产品/质量验证时钉新任务证据。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-A5-project-export-zip",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收；原Owner/Reviewer不变）",
+      "provenance": [
+        "Codex contributor history-cards-a at c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+        "root independently read original/candidate/receipt and primary references",
+        "strict inverse source byte equality including final newline",
+        "actual Git object existence (not execution proof)"
+      ],
       "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
-      "afterSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+      "publicCallers": [
+        "历史工程菜单导出→core/export-zip.ts→buildZip；源短卡没有完整packages路径或源码行锚。",
+        "历史saveProjectAs→copyDirRecursive；本次未核当前调用链。"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/A5-project-export-zip.md"
+        "有FSA目录句柄的磁盘工程；未保存编辑需dirty提醒。",
+        "dev种子无句柄仅用于禁用检查；内存FSA mock是另存为单测输入。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-card-semantic-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "A5磁盘整树ZIP/dirty提醒与次日另存为闭包按原意保留；4ZIP轴、2内存FSA测与无句柄菜单验证不替代仍缺凭据的真实FSA用户点验。",
+          "ZIP中文+二进制逐字节roundtrip、CRC已知值、STORE择优、同内容同字节。",
+          "真实FSA用户解包后逐文件与磁盘原工程相同；原卡仍待点验。",
+          "Root independently checked content and original quote/header/SHA; author self-check does not substitute for this review."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/ops/archive/tasks/done/A5-project-export-zip.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/phase2/READ-FIRST.md", "docs/ops/agent-workflow.md"],
+        "notes": "4个ZIP断言轴、2个另存为内存FSA测试和菜单禁用检查属不同层；不相加为实际用户导出通过，也不新增覆盖率信用。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+        "implementationSha": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+        "originalApplicability": "原文未标content/SAVE或源码revision；不推断为当前版本。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "independent-root-semantic-acceptance-of-contributor-migration",
+            "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+            "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+            "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+            "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+            "beforeAfter": "设计/落地/验证/次日修复短卡 → 目标、范围、准入、真实/模拟验收边界及用户点验缺口；完整原文保留。",
+            "notRun": [
+              "product tests",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical CI rerun"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+        "kind": "root-independent-source-and-candidate-semantic-review",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
-        "lineCount": 32,
-        "headings": [
-          {
-            "line": 1,
-            "text": "A5 - 工程打包导出 zip(分享/备份)"
-          },
-          {
-            "line": 9,
-            "text": "设计"
-          },
-          {
-            "line": 13,
-            "text": "落地"
-          },
-          {
-            "line": 21,
-            "text": "验证"
-          },
-          {
-            "line": 26,
-            "text": "发现债 → 已修(次日)"
-          }
-        ],
-        "unresolvedSignals": [
-          "11:一个 zip 即可分享/备份。读磁盘:未保存改动不入包(dirty 时 confirm 提醒先保存)。"
-        ]
+        "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+        "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+        "lineCount": 86
       },
       "history": [
         {
@@ -5587,12 +5583,178 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "independent-root-semantic-acceptance-of-contributor-migration",
+          "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+          "authorCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+          "afterSha256": "b64ba83d8c2857287049dfc55d354401bc3b62e060ace89752f5f46aa90d2976",
+          "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+          "beforeAfter": "设计/落地/验证/次日修复短卡 → 目标、范围、准入、真实/模拟验收边界及用户点验缺口；完整原文保留。",
+          "notRun": [
+            "product tests",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical CI rerun"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-32"
+      "stopLine": "无真实目录/ZIP/逐文件对照时不得关闭FSA验收缺口；文档迁移不授权产品/资产管线改动。",
+      "userVisibleBeforeAfter": "设计/落地/验证/次日修复短卡 → 目标、范围、准入、真实/模拟验收边界及用户点验缺口；完整原文保留。",
+      "reviewedLines": "1-86",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "root independently read original, candidate prose, full receipt and cited primary records; specific semantic migration accepted",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "A5 - 工程打包导出 zip(分享/备份)：这是 task-card，当前文档状态为 done。全文 32 行、5 个标题；摘要/首段为「Status: done(FSA 真导出留用户点验:工程菜单 → 🗜 导出 zip → 得 <id>.zip)」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/A5-project-export-zip.md:1",
+              "1:A5 - 工程打包导出 zip(分享/备份)",
+              "9:设计",
+              "13:落地",
+              "21:验证",
+              "26:发现债 → 已修(次日)"
+            ],
+            "unresolved": [
+              "正文信号 11:一个 zip 即可分享/备份。读磁盘:未保存改动不入包(dirty 时 confirm 提醒先保存)。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-A5-project-export-zip",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+            "afterSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/A5-project-export-zip.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+              "sourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+              "lineCount": 32,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "A5 - 工程打包导出 zip(分享/备份)"
+                },
+                {
+                  "line": 9,
+                  "text": "设计"
+                },
+                {
+                  "line": 13,
+                  "text": "落地"
+                },
+                {
+                  "line": 21,
+                  "text": "验证"
+                },
+                {
+                  "line": 26,
+                  "text": "发现债 → 已修(次日)"
+                }
+              ],
+              "unresolvedSignals": [
+                "11:一个 zip 即可分享/备份。读磁盘:未保存改动不入包(dirty 时 confirm 提醒先保存)。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-32"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/A5-project-export-zip.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "documentStatus": "done(FSA 真导出留用户点验:工程菜单 → 🗜 导出 zip → 得 <id>.zip) (historical task; no new product acceptance)",
+      "originalOwner": "Opus(作者之旅收尾环:游戏做好了得能打包分享)",
+      "originalCodingOwner": null,
+      "phaseAnchors": [
+        "phase2作者编辑器；第一阶段原版不提供该分发UI真值；资产约定仍按二阶段规则。"
+      ],
+      "dependencies": ["docs/phase2/READ-FIRST.md", "docs/ops/agent-workflow.md"],
+      "applicability": "原文未标content/SAVE或源码revision；不推断为当前版本。",
+      "publicEntry": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated static gate recorded separately",
+        "historicalLimits": [
+          "未给日期、实现SHA、打包产物或用户点验回执。",
+          "顶部done保留FSA待用户点验，不能静默升级完成。"
+        ],
+        "notClosed": ["current runtime/E2E/visual/coverage", "full-docs governance"]
+      },
+      "reviewedSourceSha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48",
+      "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "3d36ffad1cbc8210deda1fa8afae04ad10bdfc54",
+      "reviewedCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "reviewedCandidateSha256": "75167628012bc7519123b01be79e5599ec07a508b491cb103c88c137c7422258",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "strict byte-equal inverse including final newline",
+        "machineChecks": "actual task and archive body contracts; final integrated gates separately recorded"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",

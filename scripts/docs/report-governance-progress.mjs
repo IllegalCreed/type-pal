@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { checkTemplateBody } from './document-model.mjs'
+import { checkDocumentModel, checkTemplateBody } from './document-model.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const read = (path) => readFileSync(resolve(root, path), 'utf8')
@@ -25,7 +25,11 @@ const registry = json('docs/phase-governance/document-registry.json')
 const templateRegistry = json('docs/phase-governance/templates/registry.json')
 const templates = new Map(templateRegistry.types.map((entry) => [entry.templateId, entry]))
 const records = new Map()
-const issues = []
+const issues = checkDocumentModel(
+  json('docs/phase-governance/routing.json'),
+  templateRegistry,
+  read,
+)
 const completed = []
 if (
   registry.entries.some((entry) => entry.historyOverlay) &&

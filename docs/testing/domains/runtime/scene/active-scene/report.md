@@ -13,7 +13,7 @@ evidence: domains/runtime/scene/active-scene/evidence.json
 Owner: Codex
 Status: current（source/publication；未新增动态验收）
 Last reviewed: 2026-10-15
-Template: test-domain-report-v1 / 1.0.0
+Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 

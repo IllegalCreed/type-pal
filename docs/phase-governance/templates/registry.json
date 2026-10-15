@@ -302,7 +302,7 @@
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
       "template": "../../testing/_templates/test-domain-report.md",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "requiredSections": [
         "Domain scope",
         "Claim matrix",
@@ -311,7 +311,16 @@
         "Quality gate"
       ],
       "purpose": "域内 claim/evidence 与缺口",
-      "statuses": ["draft", "active", "verified", "rework", "superseded", "historical"],
+      "statuses": [
+        "draft",
+        "active",
+        "verified",
+        "rework",
+        "superseded",
+        "archived",
+        "proposal",
+        "current"
+      ],
       "evidenceFields": [
         "owner",
         "provenance",
@@ -324,7 +333,12 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "statusPolicy": {
+        "axis": "catalog-publication",
+        "catalog": "docs/testing/catalog.json",
+        "placement": "first-metadata-paragraph-after-root-title"
+      }
     },
     {
       "docType": "test-e2e-stage",
@@ -380,7 +394,7 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "../../testing/_templates/test-machine-evidence.json",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "requiredSections": [
         "Machine envelope",
         "Execution identity",
@@ -460,8 +474,25 @@
             "schemaVersion": 2,
             "kind": "document-audit",
             "runtimeExecution.performed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
           }
         }
+      },
+      "statusPolicy": {
+        "axis": "execution"
       }
     },
     {

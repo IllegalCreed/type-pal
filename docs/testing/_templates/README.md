@@ -35,6 +35,8 @@ Template: governance-index-v1 / 1.0.0
 原三份 starter 仍可查阅：[E2E 阶段页](e2e-stage-README.md)、[E2E 正式报告](e2e-report.md)、
 [机器证据](evidence.json)。它们是模板示例；正式采用须满足上述统一 registry 对应合同，不重复计为三种新类型。
 
+域报告与 document-audit 的状态是 catalog 发布状态的投影，必须按唯一 id 配对；默认 execution 回执使用独立执行状态合同。具体版本和词表取统一注册表，发布 current/verified 不能授予本次执行信用。
+
 ## 证据与下一步
 
 以[注册表](../../phase-governance/templates/registry.json)和[冻结设计](../../phase-governance/templates/registry-proposal-20261011.md)

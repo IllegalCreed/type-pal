@@ -12,7 +12,7 @@ Branch: codex/docs-full-template-proposal
 
 ## 范围
 - 范围内：docs 物理树分类；Markdown/JSON/HTML 的逐篇语义审查；testing 专用类型；artifact/evidence 归属；registry、cross-phase matrix、review records；模板 pilot 后的分批迁移。
-- 范围外：产品源码、旧测试、coverage、运行时/E2E/视觉结论；本轮不批量改写正文。
+- 范围外：产品源码、旧测试、coverage、运行时/E2E/视觉结论；正文仅在用户批准合同及对应真实pilot后分批迁移。
 - 明确不做：不删除历史，不将历史结论升格当前事实，不用路径启发式替代全文阅读，不覆盖主工作树四项改动。
 
 ## 前提真值门
@@ -197,3 +197,13 @@ Branch: codex/docs-full-template-proposal
 - 贡献者疑似finite README断链经根线程实际路径解析反证为有效，未错误改链接；该短入口现已治理成具体archive记录。统一有限收口卡保存19204/18795、原用户裁决/输入/退休/CI范围，不重开旧清理。
 - 当前累计40/1838基线+4增量；60项工具测试、44篇正文合同、全部check:docs与lint4071文件零error/warning/info通过。首次统一卡误用“验收条件”标题被结构门拒绝，改为冻结合同“验收”后复跑通过；未降规则。
 - 历史卡包A已由贡献者提交c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc，尚待本线程完成独立接收/中央账写回，不提前计数。主树未写入，未合main；持续目标active，任务build。
+
+
+### 2026-10-15 历史卡独立接收、状态合同返工与两份报告
+
+- 根线程全文核原10卡、作者候选及回执，逐卡核具体结论、Status/Owner、原文严格逆回读和source/候选/接收后SHA；独立接收历史卡包A。c86b92d原作者pending回执留作历史，接收后中性治理Owner及中央账另记；不把贡献者自验当独立验收。
+- history_cards_a独立审根线程d0fc80e的13篇迁移：语义/原字段/原文保真accept，但提出C1状态合同counter。先追加设计，再冻结domain-report1.1.0与machine-evidence1.2.0：catalog-publication与execution分轴，catalog按唯一id决定发布投影，默认execution拒绝current。16篇仅同步已读合同/版本，menu补缺失publication Status，不计新增迁移。
+- C1b真实HTML pre/lazy quote与C1c四空格Status/假H1反例依次暴露解析边界，均保留返工记录。现只读H1后首个独立元数据段并保留语义缩进，四反例拒绝、八篇正例/真实消费者通过；独立Reviewer对冻结范围C1/C1b/C1c签accept，工具/测试/registry精确SHA在本批回执，未改原catalog状态/JSON字段/performed=false。
+- 根线程新增脚本卡UI历史回执与finite-intake审计两篇迁移，分别按evidence-receipt/audit-report加历史overlay。原文逐字节逆回读、具体typed章节和历史边界由非作者独立accept；09-28UI、10-03筛选/计数/撤销反控与后继统一封板不可混为当前动态通过。矩阵现16条已登记关系，仍非全量穷尽。
+- 累计52/1838基线+4增量、当前1888候选待迁移；603条旧+新ledger不等于603篇迁移，仍有547条governed-legacy。63项文档工具测试、7路由/56正文、check:docs全项、lint4072文件零error/warning/info、diff检查通过。首轮两个本批JSON格式诊断已修正复跑，未降规则。
+- main工作树未写入；候选保留build，持续目标active，未合main/推main。没有产品源码、旧测试、coverage改动或新runtime/E2E/视觉结论。最终全量独立复核仍待；下一步继续逐篇处理剩余候选及artifact归属，不能由局部门绿提前done。

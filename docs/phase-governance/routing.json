@@ -223,6 +223,66 @@
       "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

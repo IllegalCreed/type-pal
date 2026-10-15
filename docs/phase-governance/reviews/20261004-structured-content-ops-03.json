@@ -2967,88 +2967,94 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮：这是 task-card，当前文档状态为 done。全文 32 行、3 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "independent root full original + every new candidate chapter + complete receipt; primary closure/UI receipt/layout-header read; inverse exact source bytes and field/SHA checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "原用户截图触发的步骤卡/继续按钮修复、真实6010/10px/键盘范围、首次登记/格式失败与覆盖不变保留；原功能最小验证不关闭E2E001/002或当前视觉。",
       "truthAnchors": [
-        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md:1",
-        "1:EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮",
-        "8:验收与收口（2026-09-28）",
-        "18:准入与范围"
+        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md:1-47 @ 85a419afa17793e13b9700b7064bd8d818d57118"
       ],
       "unresolved": [
-        "正文信号 16:本卡不关闭E2E-001/002待办；无下一位Agent提示词，不需其它席位。",
-        "正文信号 24:DsButton会把children包在单个span中；步骤卡的grid因此未作用于内容行，primary:hover又覆盖卡片背景。"
+        "首轮两条nowrap登记失败和一处格式问题已据原回执修正；不抹除首次失败。",
+        "原本地截图/临时日志未在本轮重取；UI历史收口不关闭E2E-001/002。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "文档本次内容已独立接收；原FSA/main-CI/raw/逐项工具缺口按各卡范围保留，未来需要新产品/质量验证时钉新任务证据。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-EDITOR-SCRIPT-CARD-UI-1-step-selection",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收；原Owner/Reviewer不变）",
+      "provenance": [
+        "Codex contributor history-cards-a at c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+        "root independently read original/candidate/receipt and primary references",
+        "strict inverse source byte equality including final newline",
+        "actual Git object existence (not execution proof)"
+      ],
       "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
-      "afterSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+      "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md → ../../../../testing/archive/legacy/editor/editor-workflows/script-card-ui.md"
+        "历史CanonicalScriptFlowEditor与PreviewCanvas普通确认按钮；DsButton/DsPressable选择面。",
+        "组件原选择、详情、继续回调应保持，当前源码未重新核验。"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md"
+        "原用户截图、当时正式6010 s001页面、步骤1选中hover/步骤2未选中和Tab/Enter往返。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-card-semantic-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "原用户截图触发的步骤卡/继续按钮修复、真实6010/10px/键盘范围、首次登记/格式失败与覆盖不变保留；原功能最小验证不关闭E2E001/002或当前视觉。",
+          "整卡背景连续、10px圆角、标题/数量分组、明确继续动作；选择/详情/继续回调不漂移。",
+          "旧两文件27/27和10,176/9,715为历史执行，不作为本次通过。",
+          "Root independently checked content and original quote/header/SHA; author self-check does not substitute for this review."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+          "docs/phase2/READ-FIRST.md",
+          "docs/ops/agent-workflow.md"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "功能性最小UI验证与剧情E2E分开；不新增平行报告、不重复原截图流程，不宣称覆盖率增长。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+        "implementationSha": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+        "originalApplicability": "2026-09-28基点1529f97e；旧源码行锚仅历史身份，不当当前组件定位。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "independent-root-semantic-acceptance-of-contributor-migration",
+            "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+            "authorCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+            "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+            "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+            "beforeAfter": "验收在前、范围在后的短卡 → 用户问题、调用链根因、保护范围、历史验收与E2E排除边界重排；完整原文保留。",
+            "notRun": [
+              "product tests",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical CI rerun"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+        "kind": "root-independent-source-and-candidate-semantic-review",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
-        "lineCount": 32,
-        "headings": [
-          {
-            "line": 1,
-            "text": "EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮"
-          },
-          {
-            "line": 8,
-            "text": "验收与收口（2026-09-28）"
-          },
-          {
-            "line": 18,
-            "text": "准入与范围"
-          }
-        ],
-        "unresolvedSignals": [
-          "16:本卡不关闭E2E-001/002待办；无下一位Agent提示词，不需其它席位。",
-          "24:DsButton会把children包在单个span中；步骤卡的grid因此未作用于内容行，primary:hover又覆盖卡片背景。"
-        ]
+        "authorCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+        "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+        "lineCount": 85
       },
       "history": [
         {
@@ -3056,12 +3062,175 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "independent-root-semantic-acceptance-of-contributor-migration",
+          "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+          "authorCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+          "afterSha256": "78c6b968e13e2ec8dbfe1f6922848787cd1334730e4eef6d5b81e3b6e525d85e",
+          "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+          "beforeAfter": "验收在前、范围在后的短卡 → 用户问题、调用链根因、保护范围、历史验收与E2E排除边界重排；完整原文保留。",
+          "notRun": [
+            "product tests",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical CI rerun"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-32"
+      "stopLine": "不能从旧视觉/全绿报告推当前页面或剧情验收；用户形态变化、选择回调漂移或E2E扩范围另开任务。",
+      "userVisibleBeforeAfter": "验收在前、范围在后的短卡 → 用户问题、调用链根因、保护范围、历史验收与E2E排除边界重排；完整原文保留。",
+      "reviewedLines": "1-85",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "root independently read original, candidate prose, full receipt and cited primary records; specific semantic migration accepted",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮：这是 task-card，当前文档状态为 done。全文 32 行、3 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md:1",
+              "1:EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮",
+              "8:验收与收口（2026-09-28）",
+              "18:准入与范围"
+            ],
+            "unresolved": [
+              "正文信号 16:本卡不关闭E2E-001/002待办；无下一位Agent提示词，不需其它席位。",
+              "正文信号 24:DsButton会把children包在单个span中；步骤卡的grid因此未作用于内容行，primary:hover又覆盖卡片背景。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-EDITOR-SCRIPT-CARD-UI-1-step-selection",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+            "afterSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+            "publicCallers": [
+              "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md → ../../../../testing/archive/legacy/editor/editor-workflows/script-card-ui.md"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+              "sourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+              "lineCount": 32,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "EDITOR-SCRIPT-CARD-UI-1 — 脚本步骤卡与继续按钮"
+                },
+                {
+                  "line": 8,
+                  "text": "验收与收口（2026-09-28）"
+                },
+                {
+                  "line": 18,
+                  "text": "准入与范围"
+                }
+              ],
+              "unresolvedSignals": [
+                "16:本卡不关闭E2E-001/002待办；无下一位Agent提示词，不需其它席位。",
+                "24:DsButton会把children包在单个span中；步骤卡的grid因此未作用于内容行，primary:hover又覆盖卡片背景。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-32"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md:1-31 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md:1-47 @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "documentStatus": "done (historical task; no new product acceptance)",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["phase2作者UI；第一阶段/原版N/A，依据截图与组件caller，不改游戏行为。"],
+      "dependencies": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-09-28基点1529f97e；旧源码行锚仅历史身份，不当当前组件定位。",
+      "publicEntry": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated static gate recorded separately",
+        "historicalLimits": [
+          "首轮两条nowrap登记失败和一处格式问题已据原回执修正；不抹除首次失败。",
+          "原本地截图/临时日志未在本轮重取；UI历史收口不关闭E2E-001/002。"
+        ],
+        "notClosed": ["current runtime/E2E/visual/coverage", "full-docs governance"]
+      },
+      "reviewedSourceSha256": "99488014ba8de90cb3066d18c9e895274ec073d02c7318749b729da3a30b5a23",
+      "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "41feabcb3db944de9bd03daf2f1fcbca71bfbb40",
+      "reviewedCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "reviewedCandidateSha256": "353f280e60a1ac9428e9cc98c3d9091b423bcb954a3433cf25dbabbf93024be7",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "strict byte-equal inverse including final newline",
+        "machineChecks": "actual task and archive body contracts; final integrated gates separately recorded"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md",

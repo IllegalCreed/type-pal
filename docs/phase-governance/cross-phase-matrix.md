@@ -36,6 +36,9 @@ Template: governance-index-v1 / 1.0.0
 | Testing source出版 ↔ 测试质量准入 | readiness fixture强转仅记录已见来源，质量判断待独立审计 | guarded | 不把source-backed/旧全绿/模板通过当测试质量accept |
 | 正文锚点 ↔ 当前sourceRefs | 6处已读源码后校正行号，原映射/Git blob留存 | resolved | 只关闭这些导航漂移，不推断全库锚点或运行通过 |
 
+| Testing发布状态 ↔ execution状态 | catalog唯一id决定发布投影，执行回执有独立词表 | resolved | current/verified发布不授予本次实跑信用；伪Status不放行 |
+| 历史UI/质量报告 ↔ 当前验收 | 09-28UI与10-03审计保留各次候选/计数/首次失败 | guarded | 机器筛选不自动删测试，旧截图/绿数不证明当前动态通过 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步

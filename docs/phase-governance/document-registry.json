@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 601,
+    "total": 603,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,13 +14,13 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 22
+      "testing": 24
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 17,
-      "audit-report": 57,
-      "evidence-receipt": 38,
+      "audit-report": 58,
+      "evidence-receipt": 39,
       "governance-index": 24,
       "task-card": 306,
       "quality-gate": 1,
@@ -36,11 +36,11 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 601
+      "content-reviewed": 603
     },
     "templateCompliance": {
-      "template-compliant": 44,
-      "governed-legacy": 557
+      "template-compliant": 56,
+      "governed-legacy": 547
     }
   },
   "entries": [
@@ -494,10 +494,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
@@ -1110,10 +1112,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-02.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md",
@@ -1981,10 +1985,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-03.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-PREVIEW-1-readable-commands-and-routes.md",
@@ -2795,10 +2801,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md",
@@ -2850,10 +2858,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md",
@@ -3270,10 +3280,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md",
@@ -3303,10 +3315,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
@@ -3314,10 +3328,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md",
@@ -3336,10 +3352,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md",
@@ -3457,10 +3475,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/W4-1-named-scene-entry-closure.md",
@@ -6448,7 +6468,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6474,7 +6494,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
@@ -6537,7 +6557,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6549,7 +6569,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6561,7 +6581,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6573,7 +6593,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6585,7 +6605,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6598,7 +6618,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6610,7 +6630,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6623,7 +6643,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6635,7 +6655,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6648,7 +6668,7 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6660,7 +6680,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6673,7 +6693,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6686,7 +6706,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6699,7 +6719,7 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
@@ -6718,6 +6738,32 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "historyOverlay": true
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

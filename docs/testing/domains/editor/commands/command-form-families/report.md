@@ -13,7 +13,7 @@ evidence: domains/editor/commands/command-form-families/evidence.json
 Owner: Codex
 Status: current（source/publication scope；无新运行验收）
 Last reviewed: 2026-10-15
-Template: test-domain-report-v1 / 1.0.0
+Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 

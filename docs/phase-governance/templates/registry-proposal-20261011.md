@@ -55,3 +55,17 @@
 只允许本次已核的一手分类勘误：`editor-command-form-families.engines` 与 `editor-map-workspace-sessions.engines` 从 reforge 改 editor；`phase1-dependency-ownership.phase/engines` 从 phase2/reforge 改 phase1/game。依据是对应完整报告及 `CommandForm.tsx:82-93`、`MapMode.tsx:403-420`、`dependency-ownership.test.ts:1-45` 实际 caller；旧值在 envelope history 明列。其余业务字段逐项 deep-equal 原对象，candidate/versions/history/status/lastVerified/reviewBy 不变。不得延长临近过期日期来过门。
 
 Pilot 反证：顶层字段被搬移、任何未登记业务字段变化、错版本、伪称 runtime performed、原消费者失败或 derived index 漂移，均 rework。验证需逆向恢复三项分类改动并去 envelope 后 deep-equal 原 JSON，再跑实际 catalog/paired/index consumer；结构 PASS 不等于 18 份报告已迁移或当前 E2E 通过。模板数仍为 17。
+
+## 2026-10-15 C1：发布状态与执行状态分轴冻结
+
+独立审查发现：域报告的 `Status: current` 与原 document-audit JSON 的 `status=current` 是 catalog 发布状态，但旧模板词表缺少 current，结构门也未验证状态。这是模板合同 counter，不能通过把原状态改成 active/verified 消除；先前结构通过不授予受影响文档完整模板符合性。
+
+冻结 test-domain-report 1.1.0：正文必须有唯一、非示例的 `Status`，状态轴为 catalog-publication；按 testing front matter 的 id 与唯一 catalog entry 配对。允许词表与现行 testing consumer 一致：draft、active、verified、rework、superseded、archived、proposal、current。报告的状态是 catalog 的投影，不创建第二个状态事实源。
+
+冻结 test-machine-evidence 1.2.0：默认 execution 合同保留原执行状态词表 draft/recorded/verified/rework/superseded/historical，不增加 current。document-audit-v2 单独声明 catalog-publication 轴及上述八个发布状态，以原顶层 id/status 与 catalog 配对；schema=2、kind=document-audit、runtimeExecution.performed=false 的限制不变。current/verified 发布字样均不能证明本次执行。
+
+独立反例 C1b 进一步要求 Markdown 的 Status 位于真实 H1 后首个独立元数据段；该段仅包含 Status、Owner、Last reviewed、Template，不能从 HTML pre、lazy blockquote 或其他正文位置扫描状态。HTML 代码和引用的实际 GFM 渲染已证明旧行扫描会误收；两例纳入整份 document model 反控。该格式约束先核现有八篇均可表达，再冻结，机器顶层 status 不受 Markdown 容器规则影响。
+
+反例 C1c 保留首个非空行的缩进：只跳过空白行，不用 trimStart 把四空格代码 Status 或代码 H1 变成正文。两种缩进伪元数据同样由真实报告反控拒绝；已剥离注释/围栏的空白占位可跳过，真实内容的缩进不可被规范化掉。
+
+先在 runtime-active-scene report/evidence 做版本 pilot：原字段、catalog、testing-meta、candidate、版本和执行状态不变；逆向移除 envelope 后保真，跑实际配对 consumer。补拒绝反例：execution 使用 current、未知发布状态、注释/代码中的伪 Status、正文或 JSON 与 catalog 状态漂移。通过后只更新已完整核读的另外十四篇版本声明与 review/SHA，不把合同修订算作十六篇新增迁移。尚未核读文档不自动套用此合同。

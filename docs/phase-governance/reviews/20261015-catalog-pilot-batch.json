@@ -187,7 +187,7 @@
       "reviewedSourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "200a235627d59db7cd0d5a917fd59085db614772",
-      "afterSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
+      "afterSha256": "4ab1fbb1d0a843f7c83879e77f6e39bc76f49c754109a086532288a398988c54",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -243,6 +243,13 @@
           "sourceSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2",
           "afterSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
           "previousAfterSha256": null
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-route-readers-to-separate-publication-and-execution-contracts",
+          "sourceSha256": "6522dd8d54567463d8db1a3cabddf3618d5f9944a883431d7b0ed2625a2b0f64",
+          "afterSha256": "4ab1fbb1d0a843f7c83879e77f6e39bc76f49c754109a086532288a398988c54",
+          "beforeAfter": "Add status-axis navigation to frozen registry and C1 design; no parallel vocabulary, no publication/execution status changes."
         }
       ],
       "supersedes": [],
@@ -260,7 +267,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
@@ -310,7 +317,7 @@
       "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "10ea6da860f3c6e7cf44b6420acadb2fda1fe676",
-      "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+      "afterSha256": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
       "publicCallers": [
         "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
         "CommandForm → dialogue/actor/world/control typed subforms",
@@ -341,7 +348,7 @@
       },
       "revision": {
         "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
-        "implementationSha": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+        "implementationSha": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -367,7 +374,7 @@
         "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
         "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
-        "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+        "afterSha256": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
         "lineCount": 81
       },
       "history": [
@@ -376,6 +383,17 @@
           "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
           "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
           "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-publication-versus-execution-status-contract-correction",
+          "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+          "sourceSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+          "afterSha256": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
+          "templateVersionBefore": "1.0.0",
+          "templateVersionAfter": "1.1.0",
+          "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -386,6 +404,15 @@
         "result": "template-compliant",
         "templateVersion": "1.0.0",
         "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+      },
+      "statusContractReview": {
+        "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+        "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+        "runtimeCredit": false,
+        "containerCounters": [
+          "C1b: HTML pre and lazy quote rejected",
+          "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+        ]
       }
     },
     {
@@ -393,7 +420,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
@@ -444,7 +471,7 @@
       "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "8dc02e7799a680f6fef6180792614249782c6b19",
-      "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+      "afterSha256": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
       "publicCallers": [
         "MapMode → pointer gesture session",
         "MapMode → transform/view/stamp sessions → reducered command dispatch",
@@ -475,7 +502,7 @@
       },
       "revision": {
         "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
-        "implementationSha": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+        "implementationSha": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -501,7 +528,7 @@
         "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
         "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
-        "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+        "afterSha256": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
         "lineCount": 82
       },
       "history": [
@@ -510,6 +537,17 @@
           "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
           "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
           "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-publication-versus-execution-status-contract-correction",
+          "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+          "sourceSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+          "afterSha256": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
+          "templateVersionBefore": "1.0.0",
+          "templateVersionAfter": "1.1.0",
+          "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -520,6 +558,15 @@
         "result": "template-compliant",
         "templateVersion": "1.0.0",
         "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+      },
+      "statusContractReview": {
+        "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+        "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+        "runtimeCredit": false,
+        "containerCounters": [
+          "C1b: HTML pre and lazy quote rejected",
+          "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+        ]
       }
     },
     {
@@ -527,7 +574,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "template": "docs/testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
@@ -581,7 +628,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+      "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -612,7 +659,7 @@
       },
       "revision": {
         "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
-        "implementationSha": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+        "implementationSha": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "contentVersion": 22,
@@ -638,7 +685,7 @@
         "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
         "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-        "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+        "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
         "lineCount": 85
       },
       "history": [
@@ -647,6 +694,17 @@
           "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
           "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
           "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-publication-versus-execution-status-contract-correction",
+          "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+          "sourceSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+          "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+          "templateVersionBefore": "1.0.0",
+          "templateVersionAfter": "1.1.0",
+          "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -657,6 +715,15 @@
         "result": "template-compliant",
         "templateVersion": "1.0.0",
         "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+      },
+      "statusContractReview": {
+        "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+        "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+        "runtimeCredit": false,
+        "containerCounters": [
+          "C1b: HTML pre and lazy quote rejected",
+          "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+        ]
       }
     }
   ]

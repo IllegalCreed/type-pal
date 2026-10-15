@@ -10,9 +10,10 @@ evidence: domains/runtime/menu/menu-session/evidence.json
 
 # Reforge 菜单与物品会话所有权
 
+Status: current（source/publication；未新增动态验收）
 Last reviewed: 2026-10-15
 Owner: Codex
-Template: test-domain-report-v1 / 1.0.0
+Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 

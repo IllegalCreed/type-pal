@@ -284,6 +284,45 @@
         "packages/reforge/src/world-motion-runtime.ts:167-193"
       ],
       "stopLine": "This resolves registered navigation corrections only; it neither refreshes historical execution nor proves all other docs source references are current."
+    },
+    {
+      "id": "testing-publication-status-vs-execution-status",
+      "from": [
+        "docs/testing/catalog.json",
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json"
+      ],
+      "to": ["docs/phase-governance/templates/registry.json", "scripts/docs/document-model.mjs"],
+      "relationship": "Domain report and document-audit status project the unique catalog publication entry. Default execution evidence keeps a separate lifecycle; current/verified publication does not mean this task executed runtime.",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+        "scripts/docs/document-model.test.mjs:1"
+      ],
+      "stopLine": "Reject execution current, publication/catalog mismatch and status hidden in code or quote; no new dynamic credit from publication status."
+    },
+    {
+      "id": "archived-ui-and-quality-reports-vs-current-acceptance",
+      "from": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "The 09-28 functional UI receipt and 10-03 finite audit retain dated counters, first failures, source and successor scopes. Machine screening is not deletion evidence; historical checkpoint totals differ from final unified closure and current docs progress.",
+      "status": "guarded",
+      "evidence": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md:1",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1"
+      ],
+      "unresolved": [
+        "Ignored historical screenshot and temporary logs were not restored or rerun.",
+        "Current runtime, counter validity and coverage are not reaccepted by the documentation migration."
+      ],
+      "stopLine": "No current visual/quality/coverage approval or automatic test deletion from archived numbers and static migration."
     }
   ],
   "acceptance": {

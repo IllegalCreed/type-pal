@@ -9,7 +9,7 @@ Capability: test-coverage / finite-closeout
 Visual Verification Timing: N/A（本次只接入测试，不改变产品或重走剧情）
 Branch: `codex/kimi-current-continuation-medium-r1`
 Last reviewed: 2026-10-15
-Governance Owner: Codex（历史卡包 A 候选；待独立验收）
+Governance Owner: Codex（历史卡包 A 文档治理）
 Template: task-card-v1 / 1.0.0
 
 ## 目标

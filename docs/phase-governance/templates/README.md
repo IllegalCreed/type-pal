@@ -41,6 +41,8 @@ Template: governance-index-v1 / 1.0.0
 
 Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、evidenceFields 和 historyRule 是结构合同。JSON 另由 requiredFields 定义机器字段；不能用 Markdown 章节检查替代 schema/consumer 验证。
 
+状态轴由 statusPolicy 指明：域报告与 document-audit 按唯一 catalog id 校验发布状态，默认机器 execution 回执按执行状态校验。两轴不互换，版本修订和 pilot 见设计提案的 C1 补充。
+
 ## 证据与下一步
 
 - [已批准的设计提案](registry-proposal-20261011.md)保留 2026-10-11 的范围与大纲，适配流程见[项目文档模型](../../ops/guides/documentation-model.md)。

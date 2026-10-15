@@ -2769,91 +2769,94 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理：这是 task-card，当前文档状态为 done。全文 35 行、4 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "template-compliant",
+      "readMethod": "independent root full original + every new candidate chapter + complete receipt; primary closure/UI receipt/layout-header read; inverse exact source bytes and field/SHA checks",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "catalog/index/report/evidence分工及39/39旧门保留；顶部done与Closed Evidence待main/CI并存的历史缺凭据明确，不用现在17模板或E2E结果反填。",
       "truthAnchors": [
-        "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md:1",
-        "1:DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理",
-        "10:用户目标",
-        "15:本次交付",
-        "27:验证"
+        "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/governance.md @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/phase-governance/templates/README.md @ 85a419afa17793e13b9700b7064bd8d818d57118"
       ],
       "unresolved": [
-        "正文信号 4:Closed Evidence: `codex/docs-testing-architecture-r1`（待合入 main 后由 CI 复核）",
-        "正文信号 22:- `legacy-flat.json` 登记当前历史平面文件并设置迁移复核日期；新建未登记的 `docs/testing/` 根文件会被门禁拒绝。"
+        "顶部done与Closed Evidence待合入main/CI并存；本卡没有最终SHA/CI身份，本轮保留明确缺口。",
+        "39/39与877/4654是历史数字，不复用为本次全仓结果。"
       ],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "nextStep": "文档本次内容已独立接收；原FSA/main-CI/raw/逐项工具缺口按各卡范围保留，未来需要新产品/质量验证时钉新任务证据。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-archive-tasks-done-DOC-TESTING-ARCH-1-testing-document-system",
-      "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "owner": "Codex root（文档独立接收；原Owner/Reviewer不变）",
+      "provenance": [
+        "Codex contributor history-cards-a at c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+        "root independently read original/candidate/receipt and primary references",
+        "strict inverse source byte equality including final newline",
+        "actual Git object existence (not execution proof)"
+      ],
       "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
-      "afterSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+      "publicCallers": [
+        "node scripts/docs/check-testing.mjs；node scripts/docs/check.mjs；生成索引器，原卡未列生成命令。"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md"
+        "当时catalog、testing-meta、阶段页、legacy-flat、relocation plan与Markdown链接。"
       ],
       "businessOracle": {
-        "type": "content-review",
+        "type": "independent-historical-card-semantic-review",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "catalog/index/report/evidence分工及39/39旧门保留；顶部done与Closed Evidence待main/CI并存的历史缺凭据明确，不用现在17模板或E2E结果反填。",
+          "catalog/路径/依赖/reviewBy/元数据/生成索引一致，旧路径引用更新且源SHA可回读。",
+          "报告模板存在不推导测试状态verified。",
+          "Root independently checked content and original quote/header/SHA; author self-check does not substitute for this review."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "reviewed-no-new-test-credit",
         "against": [
-          "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
-          "docs/phase-governance/templates/task-card.md"
+          "docs/testing/governance.md",
+          "docs/testing/catalog.json",
+          "docs/phase-governance/templates/registry.json"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "catalog唯一事实源；indexes投影、001–006各自固定report，不新建平行r1/r2报告或手工索引真相。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
+        "implementationSha": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+        "originalApplicability": "原卡未标执行日期、版本或candidateSHA；仅有候选分支，适用当时文档架构任务。",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "independent-root-semantic-acceptance-of-contributor-migration",
+            "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+            "authorCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+            "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+            "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+            "beforeAfter": "用户目标/交付/历史命令短卡 → 分层职责、事实权、准入反例和main/CI证据缺口；全部原文保留。",
+            "notRun": [
+              "product tests",
+              "runtime",
+              "E2E",
+              "browser/visual",
+              "coverage",
+              "historical CI rerun"
+            ]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+        "kind": "root-independent-source-and-candidate-semantic-review",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
         "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
-        "lineCount": 35,
-        "headings": [
-          {
-            "line": 1,
-            "text": "DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理"
-          },
-          {
-            "line": 10,
-            "text": "用户目标"
-          },
-          {
-            "line": 15,
-            "text": "本次交付"
-          },
-          {
-            "line": 27,
-            "text": "验证"
-          }
-        ],
-        "unresolvedSignals": [
-          "4:Closed Evidence: `codex/docs-testing-architecture-r1`（待合入 main 后由 CI 复核）",
-          "22:- `legacy-flat.json` 登记当前历史平面文件并设置迁移复核日期；新建未登记的 `docs/testing/` 根文件会被门禁拒绝。"
-        ]
+        "authorCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+        "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+        "lineCount": 88
       },
       "history": [
         {
@@ -2861,12 +2864,179 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "independent-root-semantic-acceptance-of-contributor-migration",
+          "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+          "authorCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+          "afterSha256": "0dc509070ade9ff5336eafc4e8e32701c65e60fd158fe8ce49596af6439ea24c",
+          "candidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+          "beforeAfter": "用户目标/交付/历史命令短卡 → 分层职责、事实权、准入反例和main/CI证据缺口；全部原文保留。",
+          "notRun": [
+            "product tests",
+            "runtime",
+            "E2E",
+            "browser/visual",
+            "coverage",
+            "historical CI rerun"
+          ]
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-35"
+      "stopLine": "缺main/CI凭据不得补造封板证明；不能用历史文档门宣称全量迁移、runtime或E2E完成。",
+      "userVisibleBeforeAfter": "用户目标/交付/历史命令短卡 → 分层职责、事实权、准入反例和main/CI证据缺口；全部原文保留。",
+      "reviewedLines": "1-88",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "root independently read original, candidate prose, full receipt and cited primary records; specific semantic migration accepted",
+          "record": {
+            "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "task-card",
+            "templateId": "task-card-v1",
+            "template": "docs/phase-governance/templates/task-card.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理：这是 task-card，当前文档状态为 done。全文 35 行、4 个标题；摘要/首段为「Status: done」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": [
+              "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md:1",
+              "1:DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理",
+              "10:用户目标",
+              "15:本次交付",
+              "27:验证"
+            ],
+            "unresolved": [
+              "正文信号 4:Closed Evidence: `codex/docs-testing-architecture-r1`（待合入 main 后由 CI 复核）",
+              "正文信号 22:- `legacy-flat.json` 登记当前历史平面文件并设置迁移复核日期；新建未登记的 `docs/testing/` 根文件会被门禁拒绝。"
+            ],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-tasks-done-DOC-TESTING-ARCH-1-testing-document-system",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+            "afterSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+            "publicCallers": ["docs navigation / repository reference"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md"
+            ],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+                "docs/phase-governance/templates/task-card.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+              "sourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+              "lineCount": 35,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "DOC-TESTING-ARCH-1 — 测试文档分级索引与生命周期治理"
+                },
+                {
+                  "line": 10,
+                  "text": "用户目标"
+                },
+                {
+                  "line": 15,
+                  "text": "本次交付"
+                },
+                {
+                  "line": 27,
+                  "text": "验证"
+                }
+              ],
+              "unresolvedSignals": [
+                "4:Closed Evidence: `codex/docs-testing-architecture-r1`（待合入 main 后由 CI 复核）",
+                "22:- `legacy-flat.json` 登记当前历史平面文件并设置迁移复核日期；新建未登记的 `docs/testing/` 根文件会被门禁拒绝。"
+              ]
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-35"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "primarySource": [
+        "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md:1-34 @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/testing/governance.md @ 85a419afa17793e13b9700b7064bd8d818d57118",
+        "docs/phase-governance/templates/README.md @ 85a419afa17793e13b9700b7064bd8d818d57118"
+      ],
+      "documentStatus": "done (historical task; no new product acceptance)",
+      "originalOwner": "Codex",
+      "originalCodingOwner": null,
+      "phaseAnchors": ["ops / testing治理，涉及各阶段元数据但不证明任何阶段游戏行为。"],
+      "dependencies": [
+        "docs/testing/governance.md",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "applicability": "原卡未标执行日期、版本或candidateSHA；仅有候选分支，适用当时文档架构任务。",
+      "publicEntry": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "counterReworkBlocked": {
+        "migration": "independent content accept; integrated static gate recorded separately",
+        "historicalLimits": [
+          "顶部done与Closed Evidence待合入main/CI并存；本卡没有最终SHA/CI身份，本轮保留明确缺口。",
+          "39/39与877/4654是历史数字，不复用为本次全仓结果。"
+        ],
+        "notClosed": ["current runtime/E2E/visual/coverage", "full-docs governance"]
+      },
+      "reviewedSourceSha256": "e243bd54d1b8aa706fdf5cffe2750bc31149a94f2f6b7f742fc061b3d102bd69",
+      "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+      "sourceGitObject": "485da5a3081c9c4d94e7457b20f31ee1cca78357",
+      "reviewedCandidateCommit": "c86b92dffd8d66bfdc0541f03d6e2150d7bb04cc",
+      "reviewedCandidateSha256": "b18e5b9f3c319a6e060c494c1256e4a84ba49e2a2828a9e74544bbc1d3a44b33",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "rootIndependentRead": true,
+        "originalPreservation": "strict byte-equal inverse including final newline",
+        "machineChecks": "actual task and archive body contracts; final integrated gates separately recorded"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md",

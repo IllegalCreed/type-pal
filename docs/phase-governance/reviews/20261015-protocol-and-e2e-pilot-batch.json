@@ -483,7 +483,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.1.0",
+      "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-semantic-migration",
@@ -507,7 +507,7 @@
       "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+      "afterSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -537,7 +537,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+        "implementationSha": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -554,7 +554,7 @@
         "kind": "full-text-preservation-and-consumer-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
         "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
-        "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+        "afterSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
         "lineCount": 129
       },
       "history": [
@@ -564,6 +564,17 @@
           "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
           "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
           "previousAfterSha256": null
+        },
+        {
+          "date": "2026-10-15",
+          "action": "C1-publication-versus-execution-status-contract-correction",
+          "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+          "sourceSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+          "afterSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+          "templateVersionBefore": "1.1.0",
+          "templateVersionAfter": "1.2.0",
+          "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -571,7 +582,16 @@
       "userVisibleBeforeAfter": "原 paired JSON -> 原顶层对象 + governance envelope，未搬 payload、未制造 exit/steps。",
       "reviewedLines": "1-129",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
-      "templateVariant": "document-audit-v2"
+      "templateVariant": "document-audit-v2",
+      "statusContractReview": {
+        "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+        "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+        "runtimeCredit": false,
+        "containerCounters": [
+          "C1b: HTML pre and lazy quote rejected",
+          "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+        ]
+      }
     }
   ]
 }
