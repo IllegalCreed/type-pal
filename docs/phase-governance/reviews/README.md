@@ -35,6 +35,8 @@
 
 - [E2E 002 入口与报告逐篇接入记录](20261016-e2e-stage-m.json)：固定364内容及73根接入已分别独立接收；后续写回另核，余六准入依任务卡精确新基点，不授运行或用户观感信用。
 
-- [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：e136作者交付时点的历史快照保留entries空/pilot待验；当前entries为1，e136来源与dd377接入已分别独立接收，后续根行政层另验；只给索引自身增量1，不授1838源文信用。
+- [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：e136作者交付时点的历史快照保留entries空/pilot待验；当前entries为1，e136来源、dd377接入及固定164中央/矩阵均已分别独立接收；后续写回按字节另验，只给索引自身增量1，不授1838源文信用。
 
-- [F1 固定捕获索引接入](20261016-binding-baseline-contract.json)：e136实现/canonical和dd377自然接入分别独立接收；根后续行政/中央/既有矩阵行另验，索引自身仅增量1，不给1838候选授审读信用。
+- [F1 固定捕获索引接入](20261016-binding-baseline-contract.json)：e136实现/canonical、dd377自然接入及固定164中央/既有矩阵行分别独立接收；后续行政写回另验，索引自身仅增量1，不给1838候选授审读信用。
+
+- [P11 第二阶段导航冻结设计](20261016-phase2-navigation-p-design.md)：11篇真实202行按现用导航绑定既有governance-index1.0；10旧错类型/7归档导航状态轴待正文接收后根更正，历史targets和3HTML不冒完成；精确12作者写域按任务卡和真实新基点。

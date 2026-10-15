@@ -36,16 +36,15 @@
       "applicability": "F1 source-specific document/contract maintenance only; no current product/runtime or whole-doc acceptance. Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
       "publicEntry": "docs/testing/catalog.json",
       "counterReworkBlocked": {
-        "F1": "Exact e136 implementation/canonical/four maintenance scopes independently accepted; dd377 import accepted. Root later administrative/central bytes separately pending, not old-signature reuse.",
+        "F1": "Exact e136 source and final164 root14 independently accepted, C1/C2 closed. This subsequent current-record metadata only separately reviewed; no original pending source acceptance remains.",
         "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
       "unresolved": [
         "006仍rework，lastVerified10-03与原执行边界不变；10-15原过期失败保留，实质发布复核后明确续10-23，只安排下次publication review；e2e-route10-18未改。",
-        "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。",
-        "Current root administrative/central/matrix delta separately pending non-author acceptance and zero gates; full baseline/increments/artifacts incomplete."
+        "目录只登记18份published材料，不涵盖全部testing文件，也不单独证明全部配对报告模板迁移或动态通过。"
       ],
-      "nextStep": "Continue individual template migrations/artifact ownership. Preserve006 rework, actual original lastVerified, publication review10-23 and route10-18 obligations; no silent deadline renewal. Exact source F1 reception accepted; current root administrative delta separately verify.",
+      "nextStep": "Continue individual document migration/artifact ownership; preserve006 rework/lastVerified10-03, publication review10-23 and route10-18 obligations without silent renewal. F1 exact164 independent reception accepted; later metadata is a separate scoped writeback.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -78,6 +77,23 @@
               "entries.path": "docs/testing/catalog.json",
               "uniqueMatches": 1
             }
+          }
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Record actual independent exact164 root14 acceptance only, body/after unchanged; subsequent metadata layer separately reviewed",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+            "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+            "selector": {
+              "entries.path": "docs/testing/catalog.json",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
           }
         }
       ],
@@ -159,7 +175,7 @@
           },
           "completePriorObjectRetrievedAndCompared": true
         },
-        "independentReception": "Exact e136 maintenance accepted by history_cards_a; dd377 natural import accepted by history_cards_c_tail; current new root administrative bytes separately pending.",
+        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
         "immediateCompletePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
           "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
@@ -271,6 +287,25 @@
               "uniqueMatches": 1
             }
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record actual exact164 independent reception; no body/after/migration change",
+          "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+            "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+            "selector": {
+              "entries.path": "docs/testing/catalog.json",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -284,7 +319,7 @@
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",
-        "method": "Exact e136 maintenance body/semantics independently accepted; current actual source/body contract retained. Only later root administrative reception prose/record fields pending scoped review.",
+        "method": "Exact final164 current body/record delta independently accepted; this later scoped current-record signoff leaves body/after and contracts unchanged, no new migration.",
         "templateId": "test-catalog-v1",
         "templateVersion": "1.2.0"
       },
@@ -444,6 +479,18 @@
             "entries.path": "docs/testing/catalog.json",
             "uniqueMatches": 1
           }
+        },
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "164aee33212554724994aa2873754e26c961d236",
+          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+          "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+          "selector": {
+            "entries.path": "docs/testing/catalog.json",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
         }
       ],
       "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
@@ -482,16 +529,15 @@
       "applicability": "Only this current template navigation and later root administrative wording, source-specific documentation maintenance. Exact e136 body/metadata acceptance is complete within its recorded scope; new root administrative/central bytes require distinct reception. No product/runtime/default-catalog source promotion or whole-doc acceptance.",
       "publicEntry": "docs/testing/_templates/README.md",
       "counterReworkBlocked": {
-        "F1": "Exact e136 implementation/canonical/four maintenance scopes independently accepted; dd377 import accepted. Root later administrative/central bytes separately pending, not old-signature reuse.",
+        "F1": "Exact e136 source and final164 root14 independently accepted, C1/C2 closed. This subsequent current-record metadata only separately reviewed; no original pending source acceptance remains.",
         "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit.",
-        "rootTemporalRepair": "First root C1/C2 counter preserved at0e7 and complete report; specified current time scopes corrected as candidate, separate non-author closure still required."
+        "rootTemporalRepair": "C1/C2 closed exact164 by independent33c628b0 report; full first incorrect current and counter retained by reachable Git, not reclassified as first-pass success."
       },
       "unresolved": [
-        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit.",
-        "Current root administrative/central/matrix delta separately pending non-author acceptance and zero gates; full baseline/increments/artifacts incomplete."
+        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
       ],
-      "nextStep": "Independently verify current root administrative/central delta and zero gates; source e136/dd377 accepted only within recorded scopes. Continue full cohort/increments/artifacts; no new runtime or quality closure.",
+      "nextStep": "Continue all baseline/increments/artifacts; P11 requires this exact committed admission and root-sent newbase, other packs remain separately scoped. Exact164 reception accepted; later metadata reviewed separately, no new runtime/old-code/whole-goal credit.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
       "owner": "Codex",
@@ -573,6 +619,23 @@
               "entries.path": "docs/testing/_templates/README.md",
               "uniqueMatches": 1
             }
+          }
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Record actual independent exact164 root14 acceptance only, body/after unchanged; subsequent metadata layer separately reviewed",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+            "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+            "selector": {
+              "entries.path": "docs/testing/_templates/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
           }
         }
       ],
@@ -668,7 +731,7 @@
           },
           "completePriorObjectRetrievedAndCompared": true
         },
-        "independentReception": "Exact e136 maintenance accepted by history_cards_a; dd377 natural import accepted by history_cards_c_tail; current new root administrative bytes separately pending.",
+        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
         "immediateCompletePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
           "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
@@ -825,6 +888,25 @@
           },
           "firstCounterSha256": "a00a22c01642bbd29a3725255f7a455831c7ce3f844b22e41baf22e1a007133a",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record actual exact164 independent reception; no body/after/migration change",
+          "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+            "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+            "selector": {
+              "entries.path": "docs/testing/_templates/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -838,7 +920,7 @@
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.0.0",
-        "method": "Exact e136 maintenance body/semantics independently accepted; current actual source/body contract retained. Only later root administrative reception prose/record fields pending scoped review.",
+        "method": "Exact final164 current body/record delta independently accepted; this later scoped current-record signoff leaves body/after and contracts unchanged, no new migration.",
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0"
       },
@@ -2664,6 +2746,18 @@
           },
           "completePriorObjectRetrievedAndCompared": true,
           "scope": "Entire first root current object, including every six temporally incorrect field and prior histories, retained without summary replacement."
+        },
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "164aee33212554724994aa2873754e26c961d236",
+          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "gitObject": "930d5fbda84eb56d13cd1ab1129d859f3c8f6b1a",
+          "fileSha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+          "selector": {
+            "entries.path": "docs/testing/_templates/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
         }
       ]
     },

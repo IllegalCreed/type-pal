@@ -238,7 +238,7 @@
         "39 relations do not exhaust1838 and increments.",
         "Other38 original source/runtime limits remain; M002 raw ownership/retention, other6 MD and006 gain no automatic closure."
       ],
-      "nextStep": "Independently verify current root existing-row/admin/central delta and zero gates; continue all baseline/increments/artifacts. Matrix39 remains nonexhaustive.",
+      "nextStep": "Continue all baseline/increments/artifacts; P11 requires this exact committed admission and root-sent newbase, other packs remain separately scoped. Exact164 reception accepted; later metadata reviewed separately, no new runtime/old-code/whole-goal credit.",
       "phase": "phase-governance",
       "module": "contract-quality-boundaries",
       "owner": "Codex（本次治理；原作者与旧验收身份不变）",
@@ -351,6 +351,23 @@
         {
           "date": "2026-10-16",
           "scope": "Root existing template relation delta only; fixed F1 source acceptances do not sign future bytes."
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Record actual independent exact164 root14 acceptance only, body/after unchanged; subsequent metadata layer separately reviewed",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "gitObject": "85d8bdf4163a5f93f71521a8952c6764fc6f46fa",
+            "fileSha256": "0fd38d9be6ed5719e316e7536d316b68014460d267079b1a461c69f027f2bd49",
+            "selector": {
+              "entries.path": "docs/phase-governance/cross-phase-matrix.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "sourceSha256": "87d8774d0bd3d35a64742ddd22e98f1720fda603a623bbcb78154d66b1f7f940",
@@ -438,7 +455,7 @@
           "addedThisBatch": 0,
           "updatedThisBatch": 1,
           "other38ObjectsUnchanged": true,
-          "actualGFM": "Pending actual root candidate parse and independent intake"
+          "actualGFM": "Exact final164/source first14 independently confirmed one actual Marked table39rows; other38 whole objects exact. Current later metadata leaves body/table unchanged."
         }
       },
       "history": [
@@ -640,6 +657,25 @@
               "uniqueMatches": 1
             }
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record actual exact164 independent reception; no body/after/migration change",
+          "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "gitObject": "85d8bdf4163a5f93f71521a8952c6764fc6f46fa",
+            "fileSha256": "0fd38d9be6ed5719e316e7536d316b68014460d267079b1a461c69f027f2bd49",
+            "selector": {
+              "entries.path": "docs/phase-governance/cross-phase-matrix.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -7007,7 +7043,7 @@
       "applicability": "Document governance only; original normative/historical/runtime scopes explicitly retained.",
       "publicEntry": "docs/phase-governance/cross-phase-matrix.md",
       "counterReworkBlocked": {
-        "status": "Prior M002 relation accepted and preserved; only current existing template relation/root administrative delta pending scoped non-author reception.",
+        "status": "Exact final164 template matrix/current delta independently accepted; C1/C2 closed elsewhere. Matrix39/other38/source limits retained, later metadata only separately reviewed.",
         "explainedLimits": [
           "39 relations do not exhaust1838 and increments.",
           "Other38 original source/runtime limits remain; M002 raw ownership/retention, other6 MD and006 gain no automatic closure."
@@ -7023,7 +7059,7 @@
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0",
         "historyOverlay": false,
-        "method": "Same governance-index39 relations; existing template relation updated, other38 whole objects exact; actual GFM and non-author root delta separately required."
+        "method": "Exact final164 current body/record delta independently accepted; this later scoped current-record signoff leaves body/after and contracts unchanged, no new migration."
       },
       "reviewedSourceGitRevision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
       "priorReadingSources": [
@@ -7051,6 +7087,18 @@
             "entries.path": "docs/phase-governance/cross-phase-matrix.md",
             "uniqueMatches": 1
           }
+        },
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "164aee33212554724994aa2873754e26c961d236",
+          "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "gitObject": "85d8bdf4163a5f93f71521a8952c6764fc6f46fa",
+          "fileSha256": "0fd38d9be6ed5719e316e7536d316b68014460d267079b1a461c69f027f2bd49",
+          "selector": {
+            "entries.path": "docs/phase-governance/cross-phase-matrix.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
         }
       ]
     }

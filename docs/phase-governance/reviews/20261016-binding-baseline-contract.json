@@ -60,6 +60,25 @@
               "uniqueMatches": 1
             }
           }
+        },
+        {
+          "date": "2026-10-16",
+          "reviewer": "history_cards_a non-author",
+          "result": "accept exact14 at164aee33, C1/C2 closed",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+            "gitObject": "f01529f8706525e61165588ecb375e92e1b05e25",
+            "fileSha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+            "selector": {
+              "entries.path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "laterMetadataScope": "Current small signoff/admission fields only; no body/native/after changes, no source signature for future bytes."
         }
       ],
       "dependencies": [
@@ -95,13 +114,12 @@
       "counterReworkBlocked": {
         "sourceReception": "Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
         "historicalCapture": "Original1838 unread/provisional/needs-migration metadata and105capture/fourdirty timing remain capture-time facts, not a current per-document review rollup.",
-        "rootIntake": "Current administrative/central/matrix candidate pending distinct non-author intake; no whole-goal or runtime credit."
+        "rootIntake": "Exact final14 at164aee33 independently accepted by history_cards_a; C1/C2 closed, no open integration counter. This subsequent small signoff/P-design metadata layer is distinct and separately reviewed; native capture/source review limits unchanged."
       },
       "unresolved": [
-        "Full approved baseline, all increments and artifacts still require individual semantic governance; this capture never substitutes for them.",
-        "Current root administrative/central/matrix delta pending exact non-author reception and zero gates."
+        "Full approved baseline, all increments and artifacts still require individual semantic governance; this capture never substitutes for them."
       ],
-      "nextStep": "Independently accept exact current root administrative/central/matrix bytes and zero gates; then incremental1 only. Continue full baseline/increments/artifacts, no terminal or whole-goal completion.",
+      "nextStep": "Continue every remaining baseline/increment and artifact individually; P11 only after explicit committed source admission. Source capture remains historical/provisional and never certifies1838 source reviews. Later metadata writeback receives its own scoped review.",
       "sourceSha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
       "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
       "sourceGitObject": "00da11bb594126105abbb5ea596c7272ed8e5542",
@@ -117,6 +135,25 @@
           "date": "2026-10-16",
           "event": "Exact e136 canonical/code and dd377 natural import accepted in separate non-author scopes; later root administrative intake candidate",
           "afterSha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d",
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Record actual independent exact14 acceptance, body/after unchanged",
+          "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236",
+          "proofSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "164aee33212554724994aa2873754e26c961d236",
+            "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+            "gitObject": "f01529f8706525e61165588ecb375e92e1b05e25",
+            "fileSha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+            "selector": {
+              "entries.path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
           "runtimeExecutionPerformed": false
         }
       ],
@@ -188,7 +225,7 @@
         "version": "1.2.0",
         "variant": "frozen-document-binding-baseline-v1",
         "result": "template-compliant",
-        "method": "Real fixed source/native8/governance semantics and strict Buffer/default consumer independently accepted at e136; dd377 import accepted separately. Later root four governance administrative edits preserve native contract and require scoped non-author current intake."
+        "method": "Exact e136 canonical and fixed164 root14 separately independently accepted. This later current-record signoff changes no body/native/after; scoped metadata review required and not a new migration."
       },
       "template": "docs/testing/_templates/test-catalog.json",
       "historyOverlay": false,
@@ -197,7 +234,21 @@
       "documentStatus": "Historical provisional capture; current document governance only, native status remains baseline-pending-semantic-review.",
       "reviewedSourceSha256": "c497472112382b63062efce1cdb7ccb71eeb1a6bd146fb6b5fe2ffb58d242f00",
       "reviewedSourceGitRevision": "e1366cd135ddcd79263d6ece928a62e96fa04ad1",
-      "reviewedSourceGitObject": "04a643f64bbd66858c5422377d761ba15c72d284"
+      "reviewedSourceGitObject": "04a643f64bbd66858c5422377d761ba15c72d284",
+      "priorReadingSources": [
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "164aee33212554724994aa2873754e26c961d236",
+          "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+          "gitObject": "f01529f8706525e61165588ecb375e92e1b05e25",
+          "fileSha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+          "selector": {
+            "entries.path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
+      ]
     }
   ],
   "frozenDesign": {
@@ -393,7 +444,7 @@
     }
   ],
   "implementation": {
-    "status": "Exact e136 implementation and canonical envelope accepted; exact dd377 natural import accepted; later root administrative/central delta pending scoped reception.",
+    "status": "Exact e136 implementation/canonical, dd377 natural import, and final164 root14 independently accepted in their separate scopes. Later signoff/P11 admission metadata requires distinct review; no terminalF2 implementation.",
     "sourceManifest": "/tmp/type-pal-f1-build-source-manifest-20261016.json",
     "currentAudit": {
       "kind": "static-document-governance",
@@ -1789,7 +1840,7 @@
   },
   "rootCentralIntake": {
     "base": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-    "status": "First root14 semantic review counter C1/C2; current narrow temporal repair candidate requires independent closure and new exact zero gates.",
+    "status": "Exact final14 at164aee33 independently accepted by history_cards_a; C1/C2 closed, incremental1 only, no open source/integration counter.",
     "eligibleBaselineMigrations": 0,
     "eligibleIncrementalMigrations": 1,
     "expectedModel": 218,
@@ -1802,7 +1853,9 @@
     },
     "originalNativeAndCodeUnchanged": true,
     "fullGoalComplete": false,
-    "firstCandidateCommit": "0e7c883648647e650139b08d9ca2c10f5e409e6e"
+    "firstCandidateCommit": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+    "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236",
+    "independentAcceptanceSha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af"
   },
   "firstRootIndependentCounter": {
     "path": "/tmp/type-pal-f1-central-independent-review-first-20261016.json",
@@ -2295,7 +2348,335 @@
         "scope": "Entire first root current object, including every six temporally incorrect field and prior histories, retained without summary replacement."
       }
     ],
-    "independentClosure": "pending",
+    "independentClosure": "C1/C2 closed in exact final14 at164aee33, history_cards_a report33c628b0; original first report/candidate remain counter history.",
     "firstCounterPreserved": true
+  },
+  "rootIndependentAcceptance": {
+    "path": "/tmp/type-pal-f1-central-independent-closure-20261016.json",
+    "sha256": "33c628b054ef31af984dd921d12ba82ec6704c5583b068797014e839836316af",
+    "fullReview": {
+      "kind": "F1-central14-scoped-independent-repair-closure",
+      "date": "2026-10-16",
+      "reviewer": "history_cards_a; non-author of root administrative14 and of e136 implementation/canonical documents; prior independent e136 canonical/maintenance reviewer",
+      "result": "accept exact final14 manifest; F1-CENTRAL-C1 and F1-CENTRAL-C2 closed within current root administrative/central/matrix scope; no open counter observed in this delta",
+      "originalBase": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
+      "firstUnacceptedCandidateCommit": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+      "finalManifest": {
+        "path": "/tmp/type-pal-f1-central-repair-manifest-20261016.json",
+        "sha256": "03cfe026174442ca49437ec30b998aa94ce24fa97ed18cec40e7a0dafec5f9ee"
+      },
+      "fixedFinal14": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+          "sha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d",
+          "bytes": 854465,
+          "lines": 18469,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "sha256": "39a52431d3998cd34f11c66413cdba396fe2278924f0d3ca81dd534ecf0a645f",
+          "bytes": 175895,
+          "lines": 874,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.json",
+          "sha256": "2998cf04b01333f79639b7fb0195607190932158c709a7d9095a579d2cbc7811",
+          "bytes": 55555,
+          "lines": 935,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/cross-phase-matrix.md",
+          "sha256": "34777e21f7f5664b729f304d2834bbd381f6a36cb7485d0c962af9f1e9048435",
+          "bytes": 9054,
+          "lines": 70,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "sha256": "3f9f7702353d5cedac121eabfc7f866e133b2c2d1b0463a25cd0695062533a62",
+          "bytes": 341878,
+          "lines": 8457,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "sha256": "019ced2f5f3c810389c3dd535f785b02f1cdd759357a667ca5a0ba72641cc049",
+          "bytes": 183646,
+          "lines": 3009,
+          "sameFirstCandidate": false
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "sha256": "fed1efd0983a41ebb89d15ede450644574b5b66bdda9c86216b857b2030707bb",
+          "bytes": 195413,
+          "lines": 3135,
+          "sameFirstCandidate": false
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "sha256": "0fd38d9be6ed5719e316e7536d316b68014460d267079b1a461c69f027f2bd49",
+          "bytes": 418263,
+          "lines": 7058,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+          "sha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+          "bytes": 133191,
+          "lines": 2301,
+          "sameFirstCandidate": false
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "sha256": "58c830a05ca455aee3a83104d5a299c9f314fcd5cca1deb1e80d053c4d76304a",
+          "bytes": 294661,
+          "lines": 4936,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/phase-governance/reviews/README.md",
+          "sha256": "8b23f2ebd22f47307cb691694789f7c2849a12b554f0efded3cccec564739d37",
+          "bytes": 4624,
+          "lines": 40,
+          "sameFirstCandidate": false
+        },
+        {
+          "path": "docs/phase-governance/templates/README.md",
+          "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+          "bytes": 5769,
+          "lines": 58,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/testing/_templates/README.md",
+          "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+          "bytes": 4519,
+          "lines": 54,
+          "sameFirstCandidate": true
+        },
+        {
+          "path": "docs/testing/_templates/test-catalog.md",
+          "sha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+          "bytes": 2967,
+          "lines": 38,
+          "sameFirstCandidate": true
+        }
+      ],
+      "onlyChangedFromFirstCandidate": [
+        "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/README.md"
+      ],
+      "unchangedOtherFiles": 10,
+      "immutableOwnSnapshot": "/tmp/type-pal-f1-central-repair-snapshot-20261016",
+      "firstCounterPreserved": {
+        "path": "/tmp/type-pal-f1-central-independent-review-first-20261016.json",
+        "sha256": "a00a22c01642bbd29a3725255f7a455831c7ce3f844b22e41baf22e1a007133a",
+        "completeEmbeddedReviewEqual": true,
+        "first14GitCommit": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+        "everyFirst14GitBlobEqualsOriginalManifestAndOwnSnapshot": true,
+        "firstSameByteGatesSha256": "d88038f144eb8ea7a21833535006461e54f1a6c6c4b6d2b9fbff753184edbb57",
+        "priorReportRemainsCounterNotRewritten": true
+      },
+      "closure": [
+        {
+          "id": "F1-CENTRAL-C1",
+          "result": "closed",
+          "path": "docs/phase-governance/reviews/README.md:38",
+          "directObservation": "Only line38 changed; explicitly attributes empty entries/pilot pending to e136 author-time historical snapshot. It states current entries1 and source e136/dd377 accepted, later root administrative layer separately reviewed, own incremental1 and no1838 reading credit. Line40 agrees. Same actual Marked links resolve; no new heading/fragment contract."
+        },
+        {
+          "id": "F1-CENTRAL-C2",
+          "result": "closed",
+          "subjects": [
+            "docs/phase-governance/templates/README.md",
+            "docs/testing/_templates/README.md"
+          ],
+          "fields": [
+            "coreConclusion",
+            "applicability",
+            "userVisibleBeforeAfter.after",
+            "evidence.sourceScope",
+            "businessOracle.assertions[0]",
+            "legalInputs[4]"
+          ],
+          "directObservation": "All twelve actual current field values directly read. They identify accepted exact e136 navigation/default/capture-contract maintenance and dd377 natural import; only later root administrative/central delta was awaiting this scoped acceptance. No missing source approval is implied, no future bytes signed, no1838 product/source/runtime credit.",
+          "sourcePreservation": "Both complete first-candidate current objects actually retrieved from0e7 by unique entries.path selector and verified whole-file SHA/blob; all six originally incorrect fields and every old nested prior/history remain fully recoverable. Current histories/pin lists append one repair event, not replace the old objects."
+        }
+      ],
+      "actualDirectReadScope": {
+        "fresh": "Full new four-file textual/structured delta, line38, twelve corrected field values, all appended repair history/pins/counter scopes, control status/firstCandidateCommit/rootTemporalRepairCandidate/completeFirstCandidate. No body changes in the other ten files.",
+        "sameValueReuse": "Our complete470-line first report reused by actual full-object deepEqual and file SHA; no fresh470 manual reread claim. Other ten first14 bytes exact; earlier new-root-layer semantic conclusions reused by fixed hashes. Accepted source code/canonical/import reports retain their prior explicitly scoped reading ownership.",
+        "mechanical": "All final14 bytes/hashes/lengths; all first14 Git blobs and own initial snapshot exact. Two complete unique current objects from0e7 fetched and deepEqual; every permitted changed scalar/list precisely isolated, all other current fields/entries/top metadata exact. Baseline/current entry/after/native/registry/routes/matrix/body/author pilot/source failures unchanged from first reviewed14.",
+        "notReadOrExecuted": "No new fresh1522 source reading,18407-line raw-index prose reading,1838 source-document semantic reading,6427nested prior manual reread, product/old-test audit or execution, raw/screenshot/save access, runtime/browser/E2E/visual/coverage, F2codec or terminal full-goal execution."
+      },
+      "realCompleteImmediatePriors": [
+        {
+          "path": "docs/phase-governance/templates/README.md",
+          "container": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "revision": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+          "fileSha256": "6c63a94ff688801dc48401253d04ebcdb3f2975c18bac8a6bb14f131f45cd4a6",
+          "gitObject": "08b29cfeb9b67e8903c6e442d062590c9d26cf57",
+          "uniqueMatches": 1,
+          "entirePreviousObjectSha256": "7dfe9e12aa45f3fc61d40c44b9a27e27512aef3091bb63398f75bc9efcda31a6",
+          "entirePreviousObjectEqual": true,
+          "allOldPriorAndHistoryExact": true
+        },
+        {
+          "path": "docs/testing/_templates/README.md",
+          "container": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "revision": "0e7c883648647e650139b08d9ca2c10f5e409e6e",
+          "fileSha256": "3f05e8d121745a55136547d0adc79d3180cde1c97f8459de5a89bec4efe8b4ce",
+          "gitObject": "2186ed550202f8906138295e395d093695dab359",
+          "uniqueMatches": 1,
+          "entirePreviousObjectSha256": "96d6357f39b210b1256a1897c1168dfd0cbdf6cd4d7d760d98b86015ed9b31f2",
+          "entirePreviousObjectEqual": true,
+          "allOldPriorAndHistoryExact": true
+        }
+      ],
+      "actualOwnConsumerChecks": [
+        {
+          "name": "model",
+          "command": ["node", "scripts/docs/check-document-model.mjs"],
+          "exit": 0,
+          "path": "/tmp/type-pal-f1-central-repair-independent-model-20261016.log",
+          "sha256": "9ccf483a30e4b769239d4999561ac66eee9a0d03cc280bf0b908579e20bc2c84"
+        },
+        {
+          "name": "strict",
+          "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+          "exit": 0,
+          "path": "/tmp/type-pal-f1-central-repair-independent-strict-20261016.log",
+          "sha256": "537e97e925a0d3221cf7f50788cbcb2fa0d7eb7234a5fca016f814e93d90008c"
+        },
+        {
+          "name": "progress",
+          "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+          "exit": 0,
+          "path": "/tmp/type-pal-f1-central-repair-independent-progress-20261016.log",
+          "sha256": "47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6"
+        },
+        {
+          "name": "require-complete",
+          "command": [
+            "node",
+            "scripts/docs/report-governance-progress.mjs",
+            "--json",
+            "--require-complete"
+          ],
+          "exit": 1,
+          "path": "/tmp/type-pal-f1-central-repair-independent-require-complete-20261016.log",
+          "sha256": "dbd9f27250480eccff440a8ca0eb89b21f3edb45a07d580da193a0e04541ad6a"
+        }
+      ],
+      "ownConsumerProjection": {
+        "approvedCohort": 1838,
+        "cohortMigrated": 213,
+        "cohortPending": 1625,
+        "incrementalMigrated": 5,
+        "currentCandidates": 1976,
+        "currentPending": 1758,
+        "issues": []
+      },
+      "ownRepairProof": {
+        "path": "/tmp/type-pal-f1-central-repair-independent-proof-20261016.json",
+        "sha256": "4c31908d8719dfd5be8ccee40e922597e742696e3b2131524d2fc129feda4443"
+      },
+      "first14PositiveAndNegativeEvidenceReused": {
+        "path": "/tmp/type-pal-f1-central-independent-proof-first-20261016.json",
+        "sha256": "a1d8905b57dc7a884da57edf4ff9dc1cc32fb433b3b4a3b76e8b909133ce2010",
+        "scope": "Exact unchanged native8/full-source inverse,6actualbody models,2 discriminating native-credit mutation rejects,39-row GFM/other38 row equality,registryother726 and source/default/routing preservation."
+      },
+      "finalSameBytesRootHardGates": {
+        "path": "/tmp/type-pal-f1-central-repair-gates-20261016.json",
+        "sha256": "dcb3575b3ad51a110a46266e9f37948ebd5589afcb17bd79cf8985c792a5ec9b",
+        "allActualFourLogHashesVerified": true,
+        "fullPnpmRerunByThisReviewer": false,
+        "checks": [
+          {
+            "command": ["pnpm", "check:docs"],
+            "exitCode": 0,
+            "seconds": 36.609,
+            "path": "/tmp/type-pal-f1-central-repair-gate-0-20261016.log",
+            "sha256": "bf2642cae2bd1a0f148d498f2644201f0ff531f53258d9e29835ccd33aecd778"
+          },
+          {
+            "command": ["pnpm", "lint"],
+            "exitCode": 0,
+            "seconds": 2.139,
+            "path": "/tmp/type-pal-f1-central-repair-gate-1-20261016.log",
+            "sha256": "de5b1515bd1c8e5937d0aaeedbe667a7b394fb157f1960a8110498dc1ec23eef"
+          },
+          {
+            "command": ["git", "diff", "--check"],
+            "exitCode": 0,
+            "seconds": 0.021,
+            "path": "/tmp/type-pal-f1-central-repair-gate-2-20261016.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "exitCode": 0,
+            "seconds": 1.071,
+            "path": "/tmp/type-pal-f1-central-repair-gate-3-20261016.log",
+            "sha256": "47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6"
+          }
+        ],
+        "summary": {
+          "docsTests": 86,
+          "pass": 86,
+          "fail": 0,
+          "skip": 0,
+          "markdown": 1227,
+          "localLinks": 7939,
+          "bodyContracts": 218,
+          "strictRecords": 727,
+          "testingIssues": 0,
+          "phaseLore": 184,
+          "lintFiles": 4107,
+          "errors": 0,
+          "warnings": 0,
+          "infos": 0,
+          "diffDiagnostics": 0
+        },
+        "sameFrozenBytesAfterVerified": true
+      },
+      "creditAndStopLine": {
+        "approvedCohort": 1838,
+        "baselineReviewedMigrations": 213,
+        "incrementalMigrations": 5,
+        "thisFileOnlyIncrement": 1,
+        "captureNativeOwnMembership": 0,
+        "source1838ReadingCreditAdded": 0,
+        "currentCandidates": 1976,
+        "currentPending": 1758,
+        "wholeGoalComplete": false,
+        "runtimeExecutionPerformed": false,
+        "completionNegative": "Actual own --require-complete exit1, integrityissues[],1758pending. Original native baseline-pending-semantic-review/unread/provisional status stays historical, not rewritten to all-reviewed.",
+        "notAuthorized": [
+          "future root acceptance/progress writeback bytes without scoped review",
+          "F2implementation or terminal completion",
+          "product or oldcode/test quality credit",
+          "runtime/E2E/visual/coverage success",
+          "main push or user-visible product decisions"
+        ],
+        "currentPendingMetadata": "Candidate fields correctly remained independently pending when frozen. This external acceptance covers only these exact14 hashes; root may later record it through a separately scoped metadata delta."
+      },
+      "repositoryWrites": 0,
+      "ownTmpOnly": true,
+      "M21dAndL738Unchanged": true
+    },
+    "acceptedSnapshot": "164aee33212554724994aa2873754e26c961d236"
+  },
+  "postAcceptanceWriteback": {
+    "base": "164aee33212554724994aa2873754e26c961d236",
+    "scope": "Record real exact14 acceptance in small current fields; freeze P existing-template design and exact12 writer admission. Body/after/native/registry/routes/matrix rows/code unchanged.",
+    "independentMetadataReception": "pending distinct exact8 review",
+    "newMigrationCredit": 0,
+    "wholeGoalComplete": false
   }
 }
