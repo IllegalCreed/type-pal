@@ -64,24 +64,67 @@
         "docs/lore/README.md",
         "docs/lore/characters.md",
         "docs/lore/versions.md",
-        "docs/lore/taboos.md"
+        "docs/lore/taboos.md",
+        "docs/lore/narrative-workflow.md"
       ],
       "to": [
         "docs/phase2/reference/phase1-knowledge-harvest.md",
         "docs/phase2/guides/content-publication.md",
-        "docs/phase2/specs/content-schema.md"
+        "docs/phase2/specs/content-schema.md",
+        "docs/phase2/decisions.md",
+        "docs/phase2/design-backlog.md"
       ],
-      "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+      "relationship": "Lore separates author-adopted project constraints, source-labelled collection claims, paper methods and undecided versions. Existing no-resurrection/T5.5/independentT6 constraints stay applicable when official provenance is unverified; publication must not promote fan/variant/draft claims into fresh official canon. Paper1-5 proceeds within D19, editor6/product build and phase3 real-time scope remain separate.",
       "status": "guarded",
       "evidence": [
-        "docs/lore/README.md:1-63",
-        "docs/lore/characters.md:1-360",
-        "docs/lore/taboos.md:1-106"
+        "docs/phase-governance/reviews/20261016-lore-reference-n.json:1",
+        "docs/lore/README.md:1-53",
+        "docs/lore/taboos.md:1-71",
+        "docs/lore/narrative-workflow.md:1-49",
+        "docs/lore/world-rules.md:52-55",
+        "docs/lore/timeline.md:213-220",
+        "docs/phase2/decisions.md:90-104,223-249",
+        "docs/phase2/design-backlog.md:105-115"
       ],
       "unresolved": [
-        "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+        "Official provenance for the reincarnation claim and later-series collected details remains unverified; that uncertainty does not revoke existing project constraints.",
+        "T7ending/pearl-user, T8official childbirth claim and T9TV scope remain source-specific undecided; no new author adjudication is invented.",
+        "Other six N and four long lore bodies remain separate full-governance work; no index or method completes their sources or product implementation."
       ],
-      "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+      "stopLine": "Keep project constraints distinct from unverified official/fan claims, old confidence icons and paper methods. Do not revoke existing constraints or choose canon/DLC/product execution merely through static documentation migration.",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "N3 correct existing lore relation after exact c7d independent semantic acceptance; retain complete prior relation including obsolete broad evidence spans",
+          "base": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "previousCompleteRow": {
+            "id": "lore-canon-vs-phase2-content",
+            "from": [
+              "docs/lore/README.md",
+              "docs/lore/characters.md",
+              "docs/lore/versions.md",
+              "docs/lore/taboos.md"
+            ],
+            "to": [
+              "docs/phase2/reference/phase1-knowledge-harvest.md",
+              "docs/phase2/guides/content-publication.md",
+              "docs/phase2/specs/content-schema.md"
+            ],
+            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+            "status": "guarded",
+            "evidence": [
+              "docs/lore/README.md:1-63",
+              "docs/lore/characters.md:1-360",
+              "docs/lore/taboos.md:1-106"
+            ],
+            "unresolved": [
+              "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+            ],
+            "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+          },
+          "scope": "One existing relation only, not all39source rereview or new runtime credit."
+        }
+      ]
     },
     {
       "id": "guijie-vs-phase3-roadmap",

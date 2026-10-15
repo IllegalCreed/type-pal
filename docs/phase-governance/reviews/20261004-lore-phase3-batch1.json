@@ -6,78 +6,6 @@
   "policy": "These are content-reading conclusions, not runtime/E2E/visual/coverage claims. Unread or conflicting documents remain explicit unknown/blocked.",
   "entries": [
     {
-      "path": "docs/lore/README.md",
-      "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Defines lore as an author-controlled, source-labelled reference library; AI memory is explicitly non-authoritative. It separates canon reference from ideas and requires version/conflict logging.",
-      "truthAnchors": [
-        "author is final arbiter",
-        "official/multi-source/source-questioned reliability tiers",
-        "current mainline is phase2"
-      ],
-      "unresolved": [
-        "the index still labels several canon files as draft/partially pending",
-        "no single machine-readable canon decision registry existed before this review"
-      ],
-      "nextStep": "Use the phase/lore catalog plus content review records; do not promote draft or source-questioned claims without author decision.",
-      "phase": "lore",
-      "module": "README.md",
-      "capability": "lore-README",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
-      "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-      "afterSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/README.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
-      },
-      "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-            "date": "2026-10-04",
-            "action": "content-deep-review-batch-1",
-            "notRun": ["runtime", "E2E", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/lore/README.md",
-        "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442"
-      },
-      "history": [
-        {
-          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-63",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
-    },
-    {
       "path": "docs/lore/characters.md",
       "contentReviewStatus": "content-reviewed",
       "coreConclusion": "The document establishes source-labelled character facts, hard redlines, version-dependent outcomes, and explicit creative opportunities across the main party, Miao court, Li Sansi/Huangfu Ying, and the Yi Ru–Han Zhongxi–Xiao Man succession chain. It records unresolved later-series details instead of collapsing them into one canon.",
@@ -364,77 +292,6 @@
       "reviewDepth": "deep-semantic"
     },
     {
-      "path": "docs/lore/taboos.md",
-      "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Acts as the expansion redline list: Nuwa deaths, Li Xiaoyao/Anu/Yueru chains, Baiyue finality, Shu generations, and the YiRu–Han–Xiaoman tragedy. It separates hard redlines from version-dependent or fan-derived rules.",
-      "truthAnchors": [
-        "T1–T6 are treated as hard expansion constraints",
-        "T7–T9 require version/author decisions",
-        "creative safe zones are explicitly listed"
-      ],
-      "unresolved": [
-        "some hard labels rely on non-primary/fan sources and need source-quality review before being called official"
-      ],
-      "nextStep": "Use as a gate, but keep source confidence and author decisions visible; do not silently harden ⚠/❓ items.",
-      "phase": "lore",
-      "module": "taboos.md",
-      "capability": "lore-taboos",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
-      "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
-      "afterSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/taboos.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/taboos.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
-      },
-      "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-            "date": "2026-10-04",
-            "action": "content-deep-review-batch-1",
-            "notRun": ["runtime", "E2E", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/lore/taboos.md",
-        "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42"
-      },
-      "history": [
-        {
-          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-106",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
-    },
-    {
       "path": "docs/lore/versions.md",
       "contentReviewStatus": "content-reviewed",
       "coreConclusion": "Registers cross-version conflicts and correctly blocks expansion choices until Yueru resurrection user choice, Five Orb handling, TV exclusion, and Nuwa death interpretation are decided.",
@@ -502,75 +359,6 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
-    },
-    {
-      "path": "docs/lore/narrative-workflow.md",
-      "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Defines a six-step narrative production method from concept to playable implementation and explicitly separates paper design from engine/editor work. It is methodology, not canon.",
-      "truthAnchors": [
-        "D19 supplies the parallel-workflow decision",
-        "beat/flow/level/script outputs are distinct artifacts",
-        "vertical slices replace waterfall completion"
-      ],
-      "unresolved": ["no current content feature is shown as having completed all six steps"],
-      "nextStep": "Use as workflow guidance only; each actual story slice needs its own governed design record.",
-      "phase": "lore",
-      "module": "narrative-workflow.md",
-      "capability": "lore-narrative-workflow",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
-      "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
-      "afterSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/narrative-workflow.md"],
-      "businessOracle": {
-        "type": "content-review",
-        "assertions": [
-          "core conclusion is grounded in the read body",
-          "unresolved claims remain explicitly blocked"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/narrative-workflow.md"],
-        "notes": "Content review record; no runtime/E2E/coverage credit."
-      },
-      "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
-        "history": [
-          {
-            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-            "date": "2026-10-04",
-            "action": "content-deep-review-batch-1",
-            "notRun": ["runtime", "E2E", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "content-reading",
-        "path": "docs/lore/narrative-workflow.md",
-        "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d"
-      },
-      "history": [
-        {
-          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed"
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-58",
-      "docType": "guide-runbook",
-      "templateId": "guide-runbook-v1",
-      "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic"
@@ -2319,6 +2107,60 @@
       "sourceGitRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
       "sourceGitObject": "0836b8ad256ac02ed960bda48282dd5bc9918bbb",
       "reviewNotes": "全文实际读取并按具体语义改写；原材料的未知按历史/候选/源码范围解释，不捏造缺失执行证据。最终全量独立验收未完成。"
+    }
+  ],
+  "currentRecordTransfers": [
+    {
+      "date": "2026-10-16",
+      "scope": "Only unique current pointer transfers after exact c7d independently accepted content, not rewriting original dated audit membership or proof. Full original objects retained at fixed Git locators.",
+      "destination": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+      "subjects": [
+        {
+          "path": "docs/lore/README.md",
+          "completeOriginalCurrent": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+            "gitObject": "e55c833fb51a2f1bdac1094bfb18a7a7b4d00730",
+            "fileSha256": "f7bb40fd3894bb4a0d7684a3a3701b4ccc21bd0e1c40d1b98a79e9b978398c73",
+            "selector": {
+              "entries.path": "docs/lore/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        },
+        {
+          "path": "docs/lore/narrative-workflow.md",
+          "completeOriginalCurrent": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+            "gitObject": "e55c833fb51a2f1bdac1094bfb18a7a7b4d00730",
+            "fileSha256": "f7bb40fd3894bb4a0d7684a3a3701b4ccc21bd0e1c40d1b98a79e9b978398c73",
+            "selector": {
+              "entries.path": "docs/lore/narrative-workflow.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        },
+        {
+          "path": "docs/lore/taboos.md",
+          "completeOriginalCurrent": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+            "gitObject": "e55c833fb51a2f1bdac1094bfb18a7a7b4d00730",
+            "fileSha256": "f7bb40fd3894bb4a0d7684a3a3701b4ccc21bd0e1c40d1b98a79e9b978398c73",
+            "selector": {
+              "entries.path": "docs/lore/taboos.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ]
     }
   ]
 }

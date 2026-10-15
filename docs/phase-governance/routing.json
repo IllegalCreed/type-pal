@@ -1063,6 +1063,18 @@
       "templateId": "test-catalog-v1",
       "variant": "frozen-document-binding-baseline-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/lore/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/narrative-workflow.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/lore/taboos.md",
+      "templateId": "reference-canon-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

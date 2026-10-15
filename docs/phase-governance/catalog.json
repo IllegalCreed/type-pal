@@ -535,37 +535,73 @@
       "capability": "lore-narrative-workflow",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Only this source-specific documentation migration; old22/SAVE11 are original45d inventory capture, no runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/narrative-workflow.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
-      "afterSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+      "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
       "sourceRefs": [
         {
           "path": "docs/lore/narrative-workflow.md",
-          "lines": "1-1",
+          "lines": "1-57",
           "anchor": "叙事设计工作流 —— 从灵感到落地",
-          "role": "document-source",
+          "role": "fixed-complete-original-document-source",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
           "sha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/narrative-workflow.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
+        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+      ],
+      "legalInputs": [
+        "原source/日期/可靠性与明确版本上下文",
+        "已登记作者项目约束；未选项保未选",
+        "本次明确准入三MD，不扩到余六/四大稿/产品"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "docs governance content preservation and authority boundaries",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "六步及其六项具体产出继续适用；①–⑤纸面、⑥另须编辑器能力/内容任务准入。情境/空间/战斗、垂直切片与小实验保方法论范围；旧支线路径显式继任ideas，D19旧例不在写域，第三阶段真时间不重开二阶段。",
+          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
+        ],
+        "counter": [
+          "本轮没有具体内容全六步完成证据",
+          "D19:247旧路径例仍在白名单外，不能称全仓已同步",
+          "缺实际产品/能力准入只停相关实施，不阻纸面"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "author candidate; no independent accept",
+        "against": [
+          "old same-path source",
+          "existing lore theme sources and frozen N design",
+          "prior 20261004-lore-phase3-batch1 record"
+        ],
+        "notes": "原主题/历史结论不另建第二canon；本轮不重计已接受dlc或实际运行数"
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -574,25 +610,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Source-specific static document migration; no product execution. Retained content22/SAVE11 are solely original45d inventory capture metadata, not applicability for these lore documents.",
+            "source": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+            "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "source-specific-static-document-reception",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
+        "claims": [
+          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+          "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+          "selector": {
+            "entries.path": "docs/lore/narrative-workflow.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Source-specific document migration; status unchanged current, old original source identity/versions retained",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/narrative-workflow.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层杜撰官设、替作者选版本、撤已定红线、源逆回读或head/link/table丢失、缺真实来源/非零硬门即停止接受；不以静态绿证明runtime/E2E/视觉/coverage。 Root administrative/current-record/catalog delta must separately pass exact non-author review and zero static gates; no source signature for future bytes.",
+      "userVisibleBeforeAfter": {
+        "before": "原方法论正文迁入五个guide章节，六行产出/情境空间案例不丢；新增前置/失败/完成边界",
+        "after": "Same substantively governed c7d three bodies, seven administrative acceptance-scope substitutions, unique registry/routes and exact three catalog entries; no new canon/product/long-source credit."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-readme",
@@ -603,37 +681,73 @@
       "capability": "lore-readme",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Only this source-specific documentation migration; old22/SAVE11 are original45d inventory capture, no runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-      "afterSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+      "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
       "sourceRefs": [
         {
           "path": "docs/lore/README.md",
-          "lines": "1-1",
+          "lines": "1-62",
           "anchor": "docs/lore/ — 仙剑设定真值库",
-          "role": "document-source",
+          "role": "fixed-complete-original-document-source",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
           "sha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/README.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
+        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+      ],
+      "legalInputs": [
+        "原source/日期/可靠性与明确版本上下文",
+        "已登记作者项目约束；未选项保未选",
+        "本次明确准入三MD，不扩到余六/四大稿/产品"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "docs governance content preservation and authority boundaries",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "导航以作者裁判、AI辅助、按需查证与主题唯一事实权为核心。原不入轮回摘要与world-rules/timeline待核标签冲突，现列未知，不判假且不撤T1；原八主题索引与旧状态逐项保留，目录current不续授001–005实跑、官方认证或DLC制作。",
+          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
+        ],
+        "counter": [
+          "轮回说法官方待核；不因此撤销项目不复活约束",
+          "四大篇仍各自待全文治理，本篇不为其续期",
+          "月如A/B/五珠/用珠人/影视仍归主题源与作者"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "author candidate; no independent accept",
+        "against": [
+          "old same-path source",
+          "existing lore theme sources and frozen N design",
+          "prior 20261004-lore-phase3-batch1 record"
+        ],
+        "notes": "原主题/历史结论不另建第二canon；本轮不重计已接受dlc或实际运行数"
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -642,25 +756,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Source-specific static document migration; no product execution. Retained content22/SAVE11 are solely original45d inventory capture metadata, not applicability for these lore documents.",
+            "source": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+            "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "source-specific-static-document-reception",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+        "claims": [
+          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+          "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+          "selector": {
+            "entries.path": "docs/lore/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Source-specific document migration; status unchanged current, old original source identity/versions retained",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层杜撰官设、替作者选版本、撤已定红线、源逆回读或head/link/table丢失、缺真实来源/非零硬门即停止接受；不以静态绿证明runtime/E2E/视觉/coverage。 Root administrative/current-record/catalog delta must separately pass exact non-author review and zero static gates; no source signature for future bytes.",
+      "userVisibleBeforeAfter": {
+        "before": "原路径误绑reference-canon/governed-legacy；新五章governance-index现行导航，旧八行状态明确历史",
+        "after": "Same substantively governed c7d three bodies, seven administrative acceptance-scope substitutions, unique registry/routes and exact three catalog entries; no new canon/product/long-source credit."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-taboos",
@@ -671,37 +827,73 @@
       "capability": "lore-taboos",
       "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Only this source-specific documentation migration; old22/SAVE11 are original45d inventory capture, no runtime applicability",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/taboos.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
-      "afterSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+      "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
       "sourceRefs": [
         {
           "path": "docs/lore/taboos.md",
-          "lines": "1-1",
+          "lines": "1-105",
           "anchor": "扩展红线清单（taboos）",
-          "role": "document-source",
+          "role": "fixed-complete-original-document-source",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
           "sha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/taboos.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
+        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+      ],
+      "legalInputs": [
+        "原source/日期/可靠性与明确版本上下文",
+        "已登记作者项目约束；未选项保未选",
+        "本次明确准入三MD，不扩到余六/四大稿/产品"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "docs governance content preservation and authority boundaries",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "现行项目硬约束T1–T6含独立T5.5/月如与T6/忆如韩仲晰小蛮全部保留。旧source可靠性与官方核实分轴，T7/8/9待选保未知；仅活层精修四xref，原错指/日期/原URL/标题/表行完整回读，未裁新canon。",
+          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
+        ],
+        "counter": [
+          "原八个外站URL未重新打开/认证，T5原仅维基无具体URL不猜补",
+          "谁用珠三库内说法/生育官说/影视边界/版本呈现不替作者选择",
+          "原所谓安全区/官方预留接口保建议身份，不当全称无冲突保证"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "author candidate; no independent accept",
+        "against": [
+          "old same-path source",
+          "existing lore theme sources and frozen N design",
+          "prior 20261004-lore-phase3-batch1 record"
+        ],
+        "notes": "原主题/历史结论不另建第二canon；本轮不重计已接受dlc或实际运行数"
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -710,25 +902,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Source-specific static document migration; no product execution. Retained content22/SAVE11 are solely original45d inventory capture metadata, not applicability for these lore documents.",
+            "source": "c7d25c431edd66123dbe6407783de9b10ecc14e4",
+            "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "source-specific-static-document-reception",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+        "claims": [
+          "Exact c7d independent source/current semantic acceptance; later root administrative/catalog delta separately pending."
+        ],
+        "completePrior": {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+          "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+          "selector": {
+            "entries.path": "docs/lore/taboos.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Source-specific document migration; status unchanged current, old original source identity/versions retained",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "22a0434e31f87c38c1378ed61d620d460fdb6c15",
+            "fileSha256": "bae359c6b4200815bc489dc5d6dca429b33d68048e19e5d731c1dfe164d85b71",
+            "selector": {
+              "entries.path": "docs/lore/taboos.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层杜撰官设、替作者选版本、撤已定红线、源逆回读或head/link/table丢失、缺真实来源/非零硬门即停止接受；不以静态绿证明runtime/E2E/视觉/coverage。 Root administrative/current-record/catalog delta must separately pass exact non-author review and zero static gates; no source signature for future bytes.",
+      "userVisibleBeforeAfter": {
+        "before": "原红线按reference五章迁移，source可靠性与项目约束分轴；四错xref定向勘误，旧错完整保源",
+        "after": "Same substantively governed c7d three bodies, seven administrative acceptance-scope substitutions, unique registry/routes and exact three catalog entries; no new canon/product/long-source credit."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-timeline",

@@ -13,9 +13,9 @@
 | [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) | ideas | draft | Codex |
 | [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) | ideas | draft | Codex |
 | [故事与 DLC 设想](../lore/ideas/README.md) | ideas | draft | Codex |
-| [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) | canon | current | Codex |
-| [docs/lore/ — 仙剑设定真值库](../lore/README.md) | canon | current | Codex |
-| [扩展红线清单（taboos）](../lore/taboos.md) | canon | current | Codex |
+| [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
+| [docs/lore/ — 仙剑设定真值库](../lore/README.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
+| [扩展红线清单（taboos）](../lore/taboos.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
 | [仙剑剧情时间线与流程攻略](../lore/timeline.md) | canon | current | Codex |
 | [版本差异登记（versions）](../lore/versions.md) | canon | current | Codex |
 | [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) | canon | current | Codex |

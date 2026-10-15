@@ -24,7 +24,7 @@ Template: governance-index-v1 / 1.0.0
 | Phase1 ↔ Phase2 架构 | 一阶段保真参考，二阶段新架构 | resolved | 不继承旧模块耦合或偶然调度 |
 | Phase1 ↔ Phase2 schema/save | 知识可迁移，canonical 独立 | guarded | 没有当前字段/代码证据不宣称兼容 |
 | Phase1 历史 ↔ Ops | 旧完成横幅不关闭今天的任务 | resolved | 不从历史计划恢复待办或旧 handler 结构 |
-| Lore ↔ Phase2 内容 | 只消费确认项与明确版本 | guarded | 来源冲突、创意和安全自查不自动升格 canon |
+| Lore ↔ Phase2 内容 | 已定项目约束、旧采集/官核、纸面/实施分轴 | guarded | 不撤既定红线、不替作者选版本、不由静态治理授制作或官设认证 |
 | Guijie ↔ Phase3 | 均是未承诺候选/参考 | resolved | 需独立范围和产品裁决才能开 build |
 | Ops 证据 ↔ runtime/testing | 文档记录与实际执行各有范围 | guarded | 截图、计数、任务状态不单独证明通过 |
 | 文档类型 ↔ 全量模板 | 17 类合同，逐篇真实迁移；捕获索引自身最多增量1 | guarded | 原1838候选绑定仍是历史索引，不代替逐篇审读或全量验收 |
