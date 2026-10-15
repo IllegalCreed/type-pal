@@ -269,7 +269,7 @@
       "sha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
       "lines": 66,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -309,7 +309,9 @@
           "text": "- Codex 范围/前提核验: verified（逐文件与 branch identity 已定位动画缺帧 fallback；生产保持不变）。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md",
+      "findings": "current fallback/finish counters effective; live timer cleanup old green/new single AssertionError; same 1 identity; product unchanged; adjacent 36 pass with 6 act diagnostics; unified gates pending; no closure"
     },
     {
       "id": "3d",

@@ -87,7 +87,7 @@
 
 - [C03查看器真实生命周期](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)（20例先清51act；精确退役1纯宿主用例；相邻仍63act，完整门待续）。
 
-- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（全83卡逐卡逐文件，本轮0accept；原36/8是历史抽样；6a/92/RLE/CODE2/2b证据已落；当前0accept，续CODE3c）。
+- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（全83卡逐卡逐文件，本轮0accept；原36/8是历史抽样；6a/92/RLE/CODE2/2b/3c证据已落；当前0accept，续CODE3 extraction）。
 
 - [CODE-QUALITY-96 精确测试退役保护账](CODE-QUALITY-96/README.md)（已证重复删重的旧/新身份/count/SHA；门槛与生产范围不变，最终门待补）。
 - [CODE-QUALITY-93 game sell menu state contract](CODE-QUALITY-93/README.md)（四文件逐文件核验；测试排重、真实入口与 3 针精确反控通过，等待全仓质量门）。

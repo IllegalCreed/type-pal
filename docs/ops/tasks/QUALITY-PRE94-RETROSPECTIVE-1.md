@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3c动画清理已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -101,3 +101,13 @@ Codex premise verified/design agree/build allowed限三个现有测试：yj2.bou
 ### CODE2b当前结果
 
 原算法/重导出未改，native SDL2626段/34367608B对拍一致；规范9例承接四条混合YJ2合同并纠正注释，混合13→9、extract2弱例→1独立native字节oracle。共享变异七个失败集合完整保留，extract旧2绿/新1业务红。恢复34定向/shared126+typecheck/相邻18+typecheck/coverage-tools69通过。树归约独立向量仍待证，统一门未跑，0新关闭；下一片CODE3c工程runner，再回CODE3。
+
+## CODE3c当前复审及有限补证准入
+
+全文读取原卡、SpriteFrameWorkbench.tsx及四份相邻测试、SpriteFrames/BattleSpriteInlinePreview真实caller、world/battle语义组生成器、content sprite类型；按实际区间读取reforge公共出口与resolveSpriteActionPosition及相邻测试。原3c最终交付是缺帧动画测试，并非runner实现修复；该生产文件与专属测试仍与8fea6a4ec字节相同。缺帧是编辑器修复预览输入，非运行时严格动作绑定接受越界的新授权。
+
+隔离副本三针：删除缺帧fallback与完成guard均使现有1例产生指定AssertionError；只删除clearTimeout则原例仍1绿，证明活动定时器的卸载清理未被本例判别。生产cleanup当前正确，不称为用户行为bug。Codex premise verified/design agree/build allowed白名单仅animation-boundary.test.tsx：在同一动作合同内再激活后带活动timer卸载，断言queue归零且卸载画布不再绘制；把帧初始化移入try并用嵌套finally保证恢复。保持1例身份，不新增helper、规则、ignore、sleep或产品改动。先旧绿/新精确业务红，再恢复定向/相邻与typecheck；旧覆盖率门保留历史，当前统一门仍待续。
+
+### CODE3c本片结果
+
+原1身份加强活动timer卸载，三针各精确1个业务AssertionError、恢复正常1绿；生产与规则/baseline未动。editor模块36绿但6act，reforge相邻22零诊断、editor typecheck通过；全仓门未新跑，不合main。原两条关闭转review、0新关闭，当前机器已确认213closed/211review/2863pending。3c本轮partial；全部83卡accept仍0，7卡partial/76pending，下一片CODE3 extraction event/type模块。

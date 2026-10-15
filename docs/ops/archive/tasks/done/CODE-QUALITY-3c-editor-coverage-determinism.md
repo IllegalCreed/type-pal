@@ -64,3 +64,9 @@ Visual Verification Timing: N/A
 ## 下一位 Agent 提示词
 
 无；本批已完成，等待归档；后续继续逐文件治理。
+
+## 2026-10-16 当前源码复审（历史done保留，本轮partial）
+
+按用户94前全部83卡复审要求，全文重读原卡、生产模块、专属/相邻测试与真实caller。原最终层是缺帧动画回归，不是runner缺陷；起始实现及本例与8fea6a4ec字节相同。两原反控当前有效；删clearTimeout仍旧1绿，本片在原1身份内补活动卸载queue/不再绘制合同，新精确1个AssertionError。产品、规则、配置与baseline未改。
+
+实际读取、primary/caller/合法输入/oracle、排重、三针原生raw/JSON、历史baseline核验与限制见[当前证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md)。editor相邻36通过但6act，reforge22零诊断与editor typecheck通过；统一check/official ratchet/protected fast未新跑，不能当前accept或合main。两账本旧关闭转review、0新关闭。Next: CODE3 extraction模块，C10/94–102返工保留；无下一位Agent提示词，Codex单Agent继续。

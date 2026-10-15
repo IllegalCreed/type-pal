@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（最新主线与统一3y候选）：3,287。
-当前已闭合核验：215；已读但待审：209；尚未逐文件核验：2,863；合计未闭合：3,072。
+当前已闭合核验：213；已读但待审：211；尚未逐文件核验：2,863；合计未闭合：3,074。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -116,8 +116,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 9规范合同精确承接短头/零长尾随/重复固定值；七项变异业务红集合保持；树归约独立向量仍待证，统一门待续 |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
-| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |
-| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | CODE-QUALITY-3c；缺帧动画时序合同与 fallback mutant 反控 | Q3c done |
+| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | CODE3c当前复审；[动画切片/真实caller/边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | 原实现未改；单branch与门不能覆盖684行整文件，picker/拖拽/其它生命周期仍待验，统一门未过 |
+| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | review | CODE3c当前复审；[像素/时序/三反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | cleanup变异旧绿/新指定业务红，原1身份保留；生产未改，相邻36绿仍6act，统一门待续 |
 | `packages/pal-extract/src/resources/parsers/_utils.ts` | product | 已验证 | 直接读取 layout 常量与 u16/s16 helper；所有 parser callers、typecheck | 纯布局 helper |
 | `packages/pal-extract/src/resources/parsers/ball.ts` | product | 已验证 | RLE header/坏帧 skip、BALL caller 与 parser tests；全包通过 | 保留空 chunk skip |
 | `packages/pal-extract/src/resources/parsers/battle-fields.ts` | product | 已验证 | 12B fixed record/signed effects guard、真实 DATA caller 与 tests | 非整除显式失败 |
@@ -555,3 +555,5 @@ C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratche
 2026-10-16 CODE75复审Y01：统一3y保留main MIDI产品与12例测试原字节，删除已证明合同重复且库协议过期的旧boundaries两例（原件无损留存）。12定向、44相邻、game typecheck均通过且无运行时诊断；隔离stop代际失效仅指定业务断言失败，恢复12绿并独立核SHA/身份/清理。账本仅删除退役review行、将现有main测试pending转review；机器结果3287/223closed/198review/2866pending，0新增关闭。58卡整体验收和check/official ratchet/两父protected fast仍待集中窗口，不因本片通过合main。
 
 2026-10-16 C09 Viewer真实编辑宿主：目标五条原身份保留，宿主消融56→44act，实际解码/提交/revision和迟到读取完成等待后0；两针业务反控旧/新各4绿1指定红，最终恢复5绿。相邻80通过但其它63act；editor typecheck、docs/lint-zero/ledger通过，完整editor包631/4945全绿但759act/243环境及1只读表单告警，零诊断未过。仅目标pending→review，共享helper仍review，3287/223closed/199review/2865pending，0新关闭；全仓门留稳定窗口，未合main。
+
+2026-10-16 CODE3c复审：真实缺帧像素/终点两反控有效，但活动timer卸载变异旧1例仍绿；同一原用例补证后新精确一红，生产/规则/baseline不改。editor八文件36绿仍6act，reforge相邻22零诊断、editor typecheck通过；两旧关闭精确转review，0新增关闭，机器已重新确认213closed/211review/2863pending。原卡最终是动画回归而非已证runner缺陷，整卡partial、统一门待续。

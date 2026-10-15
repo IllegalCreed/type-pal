@@ -1,0 +1,157 @@
+{
+  "phase": "before",
+  "head": "ceda5bb12d743e83dfc92758a2950c71dbe8f78c",
+  "sourceSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+  "testSha256": "9b01aac87286d58ef041938c77410dd2aa1cfcc7a118885e73eaa74c2acb812b",
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-before-control.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-2m73tb4z/control.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.071,
+      "passed": 1,
+      "failed": 0,
+      "pending": 0,
+      "failures": [],
+      "rawSha256": "15a82d893ba45e471fa1c894ac1d8c2894dd240a82ea5a2029526673a62ac135",
+      "runnerSha256": "18e4b2593dd4959abe19fad31289a8d6f6b7d47c6a3206fc6f9d5d1cbe8bcf9c",
+      "moduleSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "testCopySha256": "8f70c94e26d607fa6ddf233ef30df9c22c9bd8a227e746c56c7be5220dfe28c8",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "fallback",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-before-fallback.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-2m73tb4z/fallback.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 1.795,
+      "passed": 0,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "name": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "messages": [
+            "AssertionError: expected \"Mock\" to be called once, but got 0 times\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-before-fallback.test.tsx:61:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "rawSha256": "7386e9bf20910a4b1c5be5146eae8725b49eb06a3de49b8dec210aa951f1e2d9",
+      "runnerSha256": "bbc4db3c14c05b2b76226042614d854a898f197e10504855235d4883ed319680",
+      "moduleSha256": "aa75fa9ffb3302739ca4d4b5c7061b70aaf70f4b83c21b7ccb289edcbdf80eec",
+      "testCopySha256": "366b1ae858c9a3886a41ee349e36146c2a6ed1105e89b5fc73f39fa98fe46414",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "finish",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-before-finish.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-2m73tb4z/finish.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 1.778,
+      "passed": 0,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "name": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "messages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-before-finish.test.tsx:70:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "rawSha256": "3a97d1f62f563cd390779c83eed0ec2be5b4961bb5d29ae710b1d160b489dd5b",
+      "runnerSha256": "85aa2466b8d015c2f5635dd14b32b9b8da5065421047b52b74e3610e1a285da9",
+      "moduleSha256": "9ab947b42c225243533f7033d0f3de0e0abc0094803b5d158f94915697b55111",
+      "testCopySha256": "483e9efdb3e2375a2ea5e9b3659ace5a83ba6a219c946f8c605b83089dbe6f56",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "cleanup",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-before-cleanup.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-2m73tb4z/cleanup.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.742,
+      "passed": 1,
+      "failed": 0,
+      "pending": 0,
+      "failures": [],
+      "rawSha256": "b988fc7a9dd11a8292bce1f92afabce4c742468e02b3fc2430a6a9b3459999d6",
+      "runnerSha256": "48cfa2f23b5f4a2a281cbb5a9731040df7ec994933b11c6c82404abe85204b8e",
+      "moduleSha256": "7d85c49031dd331b7accfd8dff1dd6a6ab13ba32bb164cc2afc4d023daea3a12",
+      "testCopySha256": "0f0e2544cace1b601cc620ef59a4114021587289360d892e661a0aa05137fafd",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "productionUnchanged": true,
+  "testUnchangedDuringProbe": true,
+  "temporaryCopiesRemoved": true
+}
