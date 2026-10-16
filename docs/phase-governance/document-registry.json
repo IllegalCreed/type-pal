@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 117,
-      "template-compliant": 616
+      "governed-legacy": 97,
+      "template-compliant": 636
     }
   },
   "entries": [
@@ -1055,17 +1055,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1170,17 +1159,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1345,17 +1323,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-INPUT-PERF-1-editor-input-and-derived-state-latency.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1379,17 +1346,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1532,17 +1488,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1577,17 +1522,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1644,51 +1578,7 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1754,17 +1644,6 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/OPS-MAP-2-x3-ending-truth-reconciliation.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1798,51 +1677,7 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1875,40 +1710,7 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1943,17 +1745,6 @@
       "reviewRecord": "20261004-structured-content-ops-04.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
@@ -2090,17 +1881,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -9370,6 +9150,266 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261017-r48-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r49-ops-archive-task.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

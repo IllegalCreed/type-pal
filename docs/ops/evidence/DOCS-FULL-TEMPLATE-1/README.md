@@ -234,3 +234,9 @@
 - [R48 只读独立复核](independent-r48-ops-archive-task-readonly-review-20261017.md)：20/20 archive task cards 全文读取；全部 `task-card-v1 + archive-record-v1`。
 - [R48 根接入回执](contributor-r48-ops-archive-task-20261017.json)：逐篇记录历史状态、source/after SHA、quote inverse、successor 和清理边界。
 - [R48 候选独立接收](independent-r48-ops-archive-task-candidate-acceptance-20261017.md)：20/20 候选接收；ops archive 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+## R49 ops archive task cards
+
+- [R49 只读独立复核](independent-r49-ops-archive-task-readonly-review-20261017.md)：20/20 archive task cards 全文读取；全部 `task-card-v1 + archive-record-v1`。
+- [R49 根接入回执](contributor-r49-ops-archive-task-20261017.json)：逐篇记录历史状态、source/after SHA、quote inverse、successor 和清理边界。
+- [R49 候选独立接收](independent-r49-ops-archive-task-candidate-acceptance-20261017.md)：20/20 候选接收；ops archive 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。

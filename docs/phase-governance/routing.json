@@ -2925,6 +2925,106 @@
       "path": "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
