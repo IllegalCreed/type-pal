@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r32-ops-cancelled-tasks-20261017",
+  "kind": "R32 phase1 status/plan migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+  "scope": {
+    "documents": 7,
+    "docTypes": {
+      "task-card": 7
+    },
+    "historyOverlay": "archive-record-v1 for all",
+    "migrationCredit": 7
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-readonly-review-20261017.json",
+    "sha256": "7b27d2ee7de1e5c1582a7154c195813a6ca1537613d879e6dd3e08d9145d49d1",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 7,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "title": "D15-2 - PAL auto 地形路线兼容修复",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+      "afterSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+      "sourceLines": 366,
+      "afterLines": 452,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 8:Blocked By: 用户裁决否定任务前提",
+        "正文信号 11:## 取消裁决（2026-08-13）",
+        "正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。",
+        "正文信号 21:## 历史目标（已取消）",
+        "正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。",
+        "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`",
+        "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath",
+        "正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、",
+        "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "title": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+      "afterSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+      "sourceLines": 143,
+      "afterLines": 223,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）",
+        "正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复",
+        "正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。",
+        "正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**",
+        "正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**",
+        "正文信号 132:- done 准入: blocked",
+        "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "title": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+      "afterSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+      "sourceLines": 32,
+      "afterLines": 102,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）",
+        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "title": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+      "afterSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+      "sourceLines": 247,
+      "afterLines": 333,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由",
+        "正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有",
+        "正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试",
+        "正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。",
+        "正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。",
+        "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。",
+        "正文信号 195:- done 准入结论: blocked",
+        "正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成",
+        "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "title": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+      "afterSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+      "sourceLines": 660,
+      "afterLines": 746,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，",
+        "正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知",
+        "正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，",
+        "正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。",
+        "正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。",
+        "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：",
+        "正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。",
+        "正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。",
+        "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "title": "已取消任务",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+      "afterSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+      "sourceLines": 7,
+      "afterLines": 77,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 1:# 已取消任务",
+        "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+      "title": "W7E - 独立地图库与场景地图绑定（已取消）",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+      "afterSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+      "sourceLines": 357,
+      "afterLines": 443,
+      "outline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）",
+        "正文信号 3:Status: cancelled",
+        "正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为",
+        "正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。",
+        "正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。",
+        "正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。",
+        "正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器",
+        "正文信号 160:- done 准入结论: blocked",
+        "正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。",
+        "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    }
+  ],
+  "candidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-candidate-acceptance-20261017.json",
+    "sha256": "bbf1363cb52b419071460b66a3c4a882d1510a019202b4bb04fc4d6f8752917a",
+    "verdict": "accept",
+    "scope": "7/7 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

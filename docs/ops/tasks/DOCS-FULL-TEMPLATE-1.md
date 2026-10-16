@@ -1087,3 +1087,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-readonly-review-20261017.json`，4/4 全文读取；全部 `archive-record-v1`。
 - 中央接入：`docs/phase-governance/reviews/20261017-r31-ops-archive-records.json`、registry/routing 4 条及 evidence receipt；ops archive paths 明确不进入 phase/lore catalog。
 - R31 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+
+### 2026-10-17 R32 ops cancelled task cards
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-readonly-review-20261017.json`，7/7 全文读取；全部 `task-card-v1 + archive-record-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json`、registry/routing 7 条及 evidence receipt；cancelled 保持历史状态，ops archive 不进入 phase/lore catalog。
+- R32 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。

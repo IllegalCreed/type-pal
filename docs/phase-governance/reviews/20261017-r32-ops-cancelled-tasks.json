@@ -1,0 +1,1428 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r32-ops-cancelled-tasks",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R32 semantic migration of 8 historical phase1 status/plan documents; preserve source and historical boundary; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "D15-2 - PAL auto 地形路线兼容修复：这是 task-card，当前文档状态为 cancelled。全文 367 行、26 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:1",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:1 D15-2 - PAL auto 地形路线兼容修复",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:11 取消裁决（2026-08-13）",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:21 历史目标（已取消）",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:27 范围与硬边界",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:45 上下文锚点（实现前必读）",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:64 根因与首个 canary",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:74 审计基线（D15-1 discovery，2026-08-13）",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:84 冻结设计（v1，三方设计 agree）"
+      ],
+      "unresolved": [
+        "正文信号 8:Blocked By: 用户裁决否定任务前提",
+        "正文信号 17:本卡后文只保留为历史审计记录；原三方设计签字不再构成 build 准入，未完成的实现不得接入",
+        "正文信号 24:继续使用 production terrain sweep，但不得因原版“不查墙”的旧路线永久等待。修复必须落在迁移",
+        "正文信号 70:- 浏览器入口：`http://localhost:6051/?scene=s004&pos=139,59&collision`。约 11.6 秒进入永久等待，",
+        "正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。",
+        "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`",
+        "正文信号 93:seal 另绑定 manifest digest，不能把未变化 manifest 冒充 writer。",
+        "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath",
+        "正文信号 107:`d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、",
+        "正文信号 108:`isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。",
+        "正文信号 115:不改变几何 trace。界外恒 blocked。",
+        "正文信号 128:`unreachable`；“当前页未引用”或“初始 state=0”都不是不可达证明。",
+        "正文信号 3:Status: cancelled",
+        "正文信号 8:Blocked By: 用户裁决否定任务前提",
+        "正文信号 11:## 取消裁决（2026-08-13）",
+        "正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。",
+        "正文信号 21:## 历史目标（已取消）",
+        "正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。",
+        "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`",
+        "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath",
+        "正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、",
+        "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-D15-2-pal-auto-terrain-route-compat",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+      "afterSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md"]
+      },
+      "revision": {
+        "currentSha": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+        "implementationSha": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+        "candidateSha256": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+        "afterSha256": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+        "lineCount": 452,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 26842,
+          "sourceLines": 366,
+          "sourceFinalNewline": true,
+          "inverseSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "7a75c163087e0f71df050d874b39d679cb4c13f7a50ea532a0c6bff49834caf6",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-452",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-08-12",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 8:Blocked By: 用户裁决否定任务前提"
+        },
+        {
+          "id": "R32-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 11:## 取消裁决（2026-08-13）"
+        },
+        {
+          "id": "R32-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。"
+        },
+        {
+          "id": "R32-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 21:## 历史目标（已取消）"
+        },
+        {
+          "id": "R32-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。"
+        },
+        {
+          "id": "R32-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`"
+        },
+        {
+          "id": "R32-8",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath"
+        },
+        {
+          "id": "R32-9",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、"
+        },
+        {
+          "id": "R32-10",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界：这是 task-card，当前文档状态为 cancelled。全文 144 行、16 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:1",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:1 ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:15 目标",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:21 范围",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:35 前提真值门",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:37 一句话前提",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:42 四向真值矩阵",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:51 直接证据与替代解释",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:64 用户可见偏离"
+      ],
+      "unresolved": [
+        "正文信号 12:> `c799cb35` 之前的72×76整卡拖拽形态。本卡未修改任何实现，Codex旧premise/design仅保留为历史草案，",
+        "正文信号 49:| 本任务目标 | shell 固定186px（30px header +156px timeline），结果门禁为 timeline clientHeight≥132；每帧 compact ActionGroup 68px/32×32，focus 完整可见。 | 本卡设计/验收；用户裁决 pending |",
+        "正文信号 110:design-system gate；受影响包全量一次。真实200%无法可靠触发时明写未实测。",
+        "正文信号 121:- Kimi: premise/design pending",
+        "正文信号 122:- GLM: premise/design pending",
+        "正文信号 128:- Codex: pending",
+        "正文信号 129:- Kimi: pending",
+        "正文信号 130:- GLM: pending",
+        "正文信号 131:- 用户验收: pending",
+        "正文信号 132:- done 准入: blocked",
+        "正文信号 136:- 2026-09-01 Codex: 三路只读审计后把本卡收窄为帧动画独立几何 slice；未修改实现。Next: 用户批准",
+        "正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）",
+        "正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复",
+        "正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。",
+        "正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**",
+        "正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**",
+        "正文信号 132:- done 准入: blocked",
+        "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+      "afterSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+        "implementationSha": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+        "candidateSha256": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+        "afterSha256": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+        "lineCount": 223,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 8576,
+          "sourceLines": 143,
+          "sourceFinalNewline": true,
+          "inverseSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "18519a403025773250bf2c94719c90d5cb5e73b49951b3e822e03b0b53c3a75b",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-223",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-09-01",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复"
+        },
+        {
+          "id": "R32-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。"
+        },
+        {
+          "id": "R32-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**"
+        },
+        {
+          "id": "R32-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**"
+        },
+        {
+          "id": "R32-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 132:- done 准入: blocked"
+        },
+        {
+          "id": "R32-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing：这是 task-card，当前文档状态为 cancelled。全文 33 行、5 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:1",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:1 ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:11 追踪原因",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:18 原目标与替代关系",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:26 当前门禁",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:30 下一位 Agent 提示词"
+      ],
+      "unresolved": [
+        "正文信号 20:- 原目标曾要求公共handle/Home/End/移动按钮下的DOM windowing；用户随后否决该整套可见形态，要求恢复",
+        "正文信号 23:保留总轨宽、稳定frame.id、selection/history与唯一save command；不再要求已被用户否决的handle/move语义。",
+        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。",
+        "正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）",
+        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+      "afterSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+        "implementationSha": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+        "candidateSha256": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+        "afterSha256": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+        "lineCount": 102,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 1633,
+          "sourceLines": 32,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "5969e9f6636dea7b52000cdfa4dce9f38166a9216e1aa098dd820fc083c8aeb9",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-102",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-09-01",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof：这是 task-card，当前文档状态为 cancelled。全文 248 行、15 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:1",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:1 OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:16 2026-08-22 current-only 终局处置",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:39 目标",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:45 范围",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:60 上下文锚点",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:84 前提真值矩阵",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:105 验收条件",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:124 推进签字"
+      ],
+      "unresolved": [
+        "正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试",
+        "正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。",
+        "正文信号 157:数字出处锚定仍未完成，PC1 后半部分继续有效。",
+        "正文信号 160:未改实现文件，未代签 Codex/GLM，未标 build/done。",
+        "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。",
+        "正文信号 190:- Codex: pending",
+        "正文信号 191:- Kimi: pending",
+        "正文信号 192:- GLM: pending",
+        "正文信号 195:- done 准入结论: blocked",
+        "正文信号 213:Next: 真实 Kimi/GLM 先审 proof 设计；未满三签不得改 release 路由。",
+        "正文信号 216:755s 锚点行已损坏且出处未锚定须修复；PC2 coverage map 必须 vitest list 机械生成禁手抄；",
+        "正文信号 217:PC3 manifest 守恒以 routeSha256 新旧对照为锚。未改实现文件，未代签 Codex/Kimi。",
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由",
+        "正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有",
+        "正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试",
+        "正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。",
+        "正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。",
+        "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。",
+        "正文信号 195:- done 准入结论: blocked",
+        "正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成",
+        "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-OPS-TST-PERF-consolidated-determinism",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+      "afterSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md"]
+      },
+      "revision": {
+        "currentSha": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+        "implementationSha": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+        "candidateSha256": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+        "afterSha256": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+        "lineCount": 333,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 18615,
+          "sourceLines": 247,
+          "sourceFinalNewline": true,
+          "inverseSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "d703e19d8420c0de478fb148e278596fe25802cc2ccec53c31dfac57e421df1a",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-333",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-08-10",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由"
+        },
+        {
+          "id": "R32-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有"
+        },
+        {
+          "id": "R32-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试"
+        },
+        {
+          "id": "R32-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。"
+        },
+        {
+          "id": "R32-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。"
+        },
+        {
+          "id": "R32-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。"
+        },
+        {
+          "id": "R32-8",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 195:- done 准入结论: blocked"
+        },
+        {
+          "id": "R32-9",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成"
+        },
+        {
+          "id": "R32-10",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner：这是 task-card，当前文档状态为 cancelled。全文 661 行、23 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:1",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:1 OPS-TST-PERF-B - shared/fresh 隔离并行 release runner",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:16 2026-08-22 current-only 终局处置",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:40 目标",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:46 范围",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:60 上下文锚点",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:83 前提真值矩阵",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:104 冻结的资源与失败矩阵",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:113 验收条件"
+      ],
+      "unresolved": [
+        "正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知",
+        "正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。",
+        "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：",
+        "正文信号 137:不是同一运行的冲突值。卡文已改为双样本并列。",
+        "正文信号 162:未改实现文件，未代签 Codex/GLM，未标 build/done。",
+        "正文信号 173:（RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。",
+        "正文信号 175:（release-wallclock:45，1992.69s run）不一致，3.2 出处未见——预算 4.5/3.5/7.5GiB 对两者均",
+        "正文信号 180:- counter / 分歧处理: 任何资源/隔离/失败矩阵 counter 均保持 blocked。",
+        "正文信号 194:对照表已列。未改实现未跑长测。",
+        "正文信号 211:覆盖地图域；在此尚未由 Kimi/GLM 独立核实前不得选择修复层。",
+        "正文信号 215:transaction evidence 发生未解释变化。任一出现即继续 `rework`。",
+        "正文信号 240:parent 证明里留下永久无覆盖面：未来任何非预期地图域漂移将不再被该 authority 捕获。",
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，",
+        "正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知",
+        "正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，",
+        "正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。",
+        "正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。",
+        "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：",
+        "正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。",
+        "正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。",
+        "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-OPS-TST-PERF-parallel-gates",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+      "afterSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md"]
+      },
+      "revision": {
+        "currentSha": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+        "implementationSha": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+        "candidateSha256": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+        "afterSha256": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+        "lineCount": 746,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 56635,
+          "sourceLines": 660,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "d0569f0cfb5c33778bb02c3f2b73db9073ce30113be788b8a9e77c52bba94207",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-746",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-08-10",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，"
+        },
+        {
+          "id": "R32-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知"
+        },
+        {
+          "id": "R32-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，"
+        },
+        {
+          "id": "R32-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。"
+        },
+        {
+          "id": "R32-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。"
+        },
+        {
+          "id": "R32-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合："
+        },
+        {
+          "id": "R32-8",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。"
+        },
+        {
+          "id": "R32-9",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。"
+        },
+        {
+          "id": "R32-10",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "已取消任务：这是 task-card，当前文档状态为 historical。全文 8 行、1 个标题；摘要/首段为「这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/README.md:1",
+        "docs/ops/archive/tasks/cancelled/README.md:1 已取消任务"
+      ],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "正文信号 1:# 已取消任务",
+        "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+      "afterSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+      "publicCallers": [
+        "docs/ops/archive/tasks/cancelled/README.md → ../README.md",
+        "docs/ops/archive/tasks/cancelled/README.md → ../../../tasks/index.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/cancelled/README.md"]
+      },
+      "revision": {
+        "currentSha": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+        "implementationSha": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+        "candidateSha256": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+        "afterSha256": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+        "lineCount": 77,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 258,
+          "sourceLines": 7,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "855debc4324bc41cb67d2aada637023c09dc9795c301f872b9d391578b9202f0",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-77",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/README.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 1:# 已取消任务"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "W7E - 独立地图库与场景地图绑定（已取消）：这是 task-card，当前文档状态为 cancelled。全文 358 行、28 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:1",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:1 W7E - 独立地图库与场景地图绑定（已取消）",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:22 目标",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:28 范围",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:51 上下文锚点",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:86 验收条件",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:114 推进签字",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:118 进入 build 前:设计签字",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:153 进入 done 前:审查签字"
+      ],
+      "unresolved": [
+        "正文信号 15:> `OwnMap`。用户明确否决该前提：旧地图格式只能存在于提取器与迁移器输入端，进入工程、",
+        "正文信号 19:> [`W7F-canonical-map-pipeline.md`](../done/W7F-canonical-map-pipeline.md) 承接。当前未提交实现只可在",
+        "正文信号 24:把自有地图从“当前场景顺带加载的一份 JSON”升级为工程内一等资产：拥有稳定 map id、独立注册表和完整列表；作者可在地图模块新建/复制/重命名/编辑地图，也可在场景模块选择、复用或打开地图。未绑定地图保存重开后仍存在，被场景引用的地图不能静默删除。",
+        "正文信号 48:- 不以扫描场景引用代替长期 map index；未引用地图必须是正式可发现资产。",
+        "正文信号 72:- `docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md` P0-2：无索引导致未引用地图重开丢发现能力。",
+        "正文信号 75:- `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。",
+        "正文信号 94:- 删除地图为单个可撤销 Command：index、内存地图和待删除文件状态一致；undo 恢复全部。",
+        "正文信号 96:- 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。",
+        "正文信号 99:- content guard：MapIndex version、id/path 唯一、相对安全 path、未知 ownMapId、legacy/new/reuse 判别均覆盖。",
+        "正文信号 100:- loader：v2 entry/lazy scene 按 id 加载；v1 legacy runtime 兼容；编辑器全量加载包含未引用地图。",
+        "正文信号 101:- project IO：blank/create/bind/save/reopen/delete/undo round-trip；未引用地图不丢；删除文件进入 diff remove。",
+        "正文信号 103:- MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。",
+        "正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）",
+        "正文信号 3:Status: cancelled",
+        "正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为",
+        "正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。",
+        "正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。",
+        "正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。",
+        "正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器",
+        "正文信号 160:- done 准入结论: blocked",
+        "正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。",
+        "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-tasks-cancelled-W7E-map-library-scene-binding",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r32_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63"
+        }
+      ],
+      "sourceSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+      "afterSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+      "publicCallers": [
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md → ../done/W7F-canonical-map-pipeline.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md"]
+      },
+      "revision": {
+        "currentSha": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+        "implementationSha": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+            "date": "2026-10-17",
+            "action": "R32 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r32-ops-cancelled-tasks-20261017.json",
+        "sourceSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+        "candidateSha256": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+        "afterSha256": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+        "lineCount": 443,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 29504,
+          "sourceLines": 357,
+          "sourceFinalNewline": true,
+          "inverseSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "78670b44ea90f344f0e9692f44cc2f7a5fb8a05cb1c4669f92d4b36ee54e3cf4",
+          "action": "R32 readonly proposal accepted then root migration",
+          "reviewer": "r32_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-443",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "candidateSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "versionScope": {
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "date": "2026-07-13",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R32-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）"
+        },
+        {
+          "id": "R32-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:Status: cancelled"
+        },
+        {
+          "id": "R32-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为"
+        },
+        {
+          "id": "R32-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。"
+        },
+        {
+          "id": "R32-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。"
+        },
+        {
+          "id": "R32-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。"
+        },
+        {
+          "id": "R32-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器"
+        },
+        {
+          "id": "R32-8",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 160:- done 准入结论: blocked"
+        },
+        {
+          "id": "R32-9",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。"
+        },
+        {
+          "id": "R32-10",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。"
+        },
+        {
+          "id": "R32-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-readonly-review-20261017.json",
+    "sha256": "7b27d2ee7de1e5c1582a7154c195813a6ca1537613d879e6dd3e08d9145d49d1",
+    "verdict": "accept-readonly-proposal",
+    "scope": "7/7 ops cancelled task cards"
+  },
+  "migrationSummary": {
+    "documents": 7,
+    "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+    "sourceQuoteInverse": "7/7",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "task-card": 7
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-candidate-acceptance-20261017.json",
+    "sha256": "bbf1363cb52b419071460b66a3c4a882d1510a019202b4bb04fc4d6f8752917a",
+    "verdict": "accept",
+    "scope": "7/7 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

@@ -132,3 +132,10 @@
 - [R31 只读独立复核](independent-r31-ops-archive-records-readonly-review-20261017.md)：4/4 acceptance/board-history 全文读取，全部 `archive-record-v1`；ops archive paths 不进入 phase/lore catalog。
 - [R31 根接入回执](contributor-r31-ops-archive-records-20261017.json)：逐篇记录历史范围、原始结论、当时证据、当前有效性、继任文档和 source/after SHA。
 - [R31 候选独立接收](independent-r31-ops-archive-records-candidate-acceptance-20261017.md)：4/4 候选接收；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R32 ops cancelled task cards
+
+- [R32 只读独立复核](independent-r32-ops-cancelled-tasks-readonly-review-20261017.md)：7/7 cancelled task cards 全文读取，全部 `task-card-v1 + archive-record-v1`；状态保持 cancelled。
+- [R32 根接入回执](contributor-r32-ops-cancelled-tasks-20261017.json)：逐篇记录目标、范围、前提、取消状态、验收边界、交接和 source/after SHA。
+- [R32 候选独立接收](independent-r32-ops-cancelled-tasks-candidate-acceptance-20261017.md)：7/7 候选接收；ops archive 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
