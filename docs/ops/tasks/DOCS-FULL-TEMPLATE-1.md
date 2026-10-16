@@ -963,3 +963,8 @@ Branch: codex/docs-full-template-proposal
 - 精确16候选7dffc49ace7cf66f29a0a649fc4ba29d75483031（自然父c3bb+07b3）保完整首current/所有历史；独立565行首counter e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c全文已读并嵌Q唯一rootIntake。C1 publication当前依赖/route角色2值、C2六作者写域混入legal input、C4根自审scene至少一项错误，共9必改scalar。原正文6/native全锁，新增当前prior均为真实7dffc Git/blob/wholeSHA/唯一selector。
 - scene实际prepare数组（可空）和reveal对象两者必有，kind只dither/fade/cut；根重读632/914及独立403源码/六个纯校验输入，明确这是根归一化错句，不归原作者/产品。当前input修正不执行完整保存或产品；原N6b/DFS/安全UI/版本未知继续。
 - C3首docs86测85过1败，旧F1 fixture hash-object等待read后根中止；原raw/sample/manifest完整独立备份保/tmp/type-pal-q6-root-first-intake-20261016，根因未知。首lint4113 EWI0/strict733/diff/progress通过分开保，不授全门。后继新针另跑全部零门、非作者仅针对本窄修/精确16闭合后才接收；full goal仍build/active。
+
+#### Q六篇根接入已独立验收
+
+- 精确13ee36134f587298b7282985a8771929004a6d3c/聚合16树688bd1f490f06ce7d7e4a0c6e287680cefdd25ae由非作者n6_intake_review闭合，303行完整报告2dcc805db21a2b343d669791cc163af77fd9dc535dac8f056a2bd4646d6c1478已全文读并入Q唯一rootIntake.actualAcceptance；205项/0问题，C1/C2/C4九字段与C3后继零全门具实际证据。完整32固定Git对象、六原native/MD及其他14文件精确；首565 counter与85/86实际失败/未知根因全保。
+- 新实际86/86、1230MD/8048local links、250正文/733strict/184phase/testing0、lint4113 E/W/I0、diff0；245/1838+5增量/current1985pending1735仅局部进度。Q current记录只指canonical事件，原作者pending固定源时点，不续签runtime/E2E/视觉/coverage或全量。此后写签收metadata单独复核，不用源签未来bytes；接续A8已实证公开cwd alias返工及其余四lore只读设计，均不自动授产品或文档build。
