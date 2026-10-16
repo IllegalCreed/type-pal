@@ -306,3 +306,9 @@
 - [R59 只读独立复核](independent-r59-ops-archive-task-cards-readonly-review-20261017.json)：36/36 已关闭 task cards 全文读取；全部接入 task-card-v1 + archive-record-v1，原状态、日期、证据、counter 和 successor 保留。
 - [R59 根接入回执](contributor-r59-ops-archive-task-cards-20261017.json)：逐篇记录 source/after SHA、quote inverse、history overlay 和清理边界。
 - [R59 候选独立接收](independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json)：36/36 候选接收；无 runtime/E2E/视觉/coverage 信用；本批不删除历史卡。
+
+## R60 testing E2E entries
+
+- [R60 只读独立复核](independent-r60-testing-e2e-entry-readonly-review-20261017.json)：8/8 全文读取；2 governance index、1 domain report、1 design-spec route proposal、4 document-audit machine evidence。
+- [R60 根接入回执](contributor-r60-testing-e2e-entry-20261017.json)：保留 testing-meta/catalog、machine fields、runtimeExecution 和 source/after SHA。
+- [R60 候选独立接收](independent-r60-testing-e2e-entry-candidate-acceptance-20261017.json)：8/8 候选接收；无 runtime/E2E/视觉/coverage 新信用。

@@ -1282,3 +1282,11 @@ Branch: codex/docs-full-template-proposal
 - R59 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json`；36/36 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：历史卡仍由任务索引、证据 README、测试 consumer 或 successor 引用；本批只治理结构，不删除 archive 文件，不把历史 done 升格当前授权。
 - 全量 1838 目标保持 active/build，当前进度 `757/1838 baseline + 10 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R60 testing E2E entries
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-readonly-review-20261017.json`，8/8 全文读取；2 navigation index、1 cross-stage domain report、1 route design-spec、4 document-audit machine evidence。
+- 中央接入：`docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json`、registry/routing 8 条；common-issues 保留 testing-meta/catalog，route-proposal 使用 catalog proposal 语义的 design-spec，e2e-002～005 使用 document-audit-v2 governance envelope。
+- R60 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-candidate-acceptance-20261017.json`；8/8 source/after、consumer、模板和机器字段接收；无 runtime/E2E/视觉/coverage 新信用。
+- 历史边界：e2e-002～005 的原 `status: verified` 与 `runtimeExecution.performed: false` 保持原义；本批只验证机器出版合同，不新增运行结论。
+- 全量 1838 目标保持 active/build，当前进度以最新 `report-governance-progress` 为准；本批不标记 done、不推送 main。

@@ -3627,6 +3627,42 @@
       "path": "docs/ops/archive/tasks/done/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "templateId": "test-domain-report-v1"
+    },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "templateId": "design-spec-v1"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-002.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-003.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-004.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-005.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
