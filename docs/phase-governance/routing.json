@@ -1350,6 +1350,111 @@
       "path": "docs/ops/archive/audits/README.md",
       "templateId": "governance-index-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/phase2/archive/designs/actor-model-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/ambience-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/asset-pipeline.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/battle-model-m4-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/content-schema.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/e6-position-authority-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/e7-follower-riding-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/editor-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/enemy-ai-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/item-data-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/menu-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/model-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/poison-system-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/project-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/project-lifecycle-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/save-system-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/scene-model-m2-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/script-model-m3-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/script-system-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/skill-data-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/designs/visual-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

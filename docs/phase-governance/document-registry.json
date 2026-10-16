@@ -8,39 +8,39 @@
   "summary": {
     "total": 733,
     "byPhase": {
-      "ops": 418,
       "lore": 14,
+      "ops": 418,
+      "phase-governance": 4,
       "phase1": 60,
       "phase2": 108,
       "phase3": 5,
-      "phase-governance": 4,
       "testing": 124
     },
     "byType": {
-      "guide-runbook": 14,
       "archive-record": 13,
-      "audit-report": 53,
-      "evidence-receipt": 49,
+      "audit-report": 60,
       "design-spec": 41,
+      "evidence-receipt": 49,
       "governance-index": 100,
-      "task-card": 333,
-      "quality-gate": 1,
-      "reference-canon": 13,
+      "guide-runbook": 14,
       "narrative-idea": 2,
       "plan-status": 66,
-      "test-e2e-stage": 6,
-      "test-run-report": 6,
-      "test-machine-evidence": 18,
-      "test-domain-report": 8,
+      "quality-gate": 1,
+      "reference-canon": 13,
+      "task-card": 333,
+      "test-catalog": 2,
       "test-contract": 1,
-      "test-catalog": 2
+      "test-domain-report": 8,
+      "test-e2e-stage": 6,
+      "test-machine-evidence": 18,
+      "test-run-report": 6
     },
     "reviewStatus": {
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 282,
-      "governed-legacy": 451
+      "governed-legacy": 430,
+      "template-compliant": 303
     }
   },
   "entries": [
@@ -5550,10 +5550,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/ambience-design.md",
@@ -5561,10 +5563,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/asset-pipeline.md",
@@ -5572,10 +5576,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/battle-model-m4-design.md",
@@ -5583,10 +5589,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/content-schema.md",
@@ -5594,10 +5602,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
@@ -5618,10 +5628,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/e7-follower-riding-design.md",
@@ -5629,10 +5641,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/editor-design.md",
@@ -5640,10 +5654,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/enemy-ai-design.md",
@@ -5651,10 +5667,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/item-data-design.md",
@@ -5662,10 +5680,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/menu-design.md",
@@ -5673,10 +5693,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/model-design.md",
@@ -5684,10 +5706,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/poison-system-design.md",
@@ -5695,10 +5719,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/project-design.md",
@@ -5706,10 +5732,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/project-lifecycle-design.md",
@@ -5717,10 +5745,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/README.md",
@@ -5741,10 +5771,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/scene-model-m2-design.md",
@@ -5752,10 +5784,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/script-model-m3-design.md",
@@ -5763,10 +5797,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/script-system-design.md",
@@ -5774,10 +5810,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/skill-data-design.md",
@@ -5785,10 +5823,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/visual-design.md",
@@ -5796,10 +5836,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-designs-r24.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",

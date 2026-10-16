@@ -68,3 +68,12 @@
 - [R23 只读独立复核](independent-r23-ops-audits-review-20261017.md)：9/9 全文读取，8 audit + 1 governance index，接受只读提案。
 - [R23 根接入回执](contributor-ops-audits-r23-20261017.json)：源/after SHA、历史冲突、模板绑定和停止线。
 - [R23 候选独立接收](independent-r23-ops-audits-candidate-acceptance-20261017.md)：9/9正文、quote inverse、三账本和静态门接收；runtime/E2E/视觉/coverage credit 为 0。
+
+
+## R24 phase2 archive designs
+
+- [R24 只读独立复核](independent-r24-phase2-designs-review-20261017.md)：21/21 phase2 archive design 全文读取，源零漂移，接受只读迁移提案；保留 4 类产品/历史边界 counter。
+- [R24 根接入回执](contributor-phase2-designs-r24-20261017.json)：21 篇按 `design-spec-v1` + `archive-record-v1` 迁移，源/after SHA、具体语义冲突、停止线和继任入口逐篇记录。
+- R24 不授予 runtime/E2E/视觉/coverage 信用；独立候选接收完成前保持 candidate/review，不能据此宣布全量完成。
+
+- [R24 候选独立接收](independent-r24-phase2-designs-candidate-acceptance-20261017.md)：21/21，quote/template/overlay/三账本/after SHA 全部接收；raw JSON 格式化差异已显式记录为 non-blocking，解析内容相等；runtime/E2E/视觉/coverage credit=0。
