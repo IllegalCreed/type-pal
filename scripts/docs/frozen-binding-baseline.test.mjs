@@ -43,6 +43,11 @@ function fixture(t) {
   }
   const save = (path, value) => write(path, `${JSON.stringify(value, null, 2)}\n`)
   execFileSync('git', ['init', '-q'], { cwd: directory })
+  execFileSync('git', ['hash-object', '-w', '--stdin'], {
+    cwd: directory,
+    input: readFileSync(join(root, '.gitattributes')),
+    encoding: 'utf8',
+  })
   const specs = [frozenDocumentBaseline.revision, `${frozenDocumentBaseline.revision}^{tree}`]
   const parts = baselinePath.split('/')
   for (let i = 1; i <= parts.length; i++)

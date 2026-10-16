@@ -82,6 +82,7 @@ function gitFixture(t) {
   // Borrow the real immutable33cc objects, without a fake baseline or an approval profile.
   const common = gitText(repository, ['rev-parse', '--path-format=absolute', '--git-common-dir'])
   put(root, '.git/objects/info/alternates', `${join(common, 'objects')}\n`)
+  put(root, '.gitattributes', readFileSync(join(repository, '.gitattributes'), 'utf8'))
   put(root, 'docs/README.md', '# UNAPPROVED format fixture\n')
   const revision = commit(root)
   return { root, revision, path: `${terminalNamespace}/${revision}.json.gz` }

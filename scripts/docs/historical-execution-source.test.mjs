@@ -62,6 +62,11 @@ function fixture(t, target) {
   const baselineText = readGitDocumentSource(root, frozenDocumentBaseline).text
   write(path, sourceText)
   git('init', '-q')
+  execFileSync('git', ['hash-object', '-w', '--stdin'], {
+    cwd: directory,
+    input: readFileSync(join(root, '.gitattributes')),
+    encoding: 'utf8',
+  })
   commitSource()
   // Copy only the frozen commit and trees/blobs on the two approved paths.
   // No repository checkout, parent history, or product files enter the fixture.
