@@ -1479,3 +1479,11 @@ Branch: codex/docs-full-template-proposal
 - R84 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-candidate-acceptance-20261017.json`；1/1 source/after SHA、模板/路由、当前状态和不授执行信用边界接收。
 - 清理边界：本页是当前证据导航入口，不能因批次旧或内容长而删除；删除任何历史 receipt 前必须同步 registry/routing/任务卡并给出 successor/SHA 证据。
 - 当前进度 `1454/1838 baseline + 26 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R85 ops evidence artifact batch
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-readonly-review-20261017.json`，100/100 ops evidence 文档全文读取；本批全部为 JSON machine artifact，保留 native top-level keys、source/after SHA 与 exact byte round-trip。
+- 中央接入：`docs/phase-governance/reviews/20261017-r85-testing-archive.json`、registry 100 条 `archive-record-v1` artifact-only；不进入 Markdown routing，不改变机器字段，不授 runtime/E2E/视觉/coverage 信用。
+- R85 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-candidate-acceptance-20261017.json`；100/100 source/after SHA、native shape、artifact envelope 和删除停止线接收。
+- 清理边界：counterproof/receipt/targets/needle 等机器证据仍由对应 evidence README、任务卡或 source consumer 引用；本批不删除，不把旧 JSON 结果升格为当前通过。
+- 当前进度 `1554/1838 baseline + 26 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
