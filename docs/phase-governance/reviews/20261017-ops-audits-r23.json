@@ -1,0 +1,1262 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-ops-audits-r23",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R23 full semantic migration of historical ops audits/index; historical claims remain historical and no runtime credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B10-1 源敌队槽位 census（2026-08-09）：完整读取 77 行/3238 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:1",
+        "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:{'line': 1, 'text': 'B10-1 源敌队槽位 census（2026-08-09）'}",
+        "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:{'line': 6, 'text': '输入与可复现命令'}",
+        "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:{'line': 20, 'text': '总账'}",
+        "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:{'line': 42, 'text': 'G2 交叉清单'}"
+      ],
+      "unresolved": [
+        "历史 census 未在当前树重跑，输入 SHA 与 v12 迁移目标需要当前候选重新绑定",
+        "仅静态源/生成数据核对；不证明 runtime、敌人 summon/divide、站位或 RNG 行为"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-b10-1-source-slot-census-2026-08-09",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
+      "afterSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+      "publicCallers": ["B10-1 任务卡 G1/G2（历史入口）", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+        "implementationSha": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
+        "candidateSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+        "afterSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+        "lineCount": 146,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 3238,
+          "sourceLines": 77,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-146",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "data/extracted/data/enemy-teams.json",
+        "projects/pal/content/enemy-teams.json",
+        "projects/pal/content/enemies.json",
+        "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:1",
+        "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:{'line': 1, 'text': 'N3-1 P7-R13 三方源语义审计合并裁决'}",
+        "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:{'line': 15, 'text': '结论'}",
+        "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:{'line': 40, 'text': '三方差集合并'}",
+        "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:{'line': 42, 'text': '# 确认最终缺失或运行时失效'}"
+      ],
+      "unresolved": [
+        "历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复",
+        "正文并列 48/58 throw、10/14 pendingSkills、0x76/0x9B、旧版本等争议，需以当时上下文和后继记录解释",
+        "包含迁移/运行时设计提案，未给出现行候选的 runtime/E2E/visual/coverage 证明",
+        "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-codex-p7-r13-three-way-adjudication",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
+      "afterSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+      "publicCallers": ["P7-R13 任务卡/后继 R13 记录", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+        "implementationSha": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
+        "candidateSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+        "afterSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+        "lineCount": 301,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 15315,
+          "sourceLines": 230,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-301",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/reforge/src/main.ts",
+        "reference/sdlpal/script.c",
+        "R13-0~R13-Z 后继任务卡与 evidence"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:1",
+        "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:{'line': 1, 'text': 'N3-1 P7-R13-4 `confirm` 源控制流审计'}",
+        "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:{'line': 9, 'text': '1. 冻结口径'}",
+        "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:{'line': 30, 'text': '2. 26 RAW → 28 logical → 31 physical'}",
+        "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:{'line': 79, 'text': '3. 用户可见反例'}"
+      ],
+      "unresolved": [
+        "当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约",
+        "确认框运行时、存档屏障、Editor v5 预览和浏览器 canary 均为当时验收要求，不是本篇静态证据",
+        "No/Yes 语义和 31 个物理节点必须以当前 canonical 产物复核，旧 digest 不能单独授权 build",
+        "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-codex-r13-4-confirm-control-flow-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
+      "afterSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+      "publicCallers": ["R13-4 任务卡及后继 evidence", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+        "implementationSha": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
+        "candidateSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+        "afterSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+        "lineCount": 346,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 16555,
+          "sourceLines": 275,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-346",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "data/extracted/events/all.json",
+        "packages/migrate/src/experimental/script-v5/p7-canonical.ts",
+        "packages/reforge/src/main.ts",
+        "R13-4 published seal/MG2 records"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:1",
+        "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:{'line': 1, 'text': 'P7-R13-5 敌人脚本源语义审计'}",
+        "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:{'line': 7, 'text': '结论'}",
+        "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:{'line': 50, 'text': '12 个 pending 敌人逐项 disposition'}",
+        "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:{'line': 67, 'text': '强制非 pending 金丝雀'}"
+      ],
+      "unresolved": [
+        "pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合",
+        "敌人持久 cursor、battle-only choreography、onDefeated canonical authority、fail-loud 生成门禁属于未决公共 delta",
+        "只读报告不授予敌人脚本、战斗演出、存档或 runtime 验收信用",
+        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-codex-r13-5-enemy-source-semantics-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
+      "afterSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+      "publicCallers": ["P7-R13-5 任务卡/后继 evidence", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+        "implementationSha": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
+        "candidateSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+        "afterSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+        "lineCount": 221,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 10866,
+          "sourceLines": 150,
+          "sourceFinalNewline": true,
+          "inverseSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-221",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/migrate/src/pal-boss-overlay.ts",
+        "packages/reforge/src/battle/battle-session.ts",
+        "reference/sdlpal/fight.c",
+        "reference/sdlpal/script.c"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4"
+    },
+    {
+      "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/documentation-2026-09-06.md:1",
+        "docs/ops/archive/audits/documentation-2026-09-06.md:{'line': 1, 'text': 'DOC-AUDIT-1 · 仓库文档与信息架构审计'}",
+        "docs/ops/archive/audits/documentation-2026-09-06.md:{'line': 8, 'text': '结论'}",
+        "docs/ops/archive/audits/documentation-2026-09-06.md:{'line': 24, 'text': '1. 范围与口径'}",
+        "docs/ops/archive/audits/documentation-2026-09-06.md:{'line': 26, 'text': '# 1.1 规模快照'}"
+      ],
+      "unresolved": [
+        "基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度",
+        "建议批次未全部实施；文档明确清理、迁移、自动门禁均未开始",
+        "部分历史建议与后续 current-only/模板治理规则需由新 governance index 和 task card 接管",
+        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-documentation-2026-09-06",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
+      "afterSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+      "publicCallers": [
+        "DOC-AUDIT-1 后继 docs 任务/当前 check:docs",
+        "docs/ops/archive/audits/README.md"
+      ],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/documentation-2026-09-06.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+        "implementationSha": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
+        "candidateSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+        "afterSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+        "lineCount": 389,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 20409,
+          "sourceLines": 318,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-389",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "packages/content/src/character.ts",
+        "docs/phase2/README.md",
+        "docs/phase2/roadmap.md",
+        "docs/phase2/capability-map.md",
+        "package.json",
+        "scripts/docs"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0"
+    },
+    {
+      "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:1",
+        "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:{'line': 1, 'text': 'GLM P7-R13 源指令语义闭包独立审计报告'}",
+        "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:{'line': 6, 'text': '审计方法'}",
+        "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:{'line': 12, 'text': '全域矩阵'}",
+        "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:{'line': 26, 'text': '一、确认最终缺失'}"
+      ],
+      "unresolved": [
+        "正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正",
+        "静态审计和内存 report 不提供当前 runtime/E2E/visual/coverage 证明",
+        "setPalette/0x08/0x76/no-op 与敌人语义需要后继 source disposition 和动态验收",
+        "必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-glm-p7-r13-source-semantics-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
+      "afterSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+      "publicCallers": ["N3-1/P7-R13 合并裁决与后继任务", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+        "implementationSha": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
+        "candidateSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+        "afterSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+        "lineCount": 398,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 19750,
+          "sourceLines": 327,
+          "sourceFinalNewline": true,
+          "inverseSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-398",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "data/extracted/events/all.json",
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/migrate/src/migration-diagnostic.ts",
+        "projects/pal/content/migration-diagnostics.json"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": ["必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1"
+    },
+    {
+      "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:1",
+        "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:{'line': 1, 'text': 'N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi，架构 / SDLPal 语义红队）'}",
+        "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:{'line': 8, 'text': '§1 确认最终缺失(最终产物中没有等价物,用户可感知)'}",
+        "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:{'line': 10, 'text': '# M1.【新发现·最重】0x04 callScript 的 owner 操作数 off-by-one,12 个站点错绑实体'}",
+        "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:{'line': 19, 'text': '# M2. 0x08 checkpoint 语义全丢;前缀副作用在重触发时重放,含 6 处物品、5 处金钱刷取点'}"
+      ],
+      "unresolved": [
+        "基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定",
+        "报告把若干结构性开放口列为风险或缺失，明确要求动态验证；静态读证不能升格为当前缺陷已修复或已重现",
+        "提出 instruction disposition、diagnostics、context matrix、身份 oracle、副作用重放和单源翻译器等后继设计，但未实施",
+        "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-kimi-p7-r13-source-semantics-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
+      "afterSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+      "publicCallers": ["N3-1/P7-R13 合并裁决与后继任务", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+        "implementationSha": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
+        "candidateSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+        "afterSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+        "lineCount": 284,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 19435,
+          "sourceLines": 214,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-284",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "reference/sdlpal/script.c",
+        "reference/sdlpal/scene.c",
+        "reference/sdlpal/play.c",
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/reforge/src/main.ts"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985"
+    },
+    {
+      "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:1",
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:{'line': 1, 'text': 'OPS-TST-PERF G1 旧断言去向映射'}",
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:{'line': 14, 'text': '44 条逐项映射'}",
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:{'line': 63, 'text': '守恒与剩余 source proof'}"
+      ],
+      "unresolved": [
+        "此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行",
+        "44 条映射中的旧测试与后继测试文件/标题属于历史快照，当前运行状态需由 testing catalog/evidence 核对",
+        "位于 ops archive 且正文是历史审计映射，暂不改绑 test-domain-report；若未来迁移为测试域报告，需先冻结新 template/consumer 设计",
+        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-OPS-TST-PERF-g1-coverage-map",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
+      "afterSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+      "publicCallers": [
+        "OPS-TST-PERF 任务/后继 testing evidence",
+        "docs/ops/archive/audits/README.md"
+      ],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+        "implementationSha": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
+        "candidateSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+        "afterSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+        "lineCount": 137,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 11920,
+          "sourceLines": 68,
+          "sourceFinalNewline": true,
+          "inverseSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-137",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+        "packages/migrate/src/experimental/script-v5/* tests",
+        "docs/testing/catalog.json",
+        "对应后继 test files"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468"
+    },
+    {
+      "path": "docs/ops/archive/audits/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史审计回执：完整读取 17 行/1038 字节；按正文确定为 governance-index / governance-index-v1，历史材料保留原结论和日期。",
+      "truthAnchors": [
+        "docs/ops/archive/audits/README.md:1",
+        "docs/ops/archive/audits/README.md:{'line': 1, 'text': '历史审计回执'}",
+        "docs/ops/archive/audits/README.md:{'line': 7, 'text': '文档与附件'}"
+      ],
+      "unresolved": [
+        "现有 registry 将 README 误绑为 audit-report；正文是索引导航，应改 governance-index-v1",
+        "列表本身不提供审计事实、执行证明或当前状态；其链接目标仍需由各篇 review/SHA 独立治理",
+        "README 已含后续新增 worktree-retirement 链接，必须以当前 SHA 记录，不回写旧 review",
+        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-audits-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r23_ops_audits_review",
+          "readonlyVerdict": "accept-readonly-proposal",
+          "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5"
+        }
+      ],
+      "sourceSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
+      "afterSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+      "publicCallers": ["docs/ops/archive/README.md", "各历史审计正文"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/README.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "revision": {
+        "currentSha": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+        "implementationSha": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
+        "sourceSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
+        "candidateSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+        "afterSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+        "lineCount": 58,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 1038,
+          "sourceLines": 17,
+          "sourceFinalNewline": true,
+          "inverseSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R23 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "r23_ops_audits_review + root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; historical claims remain scoped"
+      ],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/冲突保持 → 增加具体模板章节、历史 overlay（如适用）和源/after SHA；产品事实不变。",
+      "reviewedLines": "1-58",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "primarySource": ["docs/ops/archive/audits/*.md"],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "counterReworkBlocked": [
+        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
+      ],
+      "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+      "candidateSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af"
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-review-20261017.json",
+    "sha256": "7d4331a394fd700bf56c5cff29eb982f7f20718932d7f952489017a8a6bc16de",
+    "verdict": "accept-readonly-proposal",
+    "scope": "9/9 full read; 8 audit + 1 governance index"
+  },
+  "migrationSummary": {
+    "documents": 9,
+    "sourceRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+    "sourceZeroDrift": true,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-candidate-acceptance-20261017.json",
+    "verdict": "accept",
+    "scope": "9/9 candidate documents; source/after/quote inverse and three ledgers; runtime/E2E/visual/coverage credit=0",
+    "sha256": "8a39d62d5a759e9911e7e2bf5e23bef7ae967b42f4b1b7ae55bca1dd7a8e3d22"
+  }
+}

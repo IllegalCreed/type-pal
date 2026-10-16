@@ -1305,6 +1305,51 @@
       "path": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
       "templateId": "audit-report-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/audits/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

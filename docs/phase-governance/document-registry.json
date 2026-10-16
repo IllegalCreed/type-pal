@@ -19,10 +19,10 @@
     "byType": {
       "guide-runbook": 14,
       "archive-record": 13,
-      "audit-report": 61,
+      "audit-report": 53,
       "evidence-receipt": 49,
       "design-spec": 41,
-      "governance-index": 99,
+      "governance-index": 100,
       "task-card": 333,
       "quality-gate": 1,
       "reference-canon": 13,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 273,
-      "governed-legacy": 460
+      "template-compliant": 282,
+      "governed-legacy": 451
     }
   },
   "entries": [
@@ -84,10 +84,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
@@ -95,10 +97,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
@@ -106,10 +110,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
@@ -117,10 +123,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
@@ -128,10 +136,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
@@ -139,10 +149,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
@@ -150,10 +162,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
@@ -161,21 +175,25 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/audits/README.md",
       "phase": "ops",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-ops-audits-r23.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",

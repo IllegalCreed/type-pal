@@ -62,3 +62,9 @@
 - [R22 根接入回执](contributor-phase2-audits-r22-20261017.json)：18 audit、3 plan、1 reference 的模板迁移、源/after SHA 与历史边界。
 - [R22 只读独立复核](independent-r22-review-20261017.json)：13篇非作者全文复核，38条历史冲突，接受只读提案。
 - [R22 候选独立接收](independent-r22-candidate-acceptance-20261017.md)：22/22正文、quote inverse、三账本和静态门接受；runtime/E2E/视觉/coverage credit 为 0。
+
+## R23 ops archive audits
+
+- [R23 只读独立复核](independent-r23-ops-audits-review-20261017.md)：9/9 全文读取，8 audit + 1 governance index，接受只读提案。
+- [R23 根接入回执](contributor-ops-audits-r23-20261017.json)：源/after SHA、历史冲突、模板绑定和停止线。
+- [R23 候选独立接收](independent-r23-ops-audits-candidate-acceptance-20261017.md)：9/9正文、quote inverse、三账本和静态门接收；runtime/E2E/视觉/coverage credit 为 0。

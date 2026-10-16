@@ -1017,3 +1017,12 @@ Branch: codex/docs-full-template-proposal
 - R22 完成条件：22/22 after SHA 与 live bytes 相等；五节模板及五节历史 overlay 有实际内容；source/after、before→after、primary source、合法输入、business oracle、dedupe、counter/rework/blocked、supersedes、stop line、next step 均在 review record。
 - 独立接收回执：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json`（verdict `accept`；22/22；runtime/E2E/视觉/coverage credit=0）。
 - 下一步：独立复核本次 22 篇候选正文、catalog/routing/registry、GFM 链接和全静态门；若发现语义或合同问题返工，不把作者或只读回执自验当 accept。
+
+
+### 2026-10-17 R23 ops archive audits
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-review-20261017.json`，9/9 全文读取，verdict `accept-readonly-proposal`，blockingCounters=0。
+- 8 篇按 `audit-report-v1` + archive history overlay 迁移；`docs/ops/archive/audits/README.md` 按正文纠正为 `governance-index-v1`，不加历史 overlay；OPS-TST-PERF 继续 audit-report，未擅自改为 test-domain-report。
+- 中央接入：`docs/phase-governance/reviews/20261017-ops-audits-r23.json`、registry/routing 9 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
+- R23 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-candidate-acceptance-20261017.json`，verdict `accept`，9/9，runtime/E2E/视觉/coverage credit=0。
+- R23 后全静态门已通过；全量目标保持 active/build，未标 done。
