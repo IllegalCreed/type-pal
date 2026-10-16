@@ -368,3 +368,8 @@
 
 - [R71 readonly](independent-r71-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
 - [R71 acceptance](independent-r71-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。
+
+## R72 testing archive documents
+
+- [R72 readonly](independent-r72-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
+- [R72 acceptance](independent-r72-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。
