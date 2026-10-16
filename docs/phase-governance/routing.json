@@ -1191,6 +1191,10 @@
     {
       "path": "docs/phase2/guides/shared-script-author-guide.md",
       "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/lore/characters.md",
+      "templateId": "reference-canon-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 250,
-      "governed-legacy": 483
+      "template-compliant": 251,
+      "governed-legacy": 482
     }
   },
   "entries": [
@@ -4356,10 +4356,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-remaining-l4.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/dlc-ideas.md",

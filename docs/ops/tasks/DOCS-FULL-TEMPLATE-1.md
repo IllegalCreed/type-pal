@@ -991,3 +991,11 @@ Branch: codex/docs-full-template-proposal
 
 - 首6路径候选5b25a9328512d4831a9720128617b442fd5595cd/tree6cdbe641保完整字节；真实docs120/120后因reviews README缺两新设计入口报2项，链内model/testing/phase当次未继续执行。独立strict733/progress245+5/current1990pending1740/diff0；lint真实4122 EWI0，根先前转述4124已据raw纠正，失败未洗成首绿。
 - 目录README全文49行已读，实际不在registry、没有current记录；不造签字/迁移。仅补两设计和Q/A8接入导航、把旧N三篇/余六pending摘要改指九篇唯一n6RootIntake，其余旧行和日期精确保留。完整旧页在655b Git，维护与首失败唯一见L4 control.rootIndexMaintenance/firstRootAdmissionFailure；后继7路径/实际零门及非作者窄修接收另验。两正文/代码Owner尚未获新树指令，未实际开写。
+
+#### 当前 characters / HTML bootstrap 批次接收与暂停边界
+
+- 用户要求审完本批后暂停；本轮仅 characters 首 pilot、HTML 三路径 bootstrap 和 R22 只读提案收件。其余三篇 L4、HTML helper/版本/正文 pilot、R22 writer、B/C0/C1均不启动。全目标未完成，不推 main、不清理仍需恢复的分支/worktree。
+- characters 固定源 f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b 保原321与新643、完整17top/43；独立源语义接收见 [L4 唯一记录](../../phase-governance/reviews/20261016-lore-remaining-l4.json)。只一条 unique current/route 和 draft 成熟度投影，N9不重计；目录两句指针维护不重迁移，原current/原文完整Git保留。源实际单SHA漂移FAIL不洗绿，根接账后全门另实测。
+- HTML bootstrap 固定 d33682b9b83dd39169e11f1cd1bec1461385b8f9 仅直接parse5精确依赖、docs工作流完整历史/精确Node/pnpm/frozen install。干净clone真实首轮旧fixture stdin阻塞及本地中断失败保留；原样后继门与非作者root接收见 [HTML 唯一记录](../../phase-governance/reviews/20261016-historical-static-html.json)，不冒GitHub job或HTML实现已过。
+- [R22只读提案回执](../evidence/DOCS-FULL-TEMPLATE-1/readonly-phase2-audits-r22-20261016.json) 保完整逐篇设计表/manifest；作者22篇7680行，根9篇998行独立实读分开。18审计/3计划/1参考均现有1.0+历史overlay；未授build、未迁移或签22源已审。
+- 根实际冻结后的 docs/lint/diff/strict/progress和必要共享层非作者验收另附固定树证据；未过则留candidate/rework。暂停后保留确切下一步与所有失败，不为硬门伪造completed。

@@ -6,7 +6,7 @@
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [官方角色设定（characters）](../lore/characters.md) | canon | current | Codex |
+| [官方角色设定（characters）](../lore/characters.md) | canon | draft | Codex governance; original author unknown |
 | [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) | ideas | draft | Codex |
 | [仙剑江湖势力关系图（factions）](../lore/factions.md) | canon | draft | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
 | [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) | ideas | draft | Codex |

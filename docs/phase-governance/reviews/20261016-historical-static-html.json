@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-16",
-  "scope": "Three historical static HTML exact format/design freeze; only dependency/history bootstrap first stage admission",
+  "scope": "Three-path dependency/history bootstrap source reception; historical HTML implementation/version/pilots remain paused and unbuilt",
   "entries": [],
   "migrationCredit": 0,
   "design": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
@@ -551,8 +551,610 @@
     }
   },
   "rootIntake": {
-    "status": "design freeze only; actual bootstrap/code/version/pilot source and central intake remain unaccepted",
-    "actualAcceptance": null
+    "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+    "source": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+    "status": "bootstrap source independently accepted only; exact root intake/gates pending",
+    "actualAcceptance": null,
+    "bootstrapSourceReception": {
+      "path": "/tmp/type-pal-html-bootstrap-root-independent-review-20261016.json",
+      "sha256": "234c72678f28eee8eed3e0e0c7ca720c0d918c090101d55319c1ca35f6b1b002",
+      "completeReport": {
+        "kind": "nonauthor-root-bootstrap-independent-review",
+        "date": "2026-10-16",
+        "reviewer": "Codex root, nonauthor of exact three-file source",
+        "verdict": "accept-bootstrap-only",
+        "sourceRevision": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+        "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "readScope": "Fresh entire three-file diff plus full workflow/package and lock importer; current source/clean clone identities and all37 artifact hashes checked. Complete delivery manifest/short report/frozen prerequisite/install/watchdog and actual final gate summaries independently read. No full other product/test source audit claimed.",
+        "sourcePaths": [".github/workflows/docs.yml", "package.json", "pnpm-lock.yaml"],
+        "proof": {
+          "node": "v22.23.2",
+          "parser": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal/node_modules/.pnpm/parse5@8.0.1/node_modules/parse5/dist/index.js",
+          "entities": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal/node_modules/.pnpm/entities@8.0.0/node_modules/entities/dist/index.js",
+          "oracle": "& < 一",
+          "synchronous": true
+        },
+        "exactSourceAndCloneClean": true,
+        "all37ArtifactsExact": true,
+        "actualInstallAndRerun": {
+          "candidate": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+          "retryReason": "Original unchanged fixture git hash-object --stdin blocked beyond existing workflow five-minute deadline; original raw and watchdog preserved, no source/environment weakening",
+          "firstAttemptRecord": "/tmp/type-pal-html-bootstrap-gate-results-20261016.json",
+          "commands": [
+            {
+              "gate": "docs",
+              "command": ["pnpm", "check:docs"],
+              "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+              "CI": "true",
+              "exitCode": 0,
+              "timedOutAt300Seconds": false,
+              "elapsedSeconds": 37.518065,
+              "stdout": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stdout",
+                "bytes": 29681,
+                "sha256": "70051e14b8d0921f77865532e5e9e6e06ea4206f4654fbc02033c721120bdad2"
+              },
+              "stderr": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stderr",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "gate": "progress",
+              "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+              "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+              "CI": "true",
+              "exitCode": 0,
+              "timedOutAt300Seconds": false,
+              "elapsedSeconds": 1.111152,
+              "stdout": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stdout",
+                "bytes": 80160,
+                "sha256": "acd214a00434dedfb1be390e01f0b1bdee096f768a3dead53aa7e0e6d0c7d119"
+              },
+              "stderr": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stderr",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "gate": "lint",
+              "command": ["pnpm", "lint"],
+              "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+              "CI": "true",
+              "exitCode": 0,
+              "timedOutAt300Seconds": false,
+              "elapsedSeconds": 2.117845,
+              "stdout": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stdout",
+                "bytes": 246,
+                "sha256": "28da9ca62b35db3f23ad012d77050057b19db957dc1af6544315b12d38275964"
+              },
+              "stderr": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stderr",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "gate": "diff",
+              "command": ["git", "diff", "--check"],
+              "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+              "CI": "true",
+              "exitCode": 0,
+              "timedOutAt300Seconds": false,
+              "elapsedSeconds": 0.02473,
+              "stdout": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stdout",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stderr": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stderr",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "gate": "candidate-diff",
+              "command": [
+                "git",
+                "diff",
+                "33c878b7f8e2c45e0f189686fcbde545556451aa..HEAD",
+                "--check"
+              ],
+              "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+              "CI": "true",
+              "exitCode": 0,
+              "timedOutAt300Seconds": false,
+              "elapsedSeconds": 0.019925,
+              "stdout": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stdout",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stderr": {
+                "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stderr",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            }
+          ],
+          "allCommandsExecuted": true,
+          "diagnosticsReview": {
+            "status": "actual raw output reviewed; rerun zero E/W/I",
+            "docsExactSummaries": [
+              "# tests 120",
+              "# pass 120",
+              "# fail 0",
+              "# cancelled 0",
+              "# skipped 0",
+              "# todo 0",
+              "docs: PASS (0 issues)",
+              "document model: PASS (7 routes; 250 body contracts; 0 issues; structure only)",
+              "testing docs: PASS (0 issues)",
+              "phase/lore governance: PASS (184 documents)",
+              "content review: PASS (733 documents; {\"content-reviewed\":733})"
+            ],
+            "progressIssues": [],
+            "lintExactSummary": "lint: PASS — 4122 files; 0 errors / 0 warnings / 0 infos; complete report",
+            "allStderrEmpty": true,
+            "diffBothStreamsEmpty": true,
+            "firstAttemptRemainsFailedAndPreserved": true
+          },
+          "githubJobExecuted": false
+        },
+        "completeAuthorDelivery": {
+          "kind": "HistoricalStaticHtmlPhaseABootstrapOnlyCandidateDelivery",
+          "status": "pending independent parent review; stop after current delivery",
+          "owner": "/root/html_contract_refinement",
+          "sourceCommit": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+          "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "managedTree": "/Users/zhangxu/.codex/worktrees/docs-html-bootstrap/type-pal",
+          "branch": "codex/docs-html-bootstrap",
+          "cleanClone": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+          "exactChangedPaths": [".github/workflows/docs.yml", "package.json", "pnpm-lock.yaml"],
+          "files": [
+            {
+              "path": ".github/workflows/docs.yml",
+              "beforeBlob": "4eb12a32b737415dcb25395e2063a43e6915d955",
+              "afterBlob": "c583c4e9daec8eb9360781c48f403fe61ebe062a",
+              "afterBytes": 837,
+              "afterSha256": "f876fb22554ae938e24fca23b333b851c830aa5338fe15adf3522e310fc7b6a9",
+              "sourceAndCloneByteIdentical": true
+            },
+            {
+              "path": "package.json",
+              "beforeBlob": "0571b744c7d6b80a841cee4e26fe40080333d4ae",
+              "afterBlob": "1dbfb6b1e6cfa5872e8795d822effacdf26dd8c0",
+              "afterBytes": 4020,
+              "afterSha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+              "sourceAndCloneByteIdentical": true
+            },
+            {
+              "path": "pnpm-lock.yaml",
+              "beforeBlob": "381986b81661d8a69d77deeb308ea098e6b768ae",
+              "afterBlob": "3185fd81c42d1df7b50799db1dae7d9e46b910a9",
+              "afterBytes": 81822,
+              "afterSha256": "117c3288aba496e99dd667b9b81110b61a188e771661e30df1e38f57195e459b",
+              "sourceAndCloneByteIdentical": true
+            }
+          ],
+          "candidateAndCloneClean": true,
+          "independentAcceptanceClaimed": false,
+          "pushed": false,
+          "mainModified": false,
+          "repoFourthFile": false,
+          "realInstall": {
+            "kind": "Actualfrozenlockfileinstallinprivateindependentfullhistoryclone",
+            "command": ["pnpm", "install", "--frozen-lockfile"],
+            "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+            "candidate": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+            "CI": "true",
+            "exitCode": 0,
+            "elapsedSeconds": 0.933762583,
+            "stdout": {
+              "path": "/tmp/type-pal-html-bootstrap-frozen-install-20261016.stdout",
+              "bytes": 486,
+              "sha256": "694b2af42a41662bd5faff717dcfd4995daf665b3e672c03a8b98adfd9186dc6"
+            },
+            "stderr": {
+              "path": "/tmp/type-pal-html-bootstrap-frozen-install-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "noPhysicalPackageCopy": true,
+            "noSharedNodeModules": true,
+            "noIgnoreScripts": true,
+            "noFilterOrOfflineSubstitute": true,
+            "githubJobExecuted": false
+          },
+          "parserProof": {
+            "parserEntry": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal/node_modules/.pnpm/parse5@8.0.1/node_modules/parse5/dist/index.js",
+            "parse5Version": "8.0.1",
+            "entitiesEntry": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal/node_modules/.pnpm/entities@8.0.0/node_modules/entities/dist/index.js",
+            "entitiesVersion": "8.0.0",
+            "synchronousPackageNameRequire": true,
+            "entityParseOracle": "& < 一",
+            "htmlJavaScriptExecuted": false
+          },
+          "firstAttempt": {
+            "result": "failed after local watchdog interrupted Git child beyond existing workflow five-minute deadline",
+            "docsExitCode": 1,
+            "elapsedSeconds": 331.287364,
+            "tests": 120,
+            "pass": 119,
+            "fail": 1,
+            "laterGatesExecuted": false,
+            "rawPreserved": true,
+            "rootCauseExplained": false,
+            "githubJobFailureClaimed": false
+          },
+          "unchangedRerun": {
+            "candidate": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
+            "retryReason": "Original unchanged fixture git hash-object --stdin blocked beyond existing workflow five-minute deadline; original raw and watchdog preserved, no source/environment weakening",
+            "firstAttemptRecord": "/tmp/type-pal-html-bootstrap-gate-results-20261016.json",
+            "commands": [
+              {
+                "gate": "docs",
+                "command": ["pnpm", "check:docs"],
+                "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+                "CI": "true",
+                "exitCode": 0,
+                "timedOutAt300Seconds": false,
+                "elapsedSeconds": 37.518065,
+                "stdout": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stdout",
+                  "bytes": 29681,
+                  "sha256": "70051e14b8d0921f77865532e5e9e6e06ea4206f4654fbc02033c721120bdad2"
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stderr",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              {
+                "gate": "progress",
+                "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+                "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+                "CI": "true",
+                "exitCode": 0,
+                "timedOutAt300Seconds": false,
+                "elapsedSeconds": 1.111152,
+                "stdout": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stdout",
+                  "bytes": 80160,
+                  "sha256": "acd214a00434dedfb1be390e01f0b1bdee096f768a3dead53aa7e0e6d0c7d119"
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stderr",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              {
+                "gate": "lint",
+                "command": ["pnpm", "lint"],
+                "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+                "CI": "true",
+                "exitCode": 0,
+                "timedOutAt300Seconds": false,
+                "elapsedSeconds": 2.117845,
+                "stdout": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stdout",
+                  "bytes": 246,
+                  "sha256": "28da9ca62b35db3f23ad012d77050057b19db957dc1af6544315b12d38275964"
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stderr",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              {
+                "gate": "diff",
+                "command": ["git", "diff", "--check"],
+                "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+                "CI": "true",
+                "exitCode": 0,
+                "timedOutAt300Seconds": false,
+                "elapsedSeconds": 0.02473,
+                "stdout": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stdout",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stderr",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              {
+                "gate": "candidate-diff",
+                "command": [
+                  "git",
+                  "diff",
+                  "33c878b7f8e2c45e0f189686fcbde545556451aa..HEAD",
+                  "--check"
+                ],
+                "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal",
+                "CI": "true",
+                "exitCode": 0,
+                "timedOutAt300Seconds": false,
+                "elapsedSeconds": 0.019925,
+                "stdout": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stdout",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stderr",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              }
+            ],
+            "allCommandsExecuted": true,
+            "diagnosticsReview": {
+              "status": "actual raw output reviewed; rerun zero E/W/I",
+              "docsExactSummaries": [
+                "# tests 120",
+                "# pass 120",
+                "# fail 0",
+                "# cancelled 0",
+                "# skipped 0",
+                "# todo 0",
+                "docs: PASS (0 issues)",
+                "document model: PASS (7 routes; 250 body contracts; 0 issues; structure only)",
+                "testing docs: PASS (0 issues)",
+                "phase/lore governance: PASS (184 documents)",
+                "content review: PASS (733 documents; {\"content-reviewed\":733})"
+              ],
+              "progressIssues": [],
+              "lintExactSummary": "lint: PASS — 4122 files; 0 errors / 0 warnings / 0 infos; complete report",
+              "allStderrEmpty": true,
+              "diffBothStreamsEmpty": true,
+              "firstAttemptRemainsFailedAndPreserved": true
+            },
+            "githubJobExecuted": false
+          },
+          "progress": {
+            "approvedCohort": 1838,
+            "cohortMigrated": 245,
+            "cohortPending": 1593,
+            "currentCandidates": 1990,
+            "currentPending": 1740,
+            "incrementalMigrated": 5
+          },
+          "bootstrapMigrationCredit": 0,
+          "githubJobExecuted": false,
+          "runtimeE2EVisualCoverageExecuted": false,
+          "futureHtmlCodeRegistryVersionPilotStarted": false,
+          "pauseBoundary": "Parent independently reviews only current started batches, then pauses per latest user instruction; no follow-on work authorized here.",
+          "temporaryOwnership": [
+            "private clean-clone directory /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6",
+            "private corrected-stdin primitive fixture /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-bootstrap-stdin-probe-Fc1kB8"
+          ],
+          "artifacts": [
+            {
+              "path": "/tmp/type-pal-html-bootstrap-admission-and-rules-20261016.json",
+              "bytes": 3206,
+              "sha256": "a42588bb1dc8ace4649fee7280dc5869e72eb0450dc82e4bca2521708099ba06"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-precommit-20261016.json",
+              "bytes": 1083,
+              "sha256": "ab79122bc94c18d69d2ab87a2f40f3fe44e990f9363303a1f561064b77fab415"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-clean-clone-manifest-20261016.json",
+              "bytes": 1005,
+              "sha256": "1e95b00c141c372574b6b642f218b5307344d30fead3a6d2a73ac61bdb6ea2d1"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-clone-20261016.stdout",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-clone-20261016.stderr",
+              "bytes": 1575,
+              "sha256": "1917884cecd676ec62be12f2ffa066d25fef998cc32f696370767f3f91460400"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-clean-prerequisites-20261016.json",
+              "bytes": 984,
+              "sha256": "01ab8cad0d85605b49617109fcc034167d3cd8ae228316083fe730ae404b3a20"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-frozen-install-result-20261016.json",
+              "bytes": 946,
+              "sha256": "d0594eab9c10438b635cf4babf658a458286fa203edad6ca568db872e2cdedcc"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-frozen-install-20261016.stdout",
+              "bytes": 486,
+              "sha256": "694b2af42a41662bd5faff717dcfd4995daf665b3e672c03a8b98adfd9186dc6"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-frozen-install-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-installed-parser-proof-20261016.json",
+              "bytes": 577,
+              "sha256": "fa3d9525829bca87fe3cd717af1a282cae1b3d5d04900dc935e3b21f41a62930"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-installed-parser-proof-20261016.stdout",
+              "bytes": 548,
+              "sha256": "6f8711b72b7bd808200e9ac0e8c004826e2720bd2e83fb5a342e3e40cf7594bf"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-installed-parser-proof-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-gate-results-20261016.json",
+              "bytes": 922,
+              "sha256": "35d8d05a8a6bf3a1259e17c200e989447a64b71f6bee9600f8d45841dbc16574"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-docs-20261016.stdout",
+              "bytes": 30427,
+              "sha256": "69fd41f8de92f1761c5da51ca1834eb3765c178f22f4736ca96795cd096aac6c"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-docs-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-first-attempt-watchdog-20261016.json",
+              "bytes": 615,
+              "sha256": "03c4e40d6c0d18c1239d1d31635b3c8adf64e585261d470be2c387dc3f63eaaa"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-first-attempt-watchdog-20261016.stdout",
+              "bytes": 1002,
+              "sha256": "643283e977af313ec6c1ddb4e6897b57eb8fb8334841a44ac77cf323f14c6ad8"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-watchdog-noop-race-20261016.json",
+              "bytes": 306,
+              "sha256": "c8d00a4bd9750cd2c9c39880e2fb905cebe9c6e8edb8efb167632c4b2420a3dc"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-20261016.json",
+              "bytes": 1406,
+              "sha256": "950a37c1fae1bd8fe9242a662ac2135b03f55b9ee33bf9c2cdcae753897997e7"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-20261016.stdout",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-20261016.stderr",
+              "bytes": 2500,
+              "sha256": "857e3d234bb0c149add4aa54aaef2c6f6e341f574afa58927d17bf9d5501cf3d"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-corrected-20261016.json",
+              "bytes": 1544,
+              "sha256": "d47ba804fd2b247b0cc254de283df99276ec56485156e85399047fab751077f9"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-corrected-20261016.stdout",
+              "bytes": 171,
+              "sha256": "797998d35a5e77a643f352769417db668e6b2af5b2f30f1d5e76939585d51eed"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-stdin-diagnostic-corrected-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-gate-results-20261016.json",
+              "bytes": 5147,
+              "sha256": "445e0e50b65c8fead2c7a082189e19f695aa9b90152a9e309e6782c9710f07b0"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-final-state-20261016.json",
+              "bytes": 2096,
+              "sha256": "1c59158e0a9dc39ed5f9bb17521f3f19e5074498be35532a6da852e68f26c76c"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-delivery-20261016.md",
+              "bytes": 4094,
+              "sha256": "a6752db6eaabad7c8d44558ec96951c7d8e9dad4ee2de99ae3ff82a5902aeeeb"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stdout",
+              "bytes": 29681,
+              "sha256": "70051e14b8d0921f77865532e5e9e6e06ea4206f4654fbc02033c721120bdad2"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-docs-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stdout",
+              "bytes": 80160,
+              "sha256": "acd214a00434dedfb1be390e01f0b1bdee096f768a3dead53aa7e0e6d0c7d119"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-progress-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stdout",
+              "bytes": 246,
+              "sha256": "28da9ca62b35db3f23ad012d77050057b19db957dc1af6544315b12d38275964"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-lint-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stdout",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-diff-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stdout",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/tmp/type-pal-html-bootstrap-rerun-candidate-diff-20261016.stderr",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ]
+        },
+        "preservedFirstFailure": {
+          "result": "failed after local watchdog interrupted Git child beyond existing workflow five-minute deadline",
+          "docsExitCode": 1,
+          "elapsedSeconds": 331.287364,
+          "tests": 120,
+          "pass": 119,
+          "fail": 1,
+          "laterGatesExecuted": false,
+          "rawPreserved": true,
+          "rootCauseExplained": false,
+          "githubJobFailureClaimed": false
+        },
+        "limits": [
+          "Local actual macOS clean clone; GitHub/Linux job not executed",
+          "No HTML helper/variant/version/pilot or runtime/E2E/visual/coverage accepted",
+          "No migration credit; future root intake bytes separately require actual zero gates/nonauthor intake"
+        ],
+        "issues": []
+      }
+    },
+    "allowedScope": ["package.json", "pnpm-lock.yaml", ".github/workflows/docs.yml"],
+    "notBuilt": [
+      "HTML helper/code",
+      "archive1.1 or variant publication",
+      "three HTML pilots",
+      "B/C0/C1"
+    ],
+    "fullGoalComplete": false
   },
   "stopLine": "No HTML migration/completion/visual/accessibility/runtime/E2E/coverage credit, no B/fullT/current/complete terminal approval. Full goal incomplete. Canonical raw3 remain exact and all new docs increments pending.",
   "firstRootAdmissionFailure": {
@@ -572,5 +1174,15 @@
     "path": "docs/phase-governance/reviews/README.md",
     "afterSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
     "scope": "Navigation only, zero full README or HTML migration credit."
+  },
+  "artifactRules": {
+    "owner": "Codex root; html_contract_refinement source/clean-clone artifacts",
+    "producer": "Actual clean clone/frozen install/package-name parser proof/gate runner and nonauthor root review",
+    "caller": "This control.rootIntake.bootstrapSourceReception and task continuation only",
+    "paths": [
+      "/tmp/type-pal-html-bootstrap-*",
+      "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-html-bootstrap-clean-20261016-axtcsth6/type-pal"
+    ],
+    "retention": "Keep all37 pinned raw/manifest artifacts and private clean clone until full governance publication/independent acceptance; first119/120 watchdog failure and unknown cause remain immutable. No cleanup at pause."
   }
 }

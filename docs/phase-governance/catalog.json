@@ -13,8 +13,8 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 55,
-      "draft": 52,
+      "current": 54,
+      "draft": 53,
       "archived": 77
     }
   },
@@ -27,66 +27,60 @@
       "phase": "lore",
       "module": "canon",
       "capability": "lore-characters",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex governance; original author unknown",
+      "provenance": ["fixed source and nonauthor reception; full prior24 in L4 control"],
       "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
-      "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "afterSha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
       "sourceRefs": [
         {
           "path": "docs/lore/characters.md",
-          "lines": "1-1",
-          "anchor": "官方角色设定（characters）",
-          "role": "document-source",
-          "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+          "lines": "1-318",
+          "role": "candidate-live-reference",
+          "sha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/characters.md:1-1"],
+      "publicCallers": ["docs/lore/README.md"],
+      "legalInputs": [
+        "Source-labelled claims; exact project/version boundaries in L4 current record"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-character-reference",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "Preserve source claims/unknowns and T5.5/independentT6; no new official certification"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-lore-remaining-l4.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+        "implementationSha": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Candidate reference; full prior in current record",
+            "reviewRecord": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json"
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-source-reception",
+        "path": "docs/lore/characters.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "current→draft maturity corrected after reading; original current24 fully preserved"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No new canon, runtime or product credit; preserve local author decisions and original dates.",
+      "userVisibleBeforeAfter": "Five substantive candidate reference chapters plus exact original321; one baseline migration only.",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-dlc-ideas",
@@ -957,7 +951,7 @@
         }
       ],
       "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-      "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+      "afterSha256": "89efa513fdf5c241893b2542062f953255ce069b62e4e6f8b0f2b1632fa3e312",
       "sourceRefs": [
         {
           "path": "docs/lore/README.md",
@@ -1001,7 +995,7 @@
       },
       "revision": {
         "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
-        "implementationSha": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+        "implementationSha": "89efa513fdf5c241893b2542062f953255ce069b62e4e6f8b0f2b1632fa3e312",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1024,7 +1018,7 @@
         "kind": "source-specific-static-document-reception",
         "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
-        "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+        "afterSha256": "89efa513fdf5c241893b2542062f953255ce069b62e4e6f8b0f2b1632fa3e312",
         "claims": [
           "Exact c7d source content accepted by A and dbacf root15 intake accepted by scoped non-author1610a12b; no fresh official/runtime conclusion."
         ],

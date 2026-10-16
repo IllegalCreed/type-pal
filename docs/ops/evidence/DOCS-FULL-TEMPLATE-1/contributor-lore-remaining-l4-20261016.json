@@ -1,0 +1,769 @@
+{
+  "schemaVersion": 1,
+  "kind": "contributor-lore-remaining-l4-characters-first-canonical-candidate",
+  "task": "DOCS-FULL-TEMPLATE-1",
+  "date": "2026-10-16",
+  "owner": "q_remaining_guides sole characters pilot writer; rootCodex independent reception",
+  "status": "characters author candidate only, pending nonauthor; other3 stopped/not started under userpause",
+  "sourceRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+  "approvedSourceManifestSha256": "973fc7def96b2540d375d93a41415dab9d5da2f23e6d1f363f712c5a7eecbea6",
+  "frozenDesignSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+  "summary": {
+    "documents": 1,
+    "newAuthorCandidates": 1,
+    "sourceLines": 321,
+    "afterLines": 643,
+    "remainingL4SourceWrites": 0,
+    "acceptedMigrationCredit": 0,
+    "receiptItself": "pending incremental native handoff, not selfreviewed",
+    "sourceManifest": [
+      {
+        "path": "docs/lore/characters.md",
+        "sourceRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "sourceGitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+        "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+        "sourceLines": 321
+      }
+    ],
+    "sourceManifestHashMethod": "UTF8 compact sorted-key JSON of summary.sourceManifest"
+  },
+  "authority": "Root exact33c committed formal design/control and new clean managedtree assigned q_remaining_guides solewriter. firstPilot allows only characters+thisnative. No shared writer or nextpilot. Later userpause steering says finish only currently started batches then pause; author does not mark overall goal paused/completed.",
+  "readScopes": {
+    "fresh": [
+      "characters original321 and newlive1–318 complete; exact inert321 readback",
+      "formal L4design263 complete, actual immediateprior30/currentregistry9/catalog24 complete",
+      "taboos1–118/versions1–70, tasktop1–65 and final55",
+      "document-model.mjs and markdown.mjs full, actual registered reference template21"
+    ],
+    "boundedControl": "firstPilot/continuation/rootOnly/scalars/meta; exact originalv2 MD/JSON identity/deep equality, not whole embedded counter/source reports reread",
+    "reusedMandatory": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "CLAUDE.md",
+        "sha256": "716cfdf0ef292bef104e0e42259eea10e74af027ea45e9bccac594c81800a74b",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/phase2/READ-FIRST.md",
+        "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/ops/agent-workflow.md",
+        "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/ops/guides/documentation-model.md",
+        "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/phase-governance/templates/README.md",
+        "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/testing/governance.md",
+        "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      },
+      {
+        "path": "docs/testing/_templates/README.md",
+        "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+        "reading": "Earlier actual fullread, current33c bytes exactly equal. Reuse disclosed, not fresh whole read."
+      }
+    ],
+    "reusedBrainstorm": "Actual full386 read during L4preflight; current fullblob samec3bb; only94–104/334–368 boundary used, no migration/credit",
+    "observerNotes": [
+      "Broad optional control/native projections truncated; explicit metadata/currentprior/field43 projection repaired needed read, not full hugecontrol claim.",
+      "Initial python3 file invocation rejected validUTF8 helper; explicit UTF8 text compile/exec succeeded; first rejected before any repo write, not source failure.",
+      "Initial currentstatus guard trim removed first leading space; first failed report retained, fixed trimEnd and actual bodyproof25/0."
+    ]
+  },
+  "notRun": [
+    "externalURL/officialgame-comic canon authentication",
+    "product/runtime/oldbusiness tests/E2E/browser/visual/raw/coverage",
+    "other3L4 pilot/sourcewrites or newpackages after pause instruction",
+    "sharedledger/registry/routes/catalog/matrix/task/N/Q/DS/scripts/templates/CI/product/oldtests/coverage/main writes",
+    "source selfaccept/goal done/main merge/push/cleanup"
+  ],
+  "checks": {
+    "directedProof": {
+      "path": "/tmp/type-pal-l4-character-body-directed-proof-20261016.json",
+      "sha256": "6f906a4636edb0d76ebc4d3b0bd37226b1a7d7654db2139e06b9166a60fb0e6c",
+      "bytes": 20035,
+      "lines": 655
+    },
+    "directedChecks": 25,
+    "directedIssues": [],
+    "memoryNegatives": {
+      "total": 10,
+      "sourceNavigationRows": 4,
+      "sourceModelGreenMeaningOnly": 6,
+      "scope": "named source-bound documentation clauses, not product tests/general semantic verifier"
+    },
+    "fullFrozenGates": "Exact two-path frozen candidate gates/raw/pins are reported in external author-delivery manifest after this native is frozen; no selfhash/gate cycle or predicted pass inside this author-time object.",
+    "firstObserverFailure": {
+      "path": "/tmp/type-pal-l4-character-body-directed-proof-first-20261016.json",
+      "sha256": "bdf99a28cec421839eefc22007c99c631b110e9f5b114a9d0c418e33dd97a0d4",
+      "bytes": 20074,
+      "lines": 657
+    },
+    "frozenDependencyInstall": {
+      "path": "/tmp/type-pal-l4-character-install-offline-20261016.log",
+      "sha256": "5d5599dc6a89d4e309c54323102c6ac9decd4946fa041cb12bac716ad02d2b8f",
+      "bytes": 471,
+      "lines": 16
+    }
+  },
+  "entries": [
+    {
+      "path": "docs/lore/characters.md",
+      "sourceRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+      "sourceGitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+      "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "afterSha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+      "sourceLines": 321,
+      "afterLines": 643,
+      "sourceReadScope": "Fresh complete original321 and all new live1–318 actually displayed/read; full original321 fenced inverse byte/line readback verified. Fresh formal frozen design263, actual complete prior30/current registry9/catalog24; current control firstPilot/continuation/rootOnly and proposal SHA/deep-equality checked, not claim full huge embedded reports. Mandatory nine docs exact same blob/hash as earlier actual fullread and accurately reused. Fresh taboos1–118/versions1–70; prior full brainstorm386 semantic read reused only sameblob narrow boundaries. Full43 new semantic fields authored/read with complete original immediate prior. Broad optional control/native projection truncated, replaced by explicit metadata/complete prior projection; no false fullcontrol read.",
+      "coreConclusion": "Character source is candidate reference, not newly official canon. Preserve all character/relationship/outcome/version claims and original source labels; current project T1/T2/T3/T4/T5/T5.5 and independentT6 remain effective. Three pearl-actor accounts/presentation/geography/death mechanisms stay unknown. June30 local Water-Spirit-Calamity author adoption outranks only its explicitly older variants, not a fresh official authentication. Restore exact original142 orphan four cells to LiSansi table;105 data versus104 is an explicit rendering repair.",
+      "originalIdentity": {
+        "ownerFields": [],
+        "literalAuthor": "unknown/not signed in original",
+        "originalStatus": null,
+        "originalDate": "last verified2026-06-25; local June30 wife/four-outlaws/death adoption",
+        "originalTitle": "官方角色设定（characters）",
+        "historicalCatalogOwner": "Codex governance attribution only, never retroactive source author",
+        "literalConfidenceLabels": ["✅ 官方/多源一致", "⚠️ 单源/粉丝向", "❓ 存疑待核"],
+        "newLastReviewed": "2026-10-16 documentation review only; no original webdate renewal"
+      },
+      "governanceOwner": "q_remaining_guides sole candidate writer; root Codex independent reception/integration. Original author unknown; author cannot selfaccept.",
+      "status": {
+        "document": "candidate",
+        "catalogMaturityProposal": "draft, root only later updates; old current capture retained",
+        "originalLiteralStatus": null,
+        "independentReview": "pending non-author characters pilot review",
+        "wholeGoal": "build/active incomplete at authorship; user later requested pause after current started batches; no next pilot begins"
+      },
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "family": "lore character claim/version/source-credibility reference",
+      "historyOverlay": false,
+      "historyOverlayTemplateId": null,
+      "historyOverlayVersion": null,
+      "phaseAnchor": {
+        "primary": "Samepath original321 source, exact source labels/dates/author-selected local explanation, no external canon certification",
+        "phase1": "Faithful original project boundary remains; no mechanism truth/game behavior/rerun granted",
+        "phase2": "DLC/paper character constraints only, not editor/engine/save implementation or build of character stories",
+        "target": "Five substantive sections and per-character usage/unknowns, original heading+href+table identities; no character fate/product change"
+      },
+      "versionAxes": {
+        "template": "1.0.0 frozen17types, no new type/variant",
+        "sourceRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "designSource": "c3bb4096c4041a7890350199ca226fc79d174832 same sourceblob",
+        "oldReviewRevision": {
+          "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "date": "2026-10-04",
+              "action": "content-deep-review-batch-1",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "oldCatalogRevision": {
+          "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "date": "2026-10-04",
+              "action": "phase-lore-governance-inventory",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "contentSave": "Old content22/SAVE11 remains capture only; current product versions not changed or authenticated by this lore migration",
+        "originalDates": ["2026-06-25 global collection", "2026-06-30 local additions/adoption"],
+        "newDate": "2026-10-16 static documentation review, no renewal of original verification"
+      },
+      "primarySource": [
+        {
+          "path": "docs/lore/characters.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+          "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 321,
+              "rangeSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+            }
+          ],
+          "scope": "Fresh complete original321 at fixed Git; complete new live1–318 read and inert321 readback inverse actual; oldURL/source labels not remotely authenticated."
+        },
+        {
+          "path": "docs/lore/taboos.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6",
+          "sha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 118,
+              "rangeSha256": "35f54325ee5375f800bea07f48b7adb557caecfd0b79ecb3c849b61c1053657e"
+            }
+          ],
+          "scope": "Fresh bounded current project redlines T1/T2/T3/T4/T5/T5.5/independentT6 and unknown/status separation, no full248line claim."
+        },
+        {
+          "path": "docs/lore/versions.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "a0711af4901f663085a9f576686fc3fb969637fc",
+          "sha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 70,
+              "rangeSha256": "9d862459458a48c90ee3efbb983753f9ce03a9bbd7b285fd8fb193c5890f509b"
+            }
+          ],
+          "scope": "Fresh bounded candidate version/presentation/three pearl accounts and unselected author tasks, no full240line claim."
+        },
+        {
+          "path": "docs/lore/ideas/guijie/brainstorm.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+          "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+          "ranges": [
+            {
+              "start": 94,
+              "end": 104,
+              "rangeSha256": "67f7427adc8c8dc762841051be2666cf067ad43c07820e5df9782576cebdd107"
+            },
+            {
+              "start": 334,
+              "end": 368,
+              "rangeSha256": "52aad785552326b03d150f0e67b0af9b39e8859f77291327fcdcc5be959571ad"
+            }
+          ],
+          "scope": "Earlier L4 readonly task actually read entire386; actual33c fullblob equals fixedc3bb and Q07b. Exact prior semantic read reused for parents-already-reincarnated/falseback boundary only, not fresh reread or migration of secondpilot."
+        }
+      ],
+      "dependencies": [
+        {
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf",
+          "sha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 263,
+              "rangeSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647"
+            }
+          ],
+          "scope": "Fresh complete formal263 design; final admission overrides embedded historical unbuilt proposal. Full33c commit supplied by root after independent design/index reception."
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "507b24484e1e8412d7e4ea954b7d0c6fffe21a51",
+          "sha256": "ff12258e9285ff895961f2e3ef81c4dc057f13fa7d09ed3db1ca497a5517a8b7",
+          "scope": "firstPilot exact two paths, continuation stop, matrix root-only scope; originalv2 MD/structured exactSHA/deep equality. Not whole embedded report manual reading."
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "scope": "Fresh top1–65 and last55 lines; solecharacters pilot only. User pause steering forbids subsequent packages."
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scope": "Selected reference-canon1.0 valid candidate status/five chapters; earlier full824 sameblob registry read reused; no new type."
+        }
+      ],
+      "publicCallers": [
+        {
+          "caller": "docs/lore/README.md and existing character links",
+          "role": "human/agent reference/navigation, no game caller or runtime assertions"
+        },
+        {
+          "caller": "docs/lore/versions.md and taboos.md",
+          "role": "project constraints and unknown pearl/version source, not official webcertification"
+        },
+        {
+          "caller": "scripts/docs/document-model.mjs#checkMigratedDocument",
+          "role": "Real direct structure/status/declaredtemplate check for unrouted candidate; root routes not refreshed by sourcewriter"
+        },
+        {
+          "caller": "pnpm check:docs / pnpm lint / git diff --check / strict / progress",
+          "role": "Frozen candidate static gates; exact raw results external author manifest, not lore-runtime oracle"
+        }
+      ],
+      "legalInputs": [
+        "Fixed samepath source321 at33c/c3bb and original30/current9/catalog24 actual unique records",
+        "Existing project T1/T5.5/independentT6 constraints plus known source-linked version/author decisions; uncertain external claims stay candidate",
+        "Only source characters+new native two paths; no author edits of otherthree lore/shared/product/oldtests/coverage",
+        "Original65 URL/labels are historical citations, not claims of fresh HTTP availability or complete original-game inputs"
+      ],
+      "businessOracle": {
+        "type": "source-backed character-reference migration, not runtime test",
+        "assertions": [
+          "Original321 UTF8 inclLF inverse,21 original live heading/plaintext/slug/order,65 labeled href occurrences and139 physical pipe lines preserved",
+          "17 native tables retain all104 original data rows plus exact original142 four-cell restoration to105; no total-count-only proof",
+          "Original official/confidence/date/author labels scoped; fan childbirth not official cause; pearl three accounts not selected; no multiplayer compromise fabricated",
+          "Project T5.5 complete chain and pre-revival space limit retained; independentT6 not silently renumbered or exact killer invented",
+          "June30 chosen death explanation preserves undelivered orb/local author scope, not new web/official certification or completed DLC"
+        ],
+        "strongestCounter": "Keep all five chapters/exact fenced source but assert all✅ freshly official, fix pearlactor, revokeT5.5space, or deliver orb to island: actual structural model staysgreen; six named source-bound semantic clause oracles and nonauthor actual reading must reject.",
+        "runtimeExecutionPerformed": false,
+        "oracleLimit": "These are six specific documentation clause checks, not a general semantic verifier or product unit tests."
+      },
+      "dedupe": {
+        "result": "One new author candidate, old unique30 record retained;0 accepted migration credit",
+        "against": [
+          "samepath original current30 in lore-phase3-batch1",
+          "current registry9/catalog24 exact",
+          "already accepted Nnine not recounted",
+          "other3 L4 texts not rewritten or credited; native itself pending increment"
+        ],
+        "notes": "Same-name 皇甫英 table row is a distinct full four-cell occurrence, not a substitute for restored142."
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "L4-C01",
+          "finding": "6/25 top/6/30 local adoption/old footer311 and prior reviewedLines1–360 versus actual321",
+          "disposition": "All original dates/statements/fullprior unchanged; exact311 old footer scoped, not used to undo localJune30 decision. Actual read321 recorded separately."
+        },
+        {
+          "id": "L4-C02/C03",
+          "finding": "Three pearl accounts, original✅/official tags, fanbirth/death/geography claims",
+          "disposition": "Live candidate/draft axis and unknowns explicit; no new official certification or author choice."
+        },
+        {
+          "id": "T5.5/T6",
+          "finding": "Source ambiguity must not revoke project constraints or collapse distinct chains",
+          "disposition": "Complete T5.5 with space restriction and independentT6 retained; unknown exact deathways separate."
+        },
+        {
+          "id": "L4-C15",
+          "finding": "Original142 is not native GFM data, distinct from later same-label row",
+          "disposition": "Exact original four cells inserted after138 in same LiSansi table, original AST/raw kept,17 tables104→105 individual mapping tested."
+        },
+        {
+          "finding": "First tmp observer wrongly trim() removed git-status leading space",
+          "disposition": "Real tree only admitted characters; own guard fixed trimEnd, first failed proof retained bdf99a28cec421839eefc22007c99c631b110e9f5b114a9d0c418e33dd97a0d4, rerun actual25/0. Not source/product fault."
+        },
+        {
+          "finding": "User requested pause after currently started batches",
+          "disposition": "Only this pilot finishes/freeze; no brainstorm/beat/timeline build, no extra work package; root controls overall pause."
+        }
+      ],
+      "history": {
+        "completePriorCurrentLocator": {
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+          "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+          "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+          "selector": {
+            "entries.path": "docs/lore/characters.md",
+            "uniqueMatches": 1
+          },
+          "fieldCount": 30
+        },
+        "completePriorCurrentRecord": {
+          "path": "docs/lore/characters.md",
+          "contentReviewStatus": "content-reviewed",
+          "coreConclusion": "The document establishes source-labelled character facts, hard redlines, version-dependent outcomes, and explicit creative opportunities across the main party, Miao court, Li Sansi/Huangfu Ying, and the Yi Ru–Han Zhongxi–Xiao Man succession chain. It records unresolved later-series details instead of collapsing them into one canon.",
+          "truthAnchors": [
+            "official/multi-source versus fan interpretation is labelled",
+            "Yueru outcome and resurrection source conflict are explicitly separated",
+            "Li Sansi death chain contains an author-selected Water Orb interpretation"
+          ],
+          "unresolved": [
+            "external source authority and later-series details remain author-review items",
+            "the actor who uses the Nine-Turn Resurrection Pearl, Yi Ru's exact death wording, and Han Zhongxi's death mechanism remain pending",
+            "several ⚠/❓ claims must not be used as canonical without author adjudication"
+          ],
+          "nextStep": "Use the ✅ entries and explicit redlines as guarded reference; keep ⚠/❓ entries blocked until a primary source or author decision resolves them.",
+          "phase": "lore",
+          "module": "characters.md",
+          "capability": "lore-characters",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "publicCallers": ["docs navigation"],
+          "legalInputs": ["current repository documentation", "docs/lore/characters.md"],
+          "businessOracle": {
+            "type": "content-review",
+            "assertions": [
+              "core conclusion is grounded in the read body",
+              "unresolved claims remain explicitly blocked"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/lore/characters.md"],
+            "notes": "Content review record; no runtime/E2E/coverage credit."
+          },
+          "revision": {
+            "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "date": "2026-10-04",
+                "action": "content-deep-review-batch-1",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "content-reading",
+            "path": "docs/lore/characters.md",
+            "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+          },
+          "history": [
+            {
+              "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+              "action": "read-and-reviewed",
+              "contentReviewStatus": "content-reviewed"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+          "userVisibleBeforeAfter": null,
+          "reviewedLines": "1-360",
+          "docType": "reference-canon",
+          "templateId": "reference-canon-v1",
+          "template": "docs/phase-governance/templates/reference-canon.md",
+          "templateCompliance": "governed-legacy",
+          "readMethod": "full-text-read",
+          "reviewDepth": "deep-semantic"
+        },
+        "completePriorRegistry": {
+          "path": "docs/lore/characters.md",
+          "phase": "lore",
+          "docType": "reference-canon",
+          "templateId": "reference-canon-v1",
+          "template": "docs/phase-governance/templates/reference-canon.md",
+          "templateCompliance": "governed-legacy",
+          "reviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic",
+          "reviewRecord": "20261004-lore-phase3-batch1.json"
+        },
+        "completePriorCatalog": {
+          "id": "docs-lore-characters",
+          "path": "docs/lore/characters.md",
+          "title": "官方角色设定（characters）",
+          "phase": "lore",
+          "module": "canon",
+          "capability": "lore-characters",
+          "status": "current",
+          "reviewStatus": "reviewed",
+          "owner": "Codex",
+          "provenance": ["source-document", "repository-history"],
+          "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "sourceRefs": [
+            {
+              "path": "docs/lore/characters.md",
+              "lines": "1-1",
+              "anchor": "官方角色设定（characters）",
+              "role": "document-source",
+              "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+            }
+          ],
+          "publicCallers": ["docs navigation"],
+          "legalInputs": ["current repository documentation", "docs/lore/characters.md:1-1"],
+          "businessOracle": {
+            "type": "phase-lore-document-governance",
+            "assertions": [
+              "the document has one explicit phase/lore/module responsibility",
+              "historical or draft material is not silently promoted to current canonical truth",
+              "source references and version claims remain auditable from the current repository"
+            ]
+          },
+          "dedupe": {
+            "result": "reviewed",
+            "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+            "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+          },
+          "revision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidence": {
+            "kind": "document-audit",
+            "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "claims": ["phase/lore ownership and status inventory"]
+          },
+          "history": [
+            {
+              "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+              "action": "catalogued",
+              "status": "current"
+            }
+          ],
+          "supersedes": [],
+          "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
+          "userVisibleBeforeAfter": null,
+          "lastReviewed": "2026-10-04"
+        },
+        "sourceAtDesign": {
+          "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+          "sourceGitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+          "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "sameSourceAt33cAnd07b": true
+        },
+        "originalMeaning": "All original source/date/reliability/checklists/creative suggestions preserved; history labels never become new execution proof."
+      },
+      "supersedes": [
+        "Samepath untemplated presentation only; no historical conclusion/date erased"
+      ],
+      "supersessionScope": "June30 source-adopted Water-Spirit-Calamity explanation supersedes only its named June25/earlyJune30 alternatives; old footer311 historical. Current project redlines unchanged; no whole-document canon upgrade or adjacent N/L4/phase supersession.",
+      "beforeAfter": "Untemplated321 with mixed claim maturity becomes concrete five-section candidate plus per-character use/unknowns,21 original rendered headings+65links,17 native tables105data after exact orphan restoration, and complete321 inert source includingLF. Old30 retained with actualfixedGit locator;0 author acceptance.",
+      "userVisibleBeforeAfter": null,
+      "stopLine": "No original official label→new certification, no pearl/version/death choice, no T5.5space or T6 withdrawal. No further L4 pilot after this delivery under user pause. No source selfaccept/current ledger/routes/catalog/matrix/task/product/oldtests/coverage/main writes or fullgoal completion.",
+      "nextStep": "Freeze this exact two-path source candidate for root nonauthor full original/live/43 review; report actual hardgates/centralSHA drift with raw manifest. Stop afterwards; no automatic brainstorm/beat/timeline or new package.",
+      "templateCompliance": {
+        "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"],
+        "statusWord": "candidate valid; catalog separate draft proposal, source acceptance pending",
+        "authorCheck": "Actual direct model/source/GFM/heading65href/17tables/104→105 and6 named semantic memory negatives in25checks/0 after own observer guard correction",
+        "actualModelIssues": [],
+        "semanticOracleIssues": [],
+        "independentAcceptance": "pending; author cannot accept"
+      },
+      "toolAssociations": [],
+      "runtimeExecutionPerformed": false,
+      "candidateSha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+      "candidateGitObject": "ff889be50762bc33c4b8adaad79b245eee32c88d",
+      "originalPreservation": {
+        "quote": true,
+        "completeOriginalIncluded": true,
+        "method": "Single inert four-backtick text fence with exact321 UTF8 lines/29715bytes/finalLF; same source reachable fixed Git/blob",
+        "sourceFenceLength": 4,
+        "completeOriginalReadBackSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+        "sourceBlobReadBackExact": true,
+        "sourceToAfterLineMapping": {
+          "sourceStart": 1,
+          "sourceEnd": 321,
+          "afterStart": 321,
+          "afterEnd": 641,
+          "offset": 320,
+          "all321LineBytesIncludingTerminatorsCompared": true
+        },
+        "nativeGFM": {
+          "originalTables": 17,
+          "originalDataRows": 104,
+          "afterTables": 17,
+          "afterDataRows": 105,
+          "orphanSourceLine": 142,
+          "afterLiveLine": 144,
+          "originalFourCells": [
+            "**皇甫英不知情**",
+            "皇甫英**误以为**李三思夫妇是\"盗苗族圣物受诅咒而死\"，**不知真相是为救自己而牺牲** → 因此愧疚退隐，定居盛渔村（与李逍遥同村）",
+            "✅",
+            "知乎·隐藏伏笔"
+          ],
+          "method": "Restore only orphan142 at end of actual LiSansi originaltable before original139blockquote material;105 expected full rows checked individually, not a net count argument."
+        }
+      },
+      "linkCheck": {
+        "method": "Actual Marked GFM heading/link/table tokens and genuine markdownLinks ordered-target consumer; four local targets exist; external61 oldreferences not fetched",
+        "originalHeadingCount": 21,
+        "originalLinkOccurrences": 65,
+        "candidateLinkOccurrences": 65,
+        "localLinkOccurrences": 4,
+        "externalLinkOccurrences": 61,
+        "headingMappings": [
+          {
+            "raw": "# 官方角色设定（characters）",
+            "plain": "官方角色设定（characters）",
+            "depth": 1,
+            "id": "官方角色设定characters",
+            "line": 1
+          },
+          {
+            "raw": "### 一、仙剑一主角团",
+            "plain": "一、仙剑一主角团",
+            "depth": 3,
+            "id": "一仙剑一主角团",
+            "line": 26
+          },
+          {
+            "raw": "#### 李逍遥 ♂",
+            "plain": "李逍遥 ♂",
+            "depth": 4,
+            "id": "李逍遥-",
+            "line": 28
+          },
+          {
+            "raw": "#### 赵灵儿 ♀",
+            "plain": "赵灵儿 ♀",
+            "depth": 4,
+            "id": "赵灵儿-",
+            "line": 43
+          },
+          {
+            "raw": "#### 林月如 ♀",
+            "plain": "林月如 ♀",
+            "depth": 4,
+            "id": "林月如-",
+            "line": 57
+          },
+          {
+            "raw": "#### 阿奴 ♀",
+            "plain": "阿奴 ♀",
+            "depth": 4,
+            "id": "阿奴-",
+            "line": 91
+          },
+          {
+            "raw": "### 二、仙剑一关键配角 / 反派",
+            "plain": "二、仙剑一关键配角 / 反派",
+            "depth": 3,
+            "id": "二仙剑一关键配角--反派",
+            "line": 104
+          },
+          {
+            "raw": "#### 林青儿（巫后）♀ — 灵儿之母",
+            "plain": "林青儿（巫后）♀ — 灵儿之母",
+            "depth": 4,
+            "id": "林青儿巫后--灵儿之母",
+            "line": 106
+          },
+          {
+            "raw": "#### 林天南 ♂ — 月如之父",
+            "plain": "林天南 ♂ — 月如之父",
+            "depth": 4,
+            "id": "林天南---月如之父",
+            "line": 117
+          },
+          {
+            "raw": "#### 李三思 ♂ — 李逍遥之父",
+            "plain": "李三思 ♂ — 李逍遥之父",
+            "depth": 4,
+            "id": "李三思---李逍遥之父",
+            "line": 129
+          },
+          {
+            "raw": "#### 拜月教主 / 水魔兽",
+            "plain": "拜月教主 / 水魔兽",
+            "depth": 4,
+            "id": "拜月教主--水魔兽",
+            "line": 156
+          },
+          {
+            "raw": "#### 巫王 ♂ — 灵儿之父，南诏国王",
+            "plain": "巫王 ♂ — 灵儿之父，南诏国王",
+            "depth": 4,
+            "id": "巫王---灵儿之父南诏国王",
+            "line": 166
+          },
+          {
+            "raw": "#### 圣姑 — 白苗族大祭司辅佐（传承身份，非单个人）",
+            "plain": "圣姑 — 白苗族大祭司辅佐（传承身份，非单个人）",
+            "depth": 4,
+            "id": "圣姑--白苗族大祭司辅佐传承身份非单个人",
+            "line": 178
+          },
+          {
+            "raw": "#### 盖罗娇 ♀ — 白苗族将军，阿奴师姐",
+            "plain": "盖罗娇 ♀ — 白苗族将军，阿奴师姐",
+            "depth": 4,
+            "id": "盖罗娇---白苗族将军阿奴师姐",
+            "line": 192
+          },
+          {
+            "raw": "#### 石长老 ♂ — 黑苗族大长老",
+            "plain": "石长老 ♂ — 黑苗族大长老",
+            "depth": 4,
+            "id": "石长老---黑苗族大长老",
+            "line": 207
+          },
+          {
+            "raw": "#### 皇甫英 ♂（铁臂神鹰）— 盛渔村退隐名捕，串起仙剑一二的暗线人物",
+            "plain": "皇甫英 ♂（铁臂神鹰）— 盛渔村退隐名捕，串起仙剑一二的暗线人物",
+            "depth": 4,
+            "id": "皇甫英-铁臂神鹰-盛渔村退隐名捕串起仙剑一二的暗线人物",
+            "line": 217
+          },
+          {
+            "raw": "#### 韩医仙 / 韩梦慈 / 白河村 — 仙剑一场景，忆如线的源头",
+            "plain": "韩医仙 / 韩梦慈 / 白河村 — 仙剑一场景，忆如线的源头",
+            "depth": 4,
+            "id": "韩医仙--韩梦慈--白河村--仙剑一场景忆如线的源头",
+            "line": 236
+          },
+          {
+            "raw": "### 三、仙剑二 / 仙剑 OL 补完的角色（忆如线，跨作品关键）",
+            "plain": "三、仙剑二 / 仙剑 OL 补完的角色（忆如线，跨作品关键）",
+            "depth": 3,
+            "id": "三仙剑二--仙剑-ol-补完的角色忆如线跨作品关键",
+            "line": 248
+          },
+          {
+            "raw": "#### 李忆如 ♀ — 灵儿与逍遥之女，女娲族第四代",
+            "plain": "李忆如 ♀ — 灵儿与逍遥之女，女娲族第四代",
+            "depth": 4,
+            "id": "李忆如---灵儿与逍遥之女女娲族第四代",
+            "line": 252
+          },
+          {
+            "raw": "#### 韩仲晰 ♂（阿宝）— 忆如之夫，小蛮之父，魔尊宿主",
+            "plain": "韩仲晰 ♂（阿宝）— 忆如之夫，小蛮之父，魔尊宿主",
+            "depth": 4,
+            "id": "韩仲晰-阿宝-忆如之夫小蛮之父魔尊宿主",
+            "line": 268
+          },
+          {
+            "raw": "### 待查 / 待补",
+            "plain": "待查 / 待补",
+            "depth": 3,
+            "id": "待查--待补",
+            "line": 290
+          }
+        ],
+        "originalLowerDepthsShiftedOneLevel": true,
+        "brokenCurrentLinks": [],
+        "modelIssues": [],
+        "scope": "Static source-bound identities only; no HTTP/browser/official certification or runtime proof"
+      },
+      "sourceReviewStatus": "pending non-author characters pilot review"
+    }
+  ],
+  "candidateManifestMethod": "sort paths; UTF8(path NUL afterSha256 LF); native excluded to avoid circular selfhash",
+  "candidateManifestSha256": "2a4610454fa4cf74ed15edac8fe911a58845a9fa7380c3bed4fad679e6ffc8c4"
+}

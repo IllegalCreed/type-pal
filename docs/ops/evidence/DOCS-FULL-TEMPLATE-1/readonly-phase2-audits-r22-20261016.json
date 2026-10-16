@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "task": "DOCS-FULL-TEMPLATE-1",
+  "kind": "readonly-design-proposal-receipt-not-migration",
+  "owner": "Codex receiver; terminal_a8_continuation proposal author",
+  "status": "draft; received only, no build or source-migration acceptance; userpause after current batch",
+  "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+  "authorReadScope": "22 complete source MD7680 lines and22 complete prior native/registry/catalog, per author delivery; root does not claim this whole-source read",
+  "rootReadScope": "Complete61-line design table/delivery manifest; root9 originals998 lines independently read earlier, remaining13/6682 not claimed; all9 artifact identities mechanically verified",
+  "classification": {
+    "audit-report-v1@1.0.0": 18,
+    "plan-status-v1@1.0.0": 3,
+    "reference-canon-v1@1.0.0": 1,
+    "historyOverlay": "archive-record-v1@1.0.0 all22"
+  },
+  "evidence": {
+    "designTable": {
+      "sha256": "8564c8da5ca96c6289bbdbe254bcc94c8f9cae872273113d191c0b8817579eda",
+      "text": "# R22：phase2 历史审计目录逐篇模板设计（只读交付）\n\n本表供根任务引用，不是新的治理控制面。状态为 **draft / 只读设计待复核**；0 repo 写入、0 build、0 迁移信用。用户要求“审完这批后停一下”，本包收齐即暂停，不启动 writer 或下一批。\n\n来源固定为 `655b8c687cb3e568c85fa53084d503e40b845e6a`。22 篇正文 **7680 实际 LF 行 / 595181 bytes** 均已逐篇全文读取；22 份 registry、22 份完整旧 current（每份30原生键，含全部数组/额外字段）、22 份完整 phase-governance catalog 已读。testing catalog 无对应项。原 source/after SHA 与固定源 **22/22 相等，0 实际源漂移**；旧记录逐篇多算尾 LF 后空段，合计7702，不回改旧记录为7680。初步盘点仅查 testing catalog 的“无匹配”不能外推为总 catalog 无匹配，补核发现治理 catalog22项，已完整保全。\n\n必读9份 AGENTS/CLAUDE/READ-FIRST/workflow/board/docsmodel/templatesREADME/testing治理及模板README，与85冻结树同 blob，复用此前真实全文阅读（逐项身份在 context-identity.json）；本包另读适用4模板全文、实际17类 registry 全文及当前 docmodel、Q入场指南全文。后继规范仅窄读 script-system195–211、content-schema1–24、editor-design-system1–30、pre-e2eREADME1–35；不声称这些规范或产品模块全审。未读产品源码、未运行历史命令/产品/旧测试/coverage/浏览器/ignored raw。A8树85保持冻结。\n\n## 共同合同与分组\n\n只使用已冻结 **17 类中的 audit-report-v1 / plan-status-v1 / reference-canon-v1，版本均1.0.0**；全部22篇附现有 archive-record-v1 /1.0.0 历史 overlay，正文 lifecycle 用 historical，原文 done/backlog/rebaseline/✅/❌/unknown 保持独立日期轴。提案统计 **18 audit-report +3 plan-status +1 reference-canon**。归档位置本身不是分类依据。\n\n- A（18篇）：`审计问题 → 范围与证据 → 发现 → 结论 → 整改与复核`。正文写具体问题、分域结论、实际当时观察/修复/待证；不能只包旧文。发现状态在 historical 范围内引用原状态，不新签 resolved/verified。\n- P（3篇）：`目标与时间范围 → 里程碑 → 当前状态 → 阻塞与决策 → 下一步`。章节“当前状态”明确为当时快照；本轮只解释历史计划、传播数据与优先次序，不把任务名称当执行证据。\n- R（1篇）：`适用范围 → 一手来源 → 当前真值 → 未知与冲突 → 使用边界`。“当前真值”只确认本轮实际读取到的历史统计及其方法，不认证旧 raw、当时脚本可达性或今天执行结果。\n- H overlay（全部）：`历史范围 → 原始结论 → 当时证据 → 当前有效性 → 继任文档`。保存日期/源commit/SHA、原结论与未决项；supersession 只覆盖这次呈现与误读风险，不能声称后继已逐条消除所有旧红项。无原 Owner 者不补造作者；新 Owner 仅为文档治理责任。\n\n## 逐篇大纲、语义停止线与后继入口\n\n以下文件均位于 `docs/phase2/archive/audits/`。A/P/R 对应上文五个必填章节；每行给出这些章节需要承载的具体内容，再附 H。日期/commit 是原稿声明，不是本轮产品复核结论。S=当前 script-system/content-schema；D=editor-design-system；E=ops/audits/pre-e2e 的分域回执与活动任务；它们是适用范围/查证入口，不是对旧红项一揽子 supersedes。\n\n| 文件（完整原文行数） | 类型、真实用途与未来五章内容 | 保留的冲突、停止线、后继入口 |\n|---|---|---|\n| am-asset-migrate-audit.md（667） | A：07-05八单元C→一阶段→reforge/migrate对照。问题=roundtrip/烘焙/投掷承接；范围=原函数锚与八单元；发现=MKF离线、RLE400 guard/opaque、21跳转截断与无fidelity、工程/资产manifest分轴、throw占位、item扁平效果、giveItem-zero；结论=架构免疫≠功能完备；整改=原优先级与复核责任仍属当时。 | §8同日已修零物品表12256→164/12347→103/12408→116、4复本补103，与总览/七项汇总/P0仍称缺失冲突，逐处保留并说明汇总滞后。不能据旧行动重跑迁移、改单件生成JSON或恢复旧converter。后继S、E及当前发布指南；无全量fidelity信用。 |\n| b-attack-magic-audit.md（551） | A：07-05逻辑四单元，任务行号原为演出函数，已重定位逻辑。发现=暴击/单群攻/RNG序、敌我不同减伤与clamp、双脚本/降级链、special二次效果、敌方加敌summon与玩家召唤神分义、混乱AttackMate公式。结论/整改区分M4headless占位、故意差异和旧缺口，不泛写“全对齐”。 | 同期b-core/subsystem与演出报告后来07-05/06已修降级、混乱、除因子，不能用本篇旧红反写今天缺陷。用户当时随机敌/友取舍与sdlpal CLASSIC异同原样。后继E战斗、S/实际未来产品卡；禁止把无召唤渲染直接推成今天无能力。 |\n| b-core-audit.md（559） | A：07-05基线16c0719e四单元：SHORT65535→−2/CLASSIC、Phase/防御执行时机、队列dex装配、结算A–F与hidden池。发现表保原“公式对齐”、7/5队列修正、7/6puppet/confused修正及PhaseE/屏序旧缺口；整改写当时验证口径而非本轮实跑。 | dualMove运行分支50% vs CLASSIC入队`if(wDualMove)`必双动在同篇出现，“已知偏差非bug”不能由本文裁决实际编译分支；stable-sort等价也只保留原主张。正文已修与末尾仍缺队列/puppet并存。保显式`审计单元-3回合队列` anchor；`settlement.ts:62-77`为旧展示文字，不伪造网络来源。后继E战斗。 |\n| b-subsystem-audit.md（263） | A：07-05/06五单元逐函数status/AI/防御逃跑/位置/opcode。发现=坏不刷新、好取长/puppet仅死者、玩家与敌状态写法、turn8 terminate编排、物理def×2/法术加性除数、fleeRate有意修复、敌我坐标、0x8A单解释器。结论保结构免疫与剩余onReady/confused旧缺口。 | 状态段“已修”与汇总“丢三条”矛盾；原文“tick不碰>999”与`v>0→v−1`表述也不一致，不能复述为现行算法。坐标提问误标已澄清不得再互换。后继E战斗/S；本轮不修公式、状态或授新永久状态规则。 |\n| battle-config-fills-review.md（35） | P：07-06 D24产出的待作者定值与传播结果，不是审计方法/验收报告。五章分别写临时战场24/音乐37与时间轴、已传播/折叠/hoist计数、仍待核场景清单、原定值阻塞、未来须依D24/现行作者入口核值的完成定义。 | 原称战场15处，逐列含s047(?)等实际列16项，音乐28项；保留15和问号，显式记计数差异，不替用户定值。静态25/32、hoist60/29、折叠35、override11均为当时统计。后继decisions D24、现行battlefield-authoring/S；不新增产品裁决请求。 |\n| battle-presentation-audit-2026-07-05.md（140） | A：07-05/06演出补课清单+07-21 A7-3B进展。发现按P0–P3承载坐标双锚修复/数值颜色误报纠正、alpha终裁、毒抗/状态全家桶、合击HP非MP与角色3/4、11红线；结论区分当时修复/未决和后来资源化；整改保原三项待裁决。 | 原“一阶段唯一UX、C降脚注”仅历史规则，现READ-FIRST意图优先。死亡/召唤终裁alpha不能被更早dither提案覆盖；07-21梦蛇6×40ms色步+72×16ms crossfade不泛化全部显隐。两URL烟测/console0≠完整视觉/E2E。secondary magic/ACT_MS240等原unknown保留。后继E战斗/当前READ-FIRST。保来自harvest的P3片段入链。 |\n| c-menu-audit.md（746） | A：07-05九单元53fix对照。五章写原C/一阶段/reforge单人demo范围；发现保九域表、状态一屏、装备swap/四色情况、MP状态机vs渲染、物品两阶段与记忆、商店/开场旧缺、存档30槽故意设计、DH9回hub分歧；结论和整改分清范式与行为。 | 30槽/savedAt/projectId不是自动debt；旧L39待核与ec-data称已支持为不同证据范围，不能强行选一为今天真相。原DH9“需产品确认”只保历史，不重开今天取舍。后继E编辑器/战斗/S当前save与project规范；不改菜单或旧tests。 |\n| ec-data-audit.md（648） | A：07-05基线7422874a八单元，问题为实例/身份/派生承接。发现保autoLoop仅候选、角色名3/4、跟随者三态、装备实时查询非物化、卸装清状态/毒旧gap、七池升级、梦蛇295、signed敌数据；结论区分数据定义/消费与结构免疫；整改保原G1–8。 | §8 HACK已复核是`#ifndef PAL_CLASSIC`且不烘焙正确，但G8-1/P0仍要求烘焙，高危冲突必须在新结论点名，绝不按旧行动改数据。角色实例≠所有原表字段自动正确。后继S内容/脚本与E分域；不重建装备物化层。 |\n| editor-audit-2026-07-05.md（129） | A：07-05盘点/六截图评审，晚间反馈与07-07 Drawer后继。发现五章覆盖8域能力旧表、七条工作流断点、当时截图观察、W7原评估、按ROI行动和导航三次裁决；结论明确capability-map是当时能力索引，审计非今天产品验收。 | 早“技能空壳”与晚15效果已做、独立事件模式与07-07嵌入ScriptDrawer是时间序；W7旧OwnMap方案已被07-10/14更新。六截图/九格旧绿不可续签当前UI/能力；后继D、S、capability-map与E；不启动截图。 |\n| editor-authoring-closure-audit-2026-07-13.md（320） | A：ED-1的七环事实审计+分期设计建议，保07-14/15与09-05更新、08-14B2 review candidate。问题=空白创作断链；发现=P0第二场景/地图索引/CRUD/资源、P1模块/引用/问题文案/生命周期；结论保18领域七环矩阵；整改=八模块、统一引用图、分期依赖/实际候选状态。 | 原W7E双格式已明确被W7F ProjectMapV2/mapId/MapIndex取消；09-05ED-3收编/scene闭合不能覆盖所有领域。末B2“待三方+用户”是历史review，不在本轮标今天done。旧兼容迁移与三签不恢复。后继D、S、当前任务/七环回执与Q战场指南。 |\n| editor-modernization-follow-up-2026-08-14.md（92） | P：用户整体翻新方向、B2后先DS的三线排期备忘。五章写08-14/15范围、B2与ED-DS-1原done/ED-DS-2 next里程碑、视觉/七环功能/代码质量三线当时状态、参考页不等真值及依赖阻塞、分卡验收下一步。 | 原backlog与部分done分轴；1280/900/720、长中英/空态/大数据/媒体比例是计划判据，非实际视觉通过。旧固定三签由当前AGENTS替代；角色/B2不是自动正确标准。后继D（已窄读1–30的职责声明）、E与活动卡；不授整站重构。 |\n| editor-ui-audit-2026-08-15.md（181） | A：08-15巡检/08-17 rebaseline，明确不是页面build authority。发现保25页、18/17/17/6共享合同采用、raw241/139/70/2等census、U01–12与后来闭合、GS3迁移净减和current-only删除分账；结论是后继ED-AUDIT-2输入；整改保U06/U11/U07等优先级。 | 331→254→241及DsButton195→189为不同阶段，不“同步”成一个数。Header41/380DOM/0overflow/console0属于当时指定浏览器与视口，非25页功能全验。inline73含动态1不等全部坏；旧测试删除非今天授权。后继D、E/ED-AUDIT-2；不恢复历史bottom panel或全局class alias。 |\n| engine-debt-audit.md（337） | A：06-22第二阶段重写输入，18条结构债（P0=10/P1=5/P2=3）+1音频好边界，不是一阶段bug清单。五章写五agent当时取证范围、identity/God object/单例/解释器/时钟/渲染/壳层发现、schema/backlog映射、可以复用的纯逻辑与音频意图、后继架构复核条件。 | 25万行/412处/496处/145bug已清只保旧统计。13waiting却列更多字面量、类别计数与明细可能不一，标原统计口径待考，不偷偷重算或新增MMO/GPU需求。历史opcode兼容/索引framebuffer建议不恢复，当前S无旧converter。后继当前READ-FIRST/S/E；旧content-schema链接仍指历史设计，增加当前入口并区分。 |\n| n-dialog-text-audit.md（480） | A：07-05基线282c1f…三单元dialog/control/textdata。发现保4枚举+offset形成5style、姓名牌三条件、24ms/18px/~尾停顿、slot差异、富文本/控制符迁移责任、GBK/PUA/565词；结论保narration/center/itembox旧红与A1–4待核；整改承接当时风险矩阵。 | `$NN`本应floor(NN×10/7)×8，文中近似NN×80/7及“直接NN偏慢”不能在本轮裁定/改值；颜色/速度跨段与页级skip不混同。w-font已称triple核实、N1后继迁移零残留为不同范围；不据它们全消本篇unknown。后继S、N1历史任务/E；不复活内联控制符运行时。 |\n| n-event-script-audit.md（851） | A：07-05五单元基线282c1f…，保07-14R2取代声明/07-16A7-3返工。发现写双解释器、0x06 trigger/auto差义与stopScript775/2158、触发距离/边沿、走位/骑乘/相机、阶段持久与palette；新结论明确“async架构免疫”不足以保源语义；整改保0x46 trail/0x6E layer/0x50隐式消费/0x71背景后人物四项。 | R2明确clean Command唯一、MigrationGap阻生成、全局地址按commands[n]，下文unmigrated/兼容/label旧说不可恢复。auto0x06先称stop闭环又在旧汇总仍缺；步长同日修正与G4.1/.2旧接受并存；setPalette同步PAT方案与x-shell07-06真彩烘焙定调冲突。后继S/当前发布指南/E，禁止blanket fade-in、全局活palette或旧converter。 |\n| n1-dialogue-migration-audit.md（67） | A：07-15 N1-1迁移结果。五章写6722+135=6857→6858段、14200行/8637textId/26variant/125色、残留0表、18减号17处为0xA7描述、全角空格保留、原测试/idempotent0；结论只确认当时报告；整改为将来复核条件。 | 6858多1有原解释，不能抹差。原loader旧工程豁免/永久门禁属当时，不恢复开发期兼容。旧current把合法“写删冲突0”抓成unresolved信号不能继承为实际bug。后继S/当前canonical与N1-1历史任务；不运行退役迁移器。 |\n| phase1-audit-tracker.md（165） | P：正文是73单元审计排期、依赖顺序、状态索引与报告目录，而非逐函数发现载体；四步审计方法是排期协议。五章写07-05/09-06范围、八依赖批里程碑、原已审/待审分栏、旧红与分母口径冲突、以专项原报/后继台账查证的下一步。 | 保首09-06历史声明。末73/73“审完”≠产品修完，表中throw/item仍待审；AM八单元与末“五单元”/73口径不一，ec HACK/giveItem-zero旧红已与专项更新冲突，原值全部保留并解释其索引不能高于专项日期。74出链按实际token核，重复ec标签不合并身份。后继E/活动任务/capability-map；不新增审计或跑产品。 |\n| script-census.md（125） | R：07-02 M3定量设计参考，“全表存档”用于回查频率/结构，不含整改验收结论。五章写43503指令/160opcode/295scene、触发3681/唯一2322、auto2165/287、onEnter160/146/teleport67，Top40=94.1%、31跳转、等待两族和链长/终止统计。 | 仅线性走到首END/无条件goto，不追跳；绝不可叫CFG/BFS可达性/翻译完备/行为覆盖。74/0xA7等旧标签不据后继改写统计；raw未核、未重跑。后继S与历史M3设计，引用它只支持指定时点设计输入，原raw身份未知保unknown。 |\n| w-font-palette-audit.md（409） | A：07-05基线6ddb4434三单元。发现保MSB/LSB分支、triple阴影、Unifont57083/PUA0及字形来源差异、六fade量化60/64与63/64、fixedRGBA设计、wave32相位与shake奇偶；结论区分低风险字体边界/当时缺失特效；整改保历史优先级。 | 当时“wave/shake全缺”与n-event07-16实录范围不同；N-dialog triple待核与本篇已读函数相互指路，不新认证全部glyph。旧移植indexed算法建议不能覆盖D15/current clean边界。后继E/S、实际演出卡；0视觉信用。 |\n| w-render-audit.md（385） | A：07-05固定6ddb4434瓦片/精灵/MakeScene。发现保h选DWORD/l选半字、layer1−1、opaque≠palette0、±fence、覆盖五候选/trunc、party+4/NPC+7与iLayer相消、逐帧anchor、稳定Y-sort、T/S/M/H表及两坐标系待查；结论区分已修与原低中风险。 | 旧缺cover/layer与n-event07-16已修记录只按日期范围关联；“seams CPU dilation”与后继装载期composite方案不硬合并。旧drawSprite接口不一致/坐标M4待证不可凭静态规范消掉，也不对今天制造现行bug。后继S/E世界与渲染专项。 |\n| x-shell-audit.md（466） | A：07-05基线a3828…十单元+4b音频行，保07-06修正。发现写soundfont/解锁、主循环模型、输入、SFX去重/BGM、AVI/RNG/FBP、缓存、实例状态、存档；结论分A原行为/B工程/C旧架构；整改保当时行动并标作废。 | G2.1已收窄、100ms移动共拍且明确“不采纳全局accumulator”，附录仍要求照搬；G8.5已转真彩烘焙/不引活palette，附录仍要求同步PAT。LRU96与normalizePayload“已修”不授今天兼容upgrader；94831/30456/108361所谓行数是原报告异常计量，保留不造全量阅读证明。后继S当前save/发布指南/E；不执行旧增量烘焙。 |\n| x3-scene-entry-migration-audit.md（64） | A：07-15 X3-1入场迁移审计。五章写11早期提升/17独立/13非早期场景清单、s001音乐31→(59,−23)→2160ms→婶婶、s151仅首dither提升、829文件/294scene/297shard/47ops与idempotent0、共享安全目录当时声明；结论限当时迁移数据；整改为后继复核条件。 | s182 override在s188分片不等目标s188，身份不能从文件名猜。旧称classifier/validator/lifting共享穷尽安全分类，Q当前指南已明确插入/保存门未完整消费；以日期/consumer轴并列，不改旧原值，也不宣称今天完全无校验。后继S203–211与Q入场指南（全文已读）；不跑产品/旧scene-entry tests。 |\n\n## 保真、链接与完整43字段的最小承接\n\n1. 每篇必须真实新增上述具体五章+H，原根标题唯一；原文原日期、strikeout、原表/数值/源码锚、旧unknown与结论完整保留在不可执行 text fence。不能只写“历史不代表当前”套话。全文Buffer可用一个连续源块（确需插锚则少量连续分块，连接后逐byte逆回相同SHA），记录 source1–EOF ↔ after起止；7680条逐行JSON重复映射没有必要。未来实际after行/SHA/Git object须生成后测，现不填假值。\n2. 源标题 **961个**、显式HTML anchor1个、GFM表161块/1207数据含表头行，应保存旧headingID→有内容的新发现/历史块的明确映射、表块范围+SHA→after范围；入链实际使用的`#4-p3-合体法术整体缺失菜单死桩恒灰`与`#审计单元-3回合队列`优先逐个验。原链接label/href/重复次数/顺序保活；历史source fence不算公开入口。不得把所有旧heading只挤在一个无语义锚列表来冒充定位。\n3. 固定1251份tracked MD/HTML仅做机械图读取：Marked GFM实际得入链164、出链117，0目标/片段失效，22篇无孤儿。完整图与原headingIDs/table范围在 gfm-graph.json。原小parser观察118出链，误把转义展示`settlement.ts:62-77`纳入，保留其link-graph.json作为首观察；最终以GFM117为准，不改共享parser。JSON原生引用只核指定registry/current/catalog/routing，无全docsJSON语义读域信用。\n4. 现行登记43个native字段继续采用既有合同，未来每篇都要有：固定source与真实after身份/行数/读域；本文逐篇core/originalIdentity/governanceOwner/status/type/1.0/family/H/phaseAnchor/versionAxes；真实primarySource与依赖、公用入口/合法输入/oracle/排重；逐篇counter/完整prior30与完整catalog/historical日期；supersedes范围、before→after、停止线/下一步/模板符合性；无执行的toolAssociations/runtime=false；实测candidate身份；连续source逆回/heading-table-link映射及sourceReviewStatus（作者候选待非作者接收）。不生成43键空壳或复用旧generic summary作为语义审查。\n5. 旧catalog22项的sourceRefs大量为产品“1–1/`/**`”机械锚，部分逆范围如commands1734–180；它们随完整旧native进入history，**不得当本轮读过产品**。未来新primary是固定全文MD及明示窄读后继；根接账时保旧sourceRefs/after和日期，再记录实际新差异，不无读刷新产品hash。catalog status archived、文档lifecycle historical、源done/backlog与taskbuild是不同轴。\n\n## 字节预算与未来白名单（暂停前的提案，不构成准入）\n\n现有完整prior-current原生对象pretty JSON **288987 bytes**；完整prior-catalog **106160**；GFM图（含全部961标题ID/161表块/入出链）**213031**。三者合计608178；以正文具体语义/43字段元数据/范围映射预留180000，总初估 **788178 bytes，约770KiB，小于1MiB**。595181 bytes源原文保在MD与Git，不再嵌入receipt。这个数是设计预算，不能冒充未生成receipt的实测；未来若实测≥1MiB，停并由根冻结少量同类分包（A18按领域拆成2份、P3+R1一份），不抬cap、不压缩JSON求绿。\n\n后续单Owner可讨论的最小白名单是上述 **22个明确MD路径 + `docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261016.json`** 一份既有native回执。该第23路径目前仅建议、未创建，实际Owner/worktree/commit由根在用户恢复后冻结；不写模板、central、registry、catalog、routing、矩阵、README、task或任何源码。四个排除项 **README.md / a7-0-music-resource-closure-report.md / a7-2-static-images-engine-chrome-report.md / a7-resource-closure-audit.md** 始终0写入/0重计数。\n\n根或非作者须先逐篇核本表原源/旧native/分型及当前后继；恢复后实际候选还需全文语义、source逆回、完整43/oldnative、GFM入出链/表、真实docs/model/strict/progress/lint/diff等门独立验，E/W/I不得豁免。当前没有需要新的用户产品取舍：battle定值/ACT_MS等仅保历史unknown；本包不能越界替产品裁决。全量1838目标仍未完成，B/C0/C1与A8均不扩权。\n"
+    },
+    "deliveryManifest": {
+      "path": "/tmp/type-pal-r22-readonly-design-20261016/delivery-manifest.json",
+      "sha256": "3f62fd14fba260ba7d43014aa7d048ccf859c0838172439ab6f470d2fe8b85ab",
+      "completeReport": {
+        "kind": "R22 readonly design delivery manifest; not migration/acceptance evidence",
+        "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+        "owner": "/root/terminal_a8_continuation",
+        "status": "draft design ready for root/non-author review; pause on delivery per latest user direction",
+        "repoWrites": 0,
+        "buildAuthorization": false,
+        "migrationCredit": 0,
+        "sourceManifestMethod": "sorted path NUL sha256 LF",
+        "sourceManifestSha256": "d7a6ef8915e3c68b1a5528c95a88d111c9b9bb1fbdaf135f86fbacefb5fdc626",
+        "sourceCohort": {
+          "documents": 22,
+          "fullReadLines": 7680,
+          "bytes": 595181,
+          "oldCurrentNative": 22,
+          "oldCatalogNative": 22,
+          "registry": 22,
+          "sourceAfterShaDrift": 0
+        },
+        "files": [
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/design-table.md",
+            "sha256": "8564c8da5ca96c6289bbdbe254bcc94c8f9cae872273113d191c0b8817579eda",
+            "bytes": 22365,
+            "lines": 61
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/read-domain-and-identity.json",
+            "sha256": "0a533cc7d746982c9974ced65fc2c6cc1451dda4ff845949504efae2c3a47c66",
+            "bytes": 24787,
+            "lines": 764
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/source-and-prior.json",
+            "sha256": "08f6236e857e77b1f8122b61989be091c78e80cbc2ebff02b12ef7e7e2c06a20",
+            "bytes": 371870,
+            "lines": 7348
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/catalog-priors.json",
+            "sha256": "15e2ffe6cf81a327f095bf1e920c25f0d5231e5ca12acf36e44d7c8ce78aec0d",
+            "bytes": 130784,
+            "lines": 2949
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/gfm-graph.json",
+            "sha256": "71d540930d33afd4d7066fd66100300c4bb03272b9c8e35cf69e8202622a7019",
+            "bytes": 213031,
+            "lines": 7199
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/context-identity.json",
+            "sha256": "6f5616461928dfebc399ce34c35f7f6ffff21476f6523fb47d1afa68d51b06a9",
+            "bytes": 1769,
+            "lines": 56
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/gfm-scan.mjs",
+            "sha256": "cabff3bd5aedda2b9d4bf42326d693b784fd13ec2ed4682b4fddb2e01ef6a446",
+            "bytes": 4683,
+            "lines": 24
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/link-scan.mjs",
+            "sha256": "62e2f6fb1e25ff2a080afcaa70742149dfd08bdd5c045ff9ad62dcc731a7d729",
+            "bytes": 3171,
+            "lines": 23
+          },
+          {
+            "path": "/tmp/type-pal-r22-readonly-design-20261016/link-graph.json",
+            "sha256": "78f82b3da1d211723ab4d62d2f4ea92d82c41a0d73b898f3c5356ff497e680d1",
+            "bytes": 85132,
+            "lines": 2426
+          }
+        ],
+        "authoritativeDesign": "design-table.md",
+        "priorCompleteness": "source-and-prior.json contains each old30-key current/native and registry once; catalog-priors.json contains each complete actual governance catalog entry once. Full Git/blob/containerSha and unique pointer retained. No old native rewritten.",
+        "excluded": [
+          "README.md",
+          "a7-0-music-resource-closure-report.md",
+          "a7-2-static-images-engine-chrome-report.md",
+          "a7-resource-closure-audit.md"
+        ],
+        "notDeliveredAsAuthority": [
+          "reading-notes.json: early first4 notes, superseded by final table; guessed spec candidates not used",
+          "fixed-context/source copies: read identity aids only; root can re-read fixed Git",
+          "link-graph.json: first small parser result, final GFM graph governs mechanical counts"
+        ],
+        "selfHashRule": "manifest does not hash itself; external final SHA identifies it, no recursive receipt",
+        "nextStep": "Root/non-author may review this readonly proposal. User requested pause after current review batch; no writer/new batch or build until resumed and explicit scope frozen."
+      }
+    }
+  },
+  "artifactRules": {
+    "owner": "Codex root",
+    "producer": "terminal_a8_continuation actual source/prior read and GFM proposal tools",
+    "caller": "Task resume planning only; never current doc/approval/runtime oracle",
+    "retention": "Retain proposal and complete fixed source/prior Git through final governance; /tmp9 originals kept, original parser118 and actualGFM117 distinctions retained. Reconstruct whole priors from fixed655b before future build."
+  },
+  "migrationCredit": 0,
+  "buildAuthorization": false,
+  "entries": [],
+  "nextStep": "Pause. Resume requires independent remaining source/design read and frozen exact scope; no writer/worktree assigned for R22."
+}

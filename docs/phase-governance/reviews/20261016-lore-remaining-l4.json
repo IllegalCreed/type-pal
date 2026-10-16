@@ -1,9 +1,461 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-16",
-  "scope": "L4 four lore design freeze and characters-only canonical pilot admission",
-  "entries": [],
-  "migrationCredit": 0,
+  "scope": "L4 frozen design and one characters current intake; remaining3 paused",
+  "entries": [
+    {
+      "path": "docs/lore/characters.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root fresh complete original321, all new live1–318 and complete native769 (initial output truncation repaired by bounded reread); nonauthor independent complete original321/new643/full43, GFM/source meaning controls. Exact independent report at this control.sourceReception; central future bytes require separate intake.",
+      "coreConclusion": "Character source is candidate reference, not newly official canon. Preserve all character/relationship/outcome/version claims and original source labels; current project T1/T2/T3/T4/T5/T5.5 and independentT6 remain effective. Three pearl-actor accounts/presentation/geography/death mechanisms stay unknown. June30 local Water-Spirit-Calamity author adoption outranks only its explicitly older variants, not a fresh official authentication. Restore exact original142 orphan four cells to LiSansi table;105 data versus104 is an explicit rendering repair.",
+      "documentStatus": {
+        "body": "candidate",
+        "catalogMaturity": "draft",
+        "meaning": "Reference claims remain source-labelled/unverified; substantive template migration acceptance grants no official canon certification"
+      },
+      "owner": "Codex root integration; q_remaining_guides fixed source author; n6_intake_review independent complete source reviewer; original author unknown",
+      "originalIdentity": {
+        "ownerFields": [],
+        "literalAuthor": "unknown/not signed in original",
+        "originalStatus": null,
+        "originalDate": "last verified2026-06-25; local June30 wife/four-outlaws/death adoption",
+        "originalTitle": "官方角色设定（characters）",
+        "historicalCatalogOwner": "Codex governance attribution only, never retroactive source author",
+        "literalConfidenceLabels": ["✅ 官方/多源一致", "⚠️ 单源/粉丝向", "❓ 存疑待核"],
+        "newLastReviewed": "2026-10-16 documentation review only; no original webdate renewal"
+      },
+      "provenance": [
+        {
+          "authorRecord": {
+            "revision": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+            "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+            "fileSha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+            "selector": {
+              "entries.path": "docs/lore/characters.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        },
+        {
+          "reviewer": "n6_intake_review nonauthor",
+          "sha256": "56a64041ae56799b3af117b84d2c162973e3a48493faf0285fe791ba54bc9d44"
+        },
+        {
+          "root": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "scope": "Canonical current reception is only control.rootIntake; fixed author pending/old reports retain their snapshot scope. User requested pause after this batch; no next pilot admitted."
+        }
+      ],
+      "primarySource": [
+        {
+          "path": "docs/lore/characters.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+          "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 321,
+              "rangeSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+            }
+          ],
+          "scope": "Fresh complete original321 at fixed Git; complete new live1–318 read and inert321 readback inverse actual; oldURL/source labels not remotely authenticated."
+        },
+        {
+          "path": "docs/lore/taboos.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6",
+          "sha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 118,
+              "rangeSha256": "35f54325ee5375f800bea07f48b7adb557caecfd0b79ecb3c849b61c1053657e"
+            }
+          ],
+          "scope": "Fresh bounded current project redlines T1/T2/T3/T4/T5/T5.5/independentT6 and unknown/status separation, no full248line claim."
+        },
+        {
+          "path": "docs/lore/versions.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "a0711af4901f663085a9f576686fc3fb969637fc",
+          "sha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 70,
+              "rangeSha256": "9d862459458a48c90ee3efbb983753f9ce03a9bbd7b285fd8fb193c5890f509b"
+            }
+          ],
+          "scope": "Fresh bounded candidate version/presentation/three pearl accounts and unselected author tasks, no full240line claim."
+        },
+        {
+          "path": "docs/lore/ideas/guijie/brainstorm.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+          "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+          "ranges": [
+            {
+              "start": 94,
+              "end": 104,
+              "rangeSha256": "67f7427adc8c8dc762841051be2666cf067ad43c07820e5df9782576cebdd107"
+            },
+            {
+              "start": 334,
+              "end": 368,
+              "rangeSha256": "52aad785552326b03d150f0e67b0af9b39e8859f77291327fcdcc5be959571ad"
+            }
+          ],
+          "scope": "Earlier L4 readonly task actually read entire386; actual33c fullblob equals fixedc3bb and Q07b. Exact prior semantic read reused for parents-already-reincarnated/falseback boundary only, not fresh reread or migration of secondpilot."
+        }
+      ],
+      "truthAnchors": [
+        "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b:docs/lore/characters.md",
+        "docs/phase-governance/reviews/20261016-lore-remaining-l4.json:1",
+        "docs/lore/taboos.md:1-118"
+      ],
+      "phaseAnchors": {
+        "primary": "Samepath original321 source, exact source labels/dates/author-selected local explanation, no external canon certification",
+        "phase1": "Faithful original project boundary remains; no mechanism truth/game behavior/rerun granted",
+        "phase2": "DLC/paper character constraints only, not editor/engine/save implementation or build of character stories",
+        "target": "Five substantive sections and per-character usage/unknowns, original heading+href+table identities; no character fate/product change"
+      },
+      "dependencies": [
+        {
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf",
+          "sha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 263,
+              "rangeSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647"
+            }
+          ],
+          "scope": "Fresh complete formal263 design; final admission overrides embedded historical unbuilt proposal. Full33c commit supplied by root after independent design/index reception."
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "gitObject": "507b24484e1e8412d7e4ea954b7d0c6fffe21a51",
+          "sha256": "ff12258e9285ff895961f2e3ef81c4dc057f13fa7d09ed3db1ca497a5517a8b7",
+          "scope": "firstPilot exact two paths, continuation stop, matrix root-only scope; originalv2 MD/structured exactSHA/deep equality. Not whole embedded report manual reading."
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "scope": "Fresh top1–65 and last55 lines; solecharacters pilot only. User pause steering forbids subsequent packages."
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scope": "Selected reference-canon1.0 valid candidate status/five chapters; earlier full824 sameblob registry read reused; no new type."
+        }
+      ],
+      "applicability": {
+        "family": "lore character claim/version/source-credibility reference",
+        "versionAxes": {
+          "template": "1.0.0 frozen17types, no new type/variant",
+          "sourceRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "designSource": "c3bb4096c4041a7890350199ca226fc79d174832 same sourceblob",
+          "oldReviewRevision": {
+            "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "date": "2026-10-04",
+                "action": "content-deep-review-batch-1",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "oldCatalogRevision": {
+            "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "date": "2026-10-04",
+                "action": "phase-lore-governance-inventory",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "contentSave": "Old content22/SAVE11 remains capture only; current product versions not changed or authenticated by this lore migration",
+          "originalDates": ["2026-06-25 global collection", "2026-06-30 local additions/adoption"],
+          "newDate": "2026-10-16 static documentation review, no renewal of original verification"
+        },
+        "scope": "Candidate cross-work reference and existing author project constraints; old22/SAVE11 are original captures, no product-version certification"
+      },
+      "publicEntry": "docs/lore/characters.md",
+      "publicCallers": [
+        {
+          "caller": "docs/lore/README.md and existing character links",
+          "role": "human/agent reference/navigation, no game caller or runtime assertions"
+        },
+        {
+          "caller": "docs/lore/versions.md and taboos.md",
+          "role": "project constraints and unknown pearl/version source, not official webcertification"
+        },
+        {
+          "caller": "scripts/docs/document-model.mjs#checkMigratedDocument",
+          "role": "Real direct structure/status/declaredtemplate check for unrouted candidate; root routes not refreshed by sourcewriter"
+        },
+        {
+          "caller": "pnpm check:docs / pnpm lint / git diff --check / strict / progress",
+          "role": "Frozen candidate static gates; exact raw results external author manifest, not lore-runtime oracle"
+        }
+      ],
+      "legalInputs": [
+        "Fixed samepath source321 at33c/c3bb and original30/current9/catalog24 actual unique records",
+        "Existing project T1/T5.5/independentT6 constraints plus known source-linked version/author decisions; uncertain external claims stay candidate",
+        "Only source characters+new native two paths; no author edits of otherthree lore/shared/product/oldtests/coverage",
+        "Original65 URL/labels are historical citations, not claims of fresh HTTP availability or complete original-game inputs"
+      ],
+      "businessOracle": {
+        "type": "source-backed character-reference migration, not runtime test",
+        "assertions": [
+          "Original321 UTF8 inclLF inverse,21 original live heading/plaintext/slug/order,65 labeled href occurrences and139 physical pipe lines preserved",
+          "17 native tables retain all104 original data rows plus exact original142 four-cell restoration to105; no total-count-only proof",
+          "Original official/confidence/date/author labels scoped; fan childbirth not official cause; pearl three accounts not selected; no multiplayer compromise fabricated",
+          "Project T5.5 complete chain and pre-revival space limit retained; independentT6 not silently renumbered or exact killer invented",
+          "June30 chosen death explanation preserves undelivered orb/local author scope, not new web/official certification or completed DLC"
+        ],
+        "strongestCounter": "Keep all five chapters/exact fenced source but assert all✅ freshly official, fix pearlactor, revokeT5.5space, or deliver orb to island: actual structural model staysgreen; six named source-bound semantic clause oracles and nonauthor actual reading must reject.",
+        "runtimeExecutionPerformed": false,
+        "oracleLimit": "These are six specific documentation clause checks, not a general semantic verifier or product unit tests."
+      },
+      "dedupe": {
+        "result": "One unique baseline source migration, old30 current replaced, prior250 routes preserved",
+        "against": [
+          "docs/lore/characters.md",
+          "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+          "docs/phase-governance/reviews/20261016-lore-remaining-l4.json"
+        ],
+        "notes": "N9/README maintenance/receipt/proposal not recounted; no runtime/canon credit"
+      },
+      "counterReworkBlocked": {
+        "sourceLimits": [
+          {
+            "id": "L4-C01",
+            "finding": "6/25 top/6/30 local adoption/old footer311 and prior reviewedLines1–360 versus actual321",
+            "disposition": "All original dates/statements/fullprior unchanged; exact311 old footer scoped, not used to undo localJune30 decision. Actual read321 recorded separately."
+          },
+          {
+            "id": "L4-C02/C03",
+            "finding": "Three pearl accounts, original✅/official tags, fanbirth/death/geography claims",
+            "disposition": "Live candidate/draft axis and unknowns explicit; no new official certification or author choice."
+          },
+          {
+            "id": "T5.5/T6",
+            "finding": "Source ambiguity must not revoke project constraints or collapse distinct chains",
+            "disposition": "Complete T5.5 with space restriction and independentT6 retained; unknown exact deathways separate."
+          },
+          {
+            "id": "L4-C15",
+            "finding": "Original142 is not native GFM data, distinct from later same-label row",
+            "disposition": "Exact original four cells inserted after138 in same LiSansi table, original AST/raw kept,17 tables104→105 individual mapping tested."
+          },
+          {
+            "finding": "First tmp observer wrongly trim() removed git-status leading space",
+            "disposition": "Real tree only admitted characters; own guard fixed trimEnd, first failed proof retained bdf99a28cec421839eefc22007c99c631b110e9f5b114a9d0c418e33dd97a0d4, rerun actual25/0. Not source/product fault."
+          },
+          {
+            "finding": "User requested pause after currently started batches",
+            "disposition": "Only this pilot finishes/freeze; no brainstorm/beat/timeline build, no extra work package; root controls overall pause."
+          }
+        ],
+        "currentRootVerdict": "Canonical current reception is only control.rootIntake; fixed author pending/old reports retain their snapshot scope. User requested pause after this batch; no next pilot admitted."
+      },
+      "unresolved": [
+        "External official/game/comic sources not freshly authenticated; three pearl actors/presentation/geography/death claims remain unknown",
+        "T5.5 and independentT6 project constraints remain valid; current product/runtime/E2E/visual/coverage not run",
+        "Other three L4 pilots not started; current root gates and independent intake separate"
+      ],
+      "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "sourceGitRevision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+      "sourceGitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+      "afterSha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+      "revision": {
+        "currentSha": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+        "implementationSha": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "Source-specific character reference migration; no original canon/product recertification",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+              "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+              "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+              "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+              "selector": {
+                "entries.path": "docs/lore/characters.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            },
+            "notRun": ["runtime", "E2E", "visual", "coverage", "external-canon-authentication"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-backed-static-character-reference-migration",
+        "path": "docs/lore/characters.md",
+        "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+        "afterSha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+        "lineCount": 643,
+        "nativeRecord": {
+          "revision": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+          "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+          "fileSha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+          "selector": {
+            "entries.path": "docs/lore/characters.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        "independentSourceAcceptanceSha256": "56a64041ae56799b3af117b84d2c162973e3a48493faf0285fe791ba54bc9d44",
+        "originalPreservation": {
+          "quote": true,
+          "completeOriginalIncluded": true,
+          "method": "Single inert four-backtick text fence with exact321 UTF8 lines/29715bytes/finalLF; same source reachable fixed Git/blob",
+          "sourceFenceLength": 4,
+          "completeOriginalReadBackSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "sourceBlobReadBackExact": true,
+          "sourceToAfterLineMapping": {
+            "sourceStart": 1,
+            "sourceEnd": 321,
+            "afterStart": 321,
+            "afterEnd": 641,
+            "offset": 320,
+            "all321LineBytesIncludingTerminatorsCompared": true
+          },
+          "nativeGFM": {
+            "originalTables": 17,
+            "originalDataRows": 104,
+            "afterTables": 17,
+            "afterDataRows": 105,
+            "orphanSourceLine": 142,
+            "afterLiveLine": 144,
+            "originalFourCells": [
+              "**皇甫英不知情**",
+              "皇甫英**误以为**李三思夫妇是\"盗苗族圣物受诅咒而死\"，**不知真相是为救自己而牺牲** → 因此愧疚退隐，定居盛渔村（与李逍遥同村）",
+              "✅",
+              "知乎·隐藏伏笔"
+            ],
+            "method": "Restore only orphan142 at end of actual LiSansi originaltable before original139blockquote material;105 expected full rows checked individually, not a net count argument."
+          }
+        },
+        "runtimeExecutionPerformed": false
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Replace unique old current; full prior30/registry/catalog retain actual Git identity",
+          "review": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+            "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+            "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+            "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+            "selector": {
+              "entries.path": "docs/lore/characters.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "registry": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+            "path": "docs/phase-governance/document-registry.json",
+            "gitObject": "264b7d97698cfc36a6b6552e47babfa2c24168c4",
+            "fileSha256": "5d1d8c090cd3db199a1cd18c16ccccb4c2e7b2ec53b0fb33ab3a181037ecc8a0",
+            "selector": {
+              "entries.path": "docs/lore/characters.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "catalog": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "b810966fef087c15412aa78f6332baeed10adc3f",
+            "fileSha256": "09d1b958e3d01f06fc88e9e07f66839202b91501b9169d975b8e7b3da035325a",
+            "selector": {
+              "entries.path": "docs/lore/characters.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "completeSourceRecord": {
+            "revision": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+            "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+            "fileSha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+            "selector": {
+              "entries.path": "docs/lore/characters.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
+      "supersedes": [
+        "Samepath untemplated presentation only; no historical conclusion/date erased"
+      ],
+      "supersessionScope": "June30 source-adopted Water-Spirit-Calamity explanation supersedes only its named June25/earlyJune30 alternatives; old footer311 historical. Current project redlines unchanged; no whole-document canon upgrade or adjacent N/L4/phase supersession.",
+      "priorReadingSources": [
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+          "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+          "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+          "selector": {
+            "entries.path": "docs/lore/characters.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
+      ],
+      "stopLine": "No original official label→new certification, no pearl/version/death choice, no T5.5space or T6 withdrawal. No further L4 pilot after this delivery under user pause. No source selfaccept/current ledger/routes/catalog/matrix/task/product/oldtests/coverage/main writes or fullgoal completion.",
+      "nextStep": "Pause after exact current batch review/writeback. Other3 and remaining1838/increments/artifacts await resume; Canonical current reception is only control.rootIntake; fixed author pending/old reports retain their snapshot scope. User requested pause after this batch; no next pilot admitted.",
+      "userVisibleBeforeAfter": {
+        "before": "Untemplated321 with mixed claim maturity becomes concrete five-section candidate plus per-character use/unknowns,21 original rendered headings+65links,17 native tables105data after exact orphan restoration, and complete321 inert source includingLF. Old30 retained with actualfixedGit locator;0 author acceptance.",
+        "after": "Same fixed source bytes plus one current ledger/route/catalog projection; no author/product choice changed"
+      },
+      "reviewedLines": "1-643",
+      "phase": "lore",
+      "module": "characters.md",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "reference-canon-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"],
+        "method": "Actual complete nonauthor source/43/GFM/source-meaning acceptance; current root consumer/gates and intake recorded separately"
+      },
+      "toolAssociations": []
+    }
+  ],
+  "migrationCredit": 1,
   "design": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
   "sourceRevision": "c3bb4096c4041a7890350199ca226fc79d174832",
   "acceptedRootBase": "655b8c687cb3e568c85fa53084d503e40b845e6a",
@@ -2987,7 +3439,7 @@
   },
   "rootReadingScope": "Root v2 MD230 + first independentMD90 + closureJSON248/MD15 + characters321 + reference/narrative templates complete; other fullsource/prior semantics independently read and accurately reused. Structured proposal full identity/selectedfields, no false root2081manual claim.",
   "firstPilot": {
-    "status": "build allowed after root sends exact committed freeze and new managed worktree; no source candidate accepted",
+    "status": "Exact characters source independently accepted; current root reception only at rootIntake; no continuation while paused",
     "codingOwner": "q_remaining_guides",
     "paths": [
       "docs/lore/characters.md",
@@ -3022,7 +3474,8 @@
         "why": "highest mixed-date/currentruntime/publication scope last; caller expects2 only vs unbound old3 unresolved, fixedOct11 vsrework +7inboundfragments"
       }
     ],
-    "scope": "Three remaining source paths not build allowed until previous actual pilot nonauthor acceptance and root explicit assignment; no user perbatch confirmation required."
+    "scope": "Three remaining source paths not build allowed until previous actual pilot nonauthor acceptance and root explicit assignment; no user perbatch confirmation required.",
+    "pause": "User requested pause after current batch; brainstorm/beat/timeline not admitted, no subsequent batch starts."
   },
   "rootOnlyIntake": {
     "central": "4 uniquelegacy records→newcurrent with exact immediate priors; totalregistry count unchanged; 3wrongtypes corrected (beat+brain→narrative, timelineplan→reference), 4newroutes actualold0/4.",
@@ -3069,10 +3522,127 @@
     "noParallelTruth": "Author constraints staytaboos/versions, brainstormingdecisionlist gives localintent, beat owns concretebeats, timeline owns narrative route, testingcatalog/report executionpublication; centralreceipt indexes only."
   },
   "rootIntake": {
-    "status": "design freeze and scoped build admission only; future real candidates/current integration require independent acceptance",
-    "actualAcceptance": null
+    "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+    "source": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+    "status": "candidate awaiting exact root gates and nonauthor intake; no future acceptance presigned",
+    "actualAcceptance": null,
+    "sourceBodiesUnchanged": true,
+    "scope": "Only one characters current transfer/route/projection; necessary README current maintenance; one existing Lore machine relation; other3 stopped",
+    "fullGoalComplete": false,
+    "newIncrementalCredit": 0,
+    "priors": {
+      "review": {
+        "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+        "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+        "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+        "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+        "selector": {
+          "entries.path": "docs/lore/characters.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "registry": {
+        "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+        "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "path": "docs/phase-governance/document-registry.json",
+        "gitObject": "264b7d97698cfc36a6b6552e47babfa2c24168c4",
+        "fileSha256": "5d1d8c090cd3db199a1cd18c16ccccb4c2e7b2ec53b0fb33ab3a181037ecc8a0",
+        "selector": {
+          "entries.path": "docs/lore/characters.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "catalog": {
+        "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+        "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "path": "docs/phase-governance/catalog.json",
+        "gitObject": "b810966fef087c15412aa78f6332baeed10adc3f",
+        "fileSha256": "09d1b958e3d01f06fc88e9e07f66839202b91501b9169d975b8e7b3da035325a",
+        "selector": {
+          "entries.path": "docs/lore/characters.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      }
+    },
+    "partialFormatGuardRecovery": {
+      "kind": "root own partial metadata before catalog preformat guard recovery; source unchanged; no gate was run",
+      "firstFailure": "Root setup rev-parse MERGE_HEAD saw only first octopus head; stopped before writes. Fixed actual Git file read.",
+      "secondFailure": "Incorrectly capped JSON.stringify raw before Biome normal formatting; raw catalog1077204B (base normal1048300B), stopped after five own derived metadata outputs. Catalog/rules/source untouched. Full five outputs preserved here; repair reads immutable33c priors and preformats all under1MiB before any further write.",
+      "files": [
+        {
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+          "savedPath": "/tmp/type-pal-current-batch-preformat-partial-20261016/0.json",
+          "sha256": "1e9cb3cb1b1456d43998a1afb354ad6e4ae66362b37475a7b576b7436c598e8e",
+          "bytes": 278882
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261016-historical-static-html.json",
+          "savedPath": "/tmp/type-pal-current-batch-preformat-partial-20261016/1.json",
+          "sha256": "bc9f644382f2476641fe448ae2f6f55b9d5a785882ebd3750da72b3825212d6c",
+          "bytes": 260649
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+          "savedPath": "/tmp/type-pal-current-batch-preformat-partial-20261016/2.json",
+          "sha256": "c26d38b07be9663a2ce4f08638255aaece90847905504a770aa4b4f4ced006f4",
+          "bytes": 100394
+        },
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "savedPath": "/tmp/type-pal-current-batch-preformat-partial-20261016/3.json",
+          "sha256": "c2fa3f5a26c95734abe48b22733b8d1ce70df7193d87f883b4d7f04ded9d0f34",
+          "bytes": 346558
+        },
+        {
+          "path": "docs/phase-governance/routing.json",
+          "savedPath": "/tmp/type-pal-current-batch-preformat-partial-20261016/4.json",
+          "sha256": "3644cf0b7d4912d8064647332aaa2aecf91c82a5fc2d117fba32235a88b05e4e",
+          "bytes": 38581
+        }
+      ]
+    },
+    "pureFormatFollowup": "The first pure preformat correctly rejected the still-too-large normal catalog before further repo writes. Removed only duplicated verbose catalog prior locator in favour of the canonical L4 current record reference; whole prior24 remains in source native and fixedGit, all other182 catalog entries and critical semantics exact. No cap/rule/minification change.",
+    "setupObservation": "First root writer stopped before any repository writes: rev-parse MERGE_HEAD returns only one octopus head. Read the actual Git --git-path MERGE_HEAD file and verified both exact parents; same five accepted source paths, no source/gate failure or change of accepted bytes.",
+    "indexMaintenance": {
+      "path": "docs/lore/README.md",
+      "priorCurrent": {
+        "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+        "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+        "gitObject": "322cba6e8b1b63832e17bbc33ebd6c900c902659",
+        "fileSha256": "c3c664181ca6ab9beba2b4f95dcf4db07c1a57524f9e4449b64701a91f504387",
+        "selector": {
+          "entries.path": "docs/lore/README.md",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "priorBody": {
+        "revision": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "path": "docs/lore/README.md",
+        "gitObject": "0bdc3fa03ab73748b62bac905764ee51f9f53dfb",
+        "fileSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614"
+      },
+      "beforeSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+      "afterSha256": "89efa513fdf5c241893b2542062f953255ce069b62e4e6f8b0f2b1632fa3e312",
+      "substitutions": [
+        {
+          "before": "四大长稿仍须各自全文治理，本次必要窄读不使其自动完成。",
+          "after": "长稿逐篇迁移与接收状态见[专属 L4 记录](../phase-governance/reviews/20261016-lore-remaining-l4.json)；目录自身不授正文迁移信用。"
+        },
+        {
+          "before": "固定c7d正文与回执已获非作者全文接收；后续中央、路由和当前根行政字段另验，不替四大长稿、其余六篇或官设查证记完成。",
+          "after": "固定c7d正文与回执已获非作者全文接收；九篇主题接入见[唯一 N6 接收记录](../phase-governance/reviews/20261016-lore-reference-n.json)，长稿见 L4 专属记录。该目录接收不替其它正文或官设查证记完成。"
+        }
+      ],
+      "newMigrationCredit": 0
+    }
   },
-  "stopLine": "No source/pilot/canon/product/runtime/visual/coverage/whole1838 completion credit; all new design/control/native files pending increments, no self-sign or afterSHA cycle.",
+  "stopLine": "Only one characters source can receive template-migration credit after exact current intake/gates; no new official canon/product/runtime/visual/coverage or whole1838 completion credit. All design/control/native increments themselves remain pending; remaining3 paused, no self-sign or afterSHA cycle.",
   "rootIndexMaintenance": {
     "scope": "Necessary navigation maintenance, not full index template migration or a new reviewed entry",
     "path": "docs/phase-governance/reviews/README.md",
@@ -3469,5 +4039,499 @@
       "fileSha256": "7c12f69c869fd5dd1dce9d97b97227c3c5e57701c023038ee4ac400175d50d5e",
       "selection": "whole top-level JSON file; full independent embedded priors/history retained"
     }
+  },
+  "sourceReception": {
+    "sourceRevision": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+    "native": {
+      "revision": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+      "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+      "fileSha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+      "selector": {
+        "entries.path": "docs/lore/characters.md",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    "independent": {
+      "path": "/tmp/type-pal-l4-characters-independent-review-20261016.json",
+      "sha256": "56a64041ae56799b3af117b84d2c162973e3a48493faf0285fe791ba54bc9d44",
+      "completeReport": {
+        "kind": "independent-characters-source-content-and-complete-native-pilot-review-not-rootintake-or-allgate-acceptance",
+        "date": "2026-10-16",
+        "reviewer": "n6_intake_review; non-author",
+        "verdict": "accept-source-content",
+        "semanticCounters": [],
+        "sourceCandidateCommit": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+        "sourceCandidateTree": "44b80f55c759376ab8bca22bd9c5e9e68de8deca",
+        "sourceParent": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "onlyTwoPaths": [
+          "docs/lore/characters.md",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json"
+        ],
+        "sourceFiles": [
+          {
+            "path": "docs/lore/characters.md",
+            "sha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+            "gitObject": "ff889be50762bc33c4b8adaad79b245eee32c88d",
+            "bytes": 64227,
+            "lines": 643
+          },
+          {
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+            "sha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+            "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+            "bytes": 40944,
+            "lines": 769
+          }
+        ],
+        "fullRootGatesAccepted": false,
+        "rootIntakeAccepted": false,
+        "migrationCredit": 0,
+        "runtimeE2EVisualCoverageCredit": 0,
+        "repositoryWrites": 0,
+        "actualReadScope": {
+          "freshFull": [
+            "Original characters321 at exact33c Git",
+            "Candidate643 including live318 and complete inert original321",
+            "Complete native769lines, all17top/43entryfields, including complete oldcurrent30/registry9/catalog24",
+            "Author finaldelivery299 and all5 actual resultobjects/rawterminal summaries/TAP120counts, stagedtwo-pathdiff emptylog"
+          ],
+          "freshPrimary": [
+            "taboos28–46 actual project T1/T5.5/independentT6 vs officialuncertainty",
+            "versions56–74 actual unselectedpearl/presentation/fanclaims"
+          ],
+          "accurateReusedEvidence": "Formal263 design/v2/first796/closure248 and originalfourlore semantics already independently read. Reuse only unchanged exact source/mandatory hashes; currentpilot fresh original/live/full43 is new independentread. No freshfullbrainstorm386orwholeproject/remoteofficial read claim.",
+          "notClaimed": "No all733/fullmatrix/sourceURL/officialgame/comic authentication, product/oldbusiness-tests/E2E/visual/coverage/cleaninstall/GitHubjob."
+        },
+        "semanticFindings": [
+          "Five substantive sections classify actual character claims and per-character usage, not title-only/preserved-source wrapper. reference-canon1.0 candidate and proposedcatalogdraft separate, originalsunsigndateunknown notfilled asCodex; currentreviewdate onlystaticreview.",
+          "All original characters/relationships/death/ending/version/sourceconfidence data retained. Project T1/T2/T3/T4/T5/T5.5 and independentT6 remain effective while externalofficialauthority staysunverified; no pearlactor/ending/culprit/chronology invention.",
+          "June30 Water-Spirit-Calamity local authoradoption retains undeliveredorb/authorintent/exact causalchain and named supersessionofonlyearlierexplanations. Sourcefooter311 is accuratelyboundedhistorical, not given physical-latestauthority.",
+          "T5.5 fullrevival→finiteislandlife→earlydeath and pre-revival spatialrestriction preserved. SeparateT6 YiRu/Han/XiaoMan tragicline preserved; exactdeathmechanisms stayunknown, no numberingcollapse.",
+          "Original21 headings retain visibletext/order/uniqueanchors under one-level hierarchy shift,65href labels/order/multiplicity exact;61oldexternalreferences notnewHTTPtruth,4localtargets exist.17tables alloriginal104fullrows plus onlyexact142 orphanfourcells=105; laternear-namerow remainsdistinct.",
+          "Original321/29715UTF8bytes/finalLF exactly recover from single inert4backtick fence atafter321–641;17top/43native machinefields preserved with complete30oldcurrent and trueGit/blob/wholeSHA/uniqueselector. Author-time pending/selfacceptfalse retained, no circularselfhash.",
+          "Only characters+native changed; other3 and registry/catalog/routes/matrix/templates unchanged. Userpause aftercurrentbatch respected; no continuationpilot granted."
+        ],
+        "independentProof": {
+          "sourceBodyGFM": {
+            "path": "/tmp/type-pal-l4-characters-independent-body-observer-20261016.json",
+            "sha256": "1663237f8c9bde69227385e79f6ffac8a8ff910cd716d8cd2f8de075f3eeafec",
+            "bytes": 4736,
+            "lines": 143
+          },
+          "sourceNativePriorGates": {
+            "path": "/tmp/type-pal-l4-characters-independent-metadata-observer-20261016.json",
+            "sha256": "6b3d7dac727f848ccae8d20df0908b3660e12639f2e95bf6d34ee5f13ce0486b",
+            "bytes": 8742,
+            "lines": 307
+          },
+          "checks": 71,
+          "issues": 0,
+          "sourceInverseSHA256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "nativeFieldCounts": [17, 43, 30, 9, 24],
+          "semanticMutants": {
+            "count": 4,
+            "allRealDirectModelGreenSourceInverseExact": true,
+            "allIndependentlyRejected": true,
+            "cases": [
+              {
+                "id": "M1-pre-revival-space",
+                "reason": "Explicitly revokes project T5.5 despite exact source and generic structure green.",
+                "primary": "taboos33c:37; sourcecharacters:74-76"
+              },
+              {
+                "id": "M2-official-birth",
+                "reason": "Promotes original fan interpretation to new official evidence without primary verification.",
+                "primary": "sourcecharacters:37; taboos33c:44"
+              },
+              {
+                "id": "M3-pearl-actor",
+                "reason": "Invents answer to expressly unresolved three-source accounts.",
+                "primary": "sourcecharacters20/54/68-72; versions33c66-68"
+              },
+              {
+                "id": "M4-undelivered-orb",
+                "reason": "Changes the explicit June30 local author causal explanation.",
+                "primary": "sourcecharacters138"
+              }
+            ],
+            "limit": "Named source-bound manual content counter-calibration only, not a general semantic verifier or producttests."
+          },
+          "renderingNegative": "Deletingonlyrestoredorphan keepsgenericmodel/sourcegreenbutexactnativefourcell/105roworacle rejects; no count-only proof."
+        },
+        "actualFrozenGates": {
+          "authorDelivery": {
+            "path": "/tmp/type-pal-l4-character-author-delivery-20261016.json",
+            "sha256": "8e30236ddfda227fea6d997493adc8b6503bad587e3c5cb0365827a15375b20f",
+            "bytes": 10598,
+            "lines": 299
+          },
+          "manifest": {
+            "path": "/tmp/type-pal-l4-character-candidate-manifest-20261016.json",
+            "sha256": "ba6d3de8452e3e12e68815410dc118eda25f17ea3ff5310b4ce24b76b68da6e5",
+            "bytes": 784,
+            "lines": 22
+          },
+          "frozenFilesUnchangedThroughActualGatesAndCommit": true,
+          "docs": {
+            "exit": 1,
+            "seconds": 39.261,
+            "timeout": false,
+            "tooltests": [120, 120, 0],
+            "MD": 1232,
+            "links": 8064,
+            "tasks": 361,
+            "docsIssues": 0,
+            "modelBodyContracts": 250,
+            "modelIssues": 0,
+            "testingIssues": 0,
+            "phaseDocuments": 184,
+            "actualFailure": "after SHA drift: docs/lore/characters.md",
+            "chainStrictExecuted": false
+          },
+          "strict": {
+            "exit": 1,
+            "documents": 733,
+            "actualFailure": "docs/lore/characters.md: after SHA drift"
+          },
+          "lint": {
+            "exit": 0,
+            "files": 4123,
+            "EWI": [0, 0, 0]
+          },
+          "diff": {
+            "exit": 0,
+            "diagnosticBytes": 0,
+            "newNativeIncludedAfterStaging": true
+          },
+          "progress": {
+            "exit": 0,
+            "baselineMigrated": 245,
+            "approvedBaseline": 1838,
+            "incremental": 5,
+            "current": 1991,
+            "pending": 1741,
+            "issues": []
+          },
+          "rawPins": [
+            {
+              "name": "docs",
+              "path": "/tmp/type-pal-l4-character-gate-docs-20261016.log",
+              "sha256": "31b936bbe8ab6ce35b40bd5378ecb24f7ea9200c143bf9e5a5b79082904b296a",
+              "bytes": 29568
+            },
+            {
+              "name": "lint",
+              "path": "/tmp/type-pal-l4-character-gate-lint-20261016.log",
+              "sha256": "a286834da51e25694376a2f7b9ccb534a1afcfd6cf55cf8347aef9c7ed16dfe6",
+              "bytes": 196
+            },
+            {
+              "name": "diff",
+              "path": "/tmp/type-pal-l4-character-gate-diff-20261016.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            },
+            {
+              "name": "strict",
+              "path": "/tmp/type-pal-l4-character-gate-strict-20261016.log",
+              "sha256": "f4760042a39cdc9d89bed3d3ad53b92923aa7be494278b2eee989b905b1c70c8",
+              "bytes": 106
+            },
+            {
+              "name": "progress",
+              "path": "/tmp/type-pal-l4-character-gate-progress-20261016.log",
+              "sha256": "87e05a809e2239fca5e51ab9c20fcbb04c1ee37c5cd467ba2b137715d87cf159",
+              "bytes": 80160
+            }
+          ],
+          "interpretation": "Docs/strict are realFAIL, not waived or passed. Sourcewriter cannot mutate sharedlegacyafter hashes; root currentintake and genuinelyzero sharedgates are still required before integration/completion. All checksabove are sourcecontent review only.",
+          "ownGateExecution": "Read/verified author rawSHA/results; did not rerunwholegates. Independentdirectmodel/source/GFM/semanticcalibration actuallyrunreadonly/tmp."
+        },
+        "protection": {
+          "candidateHEAD": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+          "candidateClean": true,
+          "candidateExact2Delta": true,
+          "noSourceOrSharedWritesByReviewer": true,
+          "noOtherThreeWorkStarted": true
+        },
+        "nextStep": "Root may integrate this exact immutable source candidate and actual singlecurrent/prior/catalogdraft/route/Loreevidence bookkeeping, then present exactrootmanifest+actualzero sharedgates for scoped independentrootintake. Reviewwillnotre-readunchangedfullcorpus or addsignoffrecursion. Onlycurrentstartedbatch mayfinish; afterwards pause, no remaining3 L4ornewbatch."
+      }
+    },
+    "authorDelivery": {
+      "path": "/tmp/type-pal-l4-character-author-delivery-20261016.json",
+      "sha256": "8e30236ddfda227fea6d997493adc8b6503bad587e3c5cb0365827a15375b20f",
+      "completeReport": {
+        "kind": "L4 characters first pilot author frozen delivery; not sourceacceptance/currentroot/wholegoal completion",
+        "date": "2026-10-16",
+        "author": "q_remaining_guides",
+        "branch": "codex/docs-lore-remaining-l4",
+        "worktree": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+        "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+        "candidateCommit": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
+        "candidateTree": "44b80f55c759376ab8bca22bd9c5e9e68de8deca",
+        "parentExact": true,
+        "worktreeClean": true,
+        "changedPaths": [
+          "docs/lore/characters.md",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json"
+        ],
+        "frozenManifest": {
+          "path": "/tmp/type-pal-l4-character-candidate-manifest-20261016.json",
+          "sha256": "ba6d3de8452e3e12e68815410dc118eda25f17ea3ff5310b4ce24b76b68da6e5",
+          "bytes": 784,
+          "lines": 22
+        },
+        "exactFiles": [
+          {
+            "path": "docs/lore/characters.md",
+            "sha256": "59d7114dc283248a6a2f1da3dceca079ffa791b460b3fcf26a30c54536c8777f",
+            "gitObject": "ff889be50762bc33c4b8adaad79b245eee32c88d",
+            "bytes": 64227,
+            "lines": 643
+          },
+          {
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+            "sha256": "07828cbd8205c98e783459566f2bf19aac38fafa81a009c5e6e476425466263f",
+            "gitObject": "737f3cae98351be525ef52f8e9adc4ff68a5aea4",
+            "bytes": 40944,
+            "lines": 769
+          }
+        ],
+        "onlyFirstPilot": true,
+        "otherThreeUnchanged": [
+          {
+            "path": "docs/lore/ideas/guijie/brainstorm.md",
+            "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+            "unchanged": true
+          },
+          {
+            "path": "docs/lore/ideas/guijie/beat-sheet.md",
+            "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+            "unchanged": true
+          },
+          {
+            "path": "docs/lore/timeline.md",
+            "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "unchanged": true
+          }
+        ],
+        "nativeShape": {
+          "topFields": 17,
+          "entries": 1,
+          "entryFields": 43,
+          "priorCurrentFields": 30,
+          "priorRegistryFields": 9,
+          "priorCatalogFields": 24
+        },
+        "sourceReading": "Fresh original321, all newlive1–318, complete43semantic fields with actual prior30/registry9/catalog24; original321 repeated source inside current321–641 is verified exact, not another fresh sourceaudit. Formal263/currentboundedprimary/matchingmandatory reuse documented in native.",
+        "sourcePreservation": {
+          "originalLines": 321,
+          "originalBytes": 29715,
+          "originalSHA256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+          "currentLines": 643,
+          "oldVisibleHeadings": 21,
+          "oldHrefOccurrences": 65,
+          "gfmTables": 17,
+          "oldDataRows": 104,
+          "afterDataRows": 105,
+          "orphanExactSourceLine": 142,
+          "restoredLiveLine": 144,
+          "oldPhysicalPipeLines": 139,
+          "sourceCodeFenceLines": [320, 642],
+          "sourceBytesLines": [321, 641]
+        },
+        "directedEvidence": {
+          "path": "/tmp/type-pal-l4-character-final-directed-proof-20261016.json",
+          "sha256": "7c65abccf7e3c4e981915598e98bb99710d76cd1486be57f0754280541fa677b",
+          "bytes": 20514,
+          "lines": 672
+        },
+        "directedResult": {
+          "checks": 29,
+          "issues": 0,
+          "memoryNegatives": 10,
+          "sourceModelGreenMeaningNegatives": 6,
+          "scope": "Named source-bound documentation clauses; nonauthor must still actually read. Not general semantic verification/product tests."
+        },
+        "directedProbeCode": {
+          "path": "/tmp/type-pal-l4-character-pilot-check-20261016.mjs",
+          "sha256": "556671b610508af4a7a589cde156e787f0f1b3bbaf54351ff805385459992e3f",
+          "bytes": 12368,
+          "lines": 38
+        },
+        "firstOwnObserverFailure": {
+          "path": "/tmp/type-pal-l4-character-body-directed-proof-first-20261016.json",
+          "sha256": "bdf99a28cec421839eefc22007c99c631b110e9f5b114a9d0c418e33dd97a0d4",
+          "bytes": 20074,
+          "lines": 657
+        },
+        "firstFailureMeaning": "Own gitstatus trim() stripped first leading space, false whitelist failure; exact actual status only characters. Fixed observer trimEnd; original failed proof retained, not source/product failure.",
+        "gates": [
+          {
+            "name": "docs",
+            "command": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+            "exit": 1,
+            "timedOut": false,
+            "seconds": 39.261,
+            "log": "/tmp/type-pal-l4-character-gate-docs-20261016.log",
+            "logSHA256": "31b936bbe8ab6ce35b40bd5378ecb24f7ea9200c143bf9e5a5b79082904b296a",
+            "logBytes": 29568,
+            "logLines": 749,
+            "scope": "actual immutable two-path sourcecandidate gate, not runtime/E2E/visual/coverage/source acceptance"
+          },
+          {
+            "name": "lint",
+            "command": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+            "exit": 0,
+            "timedOut": false,
+            "seconds": 3.492,
+            "log": "/tmp/type-pal-l4-character-gate-lint-20261016.log",
+            "logSHA256": "a286834da51e25694376a2f7b9ccb534a1afcfd6cf55cf8347aef9c7ed16dfe6",
+            "logBytes": 196,
+            "logLines": 5,
+            "scope": "actual immutable two-path sourcecandidate gate, not runtime/E2E/visual/coverage/source acceptance"
+          },
+          {
+            "name": "diff",
+            "command": ["git", "diff", "33c878b7f8e2c45e0f189686fcbde545556451aa", "--check"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+            "exit": 0,
+            "timedOut": false,
+            "seconds": 0.045,
+            "log": "/tmp/type-pal-l4-character-gate-diff-20261016.log",
+            "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "logBytes": 0,
+            "logLines": 0,
+            "scope": "actual immutable two-path sourcecandidate gate, not runtime/E2E/visual/coverage/source acceptance"
+          },
+          {
+            "name": "strict",
+            "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+            "exit": 1,
+            "timedOut": false,
+            "seconds": 0.347,
+            "log": "/tmp/type-pal-l4-character-gate-strict-20261016.log",
+            "logSHA256": "f4760042a39cdc9d89bed3d3ad53b92923aa7be494278b2eee989b905b1c70c8",
+            "logBytes": 106,
+            "logLines": 2,
+            "scope": "actual immutable two-path sourcecandidate gate, not runtime/E2E/visual/coverage/source acceptance"
+          },
+          {
+            "name": "progress",
+            "command": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal",
+            "exit": 0,
+            "timedOut": false,
+            "seconds": 2.369,
+            "log": "/tmp/type-pal-l4-character-gate-progress-20261016.log",
+            "logSHA256": "87e05a809e2239fca5e51ab9c20fcbb04c1ee37c5cd467ba2b137715d87cf159",
+            "logBytes": 80160,
+            "logLines": 1784,
+            "scope": "actual immutable two-path sourcecandidate gate, not runtime/E2E/visual/coverage/source acceptance"
+          }
+        ],
+        "stagedTwoPathDiff": {
+          "command": ["git", "diff", "33c878b7f8e2c45e0f189686fcbde545556451aa", "--check"],
+          "exit": 0,
+          "log": "/tmp/type-pal-l4-character-gate-diff-staged-20261016.log",
+          "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "logBytes": 0,
+          "scope": "After both exact paths staged, includes new native. No body/native bytes changed since five frozen gates."
+        },
+        "actualGateSummary": {
+          "docs": {
+            "exit": 1,
+            "toolTests": 120,
+            "pass": 120,
+            "fail": 0,
+            "Markdown": 1232,
+            "localLinks": 8064,
+            "tasks": 361,
+            "content": 22,
+            "SAVE": 12,
+            "docsIssues": 0,
+            "routes": 7,
+            "bodyContracts": 250,
+            "modelIssues": 0,
+            "testingIssues": 0,
+            "phaseLoreDocuments": 184,
+            "phaseLoreIssues": ["after SHA drift: docs/lore/characters.md"],
+            "strictWithinChainRan": false
+          },
+          "lint": {
+            "exit": 0,
+            "files": 4123,
+            "errors": 0,
+            "warnings": 0,
+            "infos": 0
+          },
+          "strict": {
+            "exit": 1,
+            "documents": 733,
+            "issues": ["docs/lore/characters.md: after SHA drift"]
+          },
+          "diff": {
+            "exit": 0,
+            "bothPathsIncludedAfterStaging": true,
+            "diagnosticBytes": 0
+          },
+          "progress": {
+            "approvedCohort": 1838,
+            "cohortMigrated": 245,
+            "cohortPending": 1593,
+            "currentCandidates": 1991,
+            "currentPending": 1741,
+            "incrementalMigrated": 5,
+            "issues": []
+          }
+        },
+        "gateVerdict": "Full shared docs/strict gates have NOT passed. Exact single current-legacy afterSHA drift is real FAIL and remains unresolved for root-only intake; no waiver/predicted pass. Source directed checks and lint/diff separate. No shared fields changed to get green.",
+        "frozenFilesUnchangedDuringGatesAndCommit": true,
+        "dependencyInstall": {
+          "command": ["pnpm", "install", "--offline", "--frozen-lockfile", "--ignore-scripts"],
+          "exit": 0,
+          "reused": 202,
+          "downloaded": 0,
+          "lockfileChanged": false,
+          "raw": {
+            "path": "/tmp/type-pal-l4-character-install-offline-20261016.log",
+            "sha256": "5d5599dc6a89d4e309c54323102c6ac9decd4946fa041cb12bac716ad02d2b8f",
+            "bytes": 471,
+            "lines": 16
+          }
+        },
+        "independentReview": {
+          "owner": "n6_intake_review appointed by root",
+          "status": "pending; report later by nonauthor",
+          "authorAccepted": false
+        },
+        "runtimeExecutionPerformed": false,
+        "acceptedMigrationCredit": 0,
+        "notRun": [
+          "externalURL/officialcanon/game/comic re-certification",
+          "product/oldbusiness tests/runtime/E2E/browser/visual/raw/coverage",
+          "brainstorm/beat/timeline implementation or new workpackages",
+          "root central intake/registry/routes/catalog/matrix/task or main merge/push/cleanup"
+        ],
+        "stopAfterThisDelivery": "User requested pause after already-started batches. No next L4 pilot or new package started; root audits current package and controls overall goal pause. This author does not mark source accepted/done or goal complete.",
+        "nextStep": "Root/nonauthor inspect exact f3ac candidate source/live/full43 and real gate FAIL; any root-only intake requires separate exact-byte/currentzero-gate review. Author stops here except authorized correction of this same current pilot."
+      }
+    }
+  },
+  "artifactRules": {
+    "owner": "Codex root; q_remaining_guides author/source artifacts; n6_intake_review independent artifacts",
+    "producer": "Actual source reader/oracle, frozen gates, and root intake consumers",
+    "caller": "This control.sourceReception/rootIntake and DOCS-FULL-TEMPLATE-1 resume",
+    "paths": [
+      "/tmp/type-pal-l4-character-*",
+      "/tmp/type-pal-l4-characters-independent-*",
+      "/tmp/type-pal-current-batch-*"
+    ],
+    "retention": "Retain through full governance publication and independent acceptance, including original observer failure and shared afterSHA failures; immutable source/native retained by natural Git ancestry. No cleanup at this pause."
   }
 }

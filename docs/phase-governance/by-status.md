@@ -84,7 +84,6 @@
 
 ## current
 
-- [官方角色设定（characters）](../lore/characters.md) · lore/canon
 - [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
 - [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
 - [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) · lore/canon
@@ -142,6 +141,7 @@
 
 ## draft
 
+- [官方角色设定（characters）](../lore/characters.md) · lore/canon
 - [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/ideas
 - [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
 - [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) · lore/ideas
