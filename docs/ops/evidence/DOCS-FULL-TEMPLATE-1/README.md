@@ -338,3 +338,8 @@
 
 - [R65 readonly](independent-r65-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
 - [R65 acceptance](independent-r65-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
+
+## R66 ops evidence Markdown
+
+- [R66 readonly](independent-r66-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
+- [R66 acceptance](independent-r66-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。

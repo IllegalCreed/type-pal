@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 847,
+    "total": 857,
     "byPhase": {
-      "ops": 484,
+      "ops": 494,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -21,7 +21,7 @@
       "archive-record": 21,
       "audit-report": 59,
       "governance-index": 103,
-      "evidence-receipt": 65,
+      "evidence-receipt": 75,
       "design-spec": 37,
       "task-card": 361,
       "quality-gate": 1,
@@ -36,10 +36,10 @@
       "test-catalog": 2
     },
     "reviewStatus": {
-      "content-reviewed": 847
+      "content-reviewed": 857
     },
     "templateCompliance": {
-      "template-compliant": 845,
+      "template-compliant": 855,
       "governed-legacy": 2
     }
   },
@@ -11094,6 +11094,136 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261017-r65-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/gates/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r66-ops-evidence-readmes.json",
       "historyOverlay": true,
       "artifactOnly": false
     }
