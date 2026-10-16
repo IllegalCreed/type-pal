@@ -77,3 +77,11 @@
 - R24 不授予 runtime/E2E/视觉/coverage 信用；独立候选接收完成前保持 candidate/review，不能据此宣布全量完成。
 
 - [R24 候选独立接收](independent-r24-phase2-designs-candidate-acceptance-20261017.md)：21/21，quote/template/overlay/三账本/after SHA 全部接收；raw JSON 格式化差异已显式记录为 non-blocking，解析内容相等；runtime/E2E/视觉/coverage credit=0。
+
+
+## R25 phase2 archive plans
+
+- [R25 只读独立复核](independent-r25-phase2-plans-review-20261017.md)：24/24 phase2 archive plan 全文读取，7335 行，源零漂移，接受只读迁移提案；4 类历史/产品边界 counter 保留。
+- [R25 根接入回执](contributor-phase2-plans-r25-20261017.json)：24 篇按 `plan-status-v1` + `archive-record-v1` 迁移，源/after SHA、具体里程碑、冲突、停止线和继任入口逐篇记录。
+- R25 不授予 runtime/E2E/视觉/coverage 信用；独立候选接收完成前保持 candidate/review，不能据此宣布全量完成。
+- [R25 候选独立接收](independent-r25-phase2-plans-candidate-acceptance-20261017.md)：24/24，plan-status/overlay/quote/三账本/after SHA 全部接收；前置 JSON 格式化差异已显式记录为 non-blocking，解析内容相等；runtime/E2E/视觉/coverage credit=0。

@@ -1036,3 +1036,12 @@ Branch: codex/docs-full-template-proposal
 - R24 候选独立接收和全静态门仍需完成；全量目标保持 active/build，未标 done。
 
 - R24 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-candidate-acceptance-20261017.json`，verdict `accept`，21/21；只读报告 raw/evidence JSON 的 Biome 字节差异已明确为 non-blocking、解析内容相等。
+
+
+### 2026-10-17 R25 phase2 archive plans
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-review-20261017.json`，24/24、7335 行全文读取，源零漂移，verdict `accept-readonly-proposal`；4 类历史/产品边界 counter 保持 open。
+- 24 篇 `docs/phase2/archive/plans/` 按 `plan-status-v1` + `archive-record-v1` 迁移；每篇保留原始正文逐行 quote、日期/checkbox/数字/冲突/未知、source/after SHA 和继任入口。
+- 中央接入：`docs/phase-governance/reviews/20261017-phase2-plans-r25.json`、registry/routing/catalog 24 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
+- R25 候选独立接收和全静态门仍需完成；全量目标保持 active/build，未标 done。
+- R25 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-candidate-acceptance-20261017.json`，verdict `accept`，24/24；只读报告 raw/evidence JSON 格式化差异已明确为 non-blocking、解析内容相等。

@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 430,
-      "template-compliant": 303
+      "governed-legacy": 406,
+      "template-compliant": 327
     }
   },
   "entries": [
@@ -5895,10 +5895,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/cash-box-plan.md",
@@ -5906,10 +5908,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/editor-b0-plan.md",
@@ -5917,10 +5921,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/editor-b1-logic-plan.md",
@@ -5928,10 +5934,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/equip-menu-plan.md",
@@ -5939,10 +5947,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/equipment-foundation-plan.md",
@@ -5950,10 +5960,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/magic-menu-plan.md",
@@ -5961,10 +5973,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/menu-plan.md",
@@ -5972,10 +5986,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/migrator-m1-plan.md",
@@ -5983,10 +5999,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/model-plan.md",
@@ -5994,10 +6012,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/palette-to-rgba-plan.md",
@@ -6005,10 +6025,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/project-foundation-plan.md",
@@ -6016,10 +6038,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/project-lifecycle-p1-filesource-plan.md",
@@ -6027,10 +6051,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md",
@@ -6038,10 +6064,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md",
@@ -6049,10 +6077,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md",
@@ -6060,10 +6090,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/README.md",
@@ -6084,10 +6116,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/roadmap-early-history.md",
@@ -6095,10 +6129,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/save-system-plan.md",
@@ -6106,10 +6142,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/skill-data-plan.md",
@@ -6117,10 +6155,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/status-page-plan.md",
@@ -6128,10 +6168,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/system-menu-plan.md",
@@ -6139,10 +6181,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/use-menu-plan.md",
@@ -6150,10 +6194,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/plans/visual-plan.md",
@@ -6161,10 +6207,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-plans-r25.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/README.md",
