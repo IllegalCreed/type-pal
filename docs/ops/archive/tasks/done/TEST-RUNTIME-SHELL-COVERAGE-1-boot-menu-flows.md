@@ -1,286 +1,340 @@
 # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 
 Status: done
-Phase: phase2
-Capability: X1 / N6（既有运行时接线测试，不增能力格）
-Coding Owner: Codex
-Generation Owner: N/A
-Reviewer: both
-Visual Verification Owner: Codex
-Visual Verification Timing: dev-functional
-Unavailable Agents: 无
-Branch: codex/runtime-shell-coverage-r1（准入后独立worktree）
-Revision: r1
-Planning Base: f2592597
-Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: task-card-v1 / 1.0.0
 
-## 当前收口（2026-09-23）
+本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
 
-用户确认签字后，Codex在326e4906逐席核统一候选b6286df0：Codex实施者自验、Kimi aa436d9f、GLM 326e4906
-均accept，无counter/缺签豁免；宿主原代码1d3d3fb3保持零改，当前实现与官方基线对b6286df0零diff。
-既有check8317/ratchet7826/保护c5569d1a的单次strict7826、远端525c40cd Coverage ratchet success
-足以满足本卡代码级准入；本次仅登记done和归档，不重复跑覆盖率、不改他席原文。
+## 目标
+- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
 
-36项宿主自动化接线与8负控完成，不代表真实图像/布局/中文像素或完整E2E验收。
-DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡分别收口，不互相代签。
-无下一位Agent提示词，本卡已核定收口；下方审查提示均为历史。
+## 范围
+- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
+- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
 
-## 目标与范围
+## 前提与证据
+- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
+- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
+- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
 
-真实调用bootGame与当前菜单/对话绘制入口，补“正常启动→键盘/受控帧→菜单/对话→场景/读档”的连续接线测试。当前main只覆盖30/3360行，六目标整文件遗漏3830行/2814分支，是选题上限而非收益承诺。此卡不开发新产品功能、不拆main或增加产品测试入口，不走PAL剧情E2E。
+## 验收
+- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
+- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
+- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
 
-六目标：`packages/reforge/src/main.ts`、`opening-menu.ts`、`menu/menu-box.ts`、`menu/save-browser-box.ts`、`menu/magic-box.ts`、`dialog/dialog-box.ts`。不改这些源码。GLM另一张战斗流程卡独立新文件，本卡不领取其W1～W6或给其做视觉分工。
+## 状态与交接
+- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
+- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
+- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
 
-## 前提真值门
+## 历史范围
+- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
+- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
 
-一句话：bootGame已是独立页/编辑器共享的公开当前入口，正常启动与主循环接线尚未被现有fast大量执行；真实入口测试可补这个空白，不能继续复制内部函数冒充集成。
+## 原始结论
+- `Status: done`；原始任务语义完整保留于下方 quote。
 
-| 维度 | 已核事实 | 一手锚点 |
-|---|---|---|
-| primary source | 启动scope先核、当前工程投影、资源/世界建态、keyboard/主循环到菜单各有当前合同 | `main.ts:339-424/:6223/:6384/:6835-6955` |
-| 第一阶段 | UX/资源约定沿已实现的一阶段知识，不在补测试时更改布局或机制 | `phase1-knowledge-harvest.md` C7/N4～5/X3/X7/X9；`game/src/present/menu/`是后续若需像素核验的UX参考，不混同新引擎架构 |
-| 当前二阶段 | `boot.ts:13`与`editor/src/play.ts:40/:144`真调用；shop trial测试从main早返回，不是普通启动 | `shop-trial.test.ts:138`、`main.ts:349-352`；AST旧测试见world-async-fixture与save-lineage.chain |
-| 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json) |
+## 当时证据
+- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
 
-最强替代解释：主入口复杂资源/无限帧依赖让测试只能mock业务或强造工程，或AST专项已证所有结果。可证伪：正式loader不能消费fixture、正常启动必须改产品接口、入口始终走预览/商店提前return、main实际覆盖未增长。发生则先报告宿主阻碍，不改统计范围或把Ast拷贝当成功。
+## 当前有效性
+historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
+- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
 
-四类替代根因：不因覆盖红推runtime缺陷；原版数值/碰撞不重裁决；不消费或写PAL迁移产物；旧7627报告被机械拒绝。before→after只补接线证据；无用户行为改变、无需要产品裁决的新政策。
+## 继任文档
+- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
+- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
+- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
 
-## 上下文与六组流程
-
-必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
-
-| 组 | 连续链与断言 | 去重与替身边界 |
-|---|---|---|
-| H1 正常启动 | 正式loader两场景工程→bootGame→至少一帧可观察world/scene；新局选入口、音频偏好/失败、非法scope先拒 | shop-trial早退已有不复制；不得stub runtimeProjectView/buildWorld/bootGame/正式guard |
-| H2 标题与存档浏览 | 真runOpeningMenu导航进入读取、空/非空meta、取消返回、选择新入口或槽位、完成后输入/帧清理 | opening-menu.test只证音乐finally；真实save browser state与渲染，不手写相位 |
-| H3 世界菜单闭环 | 普通boot后键盘打开→角色/仙术/系统→返回；合法技能列表/不足资源/角色切换，核world允许变更及非目标不变 | 不重复底层magic/use/equip全部矩阵；只证实际main路由，draw记录不是视觉认可 |
-| H4 对话/脚本接线 | 正式场景脚本产生DialogBox、多行推进/关闭、等待后恢复、菜单与脚本确认优先级；通过真实tick/键盘 | 旧dialog-box测试只证箭头样式；不手调内部active，不复制main闭包 |
-| H5 保存/恢复真实宿主 | scoped内存IDB，新局真实F5→改可观察状态→F9恢复；坏档拒绝仍可操作、成功请求拥有提示 | 旧AST保存/async测试保持；目标是接线/真实模块V8执行，不重复改存档政策；禁止真实用户IDB |
-| H6 场景与失败恢复 | 合法脚本/公开入口切第二场景→资源失败保持原世界→同输入资源修复成功；旧请求迟到不覆盖后者 | `world-async-commit.test.ts`已有内层失败/漂移；新增两场景公开链、完整输入/输出与真实IO轨迹 |
-
-## 宿主与准入探针约束
-
-- fixture复用**生产构造能力**，可借鉴wave2 `readyTrialFixture`的自包含RLE/gzip/hash/loader方法，但新宿主自己拥有fixture，不改/跨Owner共享可变状态；入口场景、角色行走精灵、菜单/音效所有资源必须合法且哈希匹配。
-- 使用Vitest真实import main；禁AST提取/new Function执行主业务以获取“主入口覆盖”。可观察`window.__reforge` /现有`__tpE2e.dumpSave`，只读观察，不给内部闭包新增生产导出。
-- 外部边界只替代浏览器Canvas/ImageBitmap/音频设备/fetch/RAF/IDB（fake-indexeddb已有依赖）；正式loader、runtime projection、save codec/store、script runner、菜单状态机保留。可控Canvas记录调用仅证明代码合同，PNG/RLE仍合法，像素/布局如未浏览器核就明确未完成，不冒充视觉。
-- 每测试全新模块/DOM/IDB，记录并清理自身listeners/RAF/对象URL；生产boot目前返回void，不能发明“有dispose API”断言。pending gate在finally放行同一Promise；不要吞掉启动错误后仍宣称成功，非预期IO立即带路径失败。
-- 构建先验证H1与H2宿主可行，再一口气H3～H6；若真实入口无法到达，只停受影响族并给证据，不能暗中扩大成main重构。正式实施需三席准入，此前仅允许临时只读可行性诊断。
-
-## 白名单与验证
-
-新测试6文件（`packages/reforge/src/`）：`main.boot-flows.test.ts`、`opening-menu.flows.test.ts`、`main.menu-flows.test.ts`、`main.dialog-flows.test.ts`、`main.save-flows.test.ts`、`main.scene-flows.test.ts`。fixture仅`__tests__/runtime-shell/{project,dom-host,driver}.ts`。新文档/工具为`docs/testing/codex-runtime-shell-{mutants.mjs,coverage.config.mts,evidence.json}`与`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`；必要README索引/本卡席位日志可写。
-
-不改产品/旧测试/公共fixture/官方配置基线/真实data和projects；不删AST回归，不降低阈值或忽略main。GLM战斗的测试文件与fixture不动。
-
-每组非空正控与完整状态断言；负控6～10针钉真实main/菜单唯一调用点：scope核验迟置、错误路由/取消不返回、资源完成前提交、旧请求覆盖、重复保存提交、失去输入清理。每针精确新增case自身AssertionError，Error/timeout/未执行拒绝，生产hash不变。定向/相邻/全包/TC/Biome后整包同口径before/after到独立/tmp；官方check/ratchet/strict由Codex两包串行集成后统一执行。只声明实测净增；H1首通不作为已完成六组。
-
-视觉时机：本卡以自动化接线为交付，不变UI；需要确认宿主替身与真浏览器差别时只由Codex做一次最小功能样本并留证，不跑剧情、不声称full/Q1/Q2。若发现UI/产品真实缺陷，独立卡/裁决，不塞进测试白名单修实现。
-
-## 推进签字
-
-### build前
-
-- Codex：**premise verified / design agree（2026-09-23，r1）**。直接读main`:339-424`正常boot与shop提前return、`:6223`真实Keyboard与`:6240`公共观测、`:6310-6390`帧时钟/输入路由、`:6835-6955`当前读档/新局；opening-menu`:75-130`自身管理RAF/key事件且读真实store。主入口覆盖30/3360与官方7790报告一致；现有shop-trial真实boot证明可导入但不冒充正常启动可行性已活跑。首次H1必须实证正常场景进入，若只能mock业务/私改状态则停该族，不用AST给自己刷覆盖。
-- GLM：**premise verified / design agree（2026-09-23，r1；锚点本人直读，形成结论先于核对他席落盘；本席为战斗卡 Coding Owner，审本卡不实施）**。
-  - **真入口/早退分界直读**：`main.ts:339-352` bootGame 首行 `assertSaveScopeProject` 后
-    即查 `battle-trial|skill`（拒绝）与 `parseShopTrialParameters`（提前 return）——
-    `shop-trial.test.ts:136-143` 用 `shop-trial=0&money=100` 真调 bootGame 但走商店分支，
-    确不等于普通启动已覆盖；H1 需无这些参数的正常链。本席确认卡面「shop 早退已有不复制」
-    的去重边界。
-  - **公共观测与输入锚点**：`main.ts:6222` `new Keyboard()`、`:6224-6245`
-    `window.__reforge` 只读 getter（sceneId/entities/dialogue/script）——H3/H4 可经该公开
-    窗口观察世界状态而不新增生产导出；`:6352-6356` activeBattle 分派帧输入。H5：
-    `main.ts:6835-6860` `?e2e-load=` 走 loadIntent token + payloadBelongsToProject +
-    restorePayload 事务——读档链有现行公开路径，坏档拒绝属可测真实分支。
-  - **H2 opening-menu 自治**：`opening-menu.ts:75-189` 自管 `requestAnimationFrame(draw)`
-    与 `window.addEventListener('keydown', onKey, true)`、cleanup 显式移除；`enterLoad`
-    经真实 `saveStore.listMeta/getThumb` 打开 SaveBrowserState——真实导航/取消返回可用
-    合成 KeyboardEvent 驱动，不必手调内部 phase；旧测试只证音乐 finally 的说法与本人核对
-    一致（opening-menu.test 仅 audio 侧）。
-  - **替身边界认同**：Canvas/ImageBitmap/audio/fetch/RAF/IDB 外部边界替身合法，正式
-    loader/runtime projection/save codec/菜单状态机保留；`fake-indexeddb` 依赖在仓。
-    AST 旧回归（world-async/save-lineage）保留不删、不按 AST 复制冒充 V8 执行——与总计划
-    「接线新证明/旧合同转真实入口」分栏一致。
-  - **可行性与风险**：main 3330 遗漏行含大量非首批分支，H1 首证正常场景进入是闸门——若
-    正常启动被资源依赖卡死而只能 mock 业务，按卡面停族报证据，不暗中扩成 main 重构；
-    boot 返回 void、无 dispose API，断言不得发明。
-  - **可证伪观察**：①正式 loader 无法消费自包含工程 fixture→H1 阻碍须先报告；②正常链
-    必须私改产品接口/内部闭包→范围不可达；③H1～H6 任一组与 AST 旧回归同输入同完整合同
-    →去重错不得二次报功；④负控去保护仍绿→无鉴别力。返工项：无。两卡白名单无交集。
-- Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
-  - **宿主真实执行可行**：`boot.ts:13` 与 `editor/src/play.ts:14` 真实调用 bootGame；
-    `main.ts:349-352` shop trial 提前 return（早退不算正常启动属实）；`shop-trial.test.ts:136`
-    真实 boot 证明可导入但不冒充正常启动；卡面禁 AST 提取/new Function、要求 Vitest 真实
-    import，H1 首通才准 H3～H6——可行性门禁正确。
-  - **观测不增产品接口**：`main.ts:6224` `__reforge`、`:6826` `__tpE2e` 既有只读观测点在册；
-    卡面禁止给内部闭包新增生产导出。
-  - **IO 替身边界**：替身限 Canvas/ImageBitmap/音频/fetch/RAF/IDB（fake-indexeddb@6.2.5 已在
-    依赖树），loader/projection/codec/store/runner/菜单状态机保留——与 wave2 B05 同型，
-    不掩盖被测业务；PNG/RLE 仍须合法哈希匹配。
-  - **清理与归属**：opening-menu `:75-130` 自管 RAF+keydown 并读真实 saveStore（`:106-109`），
-    宿主测试须自清 listeners/RAF/对象 URL；boot 返回 void 不发明 dispose；「接线新证明」与
-    「旧合同转真实入口」分栏不二次报功；与战斗卡同包重叠最终并集去重不相加。
-  - **可证伪观察**（任一成立即收窄或 counter）：① 正式 loader 不能消费自包含 fixture 或
-    正常启动必须改产品接口 → 停 H 族报阻碍；② 入口始终走预览/商店提前 return；
-    ③ 替身下沉到被测业务层（loader/codec/菜单状态机被 mock）；④ 启动错误被吞后仍宣称
-    成功；⑤ main 实际覆盖未增长却以 AST 拷贝报功。
-  - 返工项：无。
-- 独立反证：已完成；Kimi d24ead8d与GLM 5b07d84a分别直读真实入口/早退分界/公共观测/外部IO/cleanup，独立锚点和可证伪回答见本人席位。
-- 缺签豁免：无。
-- build准入：**build allowed（2026-09-23，Codex统一核定，r1准备候选b1f62c6b）**。三席均premise verified/design agree（Codex原签、Kimi d24ead8d、GLM 5b07d84a），无counter/豁免，实现/基线相对准备候选零漂移。仅授权Codex独立worktree按H1～H6和原白名单实施；先过H1/H2真实入口可行性，不扩为产品重构。
-
-### done前
-
-- Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0；宿主代码1d3d3fb3零改，非独立审查）**。6测试/3fixture共36项，真实boot/loader/codec/store/runner保留、8针业务红重跑；STAT-1另卡patch已实际安装验证。全check8317与官方ratchet/保护c5569d1a的单次strict7826/633全exit0，其它六包基线对象不变；源码对57dda7ed零改。合法输入、原Promise收口与非视觉边界见回执；DEV-TOAST-1不固化不关闭。旧版本兼容审查：pass（无产品/旧模型fallback变更）。
-- Kimi：**accept（2026-09-23，统一候选b6286df0，宿主代码1d3d3fb3；锚点本人直读/复跑，未读 GLM 本轮结论）**。
-  - **真实调用链**：`boot.ts:13`、`editor/src/play.ts:14` 真实调用 bootGame；`main.ts:349-352`
-    shop 早退与 `shop-trial.test.ts:136` 边界在设计期已核、本轮复勘一致；宿主测试真实 import
-    main、保留 loader/codec/store/runner/菜单状态机，外部替身限浏览器 IO——H1～H6 链路与
-    白名单（6 测试+3 fixture）对 1d3d3fb3 逐字节零改。
-  - **输入保真与异步收口**：实施回执逐项核——合法 RLE/gzip/hash 资源经正式 loader、真实
-    MemorySaveStore 播种、纯数据快照与完整预期变化比较；H6 改等实际原 loadSceneMap Promise
-    及事件轮次（撤销了等旧取消文本的错误抽象）；pending gate finally 释放同一 Promise；
-    未发明 dispose API。
-  - **8 负控（本席复跑）**：codex-runtime-shell-mutants.mjs exit0——control 绿 + scope/
-    opening-key-owner/cast-dispatch/dialog-input/save-count/corrupt-message/scene-routing/
-    intent-assertion 八针全业务红。
-  - **统计联合**：STAT-1 已另卡修复且本树实际安装补丁（symlink 指向 patch_hash 目录）；
-    宿主 1414 修前修后四维完全相同（10374/11430/1750/6712、分母不变）——宿主增量是真实
-    执行收益，不是幻影回填；与 GLM 战斗 31 项未纳入、两卡分别裁决一致。
-  - **门禁**：check8317/ratchet7826/保护 c5569d1a 单次 strict7826/633 采信 Codex 已落日志，
-    未并发重跑；CI Documentation 绿、ratchet 在途（评审时点）。
-  - **旧版本兼容审查（单列）：pass**——无产品/旧模型 fallback 变更；DEV-TOAST-1 不固化
-    不关闭，视觉/full/Q1/Q2 边界保持。
-  - 返工项：无。
-- GLM：**accept（2026-09-23，统一候选b6286df0；代码/矩阵复核，无视觉——视觉分工归Codex，
-  本席未做浏览器/像素验证）**。六测试文件逐行通读清点：H1=9（正常boot真首帧/double入口完整
-  队伍金钱落点/无效入口回默认且warn逐字/scope-canvas-context-旧试放四拒绝态无可玩帧未发布
-  观测零fetch/Chrome资源失败后新owner恢复/标题选择）、H2=4、H3=7、H4=8、H5=5、H6=3，
-  合计36与基线+36逐文件一致；新增即白名单六文件，GLM战斗卡31项未计入。fixture合法性：
-  shellProject走生产loadCurrentProjectFrom+encodeSpriteChunk/compressGzip/sha256Bytes，并过
-  validateAssetFileClosure（error即拒，字节/摘要失配不可进）；dom-host仅替外部浏览器IO（每测试
-  新fake-indexeddb工厂、录制式Canvas、PNG魔数+真实头宽高解析、fetch白名单外即抛），生产侧仅
-  观察式spy（renderSpans/loadSceneMap保留原实现），IDB hold只延迟真实success事件交付、不替换
-  SaveStore。真实IO与收口：真import main.js/bootGame/runOpeningMenu/IndexedDbSaveStore；H1标题
-  选择断言同一bootGame Promise菜单期未settle、选择后才resolve（finally兜底消费）；H5真SAVE8
-  payload全值断言+跨工程scoped隔离+NaN坏档"归一化拒绝"不改世界且菜单可用+好档恢复+双F5
-  savedTimes=2单槽+迟到IDB读释放后不改新恢复与其成功提示；H6挂起原map请求经真实B→A往返后
-  旧结果不覆盖现状（等原loadSceneMap Promise+settleIO，不把旧取消提示写成合同）。业务断言按
-  值完整世界比较（计算预期diff）并断言输入/文件不可变。8针本席复跑：control 36/36绿、每针恰
-  1例AssertionError业务红、跑后git工作树干净；单删sceneSwitchIntent.assertCurrent的探索针
-  仍绿已如实披露且未计入。回执与树一致：packages/仅白名单9文件，633生产文件对57dda7ed逐个
-  hash零改（本席全量核），mutants工具/coverage配置在docs/testing白名单；DEV-TOAST-1未固化。
-  候选树CI Coverage ratchet success（7826含本卡36项）。旧版本兼容审查：pass（产品零改，
-  'legacy'仅为断言产品拒绝旧路径的测试标签）。Canvas记录非像素oracle、回执明示不证明布局/
-  像素/中文可见性——非视觉边界与分工一致。落卡方式见统计卡日志（同分支tip临时worktree推送）。
-- done准入：**通过（2026-09-23，Codex统一核定）**。三席同b6286df0 accept齐，质量门与远端CI通过，用户确认签字；视觉/其它产品欠账边界保持。
-
-## 交接日志
-
-- 2026-09-23 Kimi（独立终审）：对统一候选b6286df0签 done 前 accept，单列旧兼容 pass。
-  真实链路（boot.ts:13/play.ts:14、shop 早退边界）、白名单 6+3 对 1d3d3fb3 逐字节零改；
-  输入保真（正式 loader/MemorySaveStore 播种/纯数据快照）与异步收口（H6 实际原 Promise、
-  pending finally、不发明 dispose）逐项核；本席复跑 8 负控 exit0（control 绿+八针业务红）；
-  补丁本树实际安装、1414 两格四维完全相同——宿主增量为真实收益非幻影回填。
-  check8317/ratchet7826/strict7826 采信 Codex 日志。DEV-TOAST-1/视觉/full/Q1/Q2 不随本次
-  关闭。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
-  Next：GLM 同候选 accept 齐后 Codex 核 done 门。
-
-- 2026-09-23 GLM（r1实现终审）：签done前accept（证据见本人块）。六文件通读清点
-  9/4/7/8/5/3=36与基线一致；核fixture生产构造+validateAssetFileClosure、外部IO替身与观察式
-  spy边界、真实IO/同一Promise收口、按值断言、8针复跑全业务红、回执与树一致、633对冻结零改、
-  CI绿、兼容pass。无视觉（分工归Codex）。因共享工作树有另一席未提交改动，在同分支tip临时
-  worktree落卡推送；push竞态rebase机械保留双方（Kimi结论不在本席证据链内）。战斗卡返工独立
-  推进，不借本卡或统计修复放行。
-
-- 2026-09-23 Codex（统一候选→review）：候选b6286df0已将宿主1d3d3fb3逐字节原样与统计修补bb0e3c3e组合，历史Kimi统计签字原文保留。完整check8317/ratchet7826/受保护单次strict7826通过；旧误报与真实补测收益已分栏，不等GLM战斗返工、也未纳入其31项。本人实施者accept，GLM/Kimi两席同候选整卡审查pending；真实视觉/full/Q1/Q2/DEV-TOAST-1边界保持，不done。
-
-- 2026-09-23 Codex（STAT-1后续定位）：Kimi专项窄审e7c4b743已推宿主分支（非整卡accept）；
-  本席继续取原始数据，定位到覆盖率合并器的同range双initializer身份冲突。原生12组与旧1378对照见
-  [诊断](../../../../testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
-  已开[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md) draft等两席设计签名。
-  宿主36项保留，不改本卡设计、产品、原测试或官方基线；不以Kimi窄审代整卡done签字。
-
-- 2026-09-23 Codex（独立分支进度镜像）：`codex/runtime-shell-coverage-r1`已推送（tip0996cd87，代码候选1d3d3fb3，基4872b017）；工作树`/Users/zhangxu/illegal/type-pal-runtime-shell`。H1～H6共36项、全reforge1414、TC/Biome、1正控+8业务负控通过，产品/旧测试/官方配置基线零改。分支[实施回执](https://github.com/IllegalCreed/type-pal/blob/0996cd87/docs/testing/codex-runtime-shell.md)及机账保存所有证据。局部cb77对照+1615行/+799分支包含script-runner-core的-37行：旧报告:123计2、原1378真实分支见证计0，至少一处旧计数虚高已证，具体工具根因/其余行待Kimi窄核，不以总包提升豁免。开发跳场景旧取消失败提示单列观察，未写成正确UI合同。仍build，不合主线测试/不更新官方基线；待GLM战斗包接收和统计解释后统一门禁。
-
-- 2026-09-23 Kimi（STAT-1 统计专项窄复核，非整卡终审）：probe 复建一致（旧1378 :123计2/
-  195行；加宿主1414 :123计0/158行；见证 load 已进、分支实进0）。见证插桩语义保持/加载
-  断言/源码 hash 复原均核，entered=false 为真阴性。新增两条隔离证据：同一旧全集仅加宿主
-  用例即 :123 计数 2→0（计数随组成变，非执行真值）；maxWorkers=1/2/4 下恒为 2（排除分片
-  抖动）。NODE_V8_COVERAGE 直取 raw dump 不含项目源（worker 自管目录），根因层实验无结论，
-  不钉 remap/V8 单侧。结论：旧报告该文件计数不可靠成立；其余36行同因与否、其它文件/基线
-  是否受影响未定，不作全量统计豁免。后续检查三条（worker 内 raw 对照、其它满覆盖文件抽查、
-  本卡该文件计数按不可信处理）超白名单，列 Codex 裁定。未改实现/统计配置/基线/状态，
-  不签整卡 accept、不标 done；详见卡内「Kimi 统计专项复核」节。
-
-- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
-
-- 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
-
-- 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
-  bootGame:339-352 早退分界与 shop-trial 去重、__reforge 公开观测 6224-6245、Keyboard
-  :6222、e2e-load 读档事务 :6835-6860、opening-menu:75-189 自治 RAF/key/cleanup 与真实
-  saveStore、外部 IO 替身边界与 AST 旧回归保留、H1 首证闸门与 boot 无 dispose 约束。
-  四条可证伪观察入席。本席为战斗卡 Owner，本卡不实施；未读 Kimi 结论、未改共享状态，
-  不代签、不开始实现。
-
-- 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读
-  真实入口（boot.ts:13、play.ts:14；shop 早退 main.ts:349-352 与 shop-trial:136 边界属实）、
-  观测点（__reforge :6224、__tpE2e :6826）、IO 替身边界（fake-indexeddb@6.2.5 在依赖树、
-  业务层保留）、opening-menu 自管 RAF/key+真实 store（:75-130/:106-109）——宿主可真实执行
-  bootGame，替身不掩盖业务，清理/归属分栏到位。五条可证伪观察入席。同时独立审
-  TEST-BATTLE-WORKFLOWS-1 r1（另卡同签）。未读 GLM 本轮结论；未改实现/他席/状态。
-  Next：三席齐后 Codex 统一核 build。
-
-- 2026-09-23 Codex：用户批准攻大空白区；主树旧7627报告未用，7790报告核准；创建本卡与GLM战斗卡，六组/白名单不重叠。当前仅设计和证据，无正式测试/产品变更，不跑覆盖率。
-
-## 下一位Agent提示词
-
-### 当前下一步
-
-统一候选b6286df0已通过本地门禁，本卡与[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md)
-分别review；两席同候选并行终审完整提示词见该卡「当前」两段。各席分别给两卡带证据accept/counter，
-只写本人席位/日志并推codex/coverage-initializer-truth-r1，不改状态/代签/done，不重复官方覆盖率。
-
-### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
-
-在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
-### 历史窄审完整提示词（已完成）
-
-在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
-
-独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
-
-只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
-
-### Kimi 统计专项复核（2026-09-23，STAT-1；非整卡终审，不签 done 前 accept）
-
-**结论：STAT-1 足以证明「旧报告该文件计数不可靠」，不足以推出「全量统计豁免」；精准根因层未钉死，本席补了两条决定性隔离证据。**
-
-- **复建一致**：probe 复跑 exit0——old-fast 1378 项 195/195 行、`:123` 语句计 2；
-  old-plus-shell 1414 项 158/195 行、`:123` 计 0；execution-trace 1378 项全绿、
-  `traceLoaded=true`（load 钩确已进入该模块）且 `invalidVersionBranchEntered=false`。
-- **见证方法学核验**：注入为逗号表达式（`appendFileSync(marker,'entered\n')` 后接**同一** throw），
-  语义不变；针漂移断言（needle 恰一处）+加载断言（loaded 文件恰为目标）+跑后源码 hash 复原
-  均通过——`entered=false` 是真阴性，不是插桩失效。
-- **本席新增证据①（组成敏感性）**：同一旧 1378 套件、同一源码，仅加 36 个宿主用例，
-  `:123` 计数 2→0——真实执行数不可能因**新增**测试而减少，故旧计数不是执行真值的忠实
-  记录，而是随测试集组成变化的归因产物。
-- **本席新增证据②（排除简单分片抖动）**：同一旧全集在 maxWorkers=1/2/4 下 `:123` 计数
-  恒为 2（/tmp/stat1-w{1,2,4} 三套独立配置全绿）——虚高稳定存在，不是 worker 数量抖动。
-- **方法学限度如实披露**：本席尝试以 NODE_V8_COVERAGE 直取原始 V8 dump 比对 remap 前后，
-  dump 只含 node_modules 工具链、无项目源文件（vitest worker 自管覆盖目录）——**该层实验
-  无结论**，不据此把根因钉在 remap 或 V8 采样任一单侧。
-- **结论边界**：已证＝`:123` 真实执行 0 次而旧报告计 2（至少此条虚高），且该文件的
-  195/195 旧行计数含幻影覆盖；未证＝其余 36 行是否同因、根因层（V8 采样/merge/remap）、
-  其它文件/官方基线是否同类受影响、158/195 是否为「真值」（它同样随组成变化）。
-- **必要后续检查（超出本卡白名单，交 Codex 裁定是否另开卡）**：① 从 vitest worker 内部
-  取 raw V8 与 remap 输入对照，钉根因层；② 用同一见证技术抽查其它「全行覆盖」核心文件，
-  判断幻影是否系统性；③ 本卡验收中 script-runner-core.ts 的 before/after 计数按不可信
-  处理，以执行见证为准，不据此升降官方基线。不得为恢复数字补非法输入或改排除/阈值。
-- DEV-TOAST-1 仅另列观察，本席不扩为产品裁决。
-
-### 历史r1设计提示词（已完成）
-
-与TEST-BATTLE-WORKFLOWS-1同一r1并行交GLM/Kimi，各自独立核本卡H1～H6的真实调用链、合法自包含工程、可观测结果、外部IO替身和清理边界。先读AGENTS/CLAUDE/READ-FIRST、本卡、总计划/冻结机账、当前main和shop-trial/保存AST旧回归；不读另一席本轮结论。只改本人build前签字/日志，给premise verified/design agree或带file:line反证的counter，提交推送；不代签、不改共享状态、不开始实现/标done。两卡分别裁决，三席齐由Codex核build。本卡Coding Owner为Codex，GLM不做浏览器/视觉、不代写实现。
+## 原文保全
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `a5008e509918f34e53442bce5a16bafaeba418f7e62f1199bf4df4192e9a687b`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
+>
+> Status: done
+> Phase: phase2
+> Capability: X1 / N6（既有运行时接线测试，不增能力格）
+> Coding Owner: Codex
+> Generation Owner: N/A
+> Reviewer: both
+> Visual Verification Owner: Codex
+> Visual Verification Timing: dev-functional
+> Unavailable Agents: 无
+> Branch: codex/runtime-shell-coverage-r1（准入后独立worktree）
+> Revision: r1
+> Planning Base: f2592597
+> Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+>
+> ## 当前收口（2026-09-23）
+>
+> 用户确认签字后，Codex在326e4906逐席核统一候选b6286df0：Codex实施者自验、Kimi aa436d9f、GLM 326e4906
+> 均accept，无counter/缺签豁免；宿主原代码1d3d3fb3保持零改，当前实现与官方基线对b6286df0零diff。
+> 既有check8317/ratchet7826/保护c5569d1a的单次strict7826、远端525c40cd Coverage ratchet success
+> 足以满足本卡代码级准入；本次仅登记done和归档，不重复跑覆盖率、不改他席原文。
+>
+> 36项宿主自动化接线与8负控完成，不代表真实图像/布局/中文像素或完整E2E验收。
+> DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡分别收口，不互相代签。
+> 无下一位Agent提示词，本卡已核定收口；下方审查提示均为历史。
+>
+> ## 目标与范围
+>
+> 真实调用bootGame与当前菜单/对话绘制入口，补“正常启动→键盘/受控帧→菜单/对话→场景/读档”的连续接线测试。当前main只覆盖30/3360行，六目标整文件遗漏3830行/2814分支，是选题上限而非收益承诺。此卡不开发新产品功能、不拆main或增加产品测试入口，不走PAL剧情E2E。
+>
+> 六目标：`packages/reforge/src/main.ts`、`opening-menu.ts`、`menu/menu-box.ts`、`menu/save-browser-box.ts`、`menu/magic-box.ts`、`dialog/dialog-box.ts`。不改这些源码。GLM另一张战斗流程卡独立新文件，本卡不领取其W1～W6或给其做视觉分工。
+>
+> ## 前提真值门
+>
+> 一句话：bootGame已是独立页/编辑器共享的公开当前入口，正常启动与主循环接线尚未被现有fast大量执行；真实入口测试可补这个空白，不能继续复制内部函数冒充集成。
+>
+> | 维度 | 已核事实 | 一手锚点 |
+> |---|---|---|
+> | primary source | 启动scope先核、当前工程投影、资源/世界建态、keyboard/主循环到菜单各有当前合同 | `main.ts:339-424/:6223/:6384/:6835-6955` |
+> | 第一阶段 | UX/资源约定沿已实现的一阶段知识，不在补测试时更改布局或机制 | `phase1-knowledge-harvest.md` C7/N4～5/X3/X7/X9；`game/src/present/menu/`是后续若需像素核验的UX参考，不混同新引擎架构 |
+> | 当前二阶段 | `boot.ts:13`与`editor/src/play.ts:40/:144`真调用；shop trial测试从main早返回，不是普通启动 | `shop-trial.test.ts:138`、`main.ts:349-352`；AST旧测试见world-async-fixture与save-lineage.chain |
+> | 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json) |
+>
+> 最强替代解释：主入口复杂资源/无限帧依赖让测试只能mock业务或强造工程，或AST专项已证所有结果。可证伪：正式loader不能消费fixture、正常启动必须改产品接口、入口始终走预览/商店提前return、main实际覆盖未增长。发生则先报告宿主阻碍，不改统计范围或把Ast拷贝当成功。
+>
+> 四类替代根因：不因覆盖红推runtime缺陷；原版数值/碰撞不重裁决；不消费或写PAL迁移产物；旧7627报告被机械拒绝。before→after只补接线证据；无用户行为改变、无需要产品裁决的新政策。
+>
+> ## 上下文与六组流程
+>
+> 必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
+>
+> | 组 | 连续链与断言 | 去重与替身边界 |
+> |---|---|---|
+> | H1 正常启动 | 正式loader两场景工程→bootGame→至少一帧可观察world/scene；新局选入口、音频偏好/失败、非法scope先拒 | shop-trial早退已有不复制；不得stub runtimeProjectView/buildWorld/bootGame/正式guard |
+> | H2 标题与存档浏览 | 真runOpeningMenu导航进入读取、空/非空meta、取消返回、选择新入口或槽位、完成后输入/帧清理 | opening-menu.test只证音乐finally；真实save browser state与渲染，不手写相位 |
+> | H3 世界菜单闭环 | 普通boot后键盘打开→角色/仙术/系统→返回；合法技能列表/不足资源/角色切换，核world允许变更及非目标不变 | 不重复底层magic/use/equip全部矩阵；只证实际main路由，draw记录不是视觉认可 |
+> | H4 对话/脚本接线 | 正式场景脚本产生DialogBox、多行推进/关闭、等待后恢复、菜单与脚本确认优先级；通过真实tick/键盘 | 旧dialog-box测试只证箭头样式；不手调内部active，不复制main闭包 |
+> | H5 保存/恢复真实宿主 | scoped内存IDB，新局真实F5→改可观察状态→F9恢复；坏档拒绝仍可操作、成功请求拥有提示 | 旧AST保存/async测试保持；目标是接线/真实模块V8执行，不重复改存档政策；禁止真实用户IDB |
+> | H6 场景与失败恢复 | 合法脚本/公开入口切第二场景→资源失败保持原世界→同输入资源修复成功；旧请求迟到不覆盖后者 | `world-async-commit.test.ts`已有内层失败/漂移；新增两场景公开链、完整输入/输出与真实IO轨迹 |
+>
+> ## 宿主与准入探针约束
+>
+> - fixture复用**生产构造能力**，可借鉴wave2 `readyTrialFixture`的自包含RLE/gzip/hash/loader方法，但新宿主自己拥有fixture，不改/跨Owner共享可变状态；入口场景、角色行走精灵、菜单/音效所有资源必须合法且哈希匹配。
+> - 使用Vitest真实import main；禁AST提取/new Function执行主业务以获取“主入口覆盖”。可观察`window.__reforge` /现有`__tpE2e.dumpSave`，只读观察，不给内部闭包新增生产导出。
+> - 外部边界只替代浏览器Canvas/ImageBitmap/音频设备/fetch/RAF/IDB（fake-indexeddb已有依赖）；正式loader、runtime projection、save codec/store、script runner、菜单状态机保留。可控Canvas记录调用仅证明代码合同，PNG/RLE仍合法，像素/布局如未浏览器核就明确未完成，不冒充视觉。
+> - 每测试全新模块/DOM/IDB，记录并清理自身listeners/RAF/对象URL；生产boot目前返回void，不能发明“有dispose API”断言。pending gate在finally放行同一Promise；不要吞掉启动错误后仍宣称成功，非预期IO立即带路径失败。
+> - 构建先验证H1与H2宿主可行，再一口气H3～H6；若真实入口无法到达，只停受影响族并给证据，不能暗中扩大成main重构。正式实施需三席准入，此前仅允许临时只读可行性诊断。
+>
+> ## 白名单与验证
+>
+> 新测试6文件（`packages/reforge/src/`）：`main.boot-flows.test.ts`、`opening-menu.flows.test.ts`、`main.menu-flows.test.ts`、`main.dialog-flows.test.ts`、`main.save-flows.test.ts`、`main.scene-flows.test.ts`。fixture仅`__tests__/runtime-shell/{project,dom-host,driver}.ts`。新文档/工具为`docs/testing/codex-runtime-shell-{mutants.mjs,coverage.config.mts,evidence.json}`与`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`；必要README索引/本卡席位日志可写。
+>
+> 不改产品/旧测试/公共fixture/官方配置基线/真实data和projects；不删AST回归，不降低阈值或忽略main。GLM战斗的测试文件与fixture不动。
+>
+> 每组非空正控与完整状态断言；负控6～10针钉真实main/菜单唯一调用点：scope核验迟置、错误路由/取消不返回、资源完成前提交、旧请求覆盖、重复保存提交、失去输入清理。每针精确新增case自身AssertionError，Error/timeout/未执行拒绝，生产hash不变。定向/相邻/全包/TC/Biome后整包同口径before/after到独立/tmp；官方check/ratchet/strict由Codex两包串行集成后统一执行。只声明实测净增；H1首通不作为已完成六组。
+>
+> 视觉时机：本卡以自动化接线为交付，不变UI；需要确认宿主替身与真浏览器差别时只由Codex做一次最小功能样本并留证，不跑剧情、不声称full/Q1/Q2。若发现UI/产品真实缺陷，独立卡/裁决，不塞进测试白名单修实现。
+>
+> ## 推进签字
+>
+> ### build前
+>
+> - Codex：**premise verified / design agree（2026-09-23，r1）**。直接读main`:339-424`正常boot与shop提前return、`:6223`真实Keyboard与`:6240`公共观测、`:6310-6390`帧时钟/输入路由、`:6835-6955`当前读档/新局；opening-menu`:75-130`自身管理RAF/key事件且读真实store。主入口覆盖30/3360与官方7790报告一致；现有shop-trial真实boot证明可导入但不冒充正常启动可行性已活跑。首次H1必须实证正常场景进入，若只能mock业务/私改状态则停该族，不用AST给自己刷覆盖。
+> - GLM：**premise verified / design agree（2026-09-23，r1；锚点本人直读，形成结论先于核对他席落盘；本席为战斗卡 Coding Owner，审本卡不实施）**。
+>   - **真入口/早退分界直读**：`main.ts:339-352` bootGame 首行 `assertSaveScopeProject` 后
+>     即查 `battle-trial|skill`（拒绝）与 `parseShopTrialParameters`（提前 return）——
+>     `shop-trial.test.ts:136-143` 用 `shop-trial=0&money=100` 真调 bootGame 但走商店分支，
+>     确不等于普通启动已覆盖；H1 需无这些参数的正常链。本席确认卡面「shop 早退已有不复制」
+>     的去重边界。
+>   - **公共观测与输入锚点**：`main.ts:6222` `new Keyboard()`、`:6224-6245`
+>     `window.__reforge` 只读 getter（sceneId/entities/dialogue/script）——H3/H4 可经该公开
+>     窗口观察世界状态而不新增生产导出；`:6352-6356` activeBattle 分派帧输入。H5：
+>     `main.ts:6835-6860` `?e2e-load=` 走 loadIntent token + payloadBelongsToProject +
+>     restorePayload 事务——读档链有现行公开路径，坏档拒绝属可测真实分支。
+>   - **H2 opening-menu 自治**：`opening-menu.ts:75-189` 自管 `requestAnimationFrame(draw)`
+>     与 `window.addEventListener('keydown', onKey, true)`、cleanup 显式移除；`enterLoad`
+>     经真实 `saveStore.listMeta/getThumb` 打开 SaveBrowserState——真实导航/取消返回可用
+>     合成 KeyboardEvent 驱动，不必手调内部 phase；旧测试只证音乐 finally 的说法与本人核对
+>     一致（opening-menu.test 仅 audio 侧）。
+>   - **替身边界认同**：Canvas/ImageBitmap/audio/fetch/RAF/IDB 外部边界替身合法，正式
+>     loader/runtime projection/save codec/菜单状态机保留；`fake-indexeddb` 依赖在仓。
+>     AST 旧回归（world-async/save-lineage）保留不删、不按 AST 复制冒充 V8 执行——与总计划
+>     「接线新证明/旧合同转真实入口」分栏一致。
+>   - **可行性与风险**：main 3330 遗漏行含大量非首批分支，H1 首证正常场景进入是闸门——若
+>     正常启动被资源依赖卡死而只能 mock 业务，按卡面停族报证据，不暗中扩成 main 重构；
+>     boot 返回 void、无 dispose API，断言不得发明。
+>   - **可证伪观察**：①正式 loader 无法消费自包含工程 fixture→H1 阻碍须先报告；②正常链
+>     必须私改产品接口/内部闭包→范围不可达；③H1～H6 任一组与 AST 旧回归同输入同完整合同
+>     →去重错不得二次报功；④负控去保护仍绿→无鉴别力。返工项：无。两卡白名单无交集。
+> - Kimi：**premise verified / design agree（2026-09-23，r1；锚点本人直读，未读 GLM 本轮结论）**。
+>   - **宿主真实执行可行**：`boot.ts:13` 与 `editor/src/play.ts:14` 真实调用 bootGame；
+>     `main.ts:349-352` shop trial 提前 return（早退不算正常启动属实）；`shop-trial.test.ts:136`
+>     真实 boot 证明可导入但不冒充正常启动；卡面禁 AST 提取/new Function、要求 Vitest 真实
+>     import，H1 首通才准 H3～H6——可行性门禁正确。
+>   - **观测不增产品接口**：`main.ts:6224` `__reforge`、`:6826` `__tpE2e` 既有只读观测点在册；
+>     卡面禁止给内部闭包新增生产导出。
+>   - **IO 替身边界**：替身限 Canvas/ImageBitmap/音频/fetch/RAF/IDB（fake-indexeddb@6.2.5 已在
+>     依赖树），loader/projection/codec/store/runner/菜单状态机保留——与 wave2 B05 同型，
+>     不掩盖被测业务；PNG/RLE 仍须合法哈希匹配。
+>   - **清理与归属**：opening-menu `:75-130` 自管 RAF+keydown 并读真实 saveStore（`:106-109`），
+>     宿主测试须自清 listeners/RAF/对象 URL；boot 返回 void 不发明 dispose；「接线新证明」与
+>     「旧合同转真实入口」分栏不二次报功；与战斗卡同包重叠最终并集去重不相加。
+>   - **可证伪观察**（任一成立即收窄或 counter）：① 正式 loader 不能消费自包含 fixture 或
+>     正常启动必须改产品接口 → 停 H 族报阻碍；② 入口始终走预览/商店提前 return；
+>     ③ 替身下沉到被测业务层（loader/codec/菜单状态机被 mock）；④ 启动错误被吞后仍宣称
+>     成功；⑤ main 实际覆盖未增长却以 AST 拷贝报功。
+>   - 返工项：无。
+> - 独立反证：已完成；Kimi d24ead8d与GLM 5b07d84a分别直读真实入口/早退分界/公共观测/外部IO/cleanup，独立锚点和可证伪回答见本人席位。
+> - 缺签豁免：无。
+> - build准入：**build allowed（2026-09-23，Codex统一核定，r1准备候选b1f62c6b）**。三席均premise verified/design agree（Codex原签、Kimi d24ead8d、GLM 5b07d84a），无counter/豁免，实现/基线相对准备候选零漂移。仅授权Codex独立worktree按H1～H6和原白名单实施；先过H1/H2真实入口可行性，不扩为产品重构。
+>
+> ### done前
+>
+> - Codex：**accept（实施者自验，2026-09-23，统一候选b6286df0；宿主代码1d3d3fb3零改，非独立审查）**。6测试/3fixture共36项，真实boot/loader/codec/store/runner保留、8针业务红重跑；STAT-1另卡patch已实际安装验证。全check8317与官方ratchet/保护c5569d1a的单次strict7826/633全exit0，其它六包基线对象不变；源码对57dda7ed零改。合法输入、原Promise收口与非视觉边界见回执；DEV-TOAST-1不固化不关闭。旧版本兼容审查：pass（无产品/旧模型fallback变更）。
+> - Kimi：**accept（2026-09-23，统一候选b6286df0，宿主代码1d3d3fb3；锚点本人直读/复跑，未读 GLM 本轮结论）**。
+>   - **真实调用链**：`boot.ts:13`、`editor/src/play.ts:14` 真实调用 bootGame；`main.ts:349-352`
+>     shop 早退与 `shop-trial.test.ts:136` 边界在设计期已核、本轮复勘一致；宿主测试真实 import
+>     main、保留 loader/codec/store/runner/菜单状态机，外部替身限浏览器 IO——H1～H6 链路与
+>     白名单（6 测试+3 fixture）对 1d3d3fb3 逐字节零改。
+>   - **输入保真与异步收口**：实施回执逐项核——合法 RLE/gzip/hash 资源经正式 loader、真实
+>     MemorySaveStore 播种、纯数据快照与完整预期变化比较；H6 改等实际原 loadSceneMap Promise
+>     及事件轮次（撤销了等旧取消文本的错误抽象）；pending gate finally 释放同一 Promise；
+>     未发明 dispose API。
+>   - **8 负控（本席复跑）**：codex-runtime-shell-mutants.mjs exit0——control 绿 + scope/
+>     opening-key-owner/cast-dispatch/dialog-input/save-count/corrupt-message/scene-routing/
+>     intent-assertion 八针全业务红。
+>   - **统计联合**：STAT-1 已另卡修复且本树实际安装补丁（symlink 指向 patch_hash 目录）；
+>     宿主 1414 修前修后四维完全相同（10374/11430/1750/6712、分母不变）——宿主增量是真实
+>     执行收益，不是幻影回填；与 GLM 战斗 31 项未纳入、两卡分别裁决一致。
+>   - **门禁**：check8317/ratchet7826/保护 c5569d1a 单次 strict7826/633 采信 Codex 已落日志，
+>     未并发重跑；CI Documentation 绿、ratchet 在途（评审时点）。
+>   - **旧版本兼容审查（单列）：pass**——无产品/旧模型 fallback 变更；DEV-TOAST-1 不固化
+>     不关闭，视觉/full/Q1/Q2 边界保持。
+>   - 返工项：无。
+> - GLM：**accept（2026-09-23，统一候选b6286df0；代码/矩阵复核，无视觉——视觉分工归Codex，
+>   本席未做浏览器/像素验证）**。六测试文件逐行通读清点：H1=9（正常boot真首帧/double入口完整
+>   队伍金钱落点/无效入口回默认且warn逐字/scope-canvas-context-旧试放四拒绝态无可玩帧未发布
+>   观测零fetch/Chrome资源失败后新owner恢复/标题选择）、H2=4、H3=7、H4=8、H5=5、H6=3，
+>   合计36与基线+36逐文件一致；新增即白名单六文件，GLM战斗卡31项未计入。fixture合法性：
+>   shellProject走生产loadCurrentProjectFrom+encodeSpriteChunk/compressGzip/sha256Bytes，并过
+>   validateAssetFileClosure（error即拒，字节/摘要失配不可进）；dom-host仅替外部浏览器IO（每测试
+>   新fake-indexeddb工厂、录制式Canvas、PNG魔数+真实头宽高解析、fetch白名单外即抛），生产侧仅
+>   观察式spy（renderSpans/loadSceneMap保留原实现），IDB hold只延迟真实success事件交付、不替换
+>   SaveStore。真实IO与收口：真import main.js/bootGame/runOpeningMenu/IndexedDbSaveStore；H1标题
+>   选择断言同一bootGame Promise菜单期未settle、选择后才resolve（finally兜底消费）；H5真SAVE8
+>   payload全值断言+跨工程scoped隔离+NaN坏档"归一化拒绝"不改世界且菜单可用+好档恢复+双F5
+>   savedTimes=2单槽+迟到IDB读释放后不改新恢复与其成功提示；H6挂起原map请求经真实B→A往返后
+>   旧结果不覆盖现状（等原loadSceneMap Promise+settleIO，不把旧取消提示写成合同）。业务断言按
+>   值完整世界比较（计算预期diff）并断言输入/文件不可变。8针本席复跑：control 36/36绿、每针恰
+>   1例AssertionError业务红、跑后git工作树干净；单删sceneSwitchIntent.assertCurrent的探索针
+>   仍绿已如实披露且未计入。回执与树一致：packages/仅白名单9文件，633生产文件对57dda7ed逐个
+>   hash零改（本席全量核），mutants工具/coverage配置在docs/testing白名单；DEV-TOAST-1未固化。
+>   候选树CI Coverage ratchet success（7826含本卡36项）。旧版本兼容审查：pass（产品零改，
+>   'legacy'仅为断言产品拒绝旧路径的测试标签）。Canvas记录非像素oracle、回执明示不证明布局/
+>   像素/中文可见性——非视觉边界与分工一致。落卡方式见统计卡日志（同分支tip临时worktree推送）。
+> - done准入：**通过（2026-09-23，Codex统一核定）**。三席同b6286df0 accept齐，质量门与远端CI通过，用户确认签字；视觉/其它产品欠账边界保持。
+>
+> ## 交接日志
+>
+> - 2026-09-23 Kimi（独立终审）：对统一候选b6286df0签 done 前 accept，单列旧兼容 pass。
+>   真实链路（boot.ts:13/play.ts:14、shop 早退边界）、白名单 6+3 对 1d3d3fb3 逐字节零改；
+>   输入保真（正式 loader/MemorySaveStore 播种/纯数据快照）与异步收口（H6 实际原 Promise、
+>   pending finally、不发明 dispose）逐项核；本席复跑 8 负控 exit0（control 绿+八针业务红）；
+>   补丁本树实际安装、1414 两格四维完全相同——宿主增量为真实收益非幻影回填。
+>   check8317/ratchet7826/strict7826 采信 Codex 日志。DEV-TOAST-1/视觉/full/Q1/Q2 不随本次
+>   关闭。未读 GLM 本轮结论；未改实现/他席/状态，不标 done。
+>   Next：GLM 同候选 accept 齐后 Codex 核 done 门。
+>
+> - 2026-09-23 GLM（r1实现终审）：签done前accept（证据见本人块）。六文件通读清点
+>   9/4/7/8/5/3=36与基线一致；核fixture生产构造+validateAssetFileClosure、外部IO替身与观察式
+>   spy边界、真实IO/同一Promise收口、按值断言、8针复跑全业务红、回执与树一致、633对冻结零改、
+>   CI绿、兼容pass。无视觉（分工归Codex）。因共享工作树有另一席未提交改动，在同分支tip临时
+>   worktree落卡推送；push竞态rebase机械保留双方（Kimi结论不在本席证据链内）。战斗卡返工独立
+>   推进，不借本卡或统计修复放行。
+>
+> - 2026-09-23 Codex（统一候选→review）：候选b6286df0已将宿主1d3d3fb3逐字节原样与统计修补bb0e3c3e组合，历史Kimi统计签字原文保留。完整check8317/ratchet7826/受保护单次strict7826通过；旧误报与真实补测收益已分栏，不等GLM战斗返工、也未纳入其31项。本人实施者accept，GLM/Kimi两席同候选整卡审查pending；真实视觉/full/Q1/Q2/DEV-TOAST-1边界保持，不done。
+>
+> - 2026-09-23 Codex（STAT-1后续定位）：Kimi专项窄审e7c4b743已推宿主分支（非整卡accept）；
+>   本席继续取原始数据，定位到覆盖率合并器的同range双initializer身份冲突。原生12组与旧1378对照见
+>   [诊断](../../../../testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
+>   已开[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md) draft等两席设计签名。
+>   宿主36项保留，不改本卡设计、产品、原测试或官方基线；不以Kimi窄审代整卡done签字。
+>
+> - 2026-09-23 Codex（独立分支进度镜像）：`codex/runtime-shell-coverage-r1`已推送（tip0996cd87，代码候选1d3d3fb3，基4872b017）；工作树`/Users/zhangxu/illegal/type-pal-runtime-shell`。H1～H6共36项、全reforge1414、TC/Biome、1正控+8业务负控通过，产品/旧测试/官方配置基线零改。分支[实施回执](https://github.com/IllegalCreed/type-pal/blob/0996cd87/docs/testing/codex-runtime-shell.md)及机账保存所有证据。局部cb77对照+1615行/+799分支包含script-runner-core的-37行：旧报告:123计2、原1378真实分支见证计0，至少一处旧计数虚高已证，具体工具根因/其余行待Kimi窄核，不以总包提升豁免。开发跳场景旧取消失败提示单列观察，未写成正确UI合同。仍build，不合主线测试/不更新官方基线；待GLM战斗包接收和统计解释后统一门禁。
+>
+> - 2026-09-23 Kimi（STAT-1 统计专项窄复核，非整卡终审）：probe 复建一致（旧1378 :123计2/
+>   195行；加宿主1414 :123计0/158行；见证 load 已进、分支实进0）。见证插桩语义保持/加载
+>   断言/源码 hash 复原均核，entered=false 为真阴性。新增两条隔离证据：同一旧全集仅加宿主
+>   用例即 :123 计数 2→0（计数随组成变，非执行真值）；maxWorkers=1/2/4 下恒为 2（排除分片
+>   抖动）。NODE_V8_COVERAGE 直取 raw dump 不含项目源（worker 自管目录），根因层实验无结论，
+>   不钉 remap/V8 单侧。结论：旧报告该文件计数不可靠成立；其余36行同因与否、其它文件/基线
+>   是否受影响未定，不作全量统计豁免。后续检查三条（worker 内 raw 对照、其它满覆盖文件抽查、
+>   本卡该文件计数按不可信处理）超白名单，列 Codex 裁定。未改实现/统计配置/基线/状态，
+>   不签整卡 accept、不标 done；详见卡内「Kimi 统计专项复核」节。
+>
+> - 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
+>
+> - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
+>
+> - 2026-09-23 GLM（r1 设计审查）：签 premise verified / design agree（证据见本席）：
+>   bootGame:339-352 早退分界与 shop-trial 去重、__reforge 公开观测 6224-6245、Keyboard
+>   :6222、e2e-load 读档事务 :6835-6860、opening-menu:75-189 自治 RAF/key/cleanup 与真实
+>   saveStore、外部 IO 替身边界与 AST 旧回归保留、H1 首证闸门与 boot 无 dispose 约束。
+>   四条可证伪观察入席。本席为战斗卡 Owner，本卡不实施；未读 Kimi 结论、未改共享状态，
+>   不代签、不开始实现。
+>
+> - 2026-09-23 Kimi（r1 独立设计审查）：签 premise verified / design agree，无返工项。直读
+>   真实入口（boot.ts:13、play.ts:14；shop 早退 main.ts:349-352 与 shop-trial:136 边界属实）、
+>   观测点（__reforge :6224、__tpE2e :6826）、IO 替身边界（fake-indexeddb@6.2.5 在依赖树、
+>   业务层保留）、opening-menu 自管 RAF/key+真实 store（:75-130/:106-109）——宿主可真实执行
+>   bootGame，替身不掩盖业务，清理/归属分栏到位。五条可证伪观察入席。同时独立审
+>   TEST-BATTLE-WORKFLOWS-1 r1（另卡同签）。未读 GLM 本轮结论；未改实现/他席/状态。
+>   Next：三席齐后 Codex 统一核 build。
+>
+> - 2026-09-23 Codex：用户批准攻大空白区；主树旧7627报告未用，7790报告核准；创建本卡与GLM战斗卡，六组/白名单不重叠。当前仅设计和证据，无正式测试/产品变更，不跑覆盖率。
+>
+> ## 下一位Agent提示词
+>
+> ### 当前下一步
+>
+> 统一候选b6286df0已通过本地门禁，本卡与[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md)
+> 分别review；两席同候选并行终审完整提示词见该卡「当前」两段。各席分别给两卡带证据accept/counter，
+> 只写本人席位/日志并推codex/coverage-initializer-truth-r1，不改状态/代签/done，不重复官方覆盖率。
+>
+> ### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
+>
+> 在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
+> ### 历史窄审完整提示词（已完成）
+>
+> 在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
+>
+> 独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
+>
+> 只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
+>
+> ### Kimi 统计专项复核（2026-09-23，STAT-1；非整卡终审，不签 done 前 accept）
+>
+> **结论：STAT-1 足以证明「旧报告该文件计数不可靠」，不足以推出「全量统计豁免」；精准根因层未钉死，本席补了两条决定性隔离证据。**
+>
+> - **复建一致**：probe 复跑 exit0——old-fast 1378 项 195/195 行、`:123` 语句计 2；
+>   old-plus-shell 1414 项 158/195 行、`:123` 计 0；execution-trace 1378 项全绿、
+>   `traceLoaded=true`（load 钩确已进入该模块）且 `invalidVersionBranchEntered=false`。
+> - **见证方法学核验**：注入为逗号表达式（`appendFileSync(marker,'entered\n')` 后接**同一** throw），
+>   语义不变；针漂移断言（needle 恰一处）+加载断言（loaded 文件恰为目标）+跑后源码 hash 复原
+>   均通过——`entered=false` 是真阴性，不是插桩失效。
+> - **本席新增证据①（组成敏感性）**：同一旧 1378 套件、同一源码，仅加 36 个宿主用例，
+>   `:123` 计数 2→0——真实执行数不可能因**新增**测试而减少，故旧计数不是执行真值的忠实
+>   记录，而是随测试集组成变化的归因产物。
+> - **本席新增证据②（排除简单分片抖动）**：同一旧全集在 maxWorkers=1/2/4 下 `:123` 计数
+>   恒为 2（/tmp/stat1-w{1,2,4} 三套独立配置全绿）——虚高稳定存在，不是 worker 数量抖动。
+> - **方法学限度如实披露**：本席尝试以 NODE_V8_COVERAGE 直取原始 V8 dump 比对 remap 前后，
+>   dump 只含 node_modules 工具链、无项目源文件（vitest worker 自管覆盖目录）——**该层实验
+>   无结论**，不据此把根因钉在 remap 或 V8 采样任一单侧。
+> - **结论边界**：已证＝`:123` 真实执行 0 次而旧报告计 2（至少此条虚高），且该文件的
+>   195/195 旧行计数含幻影覆盖；未证＝其余 36 行是否同因、根因层（V8 采样/merge/remap）、
+>   其它文件/官方基线是否同类受影响、158/195 是否为「真值」（它同样随组成变化）。
+> - **必要后续检查（超出本卡白名单，交 Codex 裁定是否另开卡）**：① 从 vitest worker 内部
+>   取 raw V8 与 remap 输入对照，钉根因层；② 用同一见证技术抽查其它「全行覆盖」核心文件，
+>   判断幻影是否系统性；③ 本卡验收中 script-runner-core.ts 的 before/after 计数按不可信
+>   处理，以执行见证为准，不据此升降官方基线。不得为恢复数字补非法输入或改排除/阈值。
+> - DEV-TOAST-1 仅另列观察，本席不扩为产品裁决。
+>
+> ### 历史r1设计提示词（已完成）
+>
+> 与TEST-BATTLE-WORKFLOWS-1同一r1并行交GLM/Kimi，各自独立核本卡H1～H6的真实调用链、合法自包含工程、可观测结果、外部IO替身和清理边界。先读AGENTS/CLAUDE/READ-FIRST、本卡、总计划/冻结机账、当前main和shop-trial/保存AST旧回归；不读另一席本轮结论。只改本人build前签字/日志，给premise verified/design agree或带file:line反证的counter，提交推送；不代签、不改共享状态、不开始实现/标done。两卡分别裁决，三席齐由Codex核build。本卡Coding Owner为Codex，GLM不做浏览器/视觉、不代写实现。
+<!-- original-source-quote:end -->
