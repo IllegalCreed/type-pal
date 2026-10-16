@@ -3700,6 +3700,56 @@
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
       "templateId": "test-domain-report-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

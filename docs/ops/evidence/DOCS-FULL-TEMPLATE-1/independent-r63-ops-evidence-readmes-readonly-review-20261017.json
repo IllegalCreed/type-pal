@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r63-ops-evidence-readmes-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "candidateHead": "6855e6945bb015df4674dc64ad7410f56702ceee",
+  "verdict": "accept-readonly-proposal",
+  "scope": {
+    "documentsRead": 10,
+    "all10": true,
+    "paths": [
+      "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+      "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md"
+    ]
+  },
+  "summary": {
+    "documents": "10/10 fully read",
+    "issues": "0"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371",
+      "afterSha256": "1b8ae06c0af9b910ae8b6ffd5edbafac93c3b6923dd436ce3cded7ef5bc4f33f",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939",
+      "afterSha256": "82ad3782ac5367de0f326141fb52aada17564c9a4d22dfe043f46cf9d0951d63",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4",
+      "afterSha256": "e0cfc3344250537dbadbdeba0e564a56e069b05fb1606a49b5aad57ddfefe7b8",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
+      "afterSha256": "1f2c9f253dec2022ba1d8b8e39975f8f17e7c80961514ab7df13144ae22c35e2",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "85fdc975aa9f06100fd3fd89d856ae9941f845ea308cd2056d365c9fd7339b6f",
+      "afterSha256": "b1877718570a939bd960a2af4a5eee68375a830816f6c005ad27c8261b9b6b65",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "d773f29610f177a19c77ea40439d82a37337c1c90fd1b32d92b1241d72e2a74a",
+      "afterSha256": "87181619eb668cb70257b738f6ecfdcf9287ab279007303fd5c3f14c761dd938",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b",
+      "afterSha256": "56611b0c034bc53651794b950b9a0bd8bdd3121af08beb3fd2933f47e0112e25",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40",
+      "afterSha256": "e9e2851efd77a4ab1f34d3c25e23be8fa63228a61cdca03d72637d793e4e0764",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11",
+      "afterSha256": "1d34a101cf0f4c2e854fd3c0ebc515239aaf2a8fa8b09d052df0607ec12bb4d3",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f",
+      "afterSha256": "23242f46d8b16f49f4419a4c9d5d9d1366ae2761840a2aaf772056caeeb67581",
+      "quoteInverse": true,
+      "pass": true
+    }
+  ]
+}
