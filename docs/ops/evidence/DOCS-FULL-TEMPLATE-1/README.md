@@ -353,3 +353,8 @@
 
 - [R68 readonly](independent-r68-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
 - [R68 acceptance](independent-r68-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
+
+## R69 ops evidence Markdown
+
+- [R69 readonly](independent-r69-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
+- [R69 acceptance](independent-r69-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。

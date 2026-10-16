@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r69-ops-evidence-readmes-20261017",
+  "kind": "R69 ops evidence Markdown",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "abcaee1db6c80a04048d4a60636fdd8211c9fce2",
+  "scope": {
+    "documents": 10,
+    "docTypes": {
+      "evidence-receipt": 10
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/dedup-ledger.md",
+      "sourceSha256": "71df18c24fee5f111b77a4b0764008a144528aa1aed2d11318ec7d2b1c250a3e",
+      "afterSha256": "5f7fa1eab5a90841c6a5dd44e9c8b6f07722197021b89c70526c47c66b357cb4",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
+      "sourceSha256": "c8d4a56eaadb1ec3d130d1370fc26a8ac02ed50fd3f5c68fb8ec5240b35125a6",
+      "afterSha256": "3f7404281b7e2e6a3d974008b14fe63126447445752443752d5cf8d8b48abbb4",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-review-r1.md",
+      "sourceSha256": "eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78",
+      "afterSha256": "784c866ac17dcfaf35c1d094840e6dc49e8a1642df12f57efaa7cee24bc35b40",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
+      "sourceSha256": "960e98063defac3996c601fc39ed1b7dc7901fa0b16fbed836fb7fd279410865",
+      "afterSha256": "2f1308c2043ffc4b33e92da3af165405d0fa4a076796360a2a97a689d47e27b2",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/dedup-ledger.md",
+      "sourceSha256": "c479afc834354b62eeccfaf4c4e4908e44f814c835a940c397c606f88e897ef6",
+      "afterSha256": "245eea90e83e874188a3fdc7c17c1e3463f7dd0066cc1dc9e55204320bf69835",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+      "sourceSha256": "9f4e7dad8b43d61e86d79ef895ad21e9964d8cb4ad0087c98a897704cc77f66b",
+      "afterSha256": "0e36399e70169cf0ff5812e4a2ee94c1744036c12eeb6a05af9a915ab119c879",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md",
+      "sourceSha256": "d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76",
+      "afterSha256": "dc138956a1cd670b4f17ee88d1ce09511d49fd14c213d78d7650833fe280c169",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md",
+      "sourceSha256": "2dc2fd2dd05a87de969f08d5307f5ab8f9561ad130ab4f1643f32d876963f972",
+      "afterSha256": "f5f02126c8bf002665685b9747545726e9fc81ba186f220fa174e153f6fc7c3e",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
+      "sourceSha256": "2918a50e70aa1271cfe8bc5a00acfdb3e7f1b02c23f8ff2f901be8e5a4c30a20",
+      "afterSha256": "ef2d6f1ffb39db3dbbc762d8e800ef24d276ca28e302a6d70562f657a85a8ed8",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
+      "sourceSha256": "09e7324b892ea788b097d16deaa2e3e4f350dbe61645b8ee4a6d771586943b75",
+      "afterSha256": "f8b9c1873d1ff6eae05aae21c91ded76e70498cdb585e54703c3d26009c67378",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    }
+  ]
+}
