@@ -1,85 +1,152 @@
 # 文档维护与自动检查
 
-## AI Quick Path
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: guide-runbook-v1 / 1.0.0
 
-先读[项目文档模型](documentation-model.md)确认读取/写回路径，再用本文执行链接、索引和版本检查。模板符合性与结构门均不替代内容核读或产品实跑。
+本页把历史材料接入 `guide-runbook-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
-维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，
-全仓结构整理见 [DOC-IA-2](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md)。
-本轮依据 [文档审计](../archive/audits/documentation-2026-09-06.md) 修正信息与导航；产品缺陷仍由
-[代码审计台账](../audits/pre-e2e/summary.md) 及后续修复任务追踪。
+## 目的
 
-## 文档的有效范围
+- 读者和完成后得到的结果：按当前 ops guide/runbook 完成 Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.。
 
-| 类型 | 用途 | 维护方式 |
-|---|---|---|
-| current | 当前规范、作者指南、操作入口 | 改实现时同步核对；版本声明须与源码一致 |
-| historical | 当时的计划、交接、完成快照 | 保留原文和日期，顶部说明不作为当前执行入口 |
-| evidence | 审计、复现、运行回执 | 保留原始证据；整改结果另写回执并链接回来源 |
-| superseded | 已被新决定取代的方案 | 指向替代决定或任务，不复活旧方案中的升级器/兼容层 |
+## 前置条件
 
-混合文档必须标清现行段与历史段。历史签字、作者归属和终态不得因整理而重写；修正断链时保留原标签，
-目标已删除则指向核准的 Git 历史路径或改成标明历史的普通文字。字段/公式后的方括号若意外形成 Markdown
-链接，可加代码标记或转义，只修呈现，不改证据含义。
+- 权限、输入、版本和安全边界：以当前 AGENTS、ops workflow、任务卡和仓库入口为准。
+- 当前执行前必须确认：工具、版本、数据路径、Owner 和用户授权。
 
-一次性调试截图和手工上传样例先检查当前代码、自动测试、工程和实质文档引用。已退役且只服务历史批次的
-文件可退出工作树，在历史记录中注明 Git 恢复位置；不为了保留无用附件而新建索引。仍承担具体任务证明的
-附件与原始签字继续保留，不能按“没有代码引用”一刀切删除证据。
+## 步骤
 
-## 索引与文件存放
+1. 先读取当前入口、前置条件和本页适用范围。
+2. 按步骤执行并把结果写回当前 task/evidence 入口。
+3. 对失败、边界和人工接管保留可复核证据。
 
-- `docs/` 下每个直接含 Markdown 的目录都有 README；README 链接该目录的每份直接文档，按上述类型说明。
-- 活动任务放 `docs/ops/tasks/`；既有终态任务保留 `docs/ops/archive/tasks/` 的稳定路径，模板放
-  `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../board.md) 进入；已完成卡内的旧交接提示
-  不构成新的授权，历史状态也不覆盖卡片顶部终态。
-- 新任务顶部写 `Status: draft`，使用既定状态机；既有五张终态卡的中文状态标签按确切文件名单读取，
-  无需为工具统一字段而改写历史。索引不根据正文中零散的 `build/done` 判断状态。
-- 新增长任务将当前摘要、准入和最终回执留在卡中，大段日志、独立复核和截图按任务 ID 放证据目录。
-  新任务完成后先更新顶部状态、索引和看板，不因 done 自动移动；确需迁移时同步全部入链和机器索引，保留签字与正文，先有显式映射和预检。
-- 现行入口尽量链接单一权威来源，不手抄“铁律数量”“决策编号上限”“文档行数”等易漂移计数。
+## 失败处理
 
-## 检查命令
+- 可预期失败：- 正文信号 74:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。
+- 正文信号 84:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。
+- 停止线：follow current repository routes and ownership; do not use historical instructions as current authorization
+- 回滚/人工接管：停止当前操作，保留日志并交当前 Owner 裁决。
 
-```sh
-pnpm check:docs
-node scripts/docs/check.mjs --json
-node scripts/docs/check.mjs --print-task-index
-```
+## 完成定义
 
-最后一个命令只输出确定性 Markdown；核对后更新 `docs/ops/tasks/index.md`。检查器自身用
-`pnpm test:docs-tools` 验证，独立于 Vitest 覆盖率与 PAL 真实素材，不需要安装新依赖。
+- 可观察的完成条件：步骤结果、证据路径、Owner 和下一步均已写回。
+- 证据路径与复核人：本页、当前 task card、evidence receipt 和 Codex 独立复核。
 
-## 目录职责
+## 历史范围
 
-- 阶段顶层：方针、路线和进度。第一阶段保留编号概要、status 快照和 plans 历史目录。
-- 第二阶段 `specs/`：现行规范；`guides/`：具体使用方法；`reference/`：知识参考；`archive/`：
-  历史设计、计划、审计与切片。混合稿的现行部分提取成规范，完整旧稿归档作时点证据。
-- `docs/testing/`：跨阶段的覆盖率、E2E 合同；`docs/ops/`：协作、活动看板、模板、操作指南和过程证据。
-- `docs/lore/`：已登记的世界观资料；未承诺制作的故事设想放 `ideas/`。第三阶段保留 backlog 和参考输入。
-- 包、工程与资源的 README/PROVENANCE 就地维护，第三方源码内文档保持其原始结构。
+- phase2/lore archive；日期：2026-09-06；固定来源 `f4c664a8cf0dd564f68857b393861f553e35c73f`；source SHA `efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5。
 
-目录 README 应先说明职责，再按语义链接子目录与直接文档；不追加“其他文件（续）”来回避分类。
+## 原始结论
 
-检查范围：Git 跟踪及未忽略的新 Markdown（含 vendored 隐藏模板），使用工作树中的实际内容；检查普通
-Markdown 链接、图片、引用式链接的本地文件目标，忽略代码围栏、行内代码与 HTML 注释。文件锚点
-`#section` / `#L12` 仅剥离后检查目标文件；不检查锚点是否存在、不联网验证 HTTP、不解析任意 HTML/MDX。
+- 核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。
 
-链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或
-空目录不构成有效目标。这样索引不能依赖只在某台开发机上存在的文件。
+## 当时证据
 
-`scripts/docs/config.mjs` 明确现行合同的检查段，比较源码的 `CONTENT_VERSION` 与
-`CURRENT_PROJECT_MINIMUM_SAVE_VERSION`；不是全文替换版本号。检查段边界消失也报错，需要一起更新规则
-并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。
+- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
 
-本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。
-工具无法判断叙述是否真实、历史是否归档正确，仍需 Codex 对 GLM 的修改逐项审核。
+## 当前有效性
 
-## 例外与准入
+historical。follow current repository routes and ownership; do not use historical instructions as current authorization
+- 历史冲突/未决：
+- 正文信号 74:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。
+- 正文信号 84:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。
 
-`check:docs` 已接入根 `check/check:fast`；GitHub 的 Documentation workflow 在 PR、main 推送及手动触发时
-执行同一组工具测试与仓库检查，不依赖 pnpm 安装、PAL 素材或浏览器。首次接入与远端回执见 DOC-GOV-1。
-文档检查通过不等于产品缺陷修复，也不代表全仓 lint/E2E 已通过。
+## 继任文档
 
-允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。
-例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。
-本地可再生产物的历史引用优先说明生成条件并改为普通代码路径，避免机器是否有 PAL 素材影响文档检查。
+- C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.。
+- 当前事实由继任规范、代码、测试和新的 review 决定。
+
+## 原文保全
+
+固定源 SHA `efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 文档维护与自动检查
+>
+> ## AI Quick Path
+>
+> 先读[项目文档模型](documentation-model.md)确认读取/写回路径，再用本文执行链接、索引和版本检查。模板符合性与结构门均不替代内容核读或产品实跑。
+>
+> 维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，
+> 全仓结构整理见 [DOC-IA-2](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md)。
+> 本轮依据 [文档审计](../archive/audits/documentation-2026-09-06.md) 修正信息与导航；产品缺陷仍由
+> [代码审计台账](../audits/pre-e2e/summary.md) 及后续修复任务追踪。
+>
+> ## 文档的有效范围
+>
+> | 类型 | 用途 | 维护方式 |
+> |---|---|---|
+> | current | 当前规范、作者指南、操作入口 | 改实现时同步核对；版本声明须与源码一致 |
+> | historical | 当时的计划、交接、完成快照 | 保留原文和日期，顶部说明不作为当前执行入口 |
+> | evidence | 审计、复现、运行回执 | 保留原始证据；整改结果另写回执并链接回来源 |
+> | superseded | 已被新决定取代的方案 | 指向替代决定或任务，不复活旧方案中的升级器/兼容层 |
+>
+> 混合文档必须标清现行段与历史段。历史签字、作者归属和终态不得因整理而重写；修正断链时保留原标签，
+> 目标已删除则指向核准的 Git 历史路径或改成标明历史的普通文字。字段/公式后的方括号若意外形成 Markdown
+> 链接，可加代码标记或转义，只修呈现，不改证据含义。
+>
+> 一次性调试截图和手工上传样例先检查当前代码、自动测试、工程和实质文档引用。已退役且只服务历史批次的
+> 文件可退出工作树，在历史记录中注明 Git 恢复位置；不为了保留无用附件而新建索引。仍承担具体任务证明的
+> 附件与原始签字继续保留，不能按“没有代码引用”一刀切删除证据。
+>
+> ## 索引与文件存放
+>
+> - `docs/` 下每个直接含 Markdown 的目录都有 README；README 链接该目录的每份直接文档，按上述类型说明。
+> - 活动任务放 `docs/ops/tasks/`；既有终态任务保留 `docs/ops/archive/tasks/` 的稳定路径，模板放
+>   `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../board.md) 进入；已完成卡内的旧交接提示
+>   不构成新的授权，历史状态也不覆盖卡片顶部终态。
+> - 新任务顶部写 `Status: draft`，使用既定状态机；既有五张终态卡的中文状态标签按确切文件名单读取，
+>   无需为工具统一字段而改写历史。索引不根据正文中零散的 `build/done` 判断状态。
+> - 新增长任务将当前摘要、准入和最终回执留在卡中，大段日志、独立复核和截图按任务 ID 放证据目录。
+>   新任务完成后先更新顶部状态、索引和看板，不因 done 自动移动；确需迁移时同步全部入链和机器索引，保留签字与正文，先有显式映射和预检。
+> - 现行入口尽量链接单一权威来源，不手抄“铁律数量”“决策编号上限”“文档行数”等易漂移计数。
+>
+> ## 检查命令
+>
+> ```sh
+> pnpm check:docs
+> node scripts/docs/check.mjs --json
+> node scripts/docs/check.mjs --print-task-index
+> ```
+>
+> 最后一个命令只输出确定性 Markdown；核对后更新 `docs/ops/tasks/index.md`。检查器自身用
+> `pnpm test:docs-tools` 验证，独立于 Vitest 覆盖率与 PAL 真实素材，不需要安装新依赖。
+>
+> ## 目录职责
+>
+> - 阶段顶层：方针、路线和进度。第一阶段保留编号概要、status 快照和 plans 历史目录。
+> - 第二阶段 `specs/`：现行规范；`guides/`：具体使用方法；`reference/`：知识参考；`archive/`：
+>   历史设计、计划、审计与切片。混合稿的现行部分提取成规范，完整旧稿归档作时点证据。
+> - `docs/testing/`：跨阶段的覆盖率、E2E 合同；`docs/ops/`：协作、活动看板、模板、操作指南和过程证据。
+> - `docs/lore/`：已登记的世界观资料；未承诺制作的故事设想放 `ideas/`。第三阶段保留 backlog 和参考输入。
+> - 包、工程与资源的 README/PROVENANCE 就地维护，第三方源码内文档保持其原始结构。
+>
+> 目录 README 应先说明职责，再按语义链接子目录与直接文档；不追加“其他文件（续）”来回避分类。
+>
+> 检查范围：Git 跟踪及未忽略的新 Markdown（含 vendored 隐藏模板），使用工作树中的实际内容；检查普通
+> Markdown 链接、图片、引用式链接的本地文件目标，忽略代码围栏、行内代码与 HTML 注释。文件锚点
+> `#section` / `#L12` 仅剥离后检查目标文件；不检查锚点是否存在、不联网验证 HTTP、不解析任意 HTML/MDX。
+>
+> 链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或
+> 空目录不构成有效目标。这样索引不能依赖只在某台开发机上存在的文件。
+>
+> `scripts/docs/config.mjs` 明确现行合同的检查段，比较源码的 `CONTENT_VERSION` 与
+> `CURRENT_PROJECT_MINIMUM_SAVE_VERSION`；不是全文替换版本号。检查段边界消失也报错，需要一起更新规则
+> 并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。
+>
+> 本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。
+> 工具无法判断叙述是否真实、历史是否归档正确，仍需 Codex 对 GLM 的修改逐项审核。
+>
+> ## 例外与准入
+>
+> `check:docs` 已接入根 `check/check:fast`；GitHub 的 Documentation workflow 在 PR、main 推送及手动触发时
+> 执行同一组工具测试与仓库检查，不依赖 pnpm 安装、PAL 素材或浏览器。首次接入与远端回执见 DOC-GOV-1。
+> 文档检查通过不等于产品缺陷修复，也不代表全仓 lint/E2E 已通过。
+>
+> 允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。
+> 例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。
+> 本地可再生产物的历史引用优先说明生成条件并改为普通代码路径，避免机器是否有 PAL 素材影响文档检查。
+
+<!-- original-source-quote:end -->

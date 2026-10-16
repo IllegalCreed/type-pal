@@ -1108,3 +1108,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r34-ops-pre-e2e-readonly-review-20261017.json`，9/9 全文读取；全部 `audit-report-v1` current-audit。
 - 中央接入：`docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json`、registry/routing 9 条及 evidence receipt；ops audit 不进入 phase/lore catalog。
 - R34 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+
+### 2026-10-17 R35 ops guides
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-readonly-review-20261017.json`，4/4 全文读取；全部 `guide-runbook-v1` current-guide。
+- 中央接入：`docs/phase-governance/reviews/20261017-r35-ops-guides.json`、registry/routing 4 条及 evidence receipt；ops guide 不进入 phase/lore catalog。
+- R35 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。

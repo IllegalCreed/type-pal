@@ -153,3 +153,10 @@
 - [R34 只读独立复核](independent-r34-ops-pre-e2e-readonly-review-20261017.md)：9/9 pre-E2E audit 全文读取，全部 `audit-report-v1` current-audit；静态审计不授执行信用。
 - [R34 根接入回执](contributor-r34-ops-pre-e2e-20261017.json)：逐篇记录审计问题、范围、证据、反例、停止线、复核条件和 source/after SHA。
 - [R34 候选独立接收](independent-r34-ops-pre-e2e-candidate-acceptance-20261017.md)：9/9 候选接收；ops audit 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R35 ops guides
+
+- [R35 只读独立复核](independent-r35-ops-guides-readonly-review-20261017.md)：4/4 ops guide/runbook 全文读取，全部 `guide-runbook-v1` current-guide。
+- [R35 根接入回执](contributor-r35-ops-guides-20261017.json)：逐篇记录目的、前置条件、步骤、失败处理、停止线、完成定义和 source/after SHA。
+- [R35 候选独立接收](independent-r35-ops-guides-candidate-acceptance-20261017.md)：4/4 候选接收；ops guide 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。

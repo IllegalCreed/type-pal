@@ -1,0 +1,687 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r35-ops-guides",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R35 migration of 15 phase2/lore Markdown documents and 3 HTML prototypes; preserve source/history; HTML remains byte-stable artifact evidence; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Kimi 浏览器实测操作手册：这是 guide-runbook，当前文档状态为 current。全文 60 行、7 个标题；摘要/首段为「> 给 Kimi（视觉验收 / 浏览器实测）的操作手册。**最重要的提醒：reforge 游戏本体是纯键盘」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/guides/browser-verification.md:1",
+        "docs/ops/guides/browser-verification.md:1 Kimi 浏览器实测操作手册",
+        "docs/ops/guides/browser-verification.md:7 1. 环境与入口",
+        "docs/ops/guides/browser-verification.md:16 2. 游戏键位速查（reforge 运行时）",
+        "docs/ops/guides/browser-verification.md:29 3. 浏览器实测手法（给 Kimi）",
+        "docs/ops/guides/browser-verification.md:40 4. 调试面板 `?debug`（D13-1）",
+        "docs/ops/guides/browser-verification.md:48 5. 常见键盘流程样例",
+        "docs/ops/guides/browser-verification.md:55 6. 关键纪律"
+      ],
+      "unresolved": [
+        "正文信号 52:- **对话翻页**：连按 Space 到底，最后一页关闭；`~NN` 尾停顿不可加速（等待自动推进）。",
+        "正文信号 53:- **战斗胜利结算**：结算屏自动播放，Space 可跳过等待。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-browser-verification",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r35_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        }
+      ],
+      "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/guides/browser-verification.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/guides/browser-verification.md"]
+      },
+      "revision": {
+        "currentSha": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "implementationSha": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+            "date": "2026-10-17",
+            "action": "R35 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+        "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+        "candidateSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "lineCount": 124,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 3746,
+          "sourceLines": 59,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+          "action": "R35 readonly proposal accepted then migration/envelope",
+          "reviewer": "r35_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-124",
+      "reviewNotes": "浏览器手册区分游戏键盘、编辑器鼠标和 debug DOM，要求真实入口、机读观察点和集中 E2E 证据，禁止把点画布无反应当作产品缺陷。",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-guide",
+      "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "candidateSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+      "primarySource": [
+        {
+          "path": "docs/ops/guides/browser-verification.md",
+          "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "sha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "versionScope": {
+        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "date": "undated",
+        "validity": "current-guide"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R35-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/guides/dev-servers.md:1",
+        "docs/ops/guides/dev-servers.md:1 本地开发服务器 · 端口与启动命令",
+        "docs/ops/guides/dev-servers.md:8 新人前置(clone 后必做)",
+        "docs/ops/guides/dev-servers.md:15 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)",
+        "docs/ops/guides/dev-servers.md:20 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+        "docs/ops/guides/dev-servers.md:30 一阶段 · 仙剑本体(game)",
+        "docs/ops/guides/dev-servers.md:50 二阶段 · 编辑器(editor)",
+        "docs/ops/guides/dev-servers.md:79 二阶段 · 新引擎(reforge)",
+        "docs/ops/guides/dev-servers.md:96 常见坑"
+      ],
+      "unresolved": [
+        "正文信号 4:> game 用 **6005**(! 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+        "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+        "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行",
+        "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-dev-servers",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r35_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        }
+      ],
+      "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/dev-servers.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/guides/dev-servers.md"]
+      },
+      "revision": {
+        "currentSha": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "implementationSha": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+            "date": "2026-10-17",
+            "action": "R35 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+        "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+        "candidateSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "lineCount": 168,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4634,
+          "sourceLines": 103,
+          "sourceFinalNewline": true,
+          "inverseSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+          "action": "R35 readonly proposal accepted then migration/envelope",
+          "reviewer": "r35_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-168",
+      "reviewNotes": "开发服务器手册固定端口、PAL 资源物化、current-only 迁移和 demo/pal 入口；明确 bake 不会物化 PAL 工程资源，避免错误修复路径。",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-guide",
+      "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "candidateSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+      "primarySource": [
+        {
+          "path": "docs/ops/guides/dev-servers.md",
+          "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "sha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "versionScope": {
+        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "date": "2026-07-04",
+        "validity": "current-guide"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R35-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+        },
+        {
+          "id": "R35-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。",
+      "truthAnchors": [
+        "docs/ops/guides/documentation.md:1",
+        "docs/ops/guides/documentation.md:1 文档维护与自动检查",
+        "docs/ops/guides/documentation.md:3 AI Quick Path",
+        "docs/ops/guides/documentation.md:12 文档的有效范围",
+        "docs/ops/guides/documentation.md:29 索引与文件存放",
+        "docs/ops/guides/documentation.md:41 检查命令",
+        "docs/ops/guides/documentation.md:52 目录职责",
+        "docs/ops/guides/documentation.md:77 例外与准入"
+      ],
+      "unresolved": [
+        "正文信号 15:| superseded | 已被新决定取代的方案 | 指向替代决定或任务，不复活旧方案中的升级器/兼容层 |",
+        "正文信号 54:- `docs/lore/`：已登记的世界观资料；未承诺制作的故事设想放 `ideas/`。第三阶段保留 backlog 和参考输入。",
+        "正文信号 59:检查范围：Git 跟踪及未忽略的新 Markdown（含 vendored 隐藏模板），使用工作树中的实际内容；检查普通",
+        "正文信号 63:链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或",
+        "正文信号 68:并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。",
+        "正文信号 70:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
+        "正文信号 79:允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。",
+        "正文信号 80:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。",
+        "正文信号 74:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
+        "正文信号 84:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-documentation",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r35_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        }
+      ],
+      "sourceSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+      "afterSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+      "publicCallers": [
+        "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md",
+        "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
+        "docs/ops/guides/documentation.md → ../archive/audits/documentation-2026-09-06.md",
+        "docs/ops/guides/documentation.md → ../audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation.md → ../tasks/index.md",
+        "docs/ops/guides/documentation.md → ../archive/board-history/board-20261004.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/documentation.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/guides/documentation.md"]
+      },
+      "revision": {
+        "currentSha": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+        "implementationSha": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+            "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+            "date": "2026-10-17",
+            "action": "R35 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+        "sourceSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+        "candidateSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+        "afterSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+        "lineCount": 152,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6513,
+          "sourceLines": 85,
+          "sourceFinalNewline": true,
+          "inverseSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+          "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+          "previousCoreConclusion": "文档维护与自动检查：这是 guide-runbook，当前文档状态为 draft。全文 82 行、6 个标题；摘要/首段为「维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "coreConclusion": "核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。",
+          "method": "full-text-and-delta-read",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+          "action": "R35 readonly proposal accepted then migration/envelope",
+          "reviewer": "r35_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-152",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-guide",
+      "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "candidateSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+      "primarySource": [
+        {
+          "path": "docs/ops/guides/documentation.md",
+          "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "sha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "versionScope": {
+        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "date": "2026-09-06",
+        "validity": "current-guide"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R35-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 74:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。"
+        },
+        {
+          "id": "R35-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 84:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
+        },
+        {
+          "id": "R35-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "仅新增项目文档模型入口，其余工程指南入口保留；目录是导航，不承担 runbook 事实权。",
+      "truthAnchors": [
+        "docs/ops/guides/README.md:1",
+        "docs/ops/guides/README.md:1 工程维护指南",
+        "docs/ops/guides/README.md:7 文档与附件"
+      ],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r35_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        }
+      ],
+      "sourceSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+      "afterSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+      "publicCallers": [
+        "docs/ops/guides/README.md → ../README.md",
+        "docs/ops/guides/README.md → browser-verification.md",
+        "docs/ops/guides/README.md → dev-servers.md",
+        "docs/ops/guides/README.md → documentation.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/README.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/guides/README.md"]
+      },
+      "revision": {
+        "currentSha": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+        "implementationSha": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+            "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+            "date": "2026-10-17",
+            "action": "R35 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+        "sourceSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+        "candidateSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+        "afterSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+        "lineCount": 77,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 501,
+          "sourceLines": 12,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+          "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+          "previousCoreConclusion": "工程维护指南：这是 guide-runbook，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「开发服务、浏览器验证和文档维护的操作方法。覆盖率及 E2E 的跨阶段合同统一放 docs/testing。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "coreConclusion": "仅新增项目文档模型入口，其余工程指南入口保留；目录是导航，不承担 runbook 事实权。",
+          "method": "prior-full-text-review-plus-navigation-delta",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+          "action": "R35 readonly proposal accepted then migration/envelope",
+          "reviewer": "r35_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-77",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-guide",
+      "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "candidateSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+      "primarySource": [
+        {
+          "path": "docs/ops/guides/README.md",
+          "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "sha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "versionScope": {
+        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "date": "undated",
+        "validity": "current-guide"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R35-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-readonly-review-20261017.json",
+    "sha256": "af67961e6d44a8cfd7b678c6a3eb67870c34aa290a6f039f087cd14aebbe5849",
+    "verdict": "accept-readonly-proposal",
+    "scope": "4/4 ops guide/runbook documents"
+  },
+  "migrationSummary": {
+    "documents": 4,
+    "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+    "sourceQuoteInverse": "4/4",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "guide-runbook": 4
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-candidate-acceptance-20261017.json",
+    "sha256": "30963d4168cac54fdee1b17e106fa7f56c6c5d365a96c7510135b3b4342e39e6",
+    "verdict": "accept",
+    "scope": "4/4 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}
