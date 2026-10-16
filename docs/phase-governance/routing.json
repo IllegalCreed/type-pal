@@ -5545,6 +5545,196 @@
       "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/README.md",
       "templateId": "archive-record-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/glm-game-menu-boundaries.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/gemini-phase1-stats-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/testing-records/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/testing-records/glm-game-host-boundaries.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/check-environment-stability.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/codex-reference-coverage.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-queue-design-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-remaining-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-editor-logic-coverage-receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r3-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-r2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/authoring-and-runtime/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

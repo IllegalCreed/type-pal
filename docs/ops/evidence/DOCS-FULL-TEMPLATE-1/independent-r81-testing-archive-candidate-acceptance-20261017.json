@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r81-testing-archive-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "b6b32d2ac3c0276357e43eee8658c50da8da695b",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 50,
+    "readAndChecked": 50,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r81-testing-archive.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R81-B01",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 50 testing archive documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R81-B02",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all50": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1427 documents; content-reviewed 1427)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1163 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8002 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1427/1427; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4360 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md",
+      "afterSha256": "7074c45b0d9b27d012678512b7fec88110ab8fd4c248c478823ef9e0ae1c8b0f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/glm-game-menu-boundaries.md",
+      "afterSha256": "35c9d78d80cdd254734dc00f52a8a4e64832b61abcebd1b1f932e2f5f2ca5df9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/README.md",
+      "afterSha256": "21ac54337317c172a69da0cca85af7ebf4948b27fe36b5ccea89df68e7124cb1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/gemini-phase1-stats-integration.md",
+      "afterSha256": "5ec0237906f3cf1d32bbdab10484b7b746e4138104e7286c63c30a8f0de387bb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json",
+      "afterSha256": "168e308c863a63100ae5f06e7d9328bc6be4723e7d2a20f75f3544b54821734b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/testing-records/README.md",
+      "afterSha256": "ff847e3183030dfc3dba0d18d3b272748b8318f72638eea28f73e6f18e4c89c1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/testing-records/glm-game-host-boundaries.md",
+      "afterSha256": "0c8df9e6f2acb9c1fb43b234f377a6b3840b2a3498798a77058bfebf0af87e4a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/README.md",
+      "afterSha256": "1c7d7d4121a7b4aa4a9e18613885adaa7aff7902e9ff63099b25cbba29bf17e0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/README.md",
+      "afterSha256": "7fb9969ee3c7a26be4ef826a79f7166dd743fd826aa46557093bcdeebe7caeb3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/check-environment-stability.md",
+      "afterSha256": "173f3ee942cce1e78356d4e0d1e6924970f21b3c7c4348707b2532d9b2ccf335",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/codex-reference-coverage.md",
+      "afterSha256": "2c0971a745f3a2fccea828cc72dcb118d2b27886c497a39abd3f401edbaf1496",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md",
+      "afterSha256": "2979a7d7d666cb84b1f97a8f083dfe4c67742e894da838dd3bf78d92419cd9c0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-evidence.json",
+      "afterSha256": "920acc67f34f6b8a712d58fce55e8dfcbf3a75ab4c5345cbb1e6f25ad506096d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json",
+      "afterSha256": "69128f8bfc49a8f110bbe96b0cdc9f54549e2ebd07c18a38ba01f6c376bcbc28",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md",
+      "afterSha256": "5045072419fc3379b4e6461c3350dc22402eaf9d26c6a3ced268d50402a10ed6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json",
+      "afterSha256": "7421c1ff521357324bca8992be29483f285140afc7ce5ee22c9efd5ca4b97566",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
+      "afterSha256": "949ed0d5f5bc3d2c10182f5cd9e2c6655041efc105110fa1e59ead8b83f97d87",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md",
+      "afterSha256": "bd7a30e37943fad20a9f1c3938f496bff77e7ffd881feefcb039cf3ed79e98fe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-review.md",
+      "afterSha256": "b08a04ce34539c8b361ac91f6c1579e514b61c7f700caed460bef328929ce5f1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md",
+      "afterSha256": "a1a9cae14ad383bdb0b44f547eb700f2e43c3b7bc96e936d99f53ea07d5296f1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md",
+      "afterSha256": "0ff103fb712c7028312e88682a1c753d658a876ebcf40b086e5eb7cd3555b4cb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-queue-design-review.md",
+      "afterSha256": "753d223e2ed50d224b22e5e5e82a32a0d76728271683d9f79794fead167b1871",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-remaining-review.md",
+      "afterSha256": "e06b163a0a1ce9eaef7f76609195906c1d60e5615d48d50da212024ab96681f4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-evidence.json",
+      "afterSha256": "5a79ce9e44e00b74b921b83e7730da672fcdb40ff886b2c543c41de802b0a27c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",
+      "afterSha256": "0ec6e8a6a1b843a9e0ba93e7bbf9f9283a8babe97e083c472b824e1a387622a0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-results.json",
+      "afterSha256": "d62ad4effd56a5688e1e56604430cd3043dbe196b415cf73d8721fb1f790266e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md",
+      "afterSha256": "b19831c3160b99cc43ad911f5ed911e6be002573d34d7bf65c018e3ca6e9b96a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.json",
+      "afterSha256": "cc5ff8272f978f8ad7f266efc5aeb47afffae85bb1a8c3c66937cf4cd9a0005f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
+      "afterSha256": "0f37eefd162594430634853db7f61dda60101e1ea454d981c5f574073c3e910c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-editor-logic-coverage-receipt.md",
+      "afterSha256": "771220e349b31d3a6c8cc514c76cba127ce49a6f13637374bf6b990234f9ab11",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-receipt.md",
+      "afterSha256": "3e690f4617f769fc52483ec2ad9c695280f584f1e051d731b1397365b0a32192",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-review.md",
+      "afterSha256": "7db2b6d2c7eea10e83fd4b4f0df4fc5ad985908b51324191e283ca5509d1d16d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md",
+      "afterSha256": "d7f0b8eaaeb8f7e3c9370f514f038675317d8572f704497bc9f110a07b10b705",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r3-review.md",
+      "afterSha256": "158db6039e1bb6b4d134d44df1ae9a6e06ecb001d120eaa22d7746c4af556a3d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-review-evidence.json",
+      "afterSha256": "fc7950f1c0b3ce8bf55f25663430ea90520321dcabbf176ba840dba569c13d33",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md",
+      "afterSha256": "c52e12d98bb92bc5f15a7dd196c6bacb0933d3110dc6f33f09f887b1734a7e18",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-r2-review.md",
+      "afterSha256": "39b389b1505046d380436920aa9b1e417d11d6d8af97ec897d011e0ee2f51113",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-review.md",
+      "afterSha256": "cf75bc82d631112be990b65de58f1c3facded1939d7d6788ca50493b22e997b4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/quality-zero-inventory.json",
+      "afterSha256": "86d953cb1c8224332a83ddffb744d8f818e44d0dd135d748e6ea862a03f40f30",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json",
+      "afterSha256": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/README.md",
+      "afterSha256": "e0983c1b0f609f62ff09cd2a38ab08c4de88806b03d818547f5475392d96a977",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/authoring-and-runtime/README.md",
+      "afterSha256": "e2da45c22e9709aba4b6a223750c76dfb9ca11219480314ef3b46c9582b4f137",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md",
+      "afterSha256": "d65b62408036e1fa0c02a8597897dd9b3dd7d4795925919608a7b65983aa54cf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/README.md",
+      "afterSha256": "cf697f1b4409a6208cbfbbdac42b52c0d09cd34638b70fa57dcba57640b8af95",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md",
+      "afterSha256": "a21fbac4b3dbcb01adbe33e6a24bc0bd7769b09a8873067b169f965f17db45cd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md",
+      "afterSha256": "e73fc2d4eba614976720307cdc95900a2517233af545d8336328593b632c1104",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration-evidence.json",
+      "afterSha256": "234250a84cd210109afa55edc6aa302cedf41a411f46004bd4603591b8c6f3db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
+      "afterSha256": "5555a50dad87e7bcf8c1050ff7a76cb3c4a0bf6108b638de7f6adfea3855b0fa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-evidence.json",
+      "afterSha256": "9d01e654a2a807640f6b1246f205e2d9b5212ad7d8e07674b0dc0ab5cc2cb49e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-review.md",
+      "afterSha256": "cf6256f4f125c57586336bf33fbdab7186ec3bfe68528b271a20c35073629ff9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    }
+  ]
+}
