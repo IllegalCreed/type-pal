@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r37-ops-json-evidence-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root JSON artifact readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 3,
+    "all3": true,
+    "paths": [
+      "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+      "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+      "docs/ops/archive/evidence/DOC-IA-2/relocation.json"
+    ],
+    "fullJsonParse": true,
+    "byteHashRead": true,
+    "readMethod": "read_bytes + strict JSON parse + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "3/3 fully read and parsed",
+    "sourceAfter": "3/3 byte SHA equal at intake",
+    "registry": "3/3 governed-legacy entries and review references",
+    "catalog": "ops JSON evidence paths outside phase/lore catalog scope",
+    "routing": "artifact out-of-routing at intake",
+    "classification": "3 JSON artifact evidence envelopes",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+      "format": "json",
+      "title": "additional-attachments.json",
+      "status": "historical-artifact",
+      "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "bytes": 783,
+      "topLevelFields": ["purpose", "directories", "entries"],
+      "parseable": true,
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "proposedClassification": "json-artifact-evidence-envelope",
+      "proposedTemplate": "evidence artifact envelope; preserve original JSON fields",
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+      "format": "json",
+      "title": "preservation-report.json",
+      "status": "historical-artifact",
+      "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "bytes": 4063,
+      "topLevelFields": [
+        "baseline",
+        "plannedFiles",
+        "completedTaskReceipt",
+        "retainedRelocated",
+        "archivedTasksWithPreservedBodyAndSignatures",
+        "otherHistoricalSnapshotsWithPreservedBody",
+        "retainedMediaByteIdentical",
+        "sourceConsumersOnlyPathSubstitution",
+        "gameMechanicsBodyAndFormulasPreserved",
+        "historicalProofDigest",
+        "normalization",
+        "retiredArtifacts",
+        "failures"
+      ],
+      "parseable": true,
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "proposedClassification": "json-artifact-evidence-envelope",
+      "proposedTemplate": "evidence artifact envelope; preserve original JSON fields",
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+      "format": "json",
+      "title": "relocation.json",
+      "status": "historical-artifact",
+      "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "bytes": 108662,
+      "topLevelFields": ["baseline", "purpose", "directories", "entries"],
+      "parseable": true,
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "proposedClassification": "json-artifact-evidence-envelope",
+      "proposedTemplate": "evidence artifact envelope; preserve original JSON fields",
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r37-ops-json-evidence-20261017",
+  "kind": "R37 ops JSON evidence artifact envelopes",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+  "scope": {
+    "documents": 3,
+    "docTypes": {
+      "evidence-receipt": 3
+    },
+    "artifactEnvelope": 3,
+    "historyOverlay": "none; JSON byte-stable artifacts",
+    "migrationCredit": 3
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-readonly-review-20261017.json",
+    "sha256": "6806de27575f277e5b1e31f8afe4933be101cffba0c9642a668897528291a126",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 3,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "artifactEnvelope": true,
+      "topLevelFields": ["purpose", "directories", "entries"],
+      "catalogScope": "out-of-catalog-ops",
+      "routingScope": "out-of-routing-JSON-artifact"
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "artifactEnvelope": true,
+      "topLevelFields": [
+        "baseline",
+        "plannedFiles",
+        "completedTaskReceipt",
+        "retainedRelocated",
+        "archivedTasksWithPreservedBodyAndSignatures",
+        "otherHistoricalSnapshotsWithPreservedBody",
+        "retainedMediaByteIdentical",
+        "sourceConsumersOnlyPathSubstitution",
+        "gameMechanicsBodyAndFormulasPreserved",
+        "historicalProofDigest",
+        "normalization",
+        "retiredArtifacts",
+        "failures"
+      ],
+      "catalogScope": "out-of-catalog-ops",
+      "routingScope": "out-of-routing-JSON-artifact"
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "artifactEnvelope": true,
+      "topLevelFields": ["baseline", "purpose", "directories", "entries"],
+      "catalogScope": "out-of-catalog-ops",
+      "routingScope": "out-of-routing-JSON-artifact"
+    }
+  ],
+  "candidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-candidate-acceptance-20261017.json",
+    "sha256": "6e1e083b9186c5eb8b850ce90218ce61b674bd96584315cbfbaff2aecc2d059e",
+    "verdict": "accept",
+    "scope": "3/3 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r37-ops-json-evidence",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R37 byte-stable envelope for 3 ops archive JSON evidence artifacts; preserve machine fields and consumer inputs; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "additional-attachments.json：这是 evidence-receipt，当前文档状态为 historical。全文 21 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json:1"],
+      "unresolved": [],
+      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-DOC-IA-2-additional-attachments",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r37_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e"
+        }
+      ],
+      "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json"
+      ],
+      "businessOracle": {
+        "type": "json-artifact-envelope",
+        "assertions": [
+          "original JSON parses",
+          "all original top-level fields remain",
+          "source and after bytes are identical",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": ["docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json"]
+      },
+      "revision": {
+        "currentSha": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "implementationSha": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+            "date": "2026-10-17",
+            "action": "R37 JSON artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
+        "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "candidateSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "afterSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+        "lineCount": 783,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 783,
+          "sourceLines": 20,
+          "sourceFinalNewline": true,
+          "inverseSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+          "action": "R37 JSON artifact envelope",
+          "reviewer": "r37_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; original machine fields retained"],
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
+      "reviewedLines": "1-783",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "candidateSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "sha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/evidence",
+        "currentBoundary": "current machine consumer and new receipt own truth"
+      },
+      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "versionScope": {
+        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R37-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "preservation-report.json：这是 evidence-receipt，当前文档状态为 historical。全文 71 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:1"],
+      "unresolved": [],
+      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-DOC-IA-2-preservation-report",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r37_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e"
+        }
+      ],
+      "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json"
+      ],
+      "businessOracle": {
+        "type": "json-artifact-envelope",
+        "assertions": [
+          "original JSON parses",
+          "all original top-level fields remain",
+          "source and after bytes are identical",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": ["docs/ops/archive/evidence/DOC-IA-2/preservation-report.json"]
+      },
+      "revision": {
+        "currentSha": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "implementationSha": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+            "date": "2026-10-17",
+            "action": "R37 JSON artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
+        "sourceSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "candidateSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "afterSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+        "lineCount": 4063,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 4063,
+          "sourceLines": 70,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+          "action": "R37 JSON artifact envelope",
+          "reviewer": "r37_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; original machine fields retained"],
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
+      "reviewedLines": "1-4063",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "candidateSha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "sha256": "2ca204c24824a42e0fd9f66d40e372805803bd3bbab89dd8afdaf75d03329f34",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/evidence",
+        "currentBoundary": "current machine consumer and new receipt own truth"
+      },
+      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "versionScope": {
+        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R37-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "relocation.json：这是 evidence-receipt，当前文档状态为 historical。全文 2532 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/relocation.json:1"],
+      "unresolved": [],
+      "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-DOC-IA-2-relocation",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r37_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e"
+        }
+      ],
+      "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/DOC-IA-2/relocation.json"
+      ],
+      "businessOracle": {
+        "type": "json-artifact-envelope",
+        "assertions": [
+          "original JSON parses",
+          "all original top-level fields remain",
+          "source and after bytes are identical",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": ["docs/ops/archive/evidence/DOC-IA-2/relocation.json"]
+      },
+      "revision": {
+        "currentSha": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "implementationSha": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+            "date": "2026-10-17",
+            "action": "R37 JSON artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r37-ops-json-evidence-20261017.json",
+        "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "candidateSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "afterSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+        "lineCount": 108662,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 108662,
+          "sourceLines": 2531,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+          "action": "R37 JSON artifact envelope",
+          "reviewer": "r37_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; original machine fields retained"],
+      "stopLine": "do not promote historical JSON receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON 字段和字节保持 → 增加 artifact envelope、SHA、字段清单和 consumer 复核边界。",
+      "reviewedLines": "1-108662",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "candidateSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+          "revision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+          "sha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/evidence",
+        "currentBoundary": "current machine consumer and new receipt own truth"
+      },
+      "dependencies": "Current machine evidence consumer and a fresh receipt when rerun.",
+      "versionScope": {
+        "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R37-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-readonly-review-20261017.json",
+    "sha256": "6806de27575f277e5b1e31f8afe4933be101cffba0c9642a668897528291a126",
+    "verdict": "accept-readonly-proposal",
+    "scope": "3/3 JSON evidence artifacts"
+  },
+  "migrationSummary": {
+    "documents": 3,
+    "sourceRevision": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+    "sourceQuoteInverse": "3/3 byte-stable",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "evidence-receipt": 3
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-candidate-acceptance-20261017.json",
+    "sha256": "6e1e083b9186c5eb8b850ce90218ce61b674bd96584315cbfbaff2aecc2d059e",
+    "verdict": "accept",
+    "scope": "3/3 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

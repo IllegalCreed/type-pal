@@ -167,3 +167,10 @@
 - [R36 只读独立复核](independent-r36-ops-evidence-readonly-review-20261017.md)：11/11 archive evidence Markdown 全文读取，全部 `evidence-receipt-v1 + archive-record-v1`；机器 JSON 留待独立字段/consumer 批次。
 - [R36 根接入回执](contributor-r36-ops-evidence-20261017.json)：逐篇记录证据身份、来源输入、oracle、结果、限制、复核条件和 source/after SHA。
 - [R36 候选独立接收](independent-r36-ops-evidence-candidate-acceptance-20261017.md)：11/11 候选接收；ops evidence 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R37 ops JSON evidence artifacts
+
+- [R37 只读独立复核](independent-r37-ops-json-evidence-readonly-review-20261017.md)：3/3 JSON 全量解析和字段读取，原始字节保持不变。
+- [R37 根接入回执](contributor-r37-ops-json-evidence-20261017.json)：记录原始 top-level fields、byte-stable SHA、artifact envelope 和 consumer 边界。
+- [R37 候选独立接收](independent-r37-ops-json-evidence-candidate-acceptance-20261017.md)：3/3 候选接收；JSON out-of-routing/out-of-catalog；无 runtime/E2E/视觉/coverage 信用。

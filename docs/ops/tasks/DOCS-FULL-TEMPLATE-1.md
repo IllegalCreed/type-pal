@@ -1122,3 +1122,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-readonly-review-20261017.json`，11/11 全文读取；全部 `evidence-receipt-v1 + archive-record-v1`。
 - 中央接入：`docs/phase-governance/reviews/20261017-r36-ops-evidence.json`、registry/routing 11 条及 evidence receipt；机器 JSON 留待字段/consumer 批次，ops evidence 不进入 phase/lore catalog。
 - R36 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+
+### 2026-10-17 R37 ops JSON evidence artifacts
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-readonly-review-20261017.json`，3/3 JSON 解析和字段读取通过。
+- 中央接入：`docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json`、registry/review artifact envelope；JSON 不进入 Markdown routing，保留机器 consumer 输入。
+- R37 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
