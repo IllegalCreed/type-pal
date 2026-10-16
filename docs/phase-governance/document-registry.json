@@ -8,39 +8,39 @@
   "summary": {
     "total": 733,
     "byPhase": {
-      "lore": 14,
       "ops": 418,
-      "phase-governance": 4,
+      "lore": 14,
       "phase1": 60,
       "phase2": 108,
       "phase3": 5,
+      "phase-governance": 4,
       "testing": 124
     },
     "byType": {
-      "archive-record": 13,
-      "audit-report": 60,
-      "design-spec": 35,
-      "evidence-receipt": 35,
-      "governance-index": 102,
       "guide-runbook": 16,
-      "narrative-idea": 2,
-      "plan-status": 70,
+      "archive-record": 13,
+      "audit-report": 59,
+      "governance-index": 103,
+      "evidence-receipt": 35,
+      "design-spec": 35,
+      "task-card": 331,
       "quality-gate": 1,
       "reference-canon": 14,
-      "task-card": 331,
-      "test-catalog": 2,
-      "test-contract": 1,
-      "test-domain-report": 8,
+      "narrative-idea": 2,
+      "plan-status": 70,
       "test-e2e-stage": 6,
+      "test-run-report": 6,
       "test-machine-evidence": 31,
-      "test-run-report": 6
+      "test-domain-report": 8,
+      "test-contract": 1,
+      "test-catalog": 2
     },
     "reviewStatus": {
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 21,
-      "template-compliant": 712
+      "template-compliant": 715,
+      "governed-legacy": 18
     }
   },
   "entries": [
@@ -448,10 +448,12 @@
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewRecord": "20261017-r54-ops-audits-layout.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/archive/README.md",
@@ -1082,10 +1084,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261017-r54-ops-audits-layout.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/audits/pre-e2e/battle.md",
@@ -1233,13 +1237,15 @@
     {
       "path": "docs/ops/audits/README.md",
       "phase": "ops",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261017-r54-ops-audits-layout.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/board.md",

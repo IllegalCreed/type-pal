@@ -1234,3 +1234,11 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`docs/phase-governance/reviews/20261017-r53-ops-archive-task.json`、registry/routing 16 条及 contributor receipt；历史 done 状态保留，不自动授权当前 build。
 - R53 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-candidate-acceptance-20261017.md`；16/16 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
 - archive task card 历史批次已处理完；清理仍需单独完成 consumer/引用盘点，本批不删除历史卡。
+
+### 2026-10-17 R54 ops audits/index/layout
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-readonly-review-20261017.json`，3/3 全文读取；`architecture-debt.md` 归 `audit-report-v1` current/open，`audits/README.md` 归 `governance-index-v1` current，旧布局 JSON 保持 `archive-record-v1` byte-stable artifact-only。
+- 中央接入：`docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json`、registry/routing 2 篇 Markdown 路由和 1 篇 JSON artifact envelope；旧重复 review entries 已移出，保护的主工作树不在本 worktree 被覆盖。
+- R54 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-candidate-acceptance-20261017.json`；3/3 source/after SHA、quote inverse/JSON deep parse、consumer、状态边界接收；静态门全绿，无 runtime/E2E/视觉/coverage 信用。
+- 旧布局 JSON 暂不删除：它仍被 archive README、pre-E2E tools README 和三个 ops-governance-plan 脚本引用；待独立 consumer/successor/SHA/retention 审计后再提出可逆清理候选。
+- 全量 1838 目标保持 active/build，当前进度 `710/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。

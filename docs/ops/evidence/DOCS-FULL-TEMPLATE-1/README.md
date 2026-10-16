@@ -264,3 +264,15 @@
 - [R53 只读独立复核](independent-r53-ops-archive-task-readonly-review-20261017.md)：16/16 archive task cards 全文读取；全部 `task-card-v1 + archive-record-v1`。
 - [R53 根接入回执](contributor-r53-ops-archive-task-20261017.json)：逐篇记录历史状态、source/after SHA、quote inverse、successor 和清理边界。
 - [R53 候选独立接收](independent-r53-ops-archive-task-candidate-acceptance-20261017.md)：16/16 候选接收；ops archive 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+## R54 ops audits/index/layout
+
+- [R54 只读独立复核](independent-r54-ops-audits-layout-readonly-review-20261017.json)：3/3 全文读取；architecture-debt 为 audit-report current，audits README 为 governance-index current，旧布局 JSON 为 byte-stable archive artifact。
+- [R54 根接入回执](contributor-r54-ops-audits-layout-20261017.json)：逐篇记录 source/after SHA、quote inverse、机器字段、consumer、状态和清理边界。
+- [R54 候选独立接收](independent-r54-ops-audits-layout-candidate-acceptance-20261017.json)：3/3 候选接收；无 runtime/E2E/视觉/coverage 信用；布局 JSON 暂不删除，待 consumer/继任/SHA 审计。
+
+## R54 ops audits/index/layout
+
+- [R54 只读独立复核](independent-r54-ops-audits-layout-readonly-review-20261017.json)：3/3 全文读取；architecture-debt 为 audit-report current，audits README 为 governance-index current，旧布局 JSON 为 byte-stable archive artifact。
+- [R54 根接入回执](contributor-r54-ops-audits-layout-20261017.json)：逐篇记录 source/after SHA、quote inverse、机器字段、consumer、状态和清理边界。
+- [R54 候选独立接收](independent-r54-ops-audits-layout-candidate-acceptance-20261017.json)：3/3 候选接收；无 runtime/E2E/视觉/coverage 信用；布局 JSON 暂不删除，待 consumer/继任/SHA 审计。

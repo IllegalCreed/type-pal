@@ -3405,6 +3405,14 @@
       "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "templateId": "audit-report-v1"
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

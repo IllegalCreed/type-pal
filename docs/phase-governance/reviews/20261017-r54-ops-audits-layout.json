@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "id": "r54-ops-audits-layout-20261017",
+  "reviewer": "Codex root full-text semantic migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R54: audit/index Markdown uses governed templates with reversible source quote; layout JSON remains byte-stable artifact-only. Static migration grants no runtime/E2E/visual/coverage credit and deletion remains gated by consumer/successor/SHA audit.",
+  "entries": [
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R54 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "architecture-debt.md：current ops architecture debt audit; preserve queue status, independent open items, source revision and static-only boundary.",
+      "truthAnchors": [
+        "docs/ops/audits/architecture-debt.md:1",
+        "docs/ops/audits/architecture-debt.md:59",
+        "docs/ops/audits/architecture-debt.md:82"
+      ],
+      "unresolved": [
+        "Static audit conclusions remain bounded by their source revision; follow-up claims require current task cards and fresh evidence."
+      ],
+      "nextStep": "由当前 task card、代码/test evidence 和 fresh review 复核仍开放的架构债项。",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "architecture-debt",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r54_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+        }
+      ],
+      "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+      "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+      "publicCallers": [
+        "docs/ops/audits/README.md → architecture-debt.md",
+        "current task cards and testing evidence linked from the audit"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/architecture-debt.md"],
+      "businessOracle": {
+        "type": "static-architecture-audit",
+        "assertions": [
+          "source queue and status boundaries remain traceable",
+          "independent open items are not closed by migration",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/audits/architecture-debt.md",
+          "docs/ops/audits/README.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+        "implementationSha": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+        "history": [
+          {
+            "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R54 ops audits/layout template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+        "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+        "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+        "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+        "lineCount": 132,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 11911,
+          "sourceLines": 87,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R54 template migration",
+          "reviewer": "r54_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; original source retained with SHA and successor boundary"
+      ],
+      "stopLine": "do not promote static audit conclusions to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops audit 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
+      "reviewedLines": "1-132",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "open",
+      "sourceGitRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/architecture-debt.md",
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "sha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "audits",
+        "currentBoundary": "current task cards and fresh evidence own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and the audit index.",
+      "versionScope": {
+        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+        "date": "2026-10-17",
+        "validity": "open"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R54-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R54 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "audits/README.md：current ops audit navigation index; preserve canonical links, ownership and execution boundary.",
+      "truthAnchors": ["docs/ops/audits/README.md:1", "docs/ops/audits/README.md:7"],
+      "unresolved": [
+        "Index links are navigation only; each target owns its current state and evidence boundary."
+      ],
+      "nextStep": "继续按 source/after SHA 和 consumer 逐篇治理，并为无 consumer 候选建立可逆清理记录。",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r54_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+        }
+      ],
+      "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+      "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "publicCallers": [
+        "docs/ops/README.md → audits/README.md",
+        "task cards and governance ledgers"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/README.md"],
+      "businessOracle": {
+        "type": "ops-audit-navigation",
+        "assertions": [
+          "canonical audit links remain reachable",
+          "index does not own linked document status",
+          "no execution credit is inferred from navigation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/audits/README.md",
+          "docs/ops/README.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "implementationSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "history": [
+          {
+            "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R54 ops audits/layout template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+        "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+        "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "lineCount": 54,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 657,
+          "sourceLines": 12,
+          "sourceFinalNewline": true,
+          "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R54 template migration",
+          "reviewer": "r54_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; original source retained with SHA and successor boundary"
+      ],
+      "stopLine": "do not treat navigation index or linked historical reports as current execution acceptance",
+      "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
+      "reviewedLines": "1-54",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "sourceGitRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/README.md",
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "sha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "audits",
+        "currentBoundary": "linked documents and review records own truth"
+      },
+      "dependencies": "Architecture debt audit, pre-E2E audit, current task cards and evidence consumer.",
+      "versionScope": {
+        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R54-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "ops-governance-layout-20261004.json：historical machine layout record; original fields and bytes remain unchanged and deletion is deferred pending consumer audit.",
+      "truthAnchors": [
+        "docs/ops/archive/ops-governance-layout-20261004.json:1",
+        "docs/ops/archive/ops-governance-layout-20261004.json:2"
+      ],
+      "unresolved": [
+        "Historical layout metadata is not a current routing or execution authorization; deletion requires consumer and successor proof."
+      ],
+      "nextStep": "保留机器字段和字节；完成 consumer、successor、retention deadline 审查后再决定归档或删除。",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-governance-layout-20261004",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-json-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r54_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+        }
+      ],
+      "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "publicCallers": [
+        "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
+        "scripts/docs/build-ops-governance-plan.mjs",
+        "scripts/docs/enrich-ops-governance-plan.mjs",
+        "scripts/docs/finalize-ops-governance-plan.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/ops-governance-layout-20261004.json"
+      ],
+      "businessOracle": {
+        "type": "json-artifact-envelope",
+        "assertions": [
+          "original JSON parses",
+          "all original top-level fields remain",
+          "source and after bytes are identical",
+          "retention and consumer boundary remain explicit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/ops/archive/ops-governance-layout-20261004.json",
+          "docs/ops/archive/README.md",
+          "scripts/docs/*ops-governance-plan.mjs"
+        ]
+      },
+      "revision": {
+        "currentSha": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "implementationSha": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "history": [
+          {
+            "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R54 ops audits/layout template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+        "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "candidateSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "lineCount": 3170,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 136712,
+          "sourceLines": 3170,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "rootWhitelist",
+            "summary",
+            "entries",
+            "appliedRevision",
+            "policy"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R54 template migration",
+          "reviewer": "r54_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; original source retained with SHA and successor boundary"
+      ],
+      "stopLine": "do not delete or reinterpret historical layout JSON until all consumers, successor links, retention and SHA are independently closed",
+      "userVisibleBeforeAfter": "原始 layout JSON 字段和字节保持 → registry/review 增加 archive-record artifact envelope、SHA、字段清单和清理边界。",
+      "reviewedLines": "1-3170",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "candidateSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+          "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "sha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive",
+        "currentBoundary": "current machine consumer and retention ledger own truth"
+      },
+      "dependencies": "Archive README, layout-plan consumers and retention ledger.",
+      "versionScope": {
+        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R54-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

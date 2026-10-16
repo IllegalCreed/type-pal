@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r54-ops-audits-layout-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "candidateHead": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+  "verdict": "accept-readonly-proposal",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "root": ".",
+    "documentsRead": 3,
+    "all3": true,
+    "paths": [
+      "docs/ops/audits/architecture-debt.md",
+      "docs/ops/audits/README.md",
+      "docs/ops/archive/ops-governance-layout-20261004.json"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "strict UTF-8 source read and SHA-256; JSON parsed and every top-level field enumerated"
+  },
+  "summary": {
+    "documents": "3/3 fully read",
+    "sourceAfter": "2 Markdown migrated with reversible quote; 1 JSON byte-stable",
+    "registry": "3/3 migrated from governed-legacy",
+    "routing": "2 Markdown routes; JSON artifact-only",
+    "classification": "1 audit-report current, 1 governance-index current, 1 archive-record historical artifact",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "format": "markdown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+      "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+      "templateCompliance": "template-compliant",
+      "artifactOnly": false,
+      "quoteInverse": true,
+      "consumerRefs": [
+        "docs/ops/audits/README.md → architecture-debt.md",
+        "current task cards and testing evidence linked from the audit"
+      ],
+      "historyBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "format": "markdown",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+      "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "templateCompliance": "template-compliant",
+      "artifactOnly": false,
+      "quoteInverse": true,
+      "consumerRefs": [
+        "docs/ops/README.md → audits/README.md",
+        "task cards and governance ledgers"
+      ],
+      "historyBoundary": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+      "format": "json",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "templateCompliance": "template-compliant",
+      "artifactOnly": true,
+      "quoteInverse": true,
+      "consumerRefs": [
+        "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
+        "scripts/docs/build-ops-governance-plan.mjs",
+        "scripts/docs/enrich-ops-governance-plan.mjs",
+        "scripts/docs/finalize-ops-governance-plan.mjs"
+      ],
+      "historyBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}
