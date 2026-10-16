@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { lstatSync } from 'node:fs'
+import { lstatSync, realpathSync } from 'node:fs'
 import { dirname, isAbsolute, resolve } from 'node:path'
 import { decodeTerminalUtf8, terminalFailure, terminalLimits } from './terminal-json.mjs'
 
@@ -61,7 +61,8 @@ const text = (root, args, limit = 4096) => {
 }
 
 export function discoverTerminalRepository(cwd) {
-  const directory = resolve(cwd)
+  // A caller may use a directory alias; namespace parents and leaves retain their own no-follow checks.
+  const directory = realpathSync(resolve(cwd))
   const stat = lstatSync(directory)
   if (!stat.isDirectory()) throw terminalFailure('git', 'caller directory required')
   const result = run(directory, ['rev-parse', '--show-toplevel'], 16_384)

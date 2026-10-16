@@ -1064,3 +1064,62 @@ for (const path of ['scripts/docs/check.mjs', 'scripts/quality/lint-zero.mjs'])
     if (args.length) assert.deepEqual(JSON.parse(clean.stdout).issues, [])
     else assert.match(clean.stdout, /lint: PASS .*0 errors \/ 0 warnings \/ 0 infos/)
   })
+
+test('public runLintZero directory-alias cwd keeps the legal caller and checks real namespace bytes', (t) => {
+  const fixture = entryFixture(t)
+  const alias = join(temporary(t), 'public-cwd-alias')
+  symlinkSync(fixture.root, alias, 'dir')
+  const physical = runLintZero(fixture.root)
+  const aliased = runLintZero(alias)
+  for (const result of [physical, aliased]) {
+    assert.ok(result.report.summary.unchanged > 0)
+    for (const field of [
+      'errors',
+      'warnings',
+      'infos',
+      'skipped',
+      'changed',
+      'diagnosticsNotPrinted',
+    ])
+      assert.equal(result.report.summary[field], 0, field)
+  }
+  assert.equal(physical.ok, true, JSON.stringify(physical))
+  assert.equal(aliased.ok, true, 'a legal public cwd alias must match the clean physical caller')
+  assert.deepEqual(aliased.namespace, physical.namespace)
+  put(fixture.root, fixture.path, 'NOT_GZIP')
+  for (const cwd of [fixture.root, alias]) {
+    const result = runLintZero(cwd)
+    assert.equal(result.ok, false)
+    assert.ok(result.namespace.issues.some((issue) => issue.code === 'TERMINAL_FRAMING'))
+    assert.equal(
+      result.report.summary.errors + result.report.summary.warnings + result.report.summary.infos,
+      0,
+    )
+  }
+  unlinkSync(join(fixture.root, fixture.path))
+  assert.equal(runLintZero(alias).ok, true)
+})
+
+test('unresolvable public cwd aliases fail explicitly instead of taking the nonGit exception', (t) => {
+  const parent = temporary(t)
+  const cycle = join(parent, 'cycle-a')
+  symlinkSync('cycle-b', cycle)
+  symlinkSync('cycle-a', join(parent, 'cycle-b'))
+  const missing = join(parent, 'missing-alias')
+  symlinkSync('missing-target', missing)
+  for (const [cwd, code] of [
+    [cycle, 'ELOOP'],
+    [missing, 'ENOENT'],
+  ]) {
+    const result = runLintZero(cwd)
+    assert.equal(result.ok, false)
+    assert.equal(result.namespace.status, 'format-rejected')
+    assert.ok(
+      result.namespace.issues.some((issue) => issue.code === code),
+      JSON.stringify(result),
+    )
+    assert.equal(result.namespace.approvalChecked, false)
+    assert.equal(result.namespace.currentChecked, false)
+    assert.equal(result.namespace.completeChecked, false)
+  }
+})
