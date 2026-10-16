@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r70-ops-evidence-readmes-20261017",
+  "kind": "R70 ops evidence Markdown",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+  "scope": {
+    "documents": 5,
+    "docTypes": {
+      "evidence-receipt": 10
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+      "sourceSha256": "0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60",
+      "afterSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+      "sourceSha256": "1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905",
+      "afterSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "sourceSha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+      "afterSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "sourceSha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+      "afterSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "sourceSha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+      "afterSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    }
+  ]
+}

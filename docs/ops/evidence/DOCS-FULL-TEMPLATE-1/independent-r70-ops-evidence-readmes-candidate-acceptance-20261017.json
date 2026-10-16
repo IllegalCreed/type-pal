@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r70-ops-evidence-readmes-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 5,
+    "readAndChecked": 5,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R70-B01",
+      "count": 5,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 5 evidence Markdown documents preserve source/after SHA, quote inverse and historical boundaries."
+    },
+    {
+      "id": "R70-B02",
+      "count": 5,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree for all 5 documents; no runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "summaryChecks": {
+    "all5": true,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (894 documents; content-reviewed 894)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 821 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7980 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 894/894; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4316 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+      "afterSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+      "afterSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "afterSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "afterSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "afterSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    }
+  ]
+}

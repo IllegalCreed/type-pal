@@ -1,0 +1,684 @@
+{
+  "schemaVersion": 1,
+  "id": "r70-ops-evidence-readmes-20261017",
+  "reviewer": "Codex root full-text ops evidence migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R70: historical ops evidence/review Markdown uses evidence-receipt-v1 plus archive-record-v1 overlay; preserve source bytes, task/consumer links and execution boundaries. No execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r70_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36"
+        }
+      ],
+      "sourceSha256": "0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60",
+      "afterSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+      "publicCallers": ["docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md"]
+      },
+      "revision": {
+        "currentSha": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+        "implementationSha": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+        "history": [
+          {
+            "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R70 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60",
+        "candidateSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+        "afterSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+        "lineCount": 131,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 7713,
+          "sourceLines": 74,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R70 ops evidence receipt migration",
+          "reviewer": "r70_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-131",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+      "candidateSha256": "7ddcf579ac85a94d53e59d382810b4aeb9a14883f5e0bbb278a9f66180c6bc48",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "sha256": "0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R70-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r70_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36"
+        }
+      ],
+      "sourceSha256": "1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905",
+      "afterSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+      "publicCallers": ["docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+        "implementationSha": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+        "history": [
+          {
+            "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R70 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905",
+        "candidateSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+        "afterSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+        "lineCount": 104,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4590,
+          "sourceLines": 47,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R70 ops evidence receipt migration",
+          "reviewer": "r70_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-104",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+      "candidateSha256": "8e5f6915ba6e593b5fd362fae4256db1a341fdd9c589746a3b02c23388835904",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "sha256": "1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R70-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "GAME-RIX-MUSIC-1 验证证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/game-rix-music-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "GAME-RIX-MUSIC-1 验证证据",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r70_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36"
+        }
+      ],
+      "sourceSha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+      "afterSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+      "publicCallers": ["docs/ops/evidence/game-rix-music-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/game-rix-music-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/game-rix-music-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+        "implementationSha": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+        "history": [
+          {
+            "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R70 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+        "candidateSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+        "afterSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+        "lineCount": 113,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 9297,
+          "sourceLines": 56,
+          "sourceFinalNewline": true,
+          "inverseSha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R70 ops evidence receipt migration",
+          "reviewer": "r70_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-113",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+      "candidateSha256": "babc41d369cef97a8320fe0ba65a967d28beb503163d090bbd9960358771d3a2",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/game-rix-music-1/README.md",
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "sha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R70-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "第一阶段工具面板：控件规范与复核（2026-10-15）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/game-rix-music-1/tools-style-audit.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "第一阶段工具面板：控件规范与复核（2026-10-15）",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r70_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36"
+        }
+      ],
+      "sourceSha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+      "afterSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+      "publicCallers": ["docs/ops/evidence/game-rix-music-1/tools-style-audit.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/game-rix-music-1/tools-style-audit.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/game-rix-music-1/tools-style-audit.md"]
+      },
+      "revision": {
+        "currentSha": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+        "implementationSha": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+        "history": [
+          {
+            "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R70 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+        "candidateSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+        "afterSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+        "lineCount": 96,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4393,
+          "sourceLines": 39,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R70 ops evidence receipt migration",
+          "reviewer": "r70_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-96",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+      "candidateSha256": "33bcf860f5e37caa53db84440fc9cd1d055f612f07d57ece043b829ef5966ea7",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "sha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R70-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "酒剑仙传功后场景恢复证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/game-rng-scene-restore-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "酒剑仙传功后场景恢复证据",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r70_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36"
+        }
+      ],
+      "sourceSha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+      "afterSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+      "publicCallers": ["docs/ops/evidence/game-rng-scene-restore-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/game-rng-scene-restore-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+        "implementationSha": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+        "history": [
+          {
+            "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R70 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r70-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+        "candidateSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+        "afterSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+        "lineCount": 148,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 8126,
+          "sourceLines": 91,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R70 ops evidence receipt migration",
+          "reviewer": "r70_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-148",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+      "candidateSha256": "759160529b2cccd8d37344ade597f4d9bc41149f90c1ab2bf27f26b5d04ce56f",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+          "revision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+          "sha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "381cab90f8d6cc26171bd4bc8c2b025c15bc6f36",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R70-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

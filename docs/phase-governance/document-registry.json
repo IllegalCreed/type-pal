@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 889,
+    "total": 894,
     "byPhase": {
-      "ops": 514,
+      "ops": 519,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -21,7 +21,7 @@
       "archive-record": 33,
       "audit-report": 59,
       "governance-index": 103,
-      "evidence-receipt": 95,
+      "evidence-receipt": 100,
       "design-spec": 37,
       "task-card": 361,
       "quality-gate": 1,
@@ -36,10 +36,10 @@
       "test-catalog": 2
     },
     "reviewStatus": {
-      "content-reviewed": 889
+      "content-reviewed": 894
     },
     "templateCompliance": {
-      "template-compliant": 887,
+      "template-compliant": 892,
       "governed-legacy": 2
     }
   },
@@ -11664,6 +11664,71 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261017-r69-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
+      "historyOverlay": true,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r70-ops-evidence-readmes.json",
       "historyOverlay": true,
       "artifactOnly": false
     }

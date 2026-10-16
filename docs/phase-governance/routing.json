@@ -4000,6 +4000,31 @@
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
