@@ -986,3 +986,8 @@ Branch: codex/docs-full-template-proposal
 - [HTML格式设计](../../phase-governance/reviews/20261016-historical-static-html-design.md)及[完整原稿/首counter/后继独立设计审](../../phase-governance/reviews/20261016-historical-static-html.json)固定17类型、未来archive1.1/唯一HTML变体；原51及C3后继195项design agree，仅设计无代码/pilot接受。原3 HTML共811与其它12host、未知原作者/日期、v2CSS无DOM、place占位与July1历史边界不变。
 - 只准html_contract_refinement在根新建managed树以冻结commit写package.json/pnpm-lock.yaml/docs.yml三路径，直接精确parse5与full-history/frozeninstall/Node22.23.2/pnpm10.29.2前提；不得写helper、模板、registry、HTML、旧tests、产品、coverage或其它CI。代码六路径/三pending库存/后继版本白名单/actor-v2 pilot均须前阶段真实独立接收后另准，不逐批问用户。
 - 代码库存先实际接收commit，再从稳定后继动态重核68/62/138观察及所有新增current，保第9README完整prior/镜像；MD/JSON/F1同步无依赖caller不变，三HTML真实joint/source/DOM/CSS/links门不放宽。设计/控制新增文件仅pending增量，0迁移信用；全量继续build。
+
+#### 设计准入首全门失败保留；目录入口窄修
+
+- 首6路径候选5b25a9328512d4831a9720128617b442fd5595cd/tree6cdbe641保完整字节；真实docs120/120后因reviews README缺两新设计入口报2项，链内model/testing/phase当次未继续执行。独立strict733/progress245+5/current1990pending1740/diff0；lint真实4122 EWI0，根先前转述4124已据raw纠正，失败未洗成首绿。
+- 目录README全文49行已读，实际不在registry、没有current记录；不造签字/迁移。仅补两设计和Q/A8接入导航、把旧N三篇/余六pending摘要改指九篇唯一n6RootIntake，其余旧行和日期精确保留。完整旧页在655b Git，维护与首失败唯一见L4 control.rootIndexMaintenance/firstRootAdmissionFailure；后继7路径/实际零门及非作者窄修接收另验。两正文/代码Owner尚未获新树指令，未实际开写。

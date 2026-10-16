@@ -3072,5 +3072,402 @@
     "status": "design freeze and scoped build admission only; future real candidates/current integration require independent acceptance",
     "actualAcceptance": null
   },
-  "stopLine": "No source/pilot/canon/product/runtime/visual/coverage/whole1838 completion credit; all new design/control/native files pending increments, no self-sign or afterSHA cycle."
+  "stopLine": "No source/pilot/canon/product/runtime/visual/coverage/whole1838 completion credit; all new design/control/native files pending increments, no self-sign or afterSHA cycle.",
+  "rootIndexMaintenance": {
+    "scope": "Necessary navigation maintenance, not full index template migration or a new reviewed entry",
+    "path": "docs/phase-governance/reviews/README.md",
+    "completePrior": {
+      "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "path": "docs/phase-governance/reviews/README.md",
+      "gitObject": "a9a38dc3793f8f8d4f2078a4798adbbc84a7cfb6",
+      "fileSha256": "a33dad58e216aaa9e497ea3a9d84b74e869cfbdaae40bcb89c8b14adf23f8bd3",
+      "completeSourceBytesPreservedInReachableGit": true
+    },
+    "sourceSha256": "a33dad58e216aaa9e497ea3a9d84b74e869cfbdaae40bcb89c8b14adf23f8bd3",
+    "afterSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+    "sourceLines": 49,
+    "afterLines": 54,
+    "reading": "Entire existing49-line README freshly read; source/current JSON controls used for exact N9/Q/A8 navigation scopes. All other prose/links/old F1 duplicate retained unchanged; no full historic raw artifact re-review claimed.",
+    "delta": {
+      "addedDesignLinks": 2,
+      "addedReceiptLinks": 2,
+      "NObsoletePendingSummaryReplacedByCanonicalEventLink": true,
+      "otherExistingLinesExact": true
+    },
+    "registeredCurrentReviewExists": false,
+    "templateMigrationPerformed": false,
+    "migrationCredit": 0,
+    "canonicalAdmissionVerdict": "L4 rootIntake / HTML rootIntake only at separately accepted exact successor; this index is navigation and remains pending."
+  },
+  "firstRootAdmissionFailure": {
+    "candidateCommit": "5b25a9328512d4831a9720128617b442fd5595cd",
+    "candidateTree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1",
+    "manifest": {
+      "path": "/tmp/type-pal-l4-html-freeze-manifest-20261016.json",
+      "sha256": "9d93e58aea3123a44559b1684935bc6507e897e9f31b20321179c2474c3a9a5f",
+      "bytes": 1805,
+      "lines": 43
+    },
+    "gates": {
+      "path": "/tmp/type-pal-l4-html-freeze-gates-20261016.json",
+      "sha256": "8fa128897aa80149597f38b6e8c060deea2962b94938524eb40ef3d6ce14c173",
+      "bytes": 3031,
+      "lines": 100,
+      "completeGateReport": {
+        "manifest": {
+          "path": "/tmp/type-pal-l4-html-freeze-manifest-20261016.json",
+          "sha256": "9d93e58aea3123a44559b1684935bc6507e897e9f31b20321179c2474c3a9a5f",
+          "tree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1"
+        },
+        "results": [
+          {
+            "name": "docs",
+            "argv": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 1,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 45.417,
+            "log": {
+              "path": "/tmp/type-pal-l4-html-freeze-gate-docs-20261016.log",
+              "sha256": "97a9cb7486204258fd4e6239f1f8094344073754e595e8f56bed8ba127bb758b",
+              "bytes": 29458
+            }
+          },
+          {
+            "name": "lint",
+            "argv": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 2.32,
+            "log": {
+              "path": "/tmp/type-pal-l4-html-freeze-gate-lint-20261016.log",
+              "sha256": "6c19a1e089851ef0d81b237aabc5bf0ac6c1891a7610d6eb86ee2df974ab876c",
+              "bytes": 201
+            }
+          },
+          {
+            "name": "diff",
+            "argv": ["git", "diff", "655b8c687cb3e568c85fa53084d503e40b845e6a", "--check"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 0.023,
+            "log": {
+              "path": "/tmp/type-pal-l4-html-freeze-gate-diff-20261016.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            }
+          },
+          {
+            "name": "strict",
+            "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 0.135,
+            "log": {
+              "path": "/tmp/type-pal-l4-html-freeze-gate-strict-20261016.log",
+              "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+              "bytes": 63
+            }
+          },
+          {
+            "name": "progress",
+            "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 1.278,
+            "log": {
+              "path": "/tmp/type-pal-l4-html-freeze-gate-progress-20261016.log",
+              "sha256": "acd214a00434dedfb1be390e01f0b1bdee096f768a3dead53aa7e0e6d0c7d119",
+              "bytes": 80160
+            }
+          }
+        ],
+        "frozenInputsUnchanged": true,
+        "limits": "Design/admission/writeback only; root metadata needs distinct scoped nonauthor review. Zero migrated body, HTML format/code not implemented/published; future work not accepted."
+      }
+    },
+    "actualFailure": "120/120 old/new docs-tool tests passed; docs then rejected precisely missing two design links in directory reviews README. Subsequent model/testing/phase CLI stages in this pnpm chain were not executed. Separate strict733/progress245+5/current1990pending1740/diff passed; lint4122 E/W/I0.",
+    "transcriptionCorrection": "Root initial message incorrectly predicted lint4124 before reading raw; actual raw4122 retained. Root initially assumed index had current registry record and introspection TypeError showed none; no fake record created.",
+    "resolutionScope": "Only navigation and truthful history/current metadata; no rule/ignore/test change or corpus migration. First full six-path candidate retained in actual5b25 Git, not replaced by new snapshot.",
+    "independentCounter": {
+      "path": "/tmp/type-pal-l4-root-freeze-first-independent-review-20261016.json",
+      "sha256": "fa0950cacc09ef403762a1566af3c4980f306abdeeb565473600091850baa915",
+      "completeReport": {
+        "kind": "independent-L4-first6-root-design-freeze-and-scope-review-with-real-sharedgate-counter",
+        "date": "2026-10-16",
+        "reviewer": "n6_intake_review (non-author of rootfreeze)",
+        "verdict": "counter-shared-docs-gate",
+        "L4DesignAndAdmissionSemantics": "agree; no additional semantic counter",
+        "acceptedRootSnapshot": false,
+        "pilotBuildDispatchAccepted": false,
+        "sourceOrPilotAccepted": false,
+        "migrationCredit": 0,
+        "repositoryWrites": 0,
+        "base": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+        "frozenTree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1",
+        "manifest": {
+          "path": "/tmp/type-pal-l4-html-freeze-manifest-20261016.json",
+          "sha256": "9d93e58aea3123a44559b1684935bc6507e897e9f31b20321179c2474c3a9a5f",
+          "bytes": 1805,
+          "lines": 43
+        },
+        "completeManifest": {
+          "kind": "A8 actual reception writeback plus L4 characters-only/HTML bootstrap-only design freeze; zero body migrations",
+          "base": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "tree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1",
+          "paths": [
+            {
+              "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+              "sha256": "7219dad042699e868c7597262132457eb3018e7fd6234e3de6b3cab4234efd58",
+              "gitObject": "7f0b78eb49dec0c6ead5c5384fd120457b7ac42d",
+              "bytes": 202092
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
+              "sha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
+              "gitObject": "087d112cf9e911cbb01ea6038d3152fb7847f8cd",
+              "bytes": 65333
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-historical-static-html.json",
+              "sha256": "c6135a1d73f6c22c46d6e8407ba164fa2bd04bc5607f070159d6b352208b13dc",
+              "gitObject": "dc056be1b6c36719ff4a301a29f714d194879a3d",
+              "bytes": 228844
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+              "sha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+              "gitObject": "d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf",
+              "bytes": 28289
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+              "sha256": "7c12f69c869fd5dd1dce9d97b97227c3c5e57701c023038ee4ac400175d50d5e",
+              "gitObject": "96e096703ec74745bbdcf90253dc337e4219f9d2",
+              "bytes": 196780
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-terminal-a8.json",
+              "sha256": "055b7448d904dab9ef2646c1265c3f42217105c1d078e0ba71879a807c30e5f3",
+              "gitObject": "a0f7852a6105a10bc36706b7e22dce94b8b3bf20",
+              "bytes": 95554
+            }
+          ]
+        },
+        "actualGates": {
+          "path": "/tmp/type-pal-l4-html-freeze-gates-20261016.json",
+          "sha256": "8fa128897aa80149597f38b6e8c060deea2962b94938524eb40ef3d6ce14c173",
+          "bytes": 3031,
+          "lines": 100
+        },
+        "completeGateReport": {
+          "manifest": {
+            "path": "/tmp/type-pal-l4-html-freeze-manifest-20261016.json",
+            "sha256": "9d93e58aea3123a44559b1684935bc6507e897e9f31b20321179c2474c3a9a5f",
+            "tree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1"
+          },
+          "results": [
+            {
+              "name": "docs",
+              "argv": ["pnpm", "check:docs"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 1,
+              "signal": null,
+              "timedOut": false,
+              "elapsedSeconds": 45.417,
+              "log": {
+                "path": "/tmp/type-pal-l4-html-freeze-gate-docs-20261016.log",
+                "sha256": "97a9cb7486204258fd4e6239f1f8094344073754e595e8f56bed8ba127bb758b",
+                "bytes": 29458
+              }
+            },
+            {
+              "name": "lint",
+              "argv": ["pnpm", "lint"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "elapsedSeconds": 2.32,
+              "log": {
+                "path": "/tmp/type-pal-l4-html-freeze-gate-lint-20261016.log",
+                "sha256": "6c19a1e089851ef0d81b237aabc5bf0ac6c1891a7610d6eb86ee2df974ab876c",
+                "bytes": 201
+              }
+            },
+            {
+              "name": "diff",
+              "argv": ["git", "diff", "655b8c687cb3e568c85fa53084d503e40b845e6a", "--check"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "elapsedSeconds": 0.023,
+              "log": {
+                "path": "/tmp/type-pal-l4-html-freeze-gate-diff-20261016.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              }
+            },
+            {
+              "name": "strict",
+              "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "elapsedSeconds": 0.135,
+              "log": {
+                "path": "/tmp/type-pal-l4-html-freeze-gate-strict-20261016.log",
+                "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+                "bytes": 63
+              }
+            },
+            {
+              "name": "progress",
+              "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "elapsedSeconds": 1.278,
+              "log": {
+                "path": "/tmp/type-pal-l4-html-freeze-gate-progress-20261016.log",
+                "sha256": "acd214a00434dedfb1be390e01f0b1bdee096f768a3dead53aa7e0e6d0c7d119",
+                "bytes": 80160
+              }
+            }
+          ],
+          "frozenInputsUnchanged": true,
+          "limits": "Design/admission/writeback only; root metadata needs distinct scoped nonauthor review. Zero migrated body, HTML format/code not implemented/published; future work not accepted."
+        },
+        "accurateReadScope": {
+          "fresh": "Full new L4design263lines, complete nonembeddedcontrol fields/sourceDocuments/firstPilot/continuation/rootOnlyIntake/matrixQwhole/MDrow/rootIntake/rootReadingScope/stop; exact task12line append and surrounding predecessor; all first rawdocs743/lint5/strict1/diff0/progressreport1784 via actualpin/semanticfields and completeTAP testnames+counts read. Runner inspected only toidentify shared scope/command chain, notrun.",
+          "mechanicalFullReuse": "Embedded completev2MD230 exactly heading-demoted, structuredJSON2081 deepEqual, originalcompletefirst796 andclosure248 reports deepEqual inclpins/errors; exact complete30/30/30/31current priors/registry/catalog at655b vsfixedsource; no fresh1578fullsource read claim or parent2081fullhuman claim.",
+          "priorSemanticEvidence": [
+            {
+              "path": "/tmp/type-pal-l4-independent-design-review-20261016.json",
+              "sha256": "34740737ac41f7574b1be9e54b030431243d92bf5dc7c0710e96bfe878022f98",
+              "bytes": 39717,
+              "lines": 796
+            },
+            {
+              "path": "/tmp/type-pal-l4-independent-design-closure-20261016.json",
+              "sha256": "057cc4b785d33cff348c48912545c13829ac44f32d4897ec610c4172985f7fa1",
+              "bytes": 13513,
+              "lines": 248
+            }
+          ],
+          "outOfScope": "A8newcontrol.signoff semantics and HTML2newdesign/control ownregistration/bootstrap logic handled by other independentseat; only sharedtask nooverreach and whole6actualgate pins checked here. Not newA8code/sourceorHTMLimplementation accept."
+        },
+        "L4SemanticFindings": [
+          "Original4source1578samec3bb/655b/current; actual prior30/30/30/31 incltimelineOct11 equal realGit/blob/wholeSHA/unique selector, registry/catalog currentobjects exact.17types/version frozenunchanged.",
+          "Only q_remaining_guides conditionalafterexactcommittedfreeze+newmanagedtree writescharacters+one17top/43receipt2paths. No dispatchbeforerootexactacceptance/commit; remainingbrainstorm/beat/timeline explicitnotbuilduntilpriorpilotaccepted+rootassigns. No selfnewcurrent/receipt completion;entriesempty/migration0.",
+          "Characters/bodycandidate versuscatalogdraft remain separate, unknownoriginalowner notbackfilled. 16conflicts/explicitauthor/history/006publication axes/C12 original3vsfixedcaller2worldunknown and allalternatives preserved fullproposalexact. BothGFM repairs separate104→105/59→58, no netcountlossproof.",
+          "Future rootmatrix narrowedtoexistingLoreonly40rows/other39wholeJSONandMDlocked, Qcompleteobject/MD63hash040710 exact. Secondrow needsrootfreezenamedID beforechange; originalwideproposal is clearlyfixedhistory, currentfivechapterscontrol narrowit. Dynamicfutureacceptedbase reenumeration retained.",
+          "All4current source transfer/routes/catalog changes only future perdocaccepted rootintake; sourcewritercannotsharedledger/scripts/product/oldtests/coverage. Newdesign/control are pendingincrement0migration, no full1838/runtime/visual/canoncompletion.",
+          "Taskappendonly retainsprior bytes, pointsA8acceptedpredecessor root event withoutgrantB/C0/C1 or codequalitystatus; L4only2path candidate, HTMLonly3bootstrap alternativeowner notL4writer. A8/HTMLownsemantics not signedbythisreport."
+        ],
+        "independentObserver": {
+          "report": {
+            "path": "/tmp/type-pal-l4-root-freeze-first-observer-20261016.json",
+            "sha256": "462ef4936c96b0c06ecd2ba7b08aa2d6da006f4fc6bf50c1425d7069041d1ebd",
+            "bytes": 6251,
+            "lines": 233
+          },
+          "checks": 55,
+          "issues": [],
+          "notWholeRootAcceptance": true
+        },
+        "blockingCounters": [
+          {
+            "id": "L4-FREEZE-SHARED-INDEX-1",
+            "scope": "realsharedrootdocsqualitygate; two directoryindex diagnostics, no source content bug",
+            "actual": "pnpmcheck:docs exits1 after120testsallpass; docschecker requires reviewsREADME links for new L4design and HTMLdesign. ModelCLI/testing/phase chain afterwards notexecuted because && shortcircuit.",
+            "diagnostics": [
+              "docs/phase-governance/reviews/README.md:1: 目录索引未链接：20261016-historical-static-html-design.md",
+              "docs/phase-governance/reviews/README.md:1: 目录索引未链接：20261016-lore-remaining-l4-design.md"
+            ],
+            "repairPrerequisite": "Preserve first6tree/manifest/rawgates/report asfailure. Read actual reviewsREADME and registry before narrowadd; fixed655b registryhaszeroREADMEcurrent, so do not invent currentmaintenance. README remainspending0migration with fullrealGitprior source; root mayfreeze exactsuccessor7scope and rerunall5zeroEWI, then independentnewdelta/manifestclosure.",
+            "noApproval": "First6tree not accepted; no firstwholegatepass or livepilotdispatch credit."
+          }
+        ],
+        "actualFirstGateFindings": {
+          "docs": {
+            "exit": 1,
+            "timedOut": false,
+            "seconds": 45.417,
+            "toolTests": 120,
+            "toolPass": 120,
+            "toolFail": 0,
+            "markdown": 1232,
+            "localLinks": 8060,
+            "tasks": 361,
+            "content": 22,
+            "SAVE": 12,
+            "indexIssues": 2,
+            "laterModelTestingPhaseCLIRan": false
+          },
+          "lint": {
+            "exit": 0,
+            "files": 4122,
+            "errors": 0,
+            "warnings": 0,
+            "infos": 0,
+            "correction": "Parentearlier4124 wasunreadprojection; raw4122 governsfirstsnapshot. Futureactualcounts separate."
+          },
+          "strict": {
+            "exit": 0,
+            "documents": 733
+          },
+          "diff": {
+            "exit": 0,
+            "stdoutBytes": 0
+          },
+          "progress": {
+            "exit": 0,
+            "approvedCohort": 1838,
+            "cohortMigrated": 245,
+            "incrementalMigrated": 5,
+            "currentCandidates": 1990,
+            "currentPending": 1740,
+            "issues": []
+          },
+          "frozenInputsUnchanged": true,
+          "logsAllActualSHABytesVerified": true,
+          "gateCommandsRunByRootNotThisReviewer": true
+        },
+        "protection": {
+          "fixedFirstTreeStillReachable": true,
+          "rootObservedHead": "5b25a9328512d4831a9720128617b442fd5595cd",
+          "rootStatusObserved": [
+            " M docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            " M docs/phase-governance/reviews/20261016-historical-static-html.json",
+            " M docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+            " M docs/phase-governance/reviews/README.md"
+          ],
+          "reviewerRepoWrites": 0,
+          "mainClean": true,
+          "scopeCaveat": "Parentmayprotectfirstcandidateasdraftcommitthenrepair7paths; reportpinsimmutablefirsttree rather than claimingcurrentdirtytreeaccepted."
+        },
+        "nextStep": "Root retains firstfailedsnapshot and correct4122 count; freezes narrowREADME/control failurehistory successor7actualbytes and runsall5gates. Independentclosure reusesexactunchangedL4semanticfields but inspectsnewdelta/prior/gatepins; no recursive source reread or userbatch confirmation needed. No rootdone/main/migration acceptance."
+      }
+    },
+    "completePriorControl": {
+      "revision": "5b25a9328512d4831a9720128617b442fd5595cd",
+      "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+      "gitObject": "96e096703ec74745bbdcf90253dc337e4219f9d2",
+      "fileSha256": "7c12f69c869fd5dd1dce9d97b97227c3c5e57701c023038ee4ac400175d50d5e",
+      "selection": "whole top-level JSON file; full independent embedded priors/history retained"
+    }
+  }
 }

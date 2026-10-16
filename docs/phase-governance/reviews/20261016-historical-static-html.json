@@ -554,5 +554,23 @@
     "status": "design freeze only; actual bootstrap/code/version/pilot source and central intake remain unaccepted",
     "actualAcceptance": null
   },
-  "stopLine": "No HTML migration/completion/visual/accessibility/runtime/E2E/coverage credit, no B/fullT/current/complete terminal approval. Full goal incomplete. Canonical raw3 remain exact and all new docs increments pending."
+  "stopLine": "No HTML migration/completion/visual/accessibility/runtime/E2E/coverage credit, no B/fullT/current/complete terminal approval. Full goal incomplete. Canonical raw3 remain exact and all new docs increments pending.",
+  "firstRootAdmissionFailure": {
+    "canonicalCompleteFailure": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json firstRootAdmissionFailure",
+    "candidateCommit": "5b25a9328512d4831a9720128617b442fd5595cd",
+    "candidateTree": "6cdbe641ae55c79926dc2f97c2f503d1348c71b1",
+    "gates": {
+      "path": "/tmp/type-pal-l4-html-freeze-gates-20261016.json",
+      "sha256": "8fa128897aa80149597f38b6e8c060deea2962b94938524eb40ef3d6ce14c173",
+      "bytes": 3031,
+      "lines": 100
+    },
+    "scope": "Same actual two index omissions; source contracts and stageA three-path whitelist unchanged. Current patched acceptance pending exact successor independent review."
+  },
+  "indexMaintenance": {
+    "canonical": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json rootIndexMaintenance",
+    "path": "docs/phase-governance/reviews/README.md",
+    "afterSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+    "scope": "Navigation only, zero full README or HTML migration credit."
+  }
 }

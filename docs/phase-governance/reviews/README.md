@@ -41,9 +41,14 @@
 
 - [P11 第二阶段导航冻结设计](20261016-phase2-navigation-p-design.md)：11篇真实202行按现用导航绑定既有governance-index1.0；10旧错类型/7归档导航状态轴待正文接收后根更正，历史targets和3HTML不冒完成；精确12作者写域按任务卡和真实新基点。
 
-- [Lore 三篇逐篇接入](20261016-lore-reference-n.json)：固定c7d原文/新正文/完整回执获非作者接收；dbacf根接入已获独立接收；余六仅按任务卡新准入做候选，官设未核与项目约束分轴。
+- [Lore 九篇逐篇接入](20261016-lore-reference-n.json)：前三篇与后六篇各保固定source/完整回执及独立接收记录；当前根接入结论唯一见该记录的 n6RootIntake，官设未核与项目约束分轴。
 
 - [Phase2 十一导航逐篇接入](20261016-phase2-navigation-p.json)：固定121ff真实源/正文/回执获非作者接收，根类型/七导航状态/路由/实际投影另验；不升格历史目标或HTML。
 
 - [Q作者指南冻结设计](20261016-phase2-guides-q-design.md)：现有guide-runbook，先publication一篇canonical pilot，其他五篇待接收；未知UI/保存/DFS不冒完成。
 - [A8格式与namespace冻结设计](20261016-terminal-a8-design.md)：只准独立codec/结构/physical质量门八文件；B/C0/C1仍counter，不授T/完整批准。
+
+- [L4 四篇 Lore 冻结设计](20261016-lore-remaining-l4-design.md)：仅首characters加native两路径pilot准入；后续逐篇另依实际独立接收，设计自身pending。
+- [三份静态 HTML 历史原型格式设计](20261016-historical-static-html-design.md)：17类型不增；仅依赖/历史bootstrap三文件前置准入，代码/版本/正文pilot均另验，设计自身pending。
+- [Q 六篇指南逐篇接入](20261016-phase2-guides-q.json)：实际来源、原counter/失败与唯一rootIntake在此；不以作者指南或静态复核授运行信用。
+- [A8 有界格式接入](20261016-terminal-a8.json)：仅source-format-partial及六待核库存；真实批准/current/complete与后继元数据分别验收。
