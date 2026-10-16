@@ -10932,7 +10932,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
-      "afterSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+      "afterSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/event-system.ts",
@@ -11169,7 +11169,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-b-attack-magic-audit",
@@ -11183,7 +11183,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
-      "afterSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+      "afterSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-core.ts",
@@ -11256,7 +11256,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-b-core-audit",
@@ -11270,7 +11270,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
-      "afterSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+      "afterSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/formulas.ts",
@@ -11394,7 +11394,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-b-subsystem-audit",
@@ -11408,7 +11408,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
-      "afterSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+      "afterSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/status.ts",
@@ -11513,7 +11513,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-battle-config-fills-review",
@@ -11527,7 +11527,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
-      "afterSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+      "afterSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/battle-config-fills-review.md",
@@ -11584,7 +11584,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-battle-presentation-audit-2026-07-05",
@@ -11598,7 +11598,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
-      "afterSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+      "afterSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
@@ -11658,7 +11658,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-c-menu-audit",
@@ -11672,7 +11672,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
-      "afterSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+      "afterSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu-state.ts",
@@ -11914,7 +11914,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-ec-data-audit",
@@ -11928,7 +11928,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
-      "afterSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+      "afterSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/event-system.ts",
@@ -12111,7 +12111,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-editor-audit-2026-07-05",
@@ -12125,7 +12125,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
-      "afterSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+      "afterSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
@@ -12182,7 +12182,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-editor-authoring-closure-audit-2026-07-13",
@@ -12196,7 +12196,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
-      "afterSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+      "afterSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
       "sourceRefs": [
         {
           "path": "packages/editor/src/core/seed.ts",
@@ -12347,7 +12347,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-editor-modernization-follow-up-2026-08-14",
@@ -12361,7 +12361,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
-      "afterSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+      "afterSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
@@ -12418,7 +12418,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-editor-ui-audit-2026-08-15",
@@ -12432,7 +12432,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
-      "afterSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+      "afterSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
       "sourceRefs": [
         {
           "path": "packages/editor/scripts/audit-legacy-controls.mjs",
@@ -12489,7 +12489,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-engine-debt-audit",
@@ -12503,7 +12503,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
-      "afterSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+      "afterSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/engine-debt-audit.md",
@@ -12560,7 +12560,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-n-dialog-text-audit",
@@ -12574,7 +12574,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
-      "afterSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+      "afterSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
       "sourceRefs": [
         {
           "path": "packages/game/src/present/dialog-box.ts",
@@ -12666,7 +12666,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-n-event-script-audit",
@@ -12680,7 +12680,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
-      "afterSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+      "afterSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/event-system.ts",
@@ -12745,7 +12745,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-n1-dialogue-migration-audit",
@@ -12759,7 +12759,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
-      "afterSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+      "afterSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
@@ -12816,7 +12816,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-phase1-audit-tracker",
@@ -12830,7 +12830,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
-      "afterSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+      "afterSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
       "sourceRefs": [
         {
           "path": "docs/phase2/READ-FIRST.md",
@@ -12884,7 +12884,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-readme",
@@ -13068,7 +13068,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
-      "afterSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+      "afterSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
       "sourceRefs": [
         {
           "path": "docs/phase2/archive/audits/script-census.md",
@@ -13125,7 +13125,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-w-font-palette-audit",
@@ -13139,7 +13139,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
-      "afterSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+      "afterSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
       "sourceRefs": [
         {
           "path": "packages/game/src/present/font.ts",
@@ -13316,7 +13316,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-w-render-audit",
@@ -13330,7 +13330,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
-      "afterSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+      "afterSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
       "sourceRefs": [
         {
           "path": "packages/game/src/present/draw-tilemap.ts",
@@ -13403,7 +13403,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-x-shell-audit",
@@ -13417,7 +13417,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
-      "afterSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+      "afterSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/bootstrap.ts",
@@ -13585,7 +13585,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-audits-x3-scene-entry-migration-audit",
@@ -13599,7 +13599,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
-      "afterSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+      "afterSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
       "sourceRefs": [
         {
           "path": "packages/migrate/src/scene-entry-product.test.ts",
@@ -13656,7 +13656,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase2-archive-designs-actor-model-design",

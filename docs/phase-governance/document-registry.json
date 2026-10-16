@@ -19,15 +19,15 @@
     "byType": {
       "guide-runbook": 14,
       "archive-record": 13,
-      "audit-report": 65,
+      "audit-report": 61,
       "evidence-receipt": 49,
       "design-spec": 41,
       "governance-index": 99,
       "task-card": 333,
       "quality-gate": 1,
-      "reference-canon": 12,
+      "reference-canon": 13,
       "narrative-idea": 2,
-      "plan-status": 63,
+      "plan-status": 66,
       "test-e2e-stage": 6,
       "test-run-report": 6,
       "test-machine-evidence": 18,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 251,
-      "governed-legacy": 482
+      "template-compliant": 273,
+      "governed-legacy": 460
     }
   },
   "entries": [
@@ -5233,10 +5233,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/b-attack-magic-audit.md",
@@ -5244,10 +5246,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/b-core-audit.md",
@@ -5255,10 +5259,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/b-subsystem-audit.md",
@@ -5266,21 +5272,25 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/battle-config-fills-review.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
@@ -5288,10 +5298,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/c-menu-audit.md",
@@ -5299,10 +5311,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/ec-data-audit.md",
@@ -5310,10 +5324,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
@@ -5321,10 +5337,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
@@ -5332,21 +5350,25 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
@@ -5354,10 +5376,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/engine-debt-audit.md",
@@ -5365,10 +5389,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/n-dialog-text-audit.md",
@@ -5376,10 +5402,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/n-event-script-audit.md",
@@ -5387,10 +5415,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
@@ -5398,21 +5428,25 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/phase1-audit-tracker.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/README.md",
@@ -5430,13 +5464,15 @@
     {
       "path": "docs/phase2/archive/audits/script-census.md",
       "phase": "phase2",
-      "docType": "audit-report",
-      "templateId": "audit-report-v1",
-      "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/w-font-palette-audit.md",
@@ -5444,10 +5480,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/w-render-audit.md",
@@ -5455,10 +5493,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/x-shell-audit.md",
@@ -5466,10 +5506,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
@@ -5477,10 +5519,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase2-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-phase2-audits-r22.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase2/archive/designs/actor-model-design.md",

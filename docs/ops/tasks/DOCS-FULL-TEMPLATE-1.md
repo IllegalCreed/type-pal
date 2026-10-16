@@ -1,7 +1,7 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: build
-Execution: paused（用户要求审完当前批后暂停；阶段未完成，不启动后继）
+Execution: active（用户已要求继续全量治理；R22 独立复核通过后进入正文迁移）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
@@ -1007,3 +1007,13 @@ Branch: codex/docs-full-template-proposal
 - 实际 repaired docs120/120、1232MD/8069links、251body/733strict/184phase/testing0；lint4124 E/W/I0，diff/progress0。基线246/1838+5增量/current1992pending1741，仅局部进度；全量硬验收未满足，任务阶段保持build，绝不标done/main推送或清理需恢复的分支/worktree。
 - 当前唯一裁定按精确AST事实写回L4/HTML rootIntake.actualAcceptance；事实metadata后置门另跑，不声称旧报告签未来source。其余3篇L4、HTML helper/版本/pilot、R22 writer、B/C0/C1都不启动。R22只保已收只读提案，无build/迁移信用。
 - 无下一位 Agent 提示词；按用户请求暂停，等待用户恢复。恢复先读本卡及L4/HTML唯一当前事件，再核clean/fixedSHA和剩余准入；不重做已接受source、不放宽硬门。
+
+
+### 2026-10-17 R22 phase2 历史审计批次
+
+- 独立复核回执：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-review-20261017.json`；非作者覆盖 13/13 指定正文、6682 行、源零漂移，38 条历史冲突，verdict `accept-readonly-proposal`。其边界是只读提案接受，不代替正文迁移验收。
+- 根线程补读剩余 9 篇固定源并依据 `design-table.md` 做逐篇语义迁移。22 篇分类为 audit-report 18、plan-status 3、reference-canon 1，全部加 archive-record 历史 overlay；原日期、状态、数字、冲突、链接和正文逐行 quote 保留。
+- 中央接入：`docs/phase-governance/reviews/20261017-phase2-audits-r22.json`、registry 22 条、routing 22 条、catalog 22 条；不改产品源码、旧测试、coverage，不新增 runtime/E2E/视觉结论。
+- R22 完成条件：22/22 after SHA 与 live bytes 相等；五节模板及五节历史 overlay 有实际内容；source/after、before→after、primary source、合法输入、business oracle、dedupe、counter/rework/blocked、supersedes、stop line、next step 均在 review record。
+- 独立接收回执：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json`（verdict `accept`；22/22；runtime/E2E/视觉/coverage credit=0）。
+- 下一步：独立复核本次 22 篇候选正文、catalog/routing/registry、GFM 链接和全静态门；若发现语义或合同问题返工，不把作者或只读回执自验当 accept。

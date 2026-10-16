@@ -1,0 +1,2870 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-phase2-audits-r22",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R22 full semantic Markdown migration; historical claims remain historical and no runtime credit.",
+  "entries": [
+    {
+      "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史审计证明“架构免疫”不等于行为完备，不能由本文认证当前迁移或 roundtrip。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/am-asset-migrate-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "§8 的 12256→164、12347→103、12408→116 与总览/P0 旧说法并存，按日期和段落分别保留；本轮不重跑。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-am-asset-migrate-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+      "afterSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/am-asset-migrate-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/am-asset-migrate-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+        "implementationSha": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+        "candidateSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+        "afterSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+        "lineCount": 731,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 50260,
+          "sourceLines": 667,
+          "sourceFinalNewline": false,
+          "inverseSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-731",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 667,
+              "rangeSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-05 八单元；证据为原函数锚、阶段实现、迁移器表格和同日修订。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "§8 的 12256→164、12347→103、12408→116 与总览/P0 旧说法并存，按日期和段落分别保留；本轮不重跑。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "0e8714c063d5a007286aaea678720ee8a335b4a7",
+      "candidateSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103"
+    },
+    {
+      "path": "docs/phase2/archive/audits/b-attack-magic-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "保留当时对齐、部分偏离和缺口的分轴；后来 07-05/06 修订只在其日期范围内有效，不推成今日全对齐。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/b-attack-magic-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "后文修复与同期 b-core/subsystem/演出报告旧红项相互指向，必须保持冲突而非择一覆盖。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-b-attack-magic-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+      "afterSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/b-attack-magic-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/b-attack-magic-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+        "implementationSha": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+        "candidateSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+        "afterSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+        "lineCount": 615,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 37120,
+          "sourceLines": 551,
+          "sourceFinalNewline": false,
+          "inverseSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-615",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/b-attack-magic-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 551,
+              "rangeSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-05 四单元；证据为暴击/RNG、敌我减伤、脚本门、special 与 summon/AttackMate 段落。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "后文修复与同期 b-core/subsystem/演出报告旧红项相互指向，必须保持冲突而非择一覆盖。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "8b54053958a5a80db66ddeb0cf948af8c9bdd0d6",
+      "candidateSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/b-core-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "不能用旧表决定当前编译分支；stable-sort 等价和“公式对齐”只保留为原主张。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/b-core-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "正文已修段与文末仍缺队列/puppet 的矛盾必须点名；`审计单元-3回合队列` 作为历史锚保留。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-b-core-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+      "afterSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/b-core-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/b-core-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+        "implementationSha": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+        "candidateSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+        "afterSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+        "lineCount": 623,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 39455,
+          "sourceLines": 559,
+          "sourceFinalNewline": false,
+          "inverseSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-623",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/b-core-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 559,
+              "rangeSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 16c0719e/07-05 四单元，读取 SHORT、Phase、防御、dex 队列和 settlement A–F 证据。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "正文已修段与文末仍缺队列/puppet 的矛盾必须点名；`审计单元-3回合队列` 作为历史锚保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "8742432aef55f1b5d613513b838c7d04d45bf91d",
+      "candidateSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a"
+    },
+    {
+      "path": "docs/phase2/archive/audits/b-subsystem-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "结构免疫与 onReady/confused 缺口是历史判断，不认证当前状态算法。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/b-subsystem-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["“已修”与汇总“丢三条”并存；tick >999 与 v>0→v−1 的文字冲突也保留。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-b-subsystem-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+      "afterSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/b-subsystem-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/b-subsystem-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+        "implementationSha": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+        "candidateSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+        "afterSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+        "lineCount": 327,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 24069,
+          "sourceLines": 263,
+          "sourceFinalNewline": false,
+          "inverseSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-327",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/b-subsystem-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 263,
+              "rangeSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-05/06；证据为状态 tick、puppet/haste/slow、turn8、物理/法术防御、坐标和 0x8A 段落。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["“已修”与汇总“丢三条”并存；tick >999 与 v>0→v−1 的文字冲突也保留。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "f8f2e9c653dcfd87285949ad6553449d08e84a95",
+      "candidateSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/battle-config-fills-review.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "该文档没有替用户决定数值，也不是完成报告；保留计数差异和问号。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/battle-config-fills-review.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["“15”与实际列数、“临时值”与传播结果之间的差异不可归一化。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-battle-config-fills-review",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+      "afterSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/battle-config-fills-review.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/battle-config-fills-review.md",
+          "docs/phase-governance/templates/plan-status.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+        "implementationSha": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+        "candidateSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+        "afterSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+        "lineCount": 97,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 2248,
+          "sourceLines": 35,
+          "sourceFinalNewline": false,
+          "inverseSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-97",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/battle-config-fills-review.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 35,
+              "rangeSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-06；证据为战场/音乐列、传播/折叠/hoist 计数和问号场景。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/guides/scene-entry-authoring.md；docs/phase2/specs/content-schema.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["“15”与实际列数、“临时值”与传播结果之间的差异不可归一化。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "12ba70b0375dec17191d2259ccc5b477f32c9174",
+      "candidateSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548"
+    },
+    {
+      "path": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史修复、待决和后继资源化分轴，不能把审计当现行视觉/E2E 通过。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "死亡/召唤 alpha 终裁与较早 dither 提案、secondary magic/ACT_MS240 unknown 必须并存。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-battle-presentation-audit-2026-07-05",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+      "afterSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+        "implementationSha": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+        "candidateSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+        "afterSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+        "lineCount": 204,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 24378,
+          "sourceLines": 140,
+          "sourceFinalNewline": false,
+          "inverseSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-204",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 140,
+              "rangeSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-05/07-21；证据为坐标双锚、颜色误报、alpha、毒抗/状态、合击 HP/角色和 11 条红线。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/READ-FIRST.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "死亡/召唤 alpha 终裁与较早 dither 提案、secondary magic/ACT_MS240 unknown 必须并存。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "3175bb1692e8af4b405d7f19a6a7a5be1db27a23",
+      "candidateSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050"
+    },
+    {
+      "path": "docs/phase2/archive/audits/c-menu-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "范式改进不能冒充所有行为已闭合，旧需求冲突不得由本轮选定。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/c-menu-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["30 槽、L39 与 DH9 三组冲突按来源范围保留，不能以路径或标题重判。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-c-menu-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+      "afterSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/c-menu-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/c-menu-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+        "implementationSha": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+        "candidateSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+        "afterSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+        "lineCount": 810,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 47268,
+          "sourceLines": 746,
+          "sourceFinalNewline": false,
+          "inverseSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-810",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/c-menu-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 746,
+              "rangeSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定九域、状态一屏、装备 swap/四色、MP 状态机、物品两阶段/记忆、商店/开场、存档和 DH9。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/editor-design-system.md；docs/phase2/specs/save-system.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["30 槽、L39 与 DH9 三组冲突按来源范围保留，不能以路径或标题重判。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "645e8d6ca3e70e3445a7b69a7da6126ecb96b443",
+      "candidateSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b"
+    },
+    {
+      "path": "docs/phase2/archive/audits/ec-data-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "数据定义、消费和结构免疫需分开；角色实例不等于所有原表字段自动正确。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/ec-data-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["`#ifndef PAL_CLASSIC` 的闭合与 G8-1/P0 仍要求烘焙直接冲突，逐处保留。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-ec-data-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+      "afterSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/ec-data-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/ec-data-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+        "implementationSha": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+        "candidateSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+        "afterSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+        "lineCount": 712,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 54949,
+          "sourceLines": 648,
+          "sourceFinalNewline": false,
+          "inverseSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-712",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/ec-data-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 648,
+              "rangeSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 7422874a/07-05；证据为 autoLoop、角色名、followers、equipment removal、七池升级、dreamsnake295 和 signed enemy data。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/content-schema.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "`#ifndef PAL_CLASSIC` 的闭合与 G8-1/P0 仍要求烘焙直接冲突，逐处保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "4f9f1fd82e69fb95a7e74020cd55896d478ac70f",
+      "candidateSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241"
+    },
+    {
+      "path": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "capability-map 是历史索引，不是今天产品验收；截图旧绿不续签当前 UI。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/editor-audit-2026-07-05.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["W7 方案的撤销与晚间实现不能合成一个状态；六截图/九格不代表当前可达性。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-editor-audit-2026-07-05",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+      "afterSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/editor-audit-2026-07-05.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+        "implementationSha": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+        "candidateSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+        "afterSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+        "lineCount": 193,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 9425,
+          "sourceLines": 129,
+          "sourceFinalNewline": false,
+          "inverseSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-193",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 129,
+              "rangeSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定八域能力表、七条工作流断点、截图观察、W7 评估和 ROI 行动。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/editor-design-system.md；docs/phase2/guides/scene-entry-authoring.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "W7 方案的撤销与晚间实现不能合成一个状态；六截图/九格不代表当前可达性。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "dfcae4430b5a270677cebc09774e86886af31309",
+      "candidateSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5"
+    },
+    {
+      "path": "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-3 scene 闭合不等于全部领域 done，历史 B2 review 也不授今天完成。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["W7E/W7F、B2 review 与 09-05 收编的日期轴及 unresolved 必须显式保留。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-editor-authoring-closure-audit-2026-07-13",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+      "afterSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+        "implementationSha": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+        "candidateSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+        "afterSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+        "lineCount": 384,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 22424,
+          "sourceLines": 320,
+          "sourceFinalNewline": false,
+          "inverseSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-384",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 320,
+              "rangeSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-13/07-14/08-14/09-05 更新；证据为第二场景、地图索引、CRUD、资源、模块/引用/生命周期矩阵。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/editor-design-system.md；docs/phase2/guides/scene-entry-authoring.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "W7E/W7F、B2 review 与 09-05 收编的日期轴及 unresolved 必须显式保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "78776d06d21e69c119803eb25c2e032d3144c256",
+      "candidateSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89"
+    },
+    {
+      "path": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "backlog 与 done、计划判据与视觉实证分轴；不把旧排期当当前实施。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["旧固定三签已由当前 AGENTS 替代；旧视口数据不认证当前视觉。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-editor-modernization-follow-up-2026-08-14",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+      "afterSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
+          "docs/phase-governance/templates/plan-status.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+        "implementationSha": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+        "candidateSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+        "afterSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+        "lineCount": 154,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 6181,
+          "sourceLines": 92,
+          "sourceFinalNewline": false,
+          "inverseSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-154",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 92,
+              "rangeSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 08-14/15；证据为范围、里程碑、参考页、视口判据和依赖。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/editor-design-system.md；docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["旧固定三签已由当前 AGENTS 替代；旧视口数据不认证当前视觉。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "2b46aab7e75ab70917865d4212ef4350d31cc3b0",
+      "candidateSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522"
+    },
+    {
+      "path": "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "这是后继 ED-AUDIT-2 输入，不是当前页面 build authority 或功能验收。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["各阶段计数和浏览器条件不可合并；旧测试删除不在本任务授权。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-editor-ui-audit-2026-08-15",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+      "afterSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+        "implementationSha": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+        "candidateSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+        "afterSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+        "lineCount": 245,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 16020,
+          "sourceLines": 181,
+          "sourceFinalNewline": false,
+          "inverseSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-245",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 181,
+              "rangeSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 25 页、18/17/17/6 合同采用、331→254→241、U01–12、GS3 和 raw census。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/editor-design-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["各阶段计数和浏览器条件不可合并；旧测试删除不在本任务授权。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "c890bbb36243cd48b434d2ab7f0ff97f00429969",
+      "candidateSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/engine-debt-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史债务图不是一阶段 bug 清单，不能由数字直接生成当前 MMO/GPU/兼容任务。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/engine-debt-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "13 waiting 与更多字面量/类别明细矛盾保留，旧 content-schema 链接指向历史设计并补当前入口。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-engine-debt-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+      "afterSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/engine-debt-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/engine-debt-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+        "implementationSha": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+        "candidateSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+        "afterSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+        "lineCount": 401,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 32130,
+          "sourceLines": 337,
+          "sourceFinalNewline": false,
+          "inverseSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-401",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/engine-debt-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 337,
+              "rangeSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 06-22；证据为五 agent 的 identity/God object/单例/解释器/时钟/渲染/壳层发现。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/READ-FIRST.md；docs/phase2/specs/content-schema.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "13 waiting 与更多字面量/类别明细矛盾保留，旧 content-schema 链接指向历史设计并补当前入口。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "c4ebb56b44880f30a26eed17a6e52b950f7a9cce",
+      "candidateSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46"
+    },
+    {
+      "path": "docs/phase2/archive/audits/n-dialog-text-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "`$NN` 的精确公式是 floor(NN×10/7)×8，近似式不能被本轮裁定；不同颜色/速度轴不可混同。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/n-dialog-text-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "w-font 的 triple 与 N-dialog 的待核范围、N1 后继零残留是不同证据域，不能相互清空。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-n-dialog-text-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+      "afterSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/n-dialog-text-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/n-dialog-text-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+        "implementationSha": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+        "candidateSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+        "afterSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+        "lineCount": 544,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 46936,
+          "sourceLines": 480,
+          "sourceFinalNewline": false,
+          "inverseSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-544",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/n-dialog-text-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 480,
+              "rangeSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 282c1f…/07-05；证据为四枚枚举、offset、姓名牌、24ms/18px、slot、GBK/PUA/565 和 A1–4。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/phase2/specs/content-schema.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "w-font 的 triple 与 N-dialog 的待核范围、N1 后继零残留是不同证据域，不能相互清空。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "703b8b2c0265604a8649e6339b4a96e6b7f3af30",
+      "candidateSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9"
+    },
+    {
+      "path": "docs/phase2/archive/audits/n-event-script-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "R2 的 clean Command/MigrationGap 约束只覆盖其日期范围；async 架构免疫不等源语义完成。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/n-event-script-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "R2 clean 规则与下文 unmigrated/兼容旧说、auto0x06 先闭后缺、PAT/真彩方向冲突均保留。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-n-event-script-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+      "afterSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/n-event-script-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/n-event-script-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+        "implementationSha": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+        "candidateSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+        "afterSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+        "lineCount": 915,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 59629,
+          "sourceLines": 851,
+          "sourceFinalNewline": false,
+          "inverseSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-915",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/n-event-script-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 851,
+              "rangeSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 282c1f…、07-05/07-14/07-16 R2/A7-3；证据为 0x06、stopScript、TouchFar、0x46/0x6E/0x50/0x71、setPalette 和 entity override。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/phase2/guides/scene-entry-authoring.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "R2 clean 规则与下文 unmigrated/兼容旧说、auto0x06 先闭后缺、PAT/真彩方向冲突均保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "c6410a2d01a9e35c7bcc2b64b3f40a83c64b5498",
+      "candidateSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d"
+    },
+    {
+      "path": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "只确认当时迁移报告，不恢复开发期兼容，也不把旧合法删除冲突误报成实际 bug。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/n1-dialogue-migration-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "正文旧 current 将合法“写删冲突0”抓成 unresolved 的信号，作为旧审查误报保留。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-n1-dialogue-migration-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+      "afterSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/n1-dialogue-migration-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+        "implementationSha": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+        "candidateSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+        "afterSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+        "lineCount": 131,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 3160,
+          "sourceLines": 67,
+          "sourceFinalNewline": false,
+          "inverseSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-131",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 67,
+              "rangeSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-15；证据为 6722+135=6857→6858、14200 行、8637 IDs、26 variants、125 colors、残留表和 idempotent0。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/content-schema.md；docs/phase2/READ-FIRST.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "正文旧 current 将合法“写删冲突0”抓成 unresolved 的信号，作为旧审查误报保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "0a6f035685d5ca3e4c5aacda4215b03bae96c82e",
+      "candidateSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572"
+    },
+    {
+      "path": "docs/phase2/archive/audits/phase1-audit-tracker.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "这是排期协议和索引，不是逐函数完成证明；专项报告优先级高于索引末尾声明。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/phase1-audit-tracker.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["首 09-06 声明、74 出链与重复 ec 标签均保留，不按路径合并身份。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-phase1-audit-tracker",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+      "afterSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/phase1-audit-tracker.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/phase1-audit-tracker.md",
+          "docs/phase-governance/templates/plan-status.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+        "implementationSha": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+        "candidateSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+        "afterSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+        "lineCount": 227,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 15009,
+          "sourceLines": 165,
+          "sourceFinalNewline": false,
+          "inverseSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-227",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/phase1-audit-tracker.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 165,
+              "rangeSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 07-05/09-06；证据为八依赖批、四步方法、已审/待审表和 73/73 声明。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/ops/agent-workflow.md；docs/phase2/READ-FIRST.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["首 09-06 声明、74 出链与重复 ec 标签均保留，不按路径合并身份。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "3521c1afa14ce0c5c7ddce704e33abdbcb6caeb7",
+      "candidateSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44"
+    },
+    {
+      "path": "docs/phase2/archive/audits/script-census.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "当前真值仅是历史统计与方法；线性走到首 END/无条件 goto，不等于 CFG/BFS 可达性、翻译完备或覆盖。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/script-census.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["74/0xA7 等后继标签不据后续文档重算；raw 身份 unknown。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-script-census",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+      "afterSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/script-census.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/script-census.md",
+          "docs/phase-governance/templates/reference-canon.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+        "implementationSha": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+        "candidateSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+        "afterSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+        "lineCount": 184,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 7292,
+          "sourceLines": 125,
+          "sourceFinalNewline": false,
+          "inverseSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-184",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/script-census.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 125,
+              "rangeSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 43503 instructions/160 opcode/295 scenes 等统计及其线性扫描方法。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/phase2/READ-FIRST.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": ["74/0xA7 等后继标签不据后续文档重算；raw 身份 unknown。"],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "9a985a50f4bbaf8371f957bd4fc67562f5381946",
+      "candidateSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84"
+    },
+    {
+      "path": "docs/phase2/archive/audits/w-font-palette-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "字体边界和特效缺口是历史范围；不以 N-dialog 或后继演出记录认证全部 glyph/视觉。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/w-font-palette-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "wave/shake 全缺与 n-event 07-16 实录是不同范围；N-dialog triple 待核互相指路但不互相认证。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-w-font-palette-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+      "afterSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/w-font-palette-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/w-font-palette-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+        "implementationSha": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+        "candidateSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+        "afterSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+        "lineCount": 473,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 26076,
+          "sourceLines": 409,
+          "sourceFinalNewline": false,
+          "inverseSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-473",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/w-font-palette-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 409,
+              "rangeSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 6ddb4434 三单元；证据为 MSB/LSB、triple、Unifont57083/PUA0、60/64 与 63/64、wave32/shake。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/phase2/READ-FIRST.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "wave/shake 全缺与 n-event 07-16 实录是不同范围；N-dialog triple 待核互相指路但不互相认证。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "3fabb69734aecf7dc016c6bfa14928f1129becc0",
+      "candidateSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065"
+    },
+    {
+      "path": "docs/phase2/archive/audits/w-render-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "已修与待证必须按日期/范围分轴；静态报告不能认证当前视觉或渲染契约。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/w-render-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "cover/layer 与 n-event 07-16 修复仅按日期关联；M4 坐标、CPU dilation 与装载期 composite 仍未决。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-w-render-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+      "afterSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/w-render-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/w-render-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+        "implementationSha": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+        "candidateSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+        "afterSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+        "lineCount": 449,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 34062,
+          "sourceLines": 385,
+          "sourceFinalNewline": false,
+          "inverseSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-449",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/w-render-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 385,
+              "rangeSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 6ddb4434；证据为 signed/anchor/layer/cover/trunc、party+4/NPC+7、Y-sort 和 T/S/M/H 表。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/specs/script-system.md；docs/ops/audits/pre-e2e/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "cover/layer 与 n-event 07-16 修复仅按日期关联；M4 坐标、CPU dilation 与装载期 composite 仍未决。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "f189346b97b8c793307fd077b9143ddbfdb31db8",
+      "candidateSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe"
+    },
+    {
+      "path": "docs/phase2/archive/audits/x-shell-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史高危、收窄和作废必须分日期；缺失项不是本轮移植授权。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/x-shell-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [
+        "G2.1 accumulator、G8.5 setPalette、G10.1 等附录旧要求与后文收窄冲突，全部保留。"
+      ],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-x-shell-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+      "afterSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/x-shell-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/x-shell-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+        "implementationSha": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+        "candidateSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+        "afterSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+        "lineCount": 530,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 34018,
+          "sourceLines": 466,
+          "sourceFinalNewline": false,
+          "inverseSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-530",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/x-shell-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 466,
+              "rangeSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 a3828…/07-05 与 07-06 修订；证据为 soundfont、主循环、SFX 去重、AVI/RNG/FBP、LRU/cache/save。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/READ-FIRST.md；docs/phase2/specs/save-system.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "G2.1 accumulator、G8.5 setPalette、G10.1 等附录旧要求与后文收窄冲突，全部保留。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "6abae451008f34e8071da47d28b05516509e93e0",
+      "candidateSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4"
+    },
+    {
+      "path": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Root writer full-source semantic migration after non-author R22 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "仅证明当时迁移数据和方法，不认证今天 Q 入场指南已完整消费或所有插入/保存门。",
+      "truthAnchors": [
+        "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": ["文件名不能推出 s182/s188 身份；旧穷尽声明与当前 consumer/保存轴并列。"],
+      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-audits-x3-scene-entry-migration-audit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+      "afterSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+      "publicCallers": [
+        "稳定入口：docs/phase2/archive/audits/x3-scene-entry-migration-audit.md；历史引用可继续读取同一路径。"
+      ],
+      "legalInputs": ["固定 Git 源正文与既有历史引用；无新产品输入"],
+      "businessOracle": {
+        "type": "historical-document-template-migration",
+        "assertions": [
+          "五节正文合同和 archive overlay 均有具体内容",
+          "原始源正文可通过 quote 逆回读相同 SHA",
+          "无 runtime/E2E/视觉/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-execution-credit",
+        "against": [
+          "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "与旧 structured-content record 合并为本轮唯一 content review；不重复授予执行结论。"
+      },
+      "revision": {
+        "currentSha": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+        "implementationSha": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+        "history": [
+          {
+            "date": "2026-10-17",
+            "action": "full-semantic-template-migration",
+            "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+        "sourceSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+        "candidateSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+        "afterSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+        "lineCount": 128,
+        "originalPreservation": {
+          "method": "original source quoted line-by-line with > prefix",
+          "sourceBytes": 3072,
+          "sourceLines": 64,
+          "sourceFinalNewline": false,
+          "inverseSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+          "exactRoundTrip": true,
+          "headingTableLinkMapping": "wrapper sections plus original quote; original links remain under quote and source identity retained"
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "action": "R22 non-author readonly proposal accepted then root full semantic migration",
+          "reviewer": "/root/r22_independent_review (13-doc scope) + root full read (9-doc scope)",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "old governed-legacy structured-content presentation only; not historical product claims"
+      ],
+      "stopLine": "Do not promote historical audit/plan/reference claims to current truth; do not infer runtime/E2E/visual/coverage completion; reopen only with current primary source and independent acceptance.",
+      "userVisibleBeforeAfter": "原始历史正文与日期/结论/冲突保持 → 增加具体模板章节、历史 overlay、源/after SHA 和可回读原文；产品事实不变。",
+      "reviewedLines": "1-128",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical; original date/status retained",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "sha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+          "ranges": [
+            {
+              "start": 1,
+              "end": 64,
+              "rangeSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129"
+            }
+          ],
+          "scope": "full source read; historical claims only"
+        }
+      ],
+      "phaseAnchors": {
+        "primary": "固定 11/17/13 场景清单、s001 音乐、s151 dither、829/294/297/47 和 idempotent0。",
+        "phase2": "历史材料；不授当前产品/运行事实",
+        "target": "template-compliant historical archive wrapper with source preservation"
+      },
+      "dependencies": [
+        "docs/phase2/guides/scene-entry-authoring.md；docs/phase2/specs/script-system.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "历史源文件的声明日期和适用范围；2026-10-17 仅完成文档语义迁移与账本接入。",
+      "counterReworkBlocked": [
+        "文件名不能推出 s182/s188 身份；旧穷尽声明与当前 consumer/保存轴并列。"
+      ],
+      "sourceGitRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceGitObject": "5fb14faf7ce0c54a14a98a1bc4abb058817b49c0",
+      "candidateSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003"
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-review-20261017.json",
+    "verdict": "accept-readonly-proposal",
+    "scope": "13/22 non-author full review; remaining nine independently read by root",
+    "sha256": "1f2188bd02bf204ee42edc9435d9dfb7b571f720e181c587846836ad1d03c329"
+  },
+  "migrationSummary": {
+    "documents": 22,
+    "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+    "sourceZeroDrift": true,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

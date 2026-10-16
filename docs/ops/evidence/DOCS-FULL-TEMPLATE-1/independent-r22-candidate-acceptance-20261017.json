@@ -1,0 +1,1345 @@
+{
+  "kind": "R22 candidate independent acceptance",
+  "reviewDate": "2026-10-17",
+  "reviewer": "/root/r22_independent_review",
+  "workspace": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+  "workspaceHead": "5e78f6f681c3208b3f5bd02f9a8338adc95e3890",
+  "candidateReviewRecord": {
+    "path": "docs/phase-governance/reviews/20261017-phase2-audits-r22.json",
+    "sha256": "57292955e7f7a6cb82b9eb5e5d9406123cf8adfaf190d3ca6e0cf2eac38020a6",
+    "id": "20261017-phase2-audits-r22",
+    "entries": 22,
+    "uniquePaths": 22
+  },
+  "candidateContributorReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-audits-r22-20261017.json",
+    "sha256": "ffc3f8fced508d18f01ad005ee29ff10764691608b6ae7915f10e13bccc652d2",
+    "scope": {
+      "documents": 22,
+      "docTypes": {
+        "audit-report-v1@1.0.0": 18,
+        "plan-status-v1@1.0.0": 3,
+        "reference-canon-v1@1.0.0": 1
+      },
+      "historyOverlay": "archive-record-v1@1.0.0",
+      "migrationCredit": 22
+    },
+    "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a"
+  },
+  "scope": {
+    "documents": 22,
+    "docTypes": {
+      "audit-report-v1@1.0.0": 18,
+      "plan-status-v1@1.0.0": 3,
+      "reference-canon-v1@1.0.0": 1
+    },
+    "historyOverlay": "archive-record-v1@1.0.0",
+    "candidateMigrationCredit": 22,
+    "documentationOnly": true
+  },
+  "verdict": "accept",
+  "issues": {
+    "gateIssueCount": 0,
+    "metadataMismatches": [],
+    "duplicateHeadingSlugs": [],
+    "candidateConflictEntries": 22,
+    "candidateConflictFields": 44,
+    "candidateUniqueConflictClaims": 22,
+    "readonlyConflictsPreserved": 38
+  },
+  "sourceAfterVerification": {
+    "documents": [
+      {
+        "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "0e8714c063d5a007286aaea678720ee8a335b4a7",
+          "sha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+          "computedSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+          "lines": 668,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+          "computedSha256": "ddd1f5592d80b06ba9e084b5b42b9a0129d2cbd2a30d2bbb5d8e707cca668103",
+          "lines": 731,
+          "lineCountRecord": 731
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "b8b41b7e8042786427d27f3a04739fdc740fb85f51285c72986d580a88a6b885",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "§8 的 12256→164、12347→103、12408→116 与总览/P0 旧说法并存，按日期和段落分别保留；本轮不重跑。",
+          "§8 的 12256→164、12347→103、12408→116 与总览/P0 旧说法并存，按日期和段落分别保留；本轮不重跑。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/b-attack-magic-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "8b54053958a5a80db66ddeb0cf948af8c9bdd0d6",
+          "sha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+          "computedSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+          "lines": 552,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+          "computedSha256": "cd7032ab7685c86041d0e0b83f7ac6c4b46e5938f3b24c43010d9c747e271ed1",
+          "lines": 615,
+          "lineCountRecord": 615
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "后文修复与同期 b-core/subsystem/演出报告旧红项相互指向，必须保持冲突而非择一覆盖。",
+          "后文修复与同期 b-core/subsystem/演出报告旧红项相互指向，必须保持冲突而非择一覆盖。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/b-core-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "8742432aef55f1b5d613513b838c7d04d45bf91d",
+          "sha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+          "computedSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+          "lines": 560,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+          "computedSha256": "5d93830642cdf2bc0d431543e3a7f69661ac1c2a6c3c8bb6a1ca1238f0b96c7a",
+          "lines": 623,
+          "lineCountRecord": 623
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "正文已修段与文末仍缺队列/puppet 的矛盾必须点名；`审计单元-3回合队列` 作为历史锚保留。",
+          "正文已修段与文末仍缺队列/puppet 的矛盾必须点名；`审计单元-3回合队列` 作为历史锚保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/b-subsystem-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "f8f2e9c653dcfd87285949ad6553449d08e84a95",
+          "sha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+          "computedSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+          "lines": 264,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+          "computedSha256": "46780bf31b7c449efa37c4c31a6a2618aa8dacc6c39e9bbee35ffedb260aede1",
+          "lines": 327,
+          "lineCountRecord": 327
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "“已修”与汇总“丢三条”并存；tick >999 与 v>0→v−1 的文字冲突也保留。",
+          "“已修”与汇总“丢三条”并存；tick >999 与 v>0→v−1 的文字冲突也保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/battle-config-fills-review.md",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "12ba70b0375dec17191d2259ccc5b477f32c9174",
+          "sha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+          "computedSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+          "lines": 36,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+          "computedSha256": "18349a5c7546d25cd640766cc97d8501815433911cafd9ee4e94c856452cc548",
+          "lines": 97,
+          "lineCountRecord": 97
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "65a3e00f309d9dcdb784dd3530cb9fbe41825708795f611ca68f0f8d8abe7300",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "目标与时间范围": true,
+          "里程碑": true,
+          "当前状态": true,
+          "阻塞与决策": true,
+          "下一步": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "“15”与实际列数、“临时值”与传播结果之间的差异不可归一化。",
+          "“15”与实际列数、“临时值”与传播结果之间的差异不可归一化。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "3175bb1692e8af4b405d7f19a6a7a5be1db27a23",
+          "sha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+          "computedSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+          "lines": 141,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+          "computedSha256": "55ff96788e3369b9ccdfcbb79244de109c1b4a1e64f8498c76370c9c16978050",
+          "lines": 204,
+          "lineCountRecord": 204
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "2c58c448161239ae95a9e5b8bda27688a04b2804ea049942e3e66fa45d6032ab",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "死亡/召唤 alpha 终裁与较早 dither 提案、secondary magic/ACT_MS240 unknown 必须并存。",
+          "死亡/召唤 alpha 终裁与较早 dither 提案、secondary magic/ACT_MS240 unknown 必须并存。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/c-menu-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "645e8d6ca3e70e3445a7b69a7da6126ecb96b443",
+          "sha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+          "computedSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+          "lines": 747,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+          "computedSha256": "942f94512a882f01336b198782bf72b8f5bc40af603e2cadbc808ba377a8017b",
+          "lines": 810,
+          "lineCountRecord": 810
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "30 槽、L39 与 DH9 三组冲突按来源范围保留，不能以路径或标题重判。",
+          "30 槽、L39 与 DH9 三组冲突按来源范围保留，不能以路径或标题重判。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/ec-data-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "4f9f1fd82e69fb95a7e74020cd55896d478ac70f",
+          "sha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+          "computedSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+          "lines": 649,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+          "computedSha256": "9a6ec8c24c18f7dafd8a2d8e949e6275d74537c60c9d17cd362f8a226eab7241",
+          "lines": 712,
+          "lineCountRecord": 712
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "`#ifndef PAL_CLASSIC` 的闭合与 G8-1/P0 仍要求烘焙直接冲突，逐处保留。",
+          "`#ifndef PAL_CLASSIC` 的闭合与 G8-1/P0 仍要求烘焙直接冲突，逐处保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "dfcae4430b5a270677cebc09774e86886af31309",
+          "sha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+          "computedSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+          "lines": 130,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+          "computedSha256": "ddd25e87daa0e5ba4b57041f24131f36b393b25a764e01538e17ce7b5f41cae5",
+          "lines": 193,
+          "lineCountRecord": 193
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "6e60245bfc55fe93d1e65469d2d8fa5d35218c594db43f6ed4ebf928d9503b50",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "W7 方案的撤销与晚间实现不能合成一个状态；六截图/九格不代表当前可达性。",
+          "W7 方案的撤销与晚间实现不能合成一个状态；六截图/九格不代表当前可达性。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "78776d06d21e69c119803eb25c2e032d3144c256",
+          "sha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+          "computedSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+          "lines": 321,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+          "computedSha256": "74922d5f6283fa462428edebda929843f3bd38db8bdd5bfd889f2f6a106bbe89",
+          "lines": 384,
+          "lineCountRecord": 384
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "5f05fd2b557ad1e4f2a549295614a9a10aa283c6f294231b705a7adfd4a66a4a",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "W7E/W7F、B2 review 与 09-05 收编的日期轴及 unresolved 必须显式保留。",
+          "W7E/W7F、B2 review 与 09-05 收编的日期轴及 unresolved 必须显式保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "2b46aab7e75ab70917865d4212ef4350d31cc3b0",
+          "sha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+          "computedSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+          "lines": 93,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+          "computedSha256": "70fe8bf47003ef9680a4131802f3a95599104c6f2b46ae06fefcc513dc334522",
+          "lines": 154,
+          "lineCountRecord": 154
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "ce8e8c76702172aa2de7544ab01519272de51483311fb63c30df153a9c94931f",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "目标与时间范围": true,
+          "里程碑": true,
+          "当前状态": true,
+          "阻塞与决策": true,
+          "下一步": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "旧固定三签已由当前 AGENTS 替代；旧视口数据不认证当前视觉。",
+          "旧固定三签已由当前 AGENTS 替代；旧视口数据不认证当前视觉。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "c890bbb36243cd48b434d2ab7f0ff97f00429969",
+          "sha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+          "computedSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+          "lines": 182,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+          "computedSha256": "55155a720e60768cb93834785fa15ef119a8a35d86f79f4f714fad37d13beed1",
+          "lines": 245,
+          "lineCountRecord": 245
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "各阶段计数和浏览器条件不可合并；旧测试删除不在本任务授权。",
+          "各阶段计数和浏览器条件不可合并；旧测试删除不在本任务授权。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/engine-debt-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "c4ebb56b44880f30a26eed17a6e52b950f7a9cce",
+          "sha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+          "computedSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+          "lines": 338,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+          "computedSha256": "2877bf877ce8da1830151b4ad964f9d66523011066b555caa78cc833f9c21d46",
+          "lines": 401,
+          "lineCountRecord": 401
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "7229843078f92adb7386e54b9839c8d8b9de4022c885535b1ac2e074bb366599",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "13 waiting 与更多字面量/类别明细矛盾保留，旧 content-schema 链接指向历史设计并补当前入口。",
+          "13 waiting 与更多字面量/类别明细矛盾保留，旧 content-schema 链接指向历史设计并补当前入口。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/n-dialog-text-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "703b8b2c0265604a8649e6339b4a96e6b7f3af30",
+          "sha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+          "computedSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+          "lines": 481,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+          "computedSha256": "6d3cdfc011e06719eedee6140f871ecd9f4788174520f110f1acd071d991e7e9",
+          "lines": 544,
+          "lineCountRecord": 544
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "w-font 的 triple 与 N-dialog 的待核范围、N1 后继零残留是不同证据域，不能相互清空。",
+          "w-font 的 triple 与 N-dialog 的待核范围、N1 后继零残留是不同证据域，不能相互清空。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/n-event-script-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "c6410a2d01a9e35c7bcc2b64b3f40a83c64b5498",
+          "sha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+          "computedSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+          "lines": 852,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+          "computedSha256": "1fc04479685bc35e60dfe199b7a27cc48cc075549eaf19da463a57332dfb2a1d",
+          "lines": 915,
+          "lineCountRecord": 915
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "afcf975afd6f97549ded07e1f99673e94a602a68d5190d9f1767fe00cceedaca",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "R2 clean 规则与下文 unmigrated/兼容旧说、auto0x06 先闭后缺、PAT/真彩方向冲突均保留。",
+          "R2 clean 规则与下文 unmigrated/兼容旧说、auto0x06 先闭后缺、PAT/真彩方向冲突均保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "0a6f035685d5ca3e4c5aacda4215b03bae96c82e",
+          "sha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+          "computedSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+          "lines": 68,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+          "computedSha256": "31a5bf71240d9274170c96ab429d245a7de0826a7fd874a294a6e3497ab32572",
+          "lines": 131,
+          "lineCountRecord": 131
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "5999356cc37b48e729fcb6b5d5a6a517dbfa57671e8c944ec17bbb4b21f01b1b",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "正文旧 current 将合法“写删冲突0”抓成 unresolved 的信号，作为旧审查误报保留。",
+          "正文旧 current 将合法“写删冲突0”抓成 unresolved 的信号，作为旧审查误报保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/phase1-audit-tracker.md",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "3521c1afa14ce0c5c7ddce704e33abdbcb6caeb7",
+          "sha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+          "computedSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+          "lines": 166,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+          "computedSha256": "d9898ca5dfbf5720e052b182f3ae57100263250aaf8cf3bc234b53b9b6485e44",
+          "lines": 227,
+          "lineCountRecord": 227
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "20ad79557652f17857cb5e159e155390963c92044455bedabe5e2cca80cf761f",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "目标与时间范围": true,
+          "里程碑": true,
+          "当前状态": true,
+          "阻塞与决策": true,
+          "下一步": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "首 09-06 声明、74 出链与重复 ec 标签均保留，不按路径合并身份。",
+          "首 09-06 声明、74 出链与重复 ec 标签均保留，不按路径合并身份。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/script-census.md",
+        "docType": "reference-canon",
+        "templateId": "reference-canon-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "9a985a50f4bbaf8371f957bd4fc67562f5381946",
+          "sha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+          "computedSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+          "lines": 126,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+          "computedSha256": "b02bc3c8f47f777db3490ec6033b0931e0b921170db8695f55dc4354418c2a84",
+          "lines": 184,
+          "lineCountRecord": 184
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "适用范围": true,
+          "一手来源": true,
+          "当前真值": true,
+          "未知与冲突": true,
+          "使用边界": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "74/0xA7 等后继标签不据后续文档重算；raw 身份 unknown。",
+          "74/0xA7 等后继标签不据后续文档重算；raw 身份 unknown。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/w-font-palette-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "3fabb69734aecf7dc016c6bfa14928f1129becc0",
+          "sha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+          "computedSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+          "lines": 410,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+          "computedSha256": "1c6231c7bbc690aacb4a251be6da5ee54f3244b94fab50db86f5180cd2889065",
+          "lines": 473,
+          "lineCountRecord": 473
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "wave/shake 全缺与 n-event 07-16 实录是不同范围；N-dialog triple 待核互相指路但不互相认证。",
+          "wave/shake 全缺与 n-event 07-16 实录是不同范围；N-dialog triple 待核互相指路但不互相认证。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/w-render-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "f189346b97b8c793307fd077b9143ddbfdb31db8",
+          "sha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+          "computedSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+          "lines": 386,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+          "computedSha256": "c8d1599f77865b3dba11b72314a67190cf3e1f4993cd947f9768821f9901effe",
+          "lines": 449,
+          "lineCountRecord": 449
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "cover/layer 与 n-event 07-16 修复仅按日期关联；M4 坐标、CPU dilation 与装载期 composite 仍未决。",
+          "cover/layer 与 n-event 07-16 修复仅按日期关联；M4 坐标、CPU dilation 与装载期 composite 仍未决。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/x-shell-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "6abae451008f34e8071da47d28b05516509e93e0",
+          "sha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+          "computedSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+          "lines": 467,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+          "computedSha256": "19e845f9c058c69e34d64a16bcfb78dc96933a8e8e713de825e964bc8c9f76d4",
+          "lines": 530,
+          "lineCountRecord": 530
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "G2.1 accumulator、G8.5 setPalette、G10.1 等附录旧要求与后文收窄冲突，全部保留。",
+          "G2.1 accumulator、G8.5 setPalette、G10.1 等附录旧要求与后文收窄冲突，全部保留。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      },
+      {
+        "path": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateVersion": "1.0.0",
+        "status": "historical; original date/status retained",
+        "contentReviewStatus": "content-reviewed",
+        "templateCompliance": "template-compliant",
+        "historyOverlay": true,
+        "source": {
+          "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+          "gitObject": "5fb14faf7ce0c54a14a98a1bc4abb058817b49c0",
+          "sha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+          "computedSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+          "lines": 65,
+          "fullRead": true
+        },
+        "after": {
+          "sha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+          "computedSha256": "b6a9037fb46144864bbe14149931983f953f61033287cd7e5b435b26eb213003",
+          "lines": 128,
+          "lineCountRecord": 128
+        },
+        "inverseQuote": {
+          "exact": true,
+          "quoteError": null,
+          "inverseSha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129",
+          "exactRoundTrip": true
+        },
+        "sections": {
+          "审计问题": true,
+          "范围与证据": true,
+          "发现": true,
+          "结论": true,
+          "整改与复核": true
+        },
+        "archiveOverlaySections": {
+          "历史范围": true,
+          "原始结论": true,
+          "当时证据": true,
+          "当前有效性": true,
+          "继任文档": true
+        },
+        "registryRoutingCatalog": {
+          "registry": true,
+          "routing": true,
+          "catalog": true
+        },
+        "historicalConflicts": [
+          "文件名不能推出 s182/s188 身份；旧穷尽声明与当前 consumer/保存轴并列。",
+          "文件名不能推出 s182/s188 身份；旧穷尽声明与当前 consumer/保存轴并列。"
+        ],
+        "sourceAfterMatch": true,
+        "reviewEntryHasRequiredFields": true
+      }
+    ],
+    "sourceShaZeroDrift": true,
+    "sourceGitObjectVerified": true,
+    "sourceFullRead": true,
+    "afterShaVerified": true,
+    "quoteInverseVerified": true,
+    "allTemplateSectionsNonEmptyByDocumentModel": true
+  },
+  "governanceIdentity": {
+    "registryCount": 22,
+    "routingCount": 22,
+    "catalogCount": 22,
+    "metadataExact": true,
+    "reviewEntriesRequiredFields": true,
+    "catalogBytes": 1048119,
+    "catalogUnder1MiB": true
+  },
+  "readonlyProposalBoundary": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-review-20261017.json",
+    "sha256": "1f2188bd02bf204ee42edc9435d9dfb7b571f720e181c587846836ad1d03c329",
+    "reviewedDocuments": 13,
+    "conflicts": 38,
+    "verdict": "accept-readonly-proposal",
+    "sourceZeroDrift": true,
+    "migrationAuthorized": false,
+    "buildAuthorized": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "notMigrationStatement": "正文未获迁移授权；不得开始 writer、build、生成 JSON/Markdown candidate、改 central ledger 或复用本回执作为 current acceptance."
+  },
+  "reviewRecordBoundary": {
+    "independentReceiptReferenceValid": true,
+    "independentReceiptSha256": "1f2188bd02bf204ee42edc9435d9dfb7b571f720e181c587846836ad1d03c329",
+    "migrationSummary": {
+      "documents": 22,
+      "sourceRevision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "sourceZeroDrift": true,
+      "runtimeEvidence": false,
+      "e2eEvidence": false,
+      "visualEvidence": false,
+      "coverageEvidence": false
+    },
+    "runtimeCredit": 0,
+    "e2eCredit": 0,
+    "visualCredit": 0,
+    "coverageCredit": 0,
+    "reviewerStatement": "Acceptance covers document structure, source fidelity, governance identity, and historical-boundary preservation only."
+  },
+  "checks": [
+    {
+      "command": "node scripts/docs/check-document-model.mjs",
+      "exitCode": 0,
+      "output": "document model: PASS (7 routes; 273 body contracts; 0 issues; structure only)"
+    },
+    {
+      "command": "node scripts/docs/check-content-review.mjs --strict",
+      "exitCode": 0,
+      "output": "content review: PASS (733 documents; {\"content-reviewed\":733})"
+    },
+    {
+      "command": "node scripts/docs/check.mjs",
+      "exitCode": 0,
+      "output": "docs: PASS (0 issues); 1232 Markdown / 8069 local links / 361 tasks / content22 SAVE12"
+    },
+    {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "output": "120 docs-tool tests pass; docs PASS (0 issues); document model PASS; testing docs PASS; phase/lore governance PASS (184); content review PASS (733)"
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "output": "empty output"
+    },
+    {
+      "command": "candidate GFM heading/link inventory",
+      "exitCode": 0,
+      "output": "22 docs; 264 wrapper headings; 127 markdown links; duplicate wrapper heading slugs=0"
+    }
+  ],
+  "noRuntimeCredit": "This acceptance does not certify runtime, E2E, visual, coverage, product behavior, or current canonical truth."
+}

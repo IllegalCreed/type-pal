@@ -55,3 +55,10 @@
 - [2026-10-16 五份架构历史回执迁移](historical-receipts-20261016.json)：指定候选的证据语义、原文与历史工具引用归属；不继承动态通过。
 
 - [C2历史执行机器变体pilot](c2-historical-execution-pilot-20261016.json)：006原true与本轮未执行分开，13份既有机器仅声明升版；独立实现/pilot已接收，日期义务与动态验收未关闭。
+
+## R22 phase2 历史审计批次
+
+- [R22 只读设计接收](readonly-phase2-audits-r22-20261016.json)：22篇历史审计的分类、冲突与源身份设计；不授迁移信用。
+- [R22 根接入回执](contributor-phase2-audits-r22-20261017.json)：18 audit、3 plan、1 reference 的模板迁移、源/after SHA 与历史边界。
+- [R22 只读独立复核](independent-r22-review-20261017.json)：13篇非作者全文复核，38条历史冲突，接受只读提案。
+- [R22 候选独立接收](independent-r22-candidate-acceptance-20261017.md)：22/22正文、quote inverse、三账本和静态门接受；runtime/E2E/视觉/coverage credit 为 0。
