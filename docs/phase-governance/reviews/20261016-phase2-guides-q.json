@@ -149,7 +149,8 @@
         },
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-          "scope": "top/admission governs two-path first pilot; remaining5 not allowed"
+          "scope": "Historical aa5/5641 two-path publication-pilot admission only; remaining-five admission later fixed4547. Current six-guide static input/acceptance boundary is solely canonical Q control.rootIntake; source-author permissions remain historical at fixed native revision.",
+          "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054"
         }
       ],
       "applicability": {
@@ -195,13 +196,13 @@
         },
         {
           "caller": "scripts/docs/check-document-model.mjs / check-content-review.mjs / report-governance-progress.mjs",
-          "role": "static governance consumers; shared route does not cover this new pilot until root intake"
+          "role": "Actual current static model/review/progress consumers cover this typed guide route; physical route presence is distinct from independent root acceptance, whose sole verdict is Q control.rootIntake. No runtime caller credit."
         }
       ],
       "legalInputs": [
         "Current canonical author project directory for check:content; no write/recover flags and no raw source required",
         "Current PAL source-supply inputs plus current baseline for reimport; explicit maintained partitions and editor-save coordination",
-        "Only fixed samepath documentation source and two admitted candidate files; no old schema/bootstrap/converter revival"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed documentation ownership/recovery boundary",
@@ -584,6 +585,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/content-publication.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -597,6 +615,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/content-publication.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/content-publication.md",
             "uniqueMatches": 1
@@ -760,7 +790,7 @@
       "legalInputs": [
         "稳定trim后非空人物id、显示名、存在的默认sprite；合法actor/sprite/无视觉触发区各按需求选择",
         "实例行为/页面独占；显式加载队伍/后备只读；不以旧14作为当前格式输入",
-        "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed per-document operational semantics, not runtime test",
@@ -1363,6 +1393,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/actor-presets.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -1376,6 +1423,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/actor-presets.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/actor-presets.md",
             "uniqueMatches": 1
@@ -1595,7 +1654,7 @@
       "legalInputs": [
         "稳定非负安全整数fieldId，现代0合法；背景AssetId为battle-background",
         "只在当前工程选择显式startBattle/hostile/scene或缺省24；原PAL映射不作通用禁0规则",
-        "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed per-document operational semantics, not runtime test",
@@ -2150,6 +2209,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/battlefield-authoring.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -2163,6 +2239,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/battlefield-authoring.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/battlefield-authoring.md",
             "uniqueMatches": 1
@@ -2359,7 +2447,7 @@
       "legalInputs": [
         "DEV构建且URL含debug，识别当前project/scene与主runner占用；editor试玩不自动加debug",
         "原13命令按公开参数使用；调试内存不是与普通存档隔离的输入；旧skill URL拒绝",
-        "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed per-document operational semantics, not runtime test",
@@ -3375,6 +3463,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/debug-tools.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -3388,6 +3493,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/debug-tools.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/debug-tools.md",
             "uniqueMatches": 1
@@ -3533,6 +3650,18 @@
               "start": 1070,
               "end": 1105,
               "rangeSha256": "022f138af83e9931203201f4166f9cd553ea5f1a66ced40209f574471af694fd"
+            },
+            {
+              "start": 403,
+              "end": 407,
+              "rangeSha256": "f2593ebcded17f011188afc7cc27ab9d1bce03e2db68c0e73a942794a62281c2",
+              "scope": "Root fresh necessary read for C-Q6-root-4: record requires object, command input requires array; empty prepare allowed. Existing checkSceneEntry914-927 unconditionally requires both fields."
+            },
+            {
+              "start": 632,
+              "end": 638,
+              "rangeSha256": "9e59de26344dc68ca793f81e08161e3a3a423a3a4bac37051cf607ad82c822a6",
+              "scope": "Root fresh necessary read for C-Q6-root-4: record requires object, command input requires array; empty prepare allowed. Existing checkSceneEntry914-927 unconditionally requires both fields."
             }
           ],
           "scope": "Actual fresh bounded read of these ranges; whole-file hash identity is not whole-module/product audit"
@@ -3611,9 +3740,9 @@
         }
       ],
       "legalInputs": [
-        "仅onEnter initial步骤/状态可有entry；entry对象至少有prepare/reveal一项，不禁止空prepare数组；其他步骤/auto/实体/出口/shared不声明entry",
+        "仅onEnter initial步骤/状态可有entry；entry须同时有prepare数组（可空）及reveal对象，reveal.kind只准dither|fade|cut；其他步骤/auto/实体/出口/shared不声明entry",
         "编辑器现有prepare/body页签，不虚构reveal第三UI、恢复默认按钮或已完成的全部安全过滤",
-        "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed per-document operational semantics, not runtime test",
@@ -4026,6 +4155,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/scene-entry-authoring.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -4039,6 +4185,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/scene-entry-authoring.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/scene-entry-authoring.md",
             "uniqueMatches": 1
@@ -4293,7 +4451,7 @@
       "legalInputs": [
         "当前contentVersion22/SAVE12，稳定ScriptId、合法none|optional|required与显式{scene,entity}",
         "N6 v1固定正文没有调用参数；N6b未实现，不消费旧分片/sidecar/upgrader或跳转兼容",
-        "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes"
+        "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
       ],
       "businessOracle": {
         "type": "source-backed per-document operational semantics, not runtime test",
@@ -5605,6 +5763,23 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Narrow root metadata repair of current/source authorization and exact legal inputs; source bodies/native untouched",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+            "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+            "selector": {
+              "entries.path": "docs/phase2/guides/shared-script-author-guide.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "firstIndependentCounterSha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c"
         }
       ],
       "supersedes": [
@@ -5618,6 +5793,18 @@
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
           "gitObject": "3c01d77de1b4fe8ccacb9e96894ab6352d6b601d",
           "fileSha256": "bb8cb628a0127a19e5972a3c1c932cab078d86ce295526d3cd57f899673f0f89",
+          "selector": {
+            "entries.path": "docs/phase2/guides/shared-script-author-guide.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+          "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
           "selector": {
             "entries.path": "docs/phase2/guides/shared-script-author-guide.md",
             "uniqueMatches": 1
@@ -8645,7 +8832,7 @@
   "rootIntake": {
     "base": "c3bb4096c4041a7890350199ca226fc79d174832",
     "source": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
-    "status": "candidate awaiting exact current consumers/zero full gates and nonauthor intake; no presigned future bytes",
+    "status": "reworked candidate awaiting new exact zero whole gates and nonauthor closure; first independent counter/gates preserved; no presigned future bytes",
     "scope": "Six central current transfers +6registry/+6routes, concise same6 catalog, one new guarded matrix relationship; zero source body administrative rewrites",
     "sourceBodiesUnchanged": true,
     "registry": {
@@ -9013,7 +9200,726 @@
         },
         "resolution": "Restored only two proven ⚠→! string losses against fixed c3bb full prior; actual file-write formatter preserves complete AST. All other727registry/178catalog/remaininglegacy/matrix-review entries exact. First failure remains failure, final43/0 is later."
       }
-    ]
+    ],
+    "firstIndependentCounter": {
+      "path": "/tmp/type-pal-q6-root-intake-first-independent-review-20261016.json",
+      "sha256": "e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c",
+      "review": {
+        "kind": "Q6 nonauthor independent exact root-current intake FIRST review",
+        "reviewer": "n6_intake_review; author of neither six Q MD/native nor root intake; repo content writes0",
+        "verdict": "counter exact16 candidate: C-Q6-root-1/2 current temporal/input normalization and C-Q6-root-3 failed whole-docs gate; plus C-Q6-root-4 root-introduced scene input mismatch; source acceptance remains separately valid",
+        "candidate": {
+          "root": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+          "HEAD": "c3bb4096c4041a7890350199ca226fc79d174832",
+          "MERGE_HEAD": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+          "tree": "654db19e0bbeabf172a2e3d3bd4c6e1e4d0e1716",
+          "manifest": {
+            "path": "/tmp/type-pal-q6-root-frozen-manifest-20261016.json",
+            "sha256": "29a2e99fd792b93103a365999e4cc349cd42e7da94c88f7f143c9c6db90b611e",
+            "bytes": 4347,
+            "lines": 105
+          },
+          "paths": 16,
+          "stagedExact": true,
+          "workingBytesExact": true
+        },
+        "freshReadScope": {
+          "rules": "Reuse earlier actual AGENTS/CLAUDE/READ-FIRST/workflow/board/document-model/templates/testing rules reading; task top/admission and current N/Q/A8 sections/new Q delta reread. No unrelated historical full task reread claim.",
+          "current": "Actually read all six normalized current unique fields, shared clauses once, six complete catalog projections, rootIntake/source proof authority/verdict scopes, new matrix relation/current metadata and exact source-state failure history. Current preservation maps/full23historical objects parsed/compared mechanically rather than claimed fresh manual source reading.",
+          "source": "Reuse fixed independent e018 publication26/current79/full43 and3a804 Q5 original387/live394/full43, preserving all earlier failed source gates. Six MD/native byte-exact07b3,413 source-line inverse and870 total current lines mechanically checked; no fresh prose/source re-signature or product/runtime validation."
+        },
+        "sourceAuthority": {
+          "pilot": {
+            "path": "/tmp/type-pal-q-pilot-root-independent-review-20261016.json",
+            "sha256": "e0183727907c671d9587f6484461d18dea01ea99c03e28fa91fee466e30c6c55",
+            "completeEmbeddedDeepEqual": true,
+            "scope": "fixed source only, not root current or future bytes"
+          },
+          "remainingFive": {
+            "path": "/tmp/type-pal-q5-root-independent-review-20261016.json",
+            "sha256": "3a804ca3be78474a90b15a1f875222557540c5d4818cc382b191749e65c06931",
+            "completeEmbeddedDeepEqual": true,
+            "scope": "fixed source only, not root current or future bytes"
+          }
+        },
+        "allSixFieldClassification": [
+          {
+            "path": "docs/phase2/guides/content-publication.md",
+            "dependencies": "C1 unpinned current pilot-only prohibition",
+            "publicCallers": "C1 route-before-intake wording stale",
+            "legalInputs": "C2 entries[0].legalInputs[2] source-author whitelist lacks temporal axis; first two per-caller inputs bounded",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "Current author project is the source for author prose; PAL supply alone is regenerated. check:content is read-only and not save/recovery, whereas migrate invokes transaction recovery before baseline/plan even without --write and can write. Preserve supply partitions, author-owned prose, current-only and retired converter boundaries; no runtime acceptance."
+          },
+          {
+            "path": "docs/phase2/guides/actor-presets.md",
+            "dependencies": "Fixed4547 Q5 admission and locked pilot source accurately bounded; no counter",
+            "publicCallers": "Product callers remain bounded source observations; static role fact root ledger not written by author is true. Recommended prefix fixed07b3 source author attribution/current root intake responsibility for clarity; no independent new counter.",
+            "legalInputs": "C2 entries[1].legalInputs[2] source-author whitelist lacks temporal axis; first two per-caller inputs bounded",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "人物预制复用稳定身份和资源，实例独占位置/页面/行为；解绑保当前sprite和实例，复制定义/习得表但只共享资产id，删除按引用/只读队伍阻断。原C1-2 content14为历史；当前22/12只核常量，C1-3及保存为人物后继UI未验。"
+          },
+          {
+            "path": "docs/phase2/guides/battlefield-authoring.md",
+            "dependencies": "Fixed4547 Q5 admission and locked pilot source accurately bounded; no counter",
+            "publicCallers": "Product callers remain bounded source observations; static role fact root ledger not written by author is true. Recommended prefix fixed07b3 source author attribution/current root intake responsibility for clarity; no independent new counter.",
+            "legalInputs": "C2 entries[2].legalInputs[2] source-author whitelist lacks temporal axis; first two per-caller inputs bounded",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "战场为稳定非负安全整数环境id，现代0合法，不是阵型。默认24；startBattle显式→hostile显式→scene→24。复制/删除不回收背景，PAL0..5/6..57及52/58是原PAL特定观察，不升级为通用schema或raw重认证。"
+          },
+          {
+            "path": "docs/phase2/guides/debug-tools.md",
+            "dependencies": "Fixed4547 Q5 admission and locked pilot source accurately bounded; no counter",
+            "publicCallers": "Product callers remain bounded source observations; static role fact root ledger not written by author is true. Recommended prefix fixed07b3 source author attribution/current root intake responsibility for clarity; no independent new counter.",
+            "legalInputs": "C2 entries[3].legalInputs[2] source-author whitelist lacks temporal axis; first two per-caller inputs bounded",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "DEV&&debug动态入口提供状态、原13命令、detached/确认/Abort、K2预设恢复和100ms gameplay步进。原G1 dist/G4手测/K测试为历史；直接命令不写槽与后续普通保存不是同一承诺，skill不隔离正常存档。"
+          },
+          {
+            "path": "docs/phase2/guides/scene-entry-authoring.md",
+            "dependencies": "Fixed4547 Q5 admission and locked pilot source accurately bounded; no counter",
+            "publicCallers": "Product callers remain bounded source observations; static role fact root ledger not written by author is true. Recommended prefix fixed07b3 source author attribution/current root intake responsibility for clarity; no independent new counter.",
+            "legalInputs": "C2 entries[4].legalInputs[2] source-author whitelist lacks temporal axis; C4 scene legalInputs[0] also false",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "onEnter initial数据允许prepare→reveal→body，但当前公开UI只有prepare/body，无独立reveal/reset/default提示。安全目录未完整接入插入/保存过滤，已见部分rootScope/entry限制不等完全无校验；原31/59,-23/2160ms/婶婶顺序保留。"
+          },
+          {
+            "path": "docs/phase2/guides/shared-script-author-guide.md",
+            "dependencies": "Fixed4547 Q5 admission and locked pilot source accurately bounded; no counter",
+            "publicCallers": "Product callers remain bounded source observations; static role fact root ledger not written by author is true. Recommended prefix fixed07b3 source author attribution/current root intake responsibility for clarity; no independent new counter.",
+            "legalInputs": "C2 entries[5].legalInputs[2] source-author whitelist lacks temporal axis; first two per-caller inputs bounded",
+            "primarySource": "All fixed revision/blob/wholeSHA and36 total bounded range hashes mechanically checked; root earlier fresh source reading reused explicitly, no new reviewer product-read claim",
+            "versions": "Original content14/22/SAVE11/Oct4 and sharedOct11/SAVE12 capture retained complete; current22/SAVE12/source constants remain separate, no old-version input promotion or runtime credit",
+            "sourcePending": "Native author pending and publication pilot dependency pending43 explicitly historical source snapshot in fixed handoff; preserve as is. New canonical root verdict only control.rootIntake.",
+            "businessBoundary": "current content22/SAVE12固定业务复用，Behavior/Hook/item-private/结构能力/shared/template六选择分工明确；稳定ScriptId+self无chunk，N6b参数化未实现。runtime required-self拒绝不等保存全路径；canonical调用环DFS未实现。SAVE12原合同保现状，不授本轮存读运行信用。"
+          }
+        ],
+        "counters": [
+          {
+            "id": "C-Q6-root-1",
+            "kind": "current dependency/caller temporal conflict",
+            "severity": "blocks exact current-root intake",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "fields": [
+              {
+                "selector": "entries.path=docs/phase2/guides/content-publication.md",
+                "field": "dependencies[2].scope",
+                "line": 152,
+                "observed": "top/admission governs two-path first pilot; remaining5 not allowed",
+                "evidence": "Unpinned current task path now actually records Q5 build allowed and Q6 current intake; five source accepted at07b3. Original first-pilot restriction was true only at aa5/5641 source stage.",
+                "repair": "Pin actual aa5/5641 historical admission revision/scope or store under source authorization history; current dependency routes to canonical rootIntake, not a current five-guide prohibition."
+              },
+              {
+                "selector": "entries.path=docs/phase2/guides/content-publication.md",
+                "field": "publicCallers[3].role",
+                "line": 198,
+                "observed": "static governance consumers; shared route does not cover this new pilot until root intake",
+                "evidence": "Actual250 migrated routes include this guide and other five; six positive models and independent current CLI pass. Independent intake verdict pending is separate from physical route presence.",
+                "repair": "Describe current static route/model coverage at exact snapshot, with semantic/acceptance verdict solely control.rootIntake. If preserving old sentence, explicitly bind it to original first-pilot source snapshot."
+              }
+            ],
+            "doNotChange": "Six accepted MD and17top/6x43 native handoff; their historical pending and source gates remain exact."
+          },
+          {
+            "id": "C-Q6-root-2",
+            "kind": "author source write-authorization mixed into current legal-input axis",
+            "severity": "blocks accurate current normalization",
+            "fields": [
+              {
+                "path": "docs/phase2/guides/content-publication.md",
+                "field": "entries[0].legalInputs[2]",
+                "line": 204,
+                "before": "Only fixed samepath documentation source and two admitted candidate files; no old schema/bootstrap/converter revival",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              },
+              {
+                "path": "docs/phase2/guides/actor-presets.md",
+                "field": "entries[1].legalInputs[2]",
+                "line": 763,
+                "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              },
+              {
+                "path": "docs/phase2/guides/battlefield-authoring.md",
+                "field": "entries[2].legalInputs[2]",
+                "line": 1598,
+                "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              },
+              {
+                "path": "docs/phase2/guides/debug-tools.md",
+                "field": "entries[3].legalInputs[2]",
+                "line": 2362,
+                "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              },
+              {
+                "path": "docs/phase2/guides/scene-entry-authoring.md",
+                "field": "entries[4].legalInputs[2]",
+                "line": 3616,
+                "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              },
+              {
+                "path": "docs/phase2/guides/shared-script-author-guide.md",
+                "field": "entries[5].legalInputs[2]",
+                "line": 4296,
+                "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+                "required": "Make this the current fixed documentation source/body, typed route/registry/template and canonical root-event input scope. Preserve original two/five author write whitelist as explicitly dated/revision-pinned source authorization history, without changing native author record."
+              }
+            ],
+            "count": 6,
+            "evidence": "Each new normalized current legalInputs[2] still encodes author-only two-path/fiveMD write whitelist without a fixed-source-time label; root six-guide intake necessarily edits shared ledgers. Caller/data preconditions are reviewed separately; scene legalInputs[0] has additional independently verified C4 root-input defect.",
+            "repair": "Move/preserve exact author write scope in source-stage history and state actual current static input contract; do not turn this repair into product authorization. Six fields total, one per guide."
+          },
+          {
+            "id": "C-Q6-root-3",
+            "kind": "required whole-docs gate failed/interrupted",
+            "severity": "blocks integration acceptance",
+            "source": {
+              "path": "/tmp/type-pal-q6-root-intake-gates-20261016.json",
+              "sha256": "c2c4ac8b8f4d55951f034485d32a735ad0664c3b2fe34f7885f7462a9711dd00",
+              "bytes": 2886,
+              "lines": 96
+            },
+            "actual": {
+              "command": "pnpm check:docs",
+              "exit": 1,
+              "elapsedSeconds": 171.536,
+              "tests": 86,
+              "pass": 85,
+              "fail": 1,
+              "cancelled": 0,
+              "skipped": 0,
+              "todo": 0,
+              "failedTest": 61,
+              "location": "scripts/docs/frozen-binding-baseline.test.mjs:437:1",
+              "error": "Command failed: git hash-object -t blob -w --stdin",
+              "fixtureFrame": "frozen-binding-baseline.test.mjs:61:7"
+            },
+            "observation": "Actual root-supplied sample shows owned git42727, parent node35153, hash_fd→index_fd→strbuf_read→read_in_full→xread→read. Root reports TERM to that hung child; final npm process exit1. Sample demonstrates waiting read only; no established Node/Git/Q-content root cause.",
+            "sample": {
+              "path": "/tmp/type-pal-q6-root-stalled-git-sample-20261016.txt",
+              "sha256": "295e93588b03f112510a2b74dcd59fba28cbf71b751126f37d90da659d78adf2",
+              "bytes": 56666,
+              "lines": 348
+            },
+            "repair": "Keep first failed gate/raw/sample unchanged; after metadata fix rerun required full docs/lint/diff on a new exact frozen snapshot with new evidence filenames. Do not modify old tests/rules or call85/86/full strict a whole-docs pass."
+          },
+          {
+            "id": "C-Q6-root-4",
+            "kind": "root-normalized scene legal input is weaker than actual source contract",
+            "severity": "blocks legal-input truth",
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+            "field": "entries[4].legalInputs[0]",
+            "line": 3614,
+            "observed": "仅onEnter initial步骤/状态可有entry；entry对象至少有prepare/reveal一项，不禁止空prepare数组；其他步骤/auto/实体/出口/shared不声明entry",
+            "origin": "Root self-audit raised issue; independent reviewer directly read fixed-identical author-script-core403-421/632-643/914-978 and reproduced actual pure checker cases before accepting counter. Root metadata introduced this wording; not source author or product defect.",
+            "evidence": {
+              "source": "packages/content/src/author-script-core.ts",
+              "wholeSha256": "a3e43e76ad0939d410e5a1070fd90f748dba188ffaed6a3c5193d1a333c05390",
+              "anchors": [
+                "checkSceneEntry914-927 unconditionally checks entry.prepare then record(entry.reveal)",
+                "checkBaseAuthorCommands632-637 requires array, does not forbid empty array",
+                "record403-407 rejects missing/nonobject and array",
+                "reveal.kind924-926 onlydither/fade/cut"
+              ],
+              "actualPureSchema": {
+                "path": "/tmp/type-pal-q6-root-entry-input-counter-20261016.json",
+                "sha256": "d1b3630a5809c88d284e7d925dae136dff9174b60af3533422a526d584c91779",
+                "bytes": 1714,
+                "lines": 80
+              },
+              "cases": [
+                {
+                  "name": "prepare-empty-with-cut",
+                  "entry": {
+                    "prepare": [],
+                    "reveal": {
+                      "kind": "cut"
+                    }
+                  },
+                  "expected": true,
+                  "accepted": true,
+                  "error": null,
+                  "pass": true
+                },
+                {
+                  "name": "prepare-empty-with-fade",
+                  "entry": {
+                    "prepare": [],
+                    "reveal": {
+                      "kind": "fade"
+                    }
+                  },
+                  "expected": true,
+                  "accepted": true,
+                  "error": null,
+                  "pass": true
+                },
+                {
+                  "name": "prepare-empty-with-dither",
+                  "entry": {
+                    "prepare": [],
+                    "reveal": {
+                      "kind": "dither"
+                    }
+                  },
+                  "expected": true,
+                  "accepted": true,
+                  "error": null,
+                  "pass": true
+                },
+                {
+                  "name": "only-prepare",
+                  "entry": {
+                    "prepare": []
+                  },
+                  "expected": false,
+                  "accepted": false,
+                  "error": "flow.stages[0].entry.reveal: 期望对象",
+                  "pass": true
+                },
+                {
+                  "name": "only-reveal",
+                  "entry": {
+                    "reveal": {
+                      "kind": "cut"
+                    }
+                  },
+                  "expected": false,
+                  "accepted": false,
+                  "error": "flow.stages[0].entry.prepare: 期望 BaseAuthorCommand[]",
+                  "pass": true
+                },
+                {
+                  "name": "unknown-kind",
+                  "entry": {
+                    "prepare": [],
+                    "reveal": {
+                      "kind": "other"
+                    }
+                  },
+                  "expected": false,
+                  "accepted": false,
+                  "error": "flow.stages[0].entry.reveal.kind: 期望 dither|fade|cut",
+                  "pass": true
+                }
+              ]
+            },
+            "repair": "entry requires BOTH prepare array (empty allowed) AND reveal object whose kind is dither|fade|cut; preserve onEnter initial-only domain and other-step exclusions. Preserve original native author text and all source bodies byte-exact.",
+            "notCredit": "Only owned-memory pure schema input check, no project save/migration/browser/E2E or product/oldtest/coverage changes."
+          }
+        ],
+        "entryInputCounterActual": {
+          "cases": 6,
+          "issues": 0,
+          "scope": "Fresh direct static schema source and owned-memory six pure checker cases; three valid BOTH-field inputs and three rejected one-field/unknown-kind inputs. No product/runtime credit.",
+          "evidence": [
+            {
+              "path": "/tmp/type-pal-q6-root-entry-input-counter-20261016.ts",
+              "sha256": "0d2cd69c332f0fa209e468bcf557078db343d6438971dbd475c940122b5f31c0",
+              "bytes": 1370,
+              "lines": 13
+            },
+            {
+              "path": "/tmp/type-pal-q6-root-entry-input-counter-20261016.json",
+              "sha256": "d1b3630a5809c88d284e7d925dae136dff9174b60af3533422a526d584c91779",
+              "bytes": 1714,
+              "lines": 80
+            }
+          ]
+        },
+        "exactRepairCount": {
+          "mandatoryCurrentScalarFields": 9,
+          "dependencyScopes": 1,
+          "publicCallerRoles": 1,
+          "legalInputAuthorScopeValues": 6,
+          "sceneLegalDataInput": 1,
+          "optionalClarityOnly": "Five static caller roles can be explicitly source-attributed; publication frozen-design first-pilot scope can be labeled historical. They are not separately proven false or additional blocking counters.",
+          "productNativeBodyChanges": 0
+        },
+        "independentActualChecks": {
+          "ledgerProbe": {
+            "checks": 279,
+            "issues": 2,
+            "actualFullSelectedGitObjects": 25,
+            "immediateReviewRegistryCatalog": 18,
+            "nativeCompleteAuthor43": 6,
+            "matrixPriorCurrent": 1,
+            "primaryRangePins": 36,
+            "sourceInverseLines": 413,
+            "allSixCurrentLinesMechanical": 870
+          },
+          "consumers": {
+            "checks": 36,
+            "issues": 0,
+            "sixPositiveModels": 6,
+            "memoryShapeNegatives": 18,
+            "separateBytePinNegatives": 12,
+            "phaseViews": "Actual exported producer invoked in memory, both views equal base and current exact; root CLI producer proof separately pinned.",
+            "Marked": "Actual one GFM table40rows; previous39 cell values unchanged; exactly one Q guarded relation.",
+            "freshCLI": [
+              {
+                "command": [
+                  "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                  "scripts/docs/check-document-model.mjs"
+                ],
+                "exit": 0,
+                "signal": null,
+                "path": "/tmp/type-pal-q6-root-independent-cli-0-20261016.log",
+                "sha256": "2e208b6a64dc0330fb164216983f9d1d7d3e595aab1ba5dc92f2106fae82ee6e"
+              },
+              {
+                "command": [
+                  "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                  "scripts/docs/check-content-review.mjs",
+                  "--strict"
+                ],
+                "exit": 0,
+                "signal": null,
+                "path": "/tmp/type-pal-q6-root-independent-cli-1-20261016.log",
+                "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62"
+              },
+              {
+                "command": [
+                  "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                  "scripts/docs/report-governance-progress.mjs",
+                  "--json"
+                ],
+                "exit": 0,
+                "signal": null,
+                "path": "/tmp/type-pal-q6-root-independent-cli-2-20261016.log",
+                "sha256": "1916bf9f0facf9fff493da1b80242199f485fcfe6560281c33550edfa4cecd1b"
+              }
+            ]
+          },
+          "sharedIntegrity": "733registry/other727 exact;184catalog/other178 exact;maturity55/52/77 unchanged;244oldroutes exact→250;old39 complete machine objects and MDdata exact;remaining legacy records exact; no config/product/oldtest/coverage changes.",
+          "sourceFirstUnicodeCounter": "Root restored precisely two nested historical⚠ against c3bb; all old39 complete objects now exact. Complete first report not retained and not fabricated; exact e3bc tool-trace claim and later43/0 remain distinct.",
+          "progress": {
+            "approvedCohort": 1838,
+            "cohortMigrated": 245,
+            "cohortPending": 1593,
+            "currentCandidates": 1985,
+            "currentPending": 1735,
+            "incrementalMigrated": 5,
+            "issues": []
+          },
+          "limits": "Structure/boundary checks do not automatically catch stale current authorization prose. Counter remains despite model/strict greens."
+        },
+        "rootBroadGates": {
+          "evidence": {
+            "path": "/tmp/type-pal-q6-root-intake-gates-20261016.json",
+            "sha256": "c2c4ac8b8f4d55951f034485d32a735ad0664c3b2fe34f7885f7462a9711dd00",
+            "bytes": 2886,
+            "lines": 96
+          },
+          "rawResults": [
+            {
+              "name": "docs",
+              "argv": ["pnpm", "check:docs"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 1,
+              "signal": null,
+              "elapsedSeconds": 171.536,
+              "log": {
+                "path": "/tmp/type-pal-q6-root-gate-docs-20261016.log",
+                "sha256": "985e37b5a897e192bbc6fc367a2bcf091e9bacfceb843756b5eb3f280f6310c7",
+                "bytes": 22246
+              }
+            },
+            {
+              "name": "lint",
+              "argv": ["pnpm", "lint"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "elapsedSeconds": 2.143,
+              "log": {
+                "path": "/tmp/type-pal-q6-root-gate-lint-20261016.log",
+                "sha256": "ba60fc93567bab3f49de7d46b24d6e437befe0b64c25fba252d1bc06d185d74a",
+                "bytes": 201
+              }
+            },
+            {
+              "name": "diff",
+              "argv": ["git", "diff", "c3bb4096c4041a7890350199ca226fc79d174832", "--check"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "elapsedSeconds": 0.045,
+              "log": {
+                "path": "/tmp/type-pal-q6-root-gate-diff-20261016.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              }
+            },
+            {
+              "name": "strict",
+              "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "elapsedSeconds": 0.201,
+              "log": {
+                "path": "/tmp/type-pal-q6-root-gate-strict-20261016.log",
+                "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+                "bytes": 63
+              }
+            },
+            {
+              "name": "progress",
+              "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+              "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+              "exit": 0,
+              "signal": null,
+              "elapsedSeconds": 1.212,
+              "log": {
+                "path": "/tmp/type-pal-q6-root-gate-progress-20261016.log",
+                "sha256": "1916bf9f0facf9fff493da1b80242199f485fcfe6560281c33550edfa4cecd1b",
+                "bytes": 80160
+              }
+            }
+          ],
+          "frozenInputsUnchanged": true,
+          "requiredPass": false,
+          "actualLint": {
+            "files": 4113,
+            "error": 0,
+            "warning": 0,
+            "info": 0,
+            "completeReport": true
+          },
+          "strict": {
+            "documents": 733,
+            "exit": 0
+          },
+          "diff": {
+            "exit": 0,
+            "outputBytes": 0
+          },
+          "scope": "Root executed; independent reviewer hashes/read actual logs and summaries. Full docs85/86 is FAIL, later downstream docs link aggregate was not reached; no guessed full-link pass."
+        },
+        "evidence": [
+          {
+            "path": "/tmp/type-pal-q6-root-independent-ledger-probe-20261016.py",
+            "sha256": "0233329f110d99992402711de48e78e2f7193dcb6f994bac6ad51707140a0a2b",
+            "bytes": 9463,
+            "lines": 46
+          },
+          {
+            "path": "/tmp/type-pal-q6-root-independent-ledger-probe-20261016.json",
+            "sha256": "a3e7ded6c41171d812331a5ed7c11dd000842c739041ad00891c788b48f80dae",
+            "bytes": 944519,
+            "lines": 18770
+          },
+          {
+            "path": "/tmp/type-pal-q6-root-independent-consumers-20261016.mjs",
+            "sha256": "ca124456bc02a290915a14cdf74a9bd508e41192ff1ab771c928c3e8233acdf0",
+            "bytes": 4075,
+            "lines": 7
+          },
+          {
+            "path": "/tmp/type-pal-q6-root-independent-consumers-20261016.json",
+            "sha256": "7e3aacf439d93a4a288e6a75e458a02b43110a9aec757478ec62a67a9c44b37c",
+            "bytes": 11510,
+            "lines": 416
+          }
+        ],
+        "ownObserverLimits": [
+          "One auxiliary log read initially guessed old N-style filename despite actual gate paths; failed rg/tail preserved in tool trace, immediately corrected to actual report-owned paths. No fabricated raw output or candidate issue.",
+          "Used existing manifest tree via index tree calculation; all generated tree objects already existed from root freeze. No tracked/untracked content writes, no stage/commit/merge/push, no test/product process termination by reviewer."
+        ],
+        "nextStep": "Root may preserve this exact countered snapshot/complete six current objects in reachable Git, repair only scoped metadata with original native/source untouched, preserve original failures/gates, freeze new bytes and request narrow closure with actual zero whole gates. No batch user permission needed. No accepted six migration/root credit from this report.",
+        "finalState": {
+          "HEAD": "c3bb4096c4041a7890350199ca226fc79d174832",
+          "MERGE_HEAD": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+          "same16ManifestBytes": true,
+          "contentWrites": 0,
+          "fullGoalComplete": false,
+          "runtimeE2EVisualCoverageCredit": 0
+        }
+      },
+      "exactCandidateCommit": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+      "exactCandidateTree": "654db19e0bbeabf172a2e3d3bd4c6e1e4d0e1716"
+    },
+    "completeImmediatePriorRootEvent": {
+      "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+      "revision": "7dffc49ace7cf66f29a0a649fc4ba29d75483031",
+      "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+      "gitObject": "460864c12b1d8992fa5d95fab90ec522b6d98b4e",
+      "fileSha256": "5337968e4b20b522c5d333f537898cf35050d70e6d9090b6b805f4b5047994c3",
+      "selector": {
+        "nativeTopKey": "rootIntake",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    "currentRepair": {
+      "mandatoryScalarChanges": [
+        {
+          "path": "docs/phase2/guides/content-publication.md",
+          "keyArray": ["dependencies", 2, "scope"],
+          "before": "top/admission governs two-path first pilot; remaining5 not allowed",
+          "after": "Historical aa5/5641 two-path publication-pilot admission only; remaining-five admission later fixed4547. Current six-guide static input/acceptance boundary is solely canonical Q control.rootIntake; source-author permissions remain historical at fixed native revision."
+        },
+        {
+          "path": "docs/phase2/guides/content-publication.md",
+          "keyArray": ["publicCallers", 3, "role"],
+          "before": "static governance consumers; shared route does not cover this new pilot until root intake",
+          "after": "Actual current static model/review/progress consumers cover this typed guide route; physical route presence is distinct from independent root acceptance, whose sole verdict is Q control.rootIntake. No runtime caller credit."
+        },
+        {
+          "path": "docs/phase2/guides/content-publication.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only fixed samepath documentation source and two admitted candidate files; no old schema/bootstrap/converter revival",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        },
+        {
+          "path": "docs/phase2/guides/actor-presets.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        },
+        {
+          "path": "docs/phase2/guides/battlefield-authoring.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        },
+        {
+          "path": "docs/phase2/guides/debug-tools.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        },
+        {
+          "path": "docs/phase2/guides/scene-entry-authoring.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        },
+        {
+          "path": "docs/phase2/guides/scene-entry-authoring.md",
+          "keyArray": ["legalInputs", 0],
+          "before": "仅onEnter initial步骤/状态可有entry；entry对象至少有prepare/reveal一项，不禁止空prepare数组；其他步骤/auto/实体/出口/shared不声明entry",
+          "after": "仅onEnter initial步骤/状态可有entry；entry须同时有prepare数组（可空）及reveal对象，reveal.kind只准dither|fade|cut；其他步骤/auto/实体/出口/shared不声明entry"
+        },
+        {
+          "path": "docs/phase2/guides/shared-script-author-guide.md",
+          "keyArray": ["legalInputs", 2],
+          "before": "Only admitted samepath fiveMD plus existing17top/6×43 handoff; current stable paths; no product/oldtest/coverage or shared ledger writes",
+          "after": "Fixed samepath original/current documentation bytes plus matching typed route, registry, frozen template and canonical Q rootIntake event; static governance inputs only, no product/old-schema/converter authorization. Source author two-path/five-guide write scope is historical at fixed native record."
+        }
+      ],
+      "additionalEvidence": "Publication historical task revision pinned aa5; scene primary adds only403-407 and632-638 actual ranges. Full six prior current records remain at exact7dffc Git locators; all body/source/native identities unchanged.",
+      "sourceBodyWrites": 0,
+      "nativeWrites": 0,
+      "scope": "Two metadata files only relative to7dffc, full aggregate16 unchanged. Root exact intake awaits new zero gates and nonauthor narrow closure.",
+      "semanticNegative": {
+        "target": "scene current legalInputs[0]",
+        "actualSource": "author-script-core checkSceneEntry914-927 + checkBaseAuthorCommands632-637 + record403-407",
+        "positive": "Both fields, empty prepare allowed, reveal kind dither/fade/cut",
+        "negative": "Only prepare, only reveal or unknown kind are not legal; structure/template green alone would not catch a false metadata claim",
+        "independentPureSchemaEvidence": {
+          "path": "/tmp/type-pal-q6-root-entry-input-counter-20261016.json",
+          "sha256": "d1b3630a5809c88d284e7d925dae136dff9174b60af3533422a526d584c91779",
+          "scope": "Six owned-memory pure schema observations, no save/migration/browser/oldtest/runtime credit"
+        }
+      }
+    },
+    "firstFailedWholeGates": {
+      "path": "/tmp/type-pal-q6-root-first-intake-20261016/type-pal-q6-root-intake-gates-20261016.json",
+      "sha256": "c2c4ac8b8f4d55951f034485d32a735ad0664c3b2fe34f7885f7462a9711dd00",
+      "report": {
+        "manifest": {
+          "path": "/tmp/type-pal-q6-root-frozen-manifest-20261016.json",
+          "sha256": "29a2e99fd792b93103a365999e4cc349cd42e7da94c88f7f143c9c6db90b611e",
+          "tree": "654db19e0bbeabf172a2e3d3bd4c6e1e4d0e1716"
+        },
+        "results": [
+          {
+            "name": "docs",
+            "argv": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 1,
+            "signal": null,
+            "elapsedSeconds": 171.536,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-gate-docs-20261016.log",
+              "sha256": "985e37b5a897e192bbc6fc367a2bcf091e9bacfceb843756b5eb3f280f6310c7",
+              "bytes": 22246
+            }
+          },
+          {
+            "name": "lint",
+            "argv": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "elapsedSeconds": 2.143,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-gate-lint-20261016.log",
+              "sha256": "ba60fc93567bab3f49de7d46b24d6e437befe0b64c25fba252d1bc06d185d74a",
+              "bytes": 201
+            }
+          },
+          {
+            "name": "diff",
+            "argv": ["git", "diff", "c3bb4096c4041a7890350199ca226fc79d174832", "--check"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "elapsedSeconds": 0.045,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-gate-diff-20261016.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            }
+          },
+          {
+            "name": "strict",
+            "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "elapsedSeconds": 0.201,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-gate-strict-20261016.log",
+              "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+              "bytes": 63
+            }
+          },
+          {
+            "name": "progress",
+            "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "elapsedSeconds": 1.212,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-gate-progress-20261016.log",
+              "sha256": "1916bf9f0facf9fff493da1b80242199f485fcfe6560281c33550edfa4cecd1b",
+              "bytes": 80160
+            }
+          }
+        ],
+        "frozenInputsUnchanged": true,
+        "fullGoalComplete": false,
+        "scope": "Actual exact root static docs/strict/lint/diff/progress, no runtime/E2E/visual/coverage. Nonzero or any diagnostic is failure; independent intake still required."
+      },
+      "interpretation": "Actual first docs86/85pass/1fail/0skip exit1 after owned fixture Git stdin read was interrupted; waiting-read sample only, root cause unknown. lint4113 EWI0/strict733/diff/progress separately pass. Never substitute these for a passing whole docs gate."
+    }
   },
   "artifactRules": [
     {

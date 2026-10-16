@@ -957,3 +957,9 @@ Branch: codex/docs-full-template-proposal
 - 新增一条独立Q作者指南↔运行/存档路径guarded关系39→40，原39whole机器对象/MD数据行不变。人物实例/现代0/默认24/调试普通保存风险/prepare部分门与无revealUI/N6b和DFS未实现/required-self保存发布待证、PAL恢复可能写入等真实边界不变。scene合法输入明确entry对象非空不等禁止空prepare数组；原作者字节全保。
 - 作者实际docs/strict六SHA漂移FAIL保历史，lint/diff零；根当前producer/GFM/版本/model/严格SHA/全部零门与非作者精确接入验收另跑，不提前签accept。本卡build及1838/所有增量/artifacts持续active，Q两新增机器文档自身0迁移信用。唯一根裁定Qcontrol.rootIntake，旧pending明示固定源时点，不设重复可变状态镜像。
 - 根首43consumer实拒矩阵内两处历史⚠经formatter stdout变为!；按固定c3bb仅恢复这两值，换真实文件format后完整AST精确，复跑43/0。首consumer临时路径被后跑覆盖，原完整raw未保存，工具trace/e3bc及精确差异记录保留，不补造首绿或原报告。
+
+#### Q根首counter保留；九处current语义窄修
+
+- 精确16候选7dffc49ace7cf66f29a0a649fc4ba29d75483031（自然父c3bb+07b3）保完整首current/所有历史；独立565行首counter e95e9595ec6799a25a47bd8bb026118dd9228adb97800f6c1e877f43fa092c8c全文已读并嵌Q唯一rootIntake。C1 publication当前依赖/route角色2值、C2六作者写域混入legal input、C4根自审scene至少一项错误，共9必改scalar。原正文6/native全锁，新增当前prior均为真实7dffc Git/blob/wholeSHA/唯一selector。
+- scene实际prepare数组（可空）和reveal对象两者必有，kind只dither/fade/cut；根重读632/914及独立403源码/六个纯校验输入，明确这是根归一化错句，不归原作者/产品。当前input修正不执行完整保存或产品；原N6b/DFS/安全UI/版本未知继续。
+- C3首docs86测85过1败，旧F1 fixture hash-object等待read后根中止；原raw/sample/manifest完整独立备份保/tmp/type-pal-q6-root-first-intake-20261016，根因未知。首lint4113 EWI0/strict733/diff/progress通过分开保，不授全门。后继新针另跑全部零门、非作者仅针对本窄修/精确16闭合后才接收；full goal仍build/active。
