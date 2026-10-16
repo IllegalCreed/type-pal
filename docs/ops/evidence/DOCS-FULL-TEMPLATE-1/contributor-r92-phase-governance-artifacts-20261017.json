@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r92-phase-governance-artifacts-20261017",
+  "kind": "R92 phase-governance artifact migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+  "scope": {
+    "documents": 25,
+    "docTypes": {
+      "archive-record": 25
+    },
+    "kinds": {
+      "markdown": 1,
+      "json": 24
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+      "sourceSha256": "c10ee8609befa20db35a07267a076ded3b3c5f685306fb0f7ba1048e8f5a2b7e",
+      "afterSha256": "c10ee8609befa20db35a07267a076ded3b3c5f685306fb0f7ba1048e8f5a2b7e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+      "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "afterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+      "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "afterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+      "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "afterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+      "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "afterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+      "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "afterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+      "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "afterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+      "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "afterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+      "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "afterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+      "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "afterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+      "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "afterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+      "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "afterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+      "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "afterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+      "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "afterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+      "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "afterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+      "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "afterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+      "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "afterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+      "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "afterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+      "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "afterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+      "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "afterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+      "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "afterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+      "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "afterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+      "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "afterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+      "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "afterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/README.md",
+      "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+      "afterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    }
+  ]
+}

@@ -7,6 +7,8 @@ Capability: documentation governance
 Coding Owner: Codex
 Reviewer: 分批非作者审查见固定候选与逐篇回执；Codex维护接入，最终全量独立复核待完成
 Branch: codex/docs-full-template-proposal
+Last reviewed: 2026-10-17
+Template: task-card-v1 / 1.0.0
 
 ## 目标
 在不覆盖共享工作树改动、不把静态治理冒充运行时验收的前提下，核定 docs 全树的文件归属，冻结可审查的统一模板注册表，再按批次把正文迁移为模板合规并为每篇保留可追溯 review record。
@@ -15,6 +17,23 @@ Branch: codex/docs-full-template-proposal
 - 范围内：docs 物理树分类；Markdown/JSON/HTML 的逐篇语义审查；testing 专用类型；artifact/evidence 归属；registry、cross-phase matrix、review records；模板 pilot 后的分批迁移。
 - 范围外：产品源码、旧测试、coverage、运行时/E2E/视觉结论；正文仅在用户批准合同及对应真实pilot后分批迁移。
 - 明确不做：不删除历史，不将历史结论升格当前事实，不用路径启发式替代全文阅读，不覆盖主工作树四项改动。
+
+## 前提与证据
+- 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
+- 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
+- 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
+- 当前状态：build
+
+## 验收
+- 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
+- 测试与证据：`pnpm check:docs`、`pnpm lint`、`git diff --check` 零诊断；每批保留 source/after SHA、quote inverse 或 byte round-trip。
+- 视觉或 E2E（如适用）：本任务不授 runtime/E2E/视觉/coverage 信用；需独立真实证据。
+- 不把历史回执、数量或覆盖率当作单独验收依据。
+
+## 状态与交接
+- 当前 Owner：Codex。
+- 阻塞/决策：全量仍 active/build；主工作树 protected files 保持用户原改动。
+- 下一步与交接提示词：继续处理 phase-governance structural records，清点 protected exceptions；不得标记 done。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提
@@ -1528,3 +1547,10 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`20261017-r91-ops-evidence-artifacts.json`、registry 99 条 artifact-only/历史封套；不授 runtime/E2E/视觉/coverage 信用。
 - registry storage normalization：为保持 Biome 零诊断，registry entries 省略可由 templateId 推导的 `template`、默认 false 的 `historyOverlay`/`artifactOnly` 和冗余 `reviewDepth`；review records 仍保留完整字段。
 - 当前进度 `1814/1838 baseline + 265 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 Final structural exceptions (未完成)
+
+- `docs/phase-governance/document-registry.json` 与 `docs/phase-governance/routing.json` 是治理工具的自引用根，不能把自身作为普通 migrated route，否则会递归污染 registry/routing；保留 structural exception，继续由自身消费者校验。
+- `docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json` 是本批 structural review record，不能在自身内容内登记自身 after SHA；保留为 review-root exception，内容仍由外部 task/registry/routing 引用。
+- `docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md` 是用户/其他任务未提交保护文件，本分支不读取写回或覆盖；保留 protected-worktree exception，合入主树后需以用户实际内容重核 SHA 和 review record。
+- 这三类共 4 个路径不等于完成，不得标记 done；当前 `report-governance-progress` 仍以 `1834/1838 baseline + 501 incremental` 和 `6 current candidates pending` 为准。

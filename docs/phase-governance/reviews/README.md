@@ -1,54 +1,94 @@
 # 内容深审记录
 
-这里保存逐篇实际阅读后的内容 review records。`docs/phase-governance/catalog.json` 是机器 inventory；只有这里明确标记
-`content-reviewed` 的条目才表示 Codex 已读正文并形成内容结论。`partial-review-unknown`、`unread` 和 `blocked` 不得当作当前真值。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: archive-record-v1 / 1.0.0
 
-审查深度分两层：`deep-semantic` 用于当前入口、治理规则和作者-facing 文档，记录 Codex 对目的、边界、依赖和未决项的语义核对；`structured-content` 用于历史计划、归档任务和机器证据，读取全文并记录所有标题、状态信号、链接、未决标记与 SHA，但不把历史回执升级为当前事实。两者都不等于 runtime/E2E/视觉/coverage 通过。
+本页把 phase-governance artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-- [Lore + Phase3 第一批内容深审](20261004-lore-phase3-batch1.json)
-- [Lore Guijie 创作材料深审](20261004-lore-guijie-batch2.json)
-- [Phase1 根文档内容深审](20261004-phase1-root-batch2.json)
-- [当前入口/作者文档语义深审](20261004-semantic-current-batch.json)
-- [其余历史/证据全文结构深审（ops 批次 01–05）](20261004-structured-content-ops-01.json)
-- [其余历史/证据全文结构深审（phase1 批次 01）](20261004-structured-content-phase1-01.json)
-- [其余历史/证据全文结构深审（phase2 批次 01–02）](20261004-structured-content-phase2-01.json)
-- [合并最新 main 后新增材料全文结构深审](20261004-structured-content-new-01.json)
-- [Agent-first 操作路由与权威入口实际改写](20261015-agent-first-routing-batch.json)：仅四份全文核读与改写；全量任务仍在 build。
-- [协作历史分层与 E2E-001 真实 pilot](20261015-protocol-and-e2e-pilot-batch.json)：保留原协议全文、报告段落和 JSON 顶层字段，不新增实跑信用。
-- [历史/参考/创意/设计与域报告真实 pilot](20261015-historical-and-domain-pilot-batch.json)：旧作者与数字按时点保留，具体未知与矩阵停止线显式，不发新运行时信用。
+## 历史范围
 
-- [E2E 合同与历史质量门 pilot](20261015-contract-and-gate-pilot-batch.json)：完整元数据/用户裁决不变，旧版本和 0/50/11 诊断范围不升级。
+- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R92。此文件属于 phase-governance artifact 历史层，不能单独授权当前测试或发布。
 
-- [JSON catalog 真正 pilot](20261015-catalog-pilot-batch.json)：18条逐字段阅读，3条分类/4字段勘误有源留痕、逆向相等与真实消费者检查，不变旧状态和版本。
+## 原始结论
 
-- [域报告/机器证据与历史卡接收记录](20261015-domain-pairs-and-archive-cards.json)：逐篇真实阅读、实际字段/历史/锚点边界；贡献者候选只有独立接收后才写入。
+- 内容深审记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
 
-- [Testing 十份索引与公开 producer 冻结设计](20261016-testing-index-design.md)：保留设计冻结时准入与0/10基点；后续逐篇内容/producer验收及中央状态见专属记录，不从设计外推。
+## 当时证据
 
-- [Testing 十索引逐篇与生成链接入记录](20261016-testing-index-navigation.json)：保留固定738d作者候选和独立读域，当前中央/路由/矩阵按实际受审快照与记录核验；不授359来源或runtime信用。
+- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
 
-- [E2E 002–005 八篇治理冻结设计](20261016-e2e-stage-m-design.md)：A仅八MD，先002入口/报告两canonical pilot再另准余六；四配对JSON未纳入，006不改不重计。设计自身pending，不从设计/静态门授执行信用。
+## 当前有效性
 
-- [固定 binding baseline JSON 合同冻结设计](20261016-binding-baseline-design.md)：test-catalog父1.2.0专用frozen-capture变体，固定33cc原生八字段保全、旧default行为不变；现2.0.1含22项必要写域，实施/canonical接收另验，设计自身pending。
+historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
 
-- [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
+## 继任文档
 
-- [E2E 002–005 入口与报告逐篇接入记录](20261016-e2e-stage-m.json)：旧002及新003–005各守固定来源；dc2行政/中央/矩阵接入已获独立接收，保留counter，不授新运行或扩大历史用户认可。
+- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
 
-- [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：e136作者交付时点的历史快照保留entries空/pilot待验；当前entries为1，e136来源、dd377接入及固定164中央/矩阵均已分别独立接收；后续写回按字节另验，只给索引自身增量1，不授1838源文信用。
+## 停止线
 
-- [F1 固定捕获索引接入](20261016-binding-baseline-contract.json)：e136实现/canonical、dd377自然接入及固定164中央/既有矩阵行分别独立接收；后续行政写回另验，索引自身仅增量1，不给1838候选授审读信用。
+- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
 
-- [P11 第二阶段导航冻结设计](20261016-phase2-navigation-p-design.md)：11篇真实202行按现用导航绑定既有governance-index1.0；10旧错类型/7归档导航状态轴待正文接收后根更正，历史targets和3HTML不冒完成；精确12作者写域按任务卡和真实新基点。
+## 原文保全
 
-- [Lore 九篇逐篇接入](20261016-lore-reference-n.json)：前三篇与后六篇各保固定source/完整回执及独立接收记录；当前根接入结论唯一见该记录的 n6RootIntake，官设未核与项目约束分轴。
-
-- [Phase2 十一导航逐篇接入](20261016-phase2-navigation-p.json)：固定121ff真实源/正文/回执获非作者接收，根类型/七导航状态/路由/实际投影另验；不升格历史目标或HTML。
-
-- [Q作者指南冻结设计](20261016-phase2-guides-q-design.md)：现有guide-runbook，先publication一篇canonical pilot，其他五篇待接收；未知UI/保存/DFS不冒完成。
-- [A8格式与namespace冻结设计](20261016-terminal-a8-design.md)：只准独立codec/结构/physical质量门八文件；B/C0/C1仍counter，不授T/完整批准。
-
-- [L4 四篇 Lore 冻结设计](20261016-lore-remaining-l4-design.md)：仅首characters加native两路径pilot准入；后续逐篇另依实际独立接收，设计自身pending。
-- [三份静态 HTML 历史原型格式设计](20261016-historical-static-html-design.md)：17类型不增；仅依赖/历史bootstrap三文件前置准入，代码/版本/正文pilot均另验，设计自身pending。
-- [Q 六篇指南逐篇接入](20261016-phase2-guides-q.json)：实际来源、原counter/失败与唯一rootIntake在此；不以作者指南或静态复核授运行信用。
-- [A8 有界格式接入](20261016-terminal-a8.json)：仅source-format-partial及六待核库存；真实批准/current/complete与后继元数据分别验收。
+固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 内容深审记录
+>
+> 这里保存逐篇实际阅读后的内容 review records。`docs/phase-governance/catalog.json` 是机器 inventory；只有这里明确标记
+> `content-reviewed` 的条目才表示 Codex 已读正文并形成内容结论。`partial-review-unknown`、`unread` 和 `blocked` 不得当作当前真值。
+>
+> 审查深度分两层：`deep-semantic` 用于当前入口、治理规则和作者-facing 文档，记录 Codex 对目的、边界、依赖和未决项的语义核对；`structured-content` 用于历史计划、归档任务和机器证据，读取全文并记录所有标题、状态信号、链接、未决标记与 SHA，但不把历史回执升级为当前事实。两者都不等于 runtime/E2E/视觉/coverage 通过。
+>
+> - [Lore + Phase3 第一批内容深审](20261004-lore-phase3-batch1.json)
+> - [Lore Guijie 创作材料深审](20261004-lore-guijie-batch2.json)
+> - [Phase1 根文档内容深审](20261004-phase1-root-batch2.json)
+> - [当前入口/作者文档语义深审](20261004-semantic-current-batch.json)
+> - [其余历史/证据全文结构深审（ops 批次 01–05）](20261004-structured-content-ops-01.json)
+> - [其余历史/证据全文结构深审（phase1 批次 01）](20261004-structured-content-phase1-01.json)
+> - [其余历史/证据全文结构深审（phase2 批次 01–02）](20261004-structured-content-phase2-01.json)
+> - [合并最新 main 后新增材料全文结构深审](20261004-structured-content-new-01.json)
+> - [Agent-first 操作路由与权威入口实际改写](20261015-agent-first-routing-batch.json)：仅四份全文核读与改写；全量任务仍在 build。
+> - [协作历史分层与 E2E-001 真实 pilot](20261015-protocol-and-e2e-pilot-batch.json)：保留原协议全文、报告段落和 JSON 顶层字段，不新增实跑信用。
+> - [历史/参考/创意/设计与域报告真实 pilot](20261015-historical-and-domain-pilot-batch.json)：旧作者与数字按时点保留，具体未知与矩阵停止线显式，不发新运行时信用。
+>
+> - [E2E 合同与历史质量门 pilot](20261015-contract-and-gate-pilot-batch.json)：完整元数据/用户裁决不变，旧版本和 0/50/11 诊断范围不升级。
+>
+> - [JSON catalog 真正 pilot](20261015-catalog-pilot-batch.json)：18条逐字段阅读，3条分类/4字段勘误有源留痕、逆向相等与真实消费者检查，不变旧状态和版本。
+>
+> - [域报告/机器证据与历史卡接收记录](20261015-domain-pairs-and-archive-cards.json)：逐篇真实阅读、实际字段/历史/锚点边界；贡献者候选只有独立接收后才写入。
+>
+> - [Testing 十份索引与公开 producer 冻结设计](20261016-testing-index-design.md)：保留设计冻结时准入与0/10基点；后续逐篇内容/producer验收及中央状态见专属记录，不从设计外推。
+>
+> - [Testing 十索引逐篇与生成链接入记录](20261016-testing-index-navigation.json)：保留固定738d作者候选和独立读域，当前中央/路由/矩阵按实际受审快照与记录核验；不授359来源或runtime信用。
+>
+> - [E2E 002–005 八篇治理冻结设计](20261016-e2e-stage-m-design.md)：A仅八MD，先002入口/报告两canonical pilot再另准余六；四配对JSON未纳入，006不改不重计。设计自身pending，不从设计/静态门授执行信用。
+>
+> - [固定 binding baseline JSON 合同冻结设计](20261016-binding-baseline-design.md)：test-catalog父1.2.0专用frozen-capture变体，固定33cc原生八字段保全、旧default行为不变；现2.0.1含22项必要写域，实施/canonical接收另验，设计自身pending。
+>
+> - [Lore 九篇导航与参考治理冻结设计](20261016-lore-reference-n-design.md)：既有三类1.0，先三类型各一pilot再另准余六；已定作者约束、待核官设与创作建议分轴，设计不裁canon、不授产品实施。
+>
+> - [E2E 002–005 入口与报告逐篇接入记录](20261016-e2e-stage-m.json)：旧002及新003–005各守固定来源；dc2行政/中央/矩阵接入已获独立接收，保留counter，不授新运行或扩大历史用户认可。
+>
+> - [F1固定binding baseline实现与canonical候选](20261016-binding-baseline-contract.json)：e136作者交付时点的历史快照保留entries空/pilot待验；当前entries为1，e136来源、dd377接入及固定164中央/矩阵均已分别独立接收；后续写回按字节另验，只给索引自身增量1，不授1838源文信用。
+>
+> - [F1 固定捕获索引接入](20261016-binding-baseline-contract.json)：e136实现/canonical、dd377自然接入及固定164中央/既有矩阵行分别独立接收；后续行政写回另验，索引自身仅增量1，不给1838候选授审读信用。
+>
+> - [P11 第二阶段导航冻结设计](20261016-phase2-navigation-p-design.md)：11篇真实202行按现用导航绑定既有governance-index1.0；10旧错类型/7归档导航状态轴待正文接收后根更正，历史targets和3HTML不冒完成；精确12作者写域按任务卡和真实新基点。
+>
+> - [Lore 九篇逐篇接入](20261016-lore-reference-n.json)：前三篇与后六篇各保固定source/完整回执及独立接收记录；当前根接入结论唯一见该记录的 n6RootIntake，官设未核与项目约束分轴。
+>
+> - [Phase2 十一导航逐篇接入](20261016-phase2-navigation-p.json)：固定121ff真实源/正文/回执获非作者接收，根类型/七导航状态/路由/实际投影另验；不升格历史目标或HTML。
+>
+> - [Q作者指南冻结设计](20261016-phase2-guides-q-design.md)：现有guide-runbook，先publication一篇canonical pilot，其他五篇待接收；未知UI/保存/DFS不冒完成。
+> - [A8格式与namespace冻结设计](20261016-terminal-a8-design.md)：只准独立codec/结构/physical质量门八文件；B/C0/C1仍counter，不授T/完整批准。
+>
+> - [L4 四篇 Lore 冻结设计](20261016-lore-remaining-l4-design.md)：仅首characters加native两路径pilot准入；后续逐篇另依实际独立接收，设计自身pending。
+> - [三份静态 HTML 历史原型格式设计](20261016-historical-static-html-design.md)：17类型不增；仅依赖/历史bootstrap三文件前置准入，代码/版本/正文pilot均另验，设计自身pending。
+> - [Q 六篇指南逐篇接入](20261016-phase2-guides-q.json)：实际来源、原counter/失败与唯一rootIntake在此；不以作者指南或静态复核授运行信用。
+> - [A8 有界格式接入](20261016-terminal-a8.json)：仅source-format-partial及六待核库存；真实批准/current/complete与后继元数据分别验收。
+>
+<!-- original-source-quote:end -->

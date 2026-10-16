@@ -1,0 +1,3679 @@
+{
+  "schemaVersion": 1,
+  "id": "r92-testing-archive",
+  "reviewer": "Codex root full phase-governance artifact migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R92: historical phase-governance artifact Markdown uses archive-record-v1 plus quote inverse; JSON remains byte-stable machine artifact under the same history envelope. Preserve source bytes/fields and execution boundaries; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "afterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "implementationSha": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "candidateSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "afterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "lineCount": 1383,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 61894,
+          "sourceLines": 1383,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 10,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-1383",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "afterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "implementationSha": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "candidateSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "afterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "lineCount": 684,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 30504,
+          "sourceLines": 684,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 5,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-684",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r71-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r71-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r71-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "afterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "implementationSha": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "candidateSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "afterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "lineCount": 7883,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 347816,
+          "sourceLines": 7883,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7883",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r72-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r72-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "afterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "implementationSha": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "candidateSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "afterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "lineCount": 8009,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 354047,
+          "sourceLines": 8009,
+          "sourceFinalNewline": true,
+          "inverseSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-8009",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r73-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r73-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r73-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "afterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "implementationSha": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "candidateSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "afterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "lineCount": 7705,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 355388,
+          "sourceLines": 7705,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7705",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r74-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r74-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r74-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "afterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "implementationSha": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "candidateSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "afterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "lineCount": 7698,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 352050,
+          "sourceLines": 7698,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7698",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r75-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r75-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r75-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "afterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "implementationSha": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "candidateSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "afterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "lineCount": 7765,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 350911,
+          "sourceLines": 7765,
+          "sourceFinalNewline": true,
+          "inverseSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7765",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r76-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r76-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r76-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "afterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "implementationSha": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "candidateSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "afterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "lineCount": 7743,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 352857,
+          "sourceLines": 7743,
+          "sourceFinalNewline": true,
+          "inverseSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7743",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r77-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r77-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r77-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "afterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "implementationSha": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "candidateSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "afterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "lineCount": 7761,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 350988,
+          "sourceLines": 7761,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7761",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r78-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r78-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "afterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "implementationSha": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "candidateSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "afterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "lineCount": 7921,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 366181,
+          "sourceLines": 7921,
+          "sourceFinalNewline": true,
+          "inverseSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7921",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r79-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r79-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r79-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "afterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "implementationSha": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "candidateSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "afterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "lineCount": 7882,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 362573,
+          "sourceLines": 7882,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7882",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r80-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r80-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r80-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "afterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "implementationSha": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "candidateSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "afterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "lineCount": 5076,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 229934,
+          "sourceLines": 5076,
+          "sourceFinalNewline": true,
+          "inverseSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 33,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-5076",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r81-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r81-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r81-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "afterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "implementationSha": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "candidateSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "afterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "lineCount": 7946,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 368025,
+          "sourceLines": 7946,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7946",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r82-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r82-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r82-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "afterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "implementationSha": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "candidateSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "afterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "lineCount": 7929,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 361938,
+          "sourceLines": 7929,
+          "sourceFinalNewline": true,
+          "inverseSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 50,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-7929",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r83-testing-current.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r83-testing-current.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r83-testing-current.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "afterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "implementationSha": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "candidateSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "afterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "lineCount": 555,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 24445,
+          "sourceLines": 555,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 4,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-555",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "afterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "implementationSha": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "candidateSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "afterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "lineCount": 141,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 6424,
+          "sourceLines": 141,
+          "sourceFinalNewline": true,
+          "inverseSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 1,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-141",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r85-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r85-testing-archive.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r85-testing-archive.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "afterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "implementationSha": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "candidateSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "afterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "lineCount": 17092,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 812100,
+          "sourceLines": 17092,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 100,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-17092",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "afterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "implementationSha": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "candidateSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "afterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "lineCount": 16667,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 781741,
+          "sourceLines": 16667,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 100,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-16667",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "afterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "implementationSha": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "candidateSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "afterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "lineCount": 17223,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 839460,
+          "sourceLines": 17223,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 100,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-17223",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "afterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "implementationSha": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "candidateSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "afterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "lineCount": 16887,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 807114,
+          "sourceLines": 16887,
+          "sourceFinalNewline": true,
+          "inverseSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 99,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-16887",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "afterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "implementationSha": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "candidateSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "afterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "lineCount": 17036,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 784932,
+          "sourceLines": 17036,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 100,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-17036",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "afterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "implementationSha": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "candidateSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "afterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "lineCount": 16436,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 774994,
+          "sourceLines": 16436,
+          "sourceFinalNewline": true,
+          "inverseSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 100,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-16436",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "afterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-machine-artifact",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "implementationSha": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "candidateSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "afterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "lineCount": 16621,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 778775,
+          "sourceLines": 16621,
+          "sourceFinalNewline": true,
+          "inverseSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "entryCount": 99,
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "1-16621",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+          "scope": "full JSON UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "内容深审记录：historical phase-governance artifact document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "truthAnchors": ["docs/phase-governance/reviews/README.md:1"],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "phase": "phase-governance",
+      "module": "governance-artifact",
+      "capability": "内容深审记录",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r92_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+      "afterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+      "publicCallers": [
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/reviews/README.md",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+        "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json"
+      ],
+      "businessOracle": {
+        "type": "historical-document-archive",
+        "assertions": [
+          "original content remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/phase-governance/reviews/README.md",
+          "docs/phase-governance/reviews/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+        "implementationSha": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "R92 archive wrapper migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+        "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+        "candidateSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+        "afterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+        "lineCount": 94,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6527,
+          "sourceLines": 54,
+          "sourceFinalNewline": true,
+          "inverseSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "format": "markdown",
+          "title": "内容深审记录",
+          "sourceLines": 54,
+          "quoteInverse": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R92 phase-governance artifact governance",
+          "reviewer": "r92_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy phase-governance artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase-governance artifact 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
+      "reviewedLines": "1-94",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/README.md",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "governance-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "document registry, routing, task card and review records.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R92-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R92-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ]
+    }
+  ]
+}
