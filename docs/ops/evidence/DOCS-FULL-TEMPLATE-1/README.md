@@ -111,3 +111,10 @@
 - [R28 根接入回执](contributor-r28-phase1-plans-20261017.json)：逐篇记录历史里程碑/审计发现、冲突、停止线、source/after SHA 和 successor。
 - [R28 候选独立接收](independent-r28-phase1-plans-candidate-acceptance-20261017.md)：22/22 phase1 plans/audits/index 候选接收；quote 行尾空格用 `␠/⇥` 可逆保全；runtime/E2E/视觉/coverage credit=0。
 - R28 不授 runtime/E2E/视觉/coverage 信用；phase1 历史结论保持日期化。
+
+
+## R29 phase1 status/plan
+
+- [R29 只读独立复核](independent-r29-phase1-status-readonly-review-20261017.md)：8/8 phase1 status/plan 全文读取，7 plan-status + 1 governance-index；源零漂移。
+- [R29 根接入回执](contributor-r29-phase1-status-20261017.json)：逐篇记录历史状态、冲突、停止线、source/after SHA 和继任入口。
+- [R29 候选独立接收](independent-r29-phase1-status-candidate-acceptance-20261017.md)：8/8 候选接收；无 runtime/E2E/视觉/coverage 信用。

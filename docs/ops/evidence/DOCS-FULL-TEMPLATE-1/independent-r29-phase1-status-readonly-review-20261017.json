@@ -1,0 +1,1026 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r29-phase1-status-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 8,
+    "all8": true,
+    "paths": [
+      "docs/phase1/03-development-plan.md",
+      "docs/phase1/status/cutscene-status.md",
+      "docs/phase1/status/feature-status.md",
+      "docs/phase1/status/item-status.md",
+      "docs/phase1/status/magic-status.md",
+      "docs/phase1/status/opcode-status.md",
+      "docs/phase1/status/README.md",
+      "docs/phase1/status/resource-status.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256 + Git blob; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "8/8 fully read",
+    "sourceAfter": "8/8 byte SHA equal at intake",
+    "registry": "8/8 governed-legacy entries and review references",
+    "catalog": "8/8 source/after SHA matched at intake",
+    "routing": "archive-only at intake",
+    "classification": "7 proposed archive-plan-status; 1 proposed archive-governance-index",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/phase1/03-development-plan.md",
+      "format": "markdown",
+      "title": "03 · 开发计划",
+      "date": "2026-05-23",
+      "bodyDates": [
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-27",
+        "2026-05-28",
+        "2026-05-31",
+        "2026-06-07"
+      ],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+      "afterSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+      "gitBlobSha1": "5d9e4ad7de3e167008a8486e8f0b8e0d1b77c60f",
+      "bytes": 16999,
+      "physicalLineSlots": 191,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "03 · 开发计划"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "原则:垂直切片优先"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "里程碑"
+        },
+        {
+          "line": 11,
+          "level": 3,
+          "text": "M0 · 项目骨架与工具链"
+        },
+        {
+          "line": 16,
+          "level": 3,
+          "text": "M1 · pal-extract 打通最小链路 ✅(2026-05-23 完成)"
+        },
+        {
+          "line": 26,
+          "level": 3,
+          "text": "M2 · 运行时垂直切片(探索)✅(2026-05-23 完成)"
+        },
+        {
+          "line": 35,
+          "level": 3,
+          "text": "M3 · 战斗垂直切片(分两里程碑)"
+        },
+        {
+          "line": 39,
+          "level": 4,
+          "text": "M3 Phase 1(战斗系统骨架)✅ 2026-05-24"
+        },
+        {
+          "line": 49,
+          "level": 4,
+          "text": "M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐)✅ 2026-05-24"
+        },
+        {
+          "line": 74,
+          "level": 4,
+          "text": "未来 L2 大类(M3.5 不做,design 标)"
+        },
+        {
+          "line": 81,
+          "level": 4,
+          "text": "不在 M3 范围(推 M5 完整战斗)"
+        },
+        {
+          "line": 88,
+          "level": 3,
+          "text": "M4 · pal-extract 补全 + 资产分层 + 字体真渲染 ✅(2026-05-24 完工)"
+        },
+        {
+          "line": 99,
+          "level": 3,
+          "text": "M5 · 系统补全(2026-05-27 完工)"
+        },
+        {
+          "line": 113,
+          "level": 3,
+          "text": "M5.5 · sdlpal 全源审计(user 要求)"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "M6 · 体验补全 ✅(2026-05-28 起,体验层已整体落地)"
+        },
+        {
+          "line": 125,
+          "level": 3,
+          "text": "M6.5 · 资源剥离 + 代码保护(部署前置)"
+        },
+        {
+          "line": 129,
+          "level": 4,
+          "text": "A. 资源包外部分发"
+        },
+        {
+          "line": 144,
+          "level": 4,
+          "text": "B. 关键代码后端化(轻量 Node)"
+        },
+        {
+          "line": 170,
+          "level": 4,
+          "text": "进入条件"
+        },
+        {
+          "line": 174,
+          "level": 3,
+          "text": "M7 · 通关验证与打磨"
+        },
+        {
+          "line": 179,
+          "level": 2,
+          "text": "第二阶段(本次范围之外)"
+        },
+        {
+          "line": 183,
+          "level": 2,
+          "text": "实现细节备注"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: 03 · 开发计划; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 94:- **P3 全 295 scene 资源**(8 task):222 unique mapNum tileset / 540 MGO sprite union / 全 294 scene-N.json / sdlpal --dump-map 99.7% diff pass / a9 端到端 unskip + pass(M3.5 ⚠️ #8 修)/ setPalette opcode handler(M3.5 ⚠️ palette 跨 scene 修)。",
+        "正文信号 95:- **P4 字体真渲染**(5 task):Unifont 9MB BDF ship + 57083 glyphs.json + present/font.ts 17 调用点真 glyph blit + L2 baseline 全重生 + b* spec 切 sdlpal real baseline(diff 1-4%,M3.5 ⚠️ 接合)。"
+      ],
+      "conflicts": [
+        "正文信号 94:- **P3 全 295 scene 资源**(8 task):222 unique mapNum tileset / 540 MGO sprite union / 全 294 scene-N.json / sdlpal --dump-map 99.7% diff pass / a9 端到端 unskip + pass(M3.5 ⚠️ #8 修)/ setPalette opcode handler(M3.5 ⚠️ palette 跨 scene 修)。",
+        "正文信号 95:- **P4 字体真渲染**(5 task):Unifont 9MB BDF ship + 57083 glyphs.json + present/font.ts 17 调用点真 glyph blit + L2 baseline 全重生 + b* spec 切 sdlpal real baseline(diff 1-4%,M3.5 ⚠️ 接合)。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/cutscene-status.md",
+      "format": "markdown",
+      "title": "演出状态表",
+      "date": "2026-06-07",
+      "bodyDates": ["2026-06-07", "2026-06-08", "2026-06-16"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
+      "afterSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
+      "gitBlobSha1": "40754be976e6208f922fb77ae2e8098175c50585",
+      "bytes": 51378,
+      "physicalLineSlots": 687,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "演出状态表"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "什么算\"演出\""
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "摘要"
+        },
+        {
+          "line": 27,
+          "level": 2,
+          "text": "图例"
+        },
+        {
+          "line": 29,
+          "level": 3,
+          "text": "触发(kind)"
+        },
+        {
+          "line": 34,
+          "level": 3,
+          "text": "复核风险(= 与原版出现表现差异的可能性,**非**机制对错)"
+        },
+        {
+          "line": 41,
+          "level": 3,
+          "text": "状态"
+        },
+        {
+          "line": 46,
+          "level": 2,
+          "text": "A. 动画过场(RNG / FBP / 结局)— 头号演出"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "B. 剧情 Boss 战演出"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "C. 全演出清单(按 scene id ≈ 剧情顺序,分章节带)"
+        },
+        {
+          "line": 108,
+          "level": 3,
+          "text": "序章 · 余杭镇 / 仙灵岛 / 锁妖塔(初见灵儿)  ·  scene 0–20（17 场景 / 63 演出）"
+        },
+        {
+          "line": 176,
+          "level": 3,
+          "text": "苏州城 · 林月如 / 林家堡  ·  scene 21–40（18 场景 / 53 演出）"
+        },
+        {
+          "line": 234,
+          "level": 3,
+          "text": "隐龙窟 · 姥姥(李大娘)  ·  scene 41–57（14 场景 / 49 演出）"
+        },
+        {
+          "line": 288,
+          "level": 3,
+          "text": "玉佛寺 / 将军冢 / 石长老埋伏  ·  scene 58–85（13 场景 / 36 演出）"
+        },
+        {
+          "line": 329,
+          "level": 3,
+          "text": "扬州 · 姬三娘 / 尚书府 / 蛤蟆谷 / 毒娘子洞 / 黑蜘蛛洞  ·  scene 86–137（36 场景 / 104 演出）"
+        },
+        {
+          "line": 438,
+          "level": 3,
+          "text": "锁妖塔 · 七星磐龙柱 / 七星剑 / 天鬼皇 / 镇狱明王 / 拜月初遇  ·  scene 138–168（20 场景 / 32 演出）"
+        },
+        {
+          "line": 475,
+          "level": 3,
+          "text": "重访(余杭/苏州/林家堡)· 神界入口 / 桃源村 / 神木林  ·  scene 169–200（23 场景 / 39 演出）"
+        },
+        {
+          "line": 519,
+          "level": 3,
+          "text": "麒麟洞 / 圣姑家 / 试炼  ·  scene 201–255（32 场景 / 104 演出）"
+        },
+        {
+          "line": 628,
+          "level": 3,
+          "text": "南诏国 · 大理 / 巫王殿 / 拜月教主(终战)  ·  scene 256–294（15 场景 / 27 演出）"
+        },
+        {
+          "line": 662,
+          "level": 2,
+          "text": "已知演出差异(累计 — 待补/已修)"
+        },
+        {
+          "line": 679,
+          "level": 2,
+          "text": "方法与局限"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: 演出状态表; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 25:> ⚠️ **覆盖说明**:动画过场播放器 opcode = `0x35/36/37`(RNG)、`0x76/0xA4/0xA5`(FBP)、`0x96`(结局);开场.RNG/AVI、结局动画由 shell 播放器(`avi/rng/fbp/ending-player`)驱动,不一定走脚本 opcode,故\"动画过场=12\"只计**脚本内**触发的,开场 AVI / 片头不在此列。"
+      ],
+      "conflicts": [
+        "正文信号 25:> ⚠️ **覆盖说明**:动画过场播放器 opcode = `0x35/36/37`(RNG)、`0x76/0xA4/0xA5`(FBP)、`0x96`(结局);开场.RNG/AVI、结局动画由 shell 播放器(`avi/rng/fbp/ending-player`)驱动,不一定走脚本 opcode,故\"动画过场=12\"只计**脚本内**触发的,开场 AVI / 片头不在此列。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/feature-status.md",
+      "format": "markdown",
+      "title": "Feature Status · type-pal",
+      "date": "2026-06-16",
+      "bodyDates": ["2026-06-16"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
+      "afterSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
+      "gitBlobSha1": "0405b8aa6d48415af31347ea1bfd8c7873e5c7b3",
+      "bytes": 21541,
+      "physicalLineSlots": 230,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Feature Status · type-pal"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "怎么读"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "当前重点"
+        },
+        {
+          "line": 31,
+          "level": 3,
+          "text": "当前状态列 partial"
+        },
+        {
+          "line": 37,
+          "level": 2,
+          "text": "1. 启动、标题和结局"
+        },
+        {
+          "line": 47,
+          "level": 2,
+          "text": "2. 存档、读档和新游戏数据"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "3. 大世界走路、场景和 NPC"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "4. 对话、剧情脚本和演出"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "5. 角色成长、属性和经验"
+        },
+        {
+          "line": 100,
+          "level": 2,
+          "text": "6. 物品、装备和商店"
+        },
+        {
+          "line": 112,
+          "level": 2,
+          "text": "7. 仙术、技能和特殊法术"
+        },
+        {
+          "line": 125,
+          "level": 2,
+          "text": "8. 战斗规则和回合流程"
+        },
+        {
+          "line": 144,
+          "level": 2,
+          "text": "9. 战斗画面、动画和战斗 UI"
+        },
+        {
+          "line": 156,
+          "level": 2,
+          "text": "10. 常用菜单和界面"
+        },
+        {
+          "line": 169,
+          "level": 2,
+          "text": "11. 视觉资源和画面特效"
+        },
+        {
+          "line": 182,
+          "level": 2,
+          "text": "12. 音频"
+        },
+        {
+          "line": 191,
+          "level": 2,
+          "text": "13. 输入、运行时和开发工具"
+        },
+        {
+          "line": 203,
+          "level": 2,
+          "text": "14. 单独维护的明细表"
+        },
+        {
+          "line": 213,
+          "level": 2,
+          "text": "测试入口"
+        },
+        {
+          "line": 225,
+          "level": 2,
+          "text": "sdlpal 自身 bug(audit 过程发现,ts port 时显式 fix)"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: Feature Status · type-pal; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 11:- **✅ claimed**:Claude port 自认 1:1,但还需要 user 最终拍板。",
+        "正文信号 12:- **⚠️ partial**:主功能可用,但已知有表现、低频分支、像素 / 时序或听验残项。",
+        "正文信号 13:- **⬜ todo**:未做。",
+        "正文信号 20:- **✅ partial**:部分覆盖;常见于渲染 / 听验 / 长剧情 e2e。注意这是“测试覆盖不足”,不等于功能状态是 partial。"
+      ],
+      "conflicts": [
+        "正文信号 11:- **✅ claimed**:Claude port 自认 1:1,但还需要 user 最终拍板。",
+        "正文信号 12:- **⚠️ partial**:主功能可用,但已知有表现、低频分支、像素 / 时序或听验残项。",
+        "正文信号 13:- **⬜ todo**:未做。",
+        "正文信号 20:- **✅ partial**:部分覆盖;常见于渲染 / 听验 / 长剧情 e2e。注意这是“测试覆盖不足”,不等于功能状态是 partial。",
+        "正文信号 21:- **⬜ todo**:无测试。",
+        "正文信号 31:### 当前状态列 partial",
+        "正文信号 33:目前没有玩家功能状态列标为 `⚠️ partial`;表内 `✅ partial` 只表示测试、听验或长路线验收还不完整。",
+        "正文信号 41:| 商标画面和标题前动画 | ✅ claimed | ✅ partial | WIN95 走 mp4, DOS fallback 走 palette/RNG/FBP 编排;`?skip-intro` 可跳过。 |",
+        "正文信号 42:| 标题菜单:新的故事 / 读取存档 | ✅ claimed | ✅ partial | 选项文字、位置公式、键盘选择已接;读档入口接 IndexedDB。 |",
+        "正文信号 43:| 新游戏开场影片 | ✅ claimed | ✅ partial | WIN95 播 `3.mp4`;DOS 无 AVI 时按原版直接返回。 |",
+        "正文信号 44:| 通关动画和回标题 | ✅ claimed | ✅ partial | WIN95 播 `4/5/6.mp4`;DOS 结局走 RNG/FBP/EndingAnimation 编排。 |",
+        "正文信号 51:| 新游戏初始场景、金钱、队伍、背包、毒 / 状态清空 | ✅ claimed | ✅ regress | 对齐 `PAL_LoadDefaultGame`;角色等级和 8 类经验等级初始化已补齐。 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/item-status.md",
+      "format": "markdown",
+      "title": "物品状态表",
+      "date": "2026-06-02",
+      "bodyDates": ["2026-06-02", "2026-06-06", "2026-06-16"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
+      "afterSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
+      "gitBlobSha1": "d2bc28cc01aeac59216c6446375c5789f264687e",
+      "bytes": 28236,
+      "physicalLineSlots": 302,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "物品状态表"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "摘要"
+        },
+        {
+          "line": 35,
+          "level": 3,
+          "text": "四维使用语境说明"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "主表"
+        },
+        {
+          "line": 285,
+          "level": 2,
+          "text": "残留清单(status≠✅)"
+        },
+        {
+          "line": 293,
+          "level": 3,
+          "text": "已订正的旧演出 stub"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: 物品状态表; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 11:  - ⚠️部分:**1**(圣灵珠260 剧情演出链已接核心 opcode,仍需真档视觉验收)",
+        "正文信号 13:  - ❌未实现:**0**",
+        "正文信号 248:| 260 | 圣灵珠 | 手饰 | 使用:剧情演出(facing判定/对话/淡屏/批量改obj状态/音效,0x81/0x49/0x50/0x73/0x9A/0x47);装备:设属性+授「武神」法术(0x18+0x1A+0x17)。 | ⚠️部分 | 0x47 音效、0x50 淡屏、0x73 大世界淡场、0x81 失败 success gate 均已接;剧情全链仍需真档视觉验收 |",
+        "正文信号 291:| 260 | 圣灵珠 | ⚠️部分 | 核心 opcode 已接;仍需真档验证整段剧情演出时序和视觉一致性 |"
+      ],
+      "conflicts": [
+        "正文信号 11:  - ⚠️部分:**1**(圣灵珠260 剧情演出链已接核心 opcode,仍需真档视觉验收)",
+        "正文信号 13:  - ❌未实现:**0**",
+        "正文信号 248:| 260 | 圣灵珠 | 手饰 | 使用:剧情演出(facing判定/对话/淡屏/批量改obj状态/音效,0x81/0x49/0x50/0x73/0x9A/0x47);装备:设属性+授「武神」法术(0x18+0x1A+0x17)。 | ⚠️部分 | 0x47 音效、0x50 淡屏、0x73 大世界淡场、0x81 失败 success gate 均已接;剧情全链仍需真档视觉验收 |",
+        "正文信号 291:| 260 | 圣灵珠 | ⚠️部分 | 核心 opcode 已接;仍需真档验证整段剧情演出时序和视觉一致性 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/magic-status.md",
+      "format": "markdown",
+      "title": "仙术状态表",
+      "date": "2026-06-07",
+      "bodyDates": ["2026-06-07", "2026-06-16"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
+      "afterSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
+      "gitBlobSha1": "1d7e7084061266b06646630432373738cf70009f",
+      "bytes": 22313,
+      "physicalLineSlots": 229,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "仙术状态表"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "收录边界"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "摘要"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "图例"
+        },
+        {
+          "line": 28,
+          "level": 3,
+          "text": "类型(MAGIC_TYPE · global.h:340-347)"
+        },
+        {
+          "line": 43,
+          "level": 3,
+          "text": "元素(magic.elemental · global.h:373)"
+        },
+        {
+          "line": 48,
+          "level": 3,
+          "text": "状态(kStatus · PAL_CLASSIC global.h:40-56 / battle-opcodes.ts:209)"
+        },
+        {
+          "line": 53,
+          "level": 3,
+          "text": "分类(本表自定,据 `scriptOnSuccess` 行为聚合)"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "分角色仙术"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "李逍遥"
+        },
+        {
+          "line": 67,
+          "level": 3,
+          "text": "赵灵儿"
+        },
+        {
+          "line": 72,
+          "level": 3,
+          "text": "林月如"
+        },
+        {
+          "line": 77,
+          "level": 3,
+          "text": "巫后"
+        },
+        {
+          "line": 82,
+          "level": 3,
+          "text": "阿奴"
+        },
+        {
+          "line": 87,
+          "level": 3,
+          "text": "盖罗娇"
+        },
+        {
+          "line": 92,
+          "level": 2,
+          "text": "敌方专属法术(仅敌人施放,玩家不可学/不可用)"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "主表"
+        },
+        {
+          "line": 207,
+          "level": 2,
+          "text": "残留清单(🗑残留)"
+        },
+        {
+          "line": 220,
+          "level": 2,
+          "text": "待核 / 特殊处理说明"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: 仙术状态表; full source read for template classification.",
+      "statusSignals": [],
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "format": "markdown",
+      "title": "Opcode Status · type-pal",
+      "date": "2026-05-28",
+      "bodyDates": [
+        "2026-05-28",
+        "2026-05-29",
+        "2026-05-30",
+        "2026-05-31",
+        "2026-06-02",
+        "2026-06-06",
+        "2026-06-07",
+        "2026-06-16"
+      ],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
+      "afterSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
+      "gitBlobSha1": "e04363503e1d6f83f275f57815366b76282c9eee",
+      "bytes": 39109,
+      "physicalLineSlots": 315,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Opcode Status · type-pal"
+        },
+        {
+          "line": 46,
+          "level": 2,
+          "text": "🔬 2026-05-31 逐 opcode 审计修正表(权威 — 覆盖正文 ✅)"
+        },
+        {
+          "line": 51,
+          "level": 3,
+          "text": "审计真问题 25 处 → **已修/复核收口 ✅**"
+        },
+        {
+          "line": 80,
+          "level": 3,
+          "text": "审计假阳性 5 处(复核维持 ✅ — 审计 agent 误判)"
+        },
+        {
+          "line": 90,
+          "level": 3,
+          "text": "非 bug / 低风险残项 5 处(by design / 已记残)"
+        },
+        {
+          "line": 155,
+          "level": 2,
+          "text": "控制流(0x00-0x0A)"
+        },
+        {
+          "line": 171,
+          "level": 2,
+          "text": "数据/动作 0x0B-0xA7 — 状态总览"
+        },
+        {
+          "line": 187,
+          "level": 2,
+          "text": "数据/动作 0x0B-0xA7 — 收口状态(2026-06-07)"
+        },
+        {
+          "line": 194,
+          "level": 3,
+          "text": "A 控制流/数据 / 系统 S — **全部 ✅(2026-06-07 0xA7 纳入)**"
+        },
+        {
+          "line": 212,
+          "level": 3,
+          "text": "B 移动 / NPC / chase — 全部 ✅(2026-05-28)"
+        },
+        {
+          "line": 232,
+          "level": 3,
+          "text": "E 战斗 — **全部 ✅(2026-05-30 E 类收口;0x38 仅剩全链时序实机确认)**"
+        },
+        {
+          "line": 291,
+          "level": 3,
+          "text": "C palette / D audio·FBP·视觉"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: Opcode Status · type-pal; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 6:> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A",
+        "正文信号 8:> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。",
+        "正文信号 39:>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)",
+        "正文信号 49:> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)"
+      ],
+      "conflicts": [
+        "正文信号 6:> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A",
+        "正文信号 8:> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。",
+        "正文信号 39:>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)",
+        "正文信号 49:> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)",
+        "正文信号 73:| **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |",
+        "正文信号 138:>   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,",
+        "正文信号 189:> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 runtime ⬜(todo)剩余**(2026-06-07 对抗复核更新;0xA5 effectSprite 为 0 调用参数残项)。",
+        "正文信号 198:| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;大世界 item/magic 用 gate 消耗,战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |",
+        "正文信号 310:| 0xA5 | show FBP with sprite effects | D | ⚠️ 主 FBP 路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传给 showFbp。真实数据 0 调用(DOS-only 结局路径),fbp-player 已支持 effectSpriteFrames 但该 opcode 参数尚未 plumb |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/README.md",
+      "format": "markdown",
+      "title": "docs/phase1/status/ — 第一阶段覆盖快照",
+      "date": "2026-06-07",
+      "bodyDates": ["2026-06-07", "2026-06-16"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
+      "afterSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
+      "gitBlobSha1": "994f0f81966c5290d8c555a6b00bd028a7fc09de",
+      "bytes": 753,
+      "physicalLineSlots": 16,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "docs/phase1/status/ — 第一阶段覆盖快照"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "目录文件索引"
+        }
+      ],
+      "semanticOutline": "phase1 historical status snapshot index and navigation; current status is owned by successor audits and task cards.",
+      "statusSignals": [],
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/status/resource-status.md",
+      "format": "markdown",
+      "title": "Resource Status · type-pal",
+      "date": "2026-05-29",
+      "bodyDates": ["2026-05-29", "2026-05-30", "2026-06-02", "2026-06-07", "2026-06-22"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
+      "afterSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
+      "gitBlobSha1": "8c7f364605bc7114dff8ab1e713142d9c58f5048",
+      "bytes": 20708,
+      "physicalLineSlots": 262,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Resource Status · type-pal"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "DATA.MKF"
+        },
+        {
+          "line": 38,
+          "level": 2,
+          "text": "SSS.MKF"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "MGO.MKF"
+        },
+        {
+          "line": 62,
+          "level": 2,
+          "text": "MAP.MKF"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "GOP.MKF"
+        },
+        {
+          "line": 82,
+          "level": 2,
+          "text": "F.MKF"
+        },
+        {
+          "line": 92,
+          "level": 2,
+          "text": "ABC.MKF"
+        },
+        {
+          "line": 102,
+          "level": 2,
+          "text": "FBP.MKF"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "PAT.MKF"
+        },
+        {
+          "line": 131,
+          "level": 2,
+          "text": "RNG.MKF"
+        },
+        {
+          "line": 143,
+          "level": 2,
+          "text": "RGM.MKF"
+        },
+        {
+          "line": 153,
+          "level": 2,
+          "text": "BALL.MKF"
+        },
+        {
+          "line": 163,
+          "level": 2,
+          "text": "FIRE.MKF"
+        },
+        {
+          "line": 173,
+          "level": 2,
+          "text": "SOUNDS.MKF"
+        },
+        {
+          "line": 185,
+          "level": 2,
+          "text": "非 MKF 资源"
+        },
+        {
+          "line": 197,
+          "level": 3,
+          "text": "mus.mkf — 同源冗余,非 gap"
+        },
+        {
+          "line": 203,
+          "level": 2,
+          "text": "覆盖率自检(2026-05-30 byte-level 复核)"
+        },
+        {
+          "line": 233,
+          "level": 2,
+          "text": "sprite 资源打包格式变更(2026-06-22)"
+        }
+      ],
+      "semanticOutline": "phase1 status/plan historical document: Resource Status · type-pal; full source read for template classification.",
+      "statusSignals": [
+        "正文信号 6:> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)"
+      ],
+      "conflicts": [
+        "正文信号 6:> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must preserve original status words and date-scoped claims",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

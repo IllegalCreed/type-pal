@@ -1805,6 +1805,46 @@
       "path": "docs/phase1/plans/README.md",
       "templateId": "governance-index-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/03-development-plan.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/cutscene-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/feature-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/item-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/magic-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/status/resource-status.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
