@@ -553,8 +553,22 @@
   "rootIntake": {
     "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
     "source": "d33682b9b83dd39169e11f1cd1bec1461385b8f9",
-    "status": "bootstrap source independently accepted only; exact root intake/gates pending",
-    "actualAcceptance": null,
+    "status": "Exact three-path bootstrap and fixed shared intake independently accepted; execution paused; HTML helper/version/pilots unbuilt",
+    "actualAcceptance": {
+      "acceptedCommit": "f0dae7eff8e464a01d371ad73eef1643fd1c0dd6",
+      "acceptedTree": "c1735785c675f416980e94feb53e807c6b8df537",
+      "independentReportSha256": "c255e8847d917dacf43f7589627982a9efc4a86d7baf4730eb74ea85702053bc",
+      "canonicalFullAcceptance": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json#rootIntake.actualAcceptance",
+      "completeImmediateAcceptedCandidate": {
+        "revision": "f0dae7eff8e464a01d371ad73eef1643fd1c0dd6",
+        "path": "docs/phase-governance/reviews/20261016-historical-static-html.json",
+        "gitObject": "4b675007fa4ce0cf727086e6e0fe7a09de4dc1f7",
+        "fileSha256": "786a7bc34ed4d13c714ff6f7ad9056b59f0501596366959fc15f08eca8411107",
+        "pointer": "rootIntake",
+        "meaning": "Complete accepted candidate event retained in reachable Git; factual report transcribed without signing future source bytes"
+      },
+      "scope": "Same accepted18 includes exact3 bootstrap only; HTML implementation/version/pilots, R22 and lore continuation remain paused"
+    },
     "bootstrapSourceReception": {
       "path": "/tmp/type-pal-html-bootstrap-root-independent-review-20261016.json",
       "sha256": "234c72678f28eee8eed3e0e0c7ca720c0d918c090101d55319c1ca35f6b1b002",
@@ -1154,7 +1168,8 @@
       "three HTML pilots",
       "B/C0/C1"
     ],
-    "fullGoalComplete": false
+    "fullGoalComplete": false,
+    "execution": "paused by user; no following implementation"
   },
   "stopLine": "No HTML migration/completion/visual/accessibility/runtime/E2E/coverage credit, no B/fullT/current/complete terminal approval. Full goal incomplete. Canonical raw3 remain exact and all new docs increments pending.",
   "firstRootAdmissionFailure": {

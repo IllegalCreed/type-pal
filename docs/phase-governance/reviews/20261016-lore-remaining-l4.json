@@ -3543,8 +3543,273 @@
   "rootIntake": {
     "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
     "source": "f3ac9d9974b3eee6047596cb1b0dbe23a4d0be0b",
-    "status": "five current-scope scalars repaired candidate; actual new frozen gates and finite independent closure still required",
-    "actualAcceptance": null,
+    "status": "Exact current intake independently accepted at fixed c173 snapshot; factual acceptance recorded; execution paused by user, whole goal incomplete",
+    "actualAcceptance": {
+      "result": "accept-root-intake-exact-snapshot",
+      "acceptedCommit": "f0dae7eff8e464a01d371ad73eef1643fd1c0dd6",
+      "acceptedTree": "c1735785c675f416980e94feb53e807c6b8df537",
+      "report": {
+        "path": "/tmp/type-pal-current-batch-independent-closure-20261016.json",
+        "sha256": "c255e8847d917dacf43f7589627982a9efc4a86d7baf4730eb74ea85702053bc",
+        "completeReport": {
+          "kind": "nonauthor finite current-batch root intake five-scalar independent closure",
+          "date": "2026-10-16",
+          "reviewer": "n6_intake_review; non-author",
+          "verdict": "accept-root-intake-exact-snapshot",
+          "acceptedTree": "c1735785c675f416980e94feb53e807c6b8df537",
+          "base": "33c878b7f8e2c45e0f189686fcbde545556451aa",
+          "immediateCounteredDraft": "aa18512ddd3dd3b8bd5c0c92201b537231e33f84",
+          "scope": "Exact aggregate18 paths from repaired manifest. One characters template migration/current transfer, necessary two README navigation scalars/current mirror/index/machine-matrix maintenance, exact prior-accepted three-path HTML bootstrap reception, and zero-credit readonly R22 proposal receipt; pause after this batch.",
+          "readScope": [
+            "Fresh complete relative-aa185 semantic delta: five current scalars, appended current history/full-prior/root-event pointer, complete preserved first counter identity, five before-after items, root status. Whole current/root prior actual Git retrieval and unique selector verified.",
+            "Exact18 manifest/tree/index/physical-byte validation and whole other17 file equality; finite first75 mechanical and source71 acceptance reused accurately. No fresh whole643/321/769 manual source reread or giant unchanged nested report claim.",
+            "Actual repaired five command results, SHA/byte-exact raw logs and all terminal summaries, progress issues array; original actual install reused only because all install inputs unchanged. No rerun by this reviewer and no new tests."
+          ],
+          "manifest": {
+            "path": "/tmp/type-pal-current-batch-root-repaired-manifest-20261016.json",
+            "sha256": "1e4d7c50c38216fdf7d91921d138d0569a8a44b3f025059ba318edcc0da364b4",
+            "bytes": 4744
+          },
+          "currentLP": {
+            "path": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal/docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+            "sha256": "3ed461d43f47a5cdf1100cd6545ecbd5d46b40039bc3bb63836a85fdee16d9b6",
+            "bytes": 292729
+          },
+          "actualRepairedGates": {
+            "path": "/tmp/type-pal-current-batch-root-repaired-gate-results-20261016.json",
+            "sha256": "5dfe690ab1c25f8a979cd5c83c0d63390e95f0a7ce79f4cbe19699a9b570434f",
+            "bytes": 3177
+          },
+          "narrowMechanicalObserver": {
+            "path": "/tmp/type-pal-current-batch-independent-closure-observer-20261016.json",
+            "sha256": "ed179b777722b42ed88bcf8f265569942f6985bc262a78c48ce4c0bc8ee41821",
+            "bytes": 5299,
+            "checks": 51,
+            "failures": 0
+          },
+          "reusedFirstReview": {
+            "path": "/tmp/type-pal-current-batch-independent-first-review-20261016.json",
+            "sha256": "bf371035a277c41ba6e9746de377dddd537afa3efffcf1b3ebe18cd5a5e5c0a1",
+            "bytes": 10071
+          },
+          "reusedSourceAcceptance": {
+            "path": "/tmp/type-pal-l4-characters-independent-review-20261016.json",
+            "sha256": "56a64041ae56799b3af117b84d2c162973e3a48493faf0285fe791ba54bc9d44",
+            "bytes": 9909
+          },
+          "reusedFirstMechanicalObserver": {
+            "path": "/tmp/type-pal-current-batch-independent-root-observer-20261016.json",
+            "sha256": "e8301a4e5dbd34cdb5ba2e4c339134a9049150deb179f0523922366c6afda262",
+            "bytes": 12170
+          },
+          "reusedActualProducer184": {
+            "path": "/tmp/type-pal-current-batch-independent-producer-20261016.json",
+            "sha256": "e994d97c6261ef9b6de23c94425289db2cea96d7743483fe1e58d42d8f1efdec",
+            "bytes": 400
+          },
+          "firstCandidateAndFailureHistory": {
+            "tree": "18e3dc8f16cc2d0fd9f1065b3114400f9c0c6015",
+            "draftCommit": "aa18512ddd3dd3b8bd5c0c92201b537231e33f84",
+            "firstActualGateRecord": {
+              "path": "/tmp/type-pal-current-batch-root-gate-results-20261016.json",
+              "sha256": "934d72ee92c34ba0bab7d65500f043d78b08b9e9aae87884f4ecb2d7409115e7",
+              "bytes": 3657
+            },
+            "currentPrior": {
+              "kind": "complete-immediate-countered-current-and-root-event-in-fixed-reachable-Git",
+              "revision": "aa18512ddd3dd3b8bd5c0c92201b537231e33f84",
+              "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+              "gitObject": "0adf93fb6f5126fec00f6a115d6266155a5370df",
+              "fileSha256": "4acc1ba82d0b620fc0495b8abbd0ae20083cefb754ff1083f8cdb050106da564",
+              "selector": {
+                "entries.path": "docs/lore/characters.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true,
+              "rootEventPointer": "rootIntake",
+              "tree": "18e3dc8f16cc2d0fd9f1065b3114400f9c0c6015"
+            },
+            "meaning": "First18 had actual zero gates but was countered on current metadata. Saved complete as real Git draft and never retroactively accepted. Source single-drift docs/strict FAIL and root partial-format rejections remain historical and exact."
+          },
+          "closure": [
+            {
+              "counter": "CURRENT-1",
+              "result": "closed",
+              "key": "entries[0].publicCallers[2].role",
+              "reason": "Fixed f3ac unrouted author scope separated from actual current typed route251 and unique rootIntake."
+            },
+            {
+              "counter": "CURRENT-2",
+              "result": "closed",
+              "key": "entries[0].publicCallers[3].role",
+              "reason": "Source author one-drift FAIL stays fixed history; first root six gates pinned and repaired snapshot own-gate requirement explicit. Actual new five gates read separately."
+            },
+            {
+              "counter": "CURRENT-3",
+              "result": "closed",
+              "key": "entries[0].legalInputs[2]",
+              "reason": "Author two-path scope explicitly historical; current source/body/native/registry/typedroute/root reception contract used."
+            },
+            {
+              "counter": "CURRENT-4",
+              "result": "closed",
+              "key": "entries[0].stopLine",
+              "reason": "Sourcewriter shared-write ban separated from authorized root intake; all product/canon/main/fullgoal and next-batch stop boundaries retained."
+            },
+            {
+              "counter": "CURRENT-5",
+              "result": "closed",
+              "key": "firstPilot.independentAcceptancePending",
+              "reason": "Current source pending false; original pending unchanged in fixed native/full Git prior. Root candidate remains truthful until factual reception writeback."
+            }
+          ],
+          "actualGates": {
+            "commands": [
+              {
+                "name": "docs",
+                "argv": ["pnpm", "check:docs"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+                "CI": "true",
+                "exit": 0,
+                "signal": null,
+                "timedOut": false,
+                "elapsedSeconds": 44.788,
+                "log": {
+                  "path": "/tmp/type-pal-current-batch-root-repaired-gate-docs-20261016.log",
+                  "sha256": "3a9d9d737f3c7a0ccc2930567de2733c0f782a5937e2b2ae852d2569dc20a629",
+                  "bytes": 29554
+                }
+              },
+              {
+                "name": "lint",
+                "argv": ["pnpm", "lint"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+                "CI": "true",
+                "exit": 0,
+                "signal": null,
+                "timedOut": false,
+                "elapsedSeconds": 2.171,
+                "log": {
+                  "path": "/tmp/type-pal-current-batch-root-repaired-gate-lint-20261016.log",
+                  "sha256": "f3d39c906cca0483d32ef333d81f9d0002be885aa5dbb09c1009120f84f58a0d",
+                  "bytes": 201
+                }
+              },
+              {
+                "name": "diff",
+                "argv": ["git", "diff", "33c878b7f8e2c45e0f189686fcbde545556451aa", "--check"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+                "CI": "true",
+                "exit": 0,
+                "signal": null,
+                "timedOut": false,
+                "elapsedSeconds": 0.037,
+                "log": {
+                  "path": "/tmp/type-pal-current-batch-root-repaired-gate-diff-20261016.log",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                }
+              },
+              {
+                "name": "strict",
+                "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+                "CI": "true",
+                "exit": 0,
+                "signal": null,
+                "timedOut": false,
+                "elapsedSeconds": 0.11,
+                "log": {
+                  "path": "/tmp/type-pal-current-batch-root-repaired-gate-strict-20261016.log",
+                  "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+                  "bytes": 63
+                }
+              },
+              {
+                "name": "progress",
+                "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+                "CI": "true",
+                "exit": 0,
+                "signal": null,
+                "timedOut": false,
+                "elapsedSeconds": 1.191,
+                "log": {
+                  "path": "/tmp/type-pal-current-batch-root-repaired-gate-progress-20261016.log",
+                  "sha256": "6ec474cd86528efb64d404eee1a80402660c15e9078948f6b9fb892531014dac",
+                  "bytes": 80438
+                }
+              }
+            ],
+            "frozenInputsUnchanged": true,
+            "docs": {
+              "tests": 120,
+              "pass": 120,
+              "fail": 0,
+              "cancelled": 0,
+              "skipped": 0,
+              "todo": 0,
+              "markdown": 1232,
+              "localLinks": 8069,
+              "tasks": 361,
+              "bodyContracts": 251,
+              "strictDocuments": 733,
+              "phaseDocuments": 184,
+              "testingIssues": 0,
+              "diagnostics": 0
+            },
+            "lint": {
+              "files": 4124,
+              "errors": 0,
+              "warnings": 0,
+              "infos": 0
+            },
+            "strictIssues": 0,
+            "diffIssues": 0,
+            "progress": {
+              "cohortMigrated": 246,
+              "approvedCohort": 1838,
+              "incrementalMigrated": 5,
+              "currentCandidates": 1992,
+              "currentPending": 1741,
+              "issues": []
+            },
+            "install": "Exact unchanged root lock/workflow/package installation inputs; reuse actual first root install exit0. This is not a new clean-clone/GitHub execution claim."
+          },
+          "preservationAndLimits": [
+            "Source5 exactf3ac/d336 and other17 files byteexact since first18; no source rewrite during repair. Full prior30/registry9/catalog24 provenance retained, prior250 routes/other732 registry/other182 catalog/other39 Q matrix objects preserved as first75 proof.",
+            "Characters body remains candidate and catalog draft; template-compliant/content-reviewed does not certify official lore, current product versions or E2E.",
+            "HTML reception covers three dependency/history bootstrap paths only. Helper/variant/version/threeHTMLpilots unbuilt. R22 readonly receipt migration0/buildfalse; reviewer does not inherit author22-source read credit.",
+            "No runtime/E2E/visual/coverage approval, no main push/cleanup or full1838 completion. Other3 lore and all subsequent packages remain paused."
+          ],
+          "factualWritebackAuthorization": {
+            "allowed": true,
+            "purpose": "Root may transcribe this exact accepted snapshot/report wholeSHA and actual acceptance into LP/HP rootIntake.actualAcceptance and task pause closeout, preserving all complete source/prior/first-counter/actual-gate objects.",
+            "requiredIdentity": "Pin acceptedTree c1735785c675f416980e94feb53e807c6b8df537 and this final report external wholeSHA. Transcription must be exact AST facts; preserve immediately-prior candidate event in reachable Git. Do not imply this report signed future source bytes.",
+            "validation": "Root verifies only authorized factual metadata delta and runs actual necessary zero-diagnostic gates after writeback, then commits this current batch and pauses. No further independent self-report metadata signature loop is requested.",
+            "notAuthorized": [
+              "Further lore/HTML/R22 source or implementation edits",
+              "Starting another batch",
+              "Claiming whole-goal complete",
+              "Reclassifying source or historical failed gates as passed"
+            ]
+          },
+          "openCounters": [],
+          "reviewerRepositoryWrites": 0,
+          "reviewerStageWrites": 0,
+          "nextStep": "Root factual closeout and pause. This reviewer stops after this finite closure."
+        }
+      },
+      "completeImmediateAcceptedCandidate": {
+        "revision": "f0dae7eff8e464a01d371ad73eef1643fd1c0dd6",
+        "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+        "gitObject": "0d776882ed975b1b9bc6047e112012e7c26e8bcd",
+        "fileSha256": "3ed461d43f47a5cdf1100cd6545ecbd5d46b40039bc3bb63836a85fdee16d9b6",
+        "pointer": "rootIntake",
+        "meaning": "Complete accepted candidate event retained in reachable Git; factual report transcribed without signing future source bytes"
+      },
+      "scope": "Only fixed accepted18; source5 unchanged. Factual writeback authorized by exact closure; no future-source signature."
+    },
     "sourceBodiesUnchanged": true,
     "scope": "Only one characters current transfer/route/projection; necessary README current maintenance; one existing Lore machine relation; other3 stopped",
     "fullGoalComplete": false,
@@ -3673,7 +3938,9 @@
       "completePriorObjectRetrievedAndCompared": true,
       "rootEventPointer": "rootIntake",
       "tree": "18e3dc8f16cc2d0fd9f1065b3114400f9c0c6015"
-    }
+    },
+    "execution": "paused by explicit user request; no next batch until resume",
+    "factualWriterObservation": "First Python stdin setup failed UTF8 compilation before any repo writes; following shell node call found no generated file. This guarded Node writer uses the unchanged accepted clean snapshot; neither setup attempt was a gate or source failure."
   },
   "stopLine": "Only one characters source can receive template-migration credit after exact current intake/gates; no new official canon/product/runtime/visual/coverage or whole1838 completion credit. All design/control/native increments themselves remain pending; remaining3 paused, no self-sign or afterSHA cycle.",
   "rootIndexMaintenance": {

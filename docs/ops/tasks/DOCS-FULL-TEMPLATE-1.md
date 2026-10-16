@@ -1,6 +1,7 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: build
+Execution: paused（用户要求审完当前批后暂停；阶段未完成，不启动后继）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
@@ -999,3 +1000,10 @@ Branch: codex/docs-full-template-proposal
 - HTML bootstrap 固定 d33682b9b83dd39169e11f1cd1bec1461385b8f9 仅直接parse5精确依赖、docs工作流完整历史/精确Node/pnpm/frozen install。干净clone真实首轮旧fixture stdin阻塞及本地中断失败保留；原样后继门与非作者root接收见 [HTML 唯一记录](../../phase-governance/reviews/20261016-historical-static-html.json)，不冒GitHub job或HTML实现已过。
 - [R22只读提案回执](../evidence/DOCS-FULL-TEMPLATE-1/readonly-phase2-audits-r22-20261016.json) 保完整逐篇设计表/manifest；作者22篇7680行，根9篇998行独立实读分开。18审计/3计划/1参考均现有1.0+历史overlay；未授build、未迁移或签22源已审。
 - 根实际冻结后的 docs/lint/diff/strict/progress和必要共享层非作者验收另附固定树证据；未过则留candidate/rework。暂停后保留确切下一步与所有失败，不为硬门伪造completed。
+
+#### 当前批已独立接收；按用户请求暂停
+
+- 精确接收提交 f0dae7eff8e464a01d371ad73eef1643fd1c0dd6 / tree c1735785c675f416980e94feb53e807c6b8df537 由非作者报告 c255e8847d917dacf43f7589627982a9efc4a86d7baf4730eb74ea85702053bc 接收。首 aa185 的五项当前层 counter 全闭合；完整首 counter/源单SHA漂移FAIL/HTML首119-120失败与未知根因/格式前置拒绝均保留，没有追溯洗绿。
+- 实际 repaired docs120/120、1232MD/8069links、251body/733strict/184phase/testing0；lint4124 E/W/I0，diff/progress0。基线246/1838+5增量/current1992pending1741，仅局部进度；全量硬验收未满足，任务阶段保持build，绝不标done/main推送或清理需恢复的分支/worktree。
+- 当前唯一裁定按精确AST事实写回L4/HTML rootIntake.actualAcceptance；事实metadata后置门另跑，不声称旧报告签未来source。其余3篇L4、HTML helper/版本/pilot、R22 writer、B/C0/C1都不启动。R22只保已收只读提案，无build/迁移信用。
+- 无下一位 Agent 提示词；按用户请求暂停，等待用户恢复。恢复先读本卡及L4/HTML唯一当前事件，再核clean/fixedSHA和剩余准入；不重做已接受source、不放宽硬门。
