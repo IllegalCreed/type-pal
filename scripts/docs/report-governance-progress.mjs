@@ -34,6 +34,9 @@ const candidates = execFileSync(
   .split('\0')
   .filter((path) => /\.(md|json|html)$/.test(path))
 const registry = json('docs/phase-governance/document-registry.json')
+const structuralRoots = new Set(
+  (registry.structuralRoots ?? []).map((entry) => entry.path).filter(Boolean),
+)
 const templateRegistry = json('docs/phase-governance/templates/registry.json')
 const templates = new Map(templateRegistry.types.map((entry) => [entry.templateId, entry]))
 const records = new Map()
@@ -114,7 +117,8 @@ for (const entry of registry.entries) {
 const done = new Set(completed.map((entry) => entry.path))
 const cohortDone = completed.filter((entry) => cohort.has(entry.path)).length
 const allCandidates = [...new Set(candidates)]
-const pending = allCandidates.filter((path) => !done.has(path))
+const governedCandidates = allCandidates.filter((path) => !structuralRoots.has(path))
+const pending = governedCandidates.filter((path) => !done.has(path))
 const templateIds = [...templates.keys()]
 const exercised = new Set(completed.map((entry) => entry.templateId))
 const report = {
@@ -125,7 +129,7 @@ const report = {
   approvedCohort: frozenDocumentBaseline.denominator,
   cohortMigrated: cohortDone,
   cohortPending: frozenDocumentBaseline.denominator - cohortDone,
-  currentCandidates: allCandidates.length,
+  currentCandidates: governedCandidates.length,
   currentPending: pending.length,
   incrementalMigrated: completed.length - cohortDone,
   exercisedTemplates: [...exercised].sort(),

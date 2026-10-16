@@ -998,8 +998,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
-      "afterSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
+      "sourceSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
+      "afterSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1036,9 +1036,9 @@
       "evidence": {
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
-        "candidateSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
-        "afterSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
+        "sourceSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
+        "candidateSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
+        "afterSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1046,7 +1046,7 @@
           "sourceBytes": 110121,
           "sourceLines": 1987,
           "sourceFinalNewline": true,
-          "inverseSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
+          "inverseSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
           "exactRoundTrip": true
         },
         "nativeShape": {
@@ -1080,7 +1080,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
+      "candidateSha256": "d59d1c32e0c31342005034b7d91ba314189c3d42d781cff5a9e3a71737d29b85",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",

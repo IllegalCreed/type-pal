@@ -181,8 +181,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
-      "afterSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
+      "sourceSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
+      "afterSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -217,9 +217,9 @@
       "evidence": {
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
-        "candidateSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
-        "afterSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
+        "sourceSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
+        "candidateSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
+        "afterSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
         "lineCount": 819,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -227,7 +227,7 @@
           "sourceBytes": 37672,
           "sourceLines": 819,
           "sourceFinalNewline": true,
-          "inverseSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
+          "inverseSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
           "exactRoundTrip": true
         },
         "nativeShape": {
@@ -267,7 +267,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
+      "candidateSha256": "72a8fd8098bbf32598ae88660ff0ec2394761f819f591c8861bf5a5a7d511890",
       "primarySource": [
         {
           "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
@@ -1045,8 +1045,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
-      "afterSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
+      "sourceSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
+      "afterSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1079,9 +1079,9 @@
       "evidence": {
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
-        "candidateSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
-        "afterSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
+        "sourceSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
+        "candidateSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
+        "afterSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1089,7 +1089,7 @@
           "sourceBytes": 616027,
           "sourceLines": 13734,
           "sourceFinalNewline": true,
-          "inverseSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
+          "inverseSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
           "exactRoundTrip": true
         },
         "nativeShape": {
@@ -1119,7 +1119,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
+      "candidateSha256": "c30381cb126025ba27b49e71cfc0c132b971693d99a3d3076c221dc3cd0d3ceb",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -4779,8 +4779,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
-      "afterSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+      "sourceSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
+      "afterSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -4796,8 +4796,8 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"]
       },
       "revision": {
-        "currentSha": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
-        "implementationSha": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+        "currentSha": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
+        "implementationSha": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -4822,15 +4822,21 @@
             "date": "2026-10-17",
             "action": "structural exception status refreshed",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-structural-root-policy",
+            "date": "2026-10-17",
+            "action": "explicit structural root policy and progress exclusion",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
         "kind": "task-card-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
-        "candidateSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
-        "afterSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+        "sourceSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
+        "candidateSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
+        "afterSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
         "lineCount": 1530,
         "artifactPreserved": false,
         "originalPreservation": {
@@ -4838,7 +4844,7 @@
           "sourceBytes": 268269,
           "sourceLines": 1530,
           "sourceFinalNewline": true,
-          "inverseSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+          "inverseSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
           "exactRoundTrip": false
         }
       },
@@ -4859,12 +4865,12 @@
       "artifactOnly": false,
       "documentStatus": "current",
       "sourceGitRevision": "current-working-tree-after-r95-structural-refresh",
-      "candidateSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+      "candidateSha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+          "sha256": "b27f25bc11b2648b3c80df4fc4a8e026e851fc13334766f25f567a6b016f8eb6",
           "scope": "full UTF-8 source"
         }
       ],
@@ -5038,8 +5044,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
-      "afterSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+      "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+      "afterSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5061,8 +5067,8 @@
         "against": ["docs/phase-governance/document-registry.json"]
       },
       "revision": {
-        "currentSha": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
-        "implementationSha": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "currentSha": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+        "implementationSha": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -5075,15 +5081,27 @@
             "date": "2026-10-17",
             "action": "root registration refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-governance-index-migration",
+            "date": "2026-10-17",
+            "action": "root refresh after board/index route registration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-structural-root-policy",
+            "date": "2026-10-17",
+            "action": "explicit structural root policy and progress exclusion",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
         "kind": "structural-root-artifact",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
-        "candidateSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
-        "afterSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+        "candidateSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+        "afterSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
         "lineCount": 27086,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5091,7 +5109,7 @@
           "sourceBytes": 1024354,
           "sourceLines": 27086,
           "sourceFinalNewline": true,
-          "inverseSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+          "inverseSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
           "exactRoundTrip": true
         }
       },
@@ -5112,13 +5130,13 @@
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "current",
-      "sourceGitRevision": "current-working-tree-after-root-registration",
-      "candidateSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+      "sourceGitRevision": "current-working-tree-after-governance-index-migration",
+      "candidateSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
       "primarySource": [
         {
           "path": "docs/phase-governance/document-registry.json",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+          "sha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
           "scope": "full JSON UTF-8 bytes"
         }
       ],
@@ -5129,7 +5147,7 @@
       },
       "dependencies": "External R94 review record, document model and docs check consumers.",
       "versionScope": {
-        "sourceRevision": "current-working-tree-after-root-registration",
+        "sourceRevision": "current-working-tree-after-governance-index-migration",
         "date": "2026-10-17",
         "validity": "current structural root"
       },
@@ -5169,8 +5187,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
-      "afterSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+      "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+      "afterSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5189,13 +5207,19 @@
         "against": ["docs/phase-governance/routing.json"]
       },
       "revision": {
-        "currentSha": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
-        "implementationSha": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "currentSha": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+        "implementationSha": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
             "action": "structural root read",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-governance-index-migration",
+            "date": "2026-10-17",
+            "action": "root refresh after board/index route registration",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -5203,9 +5227,9 @@
       "evidence": {
         "kind": "structural-root-artifact",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
-        "candidateSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
-        "afterSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+        "candidateSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+        "afterSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
         "lineCount": 6230,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5213,7 +5237,7 @@
           "sourceBytes": 207312,
           "sourceLines": 6230,
           "sourceFinalNewline": true,
-          "inverseSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+          "inverseSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
           "exactRoundTrip": true
         }
       },
@@ -5234,13 +5258,13 @@
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "current",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+      "sourceGitRevision": "current-working-tree-after-governance-index-migration",
+      "candidateSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
       "primarySource": [
         {
           "path": "docs/phase-governance/routing.json",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+          "sha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
           "scope": "full JSON UTF-8 bytes"
         }
       ],
@@ -5251,7 +5275,7 @@
       },
       "dependencies": "External R94 review record, document model and docs check consumers.",
       "versionScope": {
-        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "sourceRevision": "current-working-tree-after-governance-index-migration",
         "date": "2026-10-17",
         "validity": "current structural root"
       },

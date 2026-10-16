@@ -386,8 +386,8 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
       "truthAnchors": [
@@ -400,14 +400,14 @@
         "战斗回合测试缺原生反控报告，合法物品输入及前序动作可达性待补。",
         "E2E-R4、E2E-005/006、标题读档IO及脚本命名治理仍按各卡当前状态推进。"
       ],
-      "nextStep": "保持活动看板与任务顶部状态、生成索引一致；旧战斗测试返工后另行独立验收。",
+      "nextStep": "保持入口与状态同步；内容或生成器变化后刷新 review SHA，并重跑文档门禁。",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+      "afterSha256": "6b973a0de87532797bf5b372353c227e8d01c9097cbf0f5c1bfeec8a7b1c3e02",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -437,8 +437,8 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+        "currentSha": "6b973a0de87532797bf5b372353c227e8d01c9097cbf0f5c1bfeec8a7b1c3e02",
+        "implementationSha": "6b973a0de87532797bf5b372353c227e8d01c9097cbf0f5c1bfeec8a7b1c3e02",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -611,6 +611,12 @@
             "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
             "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-governance-index-migration",
+            "date": "2026-10-17",
+            "action": "template migration and generated-index contract refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -639,12 +645,12 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+        "afterSha256": "6b973a0de87532797bf5b372353c227e8d01c9097cbf0f5c1bfeec8a7b1c3e02",
         "currentReading": {
-          "date": "2026-10-15",
-          "sha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+          "date": "2026-10-17",
+          "sha256": "6b973a0de87532797bf5b372353c227e8d01c9097cbf0f5c1bfeec8a7b1c3e02",
           "scope": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
-          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
+          "method": "full-text-read-plus-template-migration-20261017"
         },
         "readingHistory": [
           {
@@ -814,11 +820,17 @@
           "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
           "method": "prior-full-text-review-plus-navigation-delta",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "current-working-tree-after-governance-index-migration",
+          "action": "template-compliant migration",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
+      "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-21",
       "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
@@ -837,7 +849,10 @@
           "战斗回合测试缺原生反控报告，合法物品输入及前序动作可达性待补。",
           "E2E-R4、E2E-005/006、标题读档IO及脚本命名治理仍按各卡当前状态推进。"
         ]
-      }
+      },
+      "documentStatus": "current",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/README.md",
@@ -1053,65 +1068,46 @@
     {
       "path": "docs/ops/tasks/index.md",
       "contentReviewStatus": "content-reviewed",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
-      "truthAnchors": [
-        "docs/ops/tasks/index.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
-      ],
+      "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。",
+      "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
       ],
-      "nextStep": "任务状态或路径变化时用官方生成器重出索引，并同步看板及内容审阅记录。",
+      "nextStep": "保持入口与状态同步；内容或生成器变化后刷新 review SHA，并重跑文档门禁。",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
+      "afterSha256": "82ec741a92cf1c1d8e0350dab8a49a0fee941d7ae67245e7b0c978c167d8f552",
       "publicCallers": [
-        "docs/ops/tasks/index.md → ../board.md",
-        "docs/ops/tasks/index.md → README.md",
-        "docs/ops/tasks/index.md → E2E-005-1-shrimp-errand-and-xianglan-news.md",
-        "docs/ops/tasks/index.md → E2E-006-1-inn-doctor-and-boat-to-island.md",
-        "docs/ops/tasks/index.md → E2E-R4-1-route-and-checkpoint-foundation.md",
-        "docs/ops/tasks/index.md → OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
-        "docs/ops/tasks/index.md → REFORGE-OPENING-LOAD-ERROR-1.md",
-        "docs/ops/tasks/index.md → SCRIPT-AUTHOR-2-readable-inn-choreography.md",
-        "docs/ops/tasks/index.md → TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
-        "docs/ops/tasks/index.md → TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
-        "docs/ops/tasks/index.md → TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
-        "docs/ops/tasks/index.md → ../archive/tasks/done/A4-own-sprite-upload.md",
-        "docs/ops/tasks/index.md → ../archive/tasks/done/A5-project-export-zip.md",
-        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-0-resource-closure-registry.md",
-        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-0A-opening-menu-music-role.md",
-        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-1-sfx-asset-closure.md"
+        "docs/ops/tasks/README.md → index.md",
+        "docs/ops/board.md → tasks/index.md",
+        "scripts/docs/check.mjs --print-task-index"
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/tasks/index.md"],
+      "legalInputs": ["各任务卡顶部 Status", "scripts/docs/check.mjs", "当前任务看板"],
       "businessOracle": {
-        "type": "content-review",
+        "type": "generated-navigation-and-template-contract",
         "assertions": [
-          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "official generator output matches current task-card statuses",
+          "governance-index-v1 sections and metadata are present",
+          "no runtime/E2E/visual/coverage credit"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/ops/tasks/index.md", "docs/phase-governance/templates/task-card.md"],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "reviewed-and-retained",
+        "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
+        "currentSha": "82ec741a92cf1c1d8e0350dab8a49a0fee941d7ae67245e7b0c978c167d8f552",
+        "implementationSha": "82ec741a92cf1c1d8e0350dab8a49a0fee941d7ae67245e7b0c978c167d8f552",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1283,6 +1279,12 @@
             "previousAfterSha256": "266d998304534b8c30d3a2ec5c68133576fb538d80eee459d17a9e5d772ff593",
             "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-governance-index-migration",
+            "date": "2026-10-17",
+            "action": "template migration and generated-index contract refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -1315,12 +1317,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
+        "afterSha256": "82ec741a92cf1c1d8e0350dab8a49a0fee941d7ae67245e7b0c978c167d8f552",
         "currentReading": {
-          "date": "2026-10-15",
-          "sha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+          "date": "2026-10-17",
+          "sha256": "82ec741a92cf1c1d8e0350dab8a49a0fee941d7ae67245e7b0c978c167d8f552",
           "scope": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
-          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
+          "method": "full-text-read-plus-template-migration-20261017"
         },
         "readingHistory": [
           {
@@ -1541,13 +1543,19 @@
           "previousAfterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
           "afterSha256": "b9f1fe73801d59b66ad64cb8ba9322dd4683be4a2dfbed76b49ec5e864eec7d2",
           "scope": "presentation only; task rows and statuses unchanged"
+        },
+        {
+          "revision": "current-working-tree-after-governance-index-migration",
+          "action": "template-compliant migration",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": null,
+      "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-381",
-      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
+      "reviewNotes": "生成器和输出同步迁移；任务行、顶部状态、历史分组和链接保留。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -1562,7 +1570,10 @@
         "unresolvedScope": [
           "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
         ]
-      }
+      },
+      "documentStatus": "current",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/tasks/README.md",

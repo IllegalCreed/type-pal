@@ -2,6 +2,30 @@
 
 当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。
 
+Last reviewed: 2026-10-17
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+- 记录当前未终态任务的责任、状态和唯一入口，避免历史任务重新获得执行授权。
+
+## 范围
+- 当前包含：活动任务卡、负责人和下一步。
+- 明确不包含：产品 runtime、E2E、视觉、coverage 或部署验收。
+
+## 当前状态
+- `status`: current
+- `lastReviewed`: 2026-10-17
+
+## 入口与责任
+- canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。
+- Owner：Codex 维护看板一致性；各 Coding Owner 维护任务卡状态。
+- 下游使用者：任务卡检查器、文档 registry 和跨阶段治理矩阵。
+
+## 证据与下一步
+- 关键来源：任务卡顶部 `Status`、任务卡正文、对应 evidence 目录和历史看板快照。
+- 未决/阻塞：每个活动任务的具体缺口以卡内证据和状态为准。
+- 下一步：任务状态变化时同步看板、生成索引、registry 和 review SHA。
+
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | build | Codex / 冻结模板、pilot、分批迁移 | 1838 份候选；未完成深审前不得标 done |

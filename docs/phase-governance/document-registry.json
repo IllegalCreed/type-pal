@@ -5,6 +5,16 @@
   "policy": "Classification is inventory only; content review status is granted only by a content review record with matching SHA and evidence.",
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
+  "structuralRoots": [
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "kind": "review-ledger-root",
+      "owner": "Codex",
+      "reason": "The review ledger cannot register its own after SHA without recursive self-authority; retain the full file and external task/consumer evidence.",
+      "retention": "retain-byte-stable-review-ledger",
+      "credit": "artifact-traceability only; no runtime/E2E/visual/coverage credit"
+    }
+  ],
   "summary": {
     "total": 2340,
     "byPhase": {
@@ -39,8 +49,8 @@
       "content-reviewed": 2340
     },
     "templateCompliance": {
-      "template-compliant": 2338,
-      "governed-legacy": 2
+      "template-compliant": 2340,
+      "governed-legacy": 0
     }
   },
   "entries": [
@@ -1039,7 +1049,7 @@
       "phase": "ops",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261004-semantic-current-batch.json",
       "retentionException": {
@@ -1208,9 +1218,9 @@
     {
       "path": "docs/ops/tasks/index.md",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261004-semantic-current-batch.json",
       "retentionException": {

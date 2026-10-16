@@ -6224,6 +6224,14 @@
     {
       "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
       "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

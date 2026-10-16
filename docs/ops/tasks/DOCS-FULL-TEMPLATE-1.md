@@ -1554,11 +1554,11 @@ Template: task-card-v1 / 1.0.0
 - `docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json` 是本批 structural review root，不能在自身内容内登记自身 after SHA；它是当前唯一仍未纳入 registry 的 review-root candidate。
 - `docs/ops/board.md` 与 `docs/ops/tasks/index.md` 继续保留用户/其他任务保护边界；当前分支只保留已读版本和历史 review，合入主树前必须以主树实际内容重核 SHA，并完成生成索引/治理模板兼容性收口。
 - `docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md` 已按当前分支实际内容接入 R94；合入主树时仍需复读保护文件并刷新 SHA，不能把当前分支的 review 当作主树内容证明。
-- 当前 `report-governance-progress` 为 `1836/1838 baseline + 502 incremental`、`2341` 个候选、`3` 个 current pending；以上结构边界不等于完成，全量目标仍 active/build，不得标记 done。
+- 当前 `report-governance-progress` 为 `1838/1838 baseline + 502 incremental`、`2340` 个 governed candidates、`0` 个 governed current pending；另有 1 个显式 `structuralRoots` review ledger，保留完整文件但不进入普通迁移分母。以上结构边界不等于完成，全量目标仍 active/build，不得标记 done。
 
 ### 2026-10-17 HTML 与清理候选盘点（R95）
 
 - 当前树共有 15 个 `.html`：`docs/phase2/archive/mockups/` 的 3 个交互 mockup，以及 `docs/testing/archive/legacy/` 的 12 个历史 browser host。15/15 已有 registry、review record、source/after SHA；它们分别服务历史设计复盘和旧批次浏览器证据，不能当作当前 runtime/E2E/visual 通过。
 - 3 个 phase2 mockup 仍被 mockups README、设计文档和治理 review 引用；12 个 testing host 仍被对应 receipt/evidence/layout-closeout 与治理 review 引用。当前没有满足删除条件的 HTML 候选，先保留 byte-stable artifact/history wrapper。
 - “过时”按适用范围标成 `historical` 或 `artifact-only`，不等于无用。删除候选必须同时满足：无正文/registry/routing/review/evidence/task 引用、无当前 caller、已有 successor 或原始证据保全、保留 source/after SHA 与日期、同步 README/index/矩阵并通过全部检查；否则只做归档封套，不删除。
-- 当前实际树 `2341` 个 Markdown/JSON/HTML 候选：`1836/1838` baseline 已闭合、`502` incremental 已登记；剩余 `3` 个 current pending 为受保护的 `docs/ops/board.md`、`docs/ops/tasks/index.md` 与不能自登记的 R94 structural review root。全量治理仍 active/build，不标记 done。
+- 当前实际树 `2341` 个 Markdown/JSON/HTML 文件中，`2340` 个进入 governed candidates：`1838/1838` baseline 已闭合、`502` incremental 已登记；R94 review ledger 由 `document-registry.json.structuralRoots` 显式登记并保留完整文件与外部 evidence，不进入普通迁移分母。全量治理仍 active/build，不标记 done。
