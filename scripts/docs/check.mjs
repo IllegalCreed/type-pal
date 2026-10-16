@@ -9,6 +9,7 @@ import {
   linkExceptions,
 } from './config.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const taskDirectory = 'docs/ops/tasks/'
@@ -279,6 +280,19 @@ export function auditDocuments({
 function main(args) {
   if (args.some((arg) => !['--print-task-index', '--json'].includes(arg)))
     throw new Error('用法：node scripts/docs/check.mjs [--json | --print-task-index]')
+  const namespace = inspectTerminalNamespace(repoRoot)
+  if (!namespace.ok) {
+    const issues = namespace.issues.map((issue) => ({
+      file: issue.file,
+      line: 1,
+      message: issue.message,
+    }))
+    if (args.includes('--json'))
+      console.log(JSON.stringify({ documents: 0, links: 0, issues }, null, 2))
+    else for (const issue of issues) console.error(`${issue.file}:1: ${issue.message}`)
+    process.exitCode = 1
+    return
+  }
   const files = execFileSync(
     'git',
     ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
