@@ -4868,6 +4868,129 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ]
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full protected task-card source read; source/after SHA recorded without writeback",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Protected ED task card remains review; original status, owner, premises, evidence, counters and unfinished E2E boundary preserved.",
+      "truthAnchors": ["docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:1"],
+      "unresolved": [
+        "Protected main-worktree delta must be re-read after integration before accepting final SHA."
+      ],
+      "nextStep": "After main integration, re-read protected source and refresh this record; do not mark the product task done from static governance.",
+      "phase": "phase2",
+      "module": "editor/entity-authoring",
+      "capability": "entity state plan task card",
+      "owner": "Codex",
+      "provenance": [
+        "protected-source-read",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r95_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+      "afterSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+      "publicCallers": ["docs/ops/board.md", "docs/ops/tasks/index.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md"
+      ],
+      "businessOracle": {
+        "type": "protected-task-card",
+        "assertions": [
+          "original task status and counters remain explicit",
+          "unfinished E2E/visual boundary remains open",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md"]
+      },
+      "revision": {
+        "currentSha": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "implementationSha": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "protected source read; no writeback",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "protected-task-card-review",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+        "sourceSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "candidateSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "afterSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+        "lineCount": 697,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "protected source bytes read-only",
+          "sourceBytes": 67856,
+          "sourceLines": 697,
+          "sourceFinalNewline": true,
+          "inverseSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        }
+      ],
+      "supersedes": ["none; protected active task card"],
+      "stopLine": "do not promote static task-card review to product/runtime/E2E/visual completion",
+      "userVisibleBeforeAfter": "保护的主工作树任务卡保持 → 只登记只读 SHA 与边界；不写回、不推进任务状态。",
+      "reviewedLines": "1-697",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "markdown",
+      "documentStatus": "current",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "scope": "full UTF-8 protected source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "module": "editor/entity-authoring",
+        "currentBoundary": "protected source and current task state own truth"
+      },
+      "dependencies": "Main-worktree protected content, board, task index and fresh E2E receipt.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "current task status; final SHA pending main reconciliation"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R95-PROTECTED-SHA",
+          "status": "open-until-main-reconciliation",
+          "statement": "Re-read protected main content after integration before final acceptance."
+        }
+      ]
     }
   ]
 }

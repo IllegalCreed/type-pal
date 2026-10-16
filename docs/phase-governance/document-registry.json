@@ -6,12 +6,12 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 2337,
+    "total": 2338,
     "byPhase": {
       "ops": 1250,
       "lore": 14,
       "phase1": 60,
-      "phase2": 108,
+      "phase2": 109,
       "phase3": 5,
       "phase-governance": 141,
       "testing": 759
@@ -23,7 +23,7 @@
       "governance-index": 105,
       "evidence-receipt": 100,
       "design-spec": 37,
-      "task-card": 362,
+      "task-card": 363,
       "quality-gate": 1,
       "test-machine-evidence": 49,
       "reference-canon": 38,
@@ -36,10 +36,10 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 2337
+      "content-reviewed": 2338
     },
     "templateCompliance": {
-      "template-compliant": 2335,
+      "template-compliant": 2336,
       "governed-legacy": 2
     }
   },
@@ -27068,6 +27068,18 @@
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json"
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "phase": "phase2",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "markdown"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
