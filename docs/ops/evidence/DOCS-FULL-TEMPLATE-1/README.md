@@ -85,3 +85,12 @@
 - [R25 根接入回执](contributor-phase2-plans-r25-20261017.json)：24 篇按 `plan-status-v1` + `archive-record-v1` 迁移，源/after SHA、具体里程碑、冲突、停止线和继任入口逐篇记录。
 - R25 不授予 runtime/E2E/视觉/coverage 信用；独立候选接收完成前保持 candidate/review，不能据此宣布全量完成。
 - [R25 候选独立接收](independent-r25-phase2-plans-candidate-acceptance-20261017.md)：24/24，plan-status/overlay/quote/三账本/after SHA 全部接收；前置 JSON 格式化差异已显式记录为 non-blocking，解析内容相等；runtime/E2E/视觉/coverage credit=0。
+
+
+## R26 indoor slice Markdown
+
+- [R26 只读独立复核](independent-r26-indoor-slices-review-20261017.md)：4/4 Markdown indoor slice 全文读取，源零漂移；3 个 HTML mockup 明确 deferred。
+- [R26 根接入回执](contributor-r26-indoor-slices-20261017.json)：2 archive-record + 2 plan-status/archive overlay，逐篇记录 source/after SHA、冲突、停止线和 successor。
+- HTML mockup 三篇未计入 R26 迁移，保持 governed-legacy，等待 HTML archive variant/template contract 冻结。
+
+- [R26 候选独立接收](independent-r26-indoor-slices-candidate-acceptance-20261017.md)：4/4 Markdown 候选接收；3 个 HTML mockup 因 HTML archive variant 未冻结而 deferred；runtime/E2E/视觉/coverage credit=0。

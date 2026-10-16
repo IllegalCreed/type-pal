@@ -1,0 +1,891 @@
+{
+  "schemaVersion": "r26-indoor-slices-readonly-review-v1",
+  "id": "type-pal-r26-indoor-slices-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex independent readonly reviewer",
+  "verdict": "accept-readonly-proposal",
+  "scope": {
+    "root": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+    "paths": [
+      "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "docs/phase2/archive/slices/indoor/plan.md",
+      "docs/phase2/archive/slices/indoor/spec.md"
+    ],
+    "documentsRead": 4,
+    "all4": true,
+    "formats": {
+      "html": 0,
+      "markdown": 4,
+      "htmlPaths": [],
+      "markdownPaths": [
+        "docs/phase2/archive/slices/indoor/guijie-minju.md",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+        "docs/phase2/archive/slices/indoor/plan.md",
+        "docs/phase2/archive/slices/indoor/spec.md"
+      ],
+      "htmlDeferred": [
+        "docs/phase2/archive/mockups/actor-mode-v1.html",
+        "docs/phase2/archive/mockups/actor-mode-v2.html",
+        "docs/phase2/archive/mockups/place-mode.html"
+      ]
+    },
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no HTML execution/browser rendering"
+  },
+  "sourceIdentity": {
+    "governanceSourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "gitHeadAtReview": "49dc6358245517e258a23ed95796dd82166bce59",
+    "allSourceAfterByteShaEqual": true,
+    "allOldReviewShaMatch": true,
+    "allSourceQuotesInverse": true,
+    "bytesTotal": 91412,
+    "physicalLineSlotsTotal": 1830,
+    "gitBlobAlgorithm": "git hash-object (SHA-1) recorded per file"
+  },
+  "summary": {
+    "documents": "4/4 fully read",
+    "sourceAfter": "4/4 byte SHA equal",
+    "sourceQuoteInverse": "4/4 exact line anchors",
+    "registry": "4/4 governed-legacy entries and review references present",
+    "oldReviewDuplicate": "0 duplicates; exactly one 20261004 entry per path",
+    "catalog": "4/4 catalog entries SHA matched",
+    "routing": "0/4 migratedDocuments entries; all four remain archive-only and unrouted to current canonical runtime",
+    "template": "4/4 readonly template proposals accepted; HTML three-file scope explicitly deferred",
+    "issues": "0 actionable issues for this readonly proposal"
+  },
+  "blockingCounters": {
+    "sourceShaMismatch": 0,
+    "afterShaMismatch": 0,
+    "sourceAfterDrift": 0,
+    "sourceQuoteInverseFailure": 0,
+    "registryMismatch": 0,
+    "oldReviewDuplicate": 0,
+    "catalogShaMismatch": 0,
+    "routingContradiction": 0,
+    "templateProposalFailure": 0,
+    "semanticReadFailure": 0,
+    "issueCount": 0
+  },
+  "nonBlockingCounters": {
+    "historicalArchiveBoundary": 4,
+    "htmlStaticMockup": 0,
+    "htmlCatalogGap": 0,
+    "archiveRoutingGap": 4,
+    "historicalWarningsOrUnresolvedSignals": 4,
+    "supersededOrRefocusedIndoorDocs": 3,
+    "htmlMigrationBlockedByTemplateContract": 0
+  },
+  "issues": {
+    "count": 0,
+    "interpretation": "Superseded scope and historical warning signals are preserved boundaries; the three HTML mockups are explicitly outside this 4-document review and are not counted."
+  },
+  "ledgerChecks": {
+    "registryPath": "docs/phase-governance/document-registry.json",
+    "catalogPath": "docs/phase-governance/catalog.json",
+    "routingPath": "docs/phase-governance/routing.json",
+    "oldReviewPaths": [
+      "docs/phase-governance/reviews/20261004-structured-content-phase2-01.json",
+      "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json"
+    ],
+    "registryAll4": true,
+    "catalogShaMatchedPresentEntries": true,
+    "catalogGapPaths": [],
+    "routingGapPaths": [
+      "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "docs/phase2/archive/slices/indoor/plan.md",
+      "docs/phase2/archive/slices/indoor/spec.md"
+    ],
+    "oldReviewEntriesExactlyOnePerPath": true,
+    "sourceRevisionStable": true
+  },
+  "templateDecision": {
+    "verdict": "accept-readonly-proposal",
+    "markdownArchiveRecord": "archive-record-v1 for guijie-minju.md and spec.md",
+    "markdownPlan": "plan-status-v1 + archive-record-v1 overlay for npc-collision-plan.md and plan.md",
+    "html": "deferred; not in this 4-document scope",
+    "htmlMigrationBoundary": "HTML mockups are explicitly deferred to a separate review; no HTML template/registry decision is made here.",
+    "requiredFiveChapters": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+    "preserveBody": true,
+    "preserveSourceOldFieldsHistory": true,
+    "noSemanticRewrite": true
+  },
+  "accounting": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "productCredit": 0,
+    "migrationAuthorized": false,
+    "ledgerWriteAuthorized": false,
+    "repositoryModifiedByThisReview": false,
+    "fullGoalDone": false
+  },
+  "commands": [
+    {
+      "command": "python read_bytes + strict UTF-8 decode + SHA-256 + git hash-object + registry/review/catalog/routing extraction",
+      "result": "PASS",
+      "scope": "4/4 target files, 91412 bytes, 1830 physical line slots"
+    },
+    {
+      "command": "HTML execution/browser rendering",
+      "result": "NOT RUN",
+      "reason": "readonly proposal explicitly excludes execution and visual credit"
+    },
+    {
+      "command": "runtime/E2E/visual/coverage",
+      "result": "NOT RUN",
+      "reason": "not authorized and no credit granted"
+    }
+  ],
+  "documents": [
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "format": "markdown",
+      "title": "切片 1（重定 · 小版）· 鬼界民居 demo",
+      "status": "historical",
+      "date": "unknown",
+      "byteCount": 4647,
+      "physicalLineSlots": 70,
+      "nonEmptyLineCount": 69,
+      "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+      "afterSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+      "sourceAfterIdentity": true,
+      "gitBlobSha1": "edac3461b58687653a58b338180359181808634d",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "gitHeadAtReview": "49dc6358245517e258a23ed95796dd82166bce59",
+      "fullUtf8Read": true,
+      "utf8StrictDecode": true,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "切片 1（重定 · 小版）· 鬼界民居 demo"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "0. 一句话"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "1. 范围"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "2. 内容来源（不画新图 / 不做新美术 / 不碰编辑器）"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "3. demo 台词（我定，demo 级别）"
+        },
+        {
+          "line": 38,
+          "level": 2,
+          "text": "4. 最小数据模型（P0 schema 的切片子集，够用即可）"
+        },
+        {
+          "line": 49,
+          "level": 2,
+          "text": "5. 架构红线（这刀的真正目的：在真内容上证明干净架构）"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "6. 构建顺序（按这尺寸，不是 21 任务）"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "7. 验收 / 测试（proportionate）"
+        }
+      ],
+      "statusSignals": ["文首称替代旧 spec", "文内称当前 slice-1 spec", "原版大图裁单房警示"],
+      "semanticOutline": "Small real-content slice proposal for a one-room ghost-home demo in reforge Canvas 2D: Li Xiaoyao walks/collides and talks to one or two ghosts; scope excludes editor/migration/combat/menu/save/scene switching/complex animation; reuse original tiles/sprites and hand-write scene data; minimal Scene/Map/Entity/Dialogue model; three-layer state, instantiable engine, pure movement/collision, Renderer interface, action-handler registry; build order content→renderer/input→assets→movement→dialogue; browser walk/collision/dialogue acceptance and a few focused tests.",
+      "conflicts": [
+        "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
+        "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
+        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+      ],
+      "stopLine": "Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.",
+      "successor": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.",
+      "templateProposal": {
+        "templateId": "archive-record-v1",
+        "decision": "accept-readonly-proposal",
+        "reason": "Markdown archive-record-v1; retain the historical five-field boundary and preserve the document’s current-versus-historical conflict as an explicit archive note.",
+        "currentRegistryTemplateId": "archive-record-v1",
+        "futureMigrationAuthorized": false
+      },
+      "sourceQuotes": [
+        {
+          "line": 1,
+          "text": "# 切片 1（重定 · 小版）· 鬼界民居 demo",
+          "actual": "# 切片 1（重定 · 小版）· 鬼界民居 demo",
+          "exact": true
+        },
+        {
+          "line": 3,
+          "text": "> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。",
+          "actual": "> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。",
+          "exact": true
+        },
+        {
+          "line": 20,
+          "text": "- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
+          "actual": "- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
+          "exact": true
+        }
+      ],
+      "sourceQuoteInversePass": true,
+      "registry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-phase2-01.json",
+        "reviewStatus": "content-reviewed",
+        "template": "docs/phase-governance/templates/archive-record.md",
+        "match": true
+      },
+      "oldReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-01.json",
+        "entryCountForPath": 1,
+        "duplicateReview": false,
+        "contentReviewStatus": "content-reviewed",
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "afterSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "shaMatch": true,
+        "reviewedLines": "1-70",
+        "coreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "unresolved": [
+          "正文信号 20:- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。"
+        ]
+      },
+      "catalog": {
+        "status": "archived",
+        "reviewStatus": "reviewed",
+        "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "afterSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932"
+      },
+      "routing": null,
+      "ledgerChecks": {
+        "registryPass": true,
+        "reviewPass": true,
+        "catalogPassOrExplicitGap": true,
+        "routingPassOrExplicitArchiveGap": true,
+        "oldReviewNoDuplicate": true
+      },
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "format": "markdown",
+      "title": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
+      "status": "historical",
+      "date": "2026-09-06",
+      "byteCount": 6612,
+      "physicalLineSlots": 130,
+      "nonEmptyLineCount": 129,
+      "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+      "afterSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+      "sourceAfterIdentity": true,
+      "gitBlobSha1": "a987186f8b3a690b9f86c6f37b0b221c3221e89b",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "gitHeadAtReview": "49dc6358245517e258a23ed95796dd82166bce59",
+      "fullUtf8Read": true,
+      "utf8StrictDecode": true,
+      "headings": [
+        {
+          "line": 5,
+          "level": 1,
+          "text": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "Global Constraints"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "Task 1: collision.ts 加 sameTile(纯函数 + TDD)"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "Task 2: main isBlocked 接 entity collide + 浏览器验"
+        },
+        {
+          "line": 120,
+          "level": 2,
+          "text": "Note(可选,本计划不强制)"
+        },
+        {
+          "line": 124,
+          "level": 2,
+          "text": "Self-Review(计划作者自查,已过)"
+        }
+      ],
+      "statusSignals": ["历史文档标注", "已完成 TDD 计划/设计存档", "正文执行状态非现行待办"],
+      "semanticOutline": "Historical static-NPC collision TDD plan: identifies collide as a dead field; constrains scope to fixed-position entities; adds pure sameTile(pixelToTile) plus an isBlocked wrapper while preserving resolveMove semantics; specifies focused collision tests, reforge check/lint, and a browser check for blocked passage plus dialogue and detour.",
+      "conflicts": [
+        "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
+        "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
+        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+      ],
+      "stopLine": "Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.",
+      "successor": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.",
+      "templateProposal": {
+        "templateId": "plan-status-v1+archive-record-v1-overlay",
+        "decision": "accept-readonly-proposal",
+        "reason": "Plan-status five sections for goal/milestones/current state/blockers/next step, plus archive overlay carrying the 2026-09-06 historical boundary and stop line.",
+        "currentRegistryTemplateId": "plan-status-v1",
+        "futureMigrationAuthorized": false
+      },
+      "sourceQuotes": [
+        {
+          "line": 1,
+          "text": "> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行",
+          "actual": "> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行",
+          "exact": true
+        },
+        {
+          "line": 9,
+          "text": "**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188))只判地图 tile、从没读 entity → 玩家能穿过站着的鬼。本计划把静态 NPC 碰撞接上:玩家**不能穿过** `collide:true` 的实体,撞上停下、仍能对话。",
+          "actual": "**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188))只判地图 tile、从没读 entity → 玩家能穿过站着的鬼。本计划把静态 NPC 碰撞接上:玩家**不能穿过** `collide:true` 的实体,撞上停下、仍能对话。",
+          "exact": true
+        },
+        {
+          "line": 11,
+          "text": "**范围(硬边界):** 只做**静态**碰撞(实体位置固定)。NPC 自主移动 + 动态碰撞 + 错位避让 = [design-backlog 议题 15](../../../design-backlog.md),本计划**绝不碰**(防范围蔓延)。",
+          "actual": "**范围(硬边界):** 只做**静态**碰撞(实体位置固定)。NPC 自主移动 + 动态碰撞 + 错位避让 = [design-backlog 议题 15](../../../design-backlog.md),本计划**绝不碰**(防范围蔓延)。",
+          "exact": true
+        }
+      ],
+      "sourceQuoteInversePass": true,
+      "registry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-phase2-02.json",
+        "reviewStatus": "content-reviewed",
+        "template": "docs/phase-governance/templates/plan-status.md",
+        "match": true
+      },
+      "oldReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "entryCountForPath": 1,
+        "duplicateReview": false,
+        "contentReviewStatus": "content-reviewed",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "afterSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "shaMatch": true,
+        "reviewedLines": "1-130",
+        "coreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "unresolved": [
+          "正文信号 2:> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与",
+          "正文信号 9:**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188",
+          "正文信号 13:**Architecture:** `collision.ts` 加纯函数 `sameTile`(复用已有菱形 `pixelToTile`);`main` 的 `isBlocked` 包一层(tile 挡 ‖ 某 `collide` 实体与目标同格)。`movement.resolveMove` **不动**——它的语义本就是「目标被挡即原地停」,isBlo",
+          "正文信号 54:Expected: FAIL(`sameTile` 未定义)",
+          "正文信号 58:`collision.ts` 加(`pixelToTile` 文件内已有,直接复用;放在 `buildIsBlocked` 附近):",
+          "正文信号 79:## Task 2: main isBlocked 接 entity collide + 浏览器验",
+          "正文信号 83:- [ ] **Step 1: isBlocked 包一层读 entity collide**",
+          "正文信号 86:- import 改:`import { buildIsBlocked, sameTile } from './collision.js'`。",
+          "正文信号 87:- `const isBlocked = buildIsBlocked(map)`(line ~188)改为:",
+          "正文信号 89:const tileBlocked = buildIsBlocked(map)",
+          "正文信号 92:const isBlocked = (x: number, y: number): boolean =>",
+          "正文信号 93:tileBlocked(x, y) ||"
+        ]
+      },
+      "catalog": {
+        "status": "archived",
+        "reviewStatus": "reviewed",
+        "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "afterSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295"
+      },
+      "routing": null,
+      "ledgerChecks": {
+        "registryPass": true,
+        "reviewPass": true,
+        "catalogPassOrExplicitGap": true,
+        "routingPassOrExplicitArchiveGap": true,
+        "oldReviewNoDuplicate": true
+      },
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "format": "markdown",
+      "title": "切片 1「室内场景跑通」实现计划（slice 1 plan）",
+      "status": "superseded-historical",
+      "date": "2026-06-25 / 2026-09-06",
+      "byteCount": 61042,
+      "physicalLineSlots": 1352,
+      "nonEmptyLineCount": 1351,
+      "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+      "afterSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+      "sourceAfterIdentity": true,
+      "gitBlobSha1": "d537b7a96c81cb67c0461c1628fb1bd96ddf9fb4",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "gitHeadAtReview": "49dc6358245517e258a23ed95796dd82166bce59",
+      "fullUtf8Read": true,
+      "utf8StrictDecode": true,
+      "headings": [
+        {
+          "line": 4,
+          "level": 1,
+          "text": "切片 1「室内场景跑通」实现计划（slice 1 plan）"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "Global Constraints"
+        },
+        {
+          "line": 34,
+          "level": 1,
+          "text": "阶段 0 · workspace 接线"
+        },
+        {
+          "line": 36,
+          "level": 3,
+          "text": "Task 0：起两个空包并接进 workspace"
+        },
+        {
+          "line": 137,
+          "level": 1,
+          "text": "阶段 A · @type-pal/content（纯数据/解码，node 可测）"
+        },
+        {
+          "line": 139,
+          "level": 3,
+          "text": "Task A1：schema 类型"
+        },
+        {
+          "line": 259,
+          "level": 3,
+          "text": "Task A2：indexed PNG → RGBA 解码（纯函数）"
+        },
+        {
+          "line": 341,
+          "level": 3,
+          "text": "Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）"
+        },
+        {
+          "line": 458,
+          "level": 3,
+          "text": "Task A4：手写 slice1-inn 内容 + vendored 真实资产 + index.json"
+        },
+        {
+          "line": 589,
+          "level": 1,
+          "text": "阶段 B · @type-pal/reforge 逻辑（headless 可测）"
+        },
+        {
+          "line": 591,
+          "level": 3,
+          "text": "Task B1：运行时实体 + 组件"
+        },
+        {
+          "line": 633,
+          "level": 3,
+          "text": "Task B2：uniform-grid 空间索引"
+        },
+        {
+          "line": 708,
+          "level": 3,
+          "text": "Task B3：世界几何碰撞查询"
+        },
+        {
+          "line": 749,
+          "level": 3,
+          "text": "Task B4：resolveMove（纯函数 · D2/D5 红线本体）"
+        },
+        {
+          "line": 804,
+          "level": 3,
+          "text": "Task B5：三层状态 —— world-state(L1) + scene-runtime(L3)"
+        },
+        {
+          "line": 878,
+          "level": 3,
+          "text": "Task B6：cutscene-runner —— action handler 注册表 + dialog"
+        },
+        {
+          "line": 956,
+          "level": 3,
+          "text": "Task B7：interaction —— 面朝判定 → 起演出"
+        },
+        {
+          "line": 1015,
+          "level": 3,
+          "text": "Task B8：input —— 键态 → 高层意图（纯映射）"
+        },
+        {
+          "line": 1057,
+          "level": 3,
+          "text": "Task B9：engine-context + 固定步长 tick（headless 集成）"
+        },
+        {
+          "line": 1186,
+          "level": 1,
+          "text": "阶段 C · @type-pal/reforge 渲染 + dev 入口（浏览器验收）"
+        },
+        {
+          "line": 1190,
+          "level": 3,
+          "text": "Task C1：相机（follow + clamp，clamp 可测）"
+        },
+        {
+          "line": 1223,
+          "level": 3,
+          "text": "Task C2：WebGL2 纹理上传 + textured-quad 批渲染器"
+        },
+        {
+          "line": 1263,
+          "level": 3,
+          "text": "Task C3：后处理 identity pass（D4 一等公民插入点）"
+        },
+        {
+          "line": 1276,
+          "level": 3,
+          "text": "Task C4：Canvas2D 文字叠层（对话框 + 中文翻页）"
+        },
+        {
+          "line": 1290,
+          "level": 3,
+          "text": "Task C5：dev 入口 + 浏览器资产加载 + rAF 主循环"
+        },
+        {
+          "line": 1343,
+          "level": 2,
+          "text": "自查（writing-plans Self-Review，已过）"
+        },
+        {
+          "line": 1349,
+          "level": 2,
+          "text": "执行交接"
+        }
+      ],
+      "statusSignals": ["已被取代的历史计划", "暂缓/勿照此执行", "WebGL/MMO旧范围未完成"],
+      "semanticOutline": "Historical implementation plan for two packages and an indoor vertical slice: workspace wiring; content schema, indexed-PNG decode, scene parsing/validation, hand-written scene/assets; reforge entities/grid/collision/resolveMove/state/cutscene/interaction/input/fixed tick; then camera, WebGL2 textured-quad rendering, identity postprocess, Canvas2D text, and browser/rAF dev entry; concludes with self-review and handoff.",
+      "conflicts": [
+        "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
+        "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
+        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+      ],
+      "stopLine": "Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.",
+      "successor": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.",
+      "templateProposal": {
+        "templateId": "plan-status-v1+archive-record-v1-overlay",
+        "decision": "accept-readonly-proposal",
+        "reason": "Plan-status-v1 for the extensive historical plan plus archive overlay that records superseded scope, stopLine, and successor; no plan task is reopened by this review.",
+        "currentRegistryTemplateId": "plan-status-v1",
+        "futureMigrationAuthorized": false
+      },
+      "sourceQuotes": [
+        {
+          "line": 1,
+          "text": "> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。",
+          "actual": "> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。",
+          "exact": true
+        },
+        {
+          "line": 6,
+          "text": "> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会基于新范围重写——**别把它当成当前的实现任务**。",
+          "actual": "> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会基于新范围重写——**别把它当成当前的实现任务**。",
+          "exact": true
+        },
+        {
+          "line": 12,
+          "text": "**Goal：** 起 `@type-pal/content` + `@type-pal/reforge` 两个新包，让新引擎在浏览器跑通一个手写室内房：走路 + 撞墙 + NPC 对话翻页。",
+          "actual": "**Goal：** 起 `@type-pal/content` + `@type-pal/reforge` 两个新包，让新引擎在浏览器跑通一个手写室内房：走路 + 撞墙 + NPC 对话翻页。",
+          "exact": true
+        }
+      ],
+      "sourceQuoteInversePass": true,
+      "registry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-phase2-02.json",
+        "reviewStatus": "content-reviewed",
+        "template": "docs/phase-governance/templates/plan-status.md",
+        "match": true
+      },
+      "oldReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "entryCountForPath": 1,
+        "duplicateReview": false,
+        "contentReviewStatus": "content-reviewed",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "afterSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "shaMatch": true,
+        "reviewedLines": "1-1352",
+        "coreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "unresolved": [
+          "正文信号 6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
+          "正文信号 171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
+          "正文信号 303:Expected: FAIL（`decodeIndexedPng` 未定义）",
+          "正文信号 350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
+          "正文信号 362:collision: { width: 2, height: 1, blocked: [0, 1] },",
+          "正文信号 375:expect(scene.map.collision.blocked).toBeInstanceOf(Uint8Array)",
+          "正文信号 402:function asRecord(v: unknown, what: string): Record<string, unknown> {",
+          "正文信号 404:return v as Record<string, unknown>",
+          "正文信号 407:export function parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable } {",
+          "正文信号 411:const layers = (map.layers as Array<Record<string, unknown>>).map((L) => {",
+          "正文信号 417:const blocked = col.blocked as number[]",
+          "正文信号 418:if (blocked.length !== w * h) throw new Error(`parseScene: collision.blocked 长度 ${blocked.length} != ${w * h}`)"
+        ]
+      },
+      "catalog": {
+        "status": "archived",
+        "reviewStatus": "reviewed",
+        "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "afterSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec"
+      },
+      "routing": null,
+      "ledgerChecks": {
+        "registryPass": true,
+        "reviewPass": true,
+        "catalogPassOrExplicitGap": true,
+        "routingPassOrExplicitArchiveGap": true,
+        "oldReviewNoDuplicate": true
+      },
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "format": "markdown",
+      "title": "P1 · 切片 1：室内场景跑通（slice 1 spec）",
+      "status": "draft-superseded-historical",
+      "date": "2026-06-24 / 2026-06-25",
+      "byteCount": 19111,
+      "physicalLineSlots": 278,
+      "nonEmptyLineCount": 277,
+      "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+      "afterSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+      "sourceAfterIdentity": true,
+      "gitBlobSha1": "ef477d8dc879854fa0f8b227f5bcd129de432d2f",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "gitHeadAtReview": "49dc6358245517e258a23ed95796dd82166bce59",
+      "fullUtf8Read": true,
+      "utf8StrictDecode": true,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "P1 · 切片 1：室内场景跑通（slice 1 spec）"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "0. 目标与范围"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "1. 决策映射（本刀如何兑现 D1–D9）"
+        },
+        {
+          "line": 39,
+          "level": 2,
+          "text": "2. 包与目录"
+        },
+        {
+          "line": 91,
+          "level": 2,
+          "text": "3. 内容数据模型（content schema 切片子集）"
+        },
+        {
+          "line": 164,
+          "level": 2,
+          "text": "4. 资产与解码（复用原版 / 运行期解码）"
+        },
+        {
+          "line": 174,
+          "level": 2,
+          "text": "5. 三层状态（[P0§1](../../designs/content-schema.md) / [D2](../../../decisions.md)）"
+        },
+        {
+          "line": 182,
+          "level": 2,
+          "text": "6. 实体 + 子系统（轻量组件袋，非 ECS 框架）"
+        },
+        {
+          "line": 191,
+          "level": 2,
+          "text": "7. 移动管线（连续/像素 · [D2](../../../decisions.md)/[D5](../../../decisions.md) 红线本体）"
+        },
+        {
+          "line": 207,
+          "level": 2,
+          "text": "8. 事件 / 演出（迷你声明式版 · [P0§6](../../designs/content-schema.md)）"
+        },
+        {
+          "line": 214,
+          "level": 2,
+          "text": "9. 渲染（[D4](../../../decisions.md)）"
+        },
+        {
+          "line": 224,
+          "level": 2,
+          "text": "10. 主循环 / 输入 / 时钟"
+        },
+        {
+          "line": 230,
+          "level": 2,
+          "text": "11. 错误处理（绕开 phase-1 静默回填债）"
+        },
+        {
+          "line": 235,
+          "level": 2,
+          "text": "12. 模块边界（做什么 / 怎么用 / 依赖谁）"
+        },
+        {
+          "line": 248,
+          "level": 2,
+          "text": "13. 测试与验收"
+        },
+        {
+          "line": 260,
+          "level": 2,
+          "text": "14. 构建顺序（给 plan）"
+        },
+        {
+          "line": 272,
+          "level": 2,
+          "text": "15. 留给后续（不在本刀拍死）"
+        }
+      ],
+      "statusSignals": ["暂缓/待重写", "状态：草案", "已重写为 guijie-minju.md"],
+      "semanticOutline": "Historical P1 indoor-slice spec: goal and scope table; D1–D9 mapping; content/reforge package layout; scene/map/entity/cutscene schema; indexed-PNG assets; three-layer state and lightweight component entities; pure movement and separate world/entity collision; declarative event/dialogue; WebGL2 plus Canvas2D text; loop/input/error/module boundaries; tests, build order, and future items.",
+      "conflicts": [
+        "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
+        "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
+        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+      ],
+      "stopLine": "Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.",
+      "successor": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.",
+      "templateProposal": {
+        "templateId": "archive-record-v1",
+        "decision": "accept-readonly-proposal",
+        "reason": "Markdown archive-record-v1 is appropriate for a superseded draft/spec; the old design content remains intact and future rewrite is a separate authorization.",
+        "currentRegistryTemplateId": "archive-record-v1",
+        "futureMigrationAuthorized": false
+      },
+      "sourceQuotes": [
+        {
+          "line": 1,
+          "text": "# P1 · 切片 1：室内场景跑通（slice 1 spec）",
+          "actual": "# P1 · 切片 1：室内场景跑通（slice 1 spec）",
+          "exact": true
+        },
+        {
+          "line": 3,
+          "text": "> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。",
+          "actual": "> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。",
+          "exact": true
+        },
+        {
+          "line": 4,
+          "text": "> **→ 已重写为 [guijie-minju.md](guijie-minju.md)（当前 slice-1 spec：鬼界民居 demo）。本文仅存档。**",
+          "actual": "> **→ 已重写为 [guijie-minju.md](guijie-minju.md)（当前 slice-1 spec：鬼界民居 demo）。本文仅存档。**",
+          "exact": true
+        },
+        {
+          "line": 6,
+          "text": "> 状态：草案（2026-06-24）。第二阶段铁律见 [READ-FIRST](../../../READ-FIRST.md)；总纲 [00-roadmap](../../../roadmap.md)；已拍决策 [decisions](../../../decisions.md)（D1–D9）；内容模型 [p0-content-schema](../../designs/content-schema.md)；架构债反面输入 [engine-debt-audit](../../audits/engine-debt-audit.md)。",
+          "actual": "> 状态：草案（2026-06-24）。第二阶段铁律见 [READ-FIRST](../../../READ-FIRST.md)；总纲 [00-roadmap](../../../roadmap.md)；已拍决策 [decisions](../../../decisions.md)（D1–D9）；内容模型 [p0-content-schema](../../designs/content-schema.md)；架构债反面输入 [engine-debt-audit](../../audits/engine-debt-audit.md)。",
+          "exact": true
+        }
+      ],
+      "sourceQuoteInversePass": true,
+      "registry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-phase2-02.json",
+        "reviewStatus": "content-reviewed",
+        "template": "docs/phase-governance/templates/archive-record.md",
+        "match": true
+      },
+      "oldReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+        "entryCountForPath": 1,
+        "duplicateReview": false,
+        "contentReviewStatus": "content-reviewed",
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "afterSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "shaMatch": true,
+        "reviewedLines": "1-278",
+        "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "unresolved": [
+          "正文信号 3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
+          "正文信号 119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
+          "正文信号 162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
+          "正文信号 204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
+          "正文信号 222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
+          "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。"
+        ]
+      },
+      "catalog": {
+        "status": "archived",
+        "reviewStatus": "reviewed",
+        "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "afterSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80"
+      },
+      "routing": null,
+      "ledgerChecks": {
+        "registryPass": true,
+        "reviewPass": true,
+        "catalogPassOrExplicitGap": true,
+        "routingPassOrExplicitArchiveGap": true,
+        "oldReviewNoDuplicate": true
+      },
+      "result": "PASS"
+    }
+  ],
+  "notAuthorized": [
+    "正文迁移",
+    "HTML template/registry freeze",
+    "registry/routing/catalog/central review writes",
+    "runtime/E2E/visual/coverage claims",
+    "product or full-goal completion"
+  ]
+}

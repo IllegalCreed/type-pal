@@ -1045,3 +1045,10 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`docs/phase-governance/reviews/20261017-phase2-plans-r25.json`、registry/routing/catalog 24 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
 - R25 候选独立接收和全静态门仍需完成；全量目标保持 active/build，未标 done。
 - R25 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-candidate-acceptance-20261017.json`，verdict `accept`，24/24；只读报告 raw/evidence JSON 格式化差异已明确为 non-blocking、解析内容相等。
+
+
+### 2026-10-17 R26 indoor slice Markdown
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json`，4/4 全文读取、源零漂移、issues=0；HTML 三篇 deferred。
+- 4 篇 Markdown 迁移：guijie-minju/spec 用 `archive-record-v1`；npc-collision-plan/plan 用 `plan-status-v1 + archive-record-v1`。
+- HTML mockup 三篇继续 governed-legacy，等待冻结 HTML archive variant；本批无 runtime/E2E/视觉/coverage 信用。

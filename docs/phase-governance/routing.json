@@ -1575,6 +1575,26 @@
       "path": "docs/phase2/archive/plans/visual-plan.md",
       "templateId": "plan-status-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

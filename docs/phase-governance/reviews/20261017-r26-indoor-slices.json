@@ -1,0 +1,725 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r26-indoor-slices",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R26 four indoor Markdown slices; HTML mockups deferred pending HTML variant.",
+  "entries": [
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text source read and semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:1",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:1 切片 1（重定 · 小版）· 鬼界民居 demo",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:7 0. 一句话",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:11 1. 范围",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:17 2. 内容来源（不画新图 / 不做新美术 / 不碰编辑器）",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:26 3. demo 台词（我定，demo 级别）",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:38 4. 最小数据模型（P0 schema 的切片子集，够用即可）",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:49 5. 架构红线（这刀的真正目的：在真内容上证明干净架构）",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md:57 6. 构建顺序（按这尺寸，不是 21 任务）"
+      ],
+      "unresolved": [
+        "正文信号 20:- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
+        "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
+        "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
+        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+      ],
+      "nextStep": "以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-slices-indoor-guijie-minju",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r26_independent_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+        }
+      ],
+      "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+      "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+      "publicCallers": [
+        "docs/phase2/archive/slices/indoor/guijie-minju.md → spec.md",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../../lore/dlc-ideas.md",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md → 0 走 / 1 挡"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/archive/slices/indoor/guijie-minju.md"
+      ],
+      "businessOracle": {
+        "type": "historical-slice-template-migration",
+        "assertions": [
+          "historical semantics traceable",
+          "quote inverse exact",
+          "no current promotion",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase2/archive/slices/indoor/guijie-minju.md"]
+      },
+      "revision": {
+        "currentSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "implementationSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
+            "date": "2026-10-17",
+            "action": "R26 historical slice migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+        "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "lineCount": 111,
+        "originalPreservation": {
+          "method": "line-by-line quote",
+          "sourceBytes": 4647,
+          "sourceLines": 70,
+          "inverseSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
+          "action": "R26 root migration",
+          "reviewer": "r26_independent_review + Codex root"
+        }
+      ],
+      "supersedes": ["legacy presentation only"],
+      "stopLine": "Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.",
+      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+      "reviewedLines": "1-111",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "module": "archive/slices/indoor"
+      },
+      "dependencies": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.",
+      "versionScope": {
+        "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "date": "unknown",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R26-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation."
+        },
+        {
+          "id": "R26-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here."
+        },
+        {
+          "id": "R26-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+        },
+        {
+          "id": "R26-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution."
+        }
+      ],
+      "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text source read and semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:1",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:5 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:17 Global Constraints",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:25 Task 1: collision.ts 加 sameTile(纯函数 + TDD)",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:79 Task 2: main isBlocked 接 entity collide + 浏览器验",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:120 Note(可选,本计划不强制)",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:124 Self-Review(计划作者自查,已过)"
+      ],
+      "unresolved": [
+        "正文信号 2:> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与",
+        "正文信号 9:**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188",
+        "正文信号 13:**Architecture:** `collision.ts` 加纯函数 `sameTile`(复用已有菱形 `pixelToTile`);`main` 的 `isBlocked` 包一层(tile 挡 ‖ 某 `collide` 实体与目标同格)。`movement.resolveMove` **不动**——它的语义本就是「目标被挡即原地停」,isBlo",
+        "正文信号 54:Expected: FAIL(`sameTile` 未定义)",
+        "正文信号 58:`collision.ts` 加(`pixelToTile` 文件内已有,直接复用;放在 `buildIsBlocked` 附近):",
+        "正文信号 79:## Task 2: main isBlocked 接 entity collide + 浏览器验",
+        "正文信号 83:- [ ] **Step 1: isBlocked 包一层读 entity collide**",
+        "正文信号 86:- import 改:`import { buildIsBlocked, sameTile } from './collision.js'`。",
+        "正文信号 87:- `const isBlocked = buildIsBlocked(map)`(line ~188)改为:",
+        "正文信号 89:const tileBlocked = buildIsBlocked(map)",
+        "正文信号 92:const isBlocked = (x: number, y: number): boolean =>",
+        "正文信号 93:tileBlocked(x, y) ||",
+        "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
+        "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
+        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+      ],
+      "nextStep": "以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-slices-indoor-npc-collision-plan",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r26_independent_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+        }
+      ],
+      "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+      "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+      "publicCallers": [
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L188",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L190",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/archive/slices/indoor/npc-collision-plan.md"
+      ],
+      "businessOracle": {
+        "type": "historical-slice-template-migration",
+        "assertions": [
+          "historical semantics traceable",
+          "quote inverse exact",
+          "no current promotion",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase2/archive/slices/indoor/npc-collision-plan.md"]
+      },
+      "revision": {
+        "currentSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "implementationSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
+            "date": "2026-10-17",
+            "action": "R26 historical slice migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+        "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "lineCount": 191,
+        "originalPreservation": {
+          "method": "line-by-line quote",
+          "sourceBytes": 6612,
+          "sourceLines": 130,
+          "inverseSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
+          "action": "R26 root migration",
+          "reviewer": "r26_independent_review + Codex root"
+        }
+      ],
+      "supersedes": ["legacy presentation only"],
+      "stopLine": "Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.",
+      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+      "reviewedLines": "1-191",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "module": "archive/slices/indoor"
+      },
+      "dependencies": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.",
+      "versionScope": {
+        "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "date": "2026-09-06",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R26-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review."
+        },
+        {
+          "id": "R26-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope."
+        },
+        {
+          "id": "R26-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+        },
+        {
+          "id": "R26-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution."
+        }
+      ],
+      "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text source read and semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/phase2/archive/slices/indoor/plan.md:1",
+        "docs/phase2/archive/slices/indoor/plan.md:4 切片 1「室内场景跑通」实现计划（slice 1 plan）",
+        "docs/phase2/archive/slices/indoor/plan.md:18 Global Constraints",
+        "docs/phase2/archive/slices/indoor/plan.md:34 阶段 0 · workspace 接线",
+        "docs/phase2/archive/slices/indoor/plan.md:36 Task 0：起两个空包并接进 workspace",
+        "docs/phase2/archive/slices/indoor/plan.md:137 阶段 A · @type-pal/content（纯数据/解码，node 可测）",
+        "docs/phase2/archive/slices/indoor/plan.md:139 Task A1：schema 类型",
+        "docs/phase2/archive/slices/indoor/plan.md:259 Task A2：indexed PNG → RGBA 解码（纯函数）",
+        "docs/phase2/archive/slices/indoor/plan.md:341 Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）"
+      ],
+      "unresolved": [
+        "正文信号 6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
+        "正文信号 171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
+        "正文信号 303:Expected: FAIL（`decodeIndexedPng` 未定义）",
+        "正文信号 350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
+        "正文信号 362:collision: { width: 2, height: 1, blocked: [0, 1] },",
+        "正文信号 375:expect(scene.map.collision.blocked).toBeInstanceOf(Uint8Array)",
+        "正文信号 402:function asRecord(v: unknown, what: string): Record<string, unknown> {",
+        "正文信号 404:return v as Record<string, unknown>",
+        "正文信号 407:export function parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable } {",
+        "正文信号 411:const layers = (map.layers as Array<Record<string, unknown>>).map((L) => {",
+        "正文信号 417:const blocked = col.blocked as number[]",
+        "正文信号 418:if (blocked.length !== w * h) throw new Error(`parseScene: collision.blocked 长度 ${blocked.length} != ${w * h}`)",
+        "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
+        "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
+        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+      ],
+      "nextStep": "以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-slices-indoor-plan",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r26_independent_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+        }
+      ],
+      "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+      "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+      "publicCallers": [
+        "docs/phase2/archive/slices/indoor/plan.md → README.md",
+        "docs/phase2/archive/slices/indoor/plan.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/plan.md → spec.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/archive/slices/indoor/plan.md"
+      ],
+      "businessOracle": {
+        "type": "historical-slice-template-migration",
+        "assertions": [
+          "historical semantics traceable",
+          "quote inverse exact",
+          "no current promotion",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase2/archive/slices/indoor/plan.md"]
+      },
+      "revision": {
+        "currentSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "implementationSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
+            "date": "2026-10-17",
+            "action": "R26 historical slice migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+        "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "lineCount": 1413,
+        "originalPreservation": {
+          "method": "line-by-line quote",
+          "sourceBytes": 61042,
+          "sourceLines": 1352,
+          "inverseSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
+          "action": "R26 root migration",
+          "reviewer": "r26_independent_review + Codex root"
+        }
+      ],
+      "supersedes": ["legacy presentation only"],
+      "stopLine": "Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.",
+      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+      "reviewedLines": "1-1413",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/plan.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "module": "archive/slices/indoor"
+      },
+      "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.",
+      "versionScope": {
+        "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "date": "2026-06-25 / 2026-09-06",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R26-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave."
+        },
+        {
+          "id": "R26-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented."
+        },
+        {
+          "id": "R26-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+        },
+        {
+          "id": "R26-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution."
+        }
+      ],
+      "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text source read and semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/phase2/archive/slices/indoor/spec.md:1",
+        "docs/phase2/archive/slices/indoor/spec.md:1 P1 · 切片 1：室内场景跑通（slice 1 spec）",
+        "docs/phase2/archive/slices/indoor/spec.md:12 0. 目标与范围",
+        "docs/phase2/archive/slices/indoor/spec.md:25 1. 决策映射（本刀如何兑现 D1–D9）",
+        "docs/phase2/archive/slices/indoor/spec.md:39 2. 包与目录",
+        "docs/phase2/archive/slices/indoor/spec.md:91 3. 内容数据模型（content schema 切片子集）",
+        "docs/phase2/archive/slices/indoor/spec.md:164 4. 资产与解码（复用原版 / 运行期解码）",
+        "docs/phase2/archive/slices/indoor/spec.md:174 5. 三层状态（[P0§1](../../designs/content-schema.md) / [D2](../../../decisions.md)）",
+        "docs/phase2/archive/slices/indoor/spec.md:182 6. 实体 + 子系统（轻量组件袋，非 ECS 框架）"
+      ],
+      "unresolved": [
+        "正文信号 3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
+        "正文信号 119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
+        "正文信号 162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
+        "正文信号 204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
+        "正文信号 222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
+        "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。",
+        "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
+        "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
+        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+      ],
+      "nextStep": "以当前 canonical 文档或代码复核。",
+      "phase": "phase2",
+      "module": "archive",
+      "capability": "phase2-archive-slices-indoor-spec",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r26_independent_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+        }
+      ],
+      "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+      "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+      "publicCallers": [
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → guijie-minju.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../roadmap.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../audits/engine-debt-audit.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/archive/slices/indoor/spec.md"
+      ],
+      "businessOracle": {
+        "type": "historical-slice-template-migration",
+        "assertions": [
+          "historical semantics traceable",
+          "quote inverse exact",
+          "no current promotion",
+          "no execution credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase2/archive/slices/indoor/spec.md"]
+      },
+      "revision": {
+        "currentSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "implementationSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
+            "date": "2026-10-17",
+            "action": "R26 historical slice migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+        "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "lineCount": 319,
+        "originalPreservation": {
+          "method": "line-by-line quote",
+          "sourceBytes": 19111,
+          "sourceLines": 278,
+          "inverseSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
+          "action": "R26 root migration",
+          "reviewer": "r26_independent_review + Codex root"
+        }
+      ],
+      "supersedes": ["legacy presentation only"],
+      "stopLine": "Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.",
+      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+      "reviewedLines": "1-319",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "primarySource": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/spec.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "module": "archive/slices/indoor"
+      },
+      "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.",
+      "versionScope": {
+        "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "date": "2026-06-24 / 2026-06-25",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R26-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave."
+        },
+        {
+          "id": "R26-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision."
+        },
+        {
+          "id": "R26-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+        },
+        {
+          "id": "R26-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution."
+        }
+      ],
+      "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6"
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json",
+    "sha256": "8d1157e64940acbb142b91edfb695f6312cd159551fdf3028b6aa1c36d1f5bde",
+    "verdict": "accept-readonly-proposal",
+    "scope": "4/4 Markdown"
+  },
+  "migrationSummary": {
+    "documents": 4,
+    "htmlDeferred": 3,
+    "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "sourceQuoteInverse": "4/4",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-candidate-acceptance-20261017.json",
+    "sha256": "23f27fcf57bc93608789ad3a5d4a18b687a0f6225482e19c600e8826332c1d65",
+    "verdict": "accept",
+    "scope": "4/4 Markdown candidate reception; HTML 3 deferred",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}
