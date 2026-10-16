@@ -282,3 +282,9 @@
 - [R55 只读独立复核](independent-r55-ops-dedup-ledger-readonly-review-20261017.json)：2/2 全文读取；两个 test evidence dedup ledger 接入 `evidence-receipt-v1 + archive-record-v1`，保留 NEW/REG、caller、合法输入、oracle、fullName、判例和 rework 边界。
 - [R55 根接入回执](contributor-r55-ops-dedup-ledger-20261017.json)：逐篇记录 source/after SHA、quote inverse、模板 overlay、consumer、状态和停止线。
 - [R55 候选独立接收](independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json)：2/2 候选接收；无 runtime/E2E/视觉/coverage 信用；turn-boundaries 当前 rework 状态保留。
+
+## R56 ops task machine evidence
+
+- [R56 只读独立复核](independent-r56-ops-machine-evidence-readonly-review-20261017.json)：6/6 JSON 全量解析、读取顶层 shape/字段并确认 source==after；coverage、mutation、vitest 历史结果保留为 machine artifact。
+- [R56 根接入回执](contributor-r56-ops-machine-evidence-20261017.json)：逐篇记录 byte-stable SHA、top-level fields、consumer 和 artifact-only 边界；不进入 Markdown routing。
+- [R56 候选独立接收](independent-r56-ops-machine-evidence-candidate-acceptance-20261017.json)：6/6 候选接收；无 runtime/E2E/视觉/coverage 信用，不把旧执行结果当当前通过。

@@ -23,14 +23,14 @@
       "governance-index": 103,
       "evidence-receipt": 35,
       "design-spec": 35,
-      "task-card": 331,
+      "task-card": 325,
       "quality-gate": 1,
+      "test-machine-evidence": 37,
       "reference-canon": 14,
       "narrative-idea": 2,
       "plan-status": 70,
       "test-e2e-stage": 6,
       "test-run-report": 6,
-      "test-machine-evidence": 31,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 2
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 717,
-      "governed-legacy": 16
+      "template-compliant": 723,
+      "governed-legacy": 10
     }
   },
   "entries": [
@@ -1384,68 +1384,80 @@
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-new-01.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewRecord": "20261017-r56-ops-machine-evidence.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/tasks/index.md",

@@ -1250,3 +1250,11 @@ Branch: codex/docs-full-template-proposal
 - R55 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json`；2/2 quote/template/overlay/consumer/after SHA 接收；静态门全绿，无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：排重账仍被对应任务卡、evidence README 和测试/机器 consumer 引用；本批不删除，不闭合 rework，不把历史计数当当前执行。
 - 全量 1838 目标保持 active/build，当前进度 `712/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R56 ops task machine evidence
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-readonly-review-20261017.json`，6/6 JSON 全量解析并逐篇枚举顶层 shape/字段；source 与 after 字节完全相等。
+- 中央接入：`docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json`、registry 6 条 `test-machine-evidence-v1` artifact-only；不进入 Markdown routing，旧 task-card 错绑已移除。
+- R56 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-candidate-acceptance-20261017.json`；6/6 artifact envelope、字段清单、consumer、SHA 和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：coverage、mutation、vitest 产物仍被历史任务卡、coverage 工具或 evidence README 引用；本批不删除，不改机器字段，不把旧执行结果升级为当前通过。
+- 全量 1838 目标保持 active/build，当前进度 `718/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。
