@@ -1,5 +1,39 @@
 # 跨阶段测试与验证
 
+Status: current
+Owner: Codex（文档治理维护；原作者/贡献者身份保留于正文历史）
+Last reviewed: 2026-10-17
+Template: governance-index-v1 / 1.0.0
+
+本次治理只统一当前文档结构与入口字段；原始测试范围、机器字段、日期、状态和未执行边界保持，不新增 runtime/E2E/视觉/coverage 信用。
+
+## 目的
+
+- 为 Agent 与人类提供跨阶段测试文档的唯一入口、路由和当前边界。
+
+## 范围
+
+- 当前包含 testing catalog、E2E、domain、archive、模板和 legacy 兼容账本；执行结果由配对报告/evidence 自己负责。
+
+## 当前状态
+
+- status: current
+- lastReviewed: 2026-10-17
+- 本次只治理入口结构与链接；不新增 runtime、E2E、视觉或 coverage 信用。
+
+## 入口与责任
+
+- canonical 入口：本页、[测试治理](governance.md) 与 [机器 catalog](catalog.json)。
+- Owner：Codex 文档治理；下游使用者：Agent、testing checks、阶段报告和证据 consumer。
+
+## 证据与下一步
+
+- 关键来源：docs/testing/catalog.json、E2E/domain canonical reports、archive ledger、legacy census。
+- 未决：legacy compatibility entries 仍需按 catalog/consumer 逐项清理；下一步先保持 route/index/catalog 一致，再继续 current 文档治理。
+
+
+## 导航正文
+
 ## Canonical system（人类与 Agent 共同入口）
 
 先看[测试文档治理](governance.md)，再按专项进入：

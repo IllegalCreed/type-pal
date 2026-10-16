@@ -1,5 +1,40 @@
 # 测试文档治理与淘汰机制
 
+Status: current
+Owner: Codex（文档治理维护；原作者/贡献者身份保留于正文历史）
+Last reviewed: 2026-10-17
+Template: guide-runbook-v1 / 1.0.0
+
+本次治理只统一当前文档结构与入口字段；原始测试范围、机器字段、日期、状态和未执行边界保持，不新增 runtime/E2E/视觉/coverage 信用。
+
+## 目的
+
+- 让文档治理 Agent 在进入 testing、迁移、E2E 或质量门前先读到合法输入、caller/oracle、历史和停止线。
+
+## 前置条件
+
+- 先读 testing catalog、对应 domain/report/contract/evidence；确认 source revision、合法输入、当前状态和 reviewBy。
+
+## 步骤
+
+1. 创建或更新 domain README 与 catalog 条目。
+2. 将 canonical report、machine evidence、contract、任务卡和引用保持一一配对。
+3. 运行 testing/docs checks，记录 source/after SHA 和未执行边界。
+
+## 失败处理
+
+- 可预期失败：缺 canonical、catalog/evidence 不一致、过期 reviewBy、依赖状态不合格、孤儿路径或链接漂移。
+- 停止线：静态核读、proposal、rework 或历史 receipt 不能冒充 runtime/E2E/visual/coverage。
+- 回滚/人工接管：保留原始历史正文与 SHA，回到 draft/rework/blocked，并由 Owner 补齐真实 evidence。
+
+## 完成定义
+
+- 可观察条件：catalog、README、report、evidence、任务卡和索引一致，检查命令零 error/warning/info。
+- 证据路径与复核人：本页配套 docs/testing/catalog.json、review records、machine evidence 和独立 Codex review。
+
+
+## 治理正文
+
 ## 唯一事实源
 
 `docs/testing/catalog.json` 是机器可读的索引事实源；文件名、目录名和正文标题只是展示层，不能用来推断状态。

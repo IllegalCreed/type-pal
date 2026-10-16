@@ -5850,6 +5850,16 @@
       "path": "docs/testing/archive/legacy/unresolved-tools/README.md",
       "templateId": "archive-record-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

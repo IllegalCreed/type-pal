@@ -423,3 +423,8 @@
 
 - [R82 readonly](independent-r82-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
 - [R82 acceptance](independent-r82-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。
+
+## R83 current testing entry and ledgers
+
+- [R83 readonly](independent-r83-testing-current-readonly-review-20261017.json)：4/4 当前 testing README、治理指南与 legacy machine catalog 全文读取。
+- [R83 acceptance](independent-r83-testing-current-candidate-acceptance-20261017.json)：4/4 接收；README/governance 使用 current templates，JSON 保留 native schema 与 retired entries，不授执行信用。

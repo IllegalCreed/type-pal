@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 1477,
+    "total": 1481,
     "byPhase": {
       "ops": 519,
       "lore": 14,
@@ -14,13 +14,13 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 16,
-      "testing": 755
+      "testing": 759
     },
     "byType": {
-      "guide-runbook": 16,
+      "guide-runbook": 17,
       "archive-record": 616,
       "audit-report": 59,
-      "governance-index": 103,
+      "governance-index": 104,
       "evidence-receipt": 100,
       "design-spec": 37,
       "task-card": 361,
@@ -33,13 +33,13 @@
       "test-run-report": 6,
       "test-domain-report": 10,
       "test-contract": 1,
-      "test-catalog": 2
+      "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 1477
+      "content-reviewed": 1481
     },
     "templateCompliance": {
-      "template-compliant": 1475,
+      "template-compliant": 1479,
       "governed-legacy": 2
     }
   },
@@ -19743,6 +19743,62 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r82-testing-archive.json",
       "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/testing/README.md",
+      "phase": "testing",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r83-testing-current.json",
+      "historyOverlay": false,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "phase": "testing",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r83-testing-current.json",
+      "historyOverlay": false,
+      "artifactOnly": false
+    },
+    {
+      "path": "docs/testing/legacy-flat-classification.json",
+      "phase": "testing",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "docs/testing/_templates/test-catalog.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261017-r83-testing-current.json",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/testing/legacy-flat.json",
+      "phase": "testing",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "docs/testing/_templates/test-catalog.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261017-r83-testing-current.json",
+      "historyOverlay": false,
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "json"

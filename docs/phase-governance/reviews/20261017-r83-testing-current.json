@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 1,
+  "id": "r83-testing-current-20261017",
+  "reviewer": "Codex root current testing migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R83: current testing README/governance use current templates; legacy-flat JSON ledgers retain native machine schema under test-catalog-v1 artifact envelope. No execution credit.",
+  "entries": [
+    {
+      "path": "docs/testing/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full Markdown read and current template migration; original body retained under governed navigation section",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "docs/testing/README.md：current current-entry 已接入 governance-index-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "truthAnchors": ["docs/testing/README.md:1"],
+      "unresolved": [
+        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution."
+      ],
+      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "phase": "testing",
+      "module": "testing-governance",
+      "capability": "docs/testing/README.md",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r83_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
+        }
+      ],
+      "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+      "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+      "publicCallers": [
+        "docs/testing/README.md",
+        "docs/testing/catalog.json",
+        "pnpm check:testing-docs"
+      ],
+      "legalInputs": ["current repository documentation", "docs/testing/README.md"],
+      "businessOracle": {
+        "type": "testing-governance-navigation",
+        "assertions": [
+          "required template sections present",
+          "canonical links remain resolvable",
+          "no execution credit from navigation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/testing/README.md"]
+      },
+      "revision": {
+        "currentSha": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "implementationSha": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "history": [
+          {
+            "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+            "date": "2026-10-17",
+            "action": "current template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+        "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+        "candidateSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+        "lineCount": 340,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "full current body retained under template sections",
+          "sourceBytes": 54800,
+          "sourceLines": 306,
+          "sourceFinalNewline": true,
+          "inverseSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+          "exactRoundTrip": false
+        }
+      },
+      "history": [
+        {
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R83 current testing governance migration",
+          "reviewer": "r83_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "unstructured current presentation; native fields and historical entries retained"
+      ],
+      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
+      "reviewedLines": "1-340",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "documentStatus": "current",
+      "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+      "candidateSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+      "primarySource": [
+        {
+          "path": "docs/testing/README.md",
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "testing-governance",
+        "currentBoundary": "catalog/report/contract/evidence own execution truth"
+      },
+      "dependencies": "testing catalog, canonical report/domain README, contract, evidence and task card.",
+      "versionScope": {
+        "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+        "date": "2026-10-17",
+        "validity": "current structure; native historical entries remain date-scoped"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R83-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full Markdown read and current template migration; original body retained under governed navigation section",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "docs/testing/governance.md：current current-governance 已接入 guide-runbook-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "truthAnchors": ["docs/testing/governance.md:1"],
+      "unresolved": [
+        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution."
+      ],
+      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "phase": "testing",
+      "module": "testing-governance",
+      "capability": "docs/testing/governance.md",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r83_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
+        }
+      ],
+      "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+      "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "publicCallers": [
+        "docs/testing/README.md",
+        "docs/testing/catalog.json",
+        "pnpm check:testing-docs"
+      ],
+      "legalInputs": ["current repository documentation", "docs/testing/governance.md"],
+      "businessOracle": {
+        "type": "testing-governance-navigation",
+        "assertions": [
+          "required template sections present",
+          "canonical links remain resolvable",
+          "no execution credit from navigation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/testing/governance.md"]
+      },
+      "revision": {
+        "currentSha": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+        "implementationSha": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+        "history": [
+          {
+            "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+            "date": "2026-10-17",
+            "action": "current template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+        "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+        "candidateSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+        "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+        "lineCount": 108,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "full current body retained under template sections",
+          "sourceBytes": 5232,
+          "sourceLines": 73,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+          "exactRoundTrip": false
+        }
+      },
+      "history": [
+        {
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R83 current testing governance migration",
+          "reviewer": "r83_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "unstructured current presentation; native fields and historical entries retained"
+      ],
+      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
+      "reviewedLines": "1-108",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "documentStatus": "current",
+      "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+      "candidateSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "primarySource": [
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "testing-governance",
+        "currentBoundary": "catalog/report/contract/evidence own execution truth"
+      },
+      "dependencies": "testing catalog, canonical report/domain README, contract, evidence and task card.",
+      "versionScope": {
+        "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+        "date": "2026-10-17",
+        "validity": "current structure; native historical entries remain date-scoped"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R83-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/legacy-flat-classification.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "docs/testing/_templates/test-catalog.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 read; native schema, top-level keys, entries/retired counts and generated/source identity enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/legacy-flat-classification.json：current current-classification-catalog 已接入 test-catalog-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "truthAnchors": ["docs/testing/legacy-flat-classification.json:1"],
+      "unresolved": [
+        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence."
+      ],
+      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "phase": "testing",
+      "module": "testing-governance",
+      "capability": "docs/testing/legacy-flat-classification.json",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r83_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
+        }
+      ],
+      "sourceSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "afterSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "publicCallers": [
+        "docs/testing/README.md",
+        "scripts/docs/classify-testing-legacy.mjs",
+        "scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/legacy-flat-classification.json"
+      ],
+      "businessOracle": {
+        "type": "testing-catalog-native-schema",
+        "assertions": [
+          "native JSON fields preserved",
+          "retired/current lifecycle remains explicit",
+          "runtime execution is not inferred"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/testing/legacy-flat-classification.json"]
+      },
+      "revision": {
+        "currentSha": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+        "implementationSha": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+        "history": [
+          {
+            "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+            "date": "2026-10-17",
+            "action": "current catalog schema review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-catalog-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+        "sourceSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+        "candidateSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+        "afterSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+        "lineCount": 12708,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 665252,
+          "sourceLines": 12708,
+          "sourceFinalNewline": true,
+          "inverseSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "schemaVersion": 1,
+          "topLevelKeys": [
+            "schemaVersion",
+            "generatedBy",
+            "generatedFrom",
+            "policy",
+            "summary",
+            "entries"
+          ],
+          "entryCount": 359,
+          "retiredCount": null
+        }
+      },
+      "history": [
+        {
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R83 current testing governance migration",
+          "reviewer": "r83_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "unstructured current presentation; native fields and historical entries retained"
+      ],
+      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing JSON 保持 → 接入 test-catalog artifact envelope、SHA 和 governance fields；机器字段不变。",
+      "reviewedLines": "1-12708",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "current",
+      "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+      "candidateSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "primarySource": [
+        {
+          "path": "docs/testing/legacy-flat-classification.json",
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "testing-governance",
+        "currentBoundary": "catalog/report/contract/evidence own execution truth"
+      },
+      "dependencies": "testing catalog, canonical report/domain README, contract, evidence and task card.",
+      "versionScope": {
+        "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+        "date": "2026-10-17",
+        "validity": "current structure; native historical entries remain date-scoped"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R83-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/legacy-flat.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "docs/testing/_templates/test-catalog.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 read; native schema, top-level keys, entries/retired counts and generated/source identity enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/legacy-flat.json：current current-legacy-catalog 已接入 test-catalog-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "truthAnchors": ["docs/testing/legacy-flat.json:1"],
+      "unresolved": [
+        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence."
+      ],
+      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "phase": "testing",
+      "module": "testing-governance",
+      "capability": "docs/testing/legacy-flat.json",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r83_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
+        }
+      ],
+      "sourceSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "afterSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "publicCallers": [
+        "docs/testing/README.md",
+        "scripts/docs/classify-testing-legacy.mjs",
+        "scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": ["current repository documentation", "docs/testing/legacy-flat.json"],
+      "businessOracle": {
+        "type": "testing-catalog-native-schema",
+        "assertions": [
+          "native JSON fields preserved",
+          "retired/current lifecycle remains explicit",
+          "runtime execution is not inferred"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/testing/legacy-flat.json"]
+      },
+      "revision": {
+        "currentSha": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+        "implementationSha": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+        "history": [
+          {
+            "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+            "date": "2026-10-17",
+            "action": "current catalog schema review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-catalog-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
+        "sourceSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+        "candidateSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+        "afterSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+        "lineCount": 3574,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 207285,
+          "sourceLines": 3574,
+          "sourceFinalNewline": true,
+          "inverseSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+          "exactRoundTrip": true
+        },
+        "nativeShape": {
+          "schemaVersion": 1,
+          "topLevelKeys": ["schemaVersion", "frozenCensus", "policy", "entries", "retired"],
+          "entryCount": 0,
+          "retiredCount": 359
+        }
+      },
+      "history": [
+        {
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R83 current testing governance migration",
+          "reviewer": "r83_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "unstructured current presentation; native fields and historical entries retained"
+      ],
+      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing JSON 保持 → 接入 test-catalog artifact envelope、SHA 和 governance fields；机器字段不变。",
+      "reviewedLines": "1-3574",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "current",
+      "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+      "candidateSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "primarySource": [
+        {
+          "path": "docs/testing/legacy-flat.json",
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "testing-governance",
+        "currentBoundary": "catalog/report/contract/evidence own execution truth"
+      },
+      "dependencies": "testing catalog, canonical report/domain README, contract, evidence and task card.",
+      "versionScope": {
+        "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+        "date": "2026-10-17",
+        "validity": "current structure; native historical entries remain date-scoped"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R83-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}
