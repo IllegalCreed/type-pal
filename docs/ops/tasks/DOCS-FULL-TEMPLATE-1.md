@@ -1343,3 +1343,11 @@ Branch: codex/docs-full-template-proposal
 - HTML 用途结论：3 个 phase2 mockup 已由既有 R33 账本接入并被 editor/docs 引用；本批 12 个 testing host 仍由配对 README、host/source、evidence 或迁移账引用，暂不删除。
 - 清理边界：只有在 consumer、继任入口、source SHA 和历史引用全部核定后，才可另开 cleanup 记录；本批不删除、不把历史视觉证据变成 current/E2E/coverage 结论。
 - 当前进度 `846/1838 baseline + 21 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R68 ops evidence Markdown
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-readonly-review-20261017.json`，10/10 ops evidence/review Markdown 全文读取。
+- 中央接入：`docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json`、registry/routing 10 条 `evidence-receipt-v1 + archive-record-v1`；原始合同、状态、counter、consumer 和停止线保留。
+- R68 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-candidate-acceptance-20261017.json`；10/10 source/after SHA、quote inverse、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：本批不删除 evidence，不闭合历史任务状态；疑似重复必须先确认 consumer、机器证据和 source SHA。
+- 当前进度 `855/1838 baseline + 22 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。

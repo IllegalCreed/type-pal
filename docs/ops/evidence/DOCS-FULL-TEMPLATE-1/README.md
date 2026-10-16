@@ -348,3 +348,8 @@
 
 - [R67 readonly](independent-r67-testing-legacy-html-readonly-review-20261017.json)：12/12 HTML host 全文读取；保持 byte-stable artifact-only，不把视觉/运行时结果升格为当前通过。
 - [R67 acceptance](independent-r67-testing-legacy-html-candidate-acceptance-20261017.json)：12/12 接收；配对 README/source/evidence 或迁移账仍引用，本批不删除。
+
+## R68 ops evidence Markdown
+
+- [R68 readonly](independent-r68-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
+- [R68 acceptance](independent-r68-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
