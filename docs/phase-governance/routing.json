@@ -1845,6 +1845,51 @@
       "path": "docs/phase1/status/resource-status.md",
       "templateId": "plan-status-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

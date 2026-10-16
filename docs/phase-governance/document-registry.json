@@ -4547,13 +4547,15 @@
     {
       "path": "docs/phase1/01-feasibility.md",
       "phase": "phase1",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/02-architecture.md",
@@ -4561,10 +4563,12 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/03-development-plan.md",
@@ -4585,10 +4589,12 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/05-events-schema.md",
@@ -4596,32 +4602,38 @@
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/06-testing.md",
       "phase": "phase1",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/engineering-notes.md",
       "phase": "phase1",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/game-mechanics.md",
@@ -4629,10 +4641,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
@@ -5199,10 +5213,12 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/sdlpal-runbook.md",
@@ -5210,10 +5226,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-phase1-root-batch2.json"
+      "reviewRecord": "20261017-r30-phase1-foundation.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/status/cutscene-status.md",

@@ -118,3 +118,10 @@
 - [R29 只读独立复核](independent-r29-phase1-status-readonly-review-20261017.md)：8/8 phase1 status/plan 全文读取，7 plan-status + 1 governance-index；源零漂移。
 - [R29 根接入回执](contributor-r29-phase1-status-20261017.json)：逐篇记录历史状态、冲突、停止线、source/after SHA 和继任入口。
 - [R29 候选独立接收](independent-r29-phase1-status-candidate-acceptance-20261017.md)：8/8 候选接收；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R30 phase1 foundation
+
+- [R30 只读独立复核](independent-r30-phase1-foundation-readonly-review-20261017.md)：9/9 phase1 foundation 全文读取；2 design-spec + 2 governance-index + 3 guide-runbook + 2 reference-canon。
+- [R30 根接入回执](contributor-r30-phase1-foundation-20261017.json)：逐篇记录历史边界、来源、冲突、停止线、source/after SHA 和继任入口。
+- [R30 候选独立接收](independent-r30-phase1-foundation-candidate-acceptance-20261017.md)：9/9 候选接收；无 runtime/E2E/视觉/coverage 信用。

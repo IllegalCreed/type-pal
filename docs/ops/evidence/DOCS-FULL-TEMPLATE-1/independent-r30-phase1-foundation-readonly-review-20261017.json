@@ -1,0 +1,1577 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r30-phase1-foundation-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 9,
+    "all9": true,
+    "paths": [
+      "docs/phase1/01-feasibility.md",
+      "docs/phase1/02-architecture.md",
+      "docs/phase1/04-decisions.md",
+      "docs/phase1/05-events-schema.md",
+      "docs/phase1/06-testing.md",
+      "docs/phase1/engineering-notes.md",
+      "docs/phase1/game-mechanics.md",
+      "docs/phase1/README.md",
+      "docs/phase1/sdlpal-runbook.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "9/9 fully read",
+    "sourceAfter": "9/9 byte SHA equal at intake",
+    "registry": "9/9 governed-legacy entries and review references",
+    "catalog": "9/9 source/after SHA matched at intake",
+    "routing": "archive-only at intake",
+    "classification": "2 design-spec; 2 governance-index; 3 guide-runbook; 2 reference-canon",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "format": "markdown",
+      "title": "01 · 背景与可行性",
+      "date": "undated",
+      "bodyDates": [],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "afterSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "bytes": 3638,
+      "physicalLineSlots": 53,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "01 · 背景与可行性"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "项目目标"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "可行性结论:可行"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "关于 sdlpal"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "关于\"原版源代码\""
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "重要认知:sdlpal 干两类事"
+        },
+        {
+          "line": 47,
+          "level": 2,
+          "text": "数据文件(MKF)"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: 01 · 背景与可行性.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-reference-canon",
+      "proposedTemplate": "reference-canon-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "format": "markdown",
+      "title": "02 · 架构设计",
+      "date": "undated",
+      "bodyDates": [],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "design-spec",
+        "templateId": "design-spec-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "afterSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "bytes": 10964,
+      "physicalLineSlots": 136,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "02 · 架构设计"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "两阶段:离线转换 + 运行时"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "资源 vs 事件:两类东西"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "运行时分层架构"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "核心层:1 个状态 + 4 个系统 + 1 条总线"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "表现层 / 外壳层设计"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "扩展性:怎么兑现\"以后好改\""
+        },
+        {
+          "line": 125,
+          "level": 2,
+          "text": "技术栈(已确认 —— 见 04-decisions.md D19)"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: 02 · 架构设计.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-design-spec",
+      "proposedTemplate": "design-spec-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "format": "markdown",
+      "title": "04 · 决策记录与待定问题",
+      "date": "2026-05-23",
+      "bodyDates": ["2026-05-23", "2026-05-24", "2026-05-27"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "afterSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "bytes": 22569,
+      "physicalLineSlots": 85,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "04 · 决策记录与待定问题"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "已拍板的决策"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "待定问题"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "数据核对结论(2026-05-23)"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "设计讨论进度"
+        },
+        {
+          "line": 80,
+          "level": 2,
+          "text": "曾经考虑过、已否决的方向"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: 04 · 决策记录与待定问题.",
+      "conflicts": [
+        "正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把\"字节码 → events.json 忠实转写器\"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:\"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满\")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "format": "markdown",
+      "title": "05 · events.json schema",
+      "date": "undated",
+      "bodyDates": [],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "design-spec",
+        "templateId": "design-spec-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "afterSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "bytes": 8067,
+      "physicalLineSlots": 157,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "05 · events.json schema"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "转换策略"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "原版脚本数据(sdlpal 调查结论)"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "命令的形态"
+        },
+        {
+          "line": 54,
+          "level": 2,
+          "text": "opcode 注册表"
+        },
+        {
+          "line": 78,
+          "level": 2,
+          "text": "控制流"
+        },
+        {
+          "line": 89,
+          "level": 2,
+          "text": "对话与文字"
+        },
+        {
+          "line": 99,
+          "level": 2,
+          "text": "富模型:给新内容的结构化子集"
+        },
+        {
+          "line": 113,
+          "level": 2,
+          "text": "文件组织(D18)"
+        },
+        {
+          "line": 129,
+          "level": 2,
+          "text": "可读名字(D20)"
+        },
+        {
+          "line": 138,
+          "level": 2,
+          "text": "运行时:事件系统怎么执行"
+        },
+        {
+          "line": 146,
+          "level": 2,
+          "text": "状态:没有标志位数组"
+        },
+        {
+          "line": 155,
+          "level": 2,
+          "text": "round-trip 验证"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: 05 · events.json schema.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-design-spec",
+      "proposedTemplate": "design-spec-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "format": "markdown",
+      "title": "06 · 测试策略",
+      "date": "2026-05-23",
+      "bodyDates": ["2026-05-23"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "afterSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "bytes": 4760,
+      "physicalLineSlots": 83,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "06 · 测试策略"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "核心思路:正确答案已经存在"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "pal-extract:往返 + 对拍"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "核心层:Vitest 单测"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "sdlpal 差分测试(重档核心)"
+        },
+        {
+          "line": 42,
+          "level": 2,
+          "text": "渲染:截图快照"
+        },
+        {
+          "line": 46,
+          "level": 2,
+          "text": "自主端到端回放测试"
+        },
+        {
+          "line": 55,
+          "level": 2,
+          "text": "存档素材库"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "dev 调试面板"
+        },
+        {
+          "line": 75,
+          "level": 2,
+          "text": "输入录制 / 回放"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "测试金字塔与里程碑"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: 06 · 测试策略.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-guide-runbook",
+      "proposedTemplate": "guide-runbook-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "format": "markdown",
+      "title": "Engineering Notes · type-pal(第一阶段)",
+      "date": "2026-06-14",
+      "bodyDates": [
+        "2026-06-14",
+        "2026-06-17",
+        "2026-06-19",
+        "2026-06-22",
+        "2026-07-14",
+        "2026-09-19",
+        "2026-09-28",
+        "2026-10-14"
+      ],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "bytes": 32712,
+      "physicalLineSlots": 214,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Engineering Notes · type-pal(第一阶段)"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "1. 调试方法论"
+        },
+        {
+          "line": 13,
+          "level": 3,
+          "text": "1.1 复现剧情/演出 bug — 别从头玩"
+        },
+        {
+          "line": 20,
+          "level": 3,
+          "text": "1.2 分层定位:离线 harness vs 壳层"
+        },
+        {
+          "line": 25,
+          "level": 3,
+          "text": "1.3 渲染类 bug 的纯数据离线定位"
+        },
+        {
+          "line": 28,
+          "level": 3,
+          "text": "1.4 sdlpal 字段\"死代码\"判定"
+        },
+        {
+          "line": 31,
+          "level": 3,
+          "text": "1.5 接 sdlpal 修复的纪律(对照 codex 5-commit 示范提炼)"
+        },
+        {
+          "line": 42,
+          "level": 2,
+          "text": "2. 忠实性真值锚 & 忠实 vs 修复"
+        },
+        {
+          "line": 46,
+          "level": 3,
+          "text": "2.1 真值锚分层"
+        },
+        {
+          "line": 53,
+          "level": 3,
+          "text": "2.2 已拍板的忠实-vs-修复例(偏离须源码注释 + 回归测试钉住)"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "2.3 原版数据 bug —— 修运行时加载层,不动提取器"
+        },
+        {
+          "line": 69,
+          "level": 2,
+          "text": "3. 引擎架构陷阱"
+        },
+        {
+          "line": 71,
+          "level": 3,
+          "text": "3.1 opcode 双解释器"
+        },
+        {
+          "line": 82,
+          "level": 3,
+          "text": "3.2 相机建模:相对移动非绝对回正"
+        },
+        {
+          "line": 89,
+          "level": 3,
+          "text": "3.3 切场景演出全黑 —— 两层"
+        },
+        {
+          "line": 96,
+          "level": 3,
+          "text": "3.4 C 阻塞 → 异步化丢\"同帧后续\""
+        },
+        {
+          "line": 102,
+          "level": 3,
+          "text": "3.5 time-based 状态要有兜底收尾人"
+        },
+        {
+          "line": 109,
+          "level": 3,
+          "text": "3.6 战斗动画拍频(施法慢/卡顿)"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "3.7 立绘残留"
+        },
+        {
+          "line": 122,
+          "level": 3,
+          "text": "3.7b 跟随者朝向/位置冻结"
+        },
+        {
+          "line": 127,
+          "level": 3,
+          "text": "3.7c 四行分页不能跳过未显示行"
+        },
+        {
+          "line": 137,
+          "level": 3,
+          "text": "3.8 瓦片接缝漏黑"
+        },
+        {
+          "line": 142,
+          "level": 3,
+          "text": "RNG 末帧不能跨场景重绘复活"
+        },
+        {
+          "line": 152,
+          "level": 3,
+          "text": "3.9 SW 离线预缓存"
+        },
+        {
+          "line": 166,
+          "level": 2,
+          "text": "4. 代码库事实"
+        },
+        {
+          "line": 176,
+          "level": 2,
+          "text": "5. 部署 / 运维"
+        },
+        {
+          "line": 178,
+          "level": 3,
+          "text": "5.1 生产站 & CDN"
+        },
+        {
+          "line": 183,
+          "level": 3,
+          "text": "5.2 部署后缓存"
+        },
+        {
+          "line": 188,
+          "level": 3,
+          "text": "5.3 \"卡/慢\"诊断:先分本地 vs 生产"
+        },
+        {
+          "line": 192,
+          "level": 3,
+          "text": "5.4 BGM 音色库"
+        },
+        {
+          "line": 195,
+          "level": 3,
+          "text": "5.5 本地验 Service Worker 的坑"
+        },
+        {
+          "line": 203,
+          "level": 2,
+          "text": "6. docs / 计划维护"
+        },
+        {
+          "line": 205,
+          "level": 3,
+          "text": "6.1 docs 状态表刷新口径"
+        },
+        {
+          "line": 211,
+          "level": 3,
+          "text": "6.2 攻略 flow.md & e2e 计划"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: Engineering Notes · type-pal(第一阶段).",
+      "conflicts": [
+        "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-guide-runbook",
+      "proposedTemplate": "guide-runbook-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "format": "markdown",
+      "title": "Game Mechanics · 原版底层机制真值",
+      "date": "2026-06-02",
+      "bodyDates": [
+        "2026-06-02",
+        "2026-06-13",
+        "2026-06-26",
+        "2026-07-14",
+        "2026-07-29",
+        "2026-07-31",
+        "2026-09-05"
+      ],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "reference-canon",
+        "templateId": "reference-canon-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "afterSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "bytes": 134500,
+      "physicalLineSlots": 1581,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Game Mechanics · 原版底层机制真值"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "索引"
+        },
+        {
+          "line": 34,
+          "level": 2,
+          "text": "人物主等级升级：各属性随机成长"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "隐藏属性经验 / 等级系统"
+        },
+        {
+          "line": 73,
+          "level": 3,
+          "text": "TL;DR"
+        },
+        {
+          "line": 79,
+          "level": 3,
+          "text": "1. 数据结构"
+        },
+        {
+          "line": 107,
+          "level": 3,
+          "text": "2. 战斗中:按动作累计 `wCount`"
+        },
+        {
+          "line": 121,
+          "level": 3,
+          "text": "3. 战斗胜利后:×2 经验按比例分配"
+        },
+        {
+          "line": 147,
+          "level": 3,
+          "text": "4. 重要约束(容易误解的点)"
+        },
+        {
+          "line": 155,
+          "level": 3,
+          "text": "5. ts 实现状态"
+        },
+        {
+          "line": 165,
+          "level": 3,
+          "text": "附:源出处速查"
+        },
+        {
+          "line": 183,
+          "level": 2,
+          "text": "伤害计算:攻击力 vs 防御值"
+        },
+        {
+          "line": 185,
+          "level": 3,
+          "text": "核心:`PAL_CalcBaseDamage(攻, 防)` 三段公式"
+        },
+        {
+          "line": 201,
+          "level": 3,
+          "text": "攻击力 / 防御值由什么构成"
+        },
+        {
+          "line": 209,
+          "level": 3,
+          "text": "物抗:为什么\"敌人有物抗、我方没有\"(你的观察正确)"
+        },
+        {
+          "line": 215,
+          "level": 3,
+          "text": "物理:玩家普攻打敌人(单体)"
+        },
+        {
+          "line": 228,
+          "level": 3,
+          "text": "物理:敌人打玩家"
+        },
+        {
+          "line": 241,
+          "level": 3,
+          "text": "法术(仙术)伤害:灵力 vs 防御"
+        },
+        {
+          "line": 265,
+          "level": 3,
+          "text": "伤害公式的百分比口径与属性收益"
+        },
+        {
+          "line": 323,
+          "level": 3,
+          "text": "投掷武器与铜钱镖：等效灵力与伤害"
+        },
+        {
+          "line": 401,
+          "level": 3,
+          "text": "特殊仙术:乾坤一掷(钱换伤害,林月如)"
+        },
+        {
+          "line": 454,
+          "level": 3,
+          "text": "ts 实现状态"
+        },
+        {
+          "line": 467,
+          "level": 2,
+          "text": "暴击 与 李逍遥会心一击"
+        },
+        {
+          "line": 485,
+          "level": 2,
+          "text": "防御机制:主动防御 / 自动防御 / 援护 / 护体"
+        },
+        {
+          "line": 489,
+          "level": 3,
+          "text": "主动防御 vs 自动防御"
+        },
+        {
+          "line": 505,
+          "level": 3,
+          "text": "援护(Cover)"
+        },
+        {
+          "line": 514,
+          "level": 3,
+          "text": "护体(`kStatusProtect`,金刚咒)"
+        },
+        {
+          "line": 527,
+          "level": 2,
+          "text": "队友阵亡:援护者的台词与增益"
+        },
+        {
+          "line": 529,
+          "level": 3,
+          "text": "TL;DR"
+        },
+        {
+          "line": 533,
+          "level": 3,
+          "text": "触发([fight.c:775-819](../../reference/sdlpal/fight.c#L775-L819))"
+        },
+        {
+          "line": 548,
+          "level": 3,
+          "text": "四种结局(三道概率门顺序掷,opcode `0x06`)"
+        },
+        {
+          "line": 561,
+          "level": 3,
+          "text": "增益怎么算(`0x30` / `0x1B` / `0x1C`)"
+        },
+        {
+          "line": 566,
+          "level": 3,
+          "text": "相关但不同:`scriptOnDying`(自己濒死的纯对白)"
+        },
+        {
+          "line": 583,
+          "level": 2,
+          "text": "群体普攻伤害递减"
+        },
+        {
+          "line": 592,
+          "level": 3,
+          "text": "各目标分别算基础伤害，再按命中序递减"
+        },
+        {
+          "line": 612,
+          "level": 3,
+          "text": "五敌标准站位与图中标号"
+        },
+        {
+          "line": 627,
+          "level": 3,
+          "text": "空槽、双击和取整边界"
+        },
+        {
+          "line": 651,
+          "level": 2,
+          "text": "战后 HP / MP 恢复"
+        },
+        {
+          "line": 672,
+          "level": 2,
+          "text": "五灵 / 毒 抗性与五行机制"
+        },
+        {
+          "line": 685,
+          "level": 3,
+          "text": "五灵 5 系 + 毒"
+        },
+        {
+          "line": 691,
+          "level": 3,
+          "text": "关键:玩家与敌人抗性是两套不同刻度"
+        },
+        {
+          "line": 708,
+          "level": 2,
+          "text": "战斗场景对五灵仙术的影响"
+        },
+        {
+          "line": 729,
+          "level": 2,
+          "text": "合击仙术"
+        },
+        {
+          "line": 733,
+          "level": 3,
+          "text": "触发条件(PAL_CLASSIC)"
+        },
+        {
+          "line": 742,
+          "level": 3,
+          "text": "威力公式"
+        },
+        {
+          "line": 759,
+          "level": 3,
+          "text": "回合代价"
+        },
+        {
+          "line": 767,
+          "level": 2,
+          "text": "身法与出手顺序"
+        },
+        {
+          "line": 773,
+          "level": 3,
+          "text": "1. 基础身法"
+        },
+        {
+          "line": 778,
+          "level": 3,
+          "text": "2. 动作身法修正(玩家本回合所选动作)"
+        },
+        {
+          "line": 792,
+          "level": 3,
+          "text": "3. 收尾修正"
+        },
+        {
+          "line": 808,
+          "level": 2,
+          "text": "吉运(只影响逃跑成功率)"
+        },
+        {
+          "line": 814,
+          "level": 3,
+          "text": "逃跑成功公式"
+        },
+        {
+          "line": 831,
+          "level": 3,
+          "text": "`fIsBoss` 是「逐场战斗标志」,不是「看起来像不像 boss」"
+        },
+        {
+          "line": 843,
+          "level": 3,
+          "text": "⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运"
+        },
+        {
+          "line": 859,
+          "level": 2,
+          "text": "特殊技能成功率(秒杀 / 偷取 / 上状态)"
+        },
+        {
+          "line": 865,
+          "level": 3,
+          "text": "四道\"关卡\"分别是什么"
+        },
+        {
+          "line": 874,
+          "level": 3,
+          "text": "逐个技能(玩家施放,数值为原版真值)"
+        },
+        {
+          "line": 884,
+          "level": 3,
+          "text": "一句话总结"
+        },
+        {
+          "line": 890,
+          "level": 3,
+          "text": "源出处速查"
+        },
+        {
+          "line": 905,
+          "level": 2,
+          "text": "紫金葫芦炼丹:灵葫值炼随机丹药"
+        },
+        {
+          "line": 907,
+          "level": 3,
+          "text": "TL;DR"
+        },
+        {
+          "line": 911,
+          "level": 3,
+          "text": "炼丹公式(opcode `0x34`,紫金葫芦 scriptOnUse → [script.c:1454-1477](../../reference/sdlpal/script.c#L1454-L1477))"
+        },
+        {
+          "line": 929,
+          "level": 3,
+          "text": "九档丹药(`Store[0].items`,真值出处 `data/extracted/data/stores.json` store0 + `items.json`)"
+        },
+        {
+          "line": 945,
+          "level": 3,
+          "text": "sdlpal 与原版的分歧(本节按原版 PAL_CLASSIC)"
+        },
+        {
+          "line": 953,
+          "level": 2,
+          "text": "抗性体系总览 与 巫术命中判定"
+        },
+        {
+          "line": 957,
+          "level": 3,
+          "text": "八种抗性 = 两套完全不同的机制"
+        },
+        {
+          "line": 972,
+          "level": 3,
+          "text": "什么走\"巫抗\"这道关"
+        },
+        {
+          "line": 987,
+          "level": 3,
+          "text": "巫术命中判定:`0x2E` 公式 + \"上限 90%\" bug"
+        },
+        {
+          "line": 1014,
+          "level": 3,
+          "text": "完整成功率公式"
+        },
+        {
+          "line": 1044,
+          "level": 3,
+          "text": "敌我不对称:巫抗只保护敌人"
+        },
+        {
+          "line": 1050,
+          "level": 3,
+          "text": "敌人普攻附带异常(黑狗血 → 封技)"
+        },
+        {
+          "line": 1071,
+          "level": 3,
+          "text": "ts 实现状态"
+        },
+        {
+          "line": 1078,
+          "level": 3,
+          "text": "源出处速查"
+        },
+        {
+          "line": 1089,
+          "level": 2,
+          "text": "异常状态效果:眠 / 定身 / 疯魔 / 封技"
+        },
+        {
+          "line": 1093,
+          "level": 3,
+          "text": "状态全集 与 \"睡眠 = 定身\""
+        },
+        {
+          "line": 1101,
+          "level": 3,
+          "text": "眠 / 定身:丧失行动力"
+        },
+        {
+          "line": 1106,
+          "level": 3,
+          "text": "封技(`kStatusSilence`):只封仙术"
+        },
+        {
+          "line": 1111,
+          "level": 3,
+          "text": "疯魔(混乱 `kStatusConfused`):攻击队友"
+        },
+        {
+          "line": 1148,
+          "level": 3,
+          "text": "敌人混乱选目标:DOS / Win 原版 bug,sdlpal 已修"
+        },
+        {
+          "line": 1153,
+          "level": 3,
+          "text": "解封技:引擎能解,\"解不掉\"在数据层"
+        },
+        {
+          "line": 1159,
+          "level": 3,
+          "text": "ts 实现状态"
+        },
+        {
+          "line": 1165,
+          "level": 2,
+          "text": "毒系统:等级 / 每回合伤害 / 七大毒 / 相生相克"
+        },
+        {
+          "line": 1169,
+          "level": 3,
+          "text": "先厘清:巫抗 ≠ 毒抗(下毒命中看巫抗,不看毒抗)"
+        },
+        {
+          "line": 1183,
+          "level": 3,
+          "text": "数据结构 与 毒名"
+        },
+        {
+          "line": 1189,
+          "level": 3,
+          "text": "等级 + 每回合伤害(实测)"
+        },
+        {
+          "line": 1206,
+          "level": 3,
+          "text": "毒伤逐回合推进 + 三尸蛊"
+        },
+        {
+          "line": 1215,
+          "level": 3,
+          "text": "七大毒:六普通三级毒 + 无影毒"
+        },
+        {
+          "line": 1221,
+          "level": 3,
+          "text": "相生相克 + 三对致死组合(脚本实证)"
+        },
+        {
+          "line": 1237,
+          "level": 3,
+          "text": "下毒途径:三尸蛊靠巫术,其余靠投掷"
+        },
+        {
+          "line": 1243,
+          "level": 3,
+          "text": "解毒(按等级)"
+        },
+        {
+          "line": 1256,
+          "level": 3,
+          "text": "风险解毒道具(毒龙胆 / 九阴散)与 寿葫芦白嫖"
+        },
+        {
+          "line": 1272,
+          "level": 3,
+          "text": "ts 实现状态"
+        },
+        {
+          "line": 1278,
+          "level": 2,
+          "text": "怪物刷新:消失倒计时与离屏复活"
+        },
+        {
+          "line": 1282,
+          "level": 3,
+          "text": "TL;DR"
+        },
+        {
+          "line": 1286,
+          "level": 3,
+          "text": "1. 怪物 = 场景事件对象(EVENTOBJECT)"
+        },
+        {
+          "line": 1307,
+          "level": 3,
+          "text": "2. 时间基准:世界逻辑 FPS = 10 → 每有效 tick 100ms"
+        },
+        {
+          "line": 1320,
+          "level": 3,
+          "text": "3. 引擎核心两段:倒计时 + 离屏复活"
+        },
+        {
+          "line": 1345,
+          "level": 3,
+          "text": "4. 完整生命周期(从遭遇到刷新)"
+        },
+        {
+          "line": 1356,
+          "level": 3,
+          "text": "5. 重要约束(容易误解的点)"
+        },
+        {
+          "line": 1366,
+          "level": 3,
+          "text": "6. ts 实现状态"
+        },
+        {
+          "line": 1378,
+          "level": 3,
+          "text": "附:源出处速查"
+        },
+        {
+          "line": 1396,
+          "level": 2,
+          "text": "大世界施加的状态如何带入战斗:护体 / 中毒 / 毒抗"
+        },
+        {
+          "line": 1400,
+          "level": 3,
+          "text": "TL;DR"
+        },
+        {
+          "line": 1412,
+          "level": 3,
+          "text": "1. 为什么\"都带得进去\":共用全局数组,开战只读不重置"
+        },
+        {
+          "line": 1425,
+          "level": 3,
+          "text": "2. 三条施加链(大世界 → 写哪个全局结构)"
+        },
+        {
+          "line": 1433,
+          "level": 3,
+          "text": "3. 战斗里如何生效"
+        },
+        {
+          "line": 1439,
+          "level": 3,
+          "text": "4. 战斗结束:三件套统一清除(为何\"只保一场\")"
+        },
+        {
+          "line": 1457,
+          "level": 3,
+          "text": "5. 大蒜的特殊性:Extra 格 + 两条清除路径"
+        },
+        {
+          "line": 1470,
+          "level": 3,
+          "text": "6. 重要约束(容易误解的点)"
+        },
+        {
+          "line": 1477,
+          "level": 3,
+          "text": "7. ts 实现状态"
+        },
+        {
+          "line": 1487,
+          "level": 3,
+          "text": "附:源出处速查"
+        },
+        {
+          "line": 1505,
+          "level": 2,
+          "text": "状态刷新 / 死亡 / 复活 / 梦蛇 / 明王觉醒（2026-07-14 作者补充）"
+        },
+        {
+          "line": 1509,
+          "level": 3,
+          "text": "1. 回梦重复释放：我方不重置 vs 敌方重置"
+        },
+        {
+          "line": 1517,
+          "level": 3,
+          "text": "2. 梦蛇死亡不清除，复活后仍在"
+        },
+        {
+          "line": 1533,
+          "level": 3,
+          "text": "3. 死亡不清 buff/debuff，复活才清"
+        },
+        {
+          "line": 1541,
+          "level": 3,
+          "text": "4. 明王战赵灵儿觉醒 + 站位"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: Game Mechanics · 原版底层机制真值.",
+      "conflicts": [
+        "正文信号 67:**这属于新增作者能力，尚未实现，不改变本节记录的原版规则。**",
+        "正文信号 668:ts 实现状态:**已实现**(2026-06-26 核实,旧注\"未实现\"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。",
+        "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运",
+        "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:",
+        "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主",
+        "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-reference-canon",
+      "proposedTemplate": "reference-canon-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "format": "markdown",
+      "title": "docs/phase1/ — 第一阶段（忠实还原）文档",
+      "date": "2026-06-07",
+      "bodyDates": ["2026-06-07", "2026-06-16", "2026-09-06"],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "afterSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "bytes": 2854,
+      "physicalLineSlots": 55,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "docs/phase1/ — 第一阶段（忠实还原）文档"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "索引"
+        },
+        {
+          "line": 15,
+          "level": 3,
+          "text": "覆盖快照（v1.0 冻结时点；当前缺陷见审计台账）"
+        },
+        {
+          "line": 27,
+          "level": 3,
+          "text": "设计 / 决策（主线，编号有序）"
+        },
+        {
+          "line": 32,
+          "level": 3,
+          "text": "工程经验 / 运维"
+        },
+        {
+          "line": 38,
+          "level": 3,
+          "text": "历史归档"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "怎么用"
+        },
+        {
+          "line": 49,
+          "level": 2,
+          "text": "目录文件索引"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: docs/phase1/ — 第一阶段（忠实还原）文档.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "format": "markdown",
+      "title": "sdlpal Build / 启动 / Headless 参考",
+      "date": "undated",
+      "bodyDates": [],
+      "status": "historical",
+      "catalogStatus": "current",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "deep-semantic",
+        "reviewRecord": "20261004-phase1-root-batch2.json"
+      },
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "afterSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "bytes": 7156,
+      "physicalLineSlots": 252,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "sdlpal Build / 启动 / Headless 参考"
+        },
+        {
+          "line": 10,
+          "level": 2,
+          "text": "依赖(macOS)"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "Build"
+        },
+        {
+          "line": 22,
+          "level": 3,
+          "text": "默认 build(sdlpal 上游 + macOS SDL3 链接 patch)"
+        },
+        {
+          "line": 26,
+          "level": 1,
+          "text": "产物:build/sdlpal/unix/sdlpal"
+        },
+        {
+          "line": 29,
+          "level": 3,
+          "text": "PAL_CLASSIC build(M3/M5.6 战斗 + UI 基准)"
+        },
+        {
+          "line": 35,
+          "level": 1,
+          "text": "产物:build/sdlpal-classic/unix/sdlpal"
+        },
+        {
+          "line": 36,
+          "level": 1,
+          "text": "自动 apply 7 个 patch(见下)"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "Patches(`reference/sdlpal/patches/` 7 个)"
+        },
+        {
+          "line": 59,
+          "level": 2,
+          "text": "Manual 启动(GUI 窗口)"
+        },
+        {
+          "line": 68,
+          "level": 3,
+          "text": "跳过 intro(开发对照常用)"
+        },
+        {
+          "line": 72,
+          "level": 1,
+          "text": "注:cwd 必须在 data/raw/ 或 cfg 内,sdlpal 找 GamePath"
+        },
+        {
+          "line": 75,
+          "level": 3,
+          "text": "手动指定 GamePath"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "Headless CLI(无 GUI 窗口)"
+        },
+        {
+          "line": 86,
+          "level": 3,
+          "text": "全图 PNG dump"
+        },
+        {
+          "line": 91,
+          "level": 1,
+          "text": "注 cwd 必须有 MKF / palette 文件;典型 wrap script:"
+        },
+        {
+          "line": 92,
+          "level": 1,
+          "text": "packages/pal-extract/scripts/sdlpal-dump-map-all.ts(全 294 scene dedupe)"
+        },
+        {
+          "line": 95,
+          "level": 3,
+          "text": "战斗场景单帧 PNG dump"
+        },
+        {
+          "line": 106,
+          "level": 3,
+          "text": "战斗 harness(确定性 RNG 跑 fixture)"
+        },
+        {
+          "line": 113,
+          "level": 1,
+          "text": "headless 模式自动 setenv SDL_VIDEODRIVER=dummy + SDL_AUDIODRIVER=dummy(无窗口 / 静音)"
+        },
+        {
+          "line": 114,
+          "level": 1,
+          "text": "fixture KV 格式见 build/sdlpal-baseline/battles/*.kv"
+        },
+        {
+          "line": 119,
+          "level": 2,
+          "text": "环境变量(dump-frames.patch)"
+        },
+        {
+          "line": 130,
+          "level": 3,
+          "text": "组合示例 — 自动跑 30 帧 dump state"
+        },
+        {
+          "line": 144,
+          "level": 2,
+          "text": "sdlpal.cfg(全字段示例)"
+        },
+        {
+          "line": 193,
+          "level": 2,
+          "text": "常用 quick paste"
+        },
+        {
+          "line": 195,
+          "level": 3,
+          "text": "跑原版 PAL_CLASSIC binary,跳 intro,看真值"
+        },
+        {
+          "line": 204,
+          "level": 3,
+          "text": "跑默认 sdlpal binary(走 manual cfg)"
+        },
+        {
+          "line": 212,
+          "level": 3,
+          "text": "全 294 scene → PNG baseline 自动 diff"
+        },
+        {
+          "line": 219,
+          "level": 3,
+          "text": "Headless 战斗 harness 跑 1 个 fixture"
+        },
+        {
+          "line": 230,
+          "level": 2,
+          "text": "故障排查"
+        },
+        {
+          "line": 243,
+          "level": 2,
+          "text": "生成新 patch(给 sdlpal 加新 CLI / hook)"
+        },
+        {
+          "line": 248,
+          "level": 1,
+          "text": "编辑 <file>"
+        },
+        {
+          "line": 251,
+          "level": 1,
+          "text": "把 patch 加到 scripts/build-sdlpal-classic.sh PATCHES 数组"
+        }
+      ],
+      "semanticOutline": "phase1 foundation document full-text review: sdlpal Build / 启动 / Headless 参考.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "proposedClassification": "archive-guide-runbook",
+      "proposedTemplate": "guide-runbook-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; preserve original semantics and date scope during migration",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

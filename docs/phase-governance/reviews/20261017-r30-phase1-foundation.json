@@ -1,0 +1,1384 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r30-phase1-foundation",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R30 semantic migration of 8 historical phase1 status/plan documents; preserve source and historical boundary; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines the first-stage goal as a faithful web restoration for private use, with sdlpal as an engine specification and user-owned original data; it explicitly separates engine reimplementation from data ownership.",
+      "truthAnchors": [
+        "docs/phase1/01-feasibility.md:1",
+        "docs/phase1/01-feasibility.md:1 01 · 背景与可行性",
+        "docs/phase1/01-feasibility.md:3 项目目标",
+        "docs/phase1/01-feasibility.md:13 可行性结论:可行",
+        "docs/phase1/01-feasibility.md:19 关于 sdlpal",
+        "docs/phase1/01-feasibility.md:29 关于\"原版源代码\"",
+        "docs/phase1/01-feasibility.md:40 重要认知:sdlpal 干两类事",
+        "docs/phase1/01-feasibility.md:47 数据文件(MKF)"
+      ],
+      "unresolved": [
+        "legal/private-use assumptions require current owner judgment if distribution scope changes"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "01-feasibility.md",
+      "capability": "phase1-01-feasibility",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/01-feasibility.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/01-feasibility.md"]
+      },
+      "revision": {
+        "currentSha": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+        "implementationSha": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+        "candidateSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+        "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+        "lineCount": 117,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 3638,
+          "sourceLines": 53,
+          "sourceFinalNewline": true,
+          "inverseSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-117",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "primarySource": [
+        {
+          "path": "docs/phase1/01-feasibility.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines a two-stage offline extraction/runtime split, resource-versus-event boundaries, GameState as save truth, event-driven systems, fixed cadence, abstract input, waitable commands, and the 3-package TS/Vite/Vitest/Biome stack.",
+      "truthAnchors": [
+        "docs/phase1/02-architecture.md:1",
+        "docs/phase1/02-architecture.md:1 02 · 架构设计",
+        "docs/phase1/02-architecture.md:3 两阶段:离线转换 + 运行时",
+        "docs/phase1/02-architecture.md:30 资源 vs 事件:两类东西",
+        "docs/phase1/02-architecture.md:56 运行时分层架构",
+        "docs/phase1/02-architecture.md:81 核心层:1 个状态 + 4 个系统 + 1 条总线",
+        "docs/phase1/02-architecture.md:106 表现层 / 外壳层设计",
+        "docs/phase1/02-architecture.md:116 扩展性:怎么兑现\"以后好改\"",
+        "docs/phase1/02-architecture.md:125 技术栈(已确认 —— 见 04-decisions.md D19)"
+      ],
+      "unresolved": [
+        "this is phase1 architecture and must not override later phase2 canonical architecture without a cross-phase decision"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "02-architecture.md",
+      "capability": "phase1-02-architecture",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/02-architecture.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/02-architecture.md"]
+      },
+      "revision": {
+        "currentSha": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+        "implementationSha": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+        "candidateSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+        "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+        "lineCount": 205,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 10964,
+          "sourceLines": 136,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-205",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "primarySource": [
+        {
+          "path": "docs/phase1/02-architecture.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Central phase1 decision ledger: fidelity, TS/Vite/pnpm, canvas, fixed frame model, event schema, extraction, sdlpal reference, and open questions. It is decision history rather than a universal current architecture contract.",
+      "truthAnchors": [
+        "docs/phase1/04-decisions.md:1",
+        "docs/phase1/04-decisions.md:1 04 · 决策记录与待定问题",
+        "docs/phase1/04-decisions.md:3 已拍板的决策",
+        "docs/phase1/04-decisions.md:43 待定问题",
+        "docs/phase1/04-decisions.md:56 数据核对结论(2026-05-23)",
+        "docs/phase1/04-decisions.md:68 设计讨论进度",
+        "docs/phase1/04-decisions.md:80 曾经考虑过、已否决的方向"
+      ],
+      "unresolved": [
+        "some decisions were superseded by phase2; cross-phase matrix must identify successor documents",
+        "正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把\"字节码 → events.json 忠实转写器\"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:\"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满\")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "04-decisions.md",
+      "capability": "phase1-04-decisions",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/04-decisions.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/04-decisions.md"]
+      },
+      "revision": {
+        "currentSha": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+        "implementationSha": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+        "candidateSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+        "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+        "lineCount": 150,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 22569,
+          "sourceLines": 85,
+          "sourceFinalNewline": true,
+          "inverseSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-150",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "primarySource": [
+        {
+          "path": "docs/phase1/04-decisions.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "2026-05-23",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把\"字节码 → events.json 忠实转写器\"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:\"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满\")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec"
+        },
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines phase1 event/command schema and fidelity assumptions; it is a primary source for extraction/runtime compatibility, not a phase3 content authoring contract.",
+      "truthAnchors": [
+        "docs/phase1/05-events-schema.md:1",
+        "docs/phase1/05-events-schema.md:1 05 · events.json schema",
+        "docs/phase1/05-events-schema.md:7 转换策略",
+        "docs/phase1/05-events-schema.md:12 原版脚本数据(sdlpal 调查结论)",
+        "docs/phase1/05-events-schema.md:25 命令的形态",
+        "docs/phase1/05-events-schema.md:54 opcode 注册表",
+        "docs/phase1/05-events-schema.md:78 控制流",
+        "docs/phase1/05-events-schema.md:89 对话与文字",
+        "docs/phase1/05-events-schema.md:99 富模型:给新内容的结构化子集"
+      ],
+      "unresolved": [
+        "phase2 structured authoring layers must be checked for lossless boundary rather than replacing this schema"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "05-events-schema.md",
+      "capability": "phase1-05-events-schema",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/05-events-schema.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/05-events-schema.md"]
+      },
+      "revision": {
+        "currentSha": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+        "implementationSha": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+        "candidateSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+        "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+        "lineCount": 226,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 8067,
+          "sourceLines": 157,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-226",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "primarySource": [
+        {
+          "path": "docs/phase1/05-events-schema.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines historical phase1 testing layers: unit/integration, sdlpal comparisons, roundtrip, visual E2E and full playability. It distinguishes fidelity checks from product/E2E claims.",
+      "truthAnchors": [
+        "docs/phase1/06-testing.md:1",
+        "docs/phase1/06-testing.md:1 06 · 测试策略",
+        "docs/phase1/06-testing.md:3 核心思路:正确答案已经存在",
+        "docs/phase1/06-testing.md:13 pal-extract:往返 + 对拍",
+        "docs/phase1/06-testing.md:19 核心层:Vitest 单测",
+        "docs/phase1/06-testing.md:26 sdlpal 差分测试(重档核心)",
+        "docs/phase1/06-testing.md:42 渲染:截图快照",
+        "docs/phase1/06-testing.md:46 自主端到端回放测试",
+        "docs/phase1/06-testing.md:55 存档素材库"
+      ],
+      "unresolved": [
+        "current official gates are now governed by newer testing docs; this file cannot be the sole current gate"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "06-testing.md",
+      "capability": "phase1-06-testing",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/06-testing.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/06-testing.md"]
+      },
+      "revision": {
+        "currentSha": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+        "implementationSha": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+        "candidateSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+        "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+        "lineCount": 148,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4760,
+          "sourceLines": 83,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-148",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "primarySource": [
+        {
+          "path": "docs/phase1/06-testing.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "2026-05-23",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "2026-10-14：新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+      "truthAnchors": [
+        "docs/phase1/engineering-notes.md:1",
+        "docs/phase1/engineering-notes.md:1 Engineering Notes · type-pal(第一阶段)",
+        "docs/phase1/engineering-notes.md:11 1. 调试方法论",
+        "docs/phase1/engineering-notes.md:13 1.1 复现剧情/演出 bug — 别从头玩",
+        "docs/phase1/engineering-notes.md:20 1.2 分层定位:离线 harness vs 壳层",
+        "docs/phase1/engineering-notes.md:25 1.3 渲染类 bug 的纯数据离线定位",
+        "docs/phase1/engineering-notes.md:28 1.4 sdlpal 字段\"死代码\"判定",
+        "docs/phase1/engineering-notes.md:31 1.5 接 sdlpal 修复的纪律(对照 codex 5-commit 示范提炼)",
+        "docs/phase1/engineering-notes.md:42 2. 忠实性真值锚 & 忠实 vs 修复"
+      ],
+      "unresolved": [
+        "individual notes need per-item supersedes/current applicability tags in future batches",
+        "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "engineering-notes.md",
+      "capability": "phase1-engineering-notes",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/engineering-notes.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/engineering-notes.md"]
+      },
+      "revision": {
+        "currentSha": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+        "implementationSha": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-14",
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "workingTree": true,
+            "action": "issue-3-fix-evidence-delta-review",
+            "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+            "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+            "reviewedRanges": ["142-152"],
+            "scope": "新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "revision": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+        "candidateSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+        "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+        "lineCount": 279,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 32712,
+          "sourceLines": 214,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "date": "2026-10-14",
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "workingTree": true,
+          "action": "issue-3-fix-evidence-delta-review",
+          "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+          "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "reviewedRanges": ["142-152"],
+          "scope": "新增 RNG 末帧不能跨场景重绘复活的经验：原始传功2248→2260→2261、真实浏览器与像素回归证明根因；只清尚未进入背景对话的0x05，保留求雨/结局；其它历史条目未重审。",
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        },
+        {
+          "revision": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-279",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "primarySource": [
+        {
+          "path": "docs/phase1/engineering-notes.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "2026-06-14",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+        },
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Captures first-stage mechanics and formula truth with sdlpal line anchors, including hidden experience, damage, resistance, critical, cover, recovery and elemental systems; it records implementation deviations explicitly.",
+      "truthAnchors": [
+        "docs/phase1/game-mechanics.md:1",
+        "docs/phase1/game-mechanics.md:1 Game Mechanics · 原版底层机制真值",
+        "docs/phase1/game-mechanics.md:7 索引",
+        "docs/phase1/game-mechanics.md:34 人物主等级升级：各属性随机成长",
+        "docs/phase1/game-mechanics.md:71 隐藏属性经验 / 等级系统",
+        "docs/phase1/game-mechanics.md:73 TL;DR",
+        "docs/phase1/game-mechanics.md:79 1. 数据结构",
+        "docs/phase1/game-mechanics.md:107 2. 战斗中:按动作累计 `wCount`",
+        "docs/phase1/game-mechanics.md:121 3. 战斗胜利后:×2 经验按比例分配"
+      ],
+      "unresolved": [
+        "mechanic claims must be revalidated if phase2/3 intentionally changes player-visible behavior",
+        "正文信号 67:**这属于新增作者能力，尚未实现，不改变本节记录的原版规则。**",
+        "正文信号 668:ts 实现状态:**已实现**(2026-06-26 核实,旧注\"未实现\"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。",
+        "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运",
+        "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:",
+        "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主",
+        "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "game-mechanics.md",
+      "capability": "phase1-game-mechanics",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "afterSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/game-mechanics.md"]
+      },
+      "revision": {
+        "currentSha": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+        "implementationSha": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+        "candidateSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+        "afterSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+        "lineCount": 1655,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 134500,
+          "sourceLines": 1581,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-1655",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+      "primarySource": [
+        {
+          "path": "docs/phase1/game-mechanics.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "2026-06-02",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 67:**这属于新增作者能力，尚未实现，不改变本节记录的原版规则。**"
+        },
+        {
+          "id": "R30-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 668:ts 实现状态:**已实现**(2026-06-26 核实,旧注\"未实现\"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。"
+        },
+        {
+          "id": "R30-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运"
+        },
+        {
+          "id": "R30-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:"
+        },
+        {
+          "id": "R30-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主"
+        },
+        {
+          "id": "R30-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+        },
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "The Phase1 index frames the stage as faithful restoration, distinguishes status snapshots/design/engineering/history, and warns that plans are historical and later defects belong to audit ledgers.",
+      "truthAnchors": [
+        "docs/phase1/README.md:1",
+        "docs/phase1/README.md:1 docs/phase1/ — 第一阶段（忠实还原）文档",
+        "docs/phase1/README.md:13 索引",
+        "docs/phase1/README.md:15 覆盖快照（v1.0 冻结时点；当前缺陷见审计台账）",
+        "docs/phase1/README.md:27 设计 / 决策（主线，编号有序）",
+        "docs/phase1/README.md:32 工程经验 / 运维",
+        "docs/phase1/README.md:38 历史归档",
+        "docs/phase1/README.md:43 怎么用",
+        "docs/phase1/README.md:49 目录文件索引"
+      ],
+      "unresolved": ["the index does not itself reconcile every status table against current main"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "README.md",
+      "capability": "phase1-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/README.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/README.md"]
+      },
+      "revision": {
+        "currentSha": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+        "implementationSha": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+        "candidateSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+        "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+        "lineCount": 120,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 2854,
+          "sourceLines": 55,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-120",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "primarySource": [
+        {
+          "path": "docs/phase1/README.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "2026-06-07",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Operationally documents sdlpal builds, classic patches, manual/headless invocation, cwd/env constraints, dumps and harness commands. It is a reproduction runbook, not a product completion claim.",
+      "truthAnchors": [
+        "docs/phase1/sdlpal-runbook.md:1",
+        "docs/phase1/sdlpal-runbook.md:1 sdlpal Build / 启动 / Headless 参考",
+        "docs/phase1/sdlpal-runbook.md:10 依赖(macOS)",
+        "docs/phase1/sdlpal-runbook.md:20 Build",
+        "docs/phase1/sdlpal-runbook.md:22 默认 build(sdlpal 上游 + macOS SDL3 链接 patch)",
+        "docs/phase1/sdlpal-runbook.md:26 产物:build/sdlpal/unix/sdlpal",
+        "docs/phase1/sdlpal-runbook.md:29 PAL_CLASSIC build(M3/M5.6 战斗 + UI 基准)",
+        "docs/phase1/sdlpal-runbook.md:35 产物:build/sdlpal-classic/unix/sdlpal",
+        "docs/phase1/sdlpal-runbook.md:36 自动 apply 7 个 patch(见下)"
+      ],
+      "unresolved": [
+        "commands depend on local build artifacts and must be revalidated before a current evidence claim"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "phase1",
+      "module": "sdlpal-runbook.md",
+      "capability": "phase1-sdlpal-runbook",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r30_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2"
+        }
+      ],
+      "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/sdlpal-runbook.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/phase1/sdlpal-runbook.md"]
+      },
+      "revision": {
+        "currentSha": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+        "implementationSha": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+            "date": "2026-10-17",
+            "action": "R30 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
+        "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+        "candidateSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+        "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+        "lineCount": 317,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 7156,
+          "sourceLines": 252,
+          "sourceFinalNewline": true,
+          "inverseSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+          "action": "R30 readonly proposal accepted then root migration",
+          "reviewer": "r30_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-317",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "candidateSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "primarySource": [
+        {
+          "path": "docs/phase1/sdlpal-runbook.md",
+          "revision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+          "sha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "foundation",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R30-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-readonly-review-20261017.json",
+    "sha256": "bf95b323ead336585e186a85a7ec519ee0a5b5c9eca77c57b8e2f2363d5ab430",
+    "verdict": "accept-readonly-proposal",
+    "scope": "9/9 phase1 foundation documents"
+  },
+  "migrationSummary": {
+    "documents": 9,
+    "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+    "sourceQuoteInverse": "9/9",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "design-spec": 2,
+      "governance-index": 2,
+      "guide-runbook": 3,
+      "reference-canon": 2
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.json",
+    "sha256": "a71fc6523b1f05f316fa5660546c841135d4d2294ff5297cc7665c65b1dda030",
+    "verdict": "accept",
+    "scope": "9/9 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}
