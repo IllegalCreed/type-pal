@@ -1059,3 +1059,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-review-20261017.json`，20/20、28,309 行全文读取，源零漂移；17 plan-status + 3 audit-report。
 - 中央接入：`docs/phase-governance/reviews/20261017-r27-phase1-plans.json`、registry/routing/catalog 20 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
 - R27 候选独立接收和全静态门仍需完成；全量目标保持 active/build。
+
+
+### 2026-10-17 R28 phase1 plans/audits/index
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r28-phase1-plans-review-20261017.json`，22/22、9,998 个物理行槽全文读取，源零漂移；13 plan-status + 2 design-spec + 6 audit-report + 1 governance-index。
+- 中央接入：`docs/phase-governance/reviews/20261017-r28-phase1-plans.json`、registry/routing/catalog 22 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
+- R28 候选独立接收已由 Codex 根独立接收；静态门已通过；全量目标保持 active/build，不能标记 done。

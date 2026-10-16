@@ -1695,6 +1695,116 @@
       "path": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
       "templateId": "plan-status-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-02-item-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -98,8 +98,16 @@
 
 ## R27 phase1 plans/audits
 
-- [R27 只读独立复核](independent-r27-phase1-plans-review-20261017.md)：20/20 phase1 plans 全文读取，源零漂移；17 plan-status + 3 audit-report。
+- [R27 只读独立复核](independent-r27-phase1-plans-review-20261017.md)：20/20 phase1 plans/audits 全文读取，源零漂移；17 plan-status + 3 audit-report。
 - [R27 根接入回执](contributor-r27-phase1-plans-20261017.json)：逐篇记录历史里程碑/审计发现、冲突、停止线、source/after SHA 和 successor。
 - R27 不授 runtime/E2E/视觉/coverage 信用；phase1 历史结论保持日期化。
 
 - [R27 候选独立接收](independent-r27-phase1-plans-candidate-acceptance-20261017.md)：20/20 phase1 plans/audits 候选接收；quote 行尾空格用 `␠/⇥` 可逆保全；runtime/E2E/视觉/coverage credit=0。
+
+
+## R28 phase1 plans/audits/index
+
+- [R28 只读独立复核](independent-r28-phase1-plans-review-20261017.md)：22/22 phase1 plans/audits/index 全文读取，源零漂移；13 plan-status + 2 design-spec + 6 audit-report + 1 governance-index。
+- [R28 根接入回执](contributor-r28-phase1-plans-20261017.json)：逐篇记录历史里程碑/审计发现、冲突、停止线、source/after SHA 和 successor。
+- [R28 候选独立接收](independent-r28-phase1-plans-candidate-acceptance-20261017.md)：22/22 phase1 plans/audits/index 候选接收；quote 行尾空格用 `␠/⇥` 可逆保全；runtime/E2E/视觉/coverage credit=0。
+- R28 不授 runtime/E2E/视觉/coverage 信用；phase1 历史结论保持日期化。
