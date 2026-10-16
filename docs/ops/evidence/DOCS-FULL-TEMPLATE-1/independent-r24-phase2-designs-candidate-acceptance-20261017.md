@@ -56,4 +56,4 @@
 - 未修改正文语义、registry、routing、catalog、central review 或 task card；本次只写本验收 JSON/MD。
 - 不得将此候选接收等同于 runtime、E2E、视觉、coverage 或全量治理完成。
 
-Evidence SHA is reported by the parent response after writing; `git diff --check` should be rerun after these two files are added.
+Evidence SHA is reported below; `git diff --check` was rerun after these two files were added and passed.
