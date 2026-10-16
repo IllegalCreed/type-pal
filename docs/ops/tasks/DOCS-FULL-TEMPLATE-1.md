@@ -1242,3 +1242,11 @@ Branch: codex/docs-full-template-proposal
 - R54 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-candidate-acceptance-20261017.json`；3/3 source/after SHA、quote inverse/JSON deep parse、consumer、状态边界接收；静态门全绿，无 runtime/E2E/视觉/coverage 信用。
 - 旧布局 JSON 暂不删除：它仍被 archive README、pre-E2E tools README 和三个 ops-governance-plan 脚本引用；待独立 consumer/successor/SHA/retention 审计后再提出可逆清理候选。
 - 全量 1838 目标保持 active/build，当前进度 `710/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R55 ops test dedup ledgers
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-readonly-review-20261017.json`，2/2 全文读取；两个测试排重账接入 `evidence-receipt-v1 + archive-record-v1`，保留 NEW/REG、source:line、caller、合法输入、oracle、fullName、判例和历史边界。
+- 中央接入：`docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json`、registry/routing 两条 history overlay；旧重复 review entries 已移出，当前 turn-boundaries 任务仍保持 `rework`，没有被文档迁移升格。
+- R55 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json`；2/2 quote/template/overlay/consumer/after SHA 接收；静态门全绿，无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：排重账仍被对应任务卡、evidence README 和测试/机器 consumer 引用；本批不删除，不闭合 rework，不把历史计数当当前执行。
+- 全量 1838 目标保持 active/build，当前进度 `712/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。

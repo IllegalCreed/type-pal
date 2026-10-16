@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r55-ops-dedup-ledger-20261017",
+  "kind": "R55 ops test dedup ledger migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+  "scope": {
+    "documents": 2,
+    "docTypes": {
+      "evidence-receipt": 2
+    },
+    "historyOverlay": "evidence-receipt-v1 + archive-record-v1 for both historical ledgers",
+    "migrationCredit": 2
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-readonly-review-20261017.json",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 2,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+      "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "sourceLines": 89,
+      "afterLines": 159,
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "sourceLines": 61,
+      "afterLines": 131,
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    }
+  ]
+}

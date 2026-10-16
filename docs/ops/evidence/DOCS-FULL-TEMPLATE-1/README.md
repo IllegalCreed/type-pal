@@ -276,3 +276,9 @@
 - [R54 只读独立复核](independent-r54-ops-audits-layout-readonly-review-20261017.json)：3/3 全文读取；architecture-debt 为 audit-report current，audits README 为 governance-index current，旧布局 JSON 为 byte-stable archive artifact。
 - [R54 根接入回执](contributor-r54-ops-audits-layout-20261017.json)：逐篇记录 source/after SHA、quote inverse、机器字段、consumer、状态和清理边界。
 - [R54 候选独立接收](independent-r54-ops-audits-layout-candidate-acceptance-20261017.json)：3/3 候选接收；无 runtime/E2E/视觉/coverage 信用；布局 JSON 暂不删除，待 consumer/继任/SHA 审计。
+
+## R55 ops test dedup ledgers
+
+- [R55 只读独立复核](independent-r55-ops-dedup-ledger-readonly-review-20261017.json)：2/2 全文读取；两个 test evidence dedup ledger 接入 `evidence-receipt-v1 + archive-record-v1`，保留 NEW/REG、caller、合法输入、oracle、fullName、判例和 rework 边界。
+- [R55 根接入回执](contributor-r55-ops-dedup-ledger-20261017.json)：逐篇记录 source/after SHA、quote inverse、模板 overlay、consumer、状态和停止线。
+- [R55 候选独立接收](independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json)：2/2 候选接收；无 runtime/E2E/视觉/coverage 信用；turn-boundaries 当前 rework 状态保留。

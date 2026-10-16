@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 715,
-      "governed-legacy": 18
+      "template-compliant": 717,
+      "governed-legacy": 16
     }
   },
   "entries": [
@@ -1264,10 +1264,12 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
+      "historyOverlay": true,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
@@ -1275,10 +1277,12 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-new-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
+      "historyOverlay": true,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
