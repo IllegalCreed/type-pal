@@ -1115,3 +1115,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-readonly-review-20261017.json`，4/4 全文读取；全部 `guide-runbook-v1` current-guide。
 - 中央接入：`docs/phase-governance/reviews/20261017-r35-ops-guides.json`、registry/routing 4 条及 evidence receipt；ops guide 不进入 phase/lore catalog。
 - R35 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+
+### 2026-10-17 R36 ops archive evidence
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-readonly-review-20261017.json`，11/11 全文读取；全部 `evidence-receipt-v1 + archive-record-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r36-ops-evidence.json`、registry/routing 11 条及 evidence receipt；机器 JSON 留待字段/consumer 批次，ops evidence 不进入 phase/lore catalog。
+- R36 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。

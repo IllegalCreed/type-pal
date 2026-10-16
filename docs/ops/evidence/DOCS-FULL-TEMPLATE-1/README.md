@@ -160,3 +160,10 @@
 - [R35 只读独立复核](independent-r35-ops-guides-readonly-review-20261017.md)：4/4 ops guide/runbook 全文读取，全部 `guide-runbook-v1` current-guide。
 - [R35 根接入回执](contributor-r35-ops-guides-20261017.json)：逐篇记录目的、前置条件、步骤、失败处理、停止线、完成定义和 source/after SHA。
 - [R35 候选独立接收](independent-r35-ops-guides-candidate-acceptance-20261017.md)：4/4 候选接收；ops guide 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R36 ops archive evidence
+
+- [R36 只读独立复核](independent-r36-ops-evidence-readonly-review-20261017.md)：11/11 archive evidence Markdown 全文读取，全部 `evidence-receipt-v1 + archive-record-v1`；机器 JSON 留待独立字段/consumer 批次。
+- [R36 根接入回执](contributor-r36-ops-evidence-20261017.json)：逐篇记录证据身份、来源输入、oracle、结果、限制、复核条件和 source/after SHA。
+- [R36 候选独立接收](independent-r36-ops-evidence-candidate-acceptance-20261017.md)：11/11 候选接收；ops evidence 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。

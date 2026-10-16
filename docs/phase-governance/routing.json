@@ -2085,6 +2085,61 @@
       "path": "docs/ops/guides/documentation.md",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/A7-3/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/archive/evidence/README.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
