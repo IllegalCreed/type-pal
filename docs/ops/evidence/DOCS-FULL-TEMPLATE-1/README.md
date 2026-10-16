@@ -180,3 +180,9 @@
 - [R39 只读独立复核](independent-r39-ops-evidence-readmes-readonly-review-20261017.md)：7/7 ops evidence README 全文读取；1 governance-index + 6 evidence-receipt，全部追加 archive-record 历史边界。
 - [R39 根接入回执](contributor-r39-ops-evidence-readmes-20261017.json)：逐篇记录 source/after SHA、quote inverse、consumer 边界、catalog scope 和停止线。
 - [R39 候选独立接收](independent-r39-ops-evidence-readmes-candidate-acceptance-20261017.md)：7/7 候选接收；ops evidence 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
+
+## R40 ops machine JSON artifacts
+
+- [R40 只读独立复核](independent-r40-ops-machine-json-readonly-review-20261017.md)：13/13 ops machine JSON 全量解析和字段读取，原始字节保持不变。
+- [R40 根接入回执](contributor-r40-ops-machine-json-20261017.json)：记录原始 top-level fields、byte-stable SHA、`test-machine-evidence-v1` artifact envelope 和 consumer 边界。
+- [R40 候选独立接收](independent-r40-ops-machine-json-candidate-acceptance-20261017.md)：13/13 候选接收；JSON out-of-routing/out-of-catalog；无 runtime/E2E/视觉/coverage 信用。
