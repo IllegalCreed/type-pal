@@ -949,3 +949,11 @@ Branch: codex/docs-full-template-proposal
 
 - 原receipt_review在隔离codex/docs-terminal-a8/父aa5的七个partial工具文件保留，本次中断状态不是实现接受；完整字节副本及manifest留/tmp/type-pal-a8-interrupted-working-snapshot-20261016。当前没有原写入进程/活动Agent，未reset/stash/覆盖。terminal_a8_continuation接任唯一Coding Owner，先全文读取冻结A8设计SHAc9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787和partial，继承同一八路径build allowed，必要纠错保留真实first failures；不扩到B/C0/C1。
 - 八路径仍仅scripts/docs/terminal-{json,codec,git,namespace,contract}.mjs、terminal-codec.test.mjs及现check.mjs/lint-zero.mjs；不改F1/model/registry/模板/package/CI/规则/ignore/产品/旧tests/coverage，旧工具回归可跑不可改。format-partial不授actualapproval/current/complete；真实双入口坏gzip拒绝、原JSON尺寸诊断不弱化、有界parser/资源/physical/index/GitD/固定33cc语义按冻结合同，完成后根全文独立审代码与新测试并实跑门。此交接0新正文迁移或实现accept。
+
+#### Q六篇固定正文已独立接收；根统一账本接入候选
+
+- publication5641原26/新79/full43沿用根非作者e018；余五07b3原387/live394/full43由根逐篇内容复核，实际601检查/0问题，35原题/4href/19真实GFM数据/3代码块/完整逐行inverse、旧4×31+shared32/Oct11历史、范围SHA与七根语义反控保持source/model绿而拒意义错误。完整报告3a804ca3be78474a90b15a1f875222557540c5d4818cc382b191749e65c06931，source接收不签中央未来bytes。
+- 自然合入5641+07b3的六MD及17top/6×43回执，所有源字节锁定无行政重写；六legacy current唯一转移到Qcontrol，完整即前Git/blob/wholeSHA/selector保留。registry733不增，routes244→250，catalog184只新六投影，其他727/178及原244route精确。catalog仅简洁索引，完整语义/原始证据/历史在current+fixedGit保留，正常格式及Biome1048575上限不变。
+- 新增一条独立Q作者指南↔运行/存档路径guarded关系39→40，原39whole机器对象/MD数据行不变。人物实例/现代0/默认24/调试普通保存风险/prepare部分门与无revealUI/N6b和DFS未实现/required-self保存发布待证、PAL恢复可能写入等真实边界不变。scene合法输入明确entry对象非空不等禁止空prepare数组；原作者字节全保。
+- 作者实际docs/strict六SHA漂移FAIL保历史，lint/diff零；根当前producer/GFM/版本/model/严格SHA/全部零门与非作者精确接入验收另跑，不提前签accept。本卡build及1838/所有增量/artifacts持续active，Q两新增机器文档自身0迁移信用。唯一根裁定Qcontrol.rootIntake，旧pending明示固定源时点，不设重复可变状态镜像。
+- 根首43consumer实拒矩阵内两处历史⚠经formatter stdout变为!；按固定c3bb仅恢复这两值，换真实文件format后完整AST精确，复跑43/0。首consumer临时路径被后跑覆盖，原完整raw未保存，工具trace/e3bc及精确差异记录保留，不补造首绿或原报告。

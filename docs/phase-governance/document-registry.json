@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 244,
-      "governed-legacy": 489
+      "template-compliant": 250,
+      "governed-legacy": 483
     }
   },
   "entries": [
@@ -6182,10 +6182,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/guides/battlefield-authoring.md",
@@ -6193,10 +6195,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/guides/content-publication.md",
@@ -6204,10 +6208,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/guides/debug-tools.md",
@@ -6215,10 +6221,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/guides/README.md",
@@ -6239,10 +6247,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/guides/shared-script-author-guide.md",
@@ -6250,10 +6260,12 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261016-phase2-guides-q.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/READ-FIRST.md",

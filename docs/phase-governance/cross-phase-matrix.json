@@ -1350,6 +1350,36 @@
         "原2026-11-01保留期限/catalog日期不续期，phase1不继承phase2版本执行信用。"
       ],
       "stopLine": "导航可达/模板/source归属不等于报告、112工具业务语义、runtime/E2E/视觉/coverage或全量docs完成；旧失败和版本按原时点保留。"
+    },
+    {
+      "id": "q-author-guidance-vs-unverified-runtime-and-save-paths",
+      "from": [
+        "docs/phase2/guides/content-publication.md",
+        "docs/phase2/guides/actor-presets.md",
+        "docs/phase2/guides/battlefield-authoring.md",
+        "docs/phase2/guides/debug-tools.md",
+        "docs/phase2/guides/scene-entry-authoring.md",
+        "docs/phase2/guides/shared-script-author-guide.md"
+      ],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/specs/script-system.md",
+        "docs/phase2/specs/save-system.md",
+        "docs/testing/governance.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "六篇作者指南的操作合同与实际执行信用分开：人物身份/资源共享不共享实例行为；现代战场0合法且显式startBattle→hostile→scene→24；debug直接改内存仍可能由普通保存持久化；scene只有prepare/body入口且完整安全门未实现；shared N6b/DFS未实现、required-self保存发布待证；PAL恢复写入警告继续有效。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-phase2-guides-q.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-guides-q-20261016.json:1",
+        "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md:1"
+      ],
+      "unresolved": [
+        "旧构建、手测、Oct4/11与SAVE12历史结果不续期；本轮不运行编辑器/保存/迁移/发布/E2E/视觉/coverage。",
+        "未知后继UI、完整prepare安全门、required-self全保存发布与未实现N6b/DFS须另任务事实核验；指南不授权补产品。"
+      ],
+      "stopLine": "不得以模板/源码窄域/操作说明证明产品完整通过；保留原413行及失败、历史与未知，不将静态正文审查升级执行信用。"
     }
   ],
   "acceptance": {

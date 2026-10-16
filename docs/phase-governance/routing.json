@@ -1167,6 +1167,30 @@
     {
       "path": "docs/lore/ideas/guijie/README.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/guides/content-publication.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/actor-presets.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/battlefield-authoring.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/debug-tools.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/scene-entry-authoring.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/shared-script-author-guide.md",
+      "templateId": "guide-runbook-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

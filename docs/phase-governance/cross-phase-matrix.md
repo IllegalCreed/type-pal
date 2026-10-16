@@ -60,6 +60,7 @@ Template: governance-index-v1 / 1.0.0
 | 历史原生复核 ↔ 本轮文档审计 | 原九字段不变，固定来源与currentAudit=false | guarded | 不补造出版schema/status，不以exit0或模板通过授运行信用 |
 | 历史集成口径 ↔ 当前文档治理 | 三原生JSON与三配对历史MD分格式接收；9573/9081、共享8707/8215与wave2各守时点 | guarded | 109未重跑、原诊断/raw/视觉/CI边界保留，不把coverage总量或路径fingerprint当测试/rawhash |
 | 域导航 ↔ 出版与历史工具 | 49页可达、36历史层；22/11出版与源12分轴，112工具只归属旧账 | guarded | 不倒填原Owner、不续期、不把路径/SHA或regex caller当工具/运行验收 |
+| Q 作者指南 ↔ 实际执行与保存路径 | 六指南分清共享、战场优先链、调试存档风险、入场安全缺口与脚本未知 | guarded | 保原历史与未知；不以模板/窄源码审读授运行或产品build |
 
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 

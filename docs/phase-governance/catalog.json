@@ -18,6 +18,7 @@
       "archived": 77
     }
   },
+  "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed.",
   "entries": [
     {
       "id": "docs-lore-characters",
@@ -20099,66 +20100,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
       "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
-      "afterSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+      "afterSha256": "4bf69314c61c9c2267a723f2803ef698ec77eb1471125d3d5b384f2fcbbf3021",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/actor-presets.md",
-          "lines": "1-1",
-          "anchor": "人物预制与场景实体创作说明",
-          "role": "document-source",
-          "sha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4"
+          "lines": "1-132",
+          "role": "current-guide-source",
+          "sha256": "4bf69314c61c9c2267a723f2803ef698ec77eb1471125d3d5b384f2fcbbf3021"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/actor-presets.md:1-1"
+      "publicCallers": [
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
       ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "三种放置入口及共享人物定义/独占实例职责具体表达，不承诺行为prefab继承",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "4bf69314c61c9c2267a723f2803ef698ec77eb1471125d3d5b384f2fcbbf3021",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/actor-presets.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/actor-presets.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "原64行的三种放置、共享边界、解绑、创建复制删除和C1后继限制进入五章实质步骤/失败/完成条件；六个live原题和完整64字节保留",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-battlefield-authoring",
@@ -20170,66 +20177,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
       "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
-      "afterSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+      "afterSha256": "c942b78a442e1cb01223197467e17c34a23651f922cf60439d756fe5e32c14a7",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/battlefield-authoring.md",
-          "lines": "1-1",
-          "anchor": "战场作者工作台",
-          "role": "document-source",
-          "sha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b"
+          "lines": "1-122",
+          "role": "current-guide-source",
+          "sha256": "c942b78a442e1cb01223197467e17c34a23651f922cf60439d756fe5e32c14a7"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/battlefield-authoring.md:1-1"
+      "publicCallers": [
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
       ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "现代0合法/首建议24/max+1/提交后稳定id/复制共享背景/删除引用守卫均具本篇步骤",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "c942b78a442e1cb01223197467e17c34a23651f922cf60439d756fe5e32c14a7",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/battlefield-authoring.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/battlefield-authoring.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "原56行环境定义、PAL领域分离、创建复制删除、优先级、背景与五步示例按五章重排并明确fallback和源边界；六个live原题和完整56字节保留",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-content-publication",
@@ -20241,86 +20254,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
       "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
-      "afterSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+      "afterSha256": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2",
       "sourceRefs": [
         {
-          "path": "packages/editor/README.md",
-          "lines": "1-1",
-          "anchor": "# @type-pal/editor — 第二阶段可视化内容编辑器",
-          "role": "body-source-reference",
-          "sha256": "0e4ec92ce547384fb985936190b05f4d18a53024277b5b132ef1526ea4107701"
-        },
-        {
-          "path": "packages/migrate/README.md",
-          "lines": "1-1",
-          "anchor": "# @type-pal/migrate — PAL current 内容供应链",
-          "role": "body-source-reference",
-          "sha256": "828a536c9f8f80fc4ef068e66f6154250e7c695ee8bb22281975bacdefe60c07"
-        },
-        {
-          "path": "packages/pal-extract/README.md",
-          "lines": "1-1",
-          "anchor": "# @type-pal/pal-extract — 第一阶段原始资源提取工具",
-          "role": "body-source-reference",
-          "sha256": "ef3fc9f781bbe58504e5bce6b8736162f894ad254b82fce645bb708a5205b3b2"
+          "path": "docs/phase2/guides/content-publication.md",
+          "lines": "1-79",
+          "role": "current-guide-source",
+          "sha256": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2"
         }
       ],
       "publicCallers": [
-        "`pnpm check:content [工程目录]",
-        "`pnpm --filter @type-pal/migrate migrate:content",
-        "`pnpm --filter @type-pal/migrate migrate:content --write"
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "packages/editor/README.md:1-1",
-        "packages/migrate/README.md:1-1",
-        "packages/pal-extract/README.md:1-1"
-      ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "Seven original link label/href occurrences remain live in source order; originalH1 unique and whole26 UTF8 source inverse exact",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "ba0d436e9e5e0cc068f57af4a6ca15e45c2643a4d2e9dec94a96dc6523ad9da2",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/content-publication.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/content-publication.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "Original26 compact guide becomes five substantive operational chapters plus complete fixed-source snapshot; preserves originalH1/seven ordered links and explicitly separates check/save/recovery/plan/publication/failure evidence",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-debug-tools",
@@ -20332,63 +20331,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
       "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
-      "afterSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+      "afterSha256": "614deb7a301974e5f536c4d0a549b60bc213d14b1d76d6ba72175ce052ea0521",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/debug-tools.md",
-          "lines": "1-1",
-          "anchor": "reforge 调试工具（D13-1 首刀）",
-          "role": "document-source",
-          "sha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96"
+          "lines": "1-174",
+          "role": "current-guide-source",
+          "sha256": "614deb7a301974e5f536c4d0a549b60bc213d14b1d76d6ba72175ce052ea0521"
         }
       ],
-      "publicCallers": ["`pnpm --filter @type-pal/reforge build"],
-      "legalInputs": ["current repository documentation", "docs/phase2/guides/debug-tools.md:1-1"],
+      "publicCallers": [
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
+      ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "13行G4命令/参数/复用/DEV/原验证路径与八个原标题完整，G1构建/手测/K测只保旧范围",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "614deb7a301974e5f536c4d0a549b60bc213d14b1d76d6ba72175ce052ea0521",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/debug-tools.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/debug-tools.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "原81行调试入口、状态/13命令、K3/K2/K5/G1职责进入五章实质流程，区分直接写盘/保存风险与旧验证；八原live标题、13表行、原链接和81字节保留",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-readme",
@@ -20570,66 +20578,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
       "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
-      "afterSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+      "afterSha256": "34edae2814ea23f1242014cb2646126d35e0f8aadbb9734c7814a884f15becf1",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/scene-entry-authoring.md",
-          "lines": "1-1",
-          "anchor": "场景入场呈现编辑说明",
-          "role": "document-source",
-          "sha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad"
+          "lines": "1-87",
+          "role": "current-guide-source",
+          "sha256": "34edae2814ea23f1242014cb2646126d35e0f8aadbb9734c7814a884f15becf1"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/scene-entry-authoring.md:1-1"
+      "publicCallers": [
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
       ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "数据prepare→reveal→body和实际prepare/body两tab分轴，ScriptTree可选分支不等公开入口",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "34edae2814ea23f1242014cb2646126d35e0f8aadbb9734c7814a884f15becf1",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/scene-entry-authoring.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/scene-entry-authoring.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "原34行入口/作者规则/开场样例改为五章操作与失败/完成合同，明确已存在部分约束与未实现UI/完整安全门；四原live标题、原fragment与34字节保留",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-guides-shared-script-author-guide",
@@ -20641,99 +20655,72 @@
       "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
-      "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-      "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+      "provenance": [
+        "source-document",
+        "fixed nonauthor source acceptance; current root verdict at Q control.rootIntake"
+      ],
+      "sourceSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+      "afterSha256": "71c2bc3285d48964cd8db16e5f6a513e5684a020d19465e23c1db9969eb5c57f",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/shared-script-author-guide.md",
-          "lines": "1-1",
-          "anchor": "脚本库与可复用脚本作者手册",
-          "role": "document-source",
-          "sha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d"
+          "lines": "1-276",
+          "role": "current-guide-source",
+          "sha256": "71c2bc3285d48964cd8db16e5f6a513e5684a020d19465e23c1db9969eb5c57f"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/shared-script-author-guide.md:1-1"
+      "publicCallers": [
+        "docs/phase2/guides/README.md; operational callers detailed in Q current record"
       ],
+      "legalInputs": ["Current guide; exact per-guide inputs and versions in Q current record"],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-backed-guide",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "六选择表六行/11原标题/全部代码例/两原链接完整；共享只为稳定业务多调用同步，不等万能容器",
+          "Full semantics/primary/history in Q current record; no runtime credit."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/phase2/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "unique-current",
+        "against": ["docs/phase-governance/reviews/20261016-phase2-guides-q.json"]
       },
       "revision": {
-        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-        "implementationSha": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
-        "contentVersion": 22,
-        "minimumSaveVersion": 12,
+        "currentSha": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "implementationSha": "71c2bc3285d48964cd8db16e5f6a513e5684a020d19465e23c1db9969eb5c57f",
         "history": [
           {
-            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-            "date": "2026-10-04",
-            "action": "phase-lore-governance-inventory",
-            "notRun": ["runtime", "E2E", "coverage"]
-          },
-          {
-            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-            "date": "2026-10-11",
-            "action": "E2E-integration-delta-review",
-            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
-            "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-            "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
-            "reviewedRanges": ["3-3", "104-115"],
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "date": "2026-10-16",
+            "action": "Q current guide projection; full immediate prior catalog object retained in Q control",
+            "completePrior": {
+              "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/catalog.json",
+              "gitObject": "66edf60eb31f85c6a179c6e1ab2809c892d6725b",
+              "fileSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+              "selector": {
+                "entries.path": "docs/phase2/guides/shared-script-author-guide.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
-        "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-        "claims": ["phase/lore ownership and status inventory"]
+        "kind": "static-guide-source",
+        "path": "docs/phase2/guides/shared-script-author-guide.md",
+        "reviewRecord": "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
       },
       "history": [
         {
-          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-          "action": "catalogued",
-          "status": "current"
-        },
-        {
-          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-          "date": "2026-10-11",
-          "action": "E2E-integration-delta-review",
-          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
-          "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-          "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
-          "reviewedRanges": ["3-3", "104-115"],
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
+          "date": "2026-10-16",
+          "action": "Q projection only; full original dates/version captures retained by immediate prior"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-11",
-      "integrationReview": {
-        "reviewer": "Codex",
-        "date": "2026-10-11",
-        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
-        "reviewedRanges": ["3-3", "104-115"],
-        "conclusion": "SAVE12 保存现场及自动续跑余时；离场暂停、返回恢复、读档不重跑 onEnter；不增加作者状态方案或第二套脚本模型。",
-        "truthAnchors": [
-          "docs/phase2/guides/shared-script-author-guide.md:3",
-          "docs/phase2/guides/shared-script-author-guide.md:104"
-        ],
-        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
-        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
-      }
+      "stopLine": "No source/body/unknown loss; static review grants no runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "原152行选择/创建/统一编辑/self/调用/SAVE12续跑/私有/剧情状态/删除/发布进入五章实质正文；11原live标题、6选择行、代码例/两链接/152字节及原Oct11增量历史保留",
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase2-read-first",
@@ -23002,6 +22989,5 @@
       "userVisibleBeforeAfter": "参考目录是导航而非reference-canon；art-pipeline保留历史与未知。current只表示入口可用，不授予技术/法律真值、资源生成或发布准入。",
       "lastReviewed": "2026-10-16"
     }
-  ],
-  "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed."
+  ]
 }
