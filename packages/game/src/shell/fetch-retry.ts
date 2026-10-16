@@ -1,7 +1,7 @@
 /**
  * 全局 fetch 网络层重试(仅 GET,幂等安全)。
  *
- * 生产站冷启动一次发 ~3200 个请求,服务器/链路偶发断连会让单个文件
+ * 2026-06-13 仍逐帧加载资源时,生产站冷启动一次发 ~3200 个请求,服务器/链路偶发断连会让单个文件
  * net::ERR_FAILED(2026-06-13 user 报读档时 tile PNG 概率性加载失败,刷新即愈)——
  * 已查明主因是 nginx 默认 keepalive_requests 1000:一条 HTTP/2 连接服务满 1000
  * 请求即 GOAWAY 断连,在途请求被砍。服务端已调大该值;本层兜底其余偶发
@@ -16,6 +16,25 @@
  */
 
 let installed = false
+
+function waitForRetry(delay: number, signal: AbortSignal | null | undefined): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(signal.reason)
+      return
+    }
+    const onAbort = (): void => {
+      clearTimeout(timer)
+      signal?.removeEventListener('abort', onAbort)
+      reject(signal?.reason)
+    }
+    const timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort)
+      resolve()
+    }, delay)
+    signal?.addEventListener('abort', onAbort, { once: true })
+  })
+}
 
 export function installFetchRetry(opts: { retries?: number; backoffMs?: number[] } = {}): void {
   if (installed) return
@@ -37,12 +56,19 @@ export function installFetchRetry(opts: { retries?: number; backoffMs?: number[]
     ).toUpperCase()
     if (method !== 'GET') return orig(input, init) // 非幂等请求不重试
 
+    // init.signal 显式 null 会脱离 Request 的 signal，不能用 ?? 回退。
+    const signal =
+      init?.signal !== undefined
+        ? init.signal
+        : typeof Request !== 'undefined' && input instanceof Request
+          ? input.signal
+          : undefined
     let lastErr: unknown
     for (let attempt = 0; attempt <= retries; attempt++) {
       if (attempt > 0) {
-        await new Promise((r) =>
-          setTimeout(r, backoff[attempt - 1] ?? backoff[backoff.length - 1] ?? 1000),
-        )
+        await waitForRetry(backoff[attempt - 1] ?? backoff[backoff.length - 1] ?? 1000, signal)
+        // 退避结束到恢复本协程之间也可能取消；此时不再调用底层 fetch。
+        if (signal?.aborted) throw signal.reason
       }
       try {
         const res = await orig(input, init)
@@ -53,7 +79,7 @@ export function installFetchRetry(opts: { retries?: number; backoffMs?: number[]
         return res
       } catch (err) {
         if (
-          init?.signal?.aborted ||
+          signal?.aborted ||
           (typeof err === 'object' && err !== null && 'name' in err && err.name === 'AbortError')
         )
           throw err

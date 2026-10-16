@@ -9,6 +9,8 @@ Visual Verification Timing: N/A（CLI文件所有权，无UI变化）
 
 ## 已确认事实与停止线
 
+**当前用户裁决（2026-10-16）**：批准方案A“拒绝共享输出”。遇到本仓库data或data/extracted节点为链接时，任何输出创建/清理前立即报错退出；正常自有输出和只读data/raw链接保持原行为。不增加force开关。此裁决解除产品策略待定，当前仍draft，先完成失败反例与有限build准入再实施；下文未批准表述均是裁决前记录，不作为当前待答问题。
+
 源基点c2fee5a9e，唯一codex/code-quality-3y；main=f98d0ddd8。用户要求资产管线风险立即停线开卡，不得直接实现。3g901行全文读取发现OUT清理仅有字符串suffix guard，随后readdir/rm子项。当前治理树data/extracted实际是指向主树data/extracted的symlink；本任务没有在真实工作树运行提取命令。
 
 [四场景隔离原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json)执行未改CLI的临时副本，输入/输出/所有链接目标均在自建临时目录：OUT根链接或data父链接都能通过guard并删除链接目标的marker，之后因缺SSS退出1；videos保留。对照：普通OUT照常清理，OUT内子项链接仅被unlink、其目标marker保留。不能把根/父链接风险扩张为“rm一定跟随每个子链接”。首次探针因macOS /var别名的校验失败发生在启动CLI前，原件保留，归一化探针自有路径后才得到四次产品观察。
@@ -30,8 +32,8 @@ Visual Verification Timing: N/A（CLI文件所有权，无UI变化）
 
 若获批准，白名单仅cli.ts清理前guard与cli-error-exits.kimi-r1.test.ts的真实临时树反例；原普通清理/videos合同保留。先以旧实现证两新反例红，再补最小guard，再核OUT根链接、data父链接、普通目录、无目录、子项链接以及真实caller/相邻回归。非法输出在缺SSS之前即拒绝，目标marker/videos字节必须保留；完整command/cwd/exit/signal/JSON/raw、可重建副本及清理证据齐备。实现与纯注释/重构分提交。
 
-方案B为保留共享输出但另设显式授权流程；这会增加命令接口/工作流设计，需用户另定，不在本卡默认实施。当前没有批准A或B，Status仅draft、没有build allowed。
+方案B为保留共享输出但另设显式授权流程；这会增加命令接口/工作流设计，用户本次未选择。当前已批准A，Status仍draft、没有build allowed，待先红与实现准入。
 
 ## 未决与交接
 
-只暂停此输出边界产品修复；3g其它只读复审、测试证据与全83卡/94–102/editor独立范围可继续。CLI旧关闭须因直接counter撤回rework；全仓静态/运行时门未收口，不合main。无下一位Agent提示词，Codex单Agent继续，等待输出策略裁决。
+先完成当前fetch取消有限批次，再按获批A核Owner/失败反例并准入输出边界修复；3g其它只读复审、测试证据与全83卡/94–102/editor独立范围继续。CLI旧关闭因直接counter保持rework；全仓静态/运行时门未收口，不合main。无下一位Agent提示词，Codex单Agent继续，无需重复请求输出策略裁决。

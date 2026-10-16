@@ -61,7 +61,7 @@ describe('H01 installFetchRetry 边界', () => {
     })
     installFetchRetry({ retries: 1, backoffMs: [1] })
     // Request 带 GET，但 init.method=POST 覆盖 → 非幂等直接透传 503，不重试。
-    // 误判为 GET 会进入重试退避（fake timers 下由 runAllTimers 放行再耗尽拒绝），
+    // 误判为 GET 会进入重试退避（fake timers 放行后返回最后一次 503 Response），
     // 先由 calls 断言钉死调用数（纯 AssertionError），再核 Response 身份。
     const request = new Request('https://x.test/x', { method: 'GET' })
     const attempt = globalThis.fetch(request, { method: 'POST' })
