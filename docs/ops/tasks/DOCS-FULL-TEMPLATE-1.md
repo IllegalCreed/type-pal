@@ -1290,3 +1290,11 @@ Branch: codex/docs-full-template-proposal
 - R60 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-candidate-acceptance-20261017.json`；8/8 source/after、consumer、模板和机器字段接收；无 runtime/E2E/视觉/coverage 新信用。
 - 历史边界：e2e-002～005 的原 `status: verified` 与 `runtimeExecution.performed: false` 保持原义；本批只验证机器出版合同，不新增运行结论。
 - 全量 1838 目标保持 active/build，当前进度以最新 `report-governance-progress` 为准；本批不标记 done、不推送 main。
+
+### 2026-10-17 R61 testing domain history pairs
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-readonly-review-20261017.json`，17/17 全文读取；8 篇历史 domain report 归 `archive-record-v1`，8 个历史 machine evidence 保持 byte-stable artifact-only，`legacy-flat-audit.md` 归 current `test-domain-report-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r61-testing-domain-history.json`、registry/routing 17 条；历史 report 的日期、候选状态、warning、counter 和 paired evidence 边界保持。
+- R61 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-candidate-acceptance-20261017.json`；17/17 source/after、archive/template/artifact/consumer 边界接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：历史 report/evidence 仍由 canonical report、catalog、迁移账和 consumer 引用；本批不删除，不把历史候选或 legacy-flat reviewed 变成动态通过。
+- 全量 1838 目标保持 active/build，当前进度 `782/1838 baseline + 10 incremental`；本批不标记 done、不推送 main。

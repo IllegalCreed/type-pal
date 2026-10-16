@@ -3663,6 +3663,43 @@
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+      "templateId": "test-domain-report-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
