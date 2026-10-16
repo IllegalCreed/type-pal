@@ -20,13 +20,13 @@
       "guide-runbook": 16,
       "archive-record": 13,
       "audit-report": 59,
-      "governance-index": 103,
+      "governance-index": 101,
       "evidence-receipt": 35,
       "design-spec": 35,
       "task-card": 325,
       "quality-gate": 1,
       "test-machine-evidence": 37,
-      "reference-canon": 14,
+      "reference-canon": 16,
       "narrative-idea": 2,
       "plan-status": 70,
       "test-e2e-stage": 6,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 729,
-      "governed-legacy": 4
+      "template-compliant": 731,
+      "governed-legacy": 2
     }
   },
   "entries": [
@@ -1256,7 +1256,12 @@
       "templateCompliance": "governed-legacy",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "retentionException": {
+        "kind": "user-protected-working-tree",
+        "reason": "User/other-task uncommitted edits were explicitly protected; integration must preserve current main content and re-run review after reconciliation.",
+        "recordedIn": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
@@ -1474,7 +1479,12 @@
       "templateCompliance": "governed-legacy",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "retentionException": {
+        "kind": "user-protected-working-tree",
+        "reason": "User/other-task uncommitted edits were explicitly protected; integration must preserve current main content and re-run review after reconciliation.",
+        "recordedIn": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      }
     },
     {
       "path": "docs/ops/tasks/README.md",
@@ -1542,24 +1552,28 @@
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
       "phase": "ops",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261017-r58-task-template-sources.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/ops/templates/TASK-template.md",
       "phase": "ops",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261017-r58-task-template-sources.json",
+      "historyOverlay": false,
+      "artifactOnly": true
     },
     {
       "path": "docs/lore/characters.md",

@@ -1266,3 +1266,11 @@ Branch: codex/docs-full-template-proposal
 - R57 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r57-current-task-cards-candidate-acceptance-20261017.json`；6/6 quote/template/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用，未标 done。
 - 清理边界：这些卡仍是当前看板/consumer 的活动入口；任何状态推进、归档或删除必须由对应任务卡和看板规则另行闭合，本批不删除。
 - 全量 1838 目标保持 active/build，当前进度 `724/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R58 canonical task template sources
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-readonly-review-20261017.json`，2/2 任务模板源全文读取；它们仍需保持“复制即用”，不能用普通 Markdown wrapper 破坏字段占位和消费语法。
+- 中央接入：`docs/phase-governance/reviews/20261017-r58-task-template-sources.json`、registry 两条 `reference-canon-v1` template-source artifact；不进入 Markdown routing，source/after 字节相等。
+- R58 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-candidate-acceptance-20261017.json`；2/2 template-source、consumer、SHA 和 exact round-trip 接收；无 runtime/E2E/视觉/coverage 信用。
+- 受保护 legacy：`docs/ops/board.md` 与 `docs/ops/tasks/index.md` 仍保留 governed-legacy；这是用户明确要求保护主工作树未提交内容的保留例外，不等于迁移完成。后续把本分支接回 main 时必须以当前 dirty 内容为准，保留用户改动，再重新生成 review/after SHA 和门禁。
+- 全量 1838 目标保持 active/build，当前进度 `726/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。

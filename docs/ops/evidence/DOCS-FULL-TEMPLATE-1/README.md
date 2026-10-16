@@ -294,3 +294,9 @@
 - [R57 只读独立复核](independent-r57-current-task-cards-readonly-review-20261017.json)：6/6 current task cards 全文读取；review/rework/build/draft 状态、owner、前提、验收与未决边界保留。
 - [R57 根接入回执](contributor-r57-current-task-cards-20261017.json)：逐篇记录 source/after SHA、quote inverse、task-card chapters、consumer 和状态边界；不推进任何任务状态。
 - [R57 候选独立接收](independent-r57-current-task-cards-candidate-acceptance-20261017.json)：6/6 候选接收；无 runtime/E2E/视觉/coverage 信用，未标 done。
+
+## R58 canonical task template sources
+
+- [R58 只读独立复核](independent-r58-task-template-sources-readonly-review-20261017.json)：2/2 任务模板源全文读取；保持 byte-stable，直接 copy/consumer 语法不变。
+- [R58 根接入回执](contributor-r58-task-template-sources-20261017.json)：登记 `reference-canon-v1` template-source artifact、source/after SHA、consumer 和不授执行信用边界。
+- [R58 候选独立接收](independent-r58-task-template-sources-candidate-acceptance-20261017.json)：2/2 候选接收；模板源不进入 Markdown routing，避免破坏复制入口；无 runtime/E2E/视觉/coverage 信用。

@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "id": "r58-task-template-sources-20261017",
+  "reviewer": "Codex root full-text canonical template-source review",
+  "reviewDate": "2026-10-17",
+  "policy": "R58: reusable task templates remain copyable canonical sources. They are governed as reference-canon template-source artifacts with byte-stable preservation rather than wrapped Markdown bodies; registry/review/consumer links provide governance without changing template syntax.",
+  "entries": [
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TASK-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "truthAnchors": [
+        "docs/ops/templates/TASK-template.md:1",
+        "docs/ops/templates/TASK-template.md:8"
+      ],
+      "unresolved": [
+        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+      ],
+      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "phase": "ops",
+      "module": "templates",
+      "capability": "full-task-card-template",
+      "owner": "Codex（文档治理）",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r58_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
+        }
+      ],
+      "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "publicCallers": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/templates/TASK-template.md",
+        "task-card-v1 registry and consumer tests"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original reusable template bytes remain unchanged",
+          "template consumer links remain reachable",
+          "template source is not mistaken for a task card or execution evidence",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/ops/templates/TASK-template.md",
+          "docs/ops/templates/README.md",
+          "docs/ops/tasks/README.md",
+          "scripts/docs/cursor-task-index.test.mjs",
+          "scripts/docs/check.mjs",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "implementationSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "history": [
+          {
+            "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+            "date": "2026-10-17",
+            "action": "full-text template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R58 byte-stable canonical template source envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+        "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "lineCount": 198,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable Markdown template source",
+          "sourceBytes": 5757,
+          "sourceLines": 198,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R58 template source artifact envelope",
+          "reviewer": "r58_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
+      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+      "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
+      "reviewedLines": "1-198",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+      "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "primarySource": [
+        {
+          "path": "docs/ops/templates/TASK-template.md",
+          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+          "sha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+          "scope": "full UTF-8 template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
+      "versionScope": {
+        "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R58-TEMPLATE-BYTE-STABILITY",
+          "status": "closed-for-migration-open-for-source-change",
+          "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+        },
+        {
+          "id": "R58-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TASK-lite-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "truthAnchors": [
+        "docs/ops/templates/TASK-lite-template.md:1",
+        "docs/ops/templates/TASK-lite-template.md:8"
+      ],
+      "unresolved": [
+        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+      ],
+      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "phase": "ops",
+      "module": "templates",
+      "capability": "light-task-card-template",
+      "owner": "Codex（文档治理）",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r58_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
+        }
+      ],
+      "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "publicCallers": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/templates/TASK-lite-template.md",
+        "task-card-v1 registry and consumer tests"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original reusable template bytes remain unchanged",
+          "template consumer links remain reachable",
+          "template source is not mistaken for a task card or execution evidence",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/ops/templates/TASK-lite-template.md",
+          "docs/ops/templates/README.md",
+          "docs/ops/tasks/README.md",
+          "scripts/docs/cursor-task-index.test.mjs",
+          "scripts/docs/check.mjs",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "implementationSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "history": [
+          {
+            "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+            "date": "2026-10-17",
+            "action": "full-text template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R58 byte-stable canonical template source envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+        "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "lineCount": 61,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable Markdown template source",
+          "sourceBytes": 2312,
+          "sourceLines": 61,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R58 template source artifact envelope",
+          "reviewer": "r58_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
+      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+      "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
+      "reviewedLines": "1-61",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+      "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "primarySource": [
+        {
+          "path": "docs/ops/templates/TASK-lite-template.md",
+          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+          "sha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+          "scope": "full UTF-8 template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
+      "versionScope": {
+        "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R58-TEMPLATE-BYTE-STABILITY",
+          "status": "closed-for-migration-open-for-source-change",
+          "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+        },
+        {
+          "id": "R58-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

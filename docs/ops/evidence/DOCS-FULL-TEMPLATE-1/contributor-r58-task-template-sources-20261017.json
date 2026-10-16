@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r58-task-template-sources-20261017",
+  "kind": "R58 canonical task template source governance",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+  "scope": {
+    "documents": 2,
+    "docTypes": {
+      "reference-canon": 2
+    },
+    "artifactOnly": true,
+    "templateSource": true,
+    "migrationCredit": 2
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-readonly-review-20261017.json",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 2,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "artifactOnly": true,
+      "templateSource": true,
+      "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+      "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "sourceLines": 198,
+      "afterLines": 198,
+      "exactRoundTrip": true,
+      "consumerRefs": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "artifactOnly": true,
+      "templateSource": true,
+      "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+      "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "sourceLines": 61,
+      "afterLines": 61,
+      "exactRoundTrip": true,
+      "consumerRefs": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r58-task-template-sources-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text canonical template-source review",
+  "candidateHead": "ba60e9dccc2833b30be349213b86593260f4f66c",
+  "verdict": "accept-readonly-proposal",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "root": ".",
+    "documentsRead": 2,
+    "all2": true,
+    "paths": ["docs/ops/templates/TASK-template.md", "docs/ops/templates/TASK-lite-template.md"],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "strict UTF-8 source read, all template sections inspected, direct consumers and copy semantics checked"
+  },
+  "summary": {
+    "documents": "2/2 fully read",
+    "sourceAfter": "2/2 byte-stable source==after",
+    "registry": "2/2 migrated from governed-legacy to reference-canon template-source artifacts",
+    "routing": "2/2 intentionally out of Markdown routing because direct copy syntax must remain intact",
+    "classification": "2 canonical reusable task-template sources",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "format": "markdown",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "artifactOnly": true,
+      "templateSource": true,
+      "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "sourceAfterEqual": true,
+      "exactRoundTrip": true,
+      "consumerRefs": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "documentStatus": "canonical-template-source",
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "format": "markdown",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "artifactOnly": true,
+      "templateSource": true,
+      "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "sourceAfterEqual": true,
+      "exactRoundTrip": true,
+      "consumerRefs": [
+        "docs/ops/templates/README.md",
+        "docs/ops/tasks/README.md",
+        "scripts/docs/cursor-task-index.test.mjs",
+        "scripts/docs/check.mjs"
+      ],
+      "documentStatus": "canonical-template-source",
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}
