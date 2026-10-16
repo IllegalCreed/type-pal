@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r65-ops-evidence-readmes-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "candidateHead": "7d609719e2347f6367712a54f2f81ccf3830b657",
+  "verdict": "accept-readonly-proposal",
+  "scope": {
+    "documentsRead": 10,
+    "all10": true,
+    "paths": [
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md"
+    ]
+  },
+  "summary": {
+    "documents": "10/10 fully read",
+    "issues": "0"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "087e2ea3334d80a3f65de446b9cbe8be405a09b35ae9d2279f6e911fedf0869d",
+      "afterSha256": "6002af586d00876d09a039669dd9726e28fb5bd0957309a98749b1ecc2a95c52",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "0ed6b6b2acf443ca5bd69bd6a1206f66f58becd761bf62b24d715f63dabbbade",
+      "afterSha256": "e3a60785bb909e3b48b74fb91c7ef03884a526200530d7dce86ec2cb19ac2bd4",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "03ad8f1bd9b2c012799f5e3d539edff0b86f110f2d2f7138c71bae49585895e5",
+      "afterSha256": "c7aa71518220dff5e21be381655af81773b486a94bef2ae6f2fd81dfaf529f6e",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "dc31aa880e7f08320d83b1ec1267e7d2e94abd3da1a288b3cd87915c03c5b51d",
+      "afterSha256": "c1bd1e4c75c56108c7f8bfd37c6ae39fea3ca718875d108131490aa8393fa31e",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "5b27483ba7ae2f4e782b05947cc603925a330a8df02ae707337f9706db9f67ca",
+      "afterSha256": "9fa20d8b7f09ef1e8da4b75a12fe57d6d0ea1d64d435e30eb1301fefbe849c7c",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "0375206d17f1e6e7469fa6e561fdcc2fc0ebb4d4a04a3513d0642ef3af017919",
+      "afterSha256": "ca9fc49eb0ed416fd22b2c37c3c7b5cdc2e8734ed84506adc974424bdcc33d93",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "229ac441a4bcbc7c1ee0e395de89372cbca168a57764bbc0f93baba2b06b81fa",
+      "afterSha256": "10e21ffaf940f0c56e194b49eb966c275fe173fdbb60d4e16e99e25d9eb999f0",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "42c71675d1c9736fe1bcac5be6b5fe7de935883e35c1d984df318950e573d18d",
+      "afterSha256": "db8b35f9ae25c3b43d8e340b7135a64a4417b01255136e66adda6ed486fc25cb",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/dedup-ledger.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "234fdab39555e450e637e811bb6797d4ec21364417226f93e1fb8b7e673658da",
+      "afterSha256": "a0577f44630fb89f628b6692862584a1d95ce3dd0807e2c0503ab1a03f68b14e",
+      "quoteInverse": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "sourceSha256": "e39b9790ff00e489d3e89ad77c102050c5e18f1e0d69c6d4c9e3a62ee1dff9dd",
+      "afterSha256": "3c1e410f21338b8876259928f01e7ff24c529b9d76ad15762e53590d89438447",
+      "quoteInverse": true,
+      "pass": true
+    }
+  ]
+}
