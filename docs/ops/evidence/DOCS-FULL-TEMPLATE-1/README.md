@@ -403,3 +403,8 @@
 
 - [R78 readonly](independent-r78-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
 - [R78 acceptance](independent-r78-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。
+
+## R79 testing archive documents
+
+- [R79 readonly](independent-r79-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
+- [R79 acceptance](independent-r79-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。
