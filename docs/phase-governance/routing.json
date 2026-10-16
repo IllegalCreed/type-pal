@@ -5400,6 +5400,151 @@
       "path": "docs/testing/archive/legacy/migration/supply-and-import/image-import-cleanup.md",
       "templateId": "archive-record-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/import-codec-acceptance.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/migration-write-guard.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/testing-records/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-docs-hygiene.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-r2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-r3-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-delivery-checklist.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-nine-intake-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-nine-rework-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-present-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-present-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/persistence/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/persistence/save-and-recovery/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/editor-workflows/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
