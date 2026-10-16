@@ -1227,3 +1227,10 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`docs/phase-governance/reviews/20261017-r52-ops-archive-task.json`、registry/routing 20 条及 contributor receipt；历史 done 状态保留，不自动授权当前 build。
 - R52 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-candidate-acceptance-20261017.md`；20/20 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理仍需等 archive 全量 consumer/引用盘点；本批不删除历史卡。
+
+### 2026-10-17 R53 ops archive task cards
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-readonly-review-20261017.json`，16/16 全文读取；全部 `task-card-v1 + archive-record-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r53-ops-archive-task.json`、registry/routing 16 条及 contributor receipt；历史 done 状态保留，不自动授权当前 build。
+- R53 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-candidate-acceptance-20261017.md`；16/16 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
+- archive task card 历史批次已处理完；清理仍需单独完成 consumer/引用盘点，本批不删除历史卡。

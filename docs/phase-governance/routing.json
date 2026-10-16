@@ -3325,6 +3325,86 @@
       "path": "docs/ops/archive/tasks/done/ED-FIELD-LAYOUT-1-editor-field-label-layout-contract.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/C1-1-actor-preset-dual-authoring.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W7G-composite-tile-stamps.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/C8-item-use-mechanisms.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
