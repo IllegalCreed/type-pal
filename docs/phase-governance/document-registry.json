@@ -6,19 +6,19 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 2338,
+    "total": 2340,
     "byPhase": {
       "ops": 1250,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 141,
+      "phase-governance": 143,
       "testing": 759
     },
     "byType": {
       "guide-runbook": 17,
-      "archive-record": 1470,
+      "archive-record": 1472,
       "audit-report": 59,
       "governance-index": 105,
       "evidence-receipt": 100,
@@ -36,10 +36,10 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 2338
+      "content-reviewed": 2340
     },
     "templateCompliance": {
-      "template-compliant": 2336,
+      "template-compliant": 2338,
       "governed-legacy": 2
     }
   },
@@ -27080,6 +27080,30 @@
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "markdown"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/phase-governance/routing.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

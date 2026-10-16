@@ -4779,8 +4779,8 @@
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
         }
       ],
-      "sourceSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
-      "afterSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
+      "sourceSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+      "afterSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -4796,13 +4796,31 @@
         "against": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"]
       },
       "revision": {
-        "currentSha": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
-        "implementationSha": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
+        "currentSha": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+        "implementationSha": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
             "action": "final structural review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-r95-html-cleanup-triage",
+            "date": "2026-10-17",
+            "action": "HTML and cleanup triage appended",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-r95-structural-refresh",
+            "date": "2026-10-17",
+            "action": "structural exception status refreshed",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-r95-structural-refresh",
+            "date": "2026-10-17",
+            "action": "structural exception status refreshed",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -4810,9 +4828,9 @@
       "evidence": {
         "kind": "task-card-review",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
-        "candidateSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
-        "afterSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
+        "sourceSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+        "candidateSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
+        "afterSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
         "lineCount": 1530,
         "artifactPreserved": false,
         "originalPreservation": {
@@ -4820,7 +4838,7 @@
           "sourceBytes": 268269,
           "sourceLines": 1530,
           "sourceFinalNewline": true,
-          "inverseSha256": "1a7975c4fd8572d872365685b4e193cb73229d222ef59d4645b56fb69493dfa0",
+          "inverseSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
           "exactRoundTrip": false
         }
       },
@@ -4840,13 +4858,13 @@
       "historyOverlay": false,
       "artifactOnly": false,
       "documentStatus": "current",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
+      "sourceGitRevision": "current-working-tree-after-r95-structural-refresh",
+      "candidateSha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "fd182796e2b7155934cfc193d1b4f9a0c019b22454b332b354581b6ffcc39fb2",
+          "sha256": "1253041c41cabd672c2688065e5750a5b3e75c7a230461b3d5ba61fe02d8b177",
           "scope": "full UTF-8 source"
         }
       ],
@@ -4857,7 +4875,7 @@
       },
       "dependencies": "Current task card, registry, routing and fresh review.",
       "versionScope": {
-        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "sourceRevision": "current-working-tree-after-r95-structural-refresh",
         "date": "2026-10-17",
         "validity": "current active/build"
       },
@@ -4989,6 +5007,259 @@
           "id": "R95-PROTECTED-SHA",
           "status": "open-until-main-reconciliation",
           "statement": "Re-read protected main content after integration before final acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 read; structural keys and self-reference boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/document-registry.json: structural machine-registry root retained as byte-stable artifact; it is not a normal routed document.",
+      "truthAnchors": ["docs/phase-governance/document-registry.json:1"],
+      "unresolved": [
+        "Structural self-reference root requires external review record; do not route the registry or routing file through itself."
+      ],
+      "nextStep": "Keep external review record and rerun consumer checks after any registry/routing change.",
+      "phase": "phase-governance",
+      "module": "registry-root",
+      "capability": "machine-registry",
+      "owner": "Codex",
+      "provenance": [
+        "structural-root-read",
+        "full-json-byte-read",
+        {
+          "nonAuthorReviewer": "r95_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+      "afterSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+      "publicCallers": [
+        "docs/phase-governance/document-registry.json",
+        "docs/phase-governance/routing.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/document-registry.json"
+      ],
+      "businessOracle": {
+        "type": "structural-root-artifact",
+        "assertions": [
+          "native structural JSON remains traceable",
+          "self-reference boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/document-registry.json"]
+      },
+      "revision": {
+        "currentSha": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "implementationSha": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "structural root read",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "current-working-tree-after-root-registration",
+            "date": "2026-10-17",
+            "action": "root registration refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "structural-root-artifact",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+        "sourceSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "candidateSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "afterSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+        "lineCount": 27086,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable structural JSON artifact",
+          "sourceBytes": 1024354,
+          "sourceLines": 27086,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": ["none; structural root"],
+      "stopLine": "do not promote structural registry/routing artifact to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "结构根保持 → 增加外部 review/SHA 和 self-reference 边界；不写入自身 route。",
+      "reviewedLines": "1-27086",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "current-working-tree-after-root-registration",
+      "candidateSha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "3810498e43671642bb7b80b38b41ec4b79fbcc0a9e97ea889f3e6a59a5e5fb80",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "registry-root",
+        "currentBoundary": "external review record and structural consumer own truth"
+      },
+      "dependencies": "External R94 review record, document model and docs check consumers.",
+      "versionScope": {
+        "sourceRevision": "current-working-tree-after-root-registration",
+        "date": "2026-10-17",
+        "validity": "current structural root"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "ROOT-SELF-REFERENCE",
+          "status": "open-but-explicit",
+          "statement": "Registry and routing remain outside normal migrated routing to avoid recursive self-authority."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/routing.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON UTF-8 read; structural keys and self-reference boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/phase-governance/routing.json: structural routing-registry root retained as byte-stable artifact; it is not a normal routed document.",
+      "truthAnchors": ["docs/phase-governance/routing.json:1"],
+      "unresolved": [
+        "Structural self-reference root requires external review record; do not route the registry or routing file through itself."
+      ],
+      "nextStep": "Keep external review record and rerun consumer checks after any registry/routing change.",
+      "phase": "phase-governance",
+      "module": "registry-root",
+      "capability": "routing-registry",
+      "owner": "Codex",
+      "provenance": [
+        "structural-root-read",
+        "full-json-byte-read",
+        {
+          "nonAuthorReviewer": "r95_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        }
+      ],
+      "sourceSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+      "afterSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+      "publicCallers": [
+        "docs/phase-governance/document-registry.json",
+        "docs/phase-governance/routing.json"
+      ],
+      "legalInputs": ["current repository documentation", "docs/phase-governance/routing.json"],
+      "businessOracle": {
+        "type": "structural-root-artifact",
+        "assertions": [
+          "native structural JSON remains traceable",
+          "self-reference boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/routing.json"]
+      },
+      "revision": {
+        "currentSha": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "implementationSha": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "history": [
+          {
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "date": "2026-10-17",
+            "action": "structural root read",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "structural-root-artifact",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+        "sourceSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "candidateSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "afterSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+        "lineCount": 6230,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable structural JSON artifact",
+          "sourceBytes": 207312,
+          "sourceLines": 6230,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": ["none; structural root"],
+      "stopLine": "do not promote structural registry/routing artifact to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "结构根保持 → 增加外部 review/SHA 和 self-reference 边界；不写入自身 route。",
+      "reviewedLines": "1-6230",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+      "candidateSha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/routing.json",
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "sha256": "2f951b99f06702d2132ac6671bb365592d0f11c6ce77c79ea29df2c2f928e591",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "registry-root",
+        "currentBoundary": "external review record and structural consumer own truth"
+      },
+      "dependencies": "External R94 review record, document model and docs check consumers.",
+      "versionScope": {
+        "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+        "date": "2026-10-17",
+        "validity": "current structural root"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "ROOT-SELF-REFERENCE",
+          "status": "open-but-explicit",
+          "statement": "Registry and routing remain outside normal migrated routing to avoid recursive self-authority."
         }
       ]
     }
