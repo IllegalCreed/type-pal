@@ -363,3 +363,8 @@
 
 - [R70 readonly](independent-r70-ops-evidence-readmes-readonly-review-20261017.json)：5/5 evidence/review Markdown 全文读取。
 - [R70 acceptance](independent-r70-ops-evidence-readmes-candidate-acceptance-20261017.json)：5/5 接收；无 runtime/E2E/视觉/coverage 信用。
+
+## R71 testing archive documents
+
+- [R71 readonly](independent-r71-testing-archive-readonly-review-20261017.json)：50/50 testing archive 文档全文读取；Markdown 用 archive wrapper + quote，JSON 保持 byte-stable machine artifact。
+- [R71 acceptance](independent-r71-testing-archive-candidate-acceptance-20261017.json)：50/50 接收；保留历史字段和停止线，不授 runtime/E2E/视觉/coverage 信用，不因本批删除。

@@ -4025,6 +4025,131 @@
       "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/background-tests-20260927/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-command-forms/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-content-resources/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-debug-tools/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-enemy-hooks/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-frame-editor/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-migrate-assembly/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-migrate-pure/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-migrate-scenes/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-pal-assets/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-playback/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave4/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave5/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave6/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave7/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave8/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave9/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-ui-wave2/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-plus2-ui-wave3/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-translate-events/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/coverage-plus5/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

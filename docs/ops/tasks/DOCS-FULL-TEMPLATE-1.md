@@ -1367,3 +1367,11 @@ Branch: codex/docs-full-template-proposal
 - R70 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r70-ops-evidence-readmes-candidate-acceptance-20261017.json`；5/5 source/after SHA、quote inverse、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：ops evidence Markdown 已完成本轮遗留子集接入；本批不删除 evidence，不把历史 music/RNG/IO 记录升格为当前产品事实。
 - 当前进度 `867/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R71 testing archive documents
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-readonly-review-20261017.json`，50/50 testing archive 文档全文读取；25 篇 Markdown 改为 `archive-record-v1` + 原文 quote，25 个 JSON 保持 byte-stable machine artifact。
+- 中央接入：`docs/phase-governance/reviews/20261017-r71-testing-archive.json`、registry 50 条 `archive-record-v1`，Markdown 进入 routing，JSON 保持 artifact-only；历史状态、机器字段和停止线保留。
+- R71 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：archive 文件仍由配对 README、evidence、迁移账和历史索引引用；本批不删除、不把历史 machine evidence 或旧测试结果升格为当前通过。
+- 当前进度 `917/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
