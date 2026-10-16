@@ -1,0 +1,2820 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r48-ops-archive-task-20261017",
+  "owner": "Codex root",
+  "reviewDate": "2026-10-17",
+  "status": "candidate",
+  "policy": "R48 candidate receipt for 20 ops archive task/index Markdown migrations; no runtime/E2E/visual/coverage credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-COVERAGE-TRUTH-1-class-initializers.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-COVERAGE-TRUTH-1-class-initializers",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e",
+      "afterSha256": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md"]
+      },
+      "revision": {
+        "currentSha": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+        "implementationSha": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e",
+        "candidateSha256": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+        "afterSha256": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+        "lineCount": 357,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 29244,
+          "sourceLines": 303,
+          "sourceFinalNewline": true,
+          "inverseSha256": "10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-357",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "2c1c39c4958bf16f3354e471e5eae4cc01341978815543a2c42c0ee60183594d",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74",
+      "afterSha256": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+        "implementationSha": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74",
+        "candidateSha256": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+        "afterSha256": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+        "lineCount": 361,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 24884,
+          "sourceLines": 307,
+          "sourceFinalNewline": true,
+          "inverseSha256": "894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-361",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "0430588ce0117e79dd41e8437276a937513ce0119de02c00f58d56447e69c3e9",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "E2E-004-1-meal-and-beggar-wine.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-E2E-004-1-meal-and-beggar-wine",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "4a24cb0b2ee6b0de024a32191a756a00fd370de857b7617cb04894991fd9e981",
+      "afterSha256": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md"]
+      },
+      "revision": {
+        "currentSha": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+        "implementationSha": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "4a24cb0b2ee6b0de024a32191a756a00fd370de857b7617cb04894991fd9e981",
+        "candidateSha256": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+        "afterSha256": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+        "lineCount": 370,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 32278,
+          "sourceLines": 316,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4a24cb0b2ee6b0de024a32191a756a00fd370de857b7617cb04894991fd9e981",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-370",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "aa757a188dd77d5ca6f056f33add82d53ea365b1e22a3a3dab2b516ed452e4bb",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "4a24cb0b2ee6b0de024a32191a756a00fd370de857b7617cb04894991fd9e981",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a",
+      "afterSha256": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+        "implementationSha": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a",
+        "candidateSha256": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+        "afterSha256": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+        "lineCount": 370,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 32866,
+          "sourceLines": 316,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-370",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "5317590f9a6713d2226352b8521093d711243521bba901e1ebbf83180998fe9e",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422",
+      "afterSha256": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+        "implementationSha": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422",
+        "candidateSha256": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+        "afterSha256": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+        "lineCount": 373,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 25560,
+          "sourceLines": 319,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-373",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "fe1d338456ebacc8b73d11a1e96bb839bcab7a5c5cf60eb8d807e35edf8c141f",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "D14-1-dialogue-appearance-inheritance.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-D14-1-dialogue-appearance-inheritance",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "bc5b1d6aeae0ce956034360492f4906b73f1e6d1a2f69887ccf93c305b833a45",
+      "afterSha256": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md"]
+      },
+      "revision": {
+        "currentSha": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+        "implementationSha": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "bc5b1d6aeae0ce956034360492f4906b73f1e6d1a2f69887ccf93c305b833a45",
+        "candidateSha256": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+        "afterSha256": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+        "lineCount": 375,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 20468,
+          "sourceLines": 321,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bc5b1d6aeae0ce956034360492f4906b73f1e6d1a2f69887ccf93c305b833a45",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-375",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "61e8ffa0eca7d1c632221ff8da69f673ad944830cf9166548ff94a090928add3",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "bc5b1d6aeae0ce956034360492f4906b73f1e6d1a2f69887ccf93c305b833a45",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8",
+      "afterSha256": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+        "implementationSha": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8",
+        "candidateSha256": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+        "afterSha256": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+        "lineCount": 383,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 40399,
+          "sourceLines": 329,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-383",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "427d03c25d3775acd7b0adaf04f1eb3db3c11d987612b7245899be4bc399cf67",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "EDITOR-ITEM-AUTHORING-1-item-script-identity.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-EDITOR-ITEM-AUTHORING-1-item-script-identity",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "a0cbdbd065807be67d408ef614aa1dff09a037aec3a2022e552dcb02e8d76230",
+      "afterSha256": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md"]
+      },
+      "revision": {
+        "currentSha": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+        "implementationSha": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "a0cbdbd065807be67d408ef614aa1dff09a037aec3a2022e552dcb02e8d76230",
+        "candidateSha256": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+        "afterSha256": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+        "lineCount": 384,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 39351,
+          "sourceLines": 330,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a0cbdbd065807be67d408ef614aa1dff09a037aec3a2022e552dcb02e8d76230",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-384",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "00ebd7b25a4bba63df1ae37c37a548598d41b169aded83dfc5d3e1906cadd4e8",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "a0cbdbd065807be67d408ef614aa1dff09a037aec3a2022e552dcb02e8d76230",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee",
+      "afterSha256": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+        "implementationSha": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee",
+        "candidateSha256": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+        "afterSha256": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+        "lineCount": 387,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 42743,
+          "sourceLines": 333,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-387",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "c641a572ae49060c20e90df9d8803b737ee7a6dd184dd89111531c2d5e78fa57",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "WORLD-ASYNC-COMMIT-1-world-async-commit.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-WORLD-ASYNC-COMMIT-1-world-async-commit",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "a2acd67c8ea8ba7fec54699f137a38b8c21af732e5f680e329d8b69b070dbeb3",
+      "afterSha256": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md"]
+      },
+      "revision": {
+        "currentSha": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+        "implementationSha": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "a2acd67c8ea8ba7fec54699f137a38b8c21af732e5f680e329d8b69b070dbeb3",
+        "candidateSha256": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+        "afterSha256": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+        "lineCount": 394,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 38117,
+          "sourceLines": 340,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a2acd67c8ea8ba7fec54699f137a38b8c21af732e5f680e329d8b69b070dbeb3",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-394",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "402bac146b6712d22c108b8e1228140ccdac86f0dcc6622ef6afa4f64508e22e",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "a2acd67c8ea8ba7fec54699f137a38b8c21af732e5f680e329d8b69b070dbeb3",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "C2-PAL-world-sprite-layout-cleanup.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-C2-PAL-world-sprite-layout-cleanup",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "6734638757234244042f9f9c8a6b93fe6a476de492d5eb8941127d4ab15091cf",
+      "afterSha256": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md"]
+      },
+      "revision": {
+        "currentSha": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+        "implementationSha": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "6734638757234244042f9f9c8a6b93fe6a476de492d5eb8941127d4ab15091cf",
+        "candidateSha256": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+        "afterSha256": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+        "lineCount": 395,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 34331,
+          "sourceLines": 341,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6734638757234244042f9f9c8a6b93fe6a476de492d5eb8941127d4ab15091cf",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-395",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "15a3075584bef42b592ae4b3abbf3dfb4fa2a2e640f98a77c07f484f7fc6e85a",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "6734638757234244042f9f9c8a6b93fe6a476de492d5eb8941127d4ab15091cf",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-CONTENT-CONTRACTS-1-content-validation-boundaries",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "11608d9a540269f20f0c886d182e5e9804e574214b7908dd822021387b099b4b",
+      "afterSha256": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+        "implementationSha": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "11608d9a540269f20f0c886d182e5e9804e574214b7908dd822021387b099b4b",
+        "candidateSha256": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+        "afterSha256": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+        "lineCount": 398,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 44300,
+          "sourceLines": 344,
+          "sourceFinalNewline": true,
+          "inverseSha256": "11608d9a540269f20f0c886d182e5e9804e574214b7908dd822021387b099b4b",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-398",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "c8cbc6d74ade5ad71a53229b85bb9a2720ac1fa03f4b4e8efc07c57681b23bc8",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "11608d9a540269f20f0c886d182e5e9804e574214b7908dd822021387b099b4b",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "2d345892ddd9eac703fae2d811ad4be8369149b107d5ef171e85f0ee09718fa6",
+      "afterSha256": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+        "implementationSha": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "2d345892ddd9eac703fae2d811ad4be8369149b107d5ef171e85f0ee09718fa6",
+        "candidateSha256": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+        "afterSha256": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+        "lineCount": 399,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 45266,
+          "sourceLines": 345,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2d345892ddd9eac703fae2d811ad4be8369149b107d5ef171e85f0ee09718fa6",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-399",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "57d24ed47577d2b6fd2b07021c11a87d1aea287c46e0c6e128de9f77c6b6209c",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "2d345892ddd9eac703fae2d811ad4be8369149b107d5ef171e85f0ee09718fa6",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "EDITOR-SPRITE-PICK-1-latest-image-selection.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-EDITOR-SPRITE-PICK-1-latest-image-selection",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "1af51a4429f556099021ec8ed40d3d3628a8bc15563632fc0f49a37ed51b3036",
+      "afterSha256": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md"]
+      },
+      "revision": {
+        "currentSha": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+        "implementationSha": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "1af51a4429f556099021ec8ed40d3d3628a8bc15563632fc0f49a37ed51b3036",
+        "candidateSha256": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+        "afterSha256": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+        "lineCount": 405,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 40885,
+          "sourceLines": 351,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1af51a4429f556099021ec8ed40d3d3628a8bc15563632fc0f49a37ed51b3036",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-405",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "02b042aa250188bdf2fb594fe9e36b8b3eb427e4d5cb3bc6514e862672c992ca",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "1af51a4429f556099021ec8ed40d3d3628a8bc15563632fc0f49a37ed51b3036",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "823854b5553e71c4139e63989a3abe2f07d4ad98857a45c305d954f9ac7966d8",
+      "afterSha256": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+        "implementationSha": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "823854b5553e71c4139e63989a3abe2f07d4ad98857a45c305d954f9ac7966d8",
+        "candidateSha256": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+        "afterSha256": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+        "lineCount": 405,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 43931,
+          "sourceLines": 351,
+          "sourceFinalNewline": true,
+          "inverseSha256": "823854b5553e71c4139e63989a3abe2f07d4ad98857a45c305d954f9ac7966d8",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-405",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "4e53180b9deceda369cc3619cb98c3bbb7d4f159d2fc8c411ae26e588cee3733",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "823854b5553e71c4139e63989a3abe2f07d4ad98857a45c305d954f9ac7966d8",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "27b016dbf6adb026f533f028cf4b45d71e0b1460289e7e60d988cbf4fb4e374e",
+      "afterSha256": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+        "implementationSha": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "27b016dbf6adb026f533f028cf4b45d71e0b1460289e7e60d988cbf4fb4e374e",
+        "candidateSha256": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+        "afterSha256": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+        "lineCount": 407,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 30854,
+          "sourceLines": 353,
+          "sourceFinalNewline": true,
+          "inverseSha256": "27b016dbf6adb026f533f028cf4b45d71e0b1460289e7e60d988cbf4fb4e374e",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-407",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "72c0cc1e4d0cc814c95dbb8717dd152a93fb86d9c923ceffefe4c4946f352182",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "27b016dbf6adb026f533f028cf4b45d71e0b1460289e7e60d988cbf4fb4e374e",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "ca7c9bcbf010efafdccb7828ad5ba76219d6415b34f879eb03ee36b7a53e6a61",
+      "afterSha256": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+        "implementationSha": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "ca7c9bcbf010efafdccb7828ad5ba76219d6415b34f879eb03ee36b7a53e6a61",
+        "candidateSha256": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+        "afterSha256": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+        "lineCount": 409,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 30453,
+          "sourceLines": 355,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ca7c9bcbf010efafdccb7828ad5ba76219d6415b34f879eb03ee36b7a53e6a61",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-409",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "67c6a87a895d20b21231182283e0afbc63434f18ed15ad5eb5e4e0b563ab125f",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "ca7c9bcbf010efafdccb7828ad5ba76219d6415b34f879eb03ee36b7a53e6a61",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "6f09f8893c179e020a0005153be08f20a7fe2583079ea264876319b9ff444d40",
+      "afterSha256": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+        "implementationSha": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "6f09f8893c179e020a0005153be08f20a7fe2583079ea264876319b9ff444d40",
+        "candidateSha256": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+        "afterSha256": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+        "lineCount": 414,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 32293,
+          "sourceLines": 360,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6f09f8893c179e020a0005153be08f20a7fe2583079ea264876319b9ff444d40",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-414",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "234a61f2ee25e977d7768da767affa4c22c4a5bb977d813d925239ecba51ab9b",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "6f09f8893c179e020a0005153be08f20a7fe2583079ea264876319b9ff444d40",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md:1"
+      ],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-TEST-EDITOR-IMPORT-CODEC-1-workers-metadata",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "bb891fc2c52f6e58d8ce1d67c575919fd0ea23300d9caa8d39f855a7b20bacbb",
+      "afterSha256": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md"]
+      },
+      "revision": {
+        "currentSha": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+        "implementationSha": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "bb891fc2c52f6e58d8ce1d67c575919fd0ea23300d9caa8d39f855a7b20bacbb",
+        "candidateSha256": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+        "afterSha256": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+        "lineCount": 419,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 43332,
+          "sourceLines": 365,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bb891fc2c52f6e58d8ce1d67c575919fd0ea23300d9caa8d39f855a7b20bacbb",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-419",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "ada5bf86107be8a06d0e5d98d0b081c70205cb2c6377c8cc3298c799098e328d",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "bb891fc2c52f6e58d8ce1d67c575919fd0ea23300d9caa8d39f855a7b20bacbb",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R48 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "R13-CANARY-canary-parent-ledger-drift.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "truthAnchors": ["docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md:1"],
+      "unresolved": [
+        "Historical task claims require a current successor card and fresh evidence before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "ops-archive-task-R13-CANARY-canary-parent-ledger-drift",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r48_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8"
+        }
+      ],
+      "sourceSha256": "6428db3439e8e584f312bc18d658208e2c2bcf0c6f38fdebcd0e4eb1824fa5b6",
+      "afterSha256": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+      "publicCallers": [
+        "docs/ops/tasks/index.md navigation",
+        "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md"
+      ],
+      "businessOracle": {
+        "type": "historical-task-template-migration",
+        "assertions": [
+          "original UTF-8 bytes remain hashable",
+          "historical boundary explicit",
+          "task status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md"]
+      },
+      "revision": {
+        "currentSha": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+        "implementationSha": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+        "history": [
+          {
+            "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R48 archive task template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+        "sourceSha256": "6428db3439e8e584f312bc18d658208e2c2bcf0c6f38fdebcd0e4eb1824fa5b6",
+        "candidateSha256": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+        "afterSha256": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+        "lineCount": 422,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 25456,
+          "sourceLines": 368,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6428db3439e8e584f312bc18d658208e2c2bcf0c6f38fdebcd0e4eb1824fa5b6",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R48 archive task template migration",
+          "reviewer": "r48_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+      "reviewedLines": "1-422",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical-done",
+      "sourceGitRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+      "candidateSha256": "a9f13ca4341d965f37d360c056521841f00c676e4b20dc984fb41f732c8a7b7d",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md",
+          "revision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+          "sha256": "6428db3439e8e584f312bc18d658208e2c2bcf0c6f38fdebcd0e4eb1824fa5b6",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "archive/tasks",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+      "versionScope": {
+        "sourceRevision": "dc67827ccc68e3951c845268aa72f9e8bfa3c2f8",
+        "date": "2026-10-17",
+        "validity": "historical-done"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R48-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

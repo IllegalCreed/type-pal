@@ -1,345 +1,399 @@
 # TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测
 
 Status: done
-Phase: phase2
-Capability: 已有状态/元数据合同覆盖，不改变能力地图
-Coding Owner: Codex（用户授权接手窄返工及集成；GLM原始测试贡献保留）
-Integration Owner: Codex
-Reviewer: Kimi / GLM（GLM参与贡献须披露，不作为独立第三方自证）
-Visual Verification Owner: N/A
-Visual Verification Timing: N/A
-Unavailable Agents: none
-Branch: codex/tb00-tb01-finish
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: task-card-v1 / 1.0.0
 
-Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
-当前集成候选：**44b9b763**（2026-09-21），主线接入基点952a45bd，产品零改；原设计不重签。
+本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
 
-## 2026-09-21终态收口（Codex统一核定）
+## 目标
+- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
 
-**本卡done allowed → done**。用户明确要求分别核定TB00/TB01并收口；本卡Codex实施者自验（430fba79落卡）、GLM原贡献者复核（f38c23dc）、Kimi独立终审（2c042bf5）均accept同候选44b9b763，无counter/返工项、无缺签豁免。r1设计签字保持，三席原文保留，不代签。
-接手同步main、工作树干净；候选后packages/、scripts/、原见证及负控工具零diff。56项、8对照/8业务针/4fixture、原22跑及统一check7988/ratchet/受保护单次strict7497的既有证据有效。本轮只做阶段/文档收口与归档，不重跑产品测试、不改产品或基线。
-**保留边界**：frame在途invalidate的迟到回填政策仍待证，未由本卡选择或固化；该项不是剩余counter，也不是已确认的产品缺陷。无视觉/full/Q1/Q2声明，不借本卡开启R4/N6b。TB01另按其自身签字独立判定，不互相带过。
-无下一位Agent提示词，本卡已按用户授权收口；下方旧阶段描述与提示词仅作历史。
-用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
-唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../../../testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md)。
+## 范围
+- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
+- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
 
-## 目标与范围
-
-### 2026-09-21 Owner接手
-
-用户明确“那就修好呀”，Codex接替GLM完成350da702仅剩的D6真实finally/失败路径自证和回执勘误；不重开已过八针业务合同。
-原GLM分支/worktree保持不动；在当前main 0cb5010e之上的独立codex/tb00-tb01-finish工作树按白名单暂存候选、逐包验证后集成。
-原r1设计三签保持；历史生产冻结e58834f6不代表回退当前生产。集成以0cb5010e当前合同为准，B7如涉及已done的451cbbb7私有引用tag，只适配测试期望，不恢复旧前缀或改产品。
-与TB01分开裁决/提交，最后共享一次串行完整check→官方ratchet→受保护单次fast。GLM仍为原测试贡献者；本席后续accept是实施者自验，Kimi独立终审不能由本席替代，GLM也须对新候选重新复核。无缺席豁免，不标done。
-
-补11个current真实调用模块的作者元数据守卫、编译/投影、动作/帧序列、菜单状态、呈现事务回归。
-只新增11测试文件、两个薄fixture及本人诊断/回执；产品/旧测试/官方范围/基线零改。已有强证据不重复加条数。
-不涉及GLM刚完成的运行时十模块包，不改Codex的main/boot/技能试放接线；无视觉、音频听感或完整E2E声明。
-
-## 前提真值门
-
-一句话：11个目标有当前caller且已有测试仍有可独立补强的参数/时序/身份轴；目标是可证伪测试，而非改变产品行为。
-
-| 真值面 | 一手证据与结论 |
-|---|---|
-| 原版/primary source | 不新增原版公式或演出政策；当前公开TS合同为本包真源。世界变量长度/错误路径在world-variable.ts:42–115；诊断V1在migration-diagnostic.ts:44–95 |
-| 第一阶段 | 输入/菜单知识来自game菜单现有语义，main调用当前magic/system状态机；不复制旧内部架构、角色下标身份或战斗数值 |
-| 当前二阶段 | 工作包11模块均列真实main/editor/content caller；entity动作明确有基础/覆盖双轨，frame播放器已有AbortSignal，ScreenHold以owner而非token字符串防旧收尾 |
-| 本任务目标 | before→after只增合法正反测试与覆盖账；世界/脚本/存档/资产版本和用户行为不变，no visual changes |
-
-Codex已逐项直读目标源码、旧测试标题及关键断言，独立复算576/657行、475/639臂；既有content2文件10项、Reforge9文件80项绿。
-最强替代解释：已测、没有current caller、前置守卫令分支不可达、API有意原地修改、合同尚未确定。
-反证成立就记已有/防御/待证，不造非法fixture或反向期望。尤其magicConfirmSpell原地改菜单state、诊断不承诺exactKeys、
-frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏离N/A：本卡无行为改变。
-
-## 上下文锚点
-
-- AGENTS、CLAUDE、[READ-FIRST](../../../../phase2/READ-FIRST.md)，[harvest元层](../../../../phase2/reference/phase1-knowledge-harvest.md#x--元层) X7/X8只取通用教训。
-- [最新覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)、[前包接收教训](../../../../testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md)：实际输入、真实交错、精确输出、判据鉴别力。
-- 源码/既有测试/精确白名单以工作包为准。D-07私有引用歧义、frame在途invalidate、RewardGain微任务跨序列政策若遇到，隔离报告不擅修。
-- 禁止兼容旧模型/保活无caller接口；局部V1与legacy-script来源标签仍是当前合法数据，不按词删除。
+## 前提与证据
+- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
+- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
+- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
 
 ## 验收
+- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
+- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
+- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
 
-六组39族逐项可追溯；重复强用例只记已有。至少12条新断言业务红的单点负控及正控，失败判据也须自测。
-合法fixture经当前guard，输入快照须同一对象，异步进入/结束均有见证。定向/相邻/两包全测、tc、全部新增文件Biome绿。
-同树同官方testSelection覆盖对照只输出/tmp；整包接收后由Codex串行check→ratchet→受保护单次fast。
-新缺陷另报，不把默认红测试混入；GLM贡献披露，其自验不充独立第三方，Kimi接收后终审。
-本包没有视觉与剧情E2E验收；C/D/F仅检验数据状态和宿主协议。
+## 状态与交接
+- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
+- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
+- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
 
-## 推进签字
+## 历史范围
+- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
+- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
 
-### build前（r1）
+## 原始结论
+- `Status: done`；原始任务语义完整保留于下方 quote。
 
-- Codex：**premise verified / design agree（2026-09-19，e58834f6）**。本人直读11目标的公开入口与实际消费者，复核旧测试去重，复算官方分数，既有10+80测试绿；新路径不存在。
-  编译器限定current入口，菜单明确mutating/no-op合同，播放器只做非视觉轨迹；隔离试放/save/战斗公式与无caller旧入口。
-  可证伪条件：若候选族没有合法当前输入、已有完全等价断言、只有统计臂没有实际消费，就收窄/复用，不以39族强迫新增。
-- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部锚点本人直读，未读 GLM 结论）**。
-  - **11 模块合同与 caller 直读**：`world-variable.ts:42-50` ID 长度/字符/sys: 保留规则与
-    `migration-diagnostic.ts:44-49` version/数组门在位；`character.ts:337`/
-    `project-loader.ts:286` 真实消费命中。`magic-menu-state.ts` `magicConfirmSpell` **原地改**
-    `s.targetIdx/s.phase`——工作包「原地改菜单 state 是合同（E4）」属实，测试不得假定不可变。
-  - **覆盖数字独立复算**：当前官方 fast 汇总实测——magic-menu-state 行 65/81·分支 65/97、
-    entity-action-player 150/175·136/183 与工作包逐格一致；低覆盖是导航指标非 bug 数
-    （卡面声明正确）。
-  - **去重锚点核实**：world-variable.test.ts、migration-diagnostic.test.ts、
-    runtime-script-project.test.ts、frame-animation-player.test.ts 等在册（本人抽查）；
-    工作包登记的既有断言与拟补轴不重叠。
-  - **白名单核验**：11 新测试路径抽查均不存在（本人实测）。
-  - **设计同意**：六组 39 族映射真实现行调用域；合法 fixture 经当前 guard、输入快照就是
-    实际传入的同一对象；异步进入/结束均有 entered/deferred 见证不用 sleep；≥12 条判据
-    自测的单点业务负控；同树同官方 testSelection 覆盖对照只出 /tmp；frame 在途 invalidate
-    政策未定不默认绿固化（D4）、诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签为
-    当前合法数据不按词删除、不给无 caller 旧入口保活；无视觉/听感/完整 E2E 声明。
-  - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被同合同断言覆盖 → 登记已有；
-    ② 拟造输入不在当前 API 支持域 → 撤回该项；③ 负控仅 load 标记/混合宿主故障 → 无效
-    重造；④ 快照对象与实际传入对象不一致 → 重造；⑤ 把 magicConfirmSpell 原地改写当成
-    返回新态来测 → 测试模型错；⑥ 产品/旧测试/基线任何 diff → 越界即停。
-  - 返工项：无。非阻断备注：frame 在途 invalidate、RewardGain 微任务跨序列政策如遇合同
-    未定按工作包纪律隔离登记；本席终审时逐族核 39 族账的 caller 锚点与状态分类。
-- GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读/复跑，未读 Kimi 席位）**。
-  - **11 模块与 caller 直读**：content world-variable.ts（character.ts:337 initialWorldVariablesV1、
-    project-loader.ts:285 validateWorldVariableRegistryV1）与 migration-diagnostic.ts（loader:281-285、
-    migrate/pal-current-publication.ts:351）；reforge 九模块——runtime-script-compiler（editor
-    playback.ts:423/437、runtime-script-project.ts:332/394/420）、runtime-project-view（main.ts:364/477/719）、
-    entity-action-player（main.ts:522）、frame-animation-player（main.ts:794/2768、FrameAnimationEditor.tsx:185）、
-    magic/system-menu-state（main.ts:6552-6554/6762、:6709/6723/6731）、scene-entry-session（main.ts:793/1677/2925）、
-    screen-hold-transaction（main.ts:1257/1642/1655）、reward-gain-queue（main.ts:5416/5448/6503）——
-    本人逐行直读全部命中，均为现行真实消费。
-  - **覆盖数字独立复算**：用 import 官方 coveragePackages/testSelection 的临时 config（/tmp 输出）
-    两包各跑一次：11 模块行/分支与工作包表**逐格一致**（world-variable 47/51·35/44、entity-action
-    150/175·136/183、magic 65/81·65/97 等），合计行 576/657、分支 475/639 一致。
-  - **旧测试去重锚点直读**：world-variable.test.ts:9/40/58、migration-diagnostic.test.ts:24/29、
-    runtime-script-project.test.ts:105/150/263、entity-action-player.test.ts:41/231、
-    frame-animation-player.test.ts:59/181、magic:56/152、system:12/78、scene-entry:11/56、
-    screen-hold:5/37、reward-gain-queue:9/72——工作包"已有"登记属实。
-  - **白名单核验**：11 新测试路径 + 两包各一 fixture 当前均不存在。
-  - **design agree**：39 族范围/白名单/纪律可执行且已吸收前两包 counter 教训（实际输入同对象快照、
-    真实交错、精确输出、负控判据自测+钉名执行见证）；关键合同注意点与工作包一致——
-    magicConfirmSpell 原地改菜单 state 是合同（E4）、frame 进行中 invalidate 政策未定不默认绿固化（D4）、
-    诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签是当前合法数据非兼容残留。
-  - **可证伪观察**：①某族已被同合同断言覆盖→登记已有；②拟造输入不在当前 API 支持域→撤回；
-    ③负控仅 load 标记/混合宿主故障→无效；④快照对象与实际传入对象不一致→重造；
-    ⑤产品/旧测试/基线任何 diff→越界即停。
-  - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
-- build准入：**三席同r1已齐、无counter，Codex于2026-09-19核定满足build条件**（Codex原签、GLM 7753f137、Kimi 09d1fd5b；生产相对e58834f6零漂移）。按原交接由Coding Owner GLM同步将本卡/看板/索引切到build，再在独立worktree连续实施六组；无需再签一次。另一张试放卡的UI待决不阻止本卡。
+## 当时证据
+- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
 
-### done前（当前集成候选44b9b763）
+## 当前有效性
+historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
+- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
 
-- Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md)及[机账](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
-- Kimi：**accept（2026-09-21，TB00/r1，候选44b9b763对比952a45bd；锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
-  - **D6 真实 finally**：`frame-animation-player.boundaries.test.ts:225-280` 共享 helper 以真实
-    entered 见证+可释放 readGate 驱动；finally（:267-278）再 abort、释放**同一** readGate 并
-    await 原 pendingSlow 结局，trace 记 `playback-consumed:*`——finally 内零断言，不遮盖最初错误。
-    失败自证（:298-315）注入 AssertionError 后断言 `outcome === originalFailure`（错误身份保留）
-    且轨迹精确 `['read-entered','read-completed','playback-consumed:AbortError']`——非手写清理布尔。
-    正常路径（:281-297）迟到零提交+同 reader 真实重播成功保留。
-  - **B7 仅适配已 done 合同**：runtime-project-view.boundaries 断言当前私有 tag
-    `__author-item-private-runtime`+owner，不复活旧 `item:priv:use`；属 451cbbb7 主线修复适配。
-  - **本席复跑**：review-witnesses 对当前树 exit0——8 对照绿/8 针全 detected（业务 AssertionError，
-    含 sequence-late-frame-after-abort 命中 :286）、4 fixture accepted；原 mutants 工具 22 跑
-    exit0（6 对照+16 针）；reforge 9 文件 46 项定向全绿。
-  - **范围**：产品/旧测试/原见证工具零改（witness 产品 hash 校验在内）；check7988/ratchet/
-    strict7497 采信 Codex 已落证据，未并发重跑。旧版本兼容审查 pass：仅新增当前合同测试。
-  - 返工项：无。frame 在途 invalidate 回填政策保持待证登记，不在本卡固化。
-- GLM：**accept（2026-09-21，原贡献者对 Codex 补正及新候选 44b9b763 复核；本人是本批原测试贡献者，不作独立第三方自证）**。
-  本席独立核验（均本人执行，未读 Kimi 本轮结论）：
-  - **原贡献保留**：本人 350da702 白名单逐文件 blob 对比 44b9b763——本批测试/fixture 中**仅两个文件**
-    被改：`frame-animation-player.boundaries.test.ts`（D6）与 `runtime-project-view.boundaries.test.ts`
-    （B7）；其余差异均属模拟器/物品身份等主线批次的既有演进，非本轮改动。
-  - **D6 补正直读**：`sequenceAbort` 共享 helper 以真实 entered 见证+可释放 readGate 驱动；
-    `finally` 中再次 abort、释放**同一**底层并消费原 pendingSlow，finally 内零业务断言不遮盖
-    最初错误；失败自证用例（:298 起）断言**原始 AssertionError 身份保留**且轨迹为
-    `read-entered/read-completed/playback-consumed`（真实清理证据，非手写布尔）。
-  - **B7 适配直读**：`runtime-project-view.boundaries.test.ts:143` 断言私有 tag
-    `__author-item-private-runtime`+owner `'priv'`——仅适配已 done 的 451cbbb7 当前合同，
-    无 `item:priv:use` 复活。
-  - **见证/负控/定向本席复跑全绿**：`runtime-state-review-witnesses.mjs` 8 对照 PASS+8 针
-    detected、4 fixture accepted、rc=0；原 `glm-runtime-state-mutants.mjs` 6 对照+16 针
-    **22 跑 rc=0**；定向 9 文件 46/46（含 D6 所在 10 项）。56 项与机账一致。
-  - 覆盖表为当前树 before/after 实跑，未借用本人旧冻结数字。统一 check7988/strict7497 为
-    Codex 证据。frame 在途 invalidate 政策、full/Q1/Q2 边界保持披露。无 counter。
-- done准入：**done allowed（Codex，2026-09-21）**。三席accept同候选44b9b763、无counter/缺签豁免，用户明确授权收口；本卡独立推进done并归档。frame在途invalidate政策待证、full/Q1/Q2边界保持。
+## 继任文档
+- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
+- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
+- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
 
-### 原候选接收记录（历史，不授权当前候选done）
-
-- GLM：**r1 第三轮返工实施者自验 accept（2026-09-19；仅收窄 counter 8ca74aac 三残项，前轮已闭环项不重开）**。
-  - 残项1（F1）：`source:'held' as never` 断言**实际删除**，F1 标题/注释同步为 ms/kind 失配轴；
-    回执"虚构 source 轴移除"声明与提交树一致。
-  - 残项2（D6）：结局改为**独立同步观察变量**（回调更新 outcome，断言只读观察值），entered 后
-    abort + tick 排空即同步断言 AbortError——不 await 可能永不 settle 的 outcome；frame 用例
-    finally 放行 inflate 并核迟到零提交；sequence 用例 finally 消费收口 Promise；不再靠超时变红
-    （D 组逐文件 8→9 项同步）。
-  - 残项3（E4）：每个确认分支（toTarget/castAll/MP 不足/恰好足够）**调用前**取实际 world 深快照、
-    调用后立即比较——castAll 全体直放分支亦覆盖；删除未用 `_wBefore` 与自比较；菜单 state 原地
-    可变合同保持。
-  - 复验：最新 7 针见证全部 **detected**（候选自身 AssertionError 业务红，0 invalid/0 MISSED）
-    + 7 对照绿 + fixture 四检查 accepted；原 22 跑 rc=0；定向 content 10 + reforge 46 = 56/56；
-    reforge 全包 125/1235、content 全包 57/685 exit0；两包 tc rc=0；16 文件 Biome rc=0；
-    覆盖四跑复算数字不变（局部 content +12 行/+18 臂、reforge +36 行/+53 臂）。
-  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 仍待证；
-    不代签、不标 done。
-- Codex：**收窄counter（2026-09-20，候选350da702）**。8对照/8针本席复跑均为候选自身业务红，fixture四检查accepted；原22跑及frame9项通过，取消业务鉴别力闭环。
-  仅剩D6异常收尾：frame-animation-player.boundaries.test.ts:231–287没有try/finally，:267断言失败会跳过:269释放和:272消费。回执称finally仍不符。
-  修真实finally及失败路径自证，保留原断言/8针，不重开其它项。详见[最新定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未改候选、未集成或抬基线，不转Kimi。
-- Codex前轮记录（历史）：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
-  唯一剩D6 sequence：:238永不resolve gate，:252–255 finally仅改局部布尔，:265独立Promise与原链无关，:260另一个reader冒称同实例。新增同合同第8针sequence-late-frame-after-abort，8对照绿、7 detected/1 MISSED；候选9项漏掉取消后的迟到提交。任务卡自验56应为实测55，F1账旧ms/source标题需同步。
-  详见[本轮定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
-- Codex前轮记录（历史）：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
-  仅剩R1-F1虚构held-source仍在:32（回执称已移除不符）；R2-D6 await outcome导致坏实现下候选超时，非业务断言红；R3-E4 unused预快照/自比较只保护末尾单体，allAllies误改world仍漏检。
-  本席旧见证工具把候选failed都判detected，漏了Vitest的STACK_TRACE_ERROR，责任已勘误并补每条候选错误类型自测；最新7针为5 detected/1 invalid-candidate-failure/1 MISSED、7对照绿。
-  详见[本轮证据及三项定点返工](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。不改GLM测试、不合入正式测试、不更官方基线，不转Kimi；设计r1不重签。
-- Codex前轮记录（历史）：**counter（2026-09-19，候选23eb63d2；独立接收）**。范围/冻结核验通过，53定向、685/1233全包、两包tc、原22负控均复跑绿；但不满足验收。
-  R1：实际legalScene/Items被当前正式guard拒绝，F1 held-source越出合法union；R2：frame读取取消/失效换字节/LRU的关键时序或正控未实际建立；
-  R3：after完整输出、历史cue非空正控、菜单world保真等断言失效；R4：Biome实测4errors/9warnings及逐文件计数/覆盖小计与回执不符。
-  本人六针隔离坏实现均被独立oracle业务红抓住，但对应候选新测试全部仍绿（MISSED）；合法原实现六对照全绿。
-  详见[完整counter/复现/返工要求](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)与[可重建见证](../../../../testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs)。
-  未改GLM测试语义，未集成正式测试/更新官方基线，未跑接收后的全仓门，不转Kimi。r1测试目的不变，B5候选合法性按当前guard收窄，不需重签设计。
-- Kimi：pending（接收后独立终审）。
-- done准入：未开放，不代签、不标done。
-
-## 交接日志
-- 2026-09-21 Codex（TB00 done核定）：同步main，核430fba79/f38c23dc/2c042bf5三席同候选44b9b763，产品/脚本/原工具零漂移、既有验证有效；按用户明确授权独立收口本卡并归档/同步看板索引与回执。保留frame在途invalidate待证及full/Q1/Q2，不重跑产品测试或改基线，不代签；TB01单独核门。
-
-- 2026-09-21 Kimi（TB00 独立终审）：候选44b9b763对比952a45bd，签 done 前 accept。独立证据：
-  直读 D6 补正（frame-animation-player.boundaries.test.ts:225-280 真实 finally 释放同一 readGate
-  并消费原 pendingSlow、finally 零断言；:298-315 失败自证保留原 AssertionError 身份+精确轨迹）；
-  B7 仅适配已 done 451cbbb7 的当前私有 tag/owner。本席复跑：review-witnesses 对当前树
-  8对照绿/8针 detected/4 fixture accepted；原 mutants 22 跑 exit0；reforge 定向 46 项绿。
-  产品/旧测试/原见证零改；check7988/ratchet/strict7497 采信 Codex。未读 GLM 本轮结论，
-  不改实现/他席/状态，不标 done。Next：Codex 核 done 门。
-
-- 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
-  第三方自证，证据见本席签字）：blob 对比证实本批仅 frame-animation-player.boundaries（D6
-  真实 finally+失败自证轨迹）与 runtime-project-view.boundaries（B7 当前 tag）两文件补正、
-  原贡献其余零改；本席复跑 8 对照+8 针 detected/4 fixture accepted、原 22 跑 rc=0、
-  定向 46/46。未读 Kimi 本轮结论、未做视觉、未改产品/测试/基线/状态，不代签、不标 done。
-- 2026-09-21 Codex：补正250814f7与TB01 b609617b分开提交，统一候选44b9b763通过完整check7988/ratchet/受保护单次strict7497。只接入原白名单，TB00相对GLM源仅frame测试修finally/加失败自证、B7当前身份适配；8针及原22跑保持业务红，D6 counter注销，转review。GLM原贡献及本席实施身份披露，等Kimi独立终审/GLM新候选复核，不标done。
-- 2026-09-21 Codex：按用户明确要求接手窄返工。已同步main/核工作树干净，源分支仍350da702；仅修D6异常也执行释放/消费，保留已过业务断言，按当前产品适配B7并独立复验后接收。新Owner/工作树及贡献披露见上；原counter未在修复验证前注销，状态仍rework，不动GLM工作树。
-- 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。
-- 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
-- 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
-- 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
-  实删、D6 同步结局观察 + finally 释放、E4 各分支调用前快照。7 针全 detected（自身业务红）+
-  7 对照绿 + 22 跑全绿 + 双包全测/tc/Biome/覆盖复算。第三轮自验 accept 已签；等 Codex 重新接收。
-- 2026-09-19 Codex：重新接收3c7ae963，确认四fixture合法与五类原坏实现已被候选业务断言检出；55/双包全测/tc/Biome/原22跑通过。
-  原工具六针detected可复现但D6候选红因是5000ms超时；修正本席工具的判据缺口，新增同一E4合同的castAll定点见证。收窄为F1虚构source未删、D6同步观察不挂起、E4各分支真实快照三项。状态仍rework，不合入测试，不重开已闭环项，不代签/不标done。
-- 2026-09-19 GLM（r1 返工完成）：rebase counter e22041a0（模拟器设计/看板保留），R1～R4
-  全部修复；六见证 MISSED→detected（候选自身断言红）、原 22 跑全绿、双包全测/tc/Biome/覆盖
-  四跑复算完成。返工实施者自验 accept 已签；任务保持 rework，等 Codex 重新接收。
-- 2026-09-19 Codex：独立接收23eb63d2，完整读11新测试/2fixture及工具，实跑53定向、两包全测/tc、原22负控与私有覆盖四跑。
-  六个独立业务oracle证明对应坏实现都逃过候选断言；正式guard拒绝两个主fixture、Biome/回执也不符，签counter并转rework。
-  仅保留GLM原交付文档作证据，不合入测试；主线模拟器设计和GLM后续规划保留，旧r1设计不重签。返工交GLM，不转Kimi、不标done。
-- 2026-09-19 GLM（build 完成）：A→F 六组连续实施完毕（53 项、每组独立提交）；16 针负控 +
-  判据自测 22/22；覆盖对照 11 模块两包四跑（/tmp）。实施者自验 accept 已签；任务保持 build，
-  等 Codex 独立接收（39 族账见工作包回执）。
-- 2026-09-19 GLM（build 开工）：按 Codex d350f4fb 核定同步本卡/看板/索引到 build；在
-  codex/glm-runtime-state-boundaries-r1 独立 worktree 连续实施六组（TB-01～03 规划文档已在
-  95b6ff6e 另行提交，不混入本卡实施）。
-- 2026-09-19 Codex：用户告知“签了”后同步并核对三席均钉r1/e58834f6、各有直接证据与可证伪观察、无counter；当前607b2aa3相对冻结的packages/与scripts/coverage/零diff，build条件已满足。
-  GLM正在共享树准备TB-01～03，相关未提交卡/工作包/看板/索引保留、不混入本次核准提交。沿用原委托由GLM更新本卡实施状态与共享索引，进入独立worktree；本卡不扩39族，不为新队列重复签字，未实施、未宣称测试完成。
-- 2026-09-19 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
-  直读 world-variable/migration-diagnostic 守卫与 character/loader 消费、magicConfirmSpell
-  原地改 state 合同（E4）；独立复算覆盖数字与工作包逐格一致；去重锚点在位；白名单路径
-  未占用。六条可证伪观察写入本席；frame invalidate/RewardGain 政策按纪律隔离登记。
-  未改产品/他席/状态，未读 GLM 结论。Next：三签齐后 GLM 核定 build allowed 并连续六组。
-- 2026-09-19 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。11 模块 caller
-  逐行直读、覆盖数字临时 config 独立复算逐格一致、旧测试去重锚点核实、11+2 白名单路径未占用。
-  未读 Kimi 结论；设计未齐不写任何测试。Next：三席齐且无 counter 后本人核定 build allowed，
-  在独立 worktree 连续六组。
-
-- 2026-09-19 Codex：按用户要求准备六组11模块39族大包；内部只读盘点后本人重新读源码/旧测试并复算，内部分工不作外部席位签字。
-  当前只开draft/写工作包，未写正式测试、未改生产或覆盖率；GLM与Kimi先并行审设计，同步给出提示词。
-
-## 下一位Agent提示词
-
-无下一位Agent提示词，本卡已收口；以下内容不再发起重复审查。
-
-### 当前：Kimi / GLM并行复核44b9b763
-
-完整两席提示词见[共同回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
-
-```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-RUNTIME-STATE-BOUNDARIES-1，卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，review/r1，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
-Codex已接手并修真实finally、失败自证及B7当前身份，56项/8针/22跑通过；完整check7988、ratchet、受保护单次strict7497已通过。重点核清理真实完成/原错误身份/断言鉴别力与生产零改。Kimi作独立终审；GLM需披露原测试贡献，对Codex补正和新候选复核。各自只写本人done前accept或带file:line反例counter及日志，提交推送前同步保留他席改动。不改产品/测试/基线/状态、不代签、不done；不做视觉或并发跑统一覆盖率。TB01单独裁决。
-```
-
-### 历史：GLM仅补350da702异常路径清理（Codex已接手完成）
-
-```text
-按docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。
-只让D6 sequence在主断言失败时也执行真实finally释放同一readGate并消费原pendingSlow，保留正常迟到零提交/同reader重播，不以清理断言覆盖主失败；补失败路径自证，回执对应最终树。D6九项、原8针/22跑复验后交Codex。
-不改产品/旧测试/他席工具/官方基线，不重开F1/E4等闭环项，不代签、不标done、不转Kimi。可与物品作者身份卡的只读审查分开工作树并行。
-```
-
-### 历史：GLM返工6d34ad5a的D6 sequence及回执
-
-```text
-在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
-先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部。
-F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
-重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
-```
-
-### 历史：GLM三项残项返工（本轮仅剩D6）
-
-```text
-在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 仍rework；本轮候选3c7ae963，生产冻结e58834f6，设计不重签。
-先同步最新main的收窄counter和更新后的docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs到你的独立分支，保留原文及前三批r2/模拟器设计；读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部本轮结论。
-已闭环的fixture、after、非空cue、换字节/LRU、格式与主要计数不重开。只修三项：①scene-entry-session.boundaries.test.ts:32的held as never仍在，实际移除或按当前合同明确分类，回执不得再与树不符；②D6不能await可能永不settle的outcome而把释放写在后面，应观察独立结局变量并同步断言，finally释放/消费，负控必须AssertionError而非5000ms超时/STACK_TRACE_ERROR；③E4删unused预快照和自比较，分别在各确认分支调用前拍实际world快照，尤其castAll，保持菜单state可变合同。
-最新见证工具已修Codex自身判据漏洞，并新增同一E4合同的castAll针；重跑应7对照绿、7针都由候选自身业务断言detected，0 invalid/0 MISSED。原22跑、定向/相邻/两包全测/tc/16文件Biome与最终树回执需一致；未补的细轴如实引用已有/分类，不继续写标题式闭环。
-只改原白名单，不改产品/旧测试/官方基线/他席见证语义，不代签、不标done、不转Kimi。交Codex重新接收后再跑全仓check/ratchet/受保护strict-fast。
-```
-
-### 历史交接 · GLM首轮R1–R4返工
-
-```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 已rework；本轮候选23eb63d2，生产冻结e58834f6，设计不重签。
-先同步main与本次Codex counter到codex/glm-runtime-state-boundaries-r1独立worktree，保留counter原文和主线模拟器设计/看板；读AGENTS/CLAUDE/READ-FIRST、任务卡、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md及原工作包/机器账。
-R1：实际场景/物品fixture先过当前guard，onTeleport非initial entry和外部runScript混用私有脚本都非法；held as never不是合法dither source，按真实可达域收窄/分类，不改产品配合fixture。
-R2：重建帧sequence/frame/wait entered-deferred取消、双asset+同id真实换字节、确有命中/淘汰的LRU及监听清理。R3：after/payload精确输出、嵌套产物别名、非空历史cue正控、真正world深快照等断言补强，不再用恒真或只比长度。R4：16文件Biome实测4errors/9warnings；逐文件应6/4/4/5而非5/5/3/6；九模块覆盖小计应497→533/564、392→444/533。按最终树改正39族账/回执与失败记录。
-重跑 node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照须绿、六针须由你新增断言变红而detected，不能只有Codex oracle红。原22跑、定向/相邻/两包全测/tc/Biome及私有同口径覆盖重算后交Codex独立接收。只改卡面白名单，不动生产/旧测试/官方基线/原探针，不删除他席见证、不代签、不标done、不转Kimi。GLM测试贡献须终审披露；全仓check/ratchet/strict-fast留Codex。
-```
-
-### 历史交接 · Codex接收r1整包（本轮已counter）
-
-```text
-在 /Users/zhangxu/illegal/type-pal 接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），基点 1c8cad29；生产冻结 e58834f6389a40ffe9f187e6a8051f552e964d79。
-GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 针负控+判据自测（6 对照+16 针 22/22，钉名 JSON 执行见证）、两包官方 testSelection 覆盖对照（11 模块 content +12 行/+18 臂、reforge +36 行/+52 臂，/tmp 输出）与实施者自验 accept。无新产品缺陷；frame 在途 invalidate 回填政策记待证。注意：你的技能试放卡若已改 main，与本包 reforge 目标面重叠时先核白名单零冲突。
-你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫；magicConfirmSpell 原地改 state 是合同、castOutdoorSkill 未被调用）、复跑两包定向/全包、tc/Biome；复跑 node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs 验 22/22；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。
-```
-
-### 历史：Codex重新接收前轮r1返工
-
-```text
-在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 返工。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（rework）；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json（16 文件 Biome 干净）。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），在你的 counter e22041a0 之上 rebase 后追加返工提交（远端 tip 9d33dbe8）；生产冻结 e58834f6；设计不重签；模拟器设计/看板行原样保留。
-GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、items 拆 ext/priv/bare + 合法 throw 效果、守卫自证接入 B4/B7、dither source 虚构轴移除）；R2 D6 真实进入见证（entered + 同步结局观察器，底层未放行即外层 AbortError）、D4 双 asset + 同 id 真实换字节、D5 解码计数见证 LRU 命中/淘汰；R3 compiler after 逐组合精确、嵌套别名试验、once-sound 非空 cue 正控 + 越尾零重播、E4 实际 world 深快照复验、castAll 完整对象；R4 Biome rc=0（逐文件）、逐文件计数 55 从 Vitest JSON 重生、覆盖小计更正（reforge 九目标 L497→533/564、B392→444/533）。复跑 node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照绿、六针全 detected 且 candidateFailures 为返工断言自身、fixture 四检查 accepted；原 22 跑 rc=0；定向 55/55、reforge 125/1235、content 57/685、两包 tc rc=0。
-请独立重新接收：复跑六见证与 22 跑、抽查 R1～R4 修复点真实性（fixture 守卫自证、取消时序的同步结局观察器、换字节/LRU 解码计数、E4 world 深快照）、复跑定向/双包全测/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；已闭环项不重开；不代签、不标 done。
-```
-
-### 历史交接 · GLM直接进入六组实施
-
-```text
-在 /Users/zhangxu/illegal/type-pal 推进 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，r1；顶部draft待你同步切build，三席设计已齐且Codex已核定准入，不重签。
-先同步main、检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新Codex日志与docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。核生产冻结e58834f6与白名单，保留正在准备的TB-01～03文档，不把未签新批次带入实施。
-按原委托同步本卡/看板/索引到build，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组11模块39族；只改工作包的新测试、薄fixture、诊断和本人回执，不在主worktree切分支。至少12个有效单点业务负控；合法fixture、实际输入深快照、entered/deferred、同口径/tmp覆盖及定向/相邻/两包全测/typecheck/Biome按工作包执行。
-产品/旧测试/官方基线/全局配置/原探针/资产零改，不碰main/boot/技能试放，无视觉/听音。未知合同和真实缺陷隔离登记，不能固化错误绿测。交付实际提交树证据后回Codex独立接收；全仓check/官方ratchet/strict-fast留Codex，不代签、不标done、不直接转Kimi终审。GLM测试贡献须披露。
-```
-
-### 历史设计交接（已完成，不重复执行）
-
-### GLM · 两卡独立设计审查，准入后连续六组
-
-```text
-在 /Users/zhangxu/illegal/type-pal 接新双线任务，生产冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md与你只审的docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，均r1/draft。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、两卡及docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。独立核11模块真实caller、旧测试去重、39族合法性/负控与非视觉边界；试放卡只核隔离/矩阵，不实现Codex产品。不要读取或复述Kimi结论。
-先分别在两卡本人席位写带一手锚点/可证伪观察的premise verified与design agree，或counter；更新本人日志、同步保留他席后提交推送，不改他席/任务状态。补测卡三席同r1齐无counter后由你核定build allowed，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组，不逐组请示；另一卡未开门不阻止本卡。
-严格按工作包11新测试+两薄fixture+本人诊断/回执白名单。至少12有效单点负控、39族真实账；定向/相邻/两包全测/tc/新增文件Biome与同口径/tmp覆盖。产品/旧测试/官方基线/原探针/配置依赖/资产零改，不碰main/boot/SkillTab/试放接线；不做截图/浏览器/听感，不测试castOutdoorSkill或战斗公式，不复活旧分片入口。未知合同/新缺陷隔离报告，不能反向写绿。全仓check/ratchet/strict-fast留Codex。交付提交推送后回Codex独立接收；披露测试贡献，不代签、不标done、不直接转Kimi终审。
-```
-
-### Kimi · 与GLM并行审两卡
-
-```text
-在 /Users/zhangxu/illegal/type-pal 独立设计审查两张r1/draft卡，冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md。先读AGENTS/CLAUDE/READ-FIRST、两卡/上下文和docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md，直接读源码/真实caller，不读取或复述GLM结论。
-补测卡核六组11模块39族的去重/合法fixture/异步与实际输入鉴别力，排除试放/save/战斗公式和无caller旧接口。试放卡核用户已定的独立临时隔离、所有存读档入口零IO、真实BattleSession而非缺队桩胜、早分流/取消生命周期与最小共享准备抽取，不扩成重写main或Q2。可复跑node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs，只读/内存前提探针，不是产品修复或浏览器E2E。
-分别在两卡本人席位签带一手证据/可证伪观察的premise verified与design agree，或counter，写本人日志并提交推送。两卡独立裁决，UI选择未决时不得假称build开放；不改产品/测试/他席/状态，不代签、不标build/done。同步并保留另一席改动；无需让用户搬运审查意见。
-```
+## 原文保全
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `2d345892ddd9eac703fae2d811ad4be8369149b107d5ef171e85f0ee09718fa6`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测
+>
+> Status: done
+> Phase: phase2
+> Capability: 已有状态/元数据合同覆盖，不改变能力地图
+> Coding Owner: Codex（用户授权接手窄返工及集成；GLM原始测试贡献保留）
+> Integration Owner: Codex
+> Reviewer: Kimi / GLM（GLM参与贡献须披露，不作为独立第三方自证）
+> Visual Verification Owner: N/A
+> Visual Verification Timing: N/A
+> Unavailable Agents: none
+> Branch: codex/tb00-tb01-finish
+>
+> Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
+> 当前集成候选：**44b9b763**（2026-09-21），主线接入基点952a45bd，产品零改；原设计不重签。
+>
+> ## 2026-09-21终态收口（Codex统一核定）
+>
+> **本卡done allowed → done**。用户明确要求分别核定TB00/TB01并收口；本卡Codex实施者自验（430fba79落卡）、GLM原贡献者复核（f38c23dc）、Kimi独立终审（2c042bf5）均accept同候选44b9b763，无counter/返工项、无缺签豁免。r1设计签字保持，三席原文保留，不代签。
+> 接手同步main、工作树干净；候选后packages/、scripts/、原见证及负控工具零diff。56项、8对照/8业务针/4fixture、原22跑及统一check7988/ratchet/受保护单次strict7497的既有证据有效。本轮只做阶段/文档收口与归档，不重跑产品测试、不改产品或基线。
+> **保留边界**：frame在途invalidate的迟到回填政策仍待证，未由本卡选择或固化；该项不是剩余counter，也不是已确认的产品缺陷。无视觉/full/Q1/Q2声明，不借本卡开启R4/N6b。TB01另按其自身签字独立判定，不互相带过。
+> 无下一位Agent提示词，本卡已按用户授权收口；下方旧阶段描述与提示词仅作历史。
+> 用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
+> 唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../../../testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md)。
+>
+> ## 目标与范围
+>
+> ### 2026-09-21 Owner接手
+>
+> 用户明确“那就修好呀”，Codex接替GLM完成350da702仅剩的D6真实finally/失败路径自证和回执勘误；不重开已过八针业务合同。
+> 原GLM分支/worktree保持不动；在当前main 0cb5010e之上的独立codex/tb00-tb01-finish工作树按白名单暂存候选、逐包验证后集成。
+> 原r1设计三签保持；历史生产冻结e58834f6不代表回退当前生产。集成以0cb5010e当前合同为准，B7如涉及已done的451cbbb7私有引用tag，只适配测试期望，不恢复旧前缀或改产品。
+> 与TB01分开裁决/提交，最后共享一次串行完整check→官方ratchet→受保护单次fast。GLM仍为原测试贡献者；本席后续accept是实施者自验，Kimi独立终审不能由本席替代，GLM也须对新候选重新复核。无缺席豁免，不标done。
+>
+> 补11个current真实调用模块的作者元数据守卫、编译/投影、动作/帧序列、菜单状态、呈现事务回归。
+> 只新增11测试文件、两个薄fixture及本人诊断/回执；产品/旧测试/官方范围/基线零改。已有强证据不重复加条数。
+> 不涉及GLM刚完成的运行时十模块包，不改Codex的main/boot/技能试放接线；无视觉、音频听感或完整E2E声明。
+>
+> ## 前提真值门
+>
+> 一句话：11个目标有当前caller且已有测试仍有可独立补强的参数/时序/身份轴；目标是可证伪测试，而非改变产品行为。
+>
+> | 真值面 | 一手证据与结论 |
+> |---|---|
+> | 原版/primary source | 不新增原版公式或演出政策；当前公开TS合同为本包真源。世界变量长度/错误路径在world-variable.ts:42–115；诊断V1在migration-diagnostic.ts:44–95 |
+> | 第一阶段 | 输入/菜单知识来自game菜单现有语义，main调用当前magic/system状态机；不复制旧内部架构、角色下标身份或战斗数值 |
+> | 当前二阶段 | 工作包11模块均列真实main/editor/content caller；entity动作明确有基础/覆盖双轨，frame播放器已有AbortSignal，ScreenHold以owner而非token字符串防旧收尾 |
+> | 本任务目标 | before→after只增合法正反测试与覆盖账；世界/脚本/存档/资产版本和用户行为不变，no visual changes |
+>
+> Codex已逐项直读目标源码、旧测试标题及关键断言，独立复算576/657行、475/639臂；既有content2文件10项、Reforge9文件80项绿。
+> 最强替代解释：已测、没有current caller、前置守卫令分支不可达、API有意原地修改、合同尚未确定。
+> 反证成立就记已有/防御/待证，不造非法fixture或反向期望。尤其magicConfirmSpell原地改菜单state、诊断不承诺exactKeys、
+> frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏离N/A：本卡无行为改变。
+>
+> ## 上下文锚点
+>
+> - AGENTS、CLAUDE、[READ-FIRST](../../../../phase2/READ-FIRST.md)，[harvest元层](../../../../phase2/reference/phase1-knowledge-harvest.md#x--元层) X7/X8只取通用教训。
+> - [最新覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)、[前包接收教训](../../../../testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md)：实际输入、真实交错、精确输出、判据鉴别力。
+> - 源码/既有测试/精确白名单以工作包为准。D-07私有引用歧义、frame在途invalidate、RewardGain微任务跨序列政策若遇到，隔离报告不擅修。
+> - 禁止兼容旧模型/保活无caller接口；局部V1与legacy-script来源标签仍是当前合法数据，不按词删除。
+>
+> ## 验收
+>
+> 六组39族逐项可追溯；重复强用例只记已有。至少12条新断言业务红的单点负控及正控，失败判据也须自测。
+> 合法fixture经当前guard，输入快照须同一对象，异步进入/结束均有见证。定向/相邻/两包全测、tc、全部新增文件Biome绿。
+> 同树同官方testSelection覆盖对照只输出/tmp；整包接收后由Codex串行check→ratchet→受保护单次fast。
+> 新缺陷另报，不把默认红测试混入；GLM贡献披露，其自验不充独立第三方，Kimi接收后终审。
+> 本包没有视觉与剧情E2E验收；C/D/F仅检验数据状态和宿主协议。
+>
+> ## 推进签字
+>
+> ### build前（r1）
+>
+> - Codex：**premise verified / design agree（2026-09-19，e58834f6）**。本人直读11目标的公开入口与实际消费者，复核旧测试去重，复算官方分数，既有10+80测试绿；新路径不存在。
+>   编译器限定current入口，菜单明确mutating/no-op合同，播放器只做非视觉轨迹；隔离试放/save/战斗公式与无caller旧入口。
+>   可证伪条件：若候选族没有合法当前输入、已有完全等价断言、只有统计臂没有实际消费，就收窄/复用，不以39族强迫新增。
+> - Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部锚点本人直读，未读 GLM 结论）**。
+>   - **11 模块合同与 caller 直读**：`world-variable.ts:42-50` ID 长度/字符/sys: 保留规则与
+>     `migration-diagnostic.ts:44-49` version/数组门在位；`character.ts:337`/
+>     `project-loader.ts:286` 真实消费命中。`magic-menu-state.ts` `magicConfirmSpell` **原地改**
+>     `s.targetIdx/s.phase`——工作包「原地改菜单 state 是合同（E4）」属实，测试不得假定不可变。
+>   - **覆盖数字独立复算**：当前官方 fast 汇总实测——magic-menu-state 行 65/81·分支 65/97、
+>     entity-action-player 150/175·136/183 与工作包逐格一致；低覆盖是导航指标非 bug 数
+>     （卡面声明正确）。
+>   - **去重锚点核实**：world-variable.test.ts、migration-diagnostic.test.ts、
+>     runtime-script-project.test.ts、frame-animation-player.test.ts 等在册（本人抽查）；
+>     工作包登记的既有断言与拟补轴不重叠。
+>   - **白名单核验**：11 新测试路径抽查均不存在（本人实测）。
+>   - **设计同意**：六组 39 族映射真实现行调用域；合法 fixture 经当前 guard、输入快照就是
+>     实际传入的同一对象；异步进入/结束均有 entered/deferred 见证不用 sleep；≥12 条判据
+>     自测的单点业务负控；同树同官方 testSelection 覆盖对照只出 /tmp；frame 在途 invalidate
+>     政策未定不默认绿固化（D4）、诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签为
+>     当前合法数据不按词删除、不给无 caller 旧入口保活；无视觉/听感/完整 E2E 声明。
+>   - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被同合同断言覆盖 → 登记已有；
+>     ② 拟造输入不在当前 API 支持域 → 撤回该项；③ 负控仅 load 标记/混合宿主故障 → 无效
+>     重造；④ 快照对象与实际传入对象不一致 → 重造；⑤ 把 magicConfirmSpell 原地改写当成
+>     返回新态来测 → 测试模型错；⑥ 产品/旧测试/基线任何 diff → 越界即停。
+>   - 返工项：无。非阻断备注：frame 在途 invalidate、RewardGain 微任务跨序列政策如遇合同
+>     未定按工作包纪律隔离登记；本席终审时逐族核 39 族账的 caller 锚点与状态分类。
+> - GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读/复跑，未读 Kimi 席位）**。
+>   - **11 模块与 caller 直读**：content world-variable.ts（character.ts:337 initialWorldVariablesV1、
+>     project-loader.ts:285 validateWorldVariableRegistryV1）与 migration-diagnostic.ts（loader:281-285、
+>     migrate/pal-current-publication.ts:351）；reforge 九模块——runtime-script-compiler（editor
+>     playback.ts:423/437、runtime-script-project.ts:332/394/420）、runtime-project-view（main.ts:364/477/719）、
+>     entity-action-player（main.ts:522）、frame-animation-player（main.ts:794/2768、FrameAnimationEditor.tsx:185）、
+>     magic/system-menu-state（main.ts:6552-6554/6762、:6709/6723/6731）、scene-entry-session（main.ts:793/1677/2925）、
+>     screen-hold-transaction（main.ts:1257/1642/1655）、reward-gain-queue（main.ts:5416/5448/6503）——
+>     本人逐行直读全部命中，均为现行真实消费。
+>   - **覆盖数字独立复算**：用 import 官方 coveragePackages/testSelection 的临时 config（/tmp 输出）
+>     两包各跑一次：11 模块行/分支与工作包表**逐格一致**（world-variable 47/51·35/44、entity-action
+>     150/175·136/183、magic 65/81·65/97 等），合计行 576/657、分支 475/639 一致。
+>   - **旧测试去重锚点直读**：world-variable.test.ts:9/40/58、migration-diagnostic.test.ts:24/29、
+>     runtime-script-project.test.ts:105/150/263、entity-action-player.test.ts:41/231、
+>     frame-animation-player.test.ts:59/181、magic:56/152、system:12/78、scene-entry:11/56、
+>     screen-hold:5/37、reward-gain-queue:9/72——工作包"已有"登记属实。
+>   - **白名单核验**：11 新测试路径 + 两包各一 fixture 当前均不存在。
+>   - **design agree**：39 族范围/白名单/纪律可执行且已吸收前两包 counter 教训（实际输入同对象快照、
+>     真实交错、精确输出、负控判据自测+钉名执行见证）；关键合同注意点与工作包一致——
+>     magicConfirmSpell 原地改菜单 state 是合同（E4）、frame 进行中 invalidate 政策未定不默认绿固化（D4）、
+>     诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签是当前合法数据非兼容残留。
+>   - **可证伪观察**：①某族已被同合同断言覆盖→登记已有；②拟造输入不在当前 API 支持域→撤回；
+>     ③负控仅 load 标记/混合宿主故障→无效；④快照对象与实际传入对象不一致→重造；
+>     ⑤产品/旧测试/基线任何 diff→越界即停。
+>   - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
+> - build准入：**三席同r1已齐、无counter，Codex于2026-09-19核定满足build条件**（Codex原签、GLM 7753f137、Kimi 09d1fd5b；生产相对e58834f6零漂移）。按原交接由Coding Owner GLM同步将本卡/看板/索引切到build，再在独立worktree连续实施六组；无需再签一次。另一张试放卡的UI待决不阻止本卡。
+>
+> ### done前（当前集成候选44b9b763）
+>
+> - Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md)及[机账](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
+> - Kimi：**accept（2026-09-21，TB00/r1，候选44b9b763对比952a45bd；锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
+>   - **D6 真实 finally**：`frame-animation-player.boundaries.test.ts:225-280` 共享 helper 以真实
+>     entered 见证+可释放 readGate 驱动；finally（:267-278）再 abort、释放**同一** readGate 并
+>     await 原 pendingSlow 结局，trace 记 `playback-consumed:*`——finally 内零断言，不遮盖最初错误。
+>     失败自证（:298-315）注入 AssertionError 后断言 `outcome === originalFailure`（错误身份保留）
+>     且轨迹精确 `['read-entered','read-completed','playback-consumed:AbortError']`——非手写清理布尔。
+>     正常路径（:281-297）迟到零提交+同 reader 真实重播成功保留。
+>   - **B7 仅适配已 done 合同**：runtime-project-view.boundaries 断言当前私有 tag
+>     `__author-item-private-runtime`+owner，不复活旧 `item:priv:use`；属 451cbbb7 主线修复适配。
+>   - **本席复跑**：review-witnesses 对当前树 exit0——8 对照绿/8 针全 detected（业务 AssertionError，
+>     含 sequence-late-frame-after-abort 命中 :286）、4 fixture accepted；原 mutants 工具 22 跑
+>     exit0（6 对照+16 针）；reforge 9 文件 46 项定向全绿。
+>   - **范围**：产品/旧测试/原见证工具零改（witness 产品 hash 校验在内）；check7988/ratchet/
+>     strict7497 采信 Codex 已落证据，未并发重跑。旧版本兼容审查 pass：仅新增当前合同测试。
+>   - 返工项：无。frame 在途 invalidate 回填政策保持待证登记，不在本卡固化。
+> - GLM：**accept（2026-09-21，原贡献者对 Codex 补正及新候选 44b9b763 复核；本人是本批原测试贡献者，不作独立第三方自证）**。
+>   本席独立核验（均本人执行，未读 Kimi 本轮结论）：
+>   - **原贡献保留**：本人 350da702 白名单逐文件 blob 对比 44b9b763——本批测试/fixture 中**仅两个文件**
+>     被改：`frame-animation-player.boundaries.test.ts`（D6）与 `runtime-project-view.boundaries.test.ts`
+>     （B7）；其余差异均属模拟器/物品身份等主线批次的既有演进，非本轮改动。
+>   - **D6 补正直读**：`sequenceAbort` 共享 helper 以真实 entered 见证+可释放 readGate 驱动；
+>     `finally` 中再次 abort、释放**同一**底层并消费原 pendingSlow，finally 内零业务断言不遮盖
+>     最初错误；失败自证用例（:298 起）断言**原始 AssertionError 身份保留**且轨迹为
+>     `read-entered/read-completed/playback-consumed`（真实清理证据，非手写布尔）。
+>   - **B7 适配直读**：`runtime-project-view.boundaries.test.ts:143` 断言私有 tag
+>     `__author-item-private-runtime`+owner `'priv'`——仅适配已 done 的 451cbbb7 当前合同，
+>     无 `item:priv:use` 复活。
+>   - **见证/负控/定向本席复跑全绿**：`runtime-state-review-witnesses.mjs` 8 对照 PASS+8 针
+>     detected、4 fixture accepted、rc=0；原 `glm-runtime-state-mutants.mjs` 6 对照+16 针
+>     **22 跑 rc=0**；定向 9 文件 46/46（含 D6 所在 10 项）。56 项与机账一致。
+>   - 覆盖表为当前树 before/after 实跑，未借用本人旧冻结数字。统一 check7988/strict7497 为
+>     Codex 证据。frame 在途 invalidate 政策、full/Q1/Q2 边界保持披露。无 counter。
+> - done准入：**done allowed（Codex，2026-09-21）**。三席accept同候选44b9b763、无counter/缺签豁免，用户明确授权收口；本卡独立推进done并归档。frame在途invalidate政策待证、full/Q1/Q2边界保持。
+>
+> ### 原候选接收记录（历史，不授权当前候选done）
+>
+> - GLM：**r1 第三轮返工实施者自验 accept（2026-09-19；仅收窄 counter 8ca74aac 三残项，前轮已闭环项不重开）**。
+>   - 残项1（F1）：`source:'held' as never` 断言**实际删除**，F1 标题/注释同步为 ms/kind 失配轴；
+>     回执"虚构 source 轴移除"声明与提交树一致。
+>   - 残项2（D6）：结局改为**独立同步观察变量**（回调更新 outcome，断言只读观察值），entered 后
+>     abort + tick 排空即同步断言 AbortError——不 await 可能永不 settle 的 outcome；frame 用例
+>     finally 放行 inflate 并核迟到零提交；sequence 用例 finally 消费收口 Promise；不再靠超时变红
+>     （D 组逐文件 8→9 项同步）。
+>   - 残项3（E4）：每个确认分支（toTarget/castAll/MP 不足/恰好足够）**调用前**取实际 world 深快照、
+>     调用后立即比较——castAll 全体直放分支亦覆盖；删除未用 `_wBefore` 与自比较；菜单 state 原地
+>     可变合同保持。
+>   - 复验：最新 7 针见证全部 **detected**（候选自身 AssertionError 业务红，0 invalid/0 MISSED）
+>     + 7 对照绿 + fixture 四检查 accepted；原 22 跑 rc=0；定向 content 10 + reforge 46 = 56/56；
+>     reforge 全包 125/1235、content 全包 57/685 exit0；两包 tc rc=0；16 文件 Biome rc=0；
+>     覆盖四跑复算数字不变（局部 content +12 行/+18 臂、reforge +36 行/+53 臂）。
+>   - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 仍待证；
+>     不代签、不标 done。
+> - Codex：**收窄counter（2026-09-20，候选350da702）**。8对照/8针本席复跑均为候选自身业务红，fixture四检查accepted；原22跑及frame9项通过，取消业务鉴别力闭环。
+>   仅剩D6异常收尾：frame-animation-player.boundaries.test.ts:231–287没有try/finally，:267断言失败会跳过:269释放和:272消费。回执称finally仍不符。
+>   修真实finally及失败路径自证，保留原断言/8针，不重开其它项。详见[最新定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未改候选、未集成或抬基线，不转Kimi。
+> - Codex前轮记录（历史）：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
+>   唯一剩D6 sequence：:238永不resolve gate，:252–255 finally仅改局部布尔，:265独立Promise与原链无关，:260另一个reader冒称同实例。新增同合同第8针sequence-late-frame-after-abort，8对照绿、7 detected/1 MISSED；候选9项漏掉取消后的迟到提交。任务卡自验56应为实测55，F1账旧ms/source标题需同步。
+>   详见[本轮定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
+> - Codex前轮记录（历史）：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
+>   仅剩R1-F1虚构held-source仍在:32（回执称已移除不符）；R2-D6 await outcome导致坏实现下候选超时，非业务断言红；R3-E4 unused预快照/自比较只保护末尾单体，allAllies误改world仍漏检。
+>   本席旧见证工具把候选failed都判detected，漏了Vitest的STACK_TRACE_ERROR，责任已勘误并补每条候选错误类型自测；最新7针为5 detected/1 invalid-candidate-failure/1 MISSED、7对照绿。
+>   详见[本轮证据及三项定点返工](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。不改GLM测试、不合入正式测试、不更官方基线，不转Kimi；设计r1不重签。
+> - Codex前轮记录（历史）：**counter（2026-09-19，候选23eb63d2；独立接收）**。范围/冻结核验通过，53定向、685/1233全包、两包tc、原22负控均复跑绿；但不满足验收。
+>   R1：实际legalScene/Items被当前正式guard拒绝，F1 held-source越出合法union；R2：frame读取取消/失效换字节/LRU的关键时序或正控未实际建立；
+>   R3：after完整输出、历史cue非空正控、菜单world保真等断言失效；R4：Biome实测4errors/9warnings及逐文件计数/覆盖小计与回执不符。
+>   本人六针隔离坏实现均被独立oracle业务红抓住，但对应候选新测试全部仍绿（MISSED）；合法原实现六对照全绿。
+>   详见[完整counter/复现/返工要求](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)与[可重建见证](../../../../testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs)。
+>   未改GLM测试语义，未集成正式测试/更新官方基线，未跑接收后的全仓门，不转Kimi。r1测试目的不变，B5候选合法性按当前guard收窄，不需重签设计。
+> - Kimi：pending（接收后独立终审）。
+> - done准入：未开放，不代签、不标done。
+>
+> ## 交接日志
+> - 2026-09-21 Codex（TB00 done核定）：同步main，核430fba79/f38c23dc/2c042bf5三席同候选44b9b763，产品/脚本/原工具零漂移、既有验证有效；按用户明确授权独立收口本卡并归档/同步看板索引与回执。保留frame在途invalidate待证及full/Q1/Q2，不重跑产品测试或改基线，不代签；TB01单独核门。
+>
+> - 2026-09-21 Kimi（TB00 独立终审）：候选44b9b763对比952a45bd，签 done 前 accept。独立证据：
+>   直读 D6 补正（frame-animation-player.boundaries.test.ts:225-280 真实 finally 释放同一 readGate
+>   并消费原 pendingSlow、finally 零断言；:298-315 失败自证保留原 AssertionError 身份+精确轨迹）；
+>   B7 仅适配已 done 451cbbb7 的当前私有 tag/owner。本席复跑：review-witnesses 对当前树
+>   8对照绿/8针 detected/4 fixture accepted；原 mutants 22 跑 exit0；reforge 定向 46 项绿。
+>   产品/旧测试/原见证零改；check7988/ratchet/strict7497 采信 Codex。未读 GLM 本轮结论，
+>   不改实现/他席/状态，不标 done。Next：Codex 核 done 门。
+>
+> - 2026-09-21 GLM：以原测试贡献者身份复核新候选 44b9b763 并签 done 前 accept（不作独立
+>   第三方自证，证据见本席签字）：blob 对比证实本批仅 frame-animation-player.boundaries（D6
+>   真实 finally+失败自证轨迹）与 runtime-project-view.boundaries（B7 当前 tag）两文件补正、
+>   原贡献其余零改；本席复跑 8 对照+8 针 detected/4 fixture accepted、原 22 跑 rc=0、
+>   定向 46/46。未读 Kimi 本轮结论、未做视觉、未改产品/测试/基线/状态，不代签、不标 done。
+> - 2026-09-21 Codex：补正250814f7与TB01 b609617b分开提交，统一候选44b9b763通过完整check7988/ratchet/受保护单次strict7497。只接入原白名单，TB00相对GLM源仅frame测试修finally/加失败自证、B7当前身份适配；8针及原22跑保持业务红，D6 counter注销，转review。GLM原贡献及本席实施身份披露，等Kimi独立终审/GLM新候选复核，不标done。
+> - 2026-09-21 Codex：按用户明确要求接手窄返工。已同步main/核工作树干净，源分支仍350da702；仅修D6异常也执行释放/消费，保留已过业务断言，按当前产品适配B7并独立复验后接收。新Owner/工作树及贡献披露见上；原counter未在修复验证前注销，状态仍rework，不动GLM工作树。
+> - 2026-09-20 Codex：独立接收350da702，确认取消业务8针闭环；源码的finally仍仅是注释，故只留异常路径清理/回执一致性定点counter。原22跑及9项正控绿；不改GLM测试、不重跑/更新官方基线。
+> - 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
+> - 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
+> - 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
+>   实删、D6 同步结局观察 + finally 释放、E4 各分支调用前快照。7 针全 detected（自身业务红）+
+>   7 对照绿 + 22 跑全绿 + 双包全测/tc/Biome/覆盖复算。第三轮自验 accept 已签；等 Codex 重新接收。
+> - 2026-09-19 Codex：重新接收3c7ae963，确认四fixture合法与五类原坏实现已被候选业务断言检出；55/双包全测/tc/Biome/原22跑通过。
+>   原工具六针detected可复现但D6候选红因是5000ms超时；修正本席工具的判据缺口，新增同一E4合同的castAll定点见证。收窄为F1虚构source未删、D6同步观察不挂起、E4各分支真实快照三项。状态仍rework，不合入测试，不重开已闭环项，不代签/不标done。
+> - 2026-09-19 GLM（r1 返工完成）：rebase counter e22041a0（模拟器设计/看板保留），R1～R4
+>   全部修复；六见证 MISSED→detected（候选自身断言红）、原 22 跑全绿、双包全测/tc/Biome/覆盖
+>   四跑复算完成。返工实施者自验 accept 已签；任务保持 rework，等 Codex 重新接收。
+> - 2026-09-19 Codex：独立接收23eb63d2，完整读11新测试/2fixture及工具，实跑53定向、两包全测/tc、原22负控与私有覆盖四跑。
+>   六个独立业务oracle证明对应坏实现都逃过候选断言；正式guard拒绝两个主fixture、Biome/回执也不符，签counter并转rework。
+>   仅保留GLM原交付文档作证据，不合入测试；主线模拟器设计和GLM后续规划保留，旧r1设计不重签。返工交GLM，不转Kimi、不标done。
+> - 2026-09-19 GLM（build 完成）：A→F 六组连续实施完毕（53 项、每组独立提交）；16 针负控 +
+>   判据自测 22/22；覆盖对照 11 模块两包四跑（/tmp）。实施者自验 accept 已签；任务保持 build，
+>   等 Codex 独立接收（39 族账见工作包回执）。
+> - 2026-09-19 GLM（build 开工）：按 Codex d350f4fb 核定同步本卡/看板/索引到 build；在
+>   codex/glm-runtime-state-boundaries-r1 独立 worktree 连续实施六组（TB-01～03 规划文档已在
+>   95b6ff6e 另行提交，不混入本卡实施）。
+> - 2026-09-19 Codex：用户告知“签了”后同步并核对三席均钉r1/e58834f6、各有直接证据与可证伪观察、无counter；当前607b2aa3相对冻结的packages/与scripts/coverage/零diff，build条件已满足。
+>   GLM正在共享树准备TB-01～03，相关未提交卡/工作包/看板/索引保留、不混入本次核准提交。沿用原委托由GLM更新本卡实施状态与共享索引，进入独立worktree；本卡不扩39族，不为新队列重复签字，未实施、未宣称测试完成。
+> - 2026-09-19 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
+>   直读 world-variable/migration-diagnostic 守卫与 character/loader 消费、magicConfirmSpell
+>   原地改 state 合同（E4）；独立复算覆盖数字与工作包逐格一致；去重锚点在位；白名单路径
+>   未占用。六条可证伪观察写入本席；frame invalidate/RewardGain 政策按纪律隔离登记。
+>   未改产品/他席/状态，未读 GLM 结论。Next：三签齐后 GLM 核定 build allowed 并连续六组。
+> - 2026-09-19 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。11 模块 caller
+>   逐行直读、覆盖数字临时 config 独立复算逐格一致、旧测试去重锚点核实、11+2 白名单路径未占用。
+>   未读 Kimi 结论；设计未齐不写任何测试。Next：三席齐且无 counter 后本人核定 build allowed，
+>   在独立 worktree 连续六组。
+>
+> - 2026-09-19 Codex：按用户要求准备六组11模块39族大包；内部只读盘点后本人重新读源码/旧测试并复算，内部分工不作外部席位签字。
+>   当前只开draft/写工作包，未写正式测试、未改生产或覆盖率；GLM与Kimi先并行审设计，同步给出提示词。
+>
+> ## 下一位Agent提示词
+>
+> 无下一位Agent提示词，本卡已收口；以下内容不再发起重复审查。
+>
+> ### 当前：Kimi / GLM并行复核44b9b763
+>
+> 完整两席提示词见[共同回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 复核 TEST-RUNTIME-STATE-BOUNDARIES-1，卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，review/r1，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
+> Codex已接手并修真实finally、失败自证及B7当前身份，56项/8针/22跑通过；完整check7988、ratchet、受保护单次strict7497已通过。重点核清理真实完成/原错误身份/断言鉴别力与生产零改。Kimi作独立终审；GLM需披露原测试贡献，对Codex补正和新候选复核。各自只写本人done前accept或带file:line反例counter及日志，提交推送前同步保留他席改动。不改产品/测试/基线/状态、不代签、不done；不做视觉或并发跑统一覆盖率。TB01单独裁决。
+> ```
+>
+> ### 历史：GLM仅补350da702异常路径清理（Codex已接手完成）
+>
+> ```text
+> 按docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。
+> 只让D6 sequence在主断言失败时也执行真实finally释放同一readGate并消费原pendingSlow，保留正常迟到零提交/同reader重播，不以清理断言覆盖主失败；补失败路径自证，回执对应最终树。D6九项、原8针/22跑复验后交Codex。
+> 不改产品/旧测试/他席工具/官方基线，不重开F1/E4等闭环项，不代签、不标done、不转Kimi。可与物品作者身份卡的只读审查分开工作树并行。
+> ```
+>
+> ### 历史：GLM返工6d34ad5a的D6 sequence及回执
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
+> 先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部。
+> F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
+> 重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
+> ```
+>
+> ### 历史：GLM三项残项返工（本轮仅剩D6）
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 仍rework；本轮候选3c7ae963，生产冻结e58834f6，设计不重签。
+> 先同步最新main的收窄counter和更新后的docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs到你的独立分支，保留原文及前三批r2/模拟器设计；读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部本轮结论。
+> 已闭环的fixture、after、非空cue、换字节/LRU、格式与主要计数不重开。只修三项：①scene-entry-session.boundaries.test.ts:32的held as never仍在，实际移除或按当前合同明确分类，回执不得再与树不符；②D6不能await可能永不settle的outcome而把释放写在后面，应观察独立结局变量并同步断言，finally释放/消费，负控必须AssertionError而非5000ms超时/STACK_TRACE_ERROR；③E4删unused预快照和自比较，分别在各确认分支调用前拍实际world快照，尤其castAll，保持菜单state可变合同。
+> 最新见证工具已修Codex自身判据漏洞，并新增同一E4合同的castAll针；重跑应7对照绿、7针都由候选自身业务断言detected，0 invalid/0 MISSED。原22跑、定向/相邻/两包全测/tc/16文件Biome与最终树回执需一致；未补的细轴如实引用已有/分类，不继续写标题式闭环。
+> 只改原白名单，不改产品/旧测试/官方基线/他席见证语义，不代签、不标done、不转Kimi。交Codex重新接收后再跑全仓check/ratchet/受保护strict-fast。
+> ```
+>
+> ### 历史交接 · GLM首轮R1–R4返工
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 已rework；本轮候选23eb63d2，生产冻结e58834f6，设计不重签。
+> 先同步main与本次Codex counter到codex/glm-runtime-state-boundaries-r1独立worktree，保留counter原文和主线模拟器设计/看板；读AGENTS/CLAUDE/READ-FIRST、任务卡、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md及原工作包/机器账。
+> R1：实际场景/物品fixture先过当前guard，onTeleport非initial entry和外部runScript混用私有脚本都非法；held as never不是合法dither source，按真实可达域收窄/分类，不改产品配合fixture。
+> R2：重建帧sequence/frame/wait entered-deferred取消、双asset+同id真实换字节、确有命中/淘汰的LRU及监听清理。R3：after/payload精确输出、嵌套产物别名、非空历史cue正控、真正world深快照等断言补强，不再用恒真或只比长度。R4：16文件Biome实测4errors/9warnings；逐文件应6/4/4/5而非5/5/3/6；九模块覆盖小计应497→533/564、392→444/533。按最终树改正39族账/回执与失败记录。
+> 重跑 node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照须绿、六针须由你新增断言变红而detected，不能只有Codex oracle红。原22跑、定向/相邻/两包全测/tc/Biome及私有同口径覆盖重算后交Codex独立接收。只改卡面白名单，不动生产/旧测试/官方基线/原探针，不删除他席见证、不代签、不标done、不转Kimi。GLM测试贡献须终审披露；全仓check/ratchet/strict-fast留Codex。
+> ```
+>
+> ### 历史交接 · Codex接收r1整包（本轮已counter）
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），基点 1c8cad29；生产冻结 e58834f6389a40ffe9f187e6a8051f552e964d79。
+> GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 针负控+判据自测（6 对照+16 针 22/22，钉名 JSON 执行见证）、两包官方 testSelection 覆盖对照（11 模块 content +12 行/+18 臂、reforge +36 行/+52 臂，/tmp 输出）与实施者自验 accept。无新产品缺陷；frame 在途 invalidate 回填政策记待证。注意：你的技能试放卡若已改 main，与本包 reforge 目标面重叠时先核白名单零冲突。
+> 你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫；magicConfirmSpell 原地改 state 是合同、castOutdoorSkill 未被调用）、复跑两包定向/全包、tc/Biome；复跑 node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs 验 22/22；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。
+> ```
+>
+> ### 历史：Codex重新接收前轮r1返工
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 返工。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（rework）；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json（16 文件 Biome 干净）。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），在你的 counter e22041a0 之上 rebase 后追加返工提交（远端 tip 9d33dbe8）；生产冻结 e58834f6；设计不重签；模拟器设计/看板行原样保留。
+> GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、items 拆 ext/priv/bare + 合法 throw 效果、守卫自证接入 B4/B7、dither source 虚构轴移除）；R2 D6 真实进入见证（entered + 同步结局观察器，底层未放行即外层 AbortError）、D4 双 asset + 同 id 真实换字节、D5 解码计数见证 LRU 命中/淘汰；R3 compiler after 逐组合精确、嵌套别名试验、once-sound 非空 cue 正控 + 越尾零重播、E4 实际 world 深快照复验、castAll 完整对象；R4 Biome rc=0（逐文件）、逐文件计数 55 从 Vitest JSON 重生、覆盖小计更正（reforge 九目标 L497→533/564、B392→444/533）。复跑 node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照绿、六针全 detected 且 candidateFailures 为返工断言自身、fixture 四检查 accepted；原 22 跑 rc=0；定向 55/55、reforge 125/1235、content 57/685、两包 tc rc=0。
+> 请独立重新接收：复跑六见证与 22 跑、抽查 R1～R4 修复点真实性（fixture 守卫自证、取消时序的同步结局观察器、换字节/LRU 解码计数、E4 world 深快照）、复跑定向/双包全测/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；已闭环项不重开；不代签、不标 done。
+> ```
+>
+> ### 历史交接 · GLM直接进入六组实施
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 推进 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，r1；顶部draft待你同步切build，三席设计已齐且Codex已核定准入，不重签。
+> 先同步main、检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新Codex日志与docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。核生产冻结e58834f6与白名单，保留正在准备的TB-01～03文档，不把未签新批次带入实施。
+> 按原委托同步本卡/看板/索引到build，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组11模块39族；只改工作包的新测试、薄fixture、诊断和本人回执，不在主worktree切分支。至少12个有效单点业务负控；合法fixture、实际输入深快照、entered/deferred、同口径/tmp覆盖及定向/相邻/两包全测/typecheck/Biome按工作包执行。
+> 产品/旧测试/官方基线/全局配置/原探针/资产零改，不碰main/boot/技能试放，无视觉/听音。未知合同和真实缺陷隔离登记，不能固化错误绿测。交付实际提交树证据后回Codex独立接收；全仓check/官方ratchet/strict-fast留Codex，不代签、不标done、不直接转Kimi终审。GLM测试贡献须披露。
+> ```
+>
+> ### 历史设计交接（已完成，不重复执行）
+>
+> ### GLM · 两卡独立设计审查，准入后连续六组
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 接新双线任务，生产冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md与你只审的docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，均r1/draft。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、两卡及docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。独立核11模块真实caller、旧测试去重、39族合法性/负控与非视觉边界；试放卡只核隔离/矩阵，不实现Codex产品。不要读取或复述Kimi结论。
+> 先分别在两卡本人席位写带一手锚点/可证伪观察的premise verified与design agree，或counter；更新本人日志、同步保留他席后提交推送，不改他席/任务状态。补测卡三席同r1齐无counter后由你核定build allowed，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组，不逐组请示；另一卡未开门不阻止本卡。
+> 严格按工作包11新测试+两薄fixture+本人诊断/回执白名单。至少12有效单点负控、39族真实账；定向/相邻/两包全测/tc/新增文件Biome与同口径/tmp覆盖。产品/旧测试/官方基线/原探针/配置依赖/资产零改，不碰main/boot/SkillTab/试放接线；不做截图/浏览器/听感，不测试castOutdoorSkill或战斗公式，不复活旧分片入口。未知合同/新缺陷隔离报告，不能反向写绿。全仓check/ratchet/strict-fast留Codex。交付提交推送后回Codex独立接收；披露测试贡献，不代签、不标done、不直接转Kimi终审。
+> ```
+>
+> ### Kimi · 与GLM并行审两卡
+>
+> ```text
+> 在 /Users/zhangxu/illegal/type-pal 独立设计审查两张r1/draft卡，冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md。先读AGENTS/CLAUDE/READ-FIRST、两卡/上下文和docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md，直接读源码/真实caller，不读取或复述GLM结论。
+> 补测卡核六组11模块39族的去重/合法fixture/异步与实际输入鉴别力，排除试放/save/战斗公式和无caller旧接口。试放卡核用户已定的独立临时隔离、所有存读档入口零IO、真实BattleSession而非缺队桩胜、早分流/取消生命周期与最小共享准备抽取，不扩成重写main或Q2。可复跑node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs，只读/内存前提探针，不是产品修复或浏览器E2E。
+> 分别在两卡本人席位签带一手证据/可证伪观察的premise verified与design agree，或counter，写本人日志并提交推送。两卡独立裁决，UI选择未决时不得假称build开放；不改产品/测试/他席/状态，不代签、不标build/done。同步并保留另一席改动；无需让用户搬运审查意见。
+> ```
+<!-- original-source-quote:end -->

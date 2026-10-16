@@ -2825,6 +2825,106 @@
       "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
