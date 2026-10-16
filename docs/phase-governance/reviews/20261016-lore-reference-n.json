@@ -10395,6 +10395,14 @@
       "owner": "DOCS-FULL-TEMPLATE-1",
       "callers": ["docs/phase-governance/reviews/20261016-lore-reference-n.json"],
       "retention": "Complete proof embedded here; preserve subordinate bytes through final source/history audit. No product/canon/runtime credit."
+    },
+    "type-pal-n6-root-intake-independent-review-20261016.json": {
+      "path": "/tmp/type-pal-n6-root-intake-independent-review-20261016.json",
+      "sha256": "4bbf26560da482fd8b010ed22dcd42bc3632a144fddf88bb3297f88fd310ad7b",
+      "producer": "n6_intake_review independent nonauthor",
+      "owner": "DOCS-FULL-TEMPLATE-1",
+      "callers": ["docs/phase-governance/reviews/20261016-lore-reference-n.json"],
+      "retention": "Full actual325 report embedded; all source/root natural ancestry and subordinate artifacts retained for final audit; no native receipt self-credit."
     }
   },
   "predecessorMetadataAcceptance": {
@@ -13198,7 +13206,7 @@
   "n6RootIntake": {
     "base": "d8ec18185a058fd1f1142163f2246512802ecce8",
     "source": "f577332a33d8be271756a50cf9e07179b665b385",
-    "status": "candidate awaiting exact independent current-root scope reception and zero integration gates",
+    "status": "accepted exact a66be41b root intake by nonauthor4bbf; this later signoff metadata is separately checked, no future source/runtime/full-goal approval",
     "scope": "Six current records/legacy removals, two template corrections, explicit catalog maturity, six routes and one existing lore relation; no MD administrative rewrite",
     "old3CurrentProgressFieldsUpdated": 9,
     "old3CompleteImmediatePriors": {
@@ -13706,6 +13714,349 @@
           "fullOrdinaryFormatLogSha256": "f8c3dedbc887b43b1846ef362ca56e1c4317c047bf75261a7488a25307dd45b6"
         }
       }
+    },
+    "actualAcceptance": {
+      "acceptedRevision": "a66be41bdf8fd7d6659390301cf50081f8ed07dc",
+      "path": "/tmp/type-pal-n6-root-intake-independent-review-20261016.json",
+      "sha256": "4bbf26560da482fd8b010ed22dcd42bc3632a144fddf88bb3297f88fd310ad7b",
+      "review": {
+        "kind": "N6 nonauthor independent root-current ledger/routing/maturity/matrix intake review",
+        "reviewer": "n6_intake_review; non-author of N bodies/native receipt or root current intake edits; readonly",
+        "verdict": "accept exact root current N6 intake at manifest869d24; no future-byte, source re-signature, product/canon or full-goal completion acceptance",
+        "candidate": {
+          "root": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+          "HEAD": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "MERGE_HEAD": "f577332a33d8be271756a50cf9e07179b665b385",
+          "manifest": {
+            "path": "/tmp/type-pal-n6-root-current-intake-manifest-20261016.json",
+            "sha256": "869d24e3a57f6b77fb084b217a92126a4ac69c1c38ec485c5c12508ae07c00ad",
+            "bytes": 3540,
+            "lines": 97
+          },
+          "paths": 18,
+          "mergeMode": "Natural no-ff no-commit; source ancestry retained upon root commit; reviewer did not commit/merge/push."
+        },
+        "readingScope": {
+          "freshRules": "AGENTS45, CLAUDE135 (initial combined output clipped middle; reread CLAUDE90-end and complete READ-FIRST55), workflow101, board21, project documentation-model, template index58/reference-canon/governance-index outlines, testing governance73/template index54.",
+          "taskCard": "Read top1-200 and current scoped1st-class N/M/F1/P/Q/A8 sections790-938 plus exact new6-line task diff and heading map. Unrelated historical200-789 not claimed reread.",
+          "freshCurrent": "Read all six normalized current per-document facts/authority/status/owner/provenance/primary/phase/dependencies/applicability/caller/input/oracle/dedupe/counter/version/SHA/succession/stop/next/conformity. Shared clauses read once and checked exact across six. Read actual six catalog projections and all six route/registry bindings; actual old3 progress delta and new Lore row/new matrix-current scope directly read.",
+          "mechanicalFullObjects": "23 complete immediate legacy/catalog/old3/matrix current and fixed author43 objects retrieved by actual fixed Git revision/blob/whole-file SHA/unique selector. Full selected objects preserved in independent ledger probe. All new originalPreservation arrays deep equal accepted native43 and source inverses mechanically checked; this is not new manual reading of458original/1168current.",
+          "reusedAuthority": "Source layer exclusively nonauthor history_cards_a af263 six-body accept at133 plus2176 exact f577 receipt-only closure. Complete report files actually SHA-checked and deep-equal embedded reports; scoped verdict/counter/history/independence and current boundaries read. No source author self-accept or root source re-signature.",
+          "longOutputHandling": "Some broad projections included large embedded historic maps/reviews and clipped output; reread affected unique current semantic tails and control scalar/authority/matrix/catalog fields in bounded projections. Do not infer whole historical/source prose reading from machine parse or tool output."
+        },
+        "sourceAuthority": {
+          "sixBodyAcceptance": {
+            "path": "/tmp/type-pal-n6-independent-review-20261016.json",
+            "sha256": "af26370b05e9a5fad0d6497e799c847e2680c79fef6bacc5230b3b8f0b5dc687",
+            "scope": "Six bodies accepted at exact pins; original7-package counter C-N6-1 not rewritten as first pass."
+          },
+          "receiptOnlyClosure": {
+            "path": "/tmp/type-pal-n6-cn6-1-independent-closure-20261016.json",
+            "sha256": "2176adf0c771f733eee1f061ebe8b8922646847442c55928a1e6e85631454851",
+            "scope": "Exact f577 only wrong repeated-heading afterLine100to108 plus full prior/history; source MD and other8 records locked."
+          },
+          "rootSeparation": "This report accepts newly reviewed current-root metadata at specified18 bytes. Source signatures remain fixed earlier authority, not approval of these or later bytes."
+        },
+        "sixDocuments": [
+          {
+            "path": "docs/lore/versions.md",
+            "docType": "reference-canon",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "catalogStatus": "draft",
+            "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+            "afterSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "四项版本分歧与五项作者待办完整保留；月如主干继续T5.5项目约束，呈现A/B、用珠人、五珠、影视/生育官说仍待核或待作者。characters王小虎与逍遥/忆如的库内三记述并列，不认证新官方第三答案。",
+            "unresolved": [
+              "月如A/B、谁用珠、五珠处理、影视排除、生育官说明五项作者待办未勾",
+              "所有原URL未打开；王小虎仅库内冲突记述，不是新官核",
+              "Steam若有差异保待登记，不推断产品存在"
+            ]
+          },
+          {
+            "path": "docs/lore/world-rules.md",
+            "docType": "reference-canon",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "catalogStatus": "draft",
+            "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+            "afterSha256": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "五珠/六界/女娲/蜀山/苗疆原采集有源保留，不升新官核；项目红线继续。五珠推荐待作者，生育与不入轮回粉丝说法未知，不撤T1；六项待查保留，不产生引擎/产品新结论。",
+            "unresolved": [
+              "女娲生育/轮回官方明文未核，六界互动规则待核",
+              "五珠处理仍待作者，不用原应采用代确认",
+              "原六项待查完整保留；外站/原游戏未核"
+            ]
+          },
+          {
+            "path": "docs/lore/world-rules-ghost-realm.md",
+            "docType": "reference-canon",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "catalogStatus": "draft",
+            "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+            "afterSha256": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "Jun30鬼阴山临时入口与禁天鬼族继续项目约束；旧重选入口不再当前待办。父母等待投影被brainstorm父母已轮回/背影陷阱及Jul2裁决继任；琉璃谷/酆都同页冲突保未知，时辰需求不恢复phase2真时间。",
+            "unresolved": [
+              "仙剑二琉璃谷/酆都两说未核primary，不任选",
+              "制度/至尊/唯一入口命题原采集或推论，不扩官核；禁族项目约束不撤",
+              "触发方式/制度正面出现原未选保留；两大稿仅窄读不称全同步"
+            ]
+          },
+          {
+            "path": "docs/lore/factions.md",
+            "docType": "reference-canon",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "catalogStatus": "draft",
+            "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+            "afterSha256": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "中原武林/官盗/修仙/苗疆四分组是原组织视角，不是互斥或随便深挖安全保证；原图/六表姓名关系/六缺口/五优先级保采集与建议，不新造boss/人物关系或DLC排期。",
+            "unresolved": [
+              "无交叉/官方无设定/安全/可前移是原判断建议，无全称官方保证",
+              "缺口仍须按作品/时点/作者约束逐项核，不把李三思同伙擅改鬼界仇敌",
+              "外站未核；优先级不当产品排期"
+            ]
+          },
+          {
+            "path": "docs/lore/ideas/README.md",
+            "docType": "governance-index",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "current",
+            "catalogStatus": "current",
+            "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+            "afterSha256": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "当前导航将未承诺制作的素材分流到guijie，与lore参考资料分开；current仅路由有效，不授子素材完成/正典/DLC制作或排期。",
+            "unresolved": [
+              "新题材/制作/排期需另作者决策与任务准入",
+              "子稿仍各自待全文治理，不以导航current代完成"
+            ]
+          },
+          {
+            "path": "docs/lore/ideas/guijie/README.md",
+            "docType": "governance-index",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "current",
+            "catalogStatus": "current",
+            "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+            "afterSha256": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
+            "sourceAndNativeExact": true,
+            "uniqueCurrentRecord": true,
+            "coreBoundary": "两原入口分别承担brainstorm方向/作者裁决与beat-sheet具体体验拆解；Jun30/Jul2已定方向和草案占位分轴，当前导航不声称两大稿全文同步、DLC已排期或产品已准。",
+            "unresolved": [
+              "两大稿仅必要窄读，不能称全量同步或把所有待办勾完",
+              "原切片1灵感引用不授完整DLC制作或排期"
+            ]
+          }
+        ],
+        "actualIndependentChecks": {
+          "ledgerScopeAndPriors": {
+            "checks": 261,
+            "issues": 0,
+            "fullFixedGitSelectedObjects": 23,
+            "actualSourceInverseLines": 458,
+            "nativeTopKeys": 17,
+            "nativeEntries": 9,
+            "nativeFieldsEach": 43,
+            "all9MDByteExact": true,
+            "old3OnlyProgressFields": 9,
+            "old3FullImmediatePriors": 3
+          },
+          "actualConsumer": {
+            "checks": 40,
+            "issues": 0,
+            "sixCanonicalPositives": 6,
+            "ownedMemoryStructureNegatives": 18,
+            "boundedPinNegatives": 12,
+            "scope": "18 actual model negatives reject removed requiredH2/date/template declarations;12 separate byte-pin/source-inverse mutations discriminate fixed bytes only. Neither is official canon/runtime/test coverage."
+          },
+          "predecessorPSRawChecks": 2,
+          "combinedChecks": 303,
+          "combinedIssues": 0,
+          "unchangedShared": {
+            "catalog184Other178Exact": true,
+            "registry733Other727Exact": true,
+            "routes238ExactPlus6": 244,
+            "matrix39Other38WholeExact": true,
+            "matrixFrom5to10": true,
+            "MD70linesOneRealGFMTable39RowsOnlyLoreRowChanged": true,
+            "otherMatrixCurrentRecordsExact": true
+          },
+          "phaseProducer": "Actual exported renderPhaseGovernanceIndexes invoked independently in memory: both views exactly equal checked bytes. Root real CLI writer ran separately and its complete proof/log hashes checked; no reviewer repository writer.",
+          "freshCLI": [
+            {
+              "command": [
+                "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                "scripts/docs/check-document-model.mjs"
+              ],
+              "exit": 0,
+              "signal": null,
+              "path": "/tmp/type-pal-n6-root-independent-cli-0-20261016.log",
+              "sha256": "bc0171046964a889f188c0179e3ffee72e29e116ce1e1d2ef65313d4c44ee4c8"
+            },
+            {
+              "command": [
+                "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                "scripts/docs/check-content-review.mjs",
+                "--strict"
+              ],
+              "exit": 0,
+              "signal": null,
+              "path": "/tmp/type-pal-n6-root-independent-cli-1-20261016.log",
+              "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62"
+            },
+            {
+              "command": [
+                "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+                "scripts/docs/report-governance-progress.mjs",
+                "--json"
+              ],
+              "exit": 0,
+              "signal": null,
+              "path": "/tmp/type-pal-n6-root-independent-cli-2-20261016.log",
+              "sha256": "00d95f3ef95cead944e13bf2fa2eb4c95d0e05220c755caeb38866d3e11688f0"
+            }
+          ]
+        },
+        "matrixSemanticReview": "Retains no-resurrection/T5.5/independentT6 as existing project constraints while official provenance stays unknown; versions/pearl-user/childbirth/TV unchosen; Jun30 entry and Jul2 parents-already-reincarnated/back-view trap succeed only obsolete scoped todo. Factions original classification/recommendations give no safety guarantee; current idea indexes authorize routing only. D19 paper1-5, editor6/product build and phase3 real-time remain separate.39 relations are not a full cross-project semantic proof.",
+        "priorAndHistoryReview": "All six unique samepath legacy current objects transferred with complete actual baseGit/blob/wholeSHA/selector; no old3 recount. Actual old8 remaining legacy records exact, old transfer event prefix exact,6 new path-specific transfers. Complete author43 objects remain fixed reachable Git/native fields. Matrix whole immediate row/current retained, old source nonzero gates/counters kept. Added PS predecessor review raw/embedded deepEqual; scope explicitly excludes new N bytes.",
+        "catalogCapacity": {
+          "finalBytes": 1047412,
+          "unchangedCap": 1048575,
+          "finalSha256": "aa2e6f6e506627e11dac1b64f7c974a2af762254b93b534eb871024ed9805123",
+          "review": "Only six newly admitted catalog businessOracle/dedupe projections made concise with specific core/counts and unique full-current link; detailed full semantics retained central and immutable f577. Other178 whole entries exact; code/config/ignore/maxSize unchanged. Actual ordinary whole-file default format exit0 proof checked. Rich prewrite1053069 exceeds cap and remains a failed prewrite, not PASS."
+        },
+        "broadHardGates": {
+          "executor": "Root Codex; independent reviewer SHA-checked four actual logs/manifests and read actual docs/lint summaries. Reviewer did not claim rerun86 tools/lint.",
+          "evidence": {
+            "path": "/tmp/type-pal-n6-root-current-intake-gates-20261016.json",
+            "sha256": "54563eaff075ea95307c781fa941e6ccb032d991ce05b6eaf9b287849ce98aa7",
+            "bytes": 1282,
+            "lines": 45
+          },
+          "results": {
+            "pnpmCheckDocs": {
+              "exit": 0,
+              "tools": 86,
+              "pass": 86,
+              "fail": 0,
+              "skipped": 0,
+              "MD": 1230,
+              "links": 8048,
+              "bodyContracts": 244,
+              "testingIssues": 0,
+              "phaseDocuments": 184,
+              "strictDocuments": 733
+            },
+            "pnpmLint": {
+              "exit": 0,
+              "files": 4111,
+              "error": 0,
+              "warning": 0,
+              "info": 0,
+              "completeReport": true
+            },
+            "gitDiffCheck": {
+              "exit": 0,
+              "outputBytes": 0
+            }
+          },
+          "same18FrozenBytes": true
+        },
+        "actualProgress": {
+          "approvedCohort": 1838,
+          "cohortMigrated": 239,
+          "cohortPending": 1599,
+          "currentCandidates": 1983,
+          "currentPending": 1739,
+          "incrementalMigrated": 5,
+          "issues": []
+        },
+        "ownObserverFailures": {
+          "firstProjection": "Read-only projection assumed history was object; actual is list, causing AttributeError after first record. Corrected only observer, reread remaining bounded fields; no candidate mutation. Original tool trace retained, no invented raw-file hash.",
+          "missingResearchPath": "Optional rg guessed nonexistent scripts/docs/phase-lore-index.mjs; real producer export discovered directly and invoked. No claimed passed command.",
+          "ledgerFirstAttempt": "Assumed old currentRecordTransfers gained one aggregate event; actual adds six path-specific events. First261 probe had exactly this observer false. Preserved script/JSON, corrected prefix length and explicit six path set. Candidate bytes never changed. Corrected261/0.",
+          "preserved": [
+            {
+              "path": "/tmp/type-pal-n6-root-independent-ledger-probe-20261016-first-observer.py",
+              "sha256": "ccc9c6f459335d6cd90aa6474972e8ddfd7017f01deebb5f390b95f0ff211a9d",
+              "bytes": 11497,
+              "lines": 72
+            },
+            {
+              "path": "/tmp/type-pal-n6-root-independent-ledger-probe-20261016-first-observer.json",
+              "sha256": "4ba8528f8c5864e73e9c060b0ed2305d4ee979c4e909784d1796c3080de7558c",
+              "bytes": 1179366,
+              "lines": 22631
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "path": "/tmp/type-pal-n6-root-independent-ledger-probe-20261016.py",
+            "sha256": "2e9b0f979e82cf028df877fa602f9ee62168bf225ab31ed1ae11af2b2488ed2f",
+            "bytes": 11570,
+            "lines": 72
+          },
+          {
+            "path": "/tmp/type-pal-n6-root-independent-ledger-probe-20261016.json",
+            "sha256": "a2f78d8692faa7df12c3168a8da70b9ab6cb09d796ba9ad72fefec1a5a1a1471",
+            "bytes": 1179280,
+            "lines": 22626
+          },
+          {
+            "path": "/tmp/type-pal-n6-root-independent-current-consumer-20261016.mjs",
+            "sha256": "0fac1e5dca218a7933e1afb5c5e4def7010372d5539b9bf79c960f82ebf9b94b",
+            "bytes": 4670,
+            "lines": 18
+          },
+          {
+            "path": "/tmp/type-pal-n6-root-independent-current-consumer-20261016.json",
+            "sha256": "067c9aa4aae837d96f404b8c48128e96160a632c3779cb0e19742c41f21a92ba",
+            "bytes": 178724,
+            "lines": 3891
+          }
+        ],
+        "remainingCounters": [],
+        "limits": [
+          "Full1838 baseline, all increments and artifact rules remain incomplete;239 baseline plus5 increment is current static projection, not full-goal done.",
+          "Native handoff/control itself remains pending document increment; no receipt self-migration credit.",
+          "Four long lore/external official/fan sources/raw/product/runtime/E2E/visual/coverage are not accepted here.",
+          "Later root signoff metadata or Q prose requires its actual separate scope/bytes review; do not stamp this report onto future bytes."
+        ],
+        "nextStep": "Root may commit exact accepted natural N6 intake and record actual acceptance in the single canonical root event with honest history; proceed Q pilot/remaining five under frozen design and actual independent source/intake gates. No main/full-goal completion/cleanup authorized by this partial acceptance.",
+        "finalState": {
+          "HEAD": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "MERGE_HEAD": "f577332a33d8be271756a50cf9e07179b665b385",
+          "all18BytesManifestExact": true,
+          "repositoryWritesByReviewer": 0,
+          "protectedMainHEAD": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+          "protectedMainClean": true
+        }
+      },
+      "completeImmediatePriorEvent": {
+        "kind": "complete-immediate-top-event-in-fixed-reachable-Git",
+        "revision": "a66be41bdf8fd7d6659390301cf50081f8ed07dc",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+        "gitObject": "bc39ea93f8bc3c45a55b54ac6a1634e16e5dbed8",
+        "fileSha256": "07baa3c710db48fa3a2487a2087ca55b834041c0c7ccc03b00ffc1b9cd6fbb7c",
+        "selector": {
+          "nativeTopKey": "n6RootIntake",
+          "uniqueMatches": 1
+        },
+        "completePriorObjectRetrievedAndCompared": true
+      },
+      "scope": "Exact prior18 root intake only; current writeback itself separately scoped, no new migration credit"
     }
   },
   "predecessorPSMetadataReception": {
