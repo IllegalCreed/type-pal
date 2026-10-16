@@ -1503,3 +1503,28 @@ Branch: codex/docs-full-template-proposal
 - R87 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r87-ops-evidence-artifacts-candidate-acceptance-20261017.json`；100/100 source/after SHA、native shape、artifact envelope 和删除停止线接收。
 - 清理边界：mutation/counterproof/CI JSON 仍由证据 README、任务卡或 source consumer 引用；本批不删除，不把旧结果升格为当前通过。
 - 当前进度 `1735/1838 baseline + 45 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R88 ops evidence artifact batch
+
+- 非作者只读复核：R88 `independent-r88-ops-evidence-artifacts-readonly-review-20261017.json`，99/99 ops evidence JSON machine artifact 全文读取；保留 native shape、source/after SHA 与 exact byte round-trip。
+- 中央接入：`20261017-r88-ops-evidence-artifacts.json`、registry 99 条 `archive-record-v1` artifact-only；不进入 Markdown routing，无执行信用。
+- 候选独立接收：R88 acceptance record 99/99 source/after SHA、artifact envelope 和删除停止线接收。
+
+### 2026-10-17 R89 ops evidence artifact batch
+
+- 非作者只读复核：R89 `independent-r89-ops-evidence-artifacts-readonly-review-20261017.json`，100/100 全文读取；6 篇 Markdown 保留 quote inverse，94 个 JSON 保持 byte-stable。
+- 中央接入：`20261017-r89-ops-evidence-artifacts.json`、registry 100 条 `archive-record-v1` artifact/history overlay；不授 runtime/E2E/视觉/coverage 信用。
+- 清理边界：历史 review receipt、pilot 和 acceptance records 仍是批次证据，暂不删除。
+
+### 2026-10-17 R90 ops evidence artifact batch
+
+- 非作者只读复核：R90 `independent-r90-ops-evidence-artifacts-readonly-review-20261017.json`，100/100 全文读取；50 篇 Markdown 保留 quote inverse，50 个 JSON 保持 byte-stable。
+- 中央接入：`20261017-r90-ops-evidence-artifacts.json`、registry 100 条 artifact-only/历史封套；不授执行信用。
+- 清理边界：旧批次验收、机器回执和 evidence ledger 继续由本任务索引/consumer 引用，暂不删除。
+
+### 2026-10-17 R91 ops evidence artifact batch
+
+- 非作者只读复核：R91 `independent-r91-ops-evidence-artifacts-readonly-review-20261017.json`，99/99 全文读取；5 篇 Markdown 保留 quote inverse，94 个 JSON 保持 byte-stable。
+- 中央接入：`20261017-r91-ops-evidence-artifacts.json`、registry 99 条 artifact-only/历史封套；不授 runtime/E2E/视觉/coverage 信用。
+- registry storage normalization：为保持 Biome 零诊断，registry entries 省略可由 templateId 推导的 `template`、默认 false 的 `historyOverlay`/`artifactOnly` 和冗余 `reviewDepth`；review records 仍保留完整字段。
+- 当前进度 `1814/1838 baseline + 265 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
