@@ -1052,3 +1052,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json`，4/4 全文读取、源零漂移、issues=0；HTML 三篇 deferred。
 - 4 篇 Markdown 迁移：guijie-minju/spec 用 `archive-record-v1`；npc-collision-plan/plan 用 `plan-status-v1 + archive-record-v1`。
 - HTML mockup 三篇继续 governed-legacy，等待冻结 HTML archive variant；本批无 runtime/E2E/视觉/coverage 信用。
+
+
+### 2026-10-17 R27 phase1 plans/audits
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-review-20261017.json`，20/20、28,309 行全文读取，源零漂移；17 plan-status + 3 audit-report。
+- 中央接入：`docs/phase-governance/reviews/20261017-r27-phase1-plans.json`、registry/routing/catalog 20 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
+- R27 候选独立接收和全静态门仍需完成；全量目标保持 active/build。

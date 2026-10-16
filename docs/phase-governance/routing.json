@@ -1595,6 +1595,106 @@
       "path": "docs/phase2/archive/slices/indoor/spec.md",
       "templateId": "archive-record-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

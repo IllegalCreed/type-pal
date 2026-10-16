@@ -2533,7 +2533,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206",
-      "afterSha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206",
+      "afterSha256": "ead04df1615699f3c3af890e8f6ddf9bd21fb62a80bc4823c47a570aecb43d27",
       "sourceRefs": [
         {
           "path": "packages/shared/src/index.test.ts",
@@ -2659,7 +2659,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m1-pal-extract-design",
@@ -2673,7 +2673,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d",
-      "afterSha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d",
+      "afterSha256": "e5533b482f2d692189cc2c1a97c1ba7c8424ffc16ca149e8500c77545bff4aff",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
@@ -2730,7 +2730,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m1-pal-extract",
@@ -2744,7 +2744,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab",
-      "afterSha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab",
+      "afterSha256": "772c44d5f4d4f3e735b8a327a1112e8dad9689307ec91ce4443d649ac4777ce7",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/utils/gbk.ts",
@@ -3123,7 +3123,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m2-runtime-slice-design",
@@ -3137,7 +3137,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091",
-      "afterSha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091",
+      "afterSha256": "bc75f53998c6bffdd9fe37ea1f4d479496a45f679c61c1dc115679fb82c3d93e",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
@@ -3194,7 +3194,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m2-runtime-slice",
@@ -3208,7 +3208,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58",
-      "afterSha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58",
+      "afterSha256": "65a64faac97fc0fe66c723da9d1a482322be4f57cbe2637eca8b568da3811c07",
       "sourceRefs": [
         {
           "path": "packages/shared/src/events.ts",
@@ -3683,7 +3683,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m3-battle-vertical-slice-design",
@@ -3697,7 +3697,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c",
-      "afterSha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c",
+      "afterSha256": "85f9b83053be7cceccb9a9016dee8295f97e98bf25dd01ec20a8b65d6aecfedc",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
@@ -3763,7 +3763,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m3-battle-vertical-slice",
@@ -3777,7 +3777,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753",
-      "afterSha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753",
+      "afterSha256": "c27e1aafc276abda182f6c8611f01be8b0ebe0659e6a990401ceed58e91006b6",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -4256,7 +4256,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m3-5-scene-encounter-design",
@@ -4270,7 +4270,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc",
-      "afterSha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc",
+      "afterSha256": "74107a7e584e66e308e7f3cec3a2531888a22d0133e716848ff9e9aba300c8ea",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
@@ -4335,7 +4335,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m3-5-scene-encounter",
@@ -4349,7 +4349,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17",
-      "afterSha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17",
+      "afterSha256": "00054c6df4851241ab0b419f6ba4ca913dd152f6a54d81520b89273daec970e6",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -4660,7 +4660,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m4-pal-extract-complete-design",
@@ -4674,7 +4674,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a",
-      "afterSha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a",
+      "afterSha256": "bea471368850aaeaf572ae969f6e9fb6ab2336b006f5ba26bc0f69fa2f129815",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -4768,7 +4768,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m4-pal-extract-complete",
@@ -4782,7 +4782,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22",
-      "afterSha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22",
+      "afterSha256": "382224ba060ccd76e55395aebd0ab6256143899a7f3e989616a73c3c78e70943",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -5138,7 +5138,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-25-m5-systems-complete-design",
@@ -5152,7 +5152,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea",
-      "afterSha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea",
+      "afterSha256": "f29db300965721a304524379227bcd881f5601a5cc90f36b284a4dd147ebb71a",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
@@ -5209,7 +5209,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-25-m5-systems-complete",
@@ -5223,7 +5223,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688",
-      "afterSha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688",
+      "afterSha256": "1a382319faa637d0c98ad6198f296eb474999575075bc65ffc2562fbf4b01c85",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/game-state.ts",
@@ -5740,7 +5740,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m4-extract-audit",
@@ -5754,7 +5754,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad",
-      "afterSha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad",
+      "afterSha256": "54034fe1a28f5b4a687fb1d4eb39fb60dfa736410e64e28599f78a554a4dbb93",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -5843,7 +5843,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-5-sdlpal-audit",
@@ -5857,7 +5857,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88",
-      "afterSha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88",
+      "afterSha256": "0980bf2cabbd096205d10c363598e7e6265ae6fb1392a2461cfab8ee0527e6a7",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
@@ -5914,7 +5914,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability-design",
@@ -5928,7 +5928,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae",
-      "afterSha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae",
+      "afterSha256": "170496add7abab23e2849e4c5347b340d8b3b2304422ffdf78b20707b440d9ae",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
@@ -5985,7 +5985,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability",
@@ -5999,7 +5999,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a",
-      "afterSha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a",
+      "afterSha256": "33d2765cc4fd5849bc4ce7f1f46be08356a8238393ce58a54fc34937d6d2c4a5",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/input.ts",
@@ -6235,7 +6235,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-28-feature-audit-and-replanning",
@@ -6249,7 +6249,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096",
-      "afterSha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096",
+      "afterSha256": "a2702172935725bfbe1c09c77fca361c2ab7bc8d98d046826dc4cf1bd271a280",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/formulas.ts",
@@ -6403,7 +6403,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-30-opcode-2-remaining",
@@ -6513,7 +6513,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606",
-      "afterSha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606",
+      "afterSha256": "46639d8d721b5e0ef6d794ed27b7be39ee5bbac33ccb3962b91dace5e9f30f0b",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/main-loop.ts",
@@ -6570,7 +6570,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-batch1-status-behavior",
@@ -6584,7 +6584,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6",
-      "afterSha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6",
+      "afterSha256": "f25eb570605525a312596be540712720cba9bfe67b7c47ff26f09f7f91cb714a",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-state.ts",
@@ -6685,7 +6685,7 @@
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-batch2-enemy-ai",

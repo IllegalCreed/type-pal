@@ -19,12 +19,12 @@
     "byType": {
       "archive-record": 13,
       "audit-report": 60,
-      "design-spec": 41,
+      "design-spec": 34,
       "evidence-receipt": 49,
       "governance-index": 100,
       "guide-runbook": 14,
       "narrative-idea": 2,
-      "plan-status": 66,
+      "plan-status": 73,
       "quality-gate": 1,
       "reference-canon": 13,
       "task-card": 333,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 402,
-      "template-compliant": 331
+      "governed-legacy": 382,
+      "template-compliant": 351
     }
   },
   "entries": [
@@ -4638,21 +4638,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
@@ -4660,21 +4664,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
@@ -4682,21 +4690,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
@@ -4704,21 +4716,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
@@ -4726,21 +4742,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
@@ -4748,21 +4768,25 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
@@ -4770,10 +4794,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
@@ -4781,10 +4807,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
@@ -4792,21 +4820,25 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
       "phase": "phase1",
-      "docType": "design-spec",
-      "templateId": "design-spec-v1",
-      "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
@@ -4814,10 +4846,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
@@ -4825,10 +4859,12 @@
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
@@ -4849,10 +4885,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
@@ -4860,10 +4898,12 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-phase1-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r27-phase1-plans.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",

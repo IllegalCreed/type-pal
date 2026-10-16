@@ -94,3 +94,12 @@
 - HTML mockup 三篇未计入 R26 迁移，保持 governed-legacy，等待 HTML archive variant/template contract 冻结。
 
 - [R26 候选独立接收](independent-r26-indoor-slices-candidate-acceptance-20261017.md)：4/4 Markdown 候选接收；3 个 HTML mockup 因 HTML archive variant 未冻结而 deferred；runtime/E2E/视觉/coverage credit=0。
+
+
+## R27 phase1 plans/audits
+
+- [R27 只读独立复核](independent-r27-phase1-plans-review-20261017.md)：20/20 phase1 plans 全文读取，源零漂移；17 plan-status + 3 audit-report。
+- [R27 根接入回执](contributor-r27-phase1-plans-20261017.json)：逐篇记录历史里程碑/审计发现、冲突、停止线、source/after SHA 和 successor。
+- R27 不授 runtime/E2E/视觉/coverage 信用；phase1 历史结论保持日期化。
+
+- [R27 候选独立接收](independent-r27-phase1-plans-candidate-acceptance-20261017.md)：20/20 phase1 plans/audits 候选接收；quote 行尾空格用 `␠/⇥` 可逆保全；runtime/E2E/视觉/coverage credit=0。
