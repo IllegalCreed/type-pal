@@ -1,0 +1,1964 @@
+{
+  "schemaVersion": 1,
+  "id": "r67-testing-legacy-html-20261017",
+  "reviewer": "Codex root full-html readonly migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R67: historical testing HTML hosts use archive-record-v1 as a byte-stable artifact envelope; preserve bytes, paired host/source/evidence references and execution boundaries. No execution credit.",
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "afterSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-a.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-b.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-c.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host-b.tsx"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+        "implementationSha": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+        "candidateSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+        "afterSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+        "lineCount": 11,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 243,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Large Wave Browser Host (B)",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-11",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-large-wave/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "afterSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-a.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-b.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-c.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host-b.tsx"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+        "implementationSha": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+        "candidateSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+        "afterSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+        "lineCount": 11,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 243,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Large Wave Browser Host (C)",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-11",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-large-wave/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "afterSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-a.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-b.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/drive-c.mjs",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+        "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host-b.tsx"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+          "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+        "implementationSha": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+        "candidateSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+        "afterSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+        "lineCount": 11,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 241,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Large Wave Browser Host (A)",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-11",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-large-wave/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "afterSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/host.tsx",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/vite.config.mts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+        "implementationSha": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+        "candidateSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+        "afterSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+        "lineCount": 12,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 280,
+          "sourceLines": 12,
+          "sourceFinalNewline": true,
+          "inverseSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Leaf Workflows Browser Host (D)",
+          "scripts": ["inline"],
+          "ids": ["root", "overlay-panel"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-12",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "afterSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/assets",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/host.tsx",
+        "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/vite.config.mts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+          "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+        "implementationSha": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+        "candidateSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+        "afterSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+        "lineCount": 11,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 245,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Leaf Workflows Browser Host (C)",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-11",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "afterSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/drive-f.mjs",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/evidence-browser-f.json",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/host.tsx",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/vite.config.mts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+        "implementationSha": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+        "candidateSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+        "afterSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+        "lineCount": 12,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 326,
+          "sourceLines": 12,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM New Wave F 隔离功能视觉宿主",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-12",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "afterSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/drive.mjs",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/main.ts",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/vite.config.mts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+        "implementationSha": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+        "candidateSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+        "afterSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+        "lineCount": 17,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 567,
+          "sourceLines": 17,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM Wave G 隔离 battle trial 视觉宿主",
+          "scripts": ["inline"],
+          "ids": ["page-status", "screen"],
+          "canvases": 1,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-17",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "afterSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/main.mjs",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/vite.config.mjs"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+          "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+        "implementationSha": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+        "candidateSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+        "afterSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+        "lineCount": 69,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 3035,
+          "sourceLines": 69,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "GLM第三对话 LV1-LV4 隔离短视觉宿主",
+          "scripts": ["inline"],
+          "ids": [
+            "lv1",
+            "lv1-canvas",
+            "lv2",
+            "lv2-canvas",
+            "lv3",
+            "lv3-panel-host",
+            "lv3-minimap",
+            "lv3-open",
+            "lv3-click",
+            "lv3-callback",
+            "lv4",
+            "lv4-progress-host",
+            "lv4-countdown-host",
+            "lv4-overlay-state",
+            "lv4-overlay-show",
+            "lv4-overlay-hide",
+            "log"
+          ],
+          "canvases": 3,
+          "controls": 11
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-69",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "afterSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/README.md",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/artifact.json"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+        "implementationSha": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+        "candidateSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+        "afterSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+        "lineCount": 104,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 4671,
+          "sourceLines": 104,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "RV1 · R03 真实解码 PNG + R02 量化（TEST-GLM-RUNTIME-RESOURCE-2 批A）",
+          "scripts": ["inline"],
+          "ids": ["png1x", "png4x", "pngexpect", "q1x", "q4x", "qexpect", "errors"],
+          "canvases": 4,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-104",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "afterSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/README.md",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/entry.ts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+        "implementationSha": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+        "candidateSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+        "afterSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+        "lineCount": 14,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 749,
+          "sourceLines": 14,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "RV2 · drawItemGridList 固定输入（TEST-GLM-RUNTIME-RESOURCE-2 批C）",
+          "scripts": ["inline"],
+          "ids": ["stage", "result"],
+          "canvases": 1,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-14",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "afterSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/README.md",
+        "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/entry.ts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+          "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+        "implementationSha": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+        "candidateSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+        "afterSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+        "lineCount": 16,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 1003,
+          "sourceLines": 16,
+          "sourceFinalNewline": true,
+          "inverseSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "RV3/RV4 · 战斗绘制快照与结算屏（TEST-GLM-RUNTIME-RESOURCE-2 批D）",
+          "scripts": ["inline"],
+          "ids": ["stage", "settle", "result"],
+          "canvases": 2,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-16",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html:1"
+      ],
+      "unresolved": [
+        "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
+        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+      ],
+      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "phase": "testing",
+      "module": "archive/legacy-html",
+      "capability": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html historical browser host",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-html-byte-read",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r67_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6"
+        }
+      ],
+      "sourceSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "afterSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/README.md",
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/main.tsx",
+        "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/vite.config.mts"
+      ],
+      "businessOracle": {
+        "type": "html-artifact-envelope",
+        "assertions": [
+          "original bytes remain hashable",
+          "HTML host identity and paired support files remain traceable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+          "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+        "implementationSha": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+        "history": [
+          {
+            "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+            "date": "2026-10-17",
+            "action": "full-html-byte-read-and-structured-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R67 historical testing HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "html-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r67-testing-legacy-html-20261017.json",
+        "sourceSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+        "candidateSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+        "afterSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+        "lineCount": 47,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable HTML artifact",
+          "sourceBytes": 1107,
+          "sourceLines": 47,
+          "sourceFinalNewline": true,
+          "inverseSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+          "exactRoundTrip": true
+        },
+        "htmlSignals": {
+          "doctype": true,
+          "title": "kimi 编辑器工作流隔离宿主",
+          "scripts": ["inline"],
+          "ids": ["root"],
+          "canvases": 0,
+          "controls": 0
+        }
+      },
+      "history": [
+        {
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R67 readonly proposal accepted then artifact envelope",
+          "reviewer": "r67_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical HTML host or visual text to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 testing HTML host 保持 → 增加 archive-record artifact envelope、SHA、配对入口和历史停止线；执行事实不变。",
+      "reviewedLines": "1-47",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "documentStatus": "historical",
+      "sourceGitRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+      "candidateSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+          "revision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+          "sha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+          "scope": "full HTML UTF-8 artifact bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive/legacy-html",
+        "currentBoundary": "paired README, host source, evidence and fresh testing receipt"
+      },
+      "dependencies": "Paired README, host/source files, machine evidence and current fresh receipt under docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host.",
+      "versionScope": {
+        "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R67-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R67-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
+        }
+      ]
+    }
+  ]
+}

@@ -1334,3 +1334,12 @@ Branch: codex/docs-full-template-proposal
 - R66 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r66-ops-evidence-readmes-candidate-acceptance-20261017.json`；10/10 source/after SHA、quote inverse、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：本批不删除 evidence，不闭合历史任务状态；若后续判定为孤儿，须先核 consumer、替代入口和 source SHA，再单独提交清理记录。
 - 当前进度 `834/1838 baseline + 21 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R67 testing historical HTML artifacts
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-readonly-review-20261017.json`，12/12 HTML host 全文读取；逐篇保留 title、DOM/script/canvas/control 信号、source/after SHA 和 exact byte round-trip。
+- 中央接入：`docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json`、registry 12 条 `archive-record-v1` artifact-only HTML；不进入 Markdown routing，不把视觉/运行时结果升格为当前通过。
+- R67 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-candidate-acceptance-20261017.json`；12/12 source/after SHA、artifact envelope、配对入口和清理停止线接收。
+- HTML 用途结论：3 个 phase2 mockup 已由既有 R33 账本接入并被 editor/docs 引用；本批 12 个 testing host 仍由配对 README、host/source、evidence 或迁移账引用，暂不删除。
+- 清理边界：只有在 consumer、继任入口、source SHA 和历史引用全部核定后，才可另开 cleanup 记录；本批不删除、不把历史视觉证据变成 current/E2E/coverage 结论。
+- 当前进度 `846/1838 baseline + 21 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。

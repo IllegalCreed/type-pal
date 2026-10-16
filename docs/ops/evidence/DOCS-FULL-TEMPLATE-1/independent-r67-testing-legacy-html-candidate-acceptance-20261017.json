@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r67-testing-legacy-html-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 12,
+    "readAndChecked": 12,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R67-B01",
+      "count": 12,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All HTML artifacts preserve source/after SHA, exact byte round-trip and structured HTML signals."
+    },
+    {
+      "id": "R67-B02",
+      "count": 12,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Each HTML host remains linked to its README/source/evidence or migration ledger; deletion is not authorized by this migration."
+    }
+  ],
+  "summaryChecks": {
+    "all12": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (869 documents; content-reviewed 869)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 796 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7974 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 869/869; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4304 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+      "afterSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+      "afterSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+      "afterSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+      "afterSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+      "afterSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+      "afterSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+      "afterSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+      "afterSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+      "afterSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+      "afterSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+      "afterSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+      "afterSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

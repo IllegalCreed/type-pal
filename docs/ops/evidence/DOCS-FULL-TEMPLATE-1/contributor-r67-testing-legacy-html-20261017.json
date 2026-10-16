@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r67-testing-legacy-html-20261017",
+  "kind": "R67 historical testing HTML artifacts",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+  "scope": {
+    "documents": 12,
+    "docTypes": {
+      "archive-record": 12
+    },
+    "artifactOnly": true,
+    "artifactFormat": "html",
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+      "sourceSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "afterSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Large Wave Browser Host (B)",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+      "sourceSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "afterSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Large Wave Browser Host (C)",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+      "sourceSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "afterSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Large Wave Browser Host (A)",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+      "sourceSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "afterSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Leaf Workflows Browser Host (D)",
+        "scripts": ["inline"],
+        "ids": ["root", "overlay-panel"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+      "sourceSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "afterSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Leaf Workflows Browser Host (C)",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+      "sourceSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "afterSha256": "8f7a1b7da0950d1e8688bacc2a1b202d1dcf3ab2fc6ad4d5e1bc8783018cf848",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM New Wave F 隔离功能视觉宿主",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+      "sourceSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "afterSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM Wave G 隔离 battle trial 视觉宿主",
+        "scripts": ["inline"],
+        "ids": ["page-status", "screen"],
+        "canvases": 1,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+      "sourceSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "afterSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "GLM第三对话 LV1-LV4 隔离短视觉宿主",
+        "scripts": ["inline"],
+        "ids": [
+          "lv1",
+          "lv1-canvas",
+          "lv2",
+          "lv2-canvas",
+          "lv3",
+          "lv3-panel-host",
+          "lv3-minimap",
+          "lv3-open",
+          "lv3-click",
+          "lv3-callback",
+          "lv4",
+          "lv4-progress-host",
+          "lv4-countdown-host",
+          "lv4-overlay-state",
+          "lv4-overlay-show",
+          "lv4-overlay-hide",
+          "log"
+        ],
+        "canvases": 3,
+        "controls": 11
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+      "sourceSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "afterSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "RV1 · R03 真实解码 PNG + R02 量化（TEST-GLM-RUNTIME-RESOURCE-2 批A）",
+        "scripts": ["inline"],
+        "ids": ["png1x", "png4x", "pngexpect", "q1x", "q4x", "qexpect", "errors"],
+        "canvases": 4,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+      "sourceSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "afterSha256": "2d7b6398cafc41071b4dfc07e69572316483968ef2ee36cbf38981fc66784971",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "RV2 · drawItemGridList 固定输入（TEST-GLM-RUNTIME-RESOURCE-2 批C）",
+        "scripts": ["inline"],
+        "ids": ["stage", "result"],
+        "canvases": 1,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+      "sourceSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "afterSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "RV3/RV4 · 战斗绘制快照与结算屏（TEST-GLM-RUNTIME-RESOURCE-2 批D）",
+        "scripts": ["inline"],
+        "ids": ["stage", "settle", "result"],
+        "canvases": 2,
+        "controls": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+      "sourceSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "afterSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "artifactFormat": "html",
+      "exactRoundTrip": true,
+      "htmlSignals": {
+        "doctype": true,
+        "title": "kimi 编辑器工作流隔离宿主",
+        "scripts": ["inline"],
+        "ids": ["root"],
+        "canvases": 0,
+        "controls": 0
+      }
+    }
+  ]
+}
