@@ -1041,3 +1041,26 @@ test('owned single-hook removals calibrate the exact old falsegreen, then restor
     assert.equal(readFileSync(join(fixture.root, path), 'utf8'), original)
   assert.ok(existsSync(join(fixture.root, fixture.path)))
 })
+
+for (const path of ['scripts/docs/check.mjs', 'scripts/quality/lint-zero.mjs'])
+  test(`actual ${path} CLI directory alias cannot bypass the namespace hook`, (t) => {
+    const fixture = entryFixture(t)
+    put(fixture.root, fixture.path, 'NOT_GZIP')
+    const alias = join(temporary(t), 'project-alias')
+    symlinkSync(fixture.root, alias, 'dir')
+    const args = path.includes('/quality/') ? [] : ['--json']
+    const run = spawnSync(process.execPath, [join(alias, path), ...args], {
+      cwd: fixture.root,
+      encoding: 'utf8',
+    })
+    assert.equal(run.status, 1, 'a legal directory alias must execute the actual CLI gate')
+    assert.match(run.stdout + run.stderr, /terminal framing/)
+    unlinkSync(join(fixture.root, fixture.path))
+    const clean = spawnSync(process.execPath, [join(alias, path), ...args], {
+      cwd: fixture.root,
+      encoding: 'utf8',
+    })
+    assert.equal(clean.status, 0, clean.stderr)
+    if (args.length) assert.deepEqual(JSON.parse(clean.stdout).issues, [])
+    else assert.match(clean.stdout, /lint: PASS .*0 errors \/ 0 warnings \/ 0 infos/)
+  })

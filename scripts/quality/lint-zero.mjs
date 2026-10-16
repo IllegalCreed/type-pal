@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process'
+import { existsSync, realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { inspectTerminalNamespace } from '../docs/terminal-namespace.mjs'
 
@@ -68,7 +68,11 @@ export function runLintZero(cwd = root) {
   return { ...result, ok: result.ok && namespace.ok, problems, namespace, stderr: run.stderr ?? '' }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  existsSync(process.argv[1]) &&
+  realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+) {
   if (process.argv.length !== 2) {
     console.error('lint: whole repository only; filtering or override arguments are not accepted')
     process.exitCode = 2
