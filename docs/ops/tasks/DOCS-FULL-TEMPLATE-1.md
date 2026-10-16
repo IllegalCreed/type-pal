@@ -1423,3 +1423,11 @@ Branch: codex/docs-full-template-proposal
 - R77 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r77-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：grok/kimi/script/content 历史包仍由 README/evidence/迁移账引用；本批不删除，不把旧 readback 或 visual evidence 升格为当前 E2E/visual 结论。
 - 当前进度 `1217/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R78 testing archive documents
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-readonly-review-20261017.json`，50/50 testing archive 文档全文读取；35 篇 Markdown 改为 `archive-record-v1` + 原文 quote，15 个 JSON 保持 byte-stable machine artifact。
+- 中央接入：`docs/phase-governance/reviews/20261017-r78-testing-archive.json`、registry 50 条 `archive-record-v1`，Markdown 进入 routing，JSON 保持 artifact-only；editor/quality/E2E 历史材料、日期、机器字段和边界保留。
+- R78 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：历史 editor workflow、quality gate 和 pre-E2E 材料仍由 README/evidence/迁移账引用；本批不删除、不把旧 E2E 备料升格为当前执行结论。
+- 当前进度 `1267/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
