@@ -300,3 +300,9 @@
 - [R58 只读独立复核](independent-r58-task-template-sources-readonly-review-20261017.json)：2/2 任务模板源全文读取；保持 byte-stable，直接 copy/consumer 语法不变。
 - [R58 根接入回执](contributor-r58-task-template-sources-20261017.json)：登记 `reference-canon-v1` template-source artifact、source/after SHA、consumer 和不授执行信用边界。
 - [R58 候选独立接收](independent-r58-task-template-sources-candidate-acceptance-20261017.json)：2/2 候选接收；模板源不进入 Markdown routing，避免破坏复制入口；无 runtime/E2E/视觉/coverage 信用。
+
+## R59 ops archive task cards
+
+- [R59 只读独立复核](independent-r59-ops-archive-task-cards-readonly-review-20261017.json)：36/36 已关闭 task cards 全文读取；全部接入 task-card-v1 + archive-record-v1，原状态、日期、证据、counter 和 successor 保留。
+- [R59 根接入回执](contributor-r59-ops-archive-task-cards-20261017.json)：逐篇记录 source/after SHA、quote inverse、history overlay 和清理边界。
+- [R59 候选独立接收](independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json)：36/36 候选接收；无 runtime/E2E/视觉/coverage 信用；本批不删除历史卡。

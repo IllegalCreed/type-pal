@@ -1274,3 +1274,11 @@ Branch: codex/docs-full-template-proposal
 - R58 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-candidate-acceptance-20261017.json`；2/2 template-source、consumer、SHA 和 exact round-trip 接收；无 runtime/E2E/视觉/coverage 信用。
 - 受保护 legacy：`docs/ops/board.md` 与 `docs/ops/tasks/index.md` 仍保留 governed-legacy；这是用户明确要求保护主工作树未提交内容的保留例外，不等于迁移完成。后续把本分支接回 main 时必须以当前 dirty 内容为准，保留用户改动，再重新生成 review/after SHA 和门禁。
 - 全量 1838 目标保持 active/build，当前进度 `726/1838 baseline + 5 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R59 ops archive task cards
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-readonly-review-20261017.json`，36/36 已关闭 archive task cards 全文读取；原始 done 状态、日期、目标、证据、counter、链接和 successor 保留。
+- 中央接入：`docs/phase-governance/reviews/20261017-r59-ops-archive-task-cards.json`、registry/routing 36 条 `task-card-v1 + archive-record-v1`；旧重复 review entries 已移出。
+- R59 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json`；36/36 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：历史卡仍由任务索引、证据 README、测试 consumer 或 successor 引用；本批只治理结构，不删除 archive 文件，不把历史 done 升格当前授权。
+- 全量 1838 目标保持 active/build，当前进度 `757/1838 baseline + 10 incremental`；本批不标记 done、不推送 main。
