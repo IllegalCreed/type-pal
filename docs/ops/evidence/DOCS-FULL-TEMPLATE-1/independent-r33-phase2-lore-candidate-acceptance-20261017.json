@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r33-phase2-lore-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation and artifact reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 18,
+    "readAndChecked": 18,
+    "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+    "docTypes": {
+      "reference-canon": 4,
+      "plan-status": 2,
+      "archive-record": 3,
+      "governance-index": 3,
+      "design-spec": 6
+    },
+    "htmlArtifacts": 3
+  },
+  "blockingCounters": [
+    {
+      "id": "R33-CANDIDATE-B01",
+      "count": 18,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 18 phase2/lore documents preserve historical boundary and successor/stopLine; HTML prototypes remain byte-stable artifacts."
+    },
+    {
+      "id": "R33-CANDIDATE-B02",
+      "count": 18,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Markdown source/after and quote inverse pass; HTML source/after bytes are stable and envelope-preserved."
+    },
+    {
+      "id": "R33-CANDIDATE-B03",
+      "count": 18,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree for Markdown; HTML artifacts are explicit out-of-routing, out-of-catalog artifacts."
+    },
+    {
+      "id": "R33-CANDIDATE-B04",
+      "count": 18,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all18": true,
+    "sourceAfterQuoteTemplateLedgerAll18": true,
+    "issueCount": 0,
+    "issues": [],
+    "htmlArtifactEnvelope": true,
+    "htmlRouting": "out-of-routing by artifact policy",
+    "htmlCatalog": "out-of-catalog by artifact policy"
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 416 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "node scripts/docs/check-phase-lore-governance.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (184 documents)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4172 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1255 Markdown / 7962 local links / 361 tasks / content22 SAVE12; model 416 body contracts; testing 0; phase/lore 184; content 733/733)"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+      "afterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+      "afterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+      "afterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "plan-status-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
+      "sourceSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
+      "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": "out-of-catalog-HTML-artifact",
+      "routingMatches": false,
+      "historicalBoundary": true,
+      "artifactEnvelope": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
+      "sourceSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
+      "afterSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": "out-of-catalog-HTML-artifact",
+      "routingMatches": false,
+      "historicalBoundary": true,
+      "artifactEnvelope": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/archive/mockups/place-mode.html",
+      "sourceSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
+      "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": "out-of-catalog-HTML-artifact",
+      "routingMatches": false,
+      "historicalBoundary": true,
+      "artifactEnvelope": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/capability-map.md",
+      "sourceSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+      "afterSha256": "abdb0af02c0132071e9d5602a31dcbd10450ead72847c01fbc63669389fcef92",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/decisions.md",
+      "sourceSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+      "afterSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/design-backlog.md",
+      "sourceSha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
+      "afterSha256": "21a0692015ec3202611b1c1eb61a1aa08108f73d27f41431444b7391811168d2",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "sourceSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+      "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/reference/dialogue-presentation.md",
+      "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
+      "afterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
+      "sourceSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+      "afterSha256": "48492d17d73510284c7d82a095bdbc38495f1176ecedc53d8b3f5926aeba7f3b",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "sourceSha256": "2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5",
+      "afterSha256": "be94e0b9d1b15612b81eb0f7fc017d52b4777bbeb83a7d0fa49c7efab442e2ca",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "plan-status-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/specs/content-schema.md",
+      "sourceSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+      "afterSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/specs/editor-architecture.md",
+      "sourceSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+      "afterSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/specs/editor-design-system.md",
+      "sourceSha256": "f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8",
+      "afterSha256": "a5d60238ca0268da875c1628a953a4b47fee9d79aa5912625ad9c1908b1a17ac",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/specs/project-lifecycle.md",
+      "sourceSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+      "afterSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase2/specs/script-system.md",
+      "sourceSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+      "afterSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r33-phase2-lore.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "artifactEnvelope": false,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

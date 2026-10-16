@@ -1945,6 +1945,81 @@
       "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/capability-map.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/decisions.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/design-backlog.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/reference/dialogue-presentation.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/content-schema.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/editor-architecture.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/editor-design-system.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/project-lifecycle.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase2/specs/script-system.md",
+      "templateId": "design-spec-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

@@ -327,7 +327,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
-      "afterSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+      "afterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/guijie/beat-sheet.md",
@@ -398,7 +398,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
-      "afterSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+      "afterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/guijie/brainstorm.md",
@@ -1298,7 +1298,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
-      "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+      "afterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
       "sourceRefs": [
         {
           "path": "docs/lore/timeline.md",
@@ -17959,7 +17959,7 @@
           "lines": "1-1",
           "anchor": "# 第二阶段 · 决策记录（decisions）",
           "role": "body-source-reference",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         }
       ],
       "publicCallers": [
@@ -19784,7 +19784,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
-      "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+      "afterSha256": "abdb0af02c0132071e9d5602a31dcbd10450ead72847c01fbc63669389fcef92",
       "sourceRefs": [
         {
           "path": "docs/phase2/capability-map.md",
@@ -19881,8 +19881,8 @@
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
-      "sourceSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
-      "afterSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+      "sourceSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
+      "afterSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
       "sourceRefs": [
         {
           "path": "packages/migrate/README.md",
@@ -19976,7 +19976,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+        "implementationSha": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -19990,7 +19990,7 @@
       },
       "evidence": {
         "kind": "document-audit",
-        "sourceSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+        "sourceSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
         "claims": ["phase/lore ownership and status inventory"]
       },
       "history": [
@@ -20017,7 +20017,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
-      "afterSha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
+      "afterSha256": "21a0692015ec3202611b1c1eb61a1aa08108f73d27f41431444b7391811168d2",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/mode.ts",
@@ -20728,7 +20728,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-      "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+      "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
       "sourceRefs": [
         {
           "path": "docs/phase1/game-mechanics.md",
@@ -20757,7 +20757,7 @@
       },
       "revision": {
         "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-        "implementationSha": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+        "implementationSha": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -20773,7 +20773,7 @@
             "action": "E2E-integration-delta-review",
             "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
             "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-            "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+            "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
             "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
@@ -20796,7 +20796,7 @@
           "action": "E2E-integration-delta-review",
           "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
           "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-          "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+          "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
           "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
@@ -21013,7 +21013,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-      "afterSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
+      "afterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
       "sourceRefs": [
         {
           "path": "packages/game/src/present/dialog-box.ts",
@@ -21100,7 +21100,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
-      "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+      "afterSha256": "48492d17d73510284c7d82a095bdbc38495f1176ecedc53d8b3f5926aeba7f3b",
       "sourceRefs": [
         {
           "path": "docs/phase1/game-mechanics.md",
@@ -21401,7 +21401,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5",
-      "afterSha256": "2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5",
+      "afterSha256": "be94e0b9d1b15612b81eb0f7fc017d52b4777bbeb83a7d0fa49c7efab442e2ca",
       "sourceRefs": [
         {
           "path": "docs/phase3/backlog.md",
@@ -21415,7 +21415,7 @@
           "lines": "1-1",
           "anchor": "# 第二阶段 · 决策记录（decisions）",
           "role": "body-source-reference",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         },
         {
           "path": "docs/phase2/README.md",
@@ -21488,7 +21488,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
-      "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+      "afterSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
       "sourceRefs": [
         {
           "path": "docs/phase2/specs/content-schema.md",
@@ -21592,7 +21592,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
-      "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+      "afterSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
       "sourceRefs": [
         {
           "path": "packages/editor/src/ui/editor-navigation.ts",
@@ -21696,7 +21696,7 @@
       "owner": "ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）/ ED-ACTION-GROUP-ADOPTION-3（v2.23.0）/ ED-SPRITE-ACTION-MODAL-1（v2.24.0）",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8",
-      "afterSha256": "f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8",
+      "afterSha256": "a5d60238ca0268da875c1628a953a4b47fee9d79aa5912625ad9c1908b1a17ac",
       "sourceRefs": [
         {
           "path": "docs/phase2/specs/editor-design-system.md",
@@ -21767,7 +21767,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
-      "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+      "afterSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
       "sourceRefs": [
         {
           "path": "packages/content/src/character.ts",
@@ -22277,7 +22277,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
-      "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+      "afterSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
       "sourceRefs": [
         {
           "path": "packages/content/src/author-script-core.ts",
@@ -22398,7 +22398,7 @@
           "lines": "522-531",
           "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
           "role": "approved-phase-boundary-not-build-authority",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -22514,7 +22514,7 @@
           "lines": "522-531",
           "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
           "role": "approved-phase-boundary-not-build-authority",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -22681,7 +22681,7 @@
           "lines": "522-531",
           "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
           "role": "approved-phase-boundary-not-build-authority",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -22893,7 +22893,7 @@
           "lines": "522-531",
           "anchor": "## D32 · 构件化地图重建与拆房迁移归第三阶段（2026-09-28）",
           "role": "approved-phase-boundary-not-build-authority",
-          "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0"
+          "sha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013"
         }
       ],
       "publicCallers": ["docs navigation"],

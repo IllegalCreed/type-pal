@@ -104,6 +104,13 @@ export function checkCurrentSection(text, rule, expected) {
     const match = rule.end.exec(section)
     if (!match) return ['现行合同终点不存在，请更新检查规则并核对文档分界']
     section = section.slice(0, match.index)
+  } else {
+    // Historical template wrappers keep source quotes after this marker.
+    // They are evidence, not the current product contract.
+    const history = /^## 原文保全/m.exec(section)
+    const currentValidity = /^## 当前有效性/m.exec(section)
+    if (currentValidity) section = section.slice(currentValidity.index, history?.index)
+    else if (history) section = section.slice(0, history.index)
   }
   const errors = []
   // Ignore rejection ranges (1..19). Only content/SAVE identifiers are checked,
