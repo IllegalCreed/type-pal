@@ -1,0 +1,3076 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "L4 four lore design freeze and characters-only canonical pilot admission",
+  "entries": [],
+  "migrationCredit": 0,
+  "design": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+  "sourceRevision": "c3bb4096c4041a7890350199ca226fc79d174832",
+  "acceptedRootBase": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+  "sourceDocuments": [
+    {
+      "path": "docs/lore/characters.md",
+      "sourceLines": 321,
+      "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "status": "candidate",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "sourceLines": 390,
+      "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+      "gitObject": "07b227d902742cbb26d2274357f7611d4efd0b8d",
+      "templateId": "narrative-idea-v1",
+      "templateVersion": "1.0.0",
+      "status": "draft",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "sourceLines": 386,
+      "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+      "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+      "templateId": "narrative-idea-v1",
+      "templateVersion": "1.0.0",
+      "status": "draft",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "sourceLines": 481,
+      "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+      "gitObject": "45795c07ed6340639f804b04f96d54b7432bd5c1",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "status": "candidate",
+      "historyOverlay": false
+    }
+  ],
+  "proposal": {
+    "path": "/tmp/type-pal-l4-readonly-design-v2-20261016.md",
+    "sha256": "89b3a32d9f34f84e628f3c581ff116d38ec389640f6cad8f63b247cdfa66d78f",
+    "bytes": 24760,
+    "lines": 230,
+    "completeMarkdown": "# L4 四篇 lore：只读内容预审与迁移提案\n\n状态：proposed / 未冻结 / 0 build / 0 repo写 / 0 source accept / 0迁移信用。固定源 `c3bb4096c4041a7890350199ca226fc79d174832`。Q隔离树仍是clean `07b3e834b2391ad0fac79023099a7d8fab8e6ac8`，本提案不签Q根新接入。\n\n四篇已实际全文读1578行；原文/图/旧记录的结构归类不替正文审查。外部89链接仅保旧出处，本次未联网、未认证官方、未执行产品/旧测试/coverage。\n\n## 来源与现行责任\n\n| 文档 | 原行 | 原题 | 出链 | 原GFM表/数据 | 建议类型/状态 |\n|---|---:|---:|---:|---:|---|\n| docs/lore/characters.md | 321 | 21 | 65 | 17/104 | reference-canon1.0 / candidate |\n| docs/lore/ideas/guijie/beat-sheet.md | 390 | 19 | 7 | 11/59 | narrative-idea1.0 / draft |\n| docs/lore/ideas/guijie/brainstorm.md | 386 | 51 | 9 | 5/25 | narrative-idea1.0 / draft + archive overlay1.0 |\n| docs/lore/timeline.md | 481 | 40 | 50 | 27/116 | reference-canon1.0 / candidate |\n\n全部四blob与Q07b工作文件实测相同。旧current记录实际为characters30、beat30、brainstorm30、timeline31字段（非Q的31/32）；完整原记录/registry/catalog及Git/blob/wholeSHA/唯一selector保存在source-priors JSON，并嵌入设计JSON。characters旧reviewedLines1–360但真实321；timeline旧1–461而真实481且已有Oct11增量，这些旧声明保历史，不刷成新读域。\n\n现有N已接收九篇只作为边界：项目T1/T5.5/独立T6及入口/禁天鬼族不撤；官方来源、五珠/回魂珠/版本未决不代选。D19允许纸面①–⑤，不等⑥产品准入；动态真时间在第三阶段。Ncontrol只选读九core/stop及根event标量，不假读完整15147行。\n\n## docs/lore/characters.md\n\n角色来源/作品/归宿与项目扩展红线的查考资料，不是本轮官方百科认证。\n\n建议 `reference-canon-v1 / 1.0.0`，Status=`candidate`；draft（旧current仅原库存状态；根独立内容接收后另纠，不把未知资料称current官设）。\n\n原身份：{\"literalOwner\": null, \"literalStatus\": null, \"literalDate\": \"最后查证2026-06-25；正文另有2026-06-30补充/作者裁决\", \"literalAttribution\": \"作者/多源/记忆；没有可核原作者姓名，旧catalog Codex只是治理归属\"}。\n\n- **适用范围**：三组人物、版本条件、跨作品链及扩展使用；不当现代引擎行为规范。\n- **一手来源**：原65href、✅/⚠/❓与具体标签逐claim保留，百科/维基/知乎/旧官网均只原出处，不把章节名当primary认证。\n- **当前真值**：仅明确本项目T1/T2/T3/T4/T5/T5.5/独立T6约束与6/30作者采用的李三思死因解释，原作品事实一律带采集scope。\n- **未知与冲突**：珠执行者三说、月如呈现A/B、圣姑地理、忆如死因/韩仲晰死法/蜀山代数留白、日期/页尾未同步逐项列。\n- **使用边界**：未核官设不用于改人物命运，创意契机不是制作承诺；新增判断要求具体作品primary/作者裁决；保21原题与source321。\n\n**before→after**：官方/坐实措辞和所有原claim保source；新live逐角色/逐来源分层并登记冲突，不重裁珠/人物/结局；仅设计冻结后的皇甫孤行显示修复。\n\n**最强反例**：source/五章不变却把谁用珠改为已定、粉丝生育说升官设或撤T5.5，应semantic counter。\n\n## docs/lore/ideas/guijie/beat-sheet.md\n\n三幕节拍、玩家动作/情绪/信息/载体的当前创意草稿，局部作者已定不等canon或产品完成。\n\n建议 `narrative-idea-v1 / 1.0.0`，Status=`draft`；draft保持。\n\n原身份：{\"literalOwner\": null, \"literalStatus\": \"起草中（2026-06-30）及各已定/草案/占位子标记\", \"literalDate\": \"6/30为框架；7/02为据点/路C/人物弧/骂词等后继\", \"literalAttribution\": \"作者提出/作者定/作者纠正；不倒填治理Agent为原创作者\"}。\n\n- **创意目的**：拼图而非揭秘，B1偏见→假背影→父母已轮回→复杂释怀；三幕和玩家动词分工具体保留。\n- **已知约束**：T1/T5.5/T6、不得天鬼族/拜月翻案、七章认知禁剧透、非恋爱、小鬼不是队友、D19/phase3真时间边界。\n- **候选内容**：保B1-B3、A/H/B/C/D各beat ID/全部表行，明确玉不碎已继任旧宏表，三路迷宫密度/四次背影/嘴硬但动摇等作者已定局部。\n- **未决选择**：月如boss残余灵力vs玉佩机制、女孩姓名与死亡先后、A7/D4词句、魂魄借鉴不是仙剑官设、原待办与现文本落位分别标。\n- **升级为 canon 的门槛**：先作者明确冲突选项/作品primary/版本，再独立任务落地与实际验；本轮不跑E2E/改产品，不把稿内全过视为验收。\n\n**before→after**：旧reference误分类改narrative draft；保19原题/7href/390source和beat逐行语义，显式玉碎旧述→已否决的范围；镜像表误吞正文恢复独立段落并记录native映射。\n\n**最强反例**：把玉碎当现行、把父亲真魂/小鬼队友/当前时辰引擎已落地写进结构合规稿，应counter。\n\n## docs/lore/ideas/guijie/brainstorm.md\n\n创作活档中的提案/否决/作者决议与待词句，历史讨论仍有当前检索消费者；不是干净canon规范。\n\n建议 `narrative-idea-v1 / 1.0.0`，Status=`draft`；draft保持。\n\n原身份：{\"literalOwner\": null, \"literalStatus\": \"节拍表构思中（情绪弧已定，戏眼待雕）是原页首时点\", \"literalDate\": \"6/29、6/30讨论；7/02 Claude提案和作者+GLM决议\", \"literalAttribution\": \"明确Claude为提案者、作者+GLM为所记审查角色；不把原角色名自动当本轮署名\"}。\n\n- **创意目的**：重新认识父母/拼图的情感引擎和讨论过程用途。\n- **已知约束**：作者是最终裁判、已轮回/假背影/禁剧透/非天鬼族/T5.5、纸面与实现分离。\n- **候选内容**：按7/02采纳/修改/否决列出当前局部意图，再保原51题顺序导航与提案文本来源；不把未采纳可选项顺带批准。\n- **未决选择**：姓名、A7/D4词句、机制冲突与相对年代；六未勾项逐项标已见文本落位但未全验。\n- **升级为 canon 的门槛**：确切作者裁决/作品primary/版本与正文同步；讨论记录不自升正式制作合同。\n- **历史范围**：6/29→7/02讨论、原Claude/作者角色、原页首构思中与后继清单的不同日期。\n- **原始结论**：完整386source/原被否决父母等待、水灵珠气息、水月宫拼凑、从不动摇、boss父亲脸等都保历史原义。\n- **当时证据**：原URL/characters/timeline/world参考与明确作者决议定位，原✅/全过不是今天官方或静态验收。\n- **当前有效性**：局部采纳按清单有效；明确否决不再现行；未决仍未知；本轮0产品/运行信用。\n- **继任文档**：beat-sheet是节拍落位消费者、taboos/versions约束权威；两稿按具体命题继任，不整体互相supersedes抹除历史。\n\n**before→after**：旧reference改narrative draft+既有archive overlay，不新增type/variant；新十章有具体当前/历史语义，完整386原source及每条否决可追；不退休活档的作者决议责任。\n\n**最强反例**：保source和模板但把Claude绝不动摇恢复当前、把7/02未采纳备选当采纳、勾完六待办，应counter。\n\n## docs/lore/timeline.md\n\n本项目滚动剧情因果/称呼/路线定位，加旧系列相对时间参考；没有计划里程碑含义，旧plan-status不适配。\n\n建议 `reference-canon-v1 / 1.0.0`，Status=`candidate`；draft（仍可按明确来源检索当前滚动事实；不把整篇未核系列概览当current官设）。\n\n原身份：{\"literalOwner\": null, \"literalStatus\": null, \"literalDate\": \"6/25系列采集；页首项目核对10/02，正文有10/06、10/07、10/11后继\", \"literalAttribution\": \"作者确认/原版提取/当前作者工程/既有E2E分轴，新增治理Owner不能冒旧执行者\"}。\n\n- **适用范围**：开场001-006具体叙事/停止点，与旧21章/跨作年表不同；章号不等测试ID。\n- **一手来源**：原50href、当前源/原提取/存量回执分等级；本轮只读窄caller，无ignoredraw或执行；实际27表116native数据行分别保留，不能因系列overview✅授官核。\n- **当前真值**：保学剑邀约非授艺、买虾前因与张四回应触发/香兰、医生→船→岛上叮嘱完整停点；Oct11既有固定批次按其身份引用，仅标窄caller在doctor17句结束、room步骤前期待张四e123=2且legacy-002；timeline原3的同域关系/实际世界值未知，不能按已治理report改3为2。\n- **未知与冲突**：所有旧日期/旧red/目标13773→13772、更早state3、21章锤/忘忧散与当前叙事差异、月如濒死/死亡版本、女娲粉丝说、绝对年代/作品4/6/7待核。\n- **使用边界**：不改测试catalog/006rework、不认source-read为E2E、不扩后21章；滚动补全仍同页唯一叙事源，测试事实回原catalog/report，不能重抄平行攻略。\n\n**before→after**：旧plan误分类改reference候选；不沿用旧461审阅数，实际481原行/40题/50链保留；新live拆日期/场景步骤/调用方期望/运行未知/publication，原3与caller期待2分别保留，不给任一数值新增运行信用。\n\n**最强反例**：把连续卡done替代006publicationrework，把原3或caller期待2无证统一为今天产品运行真值，或把旧21章✅/metadata10/02当今天全流程核验，即使结构绿也counter。\n\n## 冲突、日期与明确后继\n\n### L4-C01 角色采集日期与后续正文/页尾不一致\n\ndocs/lore/characters.md:5（最后查证6/25）; docs/lore/characters.md:133-141（6/30妻名/四大恶人/水灵劫补充与作者裁决）; docs/lore/characters.md:309-310（旧勾项仍说死因官方无明确表述）。\n\n按原日期分别保旧采集和6/30作者采用链；页首不是整篇最新验证时间。页尾旧总结标为未同步历史，不用物理后排位置推翻已注明6/30采用的版本。\n\n### L4-C02 谁用回魂珠三种库内记述\n\ndocs/lore/characters.md:20,54（王小虎）; docs/lore/characters.md:68-72（多数逍遥/另说忆如及多人协作建议）; docs/lore/versions.md:65-68（已接受N明确三说未决）。\n\n三说并列，建议多人协作也只建议；不新增第四答案、不代作者选择，T5.5主干不撤。 停止线：具体执行者/结局呈现用于新剧情前需对应作品primary/作者裁决\n\n### L4-C03 同一角色稿的外站/官方/硬红线成熟度混轴\n\ndocs/lore/characters.md:3-5,37,66,101-106,286-306（自述官方/多源、粉丝生育说、早逝、圣姑地理/年龄、忆如死因与韩仲晰死法）; docs/lore/taboos.md:27-45（已接受项目硬约束与官方证据分轴）。\n\n保全部✅/⚠/❓原标签，标原采集不是本轮官核；T1/T5.5/独立T6作为项目约束继续，未核死因不变已证。圣姑白河村附近/居大理是来源冲突待核，不擅移地理。\n\n### L4-C04 脑暴早期父母等待/戏眼未知被后继决议覆盖\n\ndocs/lore/ideas/guijie/brainstorm.md:9-16,45-90（早期???/擦肩/父母知情/留言及仇敌猜想）; docs/lore/ideas/guijie/brainstorm.md:94-104,190-196,334-368（父母已轮回/假背影/入口已定与7/02决议）。\n\n后继仅覆盖明示否决/采纳的具体命题；保原片段历史，不恢复父母长期等待，也不把整个创意文档标approved。\n\n### L4-C05 人物弧原Claude绝不动摇与作者嘴硬但动摇\n\ndocs/lore/ideas/guijie/brainstorm.md:310-326（原段已明确历史标记，但正文仍有从不动摇/OOC断语）; docs/lore/ideas/guijie/brainstorm.md:354-368（7/02作者覆盖及否决Claude B1.6改写）; docs/lore/ideas/guijie/beat-sheet.md:40（B1.6已写嘴硬但动摇）。\n\n新活层用作者后继；旧绝不动摇整段有archive边界，不能据原红线措辞反驳后继。原B1.6机制保未解之结，台词打磨仍未决。\n\n### L4-C06 七章认知剧透与旧自查全过\n\ndocs/lore/ideas/guijie/brainstorm.md:206-221（水灵珠气息/水月宫持珠编造错误与撤回）; docs/lore/ideas/guijie/brainstorm.md:262-267,300-308,354-360（骂词禁她/信任，旧全过表却仍写只以她存在）; docs/lore/ideas/guijie/beat-sheet.md:311（严禁水灵珠/巫后/信任关系）。\n\n旧错词/编造及自查标签保历史，7/02明确改词优先。新live不能说李逍遥七章知道珠/巫后/父母死因，也不以自查全过制造正式canon/运行验收。\n\n### L4-C07 待落beat任务与已有落位并存\n\ndocs/lore/ideas/guijie/brainstorm.md:370-386（六待办和下一步未勾）; docs/lore/ideas/guijie/beat-sheet.md:40,195,210-232,301-311,367（B1.6/A7/boss/据点/能力/C路/D4均已有相应文本）。\n\n逐项标文本已见落位与作者词句未验收；保原checkbox为原时点，不批量勾完。原候选全部待拍标题由7/02逐项采纳/修改/否决继任，未采纳可选内容不随之获批。\n\n### L4-C08 玉碎宏观表与明确玉不碎后继\n\ndocs/lore/ideas/guijie/beat-sheet.md:121（路B宏观表仍玉佩碎）; docs/lore/ideas/guijie/beat-sheet.md:153-161,247-249,291-295,345（作者纠正不碎、残魂归玉）。\n\n明示已否决的玉碎只历史；当前规划为显化破结界/回血/残魂归玉，玉佩保留，不复活父母或改变T5.5。标题待作者确认与内文明示定稿分项标记。\n\n### L4-C09 月如伏笔机制来源冲突不能擅合并\n\ndocs/lore/ideas/guijie/brainstorm.md:136-158,286-289（boss残余灵力吸收及零台词建议）; docs/lore/ideas/guijie/beat-sheet.md:308,313-339,364,379（C5/D1残余灵力与最终版玉佩小鬼容魂同时存在）。\n\n明确并列候选/冲突，保玉不碎已定和T5.5约束；不能代作者宣称两机制同时成立或删一版。三魂七魄/古剑引用只原创借鉴，绝不升仙剑官设。 停止线：具体月如新机制用于制作/升canon需作者明确选择及相关作品来源\n\n### L4-C10 小鬼死亡顺序/年龄与年代算术待核\n\ndocs/lore/ideas/guijie/brainstorm.md:119,227-229（早期要求比李三思先死）; docs/lore/ideas/guijie/beat-sheet.md:259-288（被救4-5岁、李逍遥1-2、女孩后长到约10病逝）; docs/lore/ideas/guijie/brainstorm.md:256（出境17-18年前、洪水10年前的提案自检）; docs/lore/timeline.md:393-404,450-452（十年前回梦、木剑换珠、绝对年代待查）。\n\n记录原年龄/相对年数及先后假设，不凭记忆补成年年龄或官方年表。叙事推算不当官核；女孩早期先死条件与后继成长链保冲突，不能静默选死因/年份。\n\n### L4-C11 时间线收集/核对日期与001-006覆盖不统一\n\ndocs/lore/timeline.md:5-7（6/25收集、10/02最近核对/只001-005）; docs/lore/timeline.md:35-39（10/11 001-006后继验收）; docs/lore/timeline.md:61-81,144-154（10/07/10/06旧通过/撤信/red及目标纠正）。\n\n分清采集日期、执行artifact日期、候选签收日期、当前治理日期；10/11固定候选后继仅继任对应旧批次信用，不能重写旧red/旧数字或扩后期21章。\n\n### L4-C12 timeline006叙事张四state3与当前caller2\n\ndocs/lore/timeline.md:137-142,156-157（洪大夫后方案/状态与旧state3叙述）; docs/testing/e2e/stages/006-doctor-boat/report.md:26-38,52-60（治理后明确caller2/旧state3历史/发布rework）; scripts/e2e/boat-journey.mjs:224-240（实际assert legacy-002和state2）。\n\n两种数值保各自证据轴：timeline156–157是未绑定独立日期/候选/路径的原修正自述state3；006report27及52分别为2026-10-16迁移说明/2026-10-10源码核读所记caller期望state2。固定c3bb直接caller仅证明s002/e35的doctor17句结束后断言s005/e123 selection=legacy-002且entityState=2，不证明执行通过、所有路径或数值编码真值。新live列unknown与待核，不把旧3静默改2，也不因report已治理就采2为产品事实。 停止线：若要改数值或宣称已解释冲突，先核固定当前作者工程s002/e35结束命令→s005/e123方案/状态迁移、runtime状态编码/枚举含义，以及同一合法005前驱/时点的实际观察；本格式治理可保原文+unknown而不实施此产品核查。\n\n- **timeline日期/场景/步骤/状态轴**：{\"range\": \"137–142,156–157\", \"date\": \"156–157未单独标日期；邻文有10-06/10-07/后继10-11记录，不能由邻接自动给本句定日期\", \"sceneStep\": \"洪大夫切换码头张四方案并恢复可见的原修正自述；没有本句独有输入/candidate/runtime绑定\", \"stateAxis\": \"原作者工程修复自述state3；是否当前编码/相同步骤/相同输入未核\"}\n- **report日期/场景/步骤/状态轴**：{\"range\": \"13,20,27,34–44,52–60\", \"date\": \"本轮迁移说明10-16；52行标10-10 caller核读；原revision/执行版本/日期另保不升级\", \"sceneStep\": \"真实005 saves→s002/e35 doctor→s005/e123的源码调用方预期，publication仍rework\", \"stateAxis\": \"caller精确期待2；不是新的运行值/全路径真值，也不等于report全rework否定某一断言\"}\n- **directCaller日期/场景/步骤/状态轴**：{\"range\": \"218–245\", \"revision\": \"c3bb4096c4041a7890350199ca226fc79d174832\", \"sceneStep\": \"s002/e35触碰后doctor依次确认342/343/345/346/347/349/350/352/353/354/356/357/359/360/362/363/364，room小虎子步骤之前\", \"assertions\": [\"world.script.behaviors.entities.s005.e123.trigger.selection.value == legacy-002\", \"world.script.entityState.s005.e123 == 2\"], \"proofLimit\": \"直接读到断言期待；未读当前作者工程该命令、状态枚举完整语义或执行同输入，不能给实际世界值签字\"}\n\n**最强替代解释（待证，不作为已发生事实）**：\n\n- 不同doctor完成/后续交互时点、前驱路径或内容revision导致不同状态；本轮未证两方同调用域。\n- 旧数字可见/挡路编码与当前canonical状态编码可能不同；须读真实schema/转换/执行语义，不能凭数字相近认映射。\n- report仍rework，测试oracle也可能与产品真值不同；其已治理只保障范围表述，不自动证明断言本身业务正确。\n- timeline原state3也可能是历史错误/范围含混；未核不代表为3背书，不能靠后继物理位置或权威标签擅纠。\n\n### L4-C13 固定连续卡accept不取代006出版rework或本轮执行\n\ndocs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:95-136（10/11固定最终批次accept及真实warnings/首次docs失败）; docs/testing/catalog.json:entries.id=e2e-006（唯一条目rework，lastVerified10/03/reviewBy10/23）; docs/testing/e2e/stages/006-doctor-boat/report.md:13,34-44（同一publication状态与旧原始冲突保留）。\n\ntimeline路由叙事与测试publication分事实权；保Oct11既有固定批次及原artifact日期/浏览器消息，不能把catalog自动verified或称本轮复跑/全部NPC视觉成功。\n\n### L4-C14 旧21章与滚动流程/作品版本冲突\n\ndocs/lore/timeline.md:230-254（旧1.4码头拿锤/旧2.4昏迷与滚动141客栈领锤服丹，以及酒剑仙初遇/学剑分界）; docs/lore/timeline.md:350-360（月如重伤濒死/死亡两述）; docs/lore/characters.md:58-76（版本呈现/续命链）; docs/lore/timeline.md:473-476（忆如11重逢/16相恋/20婚育多时点）。\n\n逐来源/作品/日期并列，不把所有21章✅升级当前项目路线；4/6/7作品位置、五珠、绝对年代待核继续保留。11重逢/16相恋并非单凭数字就能判矛盾；不能把它们合成一个新确认事件。\n\n### L4-C15 表格渲染两处真实缺陷需显式迁移映射\n\ndocs/lore/characters.md:138-142（blockquote切断李三思表，皇甫英不知情行在nativeGFM外）; docs/lore/ideas/guijie/beat-sheet.md:198-204（镜像表后无空行，正文被Marked吞作第4数据行）。\n\n提议仅修live显示：皇甫行归表或独立claim表；同一个偷正文回普通段落。原source字节和原native解析均完整保留，逐行row→row/row→prose映射；禁止只以全包304总数相等掩盖变化。\n\n### L4-C16 昼夜创意不能恢复phase2真实时间或扩DLC制作\n\ndocs/lore/ideas/guijie/brainstorm.md:38-41,190-194,231（时辰入口构思与选择）; docs/lore/ideas/guijie/beat-sheet.md:86-101（夜间/踩tile/永久错过玩法提案）; docs/phase2/design-backlog.md:105-115（动态时间2026-09-03移交phase3）; docs/phase2/decisions.md:223-249（D19纸面并行，⑥另实施）。\n\n保纸面已定意图及未定触发方案，二阶段仅既有昼夜氛围；不称当前引擎入口实现、真实时间可用或完整DLC已授权。\n\n## 保真、pilot与未来最小写域\n\n原source1578行全部字节含末LF放大于源内最大反引号run的不可交互text围栏，同时保固定Git/blob/SHA。新五章/brainstorm十章必须有该篇实质含义。131原live标题保markup/渲染文本/slug/顺序，尤其timeline七条入站fragment；131旧href含89外链保逐occurrence/label/multiplicity，不宣称当前HTTP。60原GFM表304数据/424物理pipe行/4代码块分别映射；characters104→105与beat59→58两修复必须单列，不能用net304相等冒无损。\n\n不整体搬目录、不拆出第二份决策或攻略真源。只有已有模板/既有archive overlay，0新增类型/版本/formatvariant；brainstorm的历史5章是现有叠加合同，不能把活档整个退役掉。\n\n建议根另建managed `codex/docs-lore-remaining-l4` / `/Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal`，根传实际已接受commit后才准入。Owner建议q_remaining_guides，当前没有build。最大白名单仅四MD+新 `docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json` 五文件；不改Q、N九篇/dlc/README、共享账、脚本、DS、产品/旧测试/coverage/CI/main。\n\n顺序：characters+首1receipt真实pilot→非作者完整接收；brainstorm+同receipt真实narrative/历史双合同pilot→接收；再beat；最后timeline。每篇source/live/完整43语义均独立验，不能首篇包办。接收期实跑真实model/registered词表、源/题/链/表/代码/日期和语义反控；语义假话即使结构绿仍counter。\n\n作者冻结候选后实跑check:docs/lint/diff/strict/progress；共享after漂移保持实际FAIL，不刷中央。根另外接4唯一current/3类型纠正/4routes/phase成熟度及最多两既有矩阵行。Lore from10已含characters，只新增另3至13。c3bb4096c4041a7890350199ca226fc79d174832历史39/改两行余37只属该时点；已接受根782128f12f475a7a72bc0d4dc7c6b4fe091c6509实有40，若只改Lore一行则余39整对象/对应MD行保原，若改两行则余38保原；若根明确选择仅新增关系则旧40全保、另加唯一ID。Q行q-author-guidance-vs-unverified-runtime-and-save-paths完整锁定native JSON对象SHA256 6b829bf1ab3888b30d7f290ed7bf99a9e38c602ab3e781902123ef23243055ec及对应MD行。未来执行须钉根给出的已接受full commit，重新枚举实际baseline唯一ID及全对象/MD行hash，按实际B与明确旧改动集合保B减该集合大小；仅新增则保全部B，不将40写成永恒分母。Q对象若较此固定pin变化先停并由根核其另已接受后继；不擅扩混合新增/旧行修改，不把本窄修、自验或关系枚举称source接受/全矩阵或六域语义完成。\n\n治理无需新的用户逐批许可；未决产品/创作只阻相应升canon/制作，不阻如实保candidate/draft。禁止源内容accept、目标done、runtime/E2E/视觉/coverage信用。\n\n## 实际读域与产物\n\n完整fresh四源1578、N冻结223、registry824、四相关模板；本卡顶部1–80和890–951、taboos1–118、versions1–70、D19:223–249/backlog100–115、连续卡90–138、006report1–64、boat-journey218–245窄读。各Git/blob/whole/rangeSHA在JSON；整文件hash不是整模块审计。AGENTS/CLAUDE/READ-FIRST/workflow/model/board/templates/testing规范是本Agent前一Q任务实际全文读，当前c3bb逐字节相等后明确复用。\n\n首c3bb短ID歧义被Git拒，根随后给完整commit；一次matrix投影错猜relations触发KeyError，随后读真实rows；长输出缺口已定向补读，均0repo写，不称首轮全绿。\n\n- 完整设计与逐篇prior：`/tmp/type-pal-l4-readonly-design-20261016.json`。\n- 原物理prior：`/tmp/type-pal-l4-source-priors-20261016.json`。\n- 原图/原标题/全部链接/GFM表：`/tmp/type-pal-l4-source-graph-20261016.json`（45入链/7fragment/78JSON exact路径，0断链；机械图不算全库正文阅读）。\n\n无外部Agent转交提示词；根内部复核本设计，Q先收口，再冻结精确L4策略与准入。\n",
+    "structured": {
+      "path": "/tmp/type-pal-l4-readonly-design-v2-20261016.json",
+      "sha256": "ae8cd55e3b8aeabcccb86789a819d7e3c0f7d28626eef92a1284bfcec054a434",
+      "bytes": 94847,
+      "lines": 2081,
+      "completeProposal": {
+        "kind": "L4 remaining four lore read-only content design proposal; no source accept/build/pilot/migration credit",
+        "date": "2026-10-16",
+        "owner": "q_remaining_guides readonly proposer; root Codex decides freeze/admission",
+        "sourceRevision": "c3bb4096c4041a7890350199ca226fc79d174832",
+        "sourceScope": "Fixed preflight source only; current Q root intake not signed by this report. Q07b remains frozen clean. Four originals actually fully read1578; separate 131head/131link/304native row graph is mechanical corpus traversal.",
+        "status": "proposed/unfrozen/no build allowed",
+        "newTypes": 0,
+        "templatesFrozenRegistry": {
+          "path": "docs/phase-governance/templates/registry.json",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "types": 17,
+          "allSelectedVersions": "1.0.0",
+          "newVariant": false
+        },
+        "documents": [
+          {
+            "path": "docs/lore/characters.md",
+            "sourceLines": 321,
+            "bytes": 29715,
+            "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+            "equalQ07bWorkingBytes": true,
+            "legacyCurrentLocator": {
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+              "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+              "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+              "selector": {
+                "entries.path": "docs/lore/characters.md",
+                "uniqueMatches": 1
+              },
+              "fields": 30
+            },
+            "purpose": "角色来源/作品/归宿与项目扩展红线的查考资料，不是本轮官方百科认证。",
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "templateVersion": "1.0.0",
+            "status": "candidate",
+            "catalogMaturityProposal": "draft（旧current仅原库存状态；根独立内容接收后另纠，不把未知资料称current官设）",
+            "historyOverlay": false,
+            "sourceIdentity": {
+              "literalOwner": null,
+              "literalStatus": null,
+              "literalDate": "最后查证2026-06-25；正文另有2026-06-30补充/作者裁决",
+              "literalAttribution": "作者/多源/记忆；没有可核原作者姓名，旧catalog Codex只是治理归属"
+            },
+            "outline": {
+              "适用范围": "三组人物、版本条件、跨作品链及扩展使用；不当现代引擎行为规范。",
+              "一手来源": "原65href、✅/⚠/❓与具体标签逐claim保留，百科/维基/知乎/旧官网均只原出处，不把章节名当primary认证。",
+              "当前真值": "仅明确本项目T1/T2/T3/T4/T5/T5.5/独立T6约束与6/30作者采用的李三思死因解释，原作品事实一律带采集scope。",
+              "未知与冲突": "珠执行者三说、月如呈现A/B、圣姑地理、忆如死因/韩仲晰死法/蜀山代数留白、日期/页尾未同步逐项列。",
+              "使用边界": "未核官设不用于改人物命运，创意契机不是制作承诺；新增判断要求具体作品primary/作者裁决；保21原题与source321。"
+            },
+            "beforeAfter": "官方/坐实措辞和所有原claim保source；新live逐角色/逐来源分层并登记冲突，不重裁珠/人物/结局；仅设计冻结后的皇甫孤行显示修复。",
+            "strongestCounter": "source/五章不变却把谁用珠改为已定、粉丝生育说升官设或撤T5.5，应semantic counter。",
+            "counts": {
+              "originalHeadings": 21,
+              "hrefs": 65,
+              "gfmTables": 17,
+              "gfmDataRows": 104,
+              "physicalPipeRows": 139,
+              "codeBlocks": 0,
+              "inbound": 16,
+              "incomingFragments": 0,
+              "jsonExactRefs": 22
+            },
+            "relatedConflicts": ["L4-C01", "L4-C02", "L4-C03", "L4-C14", "L4-C15"],
+            "priorRegistry": {
+              "path": "docs/lore/characters.md",
+              "phase": "lore",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "reviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic",
+              "reviewRecord": "20261004-lore-phase3-batch1.json"
+            },
+            "priorCatalog": {
+              "id": "docs-lore-characters",
+              "path": "docs/lore/characters.md",
+              "title": "官方角色设定（characters）",
+              "phase": "lore",
+              "module": "canon",
+              "capability": "lore-characters",
+              "status": "current",
+              "reviewStatus": "reviewed",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "sourceRefs": [
+                {
+                  "path": "docs/lore/characters.md",
+                  "lines": "1-1",
+                  "anchor": "官方角色设定（characters）",
+                  "role": "document-source",
+                  "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+                }
+              ],
+              "publicCallers": ["docs navigation"],
+              "legalInputs": ["current repository documentation", "docs/lore/characters.md:1-1"],
+              "businessOracle": {
+                "type": "phase-lore-document-governance",
+                "assertions": [
+                  "the document has one explicit phase/lore/module responsibility",
+                  "historical or draft material is not silently promoted to current canonical truth",
+                  "source references and version claims remain auditable from the current repository"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+                "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+              },
+              "revision": {
+                "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                    "date": "2026-10-04",
+                    "action": "phase-lore-governance-inventory",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "document-audit",
+                "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+                "claims": ["phase/lore ownership and status inventory"]
+              },
+              "history": [
+                {
+                  "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                  "action": "catalogued",
+                  "status": "current"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
+              "userVisibleBeforeAfter": null,
+              "lastReviewed": "2026-10-04"
+            },
+            "completePriorCurrentRecord": {
+              "path": "docs/lore/characters.md",
+              "contentReviewStatus": "content-reviewed",
+              "coreConclusion": "The document establishes source-labelled character facts, hard redlines, version-dependent outcomes, and explicit creative opportunities across the main party, Miao court, Li Sansi/Huangfu Ying, and the Yi Ru–Han Zhongxi–Xiao Man succession chain. It records unresolved later-series details instead of collapsing them into one canon.",
+              "truthAnchors": [
+                "official/multi-source versus fan interpretation is labelled",
+                "Yueru outcome and resurrection source conflict are explicitly separated",
+                "Li Sansi death chain contains an author-selected Water Orb interpretation"
+              ],
+              "unresolved": [
+                "external source authority and later-series details remain author-review items",
+                "the actor who uses the Nine-Turn Resurrection Pearl, Yi Ru's exact death wording, and Han Zhongxi's death mechanism remain pending",
+                "several ⚠/❓ claims must not be used as canonical without author adjudication"
+              ],
+              "nextStep": "Use the ✅ entries and explicit redlines as guarded reference; keep ⚠/❓ entries blocked until a primary source or author decision resolves them.",
+              "phase": "lore",
+              "module": "characters.md",
+              "capability": "lore-characters",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "publicCallers": ["docs navigation"],
+              "legalInputs": ["current repository documentation", "docs/lore/characters.md"],
+              "businessOracle": {
+                "type": "content-review",
+                "assertions": [
+                  "core conclusion is grounded in the read body",
+                  "unresolved claims remain explicitly blocked"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/characters.md"],
+                "notes": "Content review record; no runtime/E2E/coverage credit."
+              },
+              "revision": {
+                "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+                "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                    "date": "2026-10-04",
+                    "action": "content-deep-review-batch-1",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "content-reading",
+                "path": "docs/lore/characters.md",
+                "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+              },
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "action": "read-and-reviewed",
+                  "contentReviewStatus": "content-reviewed"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+              "userVisibleBeforeAfter": null,
+              "reviewedLines": "1-360",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "readMethod": "full-text-read",
+              "reviewDepth": "deep-semantic"
+            }
+          },
+          {
+            "path": "docs/lore/ideas/guijie/beat-sheet.md",
+            "sourceLines": 390,
+            "bytes": 41376,
+            "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+            "gitObject": "07b227d902742cbb26d2274357f7611d4efd0b8d",
+            "equalQ07bWorkingBytes": true,
+            "legacyCurrentLocator": {
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
+              "gitObject": "255bbfdb079ebb2fef01e79bdf6605f1559d6721",
+              "fileSha256": "3d30bec33328b836fb1263907dbbf03c4d7c0d3a7d9ff75b043c947365391e56",
+              "selector": {
+                "entries.path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "uniqueMatches": 1
+              },
+              "fields": 30
+            },
+            "purpose": "三幕节拍、玩家动作/情绪/信息/载体的当前创意草稿，局部作者已定不等canon或产品完成。",
+            "docType": "narrative-idea",
+            "templateId": "narrative-idea-v1",
+            "templateVersion": "1.0.0",
+            "status": "draft",
+            "catalogMaturityProposal": "draft保持",
+            "historyOverlay": false,
+            "sourceIdentity": {
+              "literalOwner": null,
+              "literalStatus": "起草中（2026-06-30）及各已定/草案/占位子标记",
+              "literalDate": "6/30为框架；7/02为据点/路C/人物弧/骂词等后继",
+              "literalAttribution": "作者提出/作者定/作者纠正；不倒填治理Agent为原创作者"
+            },
+            "outline": {
+              "创意目的": "拼图而非揭秘，B1偏见→假背影→父母已轮回→复杂释怀；三幕和玩家动词分工具体保留。",
+              "已知约束": "T1/T5.5/T6、不得天鬼族/拜月翻案、七章认知禁剧透、非恋爱、小鬼不是队友、D19/phase3真时间边界。",
+              "候选内容": "保B1-B3、A/H/B/C/D各beat ID/全部表行，明确玉不碎已继任旧宏表，三路迷宫密度/四次背影/嘴硬但动摇等作者已定局部。",
+              "未决选择": "月如boss残余灵力vs玉佩机制、女孩姓名与死亡先后、A7/D4词句、魂魄借鉴不是仙剑官设、原待办与现文本落位分别标。",
+              "升级为 canon 的门槛": "先作者明确冲突选项/作品primary/版本，再独立任务落地与实际验；本轮不跑E2E/改产品，不把稿内全过视为验收。"
+            },
+            "beforeAfter": "旧reference误分类改narrative draft；保19原题/7href/390source和beat逐行语义，显式玉碎旧述→已否决的范围；镜像表误吞正文恢复独立段落并记录native映射。",
+            "strongestCounter": "把玉碎当现行、把父亲真魂/小鬼队友/当前时辰引擎已落地写进结构合规稿，应counter。",
+            "counts": {
+              "originalHeadings": 19,
+              "hrefs": 7,
+              "gfmTables": 11,
+              "gfmDataRows": 59,
+              "physicalPipeRows": 80,
+              "codeBlocks": 1,
+              "inbound": 3,
+              "incomingFragments": 0,
+              "jsonExactRefs": 17
+            },
+            "relatedConflicts": [
+              "L4-C05",
+              "L4-C06",
+              "L4-C07",
+              "L4-C08",
+              "L4-C09",
+              "L4-C10",
+              "L4-C15",
+              "L4-C16"
+            ],
+            "priorRegistry": {
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "phase": "lore",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "reviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic",
+              "reviewRecord": "20261004-lore-guijie-batch2.json"
+            },
+            "priorCatalog": {
+              "id": "docs-lore-ideas-guijie-beat-sheet",
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "title": "DLC-01 鬼界支线 · 节拍表（Beat Sheet）",
+              "phase": "lore",
+              "module": "ideas",
+              "capability": "lore-ideas-guijie-beat-sheet",
+              "status": "draft",
+              "reviewStatus": "reviewed",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "afterSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "sourceRefs": [
+                {
+                  "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                  "lines": "1-1",
+                  "anchor": "DLC-01 鬼界支线 · 节拍表（Beat Sheet）",
+                  "role": "document-source",
+                  "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff"
+                }
+              ],
+              "publicCallers": ["docs navigation"],
+              "legalInputs": [
+                "current repository documentation",
+                "docs/lore/ideas/guijie/beat-sheet.md:1-1"
+              ],
+              "businessOracle": {
+                "type": "phase-lore-document-governance",
+                "assertions": [
+                  "the document has one explicit phase/lore/module responsibility",
+                  "historical or draft material is not silently promoted to current canonical truth",
+                  "source references and version claims remain auditable from the current repository"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+                "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+              },
+              "revision": {
+                "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "implementationSha": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                    "date": "2026-10-04",
+                    "action": "phase-lore-governance-inventory",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "document-audit",
+                "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+                "claims": ["phase/lore ownership and status inventory"]
+              },
+              "history": [
+                {
+                  "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                  "action": "catalogued",
+                  "status": "draft"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+              "userVisibleBeforeAfter": null,
+              "lastReviewed": "2026-10-04"
+            },
+            "completePriorCurrentRecord": {
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "contentReviewStatus": "content-reviewed",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "readMethod": "full-text-read",
+              "coreConclusion": "The beat sheet turns the DLC-01 concept into a three-act sequence: a Shengyu village prejudice prelude, a Ghost Realm entry and three-route puzzle, then a return to the human world. Its current dramatic spine is the false father silhouette, parents already reincarnated, the child ghost/Blue Dragon Jade sacrifice loop, and Li Xiaoyao's release rather than reunion. It deliberately preserves many scene-level placeholders and marks the document as draft.",
+              "truthAnchors": [
+                "B1-B3 entry chain and the permanent room closure are explicitly author-set decisions",
+                "the Ghost Realm routes are A rescue, B trap/sacrifice, C boss reveal; route C is intentionally compact",
+                "the child ghost is an ordinary ghost, not Tian Gui, and the jade remains intact for the later Yue Ru foreshadow",
+                "the seventh-chapter time window forbids early exposition of Water Orb, Witch Queen, or Moon Cult facts"
+              ],
+              "unresolved": [
+                "some B1.6, A.7, D.4 wording is still waiting for author polish",
+                "the child ghost name and several route beats remain placeholders",
+                "the document contains superseded ideas inline; the final beat sheet must preserve history while making the current decision block unambiguous",
+                "the proposed Yue Ru soul-residue mechanism is a narrative hypothesis, not a runtime or canon contract"
+              ],
+              "nextStep": "Keep as narrative-idea draft. When promoted, split the accepted beat contract from the historical proposal log, attach primary-source/timeline references for every time-sensitive claim, and hand the route/entrance content to a scoped content task.",
+              "phase": "lore",
+              "module": "ideas/guijie",
+              "capability": "lore-ideas-guijie-beat-sheet",
+              "owner": "Codex",
+              "provenance": ["source-document", "author-decision-log", "repository-history"],
+              "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "afterSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "publicCallers": ["lore navigation", "DLC-01 content planning"],
+              "legalInputs": [
+                "docs/lore/ideas/guijie/beat-sheet.md",
+                "docs/lore/world-rules-ghost-realm.md",
+                "docs/lore/timeline.md",
+                "docs/lore/taboos.md"
+              ],
+              "businessOracle": {
+                "type": "content-review",
+                "assertions": [
+                  "all 390 lines were read",
+                  "draft and superseded claims remain explicitly bounded",
+                  "no runtime/E2E/coverage credit is implied"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": [
+                  "docs/lore/ideas/guijie/brainstorm.md",
+                  "docs/lore/dlc-ideas.md",
+                  "docs/lore/world-rules-ghost-realm.md"
+                ],
+                "notes": "Beat-level elaboration is not a second canon source; brainstorm history remains separate."
+              },
+              "revision": {
+                "currentSha": "working-tree",
+                "implementationSha": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "working-tree",
+                    "date": "2026-10-04",
+                    "action": "full-text-content-review",
+                    "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "content-reading",
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+                "readLines": "1-390"
+              },
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "action": "read-and-reviewed",
+                  "contentReviewStatus": "content-reviewed"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not treat draft beats or narrative hypotheses as current canon, implementation requirements, or proof that the described scene exists in the engine",
+              "userVisibleBeforeAfter": null,
+              "reviewedLines": "1-390",
+              "reviewDepth": "deep-semantic"
+            }
+          },
+          {
+            "path": "docs/lore/ideas/guijie/brainstorm.md",
+            "sourceLines": 386,
+            "bytes": 38347,
+            "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+            "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+            "equalQ07bWorkingBytes": true,
+            "legacyCurrentLocator": {
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
+              "gitObject": "255bbfdb079ebb2fef01e79bdf6605f1559d6721",
+              "fileSha256": "3d30bec33328b836fb1263907dbbf03c4d7c0d3a7d9ff75b043c947365391e56",
+              "selector": {
+                "entries.path": "docs/lore/ideas/guijie/brainstorm.md",
+                "uniqueMatches": 1
+              },
+              "fields": 30
+            },
+            "purpose": "创作活档中的提案/否决/作者决议与待词句，历史讨论仍有当前检索消费者；不是干净canon规范。",
+            "docType": "narrative-idea",
+            "templateId": "narrative-idea-v1",
+            "templateVersion": "1.0.0",
+            "status": "draft",
+            "catalogMaturityProposal": "draft保持",
+            "historyOverlay": true,
+            "historyOverlayTemplateId": "archive-record-v1",
+            "historyOverlayVersion": "1.0.0",
+            "sourceIdentity": {
+              "literalOwner": null,
+              "literalStatus": "节拍表构思中（情绪弧已定，戏眼待雕）是原页首时点",
+              "literalDate": "6/29、6/30讨论；7/02 Claude提案和作者+GLM决议",
+              "literalAttribution": "明确Claude为提案者、作者+GLM为所记审查角色；不把原角色名自动当本轮署名"
+            },
+            "outline": {
+              "创意目的": "重新认识父母/拼图的情感引擎和讨论过程用途。",
+              "已知约束": "作者是最终裁判、已轮回/假背影/禁剧透/非天鬼族/T5.5、纸面与实现分离。",
+              "候选内容": "按7/02采纳/修改/否决列出当前局部意图，再保原51题顺序导航与提案文本来源；不把未采纳可选项顺带批准。",
+              "未决选择": "姓名、A7/D4词句、机制冲突与相对年代；六未勾项逐项标已见文本落位但未全验。",
+              "升级为 canon 的门槛": "确切作者裁决/作品primary/版本与正文同步；讨论记录不自升正式制作合同。",
+              "历史范围": "6/29→7/02讨论、原Claude/作者角色、原页首构思中与后继清单的不同日期。",
+              "原始结论": "完整386source/原被否决父母等待、水灵珠气息、水月宫拼凑、从不动摇、boss父亲脸等都保历史原义。",
+              "当时证据": "原URL/characters/timeline/world参考与明确作者决议定位，原✅/全过不是今天官方或静态验收。",
+              "当前有效性": "局部采纳按清单有效；明确否决不再现行；未决仍未知；本轮0产品/运行信用。",
+              "继任文档": "beat-sheet是节拍落位消费者、taboos/versions约束权威；两稿按具体命题继任，不整体互相supersedes抹除历史。"
+            },
+            "beforeAfter": "旧reference改narrative draft+既有archive overlay，不新增type/variant；新十章有具体当前/历史语义，完整386原source及每条否决可追；不退休活档的作者决议责任。",
+            "strongestCounter": "保source和模板但把Claude绝不动摇恢复当前、把7/02未采纳备选当采纳、勾完六待办，应counter。",
+            "counts": {
+              "originalHeadings": 51,
+              "hrefs": 9,
+              "gfmTables": 5,
+              "gfmDataRows": 25,
+              "physicalPipeRows": 35,
+              "codeBlocks": 2,
+              "inbound": 6,
+              "incomingFragments": 0,
+              "jsonExactRefs": 16
+            },
+            "relatedConflicts": [
+              "L4-C04",
+              "L4-C05",
+              "L4-C06",
+              "L4-C07",
+              "L4-C09",
+              "L4-C10",
+              "L4-C16"
+            ],
+            "priorRegistry": {
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "phase": "lore",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "reviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic",
+              "reviewRecord": "20261004-lore-guijie-batch2.json"
+            },
+            "priorCatalog": {
+              "id": "docs-lore-ideas-guijie-brainstorm",
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "title": "DLC-01 鬼界支线 · 创作讨论记录",
+              "phase": "lore",
+              "module": "ideas",
+              "capability": "lore-ideas-guijie-brainstorm",
+              "status": "draft",
+              "reviewStatus": "reviewed",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "afterSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "sourceRefs": [
+                {
+                  "path": "docs/lore/ideas/guijie/brainstorm.md",
+                  "lines": "1-1",
+                  "anchor": "DLC-01 鬼界支线 · 创作讨论记录",
+                  "role": "document-source",
+                  "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd"
+                }
+              ],
+              "publicCallers": ["docs navigation"],
+              "legalInputs": [
+                "current repository documentation",
+                "docs/lore/ideas/guijie/brainstorm.md:1-1"
+              ],
+              "businessOracle": {
+                "type": "phase-lore-document-governance",
+                "assertions": [
+                  "the document has one explicit phase/lore/module responsibility",
+                  "historical or draft material is not silently promoted to current canonical truth",
+                  "source references and version claims remain auditable from the current repository"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+                "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+              },
+              "revision": {
+                "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                "implementationSha": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                    "date": "2026-10-04",
+                    "action": "phase-lore-governance-inventory",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "document-audit",
+                "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+                "claims": ["phase/lore ownership and status inventory"]
+              },
+              "history": [
+                {
+                  "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                  "action": "catalogued",
+                  "status": "draft"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
+              "userVisibleBeforeAfter": null,
+              "lastReviewed": "2026-10-04"
+            },
+            "completePriorCurrentRecord": {
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "contentReviewStatus": "content-reviewed",
+              "docType": "reference-canon",
+              "templateId": "reference-canon-v1",
+              "template": "docs/phase-governance/templates/reference-canon.md",
+              "templateCompliance": "governed-legacy",
+              "readMethod": "full-text-read",
+              "coreConclusion": "The brainstorm is the discussion ledger behind DLC-01. It records the accepted emotional arc, the shift from parents waiting in the Ghost Realm to parents already reincarnated, the false-silhouette trap, the ordinary-ghost guide, the water-disaster victim boss proposal, and the later author decision list. It is useful for decision history but is not itself a clean canon specification.",
+              "truthAnchors": [
+                "the document explicitly labels early concepts as superseded and preserves later author decisions",
+                "the accepted boss proposal is the person who escorted Li Sansi from Miao territory, not a Four Evils member or Moon Cult loyalist",
+                "the time-line redline prohibits Water Orb/Witch Queen/Moon Cult exposition at the seventh-chapter insertion point",
+                "the author decision list is the current local authority for the narrative proposal, subject to later canon review"
+              ],
+              "unresolved": [
+                "the proposed boss identity and soul mechanics still require primary-source/product adjudication before canon promotion",
+                "the document contains contradictory historical paragraphs that must not be quoted without the decision-list context",
+                "remaining beat-sheet follow-ups are not all closed"
+              ],
+              "nextStep": "Keep as a historical narrative workshop record. Link future canonical decisions to the decision list and migrate only accepted content into the beat-sheet/template; never use an early brainstorm paragraph as a standalone canon citation.",
+              "phase": "lore",
+              "module": "ideas/guijie",
+              "capability": "lore-ideas-guijie-brainstorm",
+              "owner": "Codex",
+              "provenance": ["source-document", "author-decision-log", "repository-history"],
+              "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "afterSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "publicCallers": ["lore navigation", "DLC-01 design history"],
+              "legalInputs": [
+                "docs/lore/ideas/guijie/brainstorm.md",
+                "docs/lore/ideas/guijie/beat-sheet.md",
+                "docs/lore/characters.md",
+                "docs/lore/timeline.md"
+              ],
+              "businessOracle": {
+                "type": "content-review",
+                "assertions": [
+                  "all 386 lines were read",
+                  "historical and accepted decisions are distinguished",
+                  "no runtime/E2E/coverage credit is implied"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/lore/ideas/guijie/beat-sheet.md", "docs/lore/dlc-ideas.md"],
+                "notes": "This is a discussion ledger; it must not duplicate the canonical reference layer."
+              },
+              "revision": {
+                "currentSha": "working-tree",
+                "implementationSha": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "working-tree",
+                    "date": "2026-10-04",
+                    "action": "full-text-content-review",
+                    "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "content-reading",
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+                "readLines": "1-386"
+              },
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "action": "read-and-reviewed",
+                  "contentReviewStatus": "content-reviewed"
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not cite superseded brainstorm text as current author intent; use the explicit decision list and a later canonical document",
+              "userVisibleBeforeAfter": null,
+              "reviewedLines": "1-386",
+              "reviewDepth": "deep-semantic"
+            }
+          },
+          {
+            "path": "docs/lore/timeline.md",
+            "sourceLines": 481,
+            "bytes": 39087,
+            "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "gitObject": "45795c07ed6340639f804b04f96d54b7432bd5c1",
+            "equalQ07bWorkingBytes": true,
+            "legacyCurrentLocator": {
+              "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+              "path": "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+              "gitObject": "3aef66aec8ee42730233ba92f10ee28444e980b1",
+              "fileSha256": "76df50bca52fb9a3724b95980e93cd50a3555aa468e5068b13d0de1c069a3d97",
+              "selector": {
+                "entries.path": "docs/lore/timeline.md",
+                "uniqueMatches": 1
+              },
+              "fields": 31
+            },
+            "purpose": "本项目滚动剧情因果/称呼/路线定位，加旧系列相对时间参考；没有计划里程碑含义，旧plan-status不适配。",
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "templateVersion": "1.0.0",
+            "status": "candidate",
+            "catalogMaturityProposal": "draft（仍可按明确来源检索当前滚动事实；不把整篇未核系列概览当current官设）",
+            "historyOverlay": false,
+            "sourceIdentity": {
+              "literalOwner": null,
+              "literalStatus": null,
+              "literalDate": "6/25系列采集；页首项目核对10/02，正文有10/06、10/07、10/11后继",
+              "literalAttribution": "作者确认/原版提取/当前作者工程/既有E2E分轴，新增治理Owner不能冒旧执行者"
+            },
+            "outline": {
+              "适用范围": "开场001-006具体叙事/停止点，与旧21章/跨作年表不同；章号不等测试ID。",
+              "一手来源": "原50href、当前源/原提取/存量回执分等级；本轮只读窄caller，无ignoredraw或执行；实际27表116native数据行分别保留，不能因系列overview✅授官核。",
+              "当前真值": "保学剑邀约非授艺、买虾前因与张四回应触发/香兰、医生→船→岛上叮嘱完整停点；Oct11既有固定批次按其身份引用，仅标窄caller在doctor17句结束、room步骤前期待张四e123=2且legacy-002；timeline原3的同域关系/实际世界值未知，不能按已治理report改3为2。",
+              "未知与冲突": "所有旧日期/旧red/目标13773→13772、更早state3、21章锤/忘忧散与当前叙事差异、月如濒死/死亡版本、女娲粉丝说、绝对年代/作品4/6/7待核。",
+              "使用边界": "不改测试catalog/006rework、不认source-read为E2E、不扩后21章；滚动补全仍同页唯一叙事源，测试事实回原catalog/report，不能重抄平行攻略。"
+            },
+            "beforeAfter": "旧plan误分类改reference候选；不沿用旧461审阅数，实际481原行/40题/50链保留；新live拆日期/场景步骤/调用方期望/运行未知/publication，原3与caller期待2分别保留，不给任一数值新增运行信用。",
+            "strongestCounter": "把连续卡done替代006publicationrework，把原3或caller期待2无证统一为今天产品运行真值，或把旧21章✅/metadata10/02当今天全流程核验，即使结构绿也counter。",
+            "counts": {
+              "originalHeadings": 40,
+              "hrefs": 50,
+              "gfmTables": 27,
+              "gfmDataRows": 116,
+              "physicalPipeRows": 170,
+              "codeBlocks": 1,
+              "inbound": 20,
+              "incomingFragments": 7,
+              "jsonExactRefs": 23
+            },
+            "relatedConflicts": ["L4-C10", "L4-C11", "L4-C12", "L4-C13", "L4-C14"],
+            "priorRegistry": {
+              "path": "docs/lore/timeline.md",
+              "phase": "lore",
+              "docType": "plan-status",
+              "templateId": "plan-status-v1",
+              "template": "docs/phase-governance/templates/plan-status.md",
+              "templateCompliance": "governed-legacy",
+              "reviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic",
+              "reviewRecord": "20261004-lore-phase3-batch1.json"
+            },
+            "priorCatalog": {
+              "id": "docs-lore-timeline",
+              "path": "docs/lore/timeline.md",
+              "title": "仙剑剧情时间线与流程攻略",
+              "phase": "lore",
+              "module": "canon",
+              "capability": "lore-timeline",
+              "status": "current",
+              "reviewStatus": "reviewed",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+              "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+              "sourceRefs": [
+                {
+                  "path": "docs/lore/timeline.md",
+                  "lines": "1-1",
+                  "anchor": "仙剑剧情时间线与流程攻略",
+                  "role": "document-source",
+                  "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88"
+                }
+              ],
+              "publicCallers": ["docs navigation"],
+              "legalInputs": ["current repository documentation", "docs/lore/timeline.md:1-1"],
+              "businessOracle": {
+                "type": "phase-lore-document-governance",
+                "assertions": [
+                  "the document has one explicit phase/lore/module responsibility",
+                  "historical or draft material is not silently promoted to current canonical truth",
+                  "source references and version claims remain auditable from the current repository"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+                "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+              },
+              "revision": {
+                "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                "implementationSha": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                "contentVersion": 22,
+                "minimumSaveVersion": 12,
+                "history": [
+                  {
+                    "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                    "date": "2026-10-04",
+                    "action": "phase-lore-governance-inventory",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  },
+                  {
+                    "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                    "date": "2026-10-11",
+                    "action": "E2E-integration-delta-review",
+                    "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+                    "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+                    "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                    "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                    "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "document-audit",
+                "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+                "claims": ["phase/lore ownership and status inventory"]
+              },
+              "history": [
+                {
+                  "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+                  "action": "catalogued",
+                  "status": "current"
+                },
+                {
+                  "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                  "date": "2026-10-11",
+                  "action": "E2E-integration-delta-review",
+                  "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+                  "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+                  "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                  "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
+              "userVisibleBeforeAfter": null,
+              "lastReviewed": "2026-10-11",
+              "integrationReview": {
+                "reviewer": "Codex",
+                "date": "2026-10-11",
+                "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+                "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                "conclusion": "001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+                "truthAnchors": [
+                  "docs/lore/timeline.md:35",
+                  "docs/lore/timeline.md:61",
+                  "docs/lore/timeline.md:78",
+                  "docs/lore/timeline.md:141",
+                  "docs/lore/timeline.md:150",
+                  "docs/lore/timeline.md:154"
+                ],
+                "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+                "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+              }
+            },
+            "completePriorCurrentRecord": {
+              "path": "docs/lore/timeline.md",
+              "contentReviewStatus": "content-reviewed",
+              "coreConclusion": "2026-10-04 原复核：Combines an early rolling route for 001–005 with a 21-chapter historical overview and explicit warnings that later chapters are not fully reverified for current E2E routing. 2026-10-11 集成增量：001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+              "truthAnchors": [
+                "early route is the current detailed slice",
+                "later chapter overview preserves historical source and confidence labels",
+                "阿奴 join/leave and scene order corrections are recorded"
+              ],
+              "unresolved": [
+                "absolute dating, later chapter step-by-step verification, and cross-version differences remain open"
+              ],
+              "nextStep": "Do not use the historical 21-chapter table as a current E2E route without a new source-backed review.",
+              "phase": "lore",
+              "module": "timeline.md",
+              "capability": "lore-timeline",
+              "owner": "Codex",
+              "provenance": ["source-document", "repository-history"],
+              "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+              "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+              "publicCallers": ["docs navigation"],
+              "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
+              "businessOracle": {
+                "type": "content-review",
+                "assertions": [
+                  "core conclusion is grounded in the read body",
+                  "unresolved claims remain explicitly blocked"
+                ]
+              },
+              "dedupe": {
+                "result": "reviewed",
+                "against": ["docs/phase-governance/catalog.json", "docs/lore/timeline.md"],
+                "notes": "Content review record; no runtime/E2E/coverage credit."
+              },
+              "revision": {
+                "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                "implementationSha": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                "contentVersion": 22,
+                "minimumSaveVersion": 12,
+                "history": [
+                  {
+                    "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                    "date": "2026-10-04",
+                    "action": "content-deep-review-batch-1",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  },
+                  {
+                    "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                    "date": "2026-10-11",
+                    "action": "E2E-integration-delta-review",
+                    "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+                    "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+                    "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                    "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                    "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  }
+                ]
+              },
+              "evidence": {
+                "kind": "content-reading",
+                "path": "docs/lore/timeline.md",
+                "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1"
+              },
+              "history": [
+                {
+                  "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+                  "action": "read-and-reviewed",
+                  "contentReviewStatus": "content-reviewed"
+                },
+                {
+                  "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+                  "date": "2026-10-11",
+                  "action": "E2E-integration-delta-review",
+                  "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+                  "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+                  "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+                  "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ],
+              "supersedes": [],
+              "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+              "userVisibleBeforeAfter": null,
+              "reviewedLines": "1-461",
+              "docType": "plan-status",
+              "templateId": "plan-status-v1",
+              "template": "docs/phase-governance/templates/plan-status.md",
+              "templateCompliance": "governed-legacy",
+              "readMethod": "full-text-read + integration-delta-read-20261011",
+              "reviewDepth": "deep-semantic",
+              "integrationReview": {
+                "reviewer": "Codex",
+                "date": "2026-10-11",
+                "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+                "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+                "conclusion": "001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+                "truthAnchors": [
+                  "docs/lore/timeline.md:35",
+                  "docs/lore/timeline.md:61",
+                  "docs/lore/timeline.md:78",
+                  "docs/lore/timeline.md:141",
+                  "docs/lore/timeline.md:150",
+                  "docs/lore/timeline.md:154"
+                ],
+                "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+                "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+              }
+            }
+          }
+        ],
+        "conflicts": [
+          {
+            "id": "L4-C01",
+            "subject": "角色采集日期与后续正文/页尾不一致",
+            "sources": [
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "5",
+                "role": "最后查证6/25"
+              },
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "133-141",
+                "role": "6/30妻名/四大恶人/水灵劫补充与作者裁决"
+              },
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "309-310",
+                "role": "旧勾项仍说死因官方无明确表述"
+              }
+            ],
+            "disposition": "按原日期分别保旧采集和6/30作者采用链；页首不是整篇最新验证时间。页尾旧总结标为未同步历史，不用物理后排位置推翻已注明6/30采用的版本。",
+            "needsNewUserChoiceForGovernance": false
+          },
+          {
+            "id": "L4-C02",
+            "subject": "谁用回魂珠三种库内记述",
+            "sources": [
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "20,54",
+                "role": "王小虎"
+              },
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "68-72",
+                "role": "多数逍遥/另说忆如及多人协作建议"
+              },
+              {
+                "path": "docs/lore/versions.md",
+                "lines": "65-68",
+                "role": "已接受N明确三说未决"
+              }
+            ],
+            "disposition": "三说并列，建议多人协作也只建议；不新增第四答案、不代作者选择，T5.5主干不撤。",
+            "blockedAssertion": "具体执行者/结局呈现用于新剧情前需对应作品primary/作者裁决"
+          },
+          {
+            "id": "L4-C03",
+            "subject": "同一角色稿的外站/官方/硬红线成熟度混轴",
+            "sources": [
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "3-5,37,66,101-106,286-306",
+                "role": "自述官方/多源、粉丝生育说、早逝、圣姑地理/年龄、忆如死因与韩仲晰死法"
+              },
+              {
+                "path": "docs/lore/taboos.md",
+                "lines": "27-45",
+                "role": "已接受项目硬约束与官方证据分轴"
+              }
+            ],
+            "disposition": "保全部✅/⚠/❓原标签，标原采集不是本轮官核；T1/T5.5/独立T6作为项目约束继续，未核死因不变已证。圣姑白河村附近/居大理是来源冲突待核，不擅移地理。"
+          },
+          {
+            "id": "L4-C04",
+            "subject": "脑暴早期父母等待/戏眼未知被后继决议覆盖",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "9-16,45-90",
+                "role": "早期???/擦肩/父母知情/留言及仇敌猜想"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "94-104,190-196,334-368",
+                "role": "父母已轮回/假背影/入口已定与7/02决议"
+              }
+            ],
+            "disposition": "后继仅覆盖明示否决/采纳的具体命题；保原片段历史，不恢复父母长期等待，也不把整个创意文档标approved。"
+          },
+          {
+            "id": "L4-C05",
+            "subject": "人物弧原Claude绝不动摇与作者嘴硬但动摇",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "310-326",
+                "role": "原段已明确历史标记，但正文仍有从不动摇/OOC断语"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "354-368",
+                "role": "7/02作者覆盖及否决Claude B1.6改写"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "40",
+                "role": "B1.6已写嘴硬但动摇"
+              }
+            ],
+            "disposition": "新活层用作者后继；旧绝不动摇整段有archive边界，不能据原红线措辞反驳后继。原B1.6机制保未解之结，台词打磨仍未决。"
+          },
+          {
+            "id": "L4-C06",
+            "subject": "七章认知剧透与旧自查全过",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "206-221",
+                "role": "水灵珠气息/水月宫持珠编造错误与撤回"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "262-267,300-308,354-360",
+                "role": "骂词禁她/信任，旧全过表却仍写只以她存在"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "311",
+                "role": "严禁水灵珠/巫后/信任关系"
+              }
+            ],
+            "disposition": "旧错词/编造及自查标签保历史，7/02明确改词优先。新live不能说李逍遥七章知道珠/巫后/父母死因，也不以自查全过制造正式canon/运行验收。"
+          },
+          {
+            "id": "L4-C07",
+            "subject": "待落beat任务与已有落位并存",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "370-386",
+                "role": "六待办和下一步未勾"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "40,195,210-232,301-311,367",
+                "role": "B1.6/A7/boss/据点/能力/C路/D4均已有相应文本"
+              }
+            ],
+            "disposition": "逐项标文本已见落位与作者词句未验收；保原checkbox为原时点，不批量勾完。原候选全部待拍标题由7/02逐项采纳/修改/否决继任，未采纳可选内容不随之获批。"
+          },
+          {
+            "id": "L4-C08",
+            "subject": "玉碎宏观表与明确玉不碎后继",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "121",
+                "role": "路B宏观表仍玉佩碎"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "153-161,247-249,291-295,345",
+                "role": "作者纠正不碎、残魂归玉"
+              }
+            ],
+            "disposition": "明示已否决的玉碎只历史；当前规划为显化破结界/回血/残魂归玉，玉佩保留，不复活父母或改变T5.5。标题待作者确认与内文明示定稿分项标记。"
+          },
+          {
+            "id": "L4-C09",
+            "subject": "月如伏笔机制来源冲突不能擅合并",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "136-158,286-289",
+                "role": "boss残余灵力吸收及零台词建议"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "308,313-339,364,379",
+                "role": "C5/D1残余灵力与最终版玉佩小鬼容魂同时存在"
+              }
+            ],
+            "disposition": "明确并列候选/冲突，保玉不碎已定和T5.5约束；不能代作者宣称两机制同时成立或删一版。三魂七魄/古剑引用只原创借鉴，绝不升仙剑官设。",
+            "blockedAssertion": "具体月如新机制用于制作/升canon需作者明确选择及相关作品来源"
+          },
+          {
+            "id": "L4-C10",
+            "subject": "小鬼死亡顺序/年龄与年代算术待核",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "119,227-229",
+                "role": "早期要求比李三思先死"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "259-288",
+                "role": "被救4-5岁、李逍遥1-2、女孩后长到约10病逝"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "256",
+                "role": "出境17-18年前、洪水10年前的提案自检"
+              },
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "393-404,450-452",
+                "role": "十年前回梦、木剑换珠、绝对年代待查"
+              }
+            ],
+            "disposition": "记录原年龄/相对年数及先后假设，不凭记忆补成年年龄或官方年表。叙事推算不当官核；女孩早期先死条件与后继成长链保冲突，不能静默选死因/年份。"
+          },
+          {
+            "id": "L4-C11",
+            "subject": "时间线收集/核对日期与001-006覆盖不统一",
+            "sources": [
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "5-7",
+                "role": "6/25收集、10/02最近核对/只001-005"
+              },
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "35-39",
+                "role": "10/11 001-006后继验收"
+              },
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "61-81,144-154",
+                "role": "10/07/10/06旧通过/撤信/red及目标纠正"
+              }
+            ],
+            "disposition": "分清采集日期、执行artifact日期、候选签收日期、当前治理日期；10/11固定候选后继仅继任对应旧批次信用，不能重写旧red/旧数字或扩后期21章。"
+          },
+          {
+            "id": "L4-C12",
+            "subject": "timeline006叙事张四state3与当前caller2",
+            "sources": [
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "137-142,156-157",
+                "role": "洪大夫后方案/状态与旧state3叙述"
+              },
+              {
+                "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+                "lines": "26-38,52-60",
+                "role": "治理后明确caller2/旧state3历史/发布rework"
+              },
+              {
+                "path": "scripts/e2e/boat-journey.mjs",
+                "lines": "224-240",
+                "role": "实际assert legacy-002和state2"
+              }
+            ],
+            "disposition": "两种数值保各自证据轴：timeline156–157是未绑定独立日期/候选/路径的原修正自述state3；006report27及52分别为2026-10-16迁移说明/2026-10-10源码核读所记caller期望state2。固定c3bb直接caller仅证明s002/e35的doctor17句结束后断言s005/e123 selection=legacy-002且entityState=2，不证明执行通过、所有路径或数值编码真值。新live列unknown与待核，不把旧3静默改2，也不因report已治理就采2为产品事实。",
+            "dateSceneStepStateAxes": {
+              "timeline": {
+                "range": "137–142,156–157",
+                "date": "156–157未单独标日期；邻文有10-06/10-07/后继10-11记录，不能由邻接自动给本句定日期",
+                "sceneStep": "洪大夫切换码头张四方案并恢复可见的原修正自述；没有本句独有输入/candidate/runtime绑定",
+                "stateAxis": "原作者工程修复自述state3；是否当前编码/相同步骤/相同输入未核"
+              },
+              "report": {
+                "range": "13,20,27,34–44,52–60",
+                "date": "本轮迁移说明10-16；52行标10-10 caller核读；原revision/执行版本/日期另保不升级",
+                "sceneStep": "真实005 saves→s002/e35 doctor→s005/e123的源码调用方预期，publication仍rework",
+                "stateAxis": "caller精确期待2；不是新的运行值/全路径真值，也不等于report全rework否定某一断言"
+              },
+              "directCaller": {
+                "range": "218–245",
+                "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+                "sceneStep": "s002/e35触碰后doctor依次确认342/343/345/346/347/349/350/352/353/354/356/357/359/360/362/363/364，room小虎子步骤之前",
+                "assertions": [
+                  "world.script.behaviors.entities.s005.e123.trigger.selection.value == legacy-002",
+                  "world.script.entityState.s005.e123 == 2"
+                ],
+                "proofLimit": "直接读到断言期待；未读当前作者工程该命令、状态枚举完整语义或执行同输入，不能给实际世界值签字"
+              }
+            },
+            "strongestAlternativeExplanations": [
+              "不同doctor完成/后续交互时点、前驱路径或内容revision导致不同状态；本轮未证两方同调用域。",
+              "旧数字可见/挡路编码与当前canonical状态编码可能不同；须读真实schema/转换/执行语义，不能凭数字相近认映射。",
+              "report仍rework，测试oracle也可能与产品真值不同；其已治理只保障范围表述，不自动证明断言本身业务正确。",
+              "timeline原state3也可能是历史错误/范围含混；未核不代表为3背书，不能靠后继物理位置或权威标签擅纠。"
+            ],
+            "blockedAssertion": "若要改数值或宣称已解释冲突，先核固定当前作者工程s002/e35结束命令→s005/e123方案/状态迁移、runtime状态编码/枚举含义，以及同一合法005前驱/时点的实际观察；本格式治理可保原文+unknown而不实施此产品核查。"
+          },
+          {
+            "id": "L4-C13",
+            "subject": "固定连续卡accept不取代006出版rework或本轮执行",
+            "sources": [
+              {
+                "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+                "lines": "95-136",
+                "role": "10/11固定最终批次accept及真实warnings/首次docs失败"
+              },
+              {
+                "path": "docs/testing/catalog.json",
+                "lines": "entries.id=e2e-006",
+                "role": "唯一条目rework，lastVerified10/03/reviewBy10/23"
+              },
+              {
+                "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+                "lines": "13,34-44",
+                "role": "同一publication状态与旧原始冲突保留"
+              }
+            ],
+            "disposition": "timeline路由叙事与测试publication分事实权；保Oct11既有固定批次及原artifact日期/浏览器消息，不能把catalog自动verified或称本轮复跑/全部NPC视觉成功。"
+          },
+          {
+            "id": "L4-C14",
+            "subject": "旧21章与滚动流程/作品版本冲突",
+            "sources": [
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "230-254",
+                "role": "旧1.4码头拿锤/旧2.4昏迷与滚动141客栈领锤服丹，以及酒剑仙初遇/学剑分界"
+              },
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "350-360",
+                "role": "月如重伤濒死/死亡两述"
+              },
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "58-76",
+                "role": "版本呈现/续命链"
+              },
+              {
+                "path": "docs/lore/timeline.md",
+                "lines": "473-476",
+                "role": "忆如11重逢/16相恋/20婚育多时点"
+              }
+            ],
+            "disposition": "逐来源/作品/日期并列，不把所有21章✅升级当前项目路线；4/6/7作品位置、五珠、绝对年代待核继续保留。11重逢/16相恋并非单凭数字就能判矛盾；不能把它们合成一个新确认事件。"
+          },
+          {
+            "id": "L4-C15",
+            "subject": "表格渲染两处真实缺陷需显式迁移映射",
+            "sources": [
+              {
+                "path": "docs/lore/characters.md",
+                "lines": "138-142",
+                "role": "blockquote切断李三思表，皇甫英不知情行在nativeGFM外"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "198-204",
+                "role": "镜像表后无空行，正文被Marked吞作第4数据行"
+              }
+            ],
+            "disposition": "提议仅修live显示：皇甫行归表或独立claim表；同一个偷正文回普通段落。原source字节和原native解析均完整保留，逐行row→row/row→prose映射；禁止只以全包304总数相等掩盖变化。",
+            "expectedNativeEffects": {
+              "charactersDataRows": [104, 105],
+              "beatDataRows": [59, 58],
+              "netTotalDataRows": [304, 304]
+            },
+            "requiresDesignFreezeBeforeWrite": true
+          },
+          {
+            "id": "L4-C16",
+            "subject": "昼夜创意不能恢复phase2真实时间或扩DLC制作",
+            "sources": [
+              {
+                "path": "docs/lore/ideas/guijie/brainstorm.md",
+                "lines": "38-41,190-194,231",
+                "role": "时辰入口构思与选择"
+              },
+              {
+                "path": "docs/lore/ideas/guijie/beat-sheet.md",
+                "lines": "86-101",
+                "role": "夜间/踩tile/永久错过玩法提案"
+              },
+              {
+                "path": "docs/phase2/design-backlog.md",
+                "lines": "105-115",
+                "role": "动态时间2026-09-03移交phase3"
+              },
+              {
+                "path": "docs/phase2/decisions.md",
+                "lines": "223-249",
+                "role": "D19纸面并行，⑥另实施"
+              }
+            ],
+            "disposition": "保纸面已定意图及未定触发方案，二阶段仅既有昼夜氛围；不称当前引擎入口实现、真实时间可用或完整DLC已授权。"
+          }
+        ],
+        "directReadPins": [
+          {
+            "path": "docs/lore/characters.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+            "wholeFileSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "wholeFileLines": 321,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 321,
+                "rangeSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/lore/ideas/guijie/beat-sheet.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "07b227d902742cbb26d2274357f7611d4efd0b8d",
+            "wholeFileSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+            "wholeFileLines": 390,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 390,
+                "rangeSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/lore/ideas/guijie/brainstorm.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+            "wholeFileSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+            "wholeFileLines": 386,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 386,
+                "rangeSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/lore/timeline.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "45795c07ed6340639f804b04f96d54b7432bd5c1",
+            "wholeFileSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "wholeFileLines": 481,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 481,
+                "rangeSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "8867146194a98f1cfc797660484312a2e191d682",
+            "wholeFileSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+            "wholeFileLines": 223,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 223,
+                "rangeSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/templates/registry.json",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "6ac7340e12e72c22ad34d05d54c9d0f75513a972",
+            "wholeFileSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+            "wholeFileLines": 824,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 824,
+                "rangeSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/templates/reference-canon.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "a739a63f5d08479733a318211677ba80bbd9c431",
+            "wholeFileSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+            "wholeFileLines": 21,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 21,
+                "rangeSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/templates/narrative-idea.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "214afbb534c2a3f7cca607348111b6bd283e0478",
+            "wholeFileSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+            "wholeFileLines": 19,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 19,
+                "rangeSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/templates/plan-status.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "158f65257c8b73974c592c54a0c9f7426c464317",
+            "wholeFileSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+            "wholeFileLines": 23,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 23,
+                "rangeSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/phase-governance/templates/archive-record.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "7173ba1d2f7d22d9f299bc418f612aed229e571f",
+            "wholeFileSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+            "wholeFileLines": 20,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 20,
+                "rangeSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": false
+          },
+          {
+            "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "3475f03e09b51b6c619333e903fc3b793f28b8aa",
+            "wholeFileSha256": "48db6e5d05e4a6b0bcad7a1311223d496ad53cb09a6e75c2fa1257d5db6be9b8",
+            "wholeFileLines": 951,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 80,
+                "rangeSha256": "f745480ddc5dd5a8de8832d2b1ffc7613105e4c5cd6a7b078722410f9a2cd046"
+              },
+              {
+                "start": 890,
+                "end": 951,
+                "rangeSha256": "5b8e2d6576b2706af0db0b0c8cfae5c7dafea87dcc644bc67ddaf9a19e173e46"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/lore/taboos.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6",
+            "wholeFileSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+            "wholeFileLines": 248,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 118,
+                "rangeSha256": "35f54325ee5375f800bea07f48b7adb557caecfd0b79ecb3c849b61c1053657e"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/lore/versions.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "a0711af4901f663085a9f576686fc3fb969637fc",
+            "wholeFileSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+            "wholeFileLines": 240,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 70,
+                "rangeSha256": "9d862459458a48c90ee3efbb983753f9ce03a9bbd7b285fd8fb193c5890f509b"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/phase2/design-backlog.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "76c60ae87288157f58ae5a85bc67c1fb9a9fa7eb",
+            "wholeFileSha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
+            "wholeFileLines": 309,
+            "readRanges": [
+              {
+                "start": 100,
+                "end": 115,
+                "rangeSha256": "0669987f74175d204c61dfe7ba129862645c19fc2eee91e80708e6e52346824b"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/phase2/decisions.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "1f6a28e4988528d8cde7af94730a2a3282e78ddc",
+            "wholeFileSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+            "wholeFileLines": 531,
+            "readRanges": [
+              {
+                "start": 223,
+                "end": 249,
+                "rangeSha256": "7d5e40908dc145cd9f574e70bb54931f36a2b18565904c58c9d748fac967ecd1"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "d547a3372bf5fef8f9b9fe4785ac8ef5d37966ec",
+            "wholeFileSha256": "0b80912a1f5aee28f81d7d2909ee9e627cf35c43a0899a577ade30fe9a204028",
+            "wholeFileLines": 3510,
+            "readRanges": [
+              {
+                "start": 90,
+                "end": 138,
+                "rangeSha256": "8f9a5e75e6026ba4b39a87d7e7941d923a0cb299f1c9a85a6d88c6d74e354c00"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "64cf7a5de41905acb34c4e957478d9f6c01568a5",
+            "wholeFileSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+            "wholeFileLines": 119,
+            "readRanges": [
+              {
+                "start": 1,
+                "end": 64,
+                "rangeSha256": "1eedf80a66f4a27fd1d43adaab15130bd965ad68e99cfa8459fd86bae4d97e9a"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          },
+          {
+            "path": "scripts/e2e/boat-journey.mjs",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "gitObject": "82d2cc9a5347a31b1dde48f996e9bf989edff937",
+            "wholeFileSha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4",
+            "wholeFileLines": 364,
+            "readRanges": [
+              {
+                "start": 218,
+                "end": 245,
+                "rangeSha256": "e4b4e5e7eb48c2e786cb8de52a909485948cbe56447df744f70047700e7be7a0"
+              }
+            ],
+            "wholeHashIsIdentityNotFullRead": true
+          }
+        ],
+        "exactReusedMandatory": [
+          {
+            "path": "AGENTS.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "CLAUDE.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "716cfdf0ef292bef104e0e42259eea10e74af027ea45e9bccac594c81800a74b",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/phase2/READ-FIRST.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/ops/agent-workflow.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/ops/board.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/ops/guides/documentation-model.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/phase-governance/templates/README.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/testing/governance.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          },
+          {
+            "path": "docs/testing/_templates/README.md",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+            "reuse": "Actually full read in preceding Q5 task; exact current c3bb vs07b working bytes independently match. No fake fresh reread."
+          }
+        ],
+        "boundedStructuredSelections": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "c3c664181ca6ab9beba2b4f95dcf4db07c1a57524f9e4449b64701a91f504387",
+            "selector": "entries[*].path/coreConclusion/templateCompliance/docType/nextStep/stopLine; n6RootIntake scalar status/scope/source/base/fullGoalComplete/newIncrementalCredit only; no full15147line embedded reports read claim"
+          },
+          {
+            "path": "docs/testing/catalog.json",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+            "selector": "entries.id=e2e-006 unique1 complete object; no other17 entries full read claim"
+          },
+          {
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "revision": "c3bb4096c4041a7890350199ca226fc79d174832",
+            "sha256": "aee3bc556e98eab1f6d89bb3cf1423001fe4658acfb9ddaf9270d02a2a964055",
+            "selector": "rows.id=lore-canon-vs-phase2-content and paired-test-publication-vs-current-version, complete two rows; no other37semantic rereview"
+          }
+        ],
+        "graph": {
+          "artifact": {
+            "path": "/tmp/type-pal-l4-source-graph-20261016.json",
+            "sha256": "0123c60815d0e63e2d722fed9d60c88a8878fe6e9a54a78efd4948a9856b7eda",
+            "bytes": 262345,
+            "lines": 5577
+          },
+          "code": {
+            "path": "/tmp/type-pal-l4-source-graph-20261016.mjs",
+            "sha256": "b7637191de0604d383ecbe03d4b64f00dfb2ab42ef5eec0dd169d97cbc2d8695",
+            "bytes": 5730,
+            "lines": 12
+          },
+          "summary": {
+            "docs": 4,
+            "lines": 1578,
+            "headings": 131,
+            "links": 131,
+            "internal": 42,
+            "external": 89,
+            "gfmTables": 60,
+            "gfmDataRows": 304,
+            "physicalPipeRows": 424,
+            "codeBlocks": 4,
+            "inbound": 45,
+            "incomingFragments": 7,
+            "jsonExactPathRefs": 78,
+            "issues": 0
+          },
+          "incomingFragmentSet": [
+            {
+              "source": "docs/lore/README.md",
+              "href": "timeline.md#盛渔村开场滚动攻略",
+              "label": "timeline中的滚动攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "盛渔村开场滚动攻略"
+            },
+            {
+              "source": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+              "href": "../../lore/timeline.md#005-买虾出门与香兰报信",
+              "label": "滚动攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "005-买虾出门与香兰报信"
+            },
+            {
+              "source": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+              "href": "../../lore/timeline.md#005-买虾出门与香兰报信",
+              "label": "滚动攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "005-买虾出门与香兰报信"
+            },
+            {
+              "source": "docs/testing/e2e/contract.md",
+              "href": "../../lore/timeline.md#盛渔村开场滚动攻略",
+              "label": "滚动流程攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "盛渔村开场滚动攻略"
+            },
+            {
+              "source": "projects/pal/e2e-checkpoints/README.md",
+              "href": "../../../docs/lore/timeline.md#盛渔村开场滚动攻略",
+              "label": "滚动流程攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "盛渔村开场滚动攻略"
+            },
+            {
+              "source": "projects/pal/e2e-checkpoints/README.md",
+              "href": "../../../docs/lore/timeline.md#005-买虾出门与香兰报信",
+              "label": "005细节",
+              "target": "docs/lore/timeline.md",
+              "fragment": "005-买虾出门与香兰报信"
+            },
+            {
+              "source": "projects/pal/e2e-checkpoints/README.md",
+              "href": "../../../docs/lore/timeline.md#006-回客栈求药与出海上仙灵岛",
+              "label": "滚动流程攻略",
+              "target": "docs/lore/timeline.md",
+              "fragment": "006-回客栈求药与出海上仙灵岛"
+            }
+          ],
+          "notOfficialOrBrowserVerification": true
+        },
+        "sourcePriors": {
+          "path": "/tmp/type-pal-l4-source-priors-20261016.json",
+          "sha256": "096005bef319164683279cb7e6dc993ab28107796d8e9b478668adb3a8db1ca6",
+          "bytes": 40134,
+          "lines": 970
+        },
+        "semanticPreservation": {
+          "source": "All original bytes of1578 source lines inclLF in strict inert text fence with run length>all original runs, fixedGit/blob/SHA second source. Full original raw/nativeGFM snapshot preserved.",
+          "live": "Each new required section concrete; all131 original heading markup/text/order and anyduplicate slug preserved via live aliases or compatible H3/H4 nesting; newchapter titles cannot steal original fragment. All131 oldhref label/order/multiplicity incl89 external references remain unchanged; no remote fetch/validation claim. Four codeblocks and all424 physical pipe rows mapped to live role/wording, including explicit 2native rendering repairs.",
+          "history": "Existing project author decisions keep applicable force; old proposal/red/confidence dates are bounded history not current facts. Supersession is claim/range-specific with earliest/later references, never whole-document erasure. Only brainstorm proposes existing archive-overlay10chapters for its workshop chronology, not new18thtype.",
+          "record": "Existing17top/43field native receipt format; exact fixed current priors are actual30/30/30/31, retain completeobjects/locators not guessed31/32; perdoc evidence/caller/legalinput/oracle/dedupe/counter/history/source-after/stop/next/conformity. New native itself pending increment, no selfhash/currentaccept."
+        },
+        "minimalFutureBuild": {
+          "nowAllowed": false,
+          "singleCodingOwnerProposal": "q_remaining_guides if root explicitly reassigns after Q intake; no concurrent source writer",
+          "branchProposal": "codex/docs-lore-remaining-l4",
+          "worktreeProposal": "new root-managed /Users/zhangxu/.codex/worktrees/docs-lore-remaining-l4/type-pal from root-sent accepted commit, never reset/reuse Q07b frozen tree for writes",
+          "maxWriterPaths": [
+            "docs/lore/characters.md",
+            "docs/lore/ideas/guijie/brainstorm.md",
+            "docs/lore/ideas/guijie/beat-sheet.md",
+            "docs/lore/timeline.md",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json"
+          ],
+          "firstPilotPaths": [
+            "docs/lore/characters.md",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json"
+          ],
+          "pilotOrder": [
+            {
+              "order": 1,
+              "path": "docs/lore/characters.md",
+              "why": "reference long mixed claim/date source + actual orphan row; own nonauthor reception before family continuation"
+            },
+            {
+              "order": 2,
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "why": "narrative draft + existing archive overlay real long workshop/decision precedence; receive complete10 substantivechapters"
+            },
+            {
+              "order": 3,
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "why": "source accepted brainstorm constraints, explicit supersession and row→prose native fix; draft not approved production"
+            },
+            {
+              "order": 4,
+              "path": "docs/lore/timeline.md",
+              "why": "highest mixed-date/currentruntime/publication scope last; caller expects2 only vs unbound old3 unresolved, fixedOct11 vsrework +7inboundfragments"
+            }
+          ],
+          "forbidden": "Naccepted9/dlc-ideas/README/DS/product/oldtests/coverage/scripts/templates/package/CI/sharedledger/catalog/routes/matrix/task/main remain readonly; no network batch/asset/raw restore or product operation"
+        },
+        "independentReceptionPlan": [
+          "Nonauthor actually reads1578 original plus each entire newlive/full43semantics, verifies relevant fixed primary and preserves full source/prior histories; author selfcheck neveraccept.",
+          "Real model each actual selectedtemplate+overlay/registeredstatus/Owner/date; source inverse byte mutation negative; each original head/id/link/row/code mapping negative including two reviewed malformed-render changes and all7inbound fragments.",
+          "Source-backed semantic mutants retain source/modelgreen but reject pearl-choice/official-source-upgrade, fromnever-doubt/trueparentsreturn, jadebreaking, restorewithdrawnspoiler, N6b/phase2realclock falsecredit, continuousdone→006verified, silentlyunify3to2/currentruntimewithoutproof or falselyassert3current. Memory clause oracles are not generic semantic or product tests.",
+          "Actual current primary checks only named ranges; no sourcehash-only wholeproduct audit. Timeline source/caller static verified ≠ runtime success; existingraw warnings/red/exits retained.",
+          "Freeze actual candidate; run full pnpm check:docs/pnpm lint/git diff --check and explicit strict/progress, recordactual outsidewriter drift FAIL. Root independently integrates current4with fullpriors, routes, scopedphase/matrix and truezero E/W/I; sourceacceptance separate from rootnewbytes."
+        ],
+        "rootOnlyAfterSourceReception": {
+          "central": "4 uniquelegacy records→newcurrent with exact immediate priors; totalregistry count unchanged; 3wrongtypes corrected (beat+brain→narrative, timelineplan→reference), 4newroutes actualold0/4.",
+          "catalog": "Maturityaxis separately reviewed: proposed character/timeline draft and bothidea draft; no newcanon/runtime/coverage; preserve old45d/content22SAVE11 capture and timelineOct11SAVE12 prior exactly.",
+          "matrix": "Historical source c3bb4096c4041a7890350199ca226fc79d174832 had39 rows; other37 after two changes is that fixed historical projection only. Accepted successor782128f12f475a7a72bc0d4dc7c6b4fe091c6509 actually has40 unique rows, all old39 objects exact plus q-author-guidance-vs-unverified-runtime-and-save-paths. At that successor, if root changes only existing lore relation preserve other39 whole JSON objects and corresponding MD rows; if also paired-test/current-version changes preserve other38; if root explicitly chooses additions only preserve all old40 objects/MD rows and add unique IDs. Q row must stay complete exact: native JSON object SHA256 6b829bf1ab3888b30d7f290ed7bf99a9e38c602ab3e781902123ef23243055ec (canonical sort-key compact SHA256 95182d99c9692c57352e25bcebe84189e0910a4c9bfa7878ed3631e1a2a5dc24); its rendered MD row also remains exact. Lore from10 already includes characters: add only timeline/brainstorm/beat3unique→13, not14. Before future execution, bind root-supplied accepted full commit, enumerate actual unique baseline IDs/full object and rendered-row hashes, let B=actual baseline count and preserve B-minus-exact-authorized-old-change-count untouched rows; additions-only preserve all B. Do not treat39/40 or other37/38/39 as timeless constants, silently lose Q, or expand to mixed addition/old-row modification without root freezing exact scope. If Q differs from fixed pin, stop and have root verify its separate accepted successor before proceeding. Rerender actual GFM and compare all untouched rows. This is conditional governance integration design only, no build/source acceptance or full sixdomain semantic completion.",
+          "noParallelTruth": "Author constraints staytaboos/versions, brainstormingdecisionlist gives localintent, beat owns concretebeats, timeline owns narrative route, testingcatalog/report executionpublication; centralreceipt indexes only."
+        },
+        "unresolvedNewProductAdjudications": [
+          "Specificpearluser/endingA-B/officialchildbirth/TV/fivepearls remain existingauthor-primary choices; do notaskagain merelytoformat.",
+          "MonthlyueRuhypothesistwomechanisms/childghostchronology/relativeofficialyears: retainunknown until actualstory/canon use; cannotresolvebytemplate.",
+          "A7/D4wording and girlname are originalcreativepolish stillauthor; governance canfinishwithexplicitdraft/candidate."
+        ],
+        "noNewDecisionNeededForThisReadOnlyProposal": true,
+        "probeFailures": [
+          {
+            "kind": "ambiguous shortGit source c3bb",
+            "actual": "gitrev-parse rejected commitc3bb4096c vs treec3bbdcbf1; root then supplied exactfullc3bb4096c4041a7890350199ca226fc79d174832; no write."
+          },
+          {
+            "kind": "matrixtop guessedrelations",
+            "actual": "Readonly optionalprojectionKeyError becauseactualtoprows; queried realkeys, thenexacttworowsread. Observeronly, norepowrite."
+          },
+          {
+            "kind": "longtooloutputtruncated",
+            "actual": "beatA6-A8 andbrainstorm349-358 rereadbounded170-247/338-361; task/controlwideprojectiontruncated, replacedwithactualtask922-951/scopedcontrolscalar+ninecorestop, neverclaimfullNcontrol15147."
+          }
+        ],
+        "observerBuilderInvocation": {
+          "firstFileInvocation": "Python3.9 file invocation returned Non-UTF-8 on line25; same entire byte buffer independently decodes UTF-8 and compile(text) succeeds. No repository operation occurred.",
+          "recoveredInvocation": "Explicit UTF-8 Path.read_text followed by compile(text)/exec for the same tmp builder; no changed source claims inferred from parser error."
+        },
+        "repositoryWrites": 0,
+        "buildAllowed": false,
+        "sourceAccepted": false,
+        "runtimeExecutionPerformed": false,
+        "migrationCredit": 0,
+        "notRun": [
+          "network/oldURLvalidation/officialcanoncertification",
+          "pnpmproduct/build/check:content/E2E/browser/oldtests/coverage/raw",
+          "fullhardgates for unchanged frozenrepo; /tmpdesign is not passingcanonicalcandidate",
+          "mainpush/merge/Qwrites/sourceaccept/allgoalcompletion"
+        ],
+        "finalQState": {
+          "HEAD": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+          "clean": true
+        }
+      }
+    }
+  },
+  "designReviews": {
+    "firstCounter": {
+      "path": "/tmp/type-pal-l4-independent-design-review-20261016.json",
+      "sha256": "34740737ac41f7574b1be9e54b030431243d92bf5dc7c0710e96bfe878022f98",
+      "bytes": 39717,
+      "lines": 796,
+      "completeReport": {
+        "kind": "independent-readonly-L4-design-prereview-not-build-or-source-migration-acceptance",
+        "date": "2026-10-16",
+        "reviewer": "n6_intake_review (non-author)",
+        "verdict": "counter",
+        "substantiveTemplateAndPreservationDesign": "agree",
+        "blockingCounterCount": 1,
+        "sourceSemanticCounterCount": 0,
+        "buildAllowed": false,
+        "proposalFrozen": false,
+        "sourceAccepted": false,
+        "currentCanonCertified": false,
+        "runtimeExecutionPerformed": false,
+        "migrationCredit": 0,
+        "repositoryWrites": 0,
+        "rootRevision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+        "rootTree": "77451148cab12dab3b560ef683af478509be8062",
+        "fixedSourceRevision": "c3bb4096c4041a7890350199ca226fc79d174832",
+        "QSourceRevision": "07b3e834b2391ad0fac79023099a7d8fab8e6ac8",
+        "proposalPins": [
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-20261016.md",
+            "sha256": "e8ccb137eae571be461766c0b1c3dc91ae3e9a84adfeaca303a67694d0bb74b3",
+            "bytes": 23948,
+            "lines": 230
+          },
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-20261016.json",
+            "sha256": "bca4a7f3e391f6a9f2e88824fa37f3eb852478619706b4d92e991d77d6da7641",
+            "bytes": 93465,
+            "lines": 2081
+          },
+          {
+            "path": "/tmp/type-pal-l4-source-priors-20261016.json",
+            "sha256": "096005bef319164683279cb7e6dc993ab28107796d8e9b478668adb3a8db1ca6",
+            "bytes": 40134,
+            "lines": 970
+          },
+          {
+            "path": "/tmp/type-pal-l4-source-graph-20261016.json",
+            "sha256": "0123c60815d0e63e2d722fed9d60c88a8878fe6e9a54a78efd4948a9856b7eda",
+            "bytes": 262345,
+            "lines": 5577
+          }
+        ],
+        "freshReadScope": {
+          "originalFourFullLines": 1578,
+          "originalFourFullRead": true,
+          "proposalMarkdown230LinesFullRead": true,
+          "readMethod": "Originals/proposal were actually displayed and read in bounded complete ranges; an initial broad proposal output was truncated and repaired by bounded full rereads. No inherited author full-text credit.",
+          "directReadFiles": [
+            {
+              "path": "docs/lore/characters.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+              "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "wholeFileLines": 321,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 321,
+                  "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/lore/timeline.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "45795c07ed6340639f804b04f96d54b7432bd5c1",
+              "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+              "wholeFileLines": 481,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 481,
+                  "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "07b227d902742cbb26d2274357f7611d4efd0b8d",
+              "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "wholeFileLines": 390,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 390,
+                  "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+              "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "wholeFileLines": 386,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 386,
+                  "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/lore/taboos.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "358a736e73d69c0959413d8d8ddbbd3ea1afb2b6",
+              "sha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+              "wholeFileLines": 248,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 70,
+                  "sha256": "aae96405fc5c72b9ec356bd6c70ce8bd3a00ce860bab9ec5a40fa5ed6ed41350"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/lore/versions.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "a0711af4901f663085a9f576686fc3fb969637fc",
+              "sha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+              "wholeFileLines": 240,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 80,
+                  "sha256": "acd1a5df813edc5a91684556bb6066a9ec135afc0dedba0007e8336c287a4e1d"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/phase2/design-backlog.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "76c60ae87288157f58ae5a85bc67c1fb9a9fa7eb",
+              "sha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
+              "wholeFileLines": 309,
+              "freshReadRanges": [
+                {
+                  "start": 100,
+                  "end": 118,
+                  "sha256": "e716281dda95f38043e1a20faec725a6aea514a89d5db77c435dd6163f47f127"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/phase2/decisions.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "1f6a28e4988528d8cde7af94730a2a3282e78ddc",
+              "sha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
+              "wholeFileLines": 531,
+              "freshReadRanges": [
+                {
+                  "start": 223,
+                  "end": 249,
+                  "sha256": "7d5e40908dc145cd9f574e70bb54931f36a2b18565904c58c9d748fac967ecd1"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "scripts/e2e/boat-journey.mjs",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "82d2cc9a5347a31b1dde48f996e9bf989edff937",
+              "sha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4",
+              "wholeFileLines": 364,
+              "freshReadRanges": [
+                {
+                  "start": 190,
+                  "end": 249,
+                  "sha256": "a87a0c7685e343df39b298acfcd71ea240407f2916cef87ea3d99dc8667d285a"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "64cf7a5de41905acb34c4e957478d9f6c01568a5",
+              "sha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+              "wholeFileLines": 119,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 64,
+                  "sha256": "1eedf80a66f4a27fd1d43adaab15130bd965ad68e99cfa8459fd86bae4d97e9a"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "d547a3372bf5fef8f9b9fe4785ac8ef5d37966ec",
+              "sha256": "0b80912a1f5aee28f81d7d2909ee9e627cf35c43a0899a577ade30fe9a204028",
+              "wholeFileLines": 3510,
+              "freshReadRanges": [
+                {
+                  "start": 90,
+                  "end": 138,
+                  "sha256": "8f9a5e75e6026ba4b39a87d7e7941d923a0cb299f1c9a85a6d88c6d74e354c00"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "fe4d07e149a6dd5c215e5933e7948fdff5789ae1",
+              "sha256": "c217371a24056c8888423d8e50efea8da998659e82ef3253c3a7bf21ac46c2f2",
+              "wholeFileLines": 970,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 65,
+                  "sha256": "a3165f8dafe9b71a62ea2d189b7b3584cdf462546176ee14f549581e9b724fc6"
+                },
+                {
+                  "start": 936,
+                  "end": 970,
+                  "sha256": "f3e3ddcdec416a9c89cd352a119ac99c4090c734968cdc21ff71d6d29e60493d"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            },
+            {
+              "path": "docs/phase-governance/templates/reference-canon.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "a739a63f5d08479733a318211677ba80bbd9c431",
+              "sha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+              "wholeFileLines": 21,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 21,
+                  "sha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/phase-governance/templates/narrative-idea.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "214afbb534c2a3f7cca607348111b6bd283e0478",
+              "sha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+              "wholeFileLines": 19,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 19,
+                  "sha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/phase-governance/templates/archive-record.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "7173ba1d2f7d22d9f299bc418f612aed229e571f",
+              "sha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+              "wholeFileLines": 20,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 20,
+                  "sha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "docs/phase-governance/templates/README.md",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "185d1b154cc375d883488048797bb8cbf7c96480",
+              "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+              "wholeFileLines": 58,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 58,
+                  "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": false
+            },
+            {
+              "path": "scripts/docs/markdown.mjs",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "blob": "74da8435fb19282c49391f01bd58e0d4aae35a71",
+              "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+              "wholeFileLines": 154,
+              "freshReadRanges": [
+                {
+                  "start": 1,
+                  "end": 154,
+                  "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215"
+                }
+              ],
+              "wholeHashAloneIsNotFullRead": true
+            }
+          ],
+          "structuredSemanticReading": [
+            "All four complete current prior records30/30/30/31, all four catalog objects24/24/24/25 including timeline Oct11 integrationReview, all four registry9 and complete Git locators",
+            "All four proposed type/status/provenance/sourceIdentity/outlines/beforeAfter/strongestCounter/counts/conflict links",
+            "All16 complete conflicts including fullC12 dates/scenes/step/alternatives/stop-line",
+            "Proposal source preservation, sourcePriors, graph summary+seven fragment set, mandatory/reuse/range pins, root-only plan, minimal scope/pilots, probe failures and nonexecution boundaries",
+            "Current exact testing catalog entry e2e-006 unique1 complete; current complete two matrix rows lore-canon-vs-phase2-content and paired-test-publication-vs-current-version including nested histories",
+            "Current template registry selected four complete types/policy/status/historyOverlay/adoption; not full other13 semantic rereview"
+          ],
+          "mechanicalOnly": [
+            "All table cells/raw/headings/href-label/code AST in source graph compared, plus all45 inbound and78 exactJSON refs; no human full5577 graph line reading claim",
+            "All18 author directReadPins full blob/hash/range identities compared, not credit for human reading all18 ranges claimed by author",
+            "All current matrix40 identities and all old39 full-object equality compared; only named two rows freshly reviewed semantically"
+          ],
+          "exactReusedRules": [
+            {
+              "path": "AGENTS.md",
+              "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "CLAUDE.md",
+              "sha256": "716cfdf0ef292bef104e0e42259eea10e74af027ea45e9bccac594c81800a74b",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/phase2/READ-FIRST.md",
+              "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/ops/agent-workflow.md",
+              "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/ops/board.md",
+              "sha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/ops/guides/documentation-model.md",
+              "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/phase-governance/templates/README.md",
+              "sha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/testing/governance.md",
+              "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+              "sourceRootEqual": true
+            },
+            {
+              "path": "docs/testing/_templates/README.md",
+              "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+              "sourceRootEqual": true
+            }
+          ],
+          "notClaimed": "No full current970-line task,3510-line continuous card,15147-line Ncontrol, entire testing catalog/other matrix relations/product/schema or official web source rereview."
+        },
+        "documents": [
+          {
+            "path": "docs/lore/characters.md",
+            "fullOriginalLines": 321,
+            "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+            "sourceBlob": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406",
+            "sourceEqualsQAndRoot": true,
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "proposedCatalogMaturity": "draft",
+            "archiveOverlay": null,
+            "requiredConcreteOutline": {
+              "适用范围": "三组人物、版本条件、跨作品链及扩展使用；不当现代引擎行为规范。",
+              "一手来源": "原65href、✅/⚠/❓与具体标签逐claim保留，百科/维基/知乎/旧官网均只原出处，不把章节名当primary认证。",
+              "当前真值": "仅明确本项目T1/T2/T3/T4/T5/T5.5/独立T6约束与6/30作者采用的李三思死因解释，原作品事实一律带采集scope。",
+              "未知与冲突": "珠执行者三说、月如呈现A/B、圣姑地理、忆如死因/韩仲晰死法/蜀山代数留白、日期/页尾未同步逐项列。",
+              "使用边界": "未核官设不用于改人物命运，创意契机不是制作承诺；新增判断要求具体作品primary/作者裁决；保21原题与source321。"
+            },
+            "classificationIndependentRationale": "人物资料按claim/作品/可靠性提供查考，不含操作步骤或制作里程碑；候选reference能区分项目约束与未核官设。",
+            "completePriorFields": 30,
+            "nativeCounts": {
+              "originalHeadings": 21,
+              "hrefs": 65,
+              "gfmTables": 17,
+              "gfmDataRows": 104,
+              "physicalPipeRows": 139,
+              "codeBlocks": 0,
+              "inbound": 16,
+              "incomingFragments": 0,
+              "jsonExactRefs": 22
+            },
+            "sourceSemanticsAcceptedAsMigrated": false
+          },
+          {
+            "path": "docs/lore/ideas/guijie/beat-sheet.md",
+            "fullOriginalLines": 390,
+            "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+            "sourceBlob": "07b227d902742cbb26d2274357f7611d4efd0b8d",
+            "sourceEqualsQAndRoot": true,
+            "docType": "narrative-idea",
+            "templateId": "narrative-idea-v1",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "draft",
+            "proposedCatalogMaturity": "draft",
+            "archiveOverlay": null,
+            "requiredConcreteOutline": {
+              "创意目的": "拼图而非揭秘，B1偏见→假背影→父母已轮回→复杂释怀；三幕和玩家动词分工具体保留。",
+              "已知约束": "T1/T5.5/T6、不得天鬼族/拜月翻案、七章认知禁剧透、非恋爱、小鬼不是队友、D19/phase3真时间边界。",
+              "候选内容": "保B1-B3、A/H/B/C/D各beat ID/全部表行，明确玉不碎已继任旧宏表，三路迷宫密度/四次背影/嘴硬但动摇等作者已定局部。",
+              "未决选择": "月如boss残余灵力vs玉佩机制、女孩姓名与死亡先后、A7/D4词句、魂魄借鉴不是仙剑官设、原待办与现文本落位分别标。",
+              "升级为 canon 的门槛": "先作者明确冲突选项/作品primary/版本，再独立任务落地与实际验；本轮不跑E2E/改产品，不把稿内全过视为验收。"
+            },
+            "classificationIndependentRationale": "节拍草案混局部作者已定和待词句，创意draft不属官设reference。",
+            "completePriorFields": 30,
+            "nativeCounts": {
+              "originalHeadings": 19,
+              "hrefs": 7,
+              "gfmTables": 11,
+              "gfmDataRows": 59,
+              "physicalPipeRows": 80,
+              "codeBlocks": 1,
+              "inbound": 3,
+              "incomingFragments": 0,
+              "jsonExactRefs": 17
+            },
+            "sourceSemanticsAcceptedAsMigrated": false
+          },
+          {
+            "path": "docs/lore/ideas/guijie/brainstorm.md",
+            "fullOriginalLines": 386,
+            "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+            "sourceBlob": "092e1a5872c1de7aeebeaae43b519498a80d94ca",
+            "sourceEqualsQAndRoot": true,
+            "docType": "narrative-idea",
+            "templateId": "narrative-idea-v1",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "draft",
+            "proposedCatalogMaturity": "draft",
+            "archiveOverlay": "archive-record-v1",
+            "requiredConcreteOutline": {
+              "创意目的": "重新认识父母/拼图的情感引擎和讨论过程用途。",
+              "已知约束": "作者是最终裁判、已轮回/假背影/禁剧透/非天鬼族/T5.5、纸面与实现分离。",
+              "候选内容": "按7/02采纳/修改/否决列出当前局部意图，再保原51题顺序导航与提案文本来源；不把未采纳可选项顺带批准。",
+              "未决选择": "姓名、A7/D4词句、机制冲突与相对年代；六未勾项逐项标已见文本落位但未全验。",
+              "升级为 canon 的门槛": "确切作者裁决/作品primary/版本与正文同步；讨论记录不自升正式制作合同。",
+              "历史范围": "6/29→7/02讨论、原Claude/作者角色、原页首构思中与后继清单的不同日期。",
+              "原始结论": "完整386source/原被否决父母等待、水灵珠气息、水月宫拼凑、从不动摇、boss父亲脸等都保历史原义。",
+              "当时证据": "原URL/characters/timeline/world参考与明确作者决议定位，原✅/全过不是今天官方或静态验收。",
+              "当前有效性": "局部采纳按清单有效；明确否决不再现行；未决仍未知；本轮0产品/运行信用。",
+              "继任文档": "beat-sheet是节拍落位消费者、taboos/versions约束权威；两稿按具体命题继任，不整体互相supersedes抹除历史。"
+            },
+            "classificationIndependentRationale": "讨论活档兼后继局部作者决议；narrative draft+既有archive叠加可兼顾用途，整体archive会错误退役活层。",
+            "completePriorFields": 30,
+            "nativeCounts": {
+              "originalHeadings": 51,
+              "hrefs": 9,
+              "gfmTables": 5,
+              "gfmDataRows": 25,
+              "physicalPipeRows": 35,
+              "codeBlocks": 2,
+              "inbound": 6,
+              "incomingFragments": 0,
+              "jsonExactRefs": 16
+            },
+            "sourceSemanticsAcceptedAsMigrated": false
+          },
+          {
+            "path": "docs/lore/timeline.md",
+            "fullOriginalLines": 481,
+            "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "sourceBlob": "45795c07ed6340639f804b04f96d54b7432bd5c1",
+            "sourceEqualsQAndRoot": true,
+            "docType": "reference-canon",
+            "templateId": "reference-canon-v1",
+            "templateVersion": "1.0.0",
+            "bodyStatus": "candidate",
+            "proposedCatalogMaturity": "draft",
+            "archiveOverlay": null,
+            "requiredConcreteOutline": {
+              "适用范围": "开场001-006具体叙事/停止点，与旧21章/跨作年表不同；章号不等测试ID。",
+              "一手来源": "原50href、当前源/原提取/存量回执分等级；本轮只读窄caller，无ignoredraw或执行；实际27表116native数据行分别保留，不能因系列overview✅授官核。",
+              "当前真值": "保学剑邀约非授艺、买虾前因与张四回应触发/香兰、医生→船→岛上叮嘱完整停点；Oct11既有固定批次按其身份引用，仅标窄caller在doctor17句结束、room步骤前期待张四e123=2且legacy-002；timeline原3的同域关系/实际世界值未知，不能按已治理report改3为2。",
+              "未知与冲突": "所有旧日期/旧red/目标13773→13772、更早state3、21章锤/忘忧散与当前叙事差异、月如濒死/死亡版本、女娲粉丝说、绝对年代/作品4/6/7待核。",
+              "使用边界": "不改测试catalog/006rework、不认source-read为E2E、不扩后21章；滚动补全仍同页唯一叙事源，测试事实回原catalog/report，不能重抄平行攻略。"
+            },
+            "classificationIndependentRationale": "主要是场景因果、滚动route和系列相对年表，无期限/任务milestone，旧plan分类不符。",
+            "completePriorFields": 31,
+            "nativeCounts": {
+              "originalHeadings": 40,
+              "hrefs": 50,
+              "gfmTables": 27,
+              "gfmDataRows": 116,
+              "physicalPipeRows": 170,
+              "codeBlocks": 1,
+              "inbound": 20,
+              "incomingFragments": 7,
+              "jsonExactRefs": 23
+            },
+            "sourceSemanticsAcceptedAsMigrated": false
+          }
+        ],
+        "conflictReview": [
+          {
+            "id": "L4-C01",
+            "assessment": "supported-boundary",
+            "directAnchors": "characters:5,133-142,309-310",
+            "independentFinding": "六月25的页首不能替六月30局部采用链续签查证；旧页尾死因未明留原时点。作者采用《水灵劫》来源的解释不等本轮官核。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C02",
+            "assessment": "supported-unknown",
+            "directAnchors": "characters:20,54,68-72; versions:58-68",
+            "independentFinding": "原王小虎、逍遥、忆如三说都存在。多人分工也只建议；T5.5已有约束不因执行者未选失效。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C03",
+            "assessment": "supported-boundary",
+            "directAnchors": "characters:3-5,37,66,101-106,286-306; taboos:10-46",
+            "independentFinding": "原✅/官方标题、粉丝生育说、地理与后作细节不同证据轴。保项目T1/T5.5/独立T6，不给外站/记忆新增官方信用。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C04",
+            "assessment": "supported-scoped-succession",
+            "directAnchors": "brainstorm:9-16,45-104,190-196,334-368",
+            "independentFinding": "早期父母等待与问号留历史；已轮回/假背影只按明确作者后继覆盖具体命题，不把整份活档退休。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C05",
+            "assessment": "supported-scoped-succession",
+            "directAnchors": "brainstorm:310-326,354-368; beat-sheet:40",
+            "independentFinding": "Claude从不动摇提案不能压过作者嘴硬但动摇；保原OOC断语为历史，台词未磨不补批准。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C06",
+            "assessment": "supported-scoped-succession",
+            "directAnchors": "brainstorm:206-221,262-267,300-308,354-360; beat-sheet:311",
+            "independentFinding": "水灵珠气息/水月宫持珠编造及旧只称她的全过自评不能恢复；七章台词禁巫后/珠/信任关系按明确后继保留。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C07",
+            "assessment": "supported-unclosed-followup",
+            "directAnchors": "brainstorm:370-386; beat-sheet:40,195,210-232,301-311,367",
+            "independentFinding": "六旧待办与已见正文落位是两类事实。已有词句不等作者接受，不批量打勾、不抹原未勾项。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C08",
+            "assessment": "supported-explicit-rejection",
+            "directAnchors": "beat-sheet:121,153-161,247-249,291-295,345",
+            "independentFinding": "宏表旧玉碎被具体作者纠正不碎覆盖。保旧句及其已否决范围，显化消散/残魂归玉不等父母复活。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C09",
+            "assessment": "supported-unknown",
+            "directAnchors": "brainstorm:136-158,286-289; beat-sheet:308,313-339,364,379",
+            "independentFinding": "boss残余灵力与玉佩容魂都仍在文本；不得擅称兼容或删一机制。三魂七魄/古剑借鉴保创意身份，不能升仙剑官设。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C10",
+            "assessment": "supported-unknown",
+            "directAnchors": "brainstorm:119,227-229,256; beat-sheet:259-288; timeline:393-404,450-452",
+            "independentFinding": "早于李三思死亡的条件与救后长到约10岁链未能同时闭合；不同相对年数保原条件。治理不发明年龄、死因或统一绝对年份。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C11",
+            "assessment": "supported-date-separation",
+            "directAnchors": "timeline:5-7,35-39,61-81,144-157",
+            "independentFinding": "采集、旧源码核读、具体执行、固定Oct11后继与当前治理分别标记；旧red、13773→13772与撤销终点信用不可洗白。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C12",
+            "assessment": "supported-unresolved-premise",
+            "directAnchors": "timeline:137-157; report006:13,20,24-44,49-60; boat-journey:205-245",
+            "independentFinding": "原state3没有独有日期/输入/候选绑定。固定caller仅在005真实saves→s002/e35 doctor17句后、room之前期待s005/e123 selection legacy-002及entityState2；不是实际world值或全路径业务真值。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C13",
+            "assessment": "supported-authority-separation",
+            "directAnchors": "continuous-card:95-136; testing catalog unique e2e-006; report006:13,34-44",
+            "independentFinding": "Oct11固定连续批次accept与006 publication rework同存合法。原警告/首次docs失败/lastVerified10-03/reviewBy10-23保留，本轮没有新运行。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C14",
+            "assessment": "supported-version-separation",
+            "directAnchors": "timeline:230-254,350-360,473-476; characters:58-76",
+            "independentFinding": "旧21章拿锤/服药、死亡/濒死与当前滚动文本分作品/时点。忆如11重逢、16相恋、20婚育不能仅凭数字判为同一冲突。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C15",
+            "assessment": "supported-static-GFM-repair-design",
+            "directAnchors": "characters:138-142; beat-sheet:198-204",
+            "independentFinding": "实际Marked证明皇甫英原142整行落blockquote paragraph，另处有同名表行但非同一完整四格；beat正文误吞第四data行。live分别104→105和59→58，source原字节/原AST须都保，net304不是无损证明。",
+            "requiresNewUserDecisionForGovernance": false
+          },
+          {
+            "id": "L4-C16",
+            "assessment": "supported-stage-separation",
+            "directAnchors": "brainstorm:38-41,190-194,231; beat-sheet:86-101; design-backlog:105-115; decisions:223-249",
+            "independentFinding": "夜间裂隙/踩tile仍纸面意图；D19的1–5不授编辑器第6步，phase2昼夜氛围不授phase3动态时间或DLC制作。",
+            "requiresNewUserDecisionForGovernance": false
+          }
+        ],
+        "C12IndependentPremise": {
+          "fixedCallerDirectRead": "scripts/e2e/boat-journey.mjs190–249; actual005checkpoint load205–215, return221–223, doctor17ids225–229, selection230–236, state237–241, nextroom242–249",
+          "callerExpectedState": 2,
+          "selection": "legacy-002",
+          "timelineOriginalState": 3,
+          "currentRuntimeState": "unknown/unexecuted",
+          "sameInputOrVersionProven": false,
+          "alternativeExplanations": [
+            "different doctor/post-doctor step or predecessor/content revision",
+            "different original/current state semantic encoding",
+            "caller business oracle itself may be wrong despite governed report",
+            "timeline3 may be historic wrong/ambiguous; unknown is not endorsement"
+          ],
+          "stopLine": "Before any numeric correction/current-product assertion, follow fixed author s002/e35 end command→s005/e123 selection/state, actualruntime enum/semantics, and same legal005predecessor/time actual observation. L4format governance can retain original+unknown without doing that product work."
+        },
+        "blockingCounters": [
+          {
+            "id": "L4-DESIGN-COUNTER-1",
+            "priority": "P2",
+            "scope": "successor-root integration baseline only, not source semantic rewrite",
+            "locations": [
+              {
+                "path": "/tmp/type-pal-l4-readonly-design-20261016.md",
+                "line": 216
+              },
+              {
+                "path": "/tmp/type-pal-l4-readonly-design-20261016.json",
+                "line": 2039,
+                "nativeKey": "rootOnlyAfterSourceReception.matrix"
+              }
+            ],
+            "actual": "未来根接入仍要求保all39/other37；实际Q已接入782有40行，而c3bb源为39行。",
+            "evidence": {
+              "sourceRows": 39,
+              "acceptedRootRows": 40,
+              "allOld39ObjectsExact": true,
+              "newQRow": "q-author-guidance-vs-unverified-runtime-and-save-paths",
+              "newQMustRemainWholeExact": true
+            },
+            "requiredRepair": "保持原c3bb的39/其余37为固定历史；另将未来准入明确绑定根给出的已接受commit。以782接入时保持40行身份、最多两既有行变更则其余38whole对象/MD行精确保留（只变Lore一行则其余39）。Lore from10加timeline/brainstorm/beat三唯一至13正确。保新Q行不动。原提案/首counter不覆盖，可新提案revision或明确根冻结附录闭合。",
+            "notUserAdjudication": true,
+            "sourceRereadRequiredOnClosure": "No, if exact four bytes and semantic proposal remain pinned; inspect actual narrow amendment/root freeze separately."
+          }
+        ],
+        "independentStaticProof": {
+          "identityAndPriorObserver": {
+            "path": "/tmp/type-pal-l4-independent-design-observer-20261016.json",
+            "sha256": "dbc13a07780d7b1967868226814edf1f331a52e8902bee92dc2aa78f33a43f23",
+            "bytes": 17960,
+            "lines": 625
+          },
+          "identityChecks": 68,
+          "identityIssues": [],
+          "GFMAndGraphObserver": {
+            "path": "/tmp/type-pal-l4-independent-gfm-observer-20261016.json",
+            "sha256": "d0483511d74d8ed367b9046fc43a56ad1e8740b6ea768a15003a4c9ba387e133",
+            "bytes": 35656,
+            "lines": 996
+          },
+          "GFMChecks": 45,
+          "GFMIssues": [],
+          "summary": {
+            "documents": 4,
+            "headings": 131,
+            "links": 131,
+            "tables": 60,
+            "dataRows": 304,
+            "physicalPipeRows": 424,
+            "codeBlocks": 4,
+            "incomingFragments": 7
+          },
+          "inboundCounts": [16, 3, 6, 20],
+          "jsonExactRefsCounts": [22, 17, 16, 23],
+          "sourceRenderingRepairs": "In-memory static parse only, no repo edit/browser. Preserve original full native AST+source bytes; review each actual rewritten live mapping independently later.",
+          "unavailableTrackedOutsideGraph": [
+            "reference/sdlpal/AUTHORS.md",
+            "reference/sdlpal/android/app/src/main/java/org/libsdl/app"
+          ],
+          "unavailableScope": "Current checkout lacks two reference/sdlpal tracked paths. First all-tracked observer failed ENOENT; rerun enumerates available files only, same graph45/78. No submodule/network restore, broken target claim or full physical checkout claim."
+        },
+        "probeHistory": [
+          {
+            "kind": "independent own ID expectation too specific",
+            "first": {
+              "path": "/tmp/type-pal-l4-independent-design-observer-first-20261016.json",
+              "sha256": "318d0a07c16a6fca7d94a58d4a1e9a6967deb8f315dc50fa8616052fc2f8d3d0",
+              "bytes": 18146,
+              "lines": 633
+            },
+            "actual": "Initial observer guessed addedQ id containedphase2-guides-q; actual exact id q-author-guidance-vs-unverified-runtime-and-save-paths. Fixed own comparison to observed id and reran68/0; no proposal/product fault."
+          },
+          {
+            "kind": "independent own all-tracked scan encountered absent reference file",
+            "actual": "Node ENOENT reference/sdlpal/AUTHORS.md. First invocation session stdout not captured; second reproduced exact failure and was read. No falsepass. Restrict scan to available current files with absent list, all relevant paths matched."
+          },
+          {
+            "kind": "independent overly broad orphan-row negative",
+            "first": {
+              "path": "/tmp/type-pal-l4-independent-gfm-observer-first-20261016.json",
+              "sha256": "60a052cbce5a86ad33df322c7052ac01c00bbc418ca201a6ecc75685c59e9cab",
+              "bytes": 35773,
+              "lines": 1001
+            },
+            "actual": "First check looked only for 皇甫英不知情 label and incorrectly rejected because another table contains a distinct full row with same label. Narrowed to exact original142 full four cells plus paragraph raw occurrence, reran45/0. No source bug beyond stated orphan rendering."
+          },
+          {
+            "kind": "too broad AST debug output truncated",
+            "actual": "Initial raw AST output had redundant924 lines; not claimed full reading. Final proof instead compares exact all native tables and full orphan four cells and bounded raw occurrences; known source142 was fully read."
+          },
+          {
+            "kind": "final root-clean guard correctly rejected external concurrent delta",
+            "actual": "First report builder asserted clean782 but A8 eight staged script paths arrived during independent L4 review. Builder stopped before writing final JSON/MD. Recheck HEAD782 and all L4 read inputs unchanged; preserve exact external8 path list, no A8 acceptance or clear-root claim."
+          }
+        ],
+        "futureMinimumScopePrerequisites": [
+          "Root must freeze corrected design revision/amendment with actual accepted successor commit and retain original proposal plus this counter; do not use stale39 as future root current count.",
+          "Root selects one Coding Owner and isolated managed worktree; source writer maximum4MD+one existing17top/43field native receipt. No shared ledgers/task/Q/N9/dlc/README/product/scripts/oldtests/coverage/DS/CI/main writer expansion.",
+          "First characters+receipt actual concretefivechapters/liveoriginalnavigation/GFMfix/sourceinverse/completepriors pilot → nonauthor actual fullcandidate/native acceptance; then brainstorm tenchapter dual-overlay pilot → independent reception; then beat; timeline last. This report itself grants no pilot or build.",
+          "Immutable original1578 including LF/fences/Git/blob/SHA retained; all131 headings raw/visibletext/order/slugs and131href occurrences/labels/multiplicity,7incomingfragments,60native tables/304data/424physicalpipe/4code tokens explicitly mapped. Two rendering changes separated from net count.",
+          "Perdoc43 semantics require genuine primary/caller/input/oracle/dedupe/counter/history/stop/next/template mapping, owner attribution source author vs governance distinct; machine native not prose, no circular selfhash/credit.",
+          "Actual source frozen gates check:docs/lint/diff plus strict/progress record real E/W/I; expected external afterSHA drifts retained as FAIL, never refresh shared ledger to pass. Source local independence and root integration later distinct.",
+          "Root central intake only after each sourceacceptance: unique4current/full immediate priors+3typecorrections/4routes/catalogdraft and scoped existing Lore(+conditional paired-test) matrix; preserve40 baseline/untouched38or39/Q relation. Recompute actual producer/GFM/links/SHA/zero gates and independent exact root bytes.",
+          "No user choice needed merely to format. Canon/game mechanism/age/wording unknowns stay named draft/unknown; if later actual story/product use requires new selection, stop that assertion for author/primary adjudication."
+        ],
+        "notRun": [
+          "pnpm check:docs",
+          "pnpm lint",
+          "git diff --check quality gate",
+          "strict/progress quality gates",
+          "runtime/E2E/visual/coverage",
+          "network official source checks",
+          "semantic mutants on a nonexistent migration candidate"
+        ],
+        "nonExecutionReason": "Design-only readonly review. Static GFM/identity observers are not whole-repo quality pass or migrated source evidence. Planned independent semantic negatives remain requirements for each real candidate.",
+        "finalProtection": {
+          "rootHead": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "rootClean": false,
+          "mainHead": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+          "mainClean": true,
+          "repoWriteOperations": 0,
+          "externalRootDeltaPathsOutsideL4": [
+            "scripts/docs/check.mjs",
+            "scripts/docs/terminal-codec.mjs",
+            "scripts/docs/terminal-codec.test.mjs",
+            "scripts/docs/terminal-contract.mjs",
+            "scripts/docs/terminal-git.mjs",
+            "scripts/docs/terminal-json.mjs",
+            "scripts/docs/terminal-namespace.mjs",
+            "scripts/quality/lint-zero.mjs"
+          ],
+          "L4ReadInputsUnchangedSinceActualRead": true,
+          "externalDeltaAccepted": false
+        },
+        "nextStep": "Root may have author/root record narrow actual-successor matrix correction then request exact readonly closure. No repeated sourcefull reread if four pinned bytes/proposal semantics unchanged; no user batch confirmation required. Only root separately can freeze owner/scope/build."
+      }
+    },
+    "closure": {
+      "path": "/tmp/type-pal-l4-independent-design-closure-20261016.json",
+      "sha256": "057cc4b785d33cff348c48912545c13829ac44f32d4897ec610c4172985f7fa1",
+      "bytes": 13513,
+      "lines": 248,
+      "completeReport": {
+        "kind": "independent-L4-v2-narrow-design-counter-closure-not-build-source-or-pilot-acceptance",
+        "date": "2026-10-16",
+        "reviewer": "n6_intake_review (non-author)",
+        "verdict": "design-agree",
+        "closedCounters": ["L4-DESIGN-COUNTER-1"],
+        "openCounters": [],
+        "buildAllowed": false,
+        "proposalFrozenByRoot": false,
+        "sourceAccepted": false,
+        "pilotAccepted": false,
+        "currentCanonCertified": false,
+        "runtimeExecutionPerformed": false,
+        "migrationCredit": 0,
+        "repositoryWrites": 0,
+        "exactAcceptedDesign": [
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-v2-20261016.md",
+            "sha256": "89b3a32d9f34f84e628f3c581ff116d38ec389640f6cad8f63b247cdfa66d78f",
+            "bytes": 24760,
+            "lines": 230
+          },
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-v2-20261016.json",
+            "sha256": "ae8cd55e3b8aeabcccb86789a819d7e3c0f7d28626eef92a1284bfcec054a434",
+            "bytes": 94847,
+            "lines": 2081
+          }
+        ],
+        "immutablePredecessors": [
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-20261016.md",
+            "sha256": "e8ccb137eae571be461766c0b1c3dc91ae3e9a84adfeaca303a67694d0bb74b3",
+            "bytes": 23948,
+            "lines": 230
+          },
+          {
+            "path": "/tmp/type-pal-l4-readonly-design-20261016.json",
+            "sha256": "bca4a7f3e391f6a9f2e88824fa37f3eb852478619706b4d92e991d77d6da7641",
+            "bytes": 93465,
+            "lines": 2081
+          },
+          {
+            "path": "/tmp/type-pal-l4-independent-design-review-20261016.md",
+            "sha256": "736525a33c938c1f9c1c01a6ce7f55f7ee17af34137fdcc413ba8a27e7264aa6",
+            "bytes": 12539,
+            "lines": 90
+          },
+          {
+            "path": "/tmp/type-pal-l4-independent-design-review-20261016.json",
+            "sha256": "34740737ac41f7574b1be9e54b030431243d92bf5dc7c0710e96bfe878022f98",
+            "bytes": 39717,
+            "lines": 796
+          }
+        ],
+        "authorEvidenceUsedAsInputNotIndependentSignature": {
+          "path": "/tmp/type-pal-l4-readonly-design-v2-selfcheck-20261016.json",
+          "sha256": "93fd522956ae69999e15c03eb4690dd0f5c346e733df1051e1d4ebb9ef1a2af8",
+          "bytes": 211255,
+          "lines": 621
+        },
+        "freshReadScope": {
+          "humanDirect": "Complete old/new MD216 and JSON rootOnlyAfterSourceReception.matrix; full new matrix baseline contract; selfcheck change-domain/completeQ object/raw substring/actual displayedMD63/hash scopes, history vs current baseline metadata, dynamic preservation contract, author probe/nonexecution disclosures. Actual currentMD58–66 directly read.",
+          "mechanicalDirect": "All230 MD lines and2081 JSON lines compared raw; recursive entire JSON key-order/list/scalar equality except unique matrix leaf. Complete embedded original four UTF8 files compared byteforbyte; actual c3bb/root whole matrix Git/blob/hash/unique IDs and all39 prior full objects; all actual source/prior bytes and full claimed record objects/pins; real Marked tables39→40 and all39 displayed cells exact.",
+          "reusedIndependentSemanticReading": {
+            "report": {
+              "path": "/tmp/type-pal-l4-independent-design-review-20261016.json",
+              "sha256": "34740737ac41f7574b1be9e54b030431243d92bf5dc7c0710e96bfe878022f98",
+              "bytes": 39717,
+              "lines": 796
+            },
+            "scope": "Same independently read1578 original source lines,230 firstproposal,complete current30/30/30/31 and catalog24/24/24/25,16conflicts,selectedtemplates and named necessary primary ranges. No new full-source read claim in this narrow closure.",
+            "exactOriginalAndSemanticRecordsPreserved": true
+          },
+          "notClaimed": "No fresh full reading of entire621-line selfcheck embedded duplicates, all40 matrix semantic relations, product/A8 code, runtime/E2E/visual/coverage, or new L4source/live/receipt nonexistentcandidate."
+        },
+        "exactChangedDomain": {
+          "MDChangedLines": [216],
+          "MDTotalLines": 230,
+          "MDUnchangedOtherLines": 229,
+          "JSONChangedRawLines": [2039],
+          "JSONChangedSemanticLeaves": [".rootOnlyAfterSourceReception.matrix"],
+          "JSONTotalLines": 2081,
+          "JSONUnchangedOtherRawLines": 2080,
+          "allOtherSemanticFieldsExact": true,
+          "allFourDocsFullRecordsAnd16ConflictsExact": true,
+          "noSourceOrPriorRewrite": true
+        },
+        "counterClosure": {
+          "id": "L4-DESIGN-COUNTER-1",
+          "firstDisposition": "counter retained immutable in first report; new report closes narrow issue only",
+          "fixedSourceRevision": "c3bb4096c4041a7890350199ca226fc79d174832",
+          "sourceCount": 39,
+          "sourceTwoOldChangesUntouched": 37,
+          "actualAcceptedRootRevision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "actualAcceptedRootCount": 40,
+          "allPrior39CompleteObjectsAndDisplayedCellsExact": true,
+          "rootChangesOneNamedLoreRow": {
+            "untouchedCompleteObjectsAndMDRows": 39,
+            "QProtected": true
+          },
+          "rootChangesLoreAndPairedTestNamedRows": {
+            "untouchedCompleteObjectsAndMDRows": 38,
+            "QProtected": true
+          },
+          "rootExplicitlyChoosesAdditionsOnly": {
+            "preserveAllOldCompleteObjectsAndMDRows": 40,
+            "newIDsUnique": true,
+            "notImplicitAlternativeScopeApproval": true
+          },
+          "dynamicSuccessorRule": "Root supplies separately accepted full commit; enumerate actual B unique IDs/full object and displayed MD row hashes; preserve every old row except exact authorized changed set, B-|set|. Additions-only preserve allB. Mixed addition/oldchanges requires root exact scope freeze;40 is example not perpetualdenominator.",
+          "QDifferentFromFixedPin": "Stop; root verifies separate accepted successor before updated scope. Never silently refresh Q hash or drop row.",
+          "loreFromProjection": "Current10alreadyincludescharacters; addonlytimeline/brainstorm/beat3→13, not14.",
+          "newMatrixText": "Historical source c3bb4096c4041a7890350199ca226fc79d174832 had39 rows; other37 after two changes is that fixed historical projection only. Accepted successor782128f12f475a7a72bc0d4dc7c6b4fe091c6509 actually has40 unique rows, all old39 objects exact plus q-author-guidance-vs-unverified-runtime-and-save-paths. At that successor, if root changes only existing lore relation preserve other39 whole JSON objects and corresponding MD rows; if also paired-test/current-version changes preserve other38; if root explicitly chooses additions only preserve all old40 objects/MD rows and add unique IDs. Q row must stay complete exact: native JSON object SHA256 6b829bf1ab3888b30d7f290ed7bf99a9e38c602ab3e781902123ef23243055ec (canonical sort-key compact SHA256 95182d99c9692c57352e25bcebe84189e0910a4c9bfa7878ed3631e1a2a5dc24); its rendered MD row also remains exact. Lore from10 already includes characters: add only timeline/brainstorm/beat3unique→13, not14. Before future execution, bind root-supplied accepted full commit, enumerate actual unique baseline IDs/full object and rendered-row hashes, let B=actual baseline count and preserve B-minus-exact-authorized-old-change-count untouched rows; additions-only preserve all B. Do not treat39/40 or other37/38/39 as timeless constants, silently lose Q, or expand to mixed addition/old-row modification without root freezing exact scope. If Q differs from fixed pin, stop and have root verify its separate accepted successor before proceeding. Rerender actual GFM and compare all untouched rows. This is conditional governance integration design only, no build/source acceptance or full sixdomain semantic completion."
+        },
+        "QFixedProtection": {
+          "id": "q-author-guidance-vs-unverified-runtime-and-save-paths",
+          "actualRootRevision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "nativeJSONWholeObjectHash": "6b829bf1ab3888b30d7f290ed7bf99a9e38c602ab3e781902123ef23243055ec",
+          "nativeHashScope": "Exact UTF8 substring opening{ through matching}inclusive; outerindent/comma/LF excluded. Independently located by real decoder in top-levelrows, not regex/partialobject.",
+          "canonicalSortKeyCompactHash": "95182d99c9692c57352e25bcebe84189e0910a4c9bfa7878ed3631e1a2a5dc24",
+          "displayedMDLine": 63,
+          "displayedMDRowWithLFHash": "0407100e65608d9eb6e84bdfa57eb1473407891e71cf00e5dbc1ac0676de2c61",
+          "fromSixToFiveAndGuardedBoundariesPreserved": true,
+          "noFreshQProductSourceSignature": true
+        },
+        "sourceAndHistoryNonRegression": {
+          "fourSourceFullHashes": [
+            {
+              "path": "docs/lore/characters.md",
+              "sourceLines": 321,
+              "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+              "gitObject": "389aa5dd7f4c2e618b9c9a79d6bfab6b20ae4406"
+            },
+            {
+              "path": "docs/lore/ideas/guijie/beat-sheet.md",
+              "sourceLines": 390,
+              "sha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+              "gitObject": "07b227d902742cbb26d2274357f7611d4efd0b8d"
+            },
+            {
+              "path": "docs/lore/ideas/guijie/brainstorm.md",
+              "sourceLines": 386,
+              "sha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+              "gitObject": "092e1a5872c1de7aeebeaae43b519498a80d94ca"
+            },
+            {
+              "path": "docs/lore/timeline.md",
+              "sourceLines": 481,
+              "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+              "gitObject": "45795c07ed6340639f804b04f96d54b7432bd5c1"
+            }
+          ],
+          "fixedSourceEquals07b3AndRootWorkingBytes": true,
+          "completeImmediatePriorFieldCounts": [30, 30, 30, 31],
+          "timelineOct11IntegrationReviewRetained": true,
+          "templateSelection": "reference-canon1.0candidate characters/timeline; narrative-idea1.0draft beat/brainstorm; brainstorm existingarchive1.0overlay; no newtype/format/version.",
+          "bodyCandidateCatalogDraftAxesRemainIndependent": true,
+          "C12": "Original3+fixedcaller2expectation+currentworldunknown still exact; no numeric correction, missingdate/inputbinding not inferred. Differenttrigger/predecessorversion/stateencoding/oraclewrong/original3wrong alternatives still named. Productauthor→runtime→same005input observation remains prerequisite only for future truthassertion.",
+          "notSourceMigrationAcceptance": true
+        },
+        "independentActualChecks": {
+          "identityPriorBaselineAndImmutableComparisons": {
+            "checks": 41,
+            "issues": [],
+            "report": {
+              "path": "/tmp/type-pal-l4-independent-design-closure-observer-20261016.json",
+              "sha256": "2c4e8a7ef709adb7906440a1e00fe76b79bb964011ce2e075c4ebfea22bb0f95",
+              "bytes": 6397,
+              "lines": 217
+            }
+          },
+          "actualMatrixMarkedGFM": {
+            "checks": 4,
+            "issues": [],
+            "report": {
+              "path": "/tmp/type-pal-l4-independent-design-closure-gfm-20261016.json",
+              "sha256": "eb8278a94e7e1e31ac5a66298fba7055452d5e00c84dc5fc6534bee91917810c",
+              "bytes": 598,
+              "lines": 25
+            }
+          },
+          "total": 45,
+          "issues": 0,
+          "qualityGateCredit": "None: these45 specific static observer checks are design evidence, not whole-repo zero-diagnostic gates or migratedsource acceptance."
+        },
+        "protection": {
+          "rootHeadAtClosure": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "rootExternalDeltaPaths": [
+            "docs/ops/audits/code-quality-file-ledger.md",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "docs/phase-governance/reviews/20261016-terminal-a8.json",
+            "scripts/docs/check.mjs",
+            "scripts/docs/terminal-codec.mjs",
+            "scripts/docs/terminal-codec.test.mjs",
+            "scripts/docs/terminal-contract.mjs",
+            "scripts/docs/terminal-git.mjs",
+            "scripts/docs/terminal-json.mjs",
+            "scripts/docs/terminal-namespace.mjs",
+            "scripts/quality/lint-zero.mjs"
+          ],
+          "rootExternalDeltaMatchesObservedA8EightPaths": false,
+          "rootCleanClaim": false,
+          "A8AcceptedOrReviewed": false,
+          "mainHead": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+          "mainClean": true,
+          "repoWriteOperations": 0,
+          "tmpOnlyArtifacts": true,
+          "rootStatusAtReport": [
+            "M  docs/ops/audits/code-quality-file-ledger.md",
+            "M  docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+            "M  docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "A  docs/phase-governance/reviews/20261016-terminal-a8.json",
+            "M  scripts/docs/check.mjs",
+            "A  scripts/docs/terminal-codec.mjs",
+            "A  scripts/docs/terminal-codec.test.mjs",
+            "A  scripts/docs/terminal-contract.mjs",
+            "A  scripts/docs/terminal-git.mjs",
+            "A  scripts/docs/terminal-json.mjs",
+            "A  scripts/docs/terminal-namespace.mjs",
+            "M  scripts/quality/lint-zero.mjs"
+          ],
+          "L4ProtectedInputsUnchangedAtReport": true,
+          "laterExternalMetadataObserved": "After45observer checks, externalA8 rootwork also changed3trackedmetadata and added terminal-a8 control. Original finalguard expectingonly8 rejected before finalreport write. No L4 protectedinput change; externaldelta unreviewed and unaccepted."
+        },
+        "notRun": [
+          "whole-repo check:docs/lint/strict/progress/diff qualitygates",
+          "runtime/E2E/visual/coverage/productexecution",
+          "L4body/receipt implementation or pilot",
+          "A8code review",
+          "network/officialcanon recertification"
+        ],
+        "nextStep": "Root actually reads original/v2/full firstreview and this closure; freeze exact revised design and actual accepted successorbase, then separately choose managed isolated tree/singleOwner/scoped firstcharacters+receipt pilot. Do not infer buildallowed from designagree. No perbatch userconfirmation needed. Source and each realcandidate/rootintake require separate actual evidence and independent acceptance."
+      }
+    }
+  },
+  "predecessorReception": {
+    "A8": {
+      "path": "/tmp/type-pal-a8-root-intake-independent-review-20261016.json",
+      "sha256": "60f62bb9be8b7402f18e7cd1709b8f70ba6019fd5c8bdb016a7e6e39c292b711",
+      "bytes": 18957,
+      "lines": 457
+    },
+    "scope": "Complete report is stored at A8 rootIntake.actualAcceptance; exact source-format intake only, no later-byte or migration credit."
+  },
+  "rootReadingScope": "Root v2 MD230 + first independentMD90 + closureJSON248/MD15 + characters321 + reference/narrative templates complete; other fullsource/prior semantics independently read and accurately reused. Structured proposal full identity/selectedfields, no false root2081manual claim.",
+  "firstPilot": {
+    "status": "build allowed after root sends exact committed freeze and new managed worktree; no source candidate accepted",
+    "codingOwner": "q_remaining_guides",
+    "paths": [
+      "docs/lore/characters.md",
+      "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json"
+    ],
+    "templateId": "reference-canon-v1",
+    "templateVersion": "1.0.0",
+    "documentStatus": "candidate",
+    "catalogMaturity": "draft",
+    "independentAcceptancePending": true
+  },
+  "continuation": {
+    "order": [
+      {
+        "order": 1,
+        "path": "docs/lore/characters.md",
+        "why": "reference long mixed claim/date source + actual orphan row; own nonauthor reception before family continuation"
+      },
+      {
+        "order": 2,
+        "path": "docs/lore/ideas/guijie/brainstorm.md",
+        "why": "narrative draft + existing archive overlay real long workshop/decision precedence; receive complete10 substantivechapters"
+      },
+      {
+        "order": 3,
+        "path": "docs/lore/ideas/guijie/beat-sheet.md",
+        "why": "source accepted brainstorm constraints, explicit supersession and row→prose native fix; draft not approved production"
+      },
+      {
+        "order": 4,
+        "path": "docs/lore/timeline.md",
+        "why": "highest mixed-date/currentruntime/publication scope last; caller expects2 only vs unbound old3 unresolved, fixedOct11 vsrework +7inboundfragments"
+      }
+    ],
+    "scope": "Three remaining source paths not build allowed until previous actual pilot nonauthor acceptance and root explicit assignment; no user perbatch confirmation required."
+  },
+  "rootOnlyIntake": {
+    "central": "4 uniquelegacy records→newcurrent with exact immediate priors; totalregistry count unchanged; 3wrongtypes corrected (beat+brain→narrative, timelineplan→reference), 4newroutes actualold0/4.",
+    "catalog": "Maturityaxis separately reviewed: proposed character/timeline draft and bothidea draft; no newcanon/runtime/coverage; preserve old45d/content22SAVE11 capture and timelineOct11SAVE12 prior exactly.",
+    "matrix": {
+      "base": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "rows": 40,
+      "allowedOldChange": "single lore relationship only; exact ID/details re-enumerated before integration",
+      "other39ExactRequired": true,
+      "QWholeObject": {
+        "id": "q-author-guidance-vs-unverified-runtime-and-save-paths",
+        "from": [
+          "docs/phase2/guides/content-publication.md",
+          "docs/phase2/guides/actor-presets.md",
+          "docs/phase2/guides/battlefield-authoring.md",
+          "docs/phase2/guides/debug-tools.md",
+          "docs/phase2/guides/scene-entry-authoring.md",
+          "docs/phase2/guides/shared-script-author-guide.md"
+        ],
+        "to": [
+          "docs/phase2/READ-FIRST.md",
+          "docs/phase2/specs/script-system.md",
+          "docs/phase2/specs/save-system.md",
+          "docs/testing/governance.md",
+          "docs/ops/agent-workflow.md"
+        ],
+        "relationship": "六篇作者指南的操作合同与实际执行信用分开：人物身份/资源共享不共享实例行为；现代战场0合法且显式startBattle→hostile→scene→24；debug直接改内存仍可能由普通保存持久化；scene只有prepare/body入口且完整安全门未实现；shared N6b/DFS未实现、required-self保存发布待证；PAL恢复写入警告继续有效。",
+        "status": "guarded",
+        "evidence": [
+          "docs/phase-governance/reviews/20261016-phase2-guides-q.json:1",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-guides-q-20261016.json:1",
+          "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md:1"
+        ],
+        "unresolved": [
+          "旧构建、手测、Oct4/11与SAVE12历史结果不续期；本轮不运行编辑器/保存/迁移/发布/E2E/视觉/coverage。",
+          "未知后继UI、完整prepare安全门、required-self全保存发布与未实现N6b/DFS须另任务事实核验；指南不授权补产品。"
+        ],
+        "stopLine": "不得以模板/源码窄域/操作说明证明产品完整通过；保留原413行及失败、历史与未知，不将静态正文审查升级执行信用。"
+      },
+      "QMDRowWithLF": "| Q 作者指南 ↔ 实际执行与保存路径 | 六指南分清共享、战场优先链、调试存档风险、入场安全缺口与脚本未知 | guarded | 保原历史与未知；不以模板/窄源码审读授运行或产品build |\n",
+      "QMDRowSha256": "0407100e65608d9eb6e84bdfa57eb1473407891e71cf00e5dbc1ac0676de2c61",
+      "allOtherDomainsLocked": true
+    },
+    "noParallelTruth": "Author constraints staytaboos/versions, brainstormingdecisionlist gives localintent, beat owns concretebeats, timeline owns narrative route, testingcatalog/report executionpublication; centralreceipt indexes only."
+  },
+  "rootIntake": {
+    "status": "design freeze and scoped build admission only; future real candidates/current integration require independent acceptance",
+    "actualAcceptance": null
+  },
+  "stopLine": "No source/pilot/canon/product/runtime/visual/coverage/whole1838 completion credit; all new design/control/native files pending increments, no self-sign or afterSHA cycle."
+}

@@ -974,3 +974,15 @@ Branch: codex/docs-full-template-proposal
 - 源85ebe86d38d047c10339e053299ae050af5ec053八路径自然合入；非作者完整2968行复核及真实A-CWD-ALIAS首counter/闭合证明保在[A8唯一接入记录](../../phase-governance/reviews/20261016-terminal-a8.json)。只接收有界格式/工作树namespace，approval/current/complete均false，B/C0/C1仍未准build或验收。
 - 实际tracked3300相对声明3294的首失败原样留存；只新增五tool一test均待核，旧248整行/状态/证据与273行原稿精确，229closed/5review不变。当前3300/3066pending/3071unclosed同提交维护；不增加迁移或专项代码闭合。Q签收尾层完整68项零问题报告随本控制留存，不续写Q镜像。
 - 根仅新读370行代码、其余复用完整非作者源审；中央四文档精确接入及真实docs/quality-tools/lint/diff/strict/progress另独立核。唯一当前裁定见A8 control.rootIntake；首失败与旧作者pending保固定时点。全1838及所有增量/artifacts继续build，未达硬验收不得done/main推送或清理源历史。
+
+#### A8根接收；L4设计冻结与首characters pilot
+
+- A8精确655b8c687cb3e568c85fa53084d503e40b845e6a十二路径及树由非作者独立接收；完整真实七门与首counter/closure保[A8唯一rootIntake](../../phase-governance/reviews/20261016-terminal-a8.json)。docs120/quality37、lint4120 EWI0、250body/733strict/184phase/testing0、diff0；245/1838+5增量/current1986pending1736仅该快照进度。六tool/test仍待核，CODE-QUALITY229closed/5review不增，B/C0/C1未授build/current/complete。
+- [L4正式冻结设计](../../phase-governance/reviews/20261016-lore-remaining-l4-design.md)及[完整原提案/首counter/45项闭合](../../phase-governance/reviews/20261016-lore-remaining-l4.json)保完整真实来源。根读域如设计明确，唯一矩阵基线counter已闭；本次只准q_remaining_guides在新managed隔离树首characters+单native两路径pilot，其余brainstorm/beat/timeline另依次准入。两reference candidate/两narrative draft；brainstorm既有archive叠加，17type/version不变。
+- 数值state3/caller2/worldunknown、作品官设未证、作者决议/历史/006publication rework分轴。设计metadata后继独立核，不续签未来正文或全量；全1838及所有增量/artifacts继续build。
+
+#### HTML三原型精确格式冻结；仅依赖/历史bootstrap准入
+
+- [HTML格式设计](../../phase-governance/reviews/20261016-historical-static-html-design.md)及[完整原稿/首counter/后继独立设计审](../../phase-governance/reviews/20261016-historical-static-html.json)固定17类型、未来archive1.1/唯一HTML变体；原51及C3后继195项design agree，仅设计无代码/pilot接受。原3 HTML共811与其它12host、未知原作者/日期、v2CSS无DOM、place占位与July1历史边界不变。
+- 只准html_contract_refinement在根新建managed树以冻结commit写package.json/pnpm-lock.yaml/docs.yml三路径，直接精确parse5与full-history/frozeninstall/Node22.23.2/pnpm10.29.2前提；不得写helper、模板、registry、HTML、旧tests、产品、coverage或其它CI。代码六路径/三pending库存/后继版本白名单/actor-v2 pilot均须前阶段真实独立接收后另准，不逐批问用户。
+- 代码库存先实际接收commit，再从稳定后继动态重核68/62/138观察及所有新增current，保第9README完整prior/镜像；MD/JSON/F1同步无依赖caller不变，三HTML真实joint/source/DOM/CSS/links门不放宽。设计/控制新增文件仅pending增量，0迁移信用；全量继续build。
