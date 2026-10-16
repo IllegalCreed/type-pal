@@ -1143,3 +1143,10 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`docs/phase-governance/reviews/20261017-r40-ops-machine-json.json`、registry artifact envelope 及 contributor receipt；统一绑定 `test-machine-evidence-v1` 1.5.0，JSON 不进入 Markdown routing，ops evidence 不进入 phase/lore catalog。
 - R40 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r40-ops-machine-json-candidate-acceptance-20261017.md`；13/13 字段/consumer/SHA 接收；无 runtime/E2E/视觉/coverage 信用。
 - 全量 1838 目标保持 active/build；本批不删除历史文档，不标记 done，不推送 main。
+
+### 2026-10-17 R41 ops archive task/index
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r41-ops-archive-task-readonly-review-20261017.json`，10/10 全文读取；2 governance-index + 8 task-card archive overlays。
+- 中央接入：`docs/phase-governance/reviews/20261017-r41-ops-archive-task.json`、registry/routing 10 条及 contributor receipt；历史 task 状态保留，不自动授权当前 build。
+- R41 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r41-ops-archive-task-candidate-acceptance-20261017.md`；10/10 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
+- 当前 `REFORGE-OPENING-LOAD-ERROR-1` draft 不在本批；清理决策待 archive 全量 consumer/引用盘点后再列候选，不删除文件。

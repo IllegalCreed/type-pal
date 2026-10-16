@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r41-ops-archive-task-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+  "verdict": "accept",
+  "verdictScope": "candidate ops archive task/index reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 10,
+    "readAndChecked": 10,
+    "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+    "docTypes": {
+      "governance-index": 2,
+      "task-card": 8
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R41-CANDIDATE-B01",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 10 archive task/index documents were read and preserve source bytes through quote inverse and source/after SHA."
+    },
+    {
+      "id": "R41-CANDIDATE-B02",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Two indexes satisfy governance-index and eight completed cards satisfy task-card with archive overlay."
+    },
+    {
+      "id": "R41-CANDIDATE-B03",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; ops archive paths remain outside phase/lore catalog scope."
+    },
+    {
+      "id": "R41-CANDIDATE-B04",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all10": true,
+    "quoteTemplateOverlayAfterShaAll10": true,
+    "issueCount": 0,
+    "issues": [],
+    "routing": "migrated Markdown body route",
+    "catalogScope": "not-in-catalog-by-ops-scope"
+  },
+  "staticCommands": {
+    "node scripts/docs/report-governance-progress.mjs": "PASS (471/1838 baseline + 5 incremental; 0 integrity issues)",
+    "node scripts/docs/check-content-review.mjs --strict": "PASS (733 documents; 733 content-reviewed)",
+    "node scripts/docs/check-document-model.mjs": "PASS (457 body contracts; 0 issues)",
+    "node scripts/docs/check.mjs": "PASS (1269 Markdown; 7897 local links; 0 issues)",
+    "pnpm check:docs": "PASS (120 docs tools; check/docs/testing/phase-lore/content review all zero issues)",
+    "pnpm lint": "PASS (4200 files; 0 errors / 0 warnings / 0 infos)",
+    "git diff --check": "PASS"
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static document migration and provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+      "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+      "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "sourceSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
+      "afterSha256": "5eca773a5d5f5b56759c1a22d9bfcd9ee43b6a880e2c4a657e50c25733849545",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "sourceSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
+      "afterSha256": "339fc90e5367121c45057213f478bdcc0794ba41eda204509315b221d6118633",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "sourceSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
+      "afterSha256": "f8be7ac0e7d46e734cb4af3014961cc00fb904f90b8324078566f2b8ab80b409",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "sourceSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
+      "afterSha256": "f774c2c4a0aff5c1b2ea745679e368d4a94b198eef8bb6cd47f2d819f7049d1a",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "sourceSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
+      "afterSha256": "1f3921f8a24d71aeb381c1822b44fbb37208b10a0ec4c663e413d5a407ff97f9",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "sourceSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
+      "afterSha256": "9fd614d3521a389c056aa97f92806007977083f9de34e3938bf66a99e3017c3c",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+      "sourceSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
+      "afterSha256": "184c864e722a7ffd027387f1070997e8e441c5c3a20701feb5f0ae34d31c0653",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "sourceSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
+      "afterSha256": "b7110dc09ec1336a4111b585317ef64d4b6d6f30c4ad2019636c34334a2f6abb",
+      "templateId": "task-card-v1",
+      "historyOverlay": true,
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": "migrated Markdown body route",
+      "quoteInverse": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

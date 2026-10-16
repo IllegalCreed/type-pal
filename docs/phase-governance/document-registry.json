@@ -21,13 +21,13 @@
       "audit-report": 60,
       "design-spec": 35,
       "evidence-receipt": 35,
-      "governance-index": 100,
+      "governance-index": 102,
       "guide-runbook": 16,
       "narrative-idea": 2,
       "plan-status": 70,
       "quality-gate": 1,
       "reference-canon": 14,
-      "task-card": 333,
+      "task-card": 331,
       "test-catalog": 2,
       "test-contract": 1,
       "test-domain-report": 8,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 267,
-      "template-compliant": 466
+      "governed-legacy": 257,
+      "template-compliant": 476
     }
   },
   "entries": [
@@ -2093,17 +2093,6 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md",
       "phase": "ops",
       "docType": "task-card",
@@ -2524,28 +2513,6 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md",
       "phase": "ops",
       "docType": "task-card",
@@ -2569,17 +2536,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/README.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -2711,29 +2667,7 @@
       "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/TEST-CODEX-CONTENT-RESOURCES-1-indices-and-references.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -3377,39 +3311,6 @@
       "reviewRecord": "20261004-structured-content-ops-04.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
       "phase": "ops",
       "docType": "task-card",
@@ -3770,17 +3671,6 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
       "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/README.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
       "path": "docs/ops/audits/architecture-debt.md",
@@ -9070,6 +8960,136 @@
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r41-ops-archive-task.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
