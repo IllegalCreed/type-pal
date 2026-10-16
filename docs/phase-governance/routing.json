@@ -3025,6 +3025,106 @@
       "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N1-1-dialogue-control-code-retirement.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N6-shared-script-authoring.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-BATTLE-UI-1-skill-workbench-redesign.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-2-x3-ending-truth-reconciliation.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D6-1-occlusion-semi-transparent.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/B11-1-player-casualty-scripts.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-2-presentation-intent-protocol.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W4-1-named-scene-entry-closure.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-4A-entity-kind-role-boundary.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-MAP-NAME-1-phase1-map-name-adoption.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/X7-1-manifest-project-workbench.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-SCENE-UX-1-scene-canvas-direct-manipulation.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TRUTH-1-premise-gate.md",
+      "templateId": "task-card-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
