@@ -1383,3 +1383,11 @@ Branch: codex/docs-full-template-proposal
 - R72 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r72-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：cursor 旧实验、mutant 和 receipt 仍由 archive README/evidence/迁移账引用；本批不删除，不把旧实验结果升格为当前合同。
 - 当前进度 `967/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R73 testing archive documents
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-readonly-review-20261017.json`，50/50 testing archive 文档全文读取；41 篇 Markdown 改为 `archive-record-v1` + 原文 quote，9 个 JSON 保持 byte-stable machine artifact。
+- 中央接入：`docs/phase-governance/reviews/20261017-r73-testing-archive.json`、registry 50 条 `archive-record-v1`，Markdown 进入 routing，JSON 保持 artifact-only；counter、日期、状态、机器字段和历史边界保留。
+- R73 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：finite intake、architecture regression、visual/support 历史材料仍由 archive README/evidence/迁移账引用；本批不删除，不把历史 counter/diagnostic 升格为当前 quality gate。
+- 当前进度 `1017/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
