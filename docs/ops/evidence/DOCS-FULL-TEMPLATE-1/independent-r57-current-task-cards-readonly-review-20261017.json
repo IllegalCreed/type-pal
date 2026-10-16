@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r57-current-task-cards-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "candidateHead": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+  "verdict": "accept-readonly-proposal",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "root": ".",
+    "documentsRead": 6,
+    "all6": true,
+    "paths": [
+      "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+      "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+      "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+      "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+      "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "strict UTF-8 source read and SHA-256; goals/status/owner/premise/acceptance/next-step inspected"
+  },
+  "summary": {
+    "documents": "6/6 fully read",
+    "sourceAfter": "6/6 source/after SHA and quote inverse recorded",
+    "registry": "6/6 migrated from governed-legacy",
+    "routing": "6/6 task-card routes",
+    "classification": "current task cards with statuses review/rework/build/draft preserved",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "review",
+      "historyOverlay": false,
+      "sourceSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
+      "afterSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "scripts/e2e/meal-contract.mjs",
+        "scripts/e2e/meal-journey.mjs",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "rework",
+      "historyOverlay": false,
+      "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+      "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "projects/pal/content/scenes/s002.json",
+        "projects/pal/content/scenes/s005.json",
+        "scripts/e2e/boat-contract.mjs",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "build",
+      "historyOverlay": false,
+      "sourceSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
+      "afterSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "docs/testing/e2e/contract.md",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "draft",
+      "historyOverlay": false,
+      "sourceSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
+      "afterSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "packages/reforge/src/save/store.ts:116-139",
+        "packages/reforge/src/opening-menu.ts:113-121,138",
+        "packages/reforge/src/main.ts:460-518",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "build",
+      "historyOverlay": false,
+      "sourceSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
+      "afterSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "projects/pal/content/scenes/s001.json",
+        "projects/pal/content/scenes/s003.json",
+        "packages/reforge/src/script/entity-walk.ts",
+        "scripts/e2e/inn-contract.mjs",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "format": "markdown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "status": "rework",
+      "historyOverlay": false,
+      "sourceSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+      "afterSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "packages/game/src/core/battle/turn-queue.ts",
+        "packages/game/src/core/battle/battle-finalization.ts",
+        "packages/game/src/core/battle/battle-system.ts",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

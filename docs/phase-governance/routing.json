@@ -3423,6 +3423,30 @@
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "templateId": "task-card-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

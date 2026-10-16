@@ -288,3 +288,9 @@
 - [R56 只读独立复核](independent-r56-ops-machine-evidence-readonly-review-20261017.json)：6/6 JSON 全量解析、读取顶层 shape/字段并确认 source==after；coverage、mutation、vitest 历史结果保留为 machine artifact。
 - [R56 根接入回执](contributor-r56-ops-machine-evidence-20261017.json)：逐篇记录 byte-stable SHA、top-level fields、consumer 和 artifact-only 边界；不进入 Markdown routing。
 - [R56 候选独立接收](independent-r56-ops-machine-evidence-candidate-acceptance-20261017.json)：6/6 候选接收；无 runtime/E2E/视觉/coverage 信用，不把旧执行结果当当前通过。
+
+## R57 current task cards
+
+- [R57 只读独立复核](independent-r57-current-task-cards-readonly-review-20261017.json)：6/6 current task cards 全文读取；review/rework/build/draft 状态、owner、前提、验收与未决边界保留。
+- [R57 根接入回执](contributor-r57-current-task-cards-20261017.json)：逐篇记录 source/after SHA、quote inverse、task-card chapters、consumer 和状态边界；不推进任何任务状态。
+- [R57 候选独立接收](independent-r57-current-task-cards-candidate-acceptance-20261017.json)：6/6 候选接收；无 runtime/E2E/视觉/coverage 信用，未标 done。

@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 723,
-      "governed-legacy": 10
+      "template-compliant": 729,
+      "governed-legacy": 4
     }
   },
   "entries": [
@@ -1354,10 +1354,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
@@ -1365,10 +1367,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
@@ -1376,10 +1380,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
@@ -1488,10 +1494,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
@@ -1499,10 +1507,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
@@ -1510,10 +1520,12 @@
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r57-current-task-cards.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/templates/README.md",
