@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { basename, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -9,6 +9,7 @@ import {
   linkExceptions,
 } from './config.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const taskDirectory = 'docs/ops/tasks/'
@@ -279,6 +280,19 @@ export function auditDocuments({
 function main(args) {
   if (args.some((arg) => !['--print-task-index', '--json'].includes(arg)))
     throw new Error('用法：node scripts/docs/check.mjs [--json | --print-task-index]')
+  const namespace = inspectTerminalNamespace(repoRoot)
+  if (!namespace.ok) {
+    const issues = namespace.issues.map((issue) => ({
+      file: issue.file,
+      line: 1,
+      message: issue.message,
+    }))
+    if (args.includes('--json'))
+      console.log(JSON.stringify({ documents: 0, links: 0, issues }, null, 2))
+    else for (const issue of issues) console.error(`${issue.file}:1: ${issue.message}`)
+    process.exitCode = 1
+    return
+  }
   const files = execFileSync(
     'git',
     ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
@@ -329,5 +343,9 @@ function main(args) {
   if (result.issues.length) process.exitCode = 1
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+if (
+  process.argv[1] &&
+  existsSync(process.argv[1]) &&
+  realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+)
   main(process.argv.slice(2))

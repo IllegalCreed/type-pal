@@ -968,3 +968,9 @@ Branch: codex/docs-full-template-proposal
 
 - 精确13ee36134f587298b7282985a8771929004a6d3c/聚合16树688bd1f490f06ce7d7e4a0c6e287680cefdd25ae由非作者n6_intake_review闭合，303行完整报告2dcc805db21a2b343d669791cc163af77fd9dc535dac8f056a2bd4646d6c1478已全文读并入Q唯一rootIntake.actualAcceptance；205项/0问题，C1/C2/C4九字段与C3后继零全门具实际证据。完整32固定Git对象、六原native/MD及其他14文件精确；首565 counter与85/86实际失败/未知根因全保。
 - 新实际86/86、1230MD/8048local links、250正文/733strict/184phase/testing0、lint4113 E/W/I0、diff0；245/1838+5增量/current1985pending1735仅局部进度。Q current记录只指canonical事件，原作者pending固定源时点，不续签runtime/E2E/视觉/coverage或全量。此后写签收metadata单独复核，不用源签未来bytes；接续A8已实证公开cwd alias返工及其余四lore只读设计，均不自动授产品或文档build。
+
+#### A8 source-format-partial 根接入与六项待核库存
+
+- 源85ebe86d38d047c10339e053299ae050af5ec053八路径自然合入；非作者完整2968行复核及真实A-CWD-ALIAS首counter/闭合证明保在[A8唯一接入记录](../../phase-governance/reviews/20261016-terminal-a8.json)。只接收有界格式/工作树namespace，approval/current/complete均false，B/C0/C1仍未准build或验收。
+- 实际tracked3300相对声明3294的首失败原样留存；只新增五tool一test均待核，旧248整行/状态/证据与273行原稿精确，229closed/5review不变。当前3300/3066pending/3071unclosed同提交维护；不增加迁移或专项代码闭合。Q签收尾层完整68项零问题报告随本控制留存，不续写Q镜像。
+- 根仅新读370行代码、其余复用完整非作者源审；中央四文档精确接入及真实docs/quality-tools/lint/diff/strict/progress另独立核。唯一当前裁定见A8 control.rootIntake；首失败与旧作者pending保固定时点。全1838及所有增量/artifacts继续build，未达硬验收不得done/main推送或清理源历史。

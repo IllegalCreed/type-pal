@@ -3025,9 +3025,9 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Reuse complete fixed dd377 prior and independently accepted exact e136 maintenance semantics, not a new18-entry product/old-code review. Root reads the current small administrative reception delta; catalog JSON and quality ledger body unchanged. Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
-      "coreConclusion": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
-      "documentStatus": "Current publication/navigation; exact e136 maintenance independently accepted, later root administrative fields separately pending scoped reception.",
+      "readMethod": "Reuse prior independently accepted ledger/source semantics at fixed782 and full nonauthor A8 aggregate source review, with alias-counter closure exact85. Root freshly reads live inventory summary/responsibility/next-step, six purposes and raw preservation boundaries, performs exact old248-row/full273-source comparison and real producer/consumer. Root fresh code scope370 lines; remaining2968-line aggregate reviewed by independent source reviewer. Current exact root intake verdict is only 20261016-terminal-a8.json rootIntake.",
+      "coreConclusion": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+      "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
         {
@@ -3095,19 +3095,37 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "scope": "Reuse prior independently accepted ledger/source semantics at fixed782 and full nonauthor A8 aggregate source review, with alias-counter closure exact85. Root freshly reads live inventory summary/responsibility/next-step, six purposes and raw preservation boundaries, performs exact old248-row/full273-source comparison and real producer/consumer. Root fresh code scope370 lines; remaining2968-line aggregate reviewed by independent source reviewer. Current exact root intake verdict is only 20261016-terminal-a8.json rootIntake.",
+          "completeImmediatePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+            "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+            "selector": {
+              "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "primarySource": [
-        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/ops/audits/code-quality-file-ledger.md",
-        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
-        "scripts/docs/document-model.mjs",
-        "scripts/docs/frozen-document-source.mjs"
+        "782128f12f475a7a72bc0d4dc7c6b4fe091c6509:docs/ops/audits/code-quality-file-ledger.md",
+        "85ebe86d38d047c10339e053299ae050af5ec053:scripts/docs/terminal-namespace.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "scripts/quality/code-quality-ledger.mjs",
+        "docs/phase-governance/reviews/20261016-terminal-a8-design.md"
       ],
       "truthAnchors": [
-        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/ops/audits/code-quality-file-ledger.md",
-        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
-        "scripts/docs/document-model.mjs",
-        "scripts/docs/frozen-document-source.mjs"
+        "782128f12f475a7a72bc0d4dc7c6b4fe091c6509:docs/ops/audits/code-quality-file-ledger.md",
+        "85ebe86d38d047c10339e053299ae050af5ec053:scripts/docs/terminal-namespace.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "scripts/quality/code-quality-ledger.mjs",
+        "docs/phase-governance/reviews/20261016-terminal-a8-design.md"
       ],
       "phaseAnchors": [
         "Ops governance / historical phase1-editor evidence; current-only and current workflow apply, no product build granted.",
@@ -3120,7 +3138,7 @@
         "scripts/quality/code-quality-ledger.mjs",
         "scripts/quality/code-quality-inventory.mjs"
       ],
-      "applicability": "F1 source-specific document/contract maintenance only; no current product/runtime or whole-doc acceptance. Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+      "applicability": "A8 exact-source integration and six pending code-inventory additions only. Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
       "publicEntry": "docs/ops/audits/code-quality-file-ledger.md",
       "publicCallers": [
         "docs/ops/audits/README.md",
@@ -3129,28 +3147,29 @@
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
       "legalInputs": [
-        "Actual tracked inventory and unique continuous live table; new reader/test pending only, all246 old rows/order and273 source fence exact."
+        "Real tracked inventory and one continuous live table; 3300 unique inventory paths; old248 full rows and273-line source bytes exact; six new tool/test paths pending only."
       ],
       "businessOracle": {
-        "type": "F1-source-specific-maintenance-and-no-new-credit",
+        "type": "A8-source-format-partial-and-pending-inventory-integrity",
         "assertions": [
-          "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
-          "Exact e136/DD377 independent reception now recorded; current later root administrative bytes still require separate acceptance, no runtime/E2E/visual/coverage credit."
+          "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+          "Both real docs/lint callers retain mandatory ordinary quality checks. approvalChecked/currentChecked/completeChecked=false; B/C0/C1 not accepted.",
+          "Unique current root verdict is in 20261016-terminal-a8.json rootIntake; full immediate prior retained at fixedGit."
         ]
       },
       "dedupe": {
-        "result": "source-specific-maintenance-no-new-migration",
+        "result": "maintenance-only-no-new-migration",
         "against": [
           "docs/ops/audits/code-quality-file-ledger.md",
-          "docs/phase-governance/templates/registry.json",
-          "docs/phase-governance/reviews/20261016-binding-baseline-contract.json"
+          "docs/phase-governance/reviews/20261016-terminal-a8.json"
         ],
-        "notes": "Existing unique current record; original pilotCandidate remains immutable historical authored snapshot. New baseline current entry in F1 control is a different nonmember document, eligible incremental1 only."
+        "notes": "One existing current entry is maintained; control.entries empty, all previous complete readings and dated acceptance scopes retained. No repeated migrated-body or code-quality closed credit."
       },
       "counterReworkBlocked": {
-        "F1": "Exact e136 source and final164 root14 independently accepted, C1/C2 closed. This subsequent current-record metadata only separately reviewed; no original pending source acceptance remains.",
-        "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
-        "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
+        "A8": "First f4 A-CWD-ALIAS counter genuinely closed by independent exact85 source-format review; historical counter/full proof retained in A8 control.",
+        "rootIntake": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake is the only mutable current root verdict.",
+        "priorAcceptance": "F1 and subsequent accepted reception scopes remain dated history, fully retrievable at immediate fixed782 prior.",
+        "limits": "No whole code semantic closure, B/C0/C1, runtime/E2E/visual/coverage or whole-goal acceptance."
       },
       "unresolved": [
         "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
@@ -3158,10 +3177,10 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+      "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
       "revision": {
         "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-        "implementationSha": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+        "implementationSha": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
         "history": [
           {
             "date": "2026-10-16",
@@ -3206,29 +3225,63 @@
             "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
             "newMigrationCredit": 0,
             "runtimeExecutionPerformed": false
+          },
+          {
+            "date": "2026-10-16",
+            "action": "A8 exact source admission; six pending code inventory rows and current prose maintenance",
+            "maintenanceSource": {
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "gitObject": "bbe3a80c5feb0a7c6b185001c272c054c2c1b775",
+              "sha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+              "bytes": 108097,
+              "lines": 586
+            },
+            "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+            "inventoryBefore": 3294,
+            "inventoryAfter": 3300,
+            "closed": 229,
+            "review": 5,
+            "newPending": 6,
+            "originalLiveRowsUnchanged": 248,
+            "currentLiveRows": 254,
+            "newMigrationCredit": 0,
+            "canonicalRootVerdict": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake",
+            "completePrior": {
+              "kind": "complete-prior-current-in-reachable-fixed-git",
+              "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+              "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+              "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+              "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+              "selector": {
+                "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+                "uniqueMatches": 1
+              },
+              "completePriorObjectRetrievedAndCompared": true
+            }
           }
         ]
       },
       "evidence": {
-        "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
-        "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
-        "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
-        "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "lineCount": 586,
-        "sourceScope": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
+        "kind": "A8-six-pending-inventory-real-producer-maintenance",
+        "path": "docs/ops/audits/code-quality-file-ledger.md",
+        "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+        "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+        "lineCount": 592,
+        "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+          "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
           "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
-          "gitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
-          "fileSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+          "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+          "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
           "selector": {
             "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
             "uniqueMatches": 1
           },
           "completePriorObjectRetrievedAndCompared": true
         },
-        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
+        "independentReception": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake",
         "originalPreservation": {
           "originalPreserved": true,
           "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
@@ -3238,31 +3291,23 @@
           "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
           "exactRoundTrip": true
         },
-        "originalLiveRowsUnchanged": 246,
-        "currentLiveRows": 248,
+        "originalLiveRowsUnchanged": 248,
+        "currentLiveRows": 254,
         "newPendingPaths": [
-          "scripts/docs/git-document-snapshot.mjs",
-          "scripts/docs/frozen-binding-baseline.test.mjs"
+          "scripts/docs/terminal-json.mjs",
+          "scripts/docs/terminal-codec.mjs",
+          "scripts/docs/terminal-git.mjs",
+          "scripts/docs/terminal-namespace.mjs",
+          "scripts/docs/terminal-contract.mjs",
+          "scripts/docs/terminal-codec.test.mjs"
         ],
         "actualInventory": {
-          "files": 3294,
+          "files": 3300,
           "closed": 229,
           "review": 5,
-          "pending": 3060,
-          "unclosed": 3065,
-          "scope": "Actual inventory integrity only, no semantic closure."
-        },
-        "immediateCompletePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
-          "gitObject": "4949a6c773114c457f83e96893d967ecb9a539d9",
-          "fileSha256": "5298e5dc4ac1ca7995092b0cf28aa586648dae438630639f40b7dc9a7c80feb2",
-          "completePriorObjectRetrievedAndCompared": true,
-          "selector": {
-            "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
-            "uniqueMatches": 1
-          }
+          "pending": 3066,
+          "unclosed": 3071,
+          "scope": "Real inventory integrity only, no semantic closure."
         }
       },
       "history": [
@@ -3367,6 +3412,40 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "A8 exact source admission; six pending code inventory rows and current prose maintenance",
+          "maintenanceSource": {
+            "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "gitObject": "bbe3a80c5feb0a7c6b185001c272c054c2c1b775",
+            "sha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+            "bytes": 108097,
+            "lines": 586
+          },
+          "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+          "inventoryBefore": 3294,
+          "inventoryAfter": 3300,
+          "closed": 229,
+          "review": 5,
+          "newPending": 6,
+          "originalLiveRowsUnchanged": 248,
+          "currentLiveRows": 254,
+          "newMigrationCredit": 0,
+          "canonicalRootVerdict": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake",
+          "completePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+            "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+            "selector": {
+              "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [
@@ -3377,13 +3456,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue all baseline/increments/artifacts; P11 requires this exact committed admission and root-sent newbase, other packs remain separately scoped. Exact164 reception accepted; later metadata reviewed separately, no new runtime/old-code/whole-goal credit.",
+      "nextStep": "Continue all1838 baseline/increments/artifacts. A8 control rootIntake owns current reception; B/C0/C1 require separate design, actual implementation and independent acceptance. Pending source quality inventory remains pending.",
       "userVisibleBeforeAfter": {
-        "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
-        "after": "Actual tracked inventory3294/229closed/5review/3060pending/3065unclosed. Exactly new Git Buffer reader(tool) and focused baseline test(test) pending; all246 former live rows/order and entire273-line original source unchanged. No original code/test semantic closure.",
-        "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
+        "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
+        "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+        "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-586",
+      "reviewedLines": "1-592; prior full273 source reused, exact bytes verified; old248 rows reused and byte-compared, six new rows freshly reviewed.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -3391,7 +3470,7 @@
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0",
         "historyOverlay": "archive-record-v1/1.0.0",
-        "method": "Exact final164 current body/record delta independently accepted; this later scoped current-record signoff leaves body/after and contracts unchanged, no new migration.",
+        "method": "Existing governance-index1.0 and archive-record1.0 overlay retained. Exact old live rows/source inverse and real current inventory consumer verified; no new migration. Current root acceptance in A8 control only.",
         "version": "1.0.0"
       },
       "priorReadings": [
@@ -4053,9 +4132,9 @@
           "reviewedSourceGitRevision": "ea9368e2d76988ec736da0e2477caa509e77c6b4"
         }
       ],
-      "reviewedSourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
-      "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-      "reviewedSourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
+      "reviewedSourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+      "reviewedSourceGitRevision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+      "reviewedSourceGitObject": "bbe3a80c5feb0a7c6b185001c272c054c2c1b775",
       "priorReadingSources": [
         {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -4087,6 +4166,18 @@
           "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
           "gitObject": "bdce16e28f5bfafdfd9aa349c2590101e6538b7b",
           "fileSha256": "58c830a05ca455aee3a83104d5a299c9f314fcd5cca1deb1e80d053c4d76304a",
+          "selector": {
+            "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        },
+        {
+          "kind": "complete-prior-current-in-reachable-fixed-git",
+          "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+          "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
           "selector": {
             "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
             "uniqueMatches": 1

@@ -13,12 +13,12 @@ Template: governance-index-v1 / 1.0.0
 
 起始基点为 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`。现行清单从Git tracked的packages/scripts指定代码扩展与JSON生成；七包名单仅domain标记，静态caller不是完整运行图。未显式登记的清单路径仍待核，不能静默视为无问题。
 
-原表234条被消费者读取的记录逐路径保留category/status；原末3条GLM待核行在空行后，旧parser未消费，本稿明确归并到唯一连续表，状态仍待核。G批次新增7条本任务docs工具/测试（5tool+2test）仍全部待核；K0另新增1个退休入口合同测试，L再新增1个索引生成链合同测试，九项均仅库存登记；F1再新增真实Git Buffer reader与focused baseline测试各一项pending，不重设旧状态或增加已闭合核验。
+原表234条被消费者读取的记录逐路径保留category/status；原末3条GLM待核行在空行后，旧parser未消费，本稿明确归并到唯一连续表，状态仍待核。G批次新增7条本任务docs工具/测试（5tool+2test）仍全部待核；K0另新增1个退休入口合同测试，L再新增1个索引生成链合同测试，九项均仅库存登记；F1再新增真实Git Buffer reader与focused baseline测试各一项pending；A8再新增五个格式工具和一个合同测试，六项均待核，不重设旧状态或增加已闭合核验。
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,294。
-当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,060；合计未闭合：3,065。
+起始基点机器清单：2,962。当前 tracked 清单：3,300。
+当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,066；合计未闭合：3,071。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -272,6 +272,12 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/docs/testing-index-governance.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1 L；索引真实writer/CLI与whole-file consumer合同，专项语义仍待核 | 仅新增库存；不计产品运行、coverage或代码治理closed |
 | `scripts/docs/git-document-snapshot.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 F1；固定commit/path/regular-blob原Buffer读取合同，专项语义仍待核 | 仅新增库存；不计代码治理closed |
 | `scripts/docs/frozen-binding-baseline.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1 F1；default等值与真实root/view/progress联改反例，专项语义仍待核 | 仅新增库存；不计产品运行或coverage |
+| `scripts/docs/terminal-json.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 A8；有界 UTF8/JSON 语法、重复键与原生字段读取；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
+| `scripts/docs/terminal-codec.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 A8；固定 gzip header/单流 footer/CRC/ISIZE 精确 framing；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
+| `scripts/docs/terminal-git.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 A8；真实 Git 工作树发现与元数据边界；合法 caller symlink 归一化；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
+| `scripts/docs/terminal-namespace.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 A8；唯一工作树 namespace/FD 与 source-format-partial 协调；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
+| `scripts/docs/terminal-contract.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1 A8；终端 JSON 记录/事件格式合同；不授审批与完成信用；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
+| `scripts/docs/terminal-codec.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1 A8；34 个格式/真实公开 caller/反控合同；不计旧业务测试或覆盖率；[格式接入](../../phase-governance/reviews/20261016-terminal-a8.json) | 仅库存登记；专项代码质量仍待核 |
 
 ## 入口与责任
 
@@ -281,7 +287,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
-2026-10-16 G源3290集合与原3283声明相比新增7项；K0再新增retired-document-writers.test.mjs，L再新增testing-index-governance.test.mjs，当前3292、合计九项均在scripts/docs，未删路径。原229closed/5review保持，本次新增一项只加pending；治理期间须在新增/删除真实tracked路径的同一提交同步库存，不把工具功能验证当专项代码深审。当前机器结果只证明记录完整性，专项仍有大量未核文件。
+2026-10-16 G相对原3283新增7项，K0和L各新增1项，F1新增2项，A8新增6项，累计17项均在scripts/docs且仍待核；实际tracked集合当前3300，未删路径。原229closed/5review保持；A8独立格式验收仅为source-format-partial，不关闭CODE-QUALITY专项状态。治理期间须在新增/删除真实tracked路径的同一提交同步库存。当前机器结果只证明记录完整性，专项仍有3066待核和5待审文件。
 
 历史Q3k的“4 total/3 fail”误述现改为卡/总纲一致的“4 total/3 passed/1 failed”，旧错句在下方完整snapshot原字节保留；没有以文档一致性充当第二次运行。Q2b131/129及Q3t/u同215时点仍unknown，u/w依各卡排重；新反例按[现行协作流程](../agent-workflow.md)开互斥卡，不恢复旧prompt。
 
@@ -303,7 +309,7 @@ live机器字段属于持续维护输入，历史原文属于不可升格的出�
 
 ## 继任文档
 
-[路线](code-quality-governance.md)与[当前协作](../agent-workflow.md)控制新批准入。G原7与K0新增1项docs工具/测试只有库存待核信用；全量专项仍待实际逐文件阅读/合法输入与caller/oracle、反控和独立验收。
+[路线](code-quality-governance.md)与[当前协作](../agent-workflow.md)控制新批准入。G原7、K0与L各1、F1两项及A8六项docs工具/测试只有库存待核信用；全量专项仍待实际逐文件阅读/合法输入与caller/oracle、反控和独立验收。
 
 固定原稿来自revision `22eead43a6c825e1345feb92441e09d340d22c18`，Git blob `8195bf08cf7193b1dffc0c5676629e6692e50b92`；保留所有原日期、结论和证据边界。
 

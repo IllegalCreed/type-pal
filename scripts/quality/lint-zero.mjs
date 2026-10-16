@@ -1,7 +1,8 @@
 import { spawnSync } from 'node:child_process'
+import { existsSync, realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { inspectTerminalNamespace } from '../docs/terminal-namespace.mjs'
 
 const require = createRequire(import.meta.url)
 export const biomeCli = require.resolve('@biomejs/biome/bin/biome')
@@ -48,6 +49,7 @@ export function inspectLintResult(run) {
 }
 
 export function runLintZero(cwd = root) {
+  const namespace = inspectTerminalNamespace(cwd)
   const run = spawnSync(
     process.execPath,
     [biomeCli, 'check', '.', '--reporter=json', '--max-diagnostics=none'],
@@ -58,10 +60,19 @@ export function runLintZero(cwd = root) {
       timeout: 120_000,
     },
   )
-  return { ...inspectLintResult(run), stderr: run.stderr ?? '' }
+  const result = inspectLintResult(run)
+  const problems = [
+    ...result.problems,
+    ...namespace.issues.map((issue) => `${issue.file}: ${issue.message}`),
+  ]
+  return { ...result, ok: result.ok && namespace.ok, problems, namespace, stderr: run.stderr ?? '' }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  existsSync(process.argv[1]) &&
+  realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+) {
   if (process.argv.length !== 2) {
     console.error('lint: whole repository only; filtering or override arguments are not accepted')
     process.exitCode = 2
