@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 77,
-      "template-compliant": 656
+      "governed-legacy": 57,
+      "template-compliant": 676
     }
   },
   "entries": [
@@ -1011,28 +1011,6 @@
       "reviewRecord": "20261004-structured-content-ops-01.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/D12-1-audio-transition-layering.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/D13-1-debug-tools-first-batch.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1057,17 +1035,6 @@
       "historyOverlay": true
     },
     {
-      "path": "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1079,17 +1046,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/E6-1-runtime-authority-inspector.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-3-project-reference-index.md",
@@ -1114,17 +1070,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1137,17 +1082,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1191,40 +1125,7 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-DS-1-editor-design-system-spec.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-ENEMY-1-enemy-team-reward-authoring-closure.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-ENEMY-DEFEATED-EVENT-1-enemy-defeated-event-readability.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1257,17 +1158,6 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-INPUT-PERF-1-editor-input-and-derived-state-latency.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-INSPECTOR-TABS-1-global-inspector-tabs.md",
       "phase": "ops",
       "docType": "task-card",
@@ -1280,28 +1170,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-NUMBER-FIELD-1-editor-number-control-and-responsive-density.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-PAL-WORKSPACE-MODES-1-pal-development-sandbox-seed-lifecycle.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1367,29 +1235,7 @@
       "reviewRecord": "20261004-structured-content-ops-02.json"
     },
     {
-      "path": "docs/ops/archive/tasks/done/ED-SHARED-SCRIPT-UI-1-shared-script-workbench.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1409,39 +1255,6 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
       "reviewRecord": "20261004-structured-content-ops-02.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
     },
     {
       "path": "docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md",
@@ -1480,17 +1293,6 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-03.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/OPS-RW1-delegated-regression-rework.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -1638,29 +1440,7 @@
       "historyOverlay": true
     },
     {
-      "path": "docs/ops/archive/tasks/done/W7F-canonical-map-pipeline.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
       "path": "docs/ops/archive/tasks/done/W7G-composite-tile-stamps.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-04.json"
-    },
-    {
-      "path": "docs/ops/archive/tasks/done/W8-map-content-selection-inspector.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -9450,6 +9230,266 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261017-r50-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D12-1-audio-transition-layering.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-NUMBER-FIELD-1-editor-number-control-and-responsive-density.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W7F-canonical-map-pipeline.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-INPUT-PERF-1-editor-input-and-derived-state-latency.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-DS-1-editor-design-system-spec.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D13-1-debug-tools-first-batch.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W8-map-content-selection-inspector.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E6-1-runtime-authority-inspector.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-PAL-WORKSPACE-MODES-1-pal-development-sandbox-seed-lifecycle.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-SHARED-SCRIPT-UI-1-shared-script-workbench.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-RW1-delegated-regression-rework.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ENEMY-DEFEATED-EVENT-1-enemy-defeated-event-readability.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ENEMY-1-enemy-team-reward-authoring-closure.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r51-ops-archive-task.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
