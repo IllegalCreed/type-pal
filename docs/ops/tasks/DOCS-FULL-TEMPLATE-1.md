@@ -1129,3 +1129,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-readonly-review-20261017.json`，3/3 JSON 解析和字段读取通过。
 - 中央接入：`docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json`、registry/review artifact envelope；JSON 不进入 Markdown routing，保留机器 consumer 输入。
 - R37 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+### 2026-10-17 R39 ops evidence README
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r39-ops-evidence-readmes-readonly-review-20261017.json`，7/7 全文读取；1 `governance-index-v1 + archive-record-v1`、6 `evidence-receipt-v1 + archive-record-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json`、registry/routing 7 条及 contributor receipt；ops evidence 明确不进入 phase/lore catalog。
+- R39 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r39-ops-evidence-readmes-candidate-acceptance-20261017.md`；7/7 quote/template/overlay/registry/routing/after SHA 接收；无 runtime/E2E/视觉/coverage 信用。
+- 全量 1838 目标保持 active/build；本批不删除历史文档，不标记 done，不推送 main。

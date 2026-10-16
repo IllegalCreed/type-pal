@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r39-ops-evidence-readmes-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 7,
+    "all7": true,
+    "paths": [
+      "docs/ops/evidence/README.md",
+      "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+      "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+      "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+      "docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+      "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "7/7 fully read",
+    "sourceAfter": "7/7 byte SHA equal at intake",
+    "registry": "7/7 governed-legacy entries and review references",
+    "catalog": "ops evidence paths outside phase/lore catalog scope",
+    "routing": "archive-only at intake",
+    "classification": "1 governance-index; 6 evidence-receipt archive overlays",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/README.md",
+      "format": "markdown",
+      "title": "任务专属证据",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-semantic-current-batch.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+      "afterSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+      "bytes": 9754,
+      "physicalLineSlots": 59,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "任务专属证据"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "当前证据"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "历史交付入口"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "DOCS-FULL-TEMPLATE-1"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+      "format": "markdown",
+      "title": "TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 证据",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "d1d4f04edc42db69d8a7a7f753db77876dc3a42338e2a25c3214ba84e2a84d1c",
+      "afterSha256": "d1d4f04edc42db69d8a7a7f753db77876dc3a42338e2a25c3214ba84e2a84d1c",
+      "bytes": 362,
+      "physicalLineSlots": 4,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 证据"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+      "format": "markdown",
+      "title": "TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r7 = r6 内容 + 反控重 pin）",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "f706a0a6a5db3339642e6a7a6105389d447a7ee3c23c58b39f1c519a0a6be830",
+      "afterSha256": "f706a0a6a5db3339642e6a7a6105389d447a7ee3c23c58b39f1c519a0a6be830",
+      "bytes": 5030,
+      "physicalLineSlots": 62,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r7 = r6 内容 + 反控重 pin）"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "度量（fast 口径，与官方 runner 同参数）"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "当前交付（118 测试，全公开 caller）"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "r6 blocked 登记（battle-session 表现层）"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "后续范围（剩余可达分支，85% 需再闭 ~557 臂）"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "验证"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "History（历史轮次，仅存档）"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+      "format": "markdown",
+      "title": "TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "e89621cc35d8e71348117841848b9bb584a81e7bc04c425cc47f696c1b1a1a60",
+      "afterSha256": "e89621cc35d8e71348117841848b9bb584a81e7bc04c425cc47f696c1b1a1a60",
+      "bytes": 1472,
+      "physicalLineSlots": 23,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "交付物"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "门禁"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+      "format": "markdown",
+      "title": "TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-new-01.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+      "afterSha256": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+      "bytes": 2670,
+      "physicalLineSlots": 40,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)"
+        },
+        {
+          "line": 10,
+          "level": 2,
+          "text": "反控口径"
+        },
+        {
+          "line": 37,
+          "level": 2,
+          "text": "质量门(见卡回执)"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+      "format": "markdown",
+      "title": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1 证据",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "f0551a51f8b070736075f2312ba9a7f3edf574cbb54c680b6927cb03e9a942d8",
+      "afterSha256": "f0551a51f8b070736075f2312ba9a7f3edf574cbb54c680b6927cb03e9a942d8",
+      "bytes": 7478,
+      "physicalLineSlots": 94,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1 证据"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "交付物"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "四账(包内 `packages/reforge/src/__tests__/host-lifecycle-1/`)"
+        },
+        {
+          "line": 39,
+          "level": 2,
+          "text": "不可达臂账(U 账,一手锚点)"
+        },
+        {
+          "line": 63,
+          "level": 2,
+          "text": "排重与既有证明"
+        },
+        {
+          "line": 76,
+          "level": 2,
+          "text": "分支账(全量 fast 双跑,正确拓扑)"
+        },
+        {
+          "line": 90,
+          "level": 2,
+          "text": "验证"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+      "format": "markdown",
+      "title": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-new-01.json"
+      },
+      "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+      "sourceSha256": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+      "afterSha256": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+      "bytes": 7230,
+      "physicalLineSlots": 102,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "交付物"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "三账(包内 `packages/reforge/src/__tests__/runtime-session-1/`)"
+        },
+        {
+          "line": 49,
+          "level": 2,
+          "text": "既有证明账(排重,未重复建设)"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "非合同与受阻账(blocked/non-contract)"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "基线缺陷沿革(已按 Codex r3 裁决授权闭合)"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "验证"
+        }
+      ],
+      "semanticOutline": "Ops evidence navigation/receipt record; preserve current routes, evidence identities, machine artifact links, historical boundaries and non-execution limits.",
+      "conflicts": [
+        "Evidence records describe their stated candidate and scope; they do not alone prove current product/runtime/E2E/visual/coverage acceptance."
+      ],
+      "stopLine": "do not promote evidence receipt or index claims to current execution acceptance without current consumer and independent verification",
+      "successor": "Current task card, evidence consumer and fresh receipt when rerun.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

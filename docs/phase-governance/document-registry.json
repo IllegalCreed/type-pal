@@ -19,14 +19,14 @@
     "byType": {
       "archive-record": 13,
       "audit-report": 60,
-      "design-spec": 33,
-      "evidence-receipt": 49,
-      "governance-index": 101,
-      "guide-runbook": 14,
+      "design-spec": 35,
+      "evidence-receipt": 48,
+      "governance-index": 100,
+      "guide-runbook": 16,
       "narrative-idea": 2,
-      "plan-status": 73,
+      "plan-status": 70,
       "quality-gate": 1,
-      "reference-canon": 13,
+      "reference-canon": 14,
       "task-card": 333,
       "test-catalog": 2,
       "test-contract": 1,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "governed-legacy": 360,
-      "template-compliant": 373
+      "governed-legacy": 280,
+      "template-compliant": 453
     }
   },
   "entries": [
@@ -3981,28 +3981,6 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
-      "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
-      "path": "docs/ops/evidence/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
-    },
-    {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
       "phase": "ops",
       "docType": "evidence-receipt",
@@ -4058,17 +4036,6 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
-      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
@@ -4113,17 +4080,6 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
-      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
       "phase": "ops",
       "docType": "evidence-receipt",
@@ -4158,39 +4114,6 @@
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-new-01.json"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-new-01.json"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
-      "phase": "ops",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
@@ -8991,6 +8914,97 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-e2e-stage-m.json"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r39-ops-evidence-readmes.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
