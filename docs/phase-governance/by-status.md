@@ -85,14 +85,12 @@
 ## current
 
 - [官方角色设定（characters）](../lore/characters.md) · lore/canon
-- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
+- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
+- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
 - [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) · lore/canon
 - [docs/lore/ — 仙剑设定真值库](../lore/README.md) · lore/canon
 - [扩展红线清单（taboos）](../lore/taboos.md) · lore/canon
 - [仙剑剧情时间线与流程攻略](../lore/timeline.md) · lore/canon
-- [版本差异登记（versions）](../lore/versions.md) · lore/canon
-- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
-- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
 - [01 · 背景与可行性](../phase1/01-feasibility.md) · phase1/governance
 - [02 · 架构设计](../phase1/02-architecture.md) · phase1/governance
 - [03 · 开发计划](../phase1/03-development-plan.md) · phase1/governance
@@ -145,10 +143,12 @@
 ## draft
 
 - [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/ideas
+- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
 - [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) · lore/ideas
 - [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) · lore/ideas
-- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
-- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
+- [版本差异登记（versions）](../lore/versions.md) · lore/canon
+- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
+- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
 - [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) · phase1/plans
 - [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) · phase1/plans
 - [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) · phase1/plans

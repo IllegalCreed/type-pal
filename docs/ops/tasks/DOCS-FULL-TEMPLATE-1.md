@@ -930,3 +930,9 @@ Branch: codex/docs-full-template-proposal
 - 首六文件真实aa5快照在独立843e报告仍counter：PS-C1是11条嵌套limit、PS-C2是11catalog四字段共44处、PS-C3是矩阵M/P两条过期pending；零静态门不闭合它们。完整首200报告/全部错误current和两whole row在真实Git保留。根只同步57个当前进度值和完整prior/真实producer/GFM bookkeeping，不重写源、类型、状态、链接目标或39条关系；新的扩大8范围待精确非作者接收。
 - 同一首报告对Q/A8冻本保真及最小准入分别agree；与P镜像返工无写域依赖。根已给新clean aa5a62f85d76233b2db37fc570d7bf97ae2b4054隔离树：history_cards_a在codex/docs-phase2-guides-q只写publication+首1回执两路径；receipt_review在codex/docs-terminal-a8只写冻结八代码路径。两设计SHA5a4c69b7/c9d2d240不变，原source/primary pins不变；作者自验不accept/done/main，实际交付另非作者验。
 - 其余五Q、HTML格式/CI bootstrap、B/C0/C1仍未build。N六源+f577回执已真实A接收，中央6接入仍未计完成。1838与所有增量/artifacts继续build/active。
+
+#### N余六固定源已独立接收；根当前接入另验
+
+- f577六MD1168/原458及原17top/9×43完整回执保持源字节；非作者af263源全文/完整语义接受，CN6-1只100→108 heading occurrence和完整prior修复由2176独立闭合，首588 counter和真实失败保留。不重写九MD、不重新计旧三或四大长稿。根实际读取588/280/304报告，未冒fresh458/710live全文。
+- 六唯一中央legacy current转移带真实即前Git/blob/wholeSHA/唯一selector完整prior；两index纠正governance-index/current，四reference正文candidate而catalog成熟度draft，旧22/11不滚当前。其他178catalog/727registry项、原238路由精确保留；新增6routes至244。旧三仅9个当前进度字段指向同一N6 canonical事件，完整prior保留。
+- 只既有Lore矩阵关系39→39/其他38whole对象精确，五主题指针补入，项目红线/未知官设/Jun30-Jul2明确后继/纸面与编辑器准入仍分轴。新根事件唯一位于Ncontrol.n6RootIntake；actual producer/GFM/全部零门/根非作者验尚须实测，不借旧source签未来bytes。1838及所有新增/artifacts继续active。

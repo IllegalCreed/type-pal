@@ -1143,6 +1143,30 @@
     {
       "path": "docs/phase2/archive/audits/README.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/versions.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/world-rules.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/world-rules-ghost-realm.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/factions.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/ideas/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/ideas/guijie/README.md",
+      "templateId": "governance-index-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

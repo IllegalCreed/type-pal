@@ -22,10 +22,10 @@
       "audit-report": 65,
       "evidence-receipt": 49,
       "design-spec": 41,
-      "governance-index": 97,
+      "governance-index": 99,
       "task-card": 333,
       "quality-gate": 1,
-      "reference-canon": 14,
+      "reference-canon": 12,
       "narrative-idea": 2,
       "plan-status": 63,
       "test-e2e-stage": 6,
@@ -39,8 +39,8 @@
       "content-reviewed": 733
     },
     "templateCompliance": {
-      "template-compliant": 238,
-      "governed-legacy": 495
+      "template-compliant": 244,
+      "governed-legacy": 489
     }
   },
   "entries": [
@@ -4380,10 +4380,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/ideas/guijie/beat-sheet.md",
@@ -4410,24 +4412,28 @@
     {
       "path": "docs/lore/ideas/guijie/README.md",
       "phase": "lore",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/ideas/README.md",
       "phase": "lore",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/narrative-workflow.md",
@@ -4485,10 +4491,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/world-rules-ghost-realm.md",
@@ -4496,10 +4504,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/lore/world-rules.md",
@@ -4507,10 +4517,12 @@
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-lore-phase3-batch1.json"
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/phase1/01-feasibility.md",

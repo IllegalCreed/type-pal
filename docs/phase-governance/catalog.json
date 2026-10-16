@@ -13,8 +13,8 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 57,
-      "draft": 50,
+      "current": 55,
+      "draft": 52,
       "archived": 77
     }
   },
@@ -187,39 +187,69 @@
       "phase": "lore",
       "module": "canon",
       "capability": "lore-factions",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/factions.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
-      "afterSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+      "afterSha256": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
       "sourceRefs": [
         {
           "path": "docs/lore/factions.md",
-          "lines": "1-1",
-          "anchor": "仙剑江湖势力关系图（factions）",
-          "role": "document-source",
-          "sha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8"
+          "lines": "1-135",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+          "anchor": "仙剑江湖势力关系图（factions）"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/factions.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
+      "legalInputs": [
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "中原武林/官盗/修仙/苗疆四分组是原组织视角，不是互斥或随便深挖安全保证；原图/六表姓名关系/六缺口/五优先级保采集与建议，不新造boss/人物关系或DLC排期。",
+          "Exact original 135 lines, 11 headings, 13 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/factions.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/factions.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -228,25 +258,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "ce52a3273922e5c9cda7e1181a1d68c7f87c2ddf08df856acada194aaf7e59df",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/factions.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/factions.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "reference五章保四体系图/苗疆图/六表与建议，将全称安全断语收窄为待核分类/创作建议",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-ideas-guijie-beat-sheet",
@@ -397,39 +469,69 @@
       "phase": "lore",
       "module": "ideas",
       "capability": "lore-ideas-guijie-readme",
-      "status": "draft",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/ideas/guijie/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
-      "afterSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+      "afterSha256": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/guijie/README.md",
-          "lines": "1-1",
-          "anchor": "docs/lore/ideas/guijie/ — 鬼界 DLC 设想",
-          "role": "document-source",
-          "sha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c"
+          "lines": "1-9",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+          "anchor": "docs/lore/ideas/guijie/ — 鬼界 DLC 设想"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/ideas/guijie/README.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
+      "legalInputs": [
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "两原入口分别承担brainstorm方向/作者裁决与beat-sheet具体体验拆解；Jun30/Jul2已定方向和草案占位分轴，当前导航不声称两大稿全文同步、DLC已排期或产品已准。",
+          "Exact original 9 lines, 2 headings, 2 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/ideas/guijie/README.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/ideas/guijie/README.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -438,25 +540,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "e90dce3b6e72e6835ef35637a696a746c6e3f37f6bd57953decae75f76470e0b",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/ideas/guijie/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/ideas/guijie/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "draft"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "governance-index五章路由两稿、已定/占位/制作边界；原两link与9行全保",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-ideas-readme",
@@ -465,39 +609,69 @@
       "phase": "lore",
       "module": "ideas",
       "capability": "lore-ideas-readme",
-      "status": "draft",
+      "status": "current",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/ideas/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
-      "afterSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+      "afterSha256": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/README.md",
-          "lines": "1-1",
-          "anchor": "故事与 DLC 设想",
-          "role": "document-source",
-          "sha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708"
+          "lines": "1-9",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+          "anchor": "故事与 DLC 设想"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/ideas/README.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
+      "legalInputs": [
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "当前导航将未承诺制作的素材分流到guijie，与lore参考资料分开；current仅路由有效，不授子素材完成/正典/DLC制作或排期。",
+          "Exact original 9 lines, 2 headings, 2 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/ideas/README.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/ideas/README.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -506,25 +680,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "6856fc2f3990e8007c97831010d94486dbc964e9d521e7a1cf7a5f536ab81740",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/ideas/README.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/ideas/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "draft"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "governance-index五章具体职责/两原入口/素材与制作边界，原9行全保",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-narrative-workflow",
@@ -1187,39 +1403,69 @@
       "phase": "lore",
       "module": "canon",
       "capability": "lore-versions",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/versions.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
-      "afterSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+      "afterSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
       "sourceRefs": [
         {
           "path": "docs/lore/versions.md",
-          "lines": "1-1",
-          "anchor": "版本差异登记（versions）",
-          "role": "document-source",
-          "sha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2"
+          "lines": "1-106",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+          "anchor": "版本差异登记（versions）"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/versions.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
+      "legalInputs": [
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "四项版本分歧与五项作者待办完整保留；月如主干继续T5.5项目约束，呈现A/B、用珠人、五珠、影视/生育官说仍待核或待作者。characters王小虎与逍遥/忆如的库内三记述并列，不认证新官方第三答案。",
+          "Exact original 106 lines, 12 headings, 5 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/versions.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/versions.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1228,25 +1474,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "f6b4d1b2ec1bad324ba82e98136d46c150a9b2a55cb2303d692f6fe07963650a",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/versions.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/versions.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "按reference五章分开作品/资料等级/项目主干/未决/使用边界；原四表与待办全保",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-world-rules-ghost-realm",
@@ -1255,42 +1543,69 @@
       "phase": "lore",
       "module": "canon",
       "capability": "lore-world-rules-ghost-realm",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/world-rules-ghost-realm.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
-      "afterSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+      "afterSha256": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
       "sourceRefs": [
         {
           "path": "docs/lore/world-rules-ghost-realm.md",
-          "lines": "1-1",
-          "anchor": "鬼界设定查证（world-rules 补充）",
-          "role": "document-source",
-          "sha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438"
+          "lines": "1-93",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+          "anchor": "鬼界设定查证（world-rules 补充）"
         }
       ],
-      "publicCallers": ["docs navigation"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/lore/world-rules-ghost-realm.md:1-1"
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
       ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "Jun30鬼阴山临时入口与禁天鬼族继续项目约束；旧重选入口不再当前待办。父母等待投影被brainstorm父母已轮回/背影陷阱及Jul2裁决继任；琉璃谷/酆都同页冲突保未知，时辰需求不恢复phase2真时间。",
+          "Exact original 93 lines, 8 headings, 13 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/world-rules-ghost-realm.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/world-rules-ghost-realm.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1299,25 +1614,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "47da5e99e59eee0277b4b2016a8f82b116e24ab21fad1f5048a23a6d7f617372",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/world-rules-ghost-realm.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/world-rules-ghost-realm.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "reference五章将原采集与作者决定分轴；原五表保持，最后一表新增明确继任列，不恢复旧待办",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-lore-world-rules",
@@ -1326,39 +1683,69 @@
       "phase": "lore",
       "module": "canon",
       "capability": "lore-world-rules",
-      "status": "current",
+      "status": "draft",
       "reviewStatus": "reviewed",
-      "owner": "Codex",
-      "provenance": ["source-document", "repository-history"],
+      "owner": "Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        {
+          "date": "2026-10-16",
+          "scope": "Source-specific samepath docs authority and explicit body/catalog maturity distinction; no new canon approval",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/world-rules.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        }
+      ],
       "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
-      "afterSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+      "afterSha256": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
       "sourceRefs": [
         {
           "path": "docs/lore/world-rules.md",
-          "lines": "1-1",
-          "anchor": "世界规则（world-rules）",
-          "role": "document-source",
-          "sha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339"
+          "lines": "1-106",
+          "role": "complete-original-in-fixed-Git",
+          "revision": "4079482759bddd1c941b92e92eba21c891f571a0",
+          "sha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+          "anchor": "世界规则（world-rules）"
         }
       ],
-      "publicCallers": ["docs navigation"],
-      "legalInputs": ["current repository documentation", "docs/lore/world-rules.md:1-1"],
+      "publicCallers": [
+        "Human/Agent lore reference/navigation/creative workflow; no runtime runner",
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
+      ],
+      "legalInputs": [
+        "fixed original source bytes and historical source/date/confidence",
+        "explicit author project constraints and unresolved options kept separate",
+        "only six admitted MD plus same receipt; old3 locked; no four-long/dlc/product/shared mutations"
+      ],
       "businessOracle": {
-        "type": "phase-lore-document-governance",
+        "type": "source-specific-lore-intake",
         "assertions": [
-          "the document has one explicit phase/lore/module responsibility",
-          "historical or draft material is not silently promoted to current canonical truth",
-          "source references and version claims remain auditable from the current repository"
+          "五珠/六界/女娲/蜀山/苗疆原采集有源保留，不升新官核；项目红线继续。五珠推荐待作者，生育与不入轮回粉丝说法未知，不撤T1；六项待查保留，不产生引擎/产品新结论。",
+          "Exact original 106 lines, 11 headings, 8 href occurrences; body/source/canon/product scopes stay distinct.",
+          "Full oracle/counters: docs/phase-governance/reviews/20261016-lore-reference-n.json entries.path=docs/lore/world-rules.md; canonical root event n6RootIntake."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
-        "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
+        "result": "one unique current source record; root event in n6RootIntake",
+        "against": [
+          "docs/lore/world-rules.md",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json"
+        ],
+        "notes": "Detailed source/old3/long-lore/no-runtime credit boundaries are in the unique current record."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+        "currentSha": "4079482759bddd1c941b92e92eba21c891f571a0",
+        "implementationSha": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1367,25 +1754,67 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "Current docs source intake; old22/11 remains historical metadata",
+            "source": "f577332a33d8be271756a50cf9e07179b665b385",
+            "runtimeExecutionPerformed": false
           }
         ]
       },
       "evidence": {
-        "kind": "document-audit",
+        "kind": "fixed-lore-source-and-complete-record-acceptance",
+        "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
         "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
-        "claims": ["phase/lore ownership and status inventory"]
+        "afterSha256": "80d426b41ee3a7b8ab4ba1fd89ddfe493057f2373180aa2985db35c9a6eeba30",
+        "claims": [
+          "Exact source and root reception events reside at control.n6SourceReception and control.n6RootIntake; no target/canon/runtime acceptance"
+        ],
+        "completePrior": {
+          "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+          "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+          "path": "docs/phase-governance/catalog.json",
+          "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+          "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+          "selector": {
+            "entries.path": "docs/lore/world-rules.md",
+            "uniqueMatches": 1
+          },
+          "completePriorObjectRetrievedAndCompared": true
+        }
       },
       "history": [
         {
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Align reference draft or current navigation with approved N1.0, historical conclusions retained",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "68d7a1fb4074aa383c279235c28e27ffe7256d7b",
+            "fileSha256": "ea79e49dce61f29beebc65763cadf67c1cb979d675e6026346434496c94be260",
+            "selector": {
+              "entries.path": "docs/lore/world-rules.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousStatus": "current"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
-      "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "stopLine": "新层把未核采集升级官设、替作者选版本/珠/入口、撤红线、旧待办覆后继、source inverse/head/table/link丢失或非零硬门必须停止接受；静态绿不授runtime/E2E/visual/coverage。",
+      "userVisibleBeforeAfter": {
+        "before": "reference五章明确采集/约束/粉丝/推论/未知；原四表原值和六待查不丢",
+        "after": "Exact independently accepted f577 body unchanged; six unique current records, content-proven template/maturity routes and guarded lore relation."
+      },
+      "lastReviewed": "2026-10-16"
     },
     {
       "id": "docs-phase1-01-feasibility",
