@@ -5735,6 +5735,121 @@
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-review.md",
       "templateId": "archive-record-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r3-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r4-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r5-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/glm-battle-workflows.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/grok-phase1-composition-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/grok-phase1-composition-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/save-and-recovery/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/scene/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/testing-records/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/testing-records/cursor-docs-wave2-review.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/testing-records/cursor-docs-wave2.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/unresolved-tools/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

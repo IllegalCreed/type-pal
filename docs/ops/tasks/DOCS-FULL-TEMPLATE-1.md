@@ -1455,3 +1455,11 @@ Branch: codex/docs-full-template-proposal
 - R81 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r81-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：phase1/quality/runtime/battle archive 仍由 README/evidence/迁移账引用；本批不删除、不把旧 coverage/battle 结论升格为当前 gate。
 - 当前进度 `1400/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R82 testing archive documents
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-readonly-review-20261017.json`，50/50 testing archive 文档全文读取；23 篇 Markdown 改为 `archive-record-v1` + 原文 quote，27 个 JSON 保持 byte-stable machine artifact。
+- 中央接入：`docs/phase-governance/reviews/20261017-r82-testing-archive.json`、registry 50 条 `archive-record-v1`，Markdown 进入 routing，JSON 保持 artifact-only；runtime/battle/engine/save/migration closeout 账本和停止线保留。
+- R82 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-candidate-acceptance-20261017.json`；50/50 source/after SHA、quote inverse/byte round-trip、模板和停止线接收；无 runtime/E2E/视觉/coverage 信用。
+- 清理边界：testing archive 583 个候选已全部接入账本；迁移账本本身也作为历史机器 artifact 保留，不能在没有新 successor 和引用审计时删除。
+- 当前进度 `1450/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
