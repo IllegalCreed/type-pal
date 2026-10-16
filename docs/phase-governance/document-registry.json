@@ -288,7 +288,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
@@ -301,7 +304,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
@@ -327,7 +333,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
     },
     {
       "path": "docs/ops/archive/evidence/ED-3/README.md",
@@ -6054,7 +6063,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "html"
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
@@ -6067,7 +6079,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "html"
     },
     {
       "path": "docs/phase2/archive/mockups/place-mode.html",
@@ -6080,7 +6095,10 @@
       "reviewDepth": "structured-content",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "html"
     },
     {
       "path": "docs/phase2/archive/mockups/README.md",

@@ -76,15 +76,26 @@ for (const entry of registry.entries) {
     variant: entry.templateVariant,
     historyOverlay: entry.historyOverlay,
   }
-  const bodyIssues = checkMigratedDocument(document, templateRegistry, read, sourceOptions)
+  const artifactOnly = Boolean(entry.artifactOnly)
+  const bodyIssues = artifactOnly
+    ? []
+    : checkMigratedDocument(document, templateRegistry, read, sourceOptions)
   const routes = routing.migratedDocuments.filter((route) => route.path === entry.path)
   if (
-    routes.length !== 1 ||
-    routes[0].templateId !== document.templateId ||
-    routes[0].variant !== document.variant ||
-    Boolean(routes[0].historyOverlay) !== Boolean(document.historyOverlay)
+    !artifactOnly &&
+    (routes.length !== 1 ||
+      routes[0].templateId !== document.templateId ||
+      routes[0].variant !== document.variant ||
+      Boolean(routes[0].historyOverlay) !== Boolean(document.historyOverlay))
   )
     bodyIssues.push('completed review requires one matching migrated route')
+  if (
+    artifactOnly &&
+    (record.evidence?.artifactPreserved !== true ||
+      record.evidence?.originalPreservation?.exactRoundTrip !== true)
+  ) {
+    bodyIssues.push('artifact-only document requires byte-stable artifact envelope')
+  }
   const afterBytes = entry.path === frozenDocumentBaseline.path ? readBuffer(entry.path) : text
   const afterDigest = afterBytes === undefined ? undefined : digest(afterBytes)
   if (afterDigest !== record.afterSha256 || bodyIssues.length) {
