@@ -1,5 +1,37 @@
 # DOCS-FULL-TEMPLATE-1 盘点证据
 
+Status: current
+Owner: Codex（文档治理维护；原始证据 Owner/贡献者身份保留于正文）
+Last reviewed: 2026-10-17
+Template: governance-index-v1 / 1.0.0
+
+本页是全量文档治理的证据与回执导航入口。它记录清单、pilot、批次回执、SHA、保护边界和未执行限制；本页不把静态接入升级为 runtime/E2E/视觉/coverage 通过。
+
+## 目的
+
+- 为 DOCS-FULL-TEMPLATE-1 的清单、review record、template migration、history 和 cleanup boundary 提供唯一证据索引。
+
+## 范围
+
+- 包含本任务的库存、binding、pilot、批次回执、独立 review、candidate acceptance 和历史停止线；不替代各阶段 canonical 文档、testing catalog、任务卡或机器 evidence。
+
+## 当前状态
+
+- status: current index；lastReviewed: 2026-10-17。
+- 全量迁移仍处于 active/build；当前统计和硬门禁以最新 registry、routing、review record 与任务卡为准。
+
+## 入口与责任
+
+- canonical 入口：本页、docs/phase-governance/document-registry.json、docs/phase-governance/routing.json 与 docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md。
+- Owner：Codex；下游使用者：文档检查器、独立复核、阶段/域账本和后续清理审查。
+
+## 证据与下一步
+
+- 关键来源：本页列出的 inventory/protection/pilot/batch receipt、registry/routing、各 review record 和 source/after SHA。
+- 停止线：历史 receipt、proposal、静态核读或 artifact envelope 不得冒充当前运行、E2E、视觉、coverage 或产品完成。下一步继续接入剩余 ops/phase-governance 文档，并单独审 cleanup candidates。
+
+## 原始证据正文
+
 ## 证据身份
 2026-10-11；Owner: Codex；status: recorded；静态枚举，非内容深审。
 

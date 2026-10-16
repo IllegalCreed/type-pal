@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 1481,
+    "total": 1482,
     "byPhase": {
-      "ops": 519,
+      "ops": 520,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -20,7 +20,7 @@
       "guide-runbook": 17,
       "archive-record": 616,
       "audit-report": 59,
-      "governance-index": 104,
+      "governance-index": 105,
       "evidence-receipt": 100,
       "design-spec": 37,
       "task-card": 361,
@@ -36,10 +36,10 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 1481
+      "content-reviewed": 1482
     },
     "templateCompliance": {
-      "template-compliant": 1479,
+      "template-compliant": 1480,
       "governed-legacy": 2
     }
   },
@@ -19802,6 +19802,19 @@
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261017-r84-ops-evidence-index.json",
+      "historyOverlay": false,
+      "artifactOnly": false
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

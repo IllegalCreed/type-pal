@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r84-ops-evidence-index-20261017",
+  "kind": "R84 current ops evidence index",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+  "scope": {
+    "documents": 1,
+    "docTypes": {
+      "governance-index": 1
+    }
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+      "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "templateId": "governance-index-v1",
+      "artifactOnly": false
+    }
+  ]
+}

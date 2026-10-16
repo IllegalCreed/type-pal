@@ -1471,3 +1471,11 @@ Branch: codex/docs-full-template-proposal
 - R83 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r83-testing-current-candidate-acceptance-20261017.json`；4/4 source/after SHA、模板/路由或 byte round-trip、当前状态和停止线接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：legacy-flat 与 classification 是当前兼容/分类账，不是无用重复文件；只有替代 catalog、consumer、继任入口和 SHA 迁移证据齐全后才可单独清理。
 - 当前进度 `1454/1838 baseline + 25 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
+
+### 2026-10-17 R84 current ops evidence index
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-readonly-review-20261017.json`，1/1 全文读取并接入 `governance-index-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json`、registry/routing 1 条；保留 inventory、pilot、批次回执、SHA、保护边界和历史停止线。
+- R84 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-candidate-acceptance-20261017.json`；1/1 source/after SHA、模板/路由、当前状态和不授执行信用边界接收。
+- 清理边界：本页是当前证据导航入口，不能因批次旧或内容长而删除；删除任何历史 receipt 前必须同步 registry/routing/任务卡并给出 successor/SHA 证据。
+- 当前进度 `1454/1838 baseline + 26 incremental`；全量目标仍 active/build，本批不标记 done、不推送 main。
