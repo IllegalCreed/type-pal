@@ -4465,6 +4465,146 @@
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/README.md",
       "templateId": "archive-record-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/codex-integration.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-review-4ebea2b5.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/evidence.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-accept-r3-4e200099.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/five-batch-union.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-a.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-b.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-c.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-d.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-e.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/rework-r2-evidence.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/assets/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

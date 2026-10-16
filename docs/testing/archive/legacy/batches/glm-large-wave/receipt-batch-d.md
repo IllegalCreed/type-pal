@@ -1,49 +1,89 @@
 # TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）
 
-- 候选 SHA（r1 本批完整提交）：`623aa49c10bda493a640a07f9a3028f760538180`；
-  R2 返工完整候选：`031b3e479e18bf1add1d5b559716172cfb7c031f`；R3 窄返工候选：本次推送提交（完整 SHA 见推送输出与最终回执）。
-- 逐条 file/fullName/status：[batch-d-directed.json](batch-d-directed.json)（9/9 passed）
-- 新增文件：`packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts`（4）+
-  `packages/migrate/src/pal-migration-io.glm-large-wave.test.ts`（5）+
-  白名单 fixture `packages/migrate/src/__tests__/glm-large-wave/sound-audit-fixture.ts`。
-- 门禁：migrate `tsc --noEmit` 0 诊断；新增文件 Biome error/warning/info 全零；
-  `node scripts/docs/check.mjs` PASS；`git diff --check` 干净。未运行真实迁移/提取/烘焙/发布。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: archive-record-v1 / 1.0.0
 
-## 每组处置（旧测去重结论）
+本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-| 组 | 源文件 | 处置 | 依据 |
-|---|---|---|---|
-| D01 | translate-events.ts | existing-proof | 7 个专项套件（test/bindings/branches/folds/motion/registry/state）覆盖当前 opcode→作者命令的绑定、分支、折叠、位移、注册表与状态轴 |
-| D01 | translate-enemy-hook-flow.ts | existing-proof | 6 个专项套件（cfg/dialog/effects/errors/growth/media）覆盖敌人 hook 流的 CFG、对白、特效、错误、成长与媒体轴 |
-| D02 | pal-sprite-action-census.ts | existing-proof | `pal-sprite-action-census.test.ts` 12 例（合成场景/脚本/精灵动作清点全轴）+ `.pal.test.ts` 真实数据门 |
-| D02 | sound-reference-audit.ts | **新增 4 测试** | 此前**零覆盖**（542 行 + 冻结基线门）。新增：源位点与目标引用边分离记账（角色 7 声道/敌 5 声道/技能动画/召唤/播放音位点向量 + 目标 8 通道分类 + 目录 2 音效全引用）、负 magicSound 干净语义破坏→按稳定敌 id 违例、soundEdges=通道和一致性、纯读取深快照不变。`assertPalSoundReferenceBaseline` 是真实提取数据门禁，合成样本不冒充原版实测，不测 |
-| D03 | script-library-audit.ts | existing-proof | 3 套件 7 例（294 场景三重 10x/ref 完整/上限、enemy v10 分流、作者脚本单列统计、缺 chunk 精确报告、嵌套战斗失败臂 orphan、hook/choreography/defeat 域保留） |
-| D03 | script-graph.ts | existing-proof | 5 例：0x07 双臂/0x6D 双绑定/0xA2 多目标/0x08 恢复点/auto 自环、Tarjan SCC、delayed goto/reset、binding 边归属、四类入口全局根去重 |
-| D04 | migration-merge.ts | existing-proof | 22+8 例：三方真值表、稳定 id 数组/poses 合并、add/add、delete-modify、identityMaps 失效等 |
-| D04 | migration-plan.ts | existing-proof | 15+8 例：ours/theirs/base 精确 target/writes/deletes、冲突零写盘、字节比较、深快照输入保真 |
-| D05 | pal-authored-overlays.ts | existing-proof | `pal-authored-overlays.test.ts` + boundaries 覆盖已存在 overlay 仅改目标、非目标保全 |
-| D05 | scene-entry-normalize.ts | existing-proof | 4 例：坐标收敛与稳定命名落点复用、id 域仅由目标场景+完整坐标决定、前缀散列碰撞 fail-loud、缺失目标场景立即失败 |
-| D06 | migration-transaction.ts | existing-proof | `migration-transaction.test.ts` + boundaries 覆盖 journal/失败重试语义 |
-| D06 | pal-migration-io.ts | **新增 5 测试** | 此前**零覆盖**。新增 mkdtemp 合成树上的四道 fail-loud 守卫逐轴触发（场景 295 计数、s294 精确空 stub、s000-s293 非正 mapNum、地图 223 计数）+ 守卫先于资产装载的顺序证明。不读真实 PAL 工程 |
+## 历史范围
 
-## 业务反控（共用 judge，2 枚全 VALID）
+- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
 
-| 针 | fullName | 结果 |
-|---|---|---|
-| 目标通道计数断言改错 | auditPalSoundReferences current ledger > 源位点与目标引用边分离记账，通道各归其类 | 恰 exit1、AssertionError、唯一失败、产品 hash 不变 |
-| 场景计数守卫消息断言改错 | loadPalMigrationSources source-tree guards > 场景源数量偏离 295 时停止迁移并给出精确计数 | 同上 |
+## 原始结论
 
-## 视觉
+- TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
 
-D/E 为纯函数审计与 IO 守卫，按卡不造视觉。
+## 当时证据
 
-## 未证项汇总
+- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
 
-- `assertPalSoundReferenceBaseline`（真实数据冻结门禁）不在合成输入上测试；其数字随真实
-  `data/extracted` 漂移时由生产迁移入口触发，属 Codex 管辖的真实数据门。
-- `loadPalMigrationSources` 的 `loadPalAssets` 资产装载段（合成树不构造完整资产文件）：
-  守卫后的资产装载错误仅在第五测试中证明「非四类守卫消息」，未证其成功路径。
+## 当前有效性
 
-> R2（返工）：D1/D2 针已按 R2 严格判据重跑 VALID（judge 现解析带 `|unit|` 项目标签的 FAIL 行）。
+historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
 
-> R3（窄返工，R2 候选 `031b3e479e18bf1add1d5b559716172cfb7c031f` 之后）：本批代表针改用完整失败名精确相等重跑 VALID；judge 所有 INVALID/异常路径先清理临时针再退出，selftest 逐例断言无临时针遗留。
+## 继任文档
+
+- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+
+## 停止线
+
+- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+
+## 原文保全
+
+固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `4fd417be6291c4156fbc037bed2069269edcca1a1b4ee7bff29780e8fde1ff7c`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）
+>
+> - 候选 SHA（r1 本批完整提交）：`623aa49c10bda493a640a07f9a3028f760538180`；
+>   R2 返工完整候选：`031b3e479e18bf1add1d5b559716172cfb7c031f`；R3 窄返工候选：本次推送提交（完整 SHA 见推送输出与最终回执）。
+> - 逐条 file/fullName/status：[batch-d-directed.json](batch-d-directed.json)（9/9 passed）
+> - 新增文件：`packages/migrate/src/sound-reference-audit.glm-large-wave.test.ts`（4）+
+>   `packages/migrate/src/pal-migration-io.glm-large-wave.test.ts`（5）+
+>   白名单 fixture `packages/migrate/src/__tests__/glm-large-wave/sound-audit-fixture.ts`。
+> - 门禁：migrate `tsc --noEmit` 0 诊断；新增文件 Biome error/warning/info 全零；
+>   `node scripts/docs/check.mjs` PASS；`git diff --check` 干净。未运行真实迁移/提取/烘焙/发布。
+>
+> ## 每组处置（旧测去重结论）
+>
+> | 组 | 源文件 | 处置 | 依据 |
+> |---|---|---|---|
+> | D01 | translate-events.ts | existing-proof | 7 个专项套件（test/bindings/branches/folds/motion/registry/state）覆盖当前 opcode→作者命令的绑定、分支、折叠、位移、注册表与状态轴 |
+> | D01 | translate-enemy-hook-flow.ts | existing-proof | 6 个专项套件（cfg/dialog/effects/errors/growth/media）覆盖敌人 hook 流的 CFG、对白、特效、错误、成长与媒体轴 |
+> | D02 | pal-sprite-action-census.ts | existing-proof | `pal-sprite-action-census.test.ts` 12 例（合成场景/脚本/精灵动作清点全轴）+ `.pal.test.ts` 真实数据门 |
+> | D02 | sound-reference-audit.ts | **新增 4 测试** | 此前**零覆盖**（542 行 + 冻结基线门）。新增：源位点与目标引用边分离记账（角色 7 声道/敌 5 声道/技能动画/召唤/播放音位点向量 + 目标 8 通道分类 + 目录 2 音效全引用）、负 magicSound 干净语义破坏→按稳定敌 id 违例、soundEdges=通道和一致性、纯读取深快照不变。`assertPalSoundReferenceBaseline` 是真实提取数据门禁，合成样本不冒充原版实测，不测 |
+> | D03 | script-library-audit.ts | existing-proof | 3 套件 7 例（294 场景三重 10x/ref 完整/上限、enemy v10 分流、作者脚本单列统计、缺 chunk 精确报告、嵌套战斗失败臂 orphan、hook/choreography/defeat 域保留） |
+> | D03 | script-graph.ts | existing-proof | 5 例：0x07 双臂/0x6D 双绑定/0xA2 多目标/0x08 恢复点/auto 自环、Tarjan SCC、delayed goto/reset、binding 边归属、四类入口全局根去重 |
+> | D04 | migration-merge.ts | existing-proof | 22+8 例：三方真值表、稳定 id 数组/poses 合并、add/add、delete-modify、identityMaps 失效等 |
+> | D04 | migration-plan.ts | existing-proof | 15+8 例：ours/theirs/base 精确 target/writes/deletes、冲突零写盘、字节比较、深快照输入保真 |
+> | D05 | pal-authored-overlays.ts | existing-proof | `pal-authored-overlays.test.ts` + boundaries 覆盖已存在 overlay 仅改目标、非目标保全 |
+> | D05 | scene-entry-normalize.ts | existing-proof | 4 例：坐标收敛与稳定命名落点复用、id 域仅由目标场景+完整坐标决定、前缀散列碰撞 fail-loud、缺失目标场景立即失败 |
+> | D06 | migration-transaction.ts | existing-proof | `migration-transaction.test.ts` + boundaries 覆盖 journal/失败重试语义 |
+> | D06 | pal-migration-io.ts | **新增 5 测试** | 此前**零覆盖**。新增 mkdtemp 合成树上的四道 fail-loud 守卫逐轴触发（场景 295 计数、s294 精确空 stub、s000-s293 非正 mapNum、地图 223 计数）+ 守卫先于资产装载的顺序证明。不读真实 PAL 工程 |
+>
+> ## 业务反控（共用 judge，2 枚全 VALID）
+>
+> | 针 | fullName | 结果 |
+> |---|---|---|
+> | 目标通道计数断言改错 | auditPalSoundReferences current ledger > 源位点与目标引用边分离记账，通道各归其类 | 恰 exit1、AssertionError、唯一失败、产品 hash 不变 |
+> | 场景计数守卫消息断言改错 | loadPalMigrationSources source-tree guards > 场景源数量偏离 295 时停止迁移并给出精确计数 | 同上 |
+>
+> ## 视觉
+>
+> D/E 为纯函数审计与 IO 守卫，按卡不造视觉。
+>
+> ## 未证项汇总
+>
+> - `assertPalSoundReferenceBaseline`（真实数据冻结门禁）不在合成输入上测试；其数字随真实
+>   `data/extracted` 漂移时由生产迁移入口触发，属 Codex 管辖的真实数据门。
+> - `loadPalMigrationSources` 的 `loadPalAssets` 资产装载段（合成树不构造完整资产文件）：
+>   守卫后的资产装载错误仅在第五测试中证明「非四类守卫消息」，未证其成功路径。
+>
+> > R2（返工）：D1/D2 针已按 R2 严格判据重跑 VALID（judge 现解析带 `|unit|` 项目标签的 FAIL 行）。
+>
+> > R3（窄返工，R2 候选 `031b3e479e18bf1add1d5b559716172cfb7c031f` 之后）：本批代表针改用完整失败名精确相等重跑 VALID；judge 所有 INVALID/异常路径先清理临时针再退出，selftest 逐例断言无临时针遗留。
+>
+<!-- original-source-quote:end -->
