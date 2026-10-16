@@ -125,3 +125,10 @@
 - [R30 只读独立复核](independent-r30-phase1-foundation-readonly-review-20261017.md)：9/9 phase1 foundation 全文读取；2 design-spec + 2 governance-index + 3 guide-runbook + 2 reference-canon。
 - [R30 根接入回执](contributor-r30-phase1-foundation-20261017.json)：逐篇记录历史边界、来源、冲突、停止线、source/after SHA 和继任入口。
 - [R30 候选独立接收](independent-r30-phase1-foundation-candidate-acceptance-20261017.md)：9/9 候选接收；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R31 ops archive records
+
+- [R31 只读独立复核](independent-r31-ops-archive-records-readonly-review-20261017.md)：4/4 acceptance/board-history 全文读取，全部 `archive-record-v1`；ops archive paths 不进入 phase/lore catalog。
+- [R31 根接入回执](contributor-r31-ops-archive-records-20261017.json)：逐篇记录历史范围、原始结论、当时证据、当前有效性、继任文档和 source/after SHA。
+- [R31 候选独立接收](independent-r31-ops-archive-records-candidate-acceptance-20261017.md)：4/4 候选接收；无 runtime/E2E/视觉/coverage 信用。

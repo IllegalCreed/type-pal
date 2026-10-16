@@ -1890,6 +1890,26 @@
       "path": "docs/phase1/sdlpal-runbook.md",
       "templateId": "guide-runbook-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "templateId": "archive-record-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

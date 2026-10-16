@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r31-ops-archive-records-20261017",
+  "kind": "R31 phase1 status/plan migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+  "scope": {
+    "documents": 4,
+    "docTypes": {
+      "archive-record": 4
+    },
+    "historyOverlay": "archive-record-v1 for all",
+    "migrationCredit": 4
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-readonly-review-20261017.json",
+    "sha256": "3809acac75855ac6c9fafcd5f6eec6a9e704dedc8ae3d3fc14418a3693f466c5",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 4,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "title": "验收清单(做完划掉;不对就截图)",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+      "afterSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+      "sourceLines": 159,
+      "afterLines": 222,
+      "outline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "title": "历史验收批次",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+      "afterSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+      "sourceLines": 9,
+      "afterLines": 72,
+      "outline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "title": "多 Agent 任务看板",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "afterSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+      "sourceLines": 226,
+      "afterLines": 289,
+      "outline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "title": "历史协作看板",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+      "afterSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+      "sourceLines": 5,
+      "afterLines": 68,
+      "outline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    }
+  ],
+  "candidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-candidate-acceptance-20261017.json",
+    "sha256": "03c69eb675ca6ea6c0c8901f40247e8501512ec72b5da012197b25345ebf0a29",
+    "verdict": "accept",
+    "scope": "4/4 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

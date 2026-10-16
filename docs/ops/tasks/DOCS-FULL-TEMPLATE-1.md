@@ -1080,3 +1080,10 @@ Branch: codex/docs-full-template-proposal
 - 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-readonly-review-20261017.json`，9/9 全文读取；2 design-spec + 2 governance-index + 3 guide-runbook + 2 reference-canon。
 - 中央接入：`docs/phase-governance/reviews/20261017-r30-phase1-foundation.json`、registry/routing/catalog 9 条及 evidence receipt；无 runtime/E2E/视觉/coverage 信用。
 - R30 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
+
+
+### 2026-10-17 R31 ops archive records
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-readonly-review-20261017.json`，4/4 全文读取；全部 `archive-record-v1`。
+- 中央接入：`docs/phase-governance/reviews/20261017-r31-ops-archive-records.json`、registry/routing 4 条及 evidence receipt；ops archive paths 明确不进入 phase/lore catalog。
+- R31 候选独立接收已由 Codex 根独立接收；全量目标保持 active/build，不能标记 done。
