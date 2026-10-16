@@ -1298,3 +1298,10 @@ Branch: codex/docs-full-template-proposal
 - R61 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-candidate-acceptance-20261017.json`；17/17 source/after、archive/template/artifact/consumer 边界接收；无 runtime/E2E/视觉/coverage 信用。
 - 清理边界：历史 report/evidence 仍由 canonical report、catalog、迁移账和 consumer 引用；本批不删除，不把历史候选或 legacy-flat reviewed 变成动态通过。
 - 全量 1838 目标保持 active/build，当前进度 `782/1838 baseline + 10 incremental`；本批不标记 done、不推送 main。
+
+### 2026-10-17 R62 canonical template sources
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-readonly-review-20261017.json`，23/23 通用/testing 模板与 registry source 全文读取，保持 byte-stable。
+- 中央接入：`docs/phase-governance/reviews/20261017-r62-template-sources.json`、registry 23 条 `reference-canon-v1`/`design-spec-v1` template-source artifact；不进入 Markdown routing，避免破坏复制和 consumer 语法。
+- R62 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-candidate-acceptance-20261017.json`；23/23 source/after SHA、consumer 和 exact round-trip 接收；无 runtime/E2E/视觉/coverage 信用。
+- 全量 1838 目标保持 active/build，当前进度 `796/1838 baseline + 19 incremental`；本批不标记 done、不推送 main。

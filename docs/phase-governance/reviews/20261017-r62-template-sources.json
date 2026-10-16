@@ -1,0 +1,3285 @@
+{
+  "schemaVersion": 1,
+  "id": "r62-template-sources-20261017",
+  "reviewer": "Codex root canonical template-source review",
+  "reviewDate": "2026-10-17",
+  "policy": "R62: reusable template and registry sources stay byte-stable and copyable; governance is recorded in registry/review artifacts without wrapping source syntax.",
+  "entries": [
+    {
+      "path": "docs/phase-governance/templates/archive-record.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "archive-record.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/archive-record.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "archive-record.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+      "afterSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/archive-record.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/archive-record.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+        "implementationSha": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+        "candidateSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+        "afterSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+        "lineCount": 20,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 428,
+          "sourceLines": 20,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-20",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/archive-record.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/audit-report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "audit-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/audit-report.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "audit-report.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+      "afterSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/audit-report.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/audit-report.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+        "implementationSha": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+        "candidateSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+        "afterSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+        "lineCount": 23,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 389,
+          "sourceLines": 23,
+          "sourceFinalNewline": true,
+          "inverseSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-23",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/audit-report.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/design-spec.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "design-spec.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/design-spec.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "design-spec.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+      "afterSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/design-spec.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/design-spec.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "implementationSha": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "candidateSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "afterSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "lineCount": 26,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 442,
+          "sourceLines": 26,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-26",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/design-spec.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/evidence-receipt.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "evidence-receipt.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/evidence-receipt.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "evidence-receipt.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "afterSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/evidence-receipt.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/evidence-receipt.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+        "implementationSha": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+        "candidateSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+        "afterSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+        "lineCount": 26,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 501,
+          "sourceLines": 26,
+          "sourceFinalNewline": true,
+          "inverseSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-26",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/evidence-receipt.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/governance-index.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "governance-index.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/governance-index.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "governance-index.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+      "afterSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/governance-index.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/governance-index.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "implementationSha": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "candidateSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "afterSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "lineCount": 22,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 365,
+          "sourceLines": 22,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-22",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/governance-index.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/guide-runbook.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "guide-runbook.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/guide-runbook.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "guide-runbook.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+      "afterSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/guide-runbook.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/guide-runbook.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+        "implementationSha": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+        "candidateSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+        "afterSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+        "lineCount": 19,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 311,
+          "sourceLines": 19,
+          "sourceFinalNewline": true,
+          "inverseSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-19",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/guide-runbook.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/narrative-idea.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "narrative-idea.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/narrative-idea.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "narrative-idea.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+      "afterSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/narrative-idea.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/narrative-idea.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+        "implementationSha": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+        "candidateSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+        "afterSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+        "lineCount": 19,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 445,
+          "sourceLines": 19,
+          "sourceFinalNewline": true,
+          "inverseSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-19",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/narrative-idea.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/plan-status.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "plan-status.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/plan-status.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "plan-status.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+      "afterSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/plan-status.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/plan-status.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+        "implementationSha": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+        "candidateSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+        "afterSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+        "lineCount": 23,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 402,
+          "sourceLines": 23,
+          "sourceFinalNewline": true,
+          "inverseSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-23",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/plan-status.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/reference-canon.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "reference-canon.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/reference-canon.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "reference-canon.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+      "afterSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/reference-canon.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/reference-canon.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+        "implementationSha": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+        "candidateSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+        "afterSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+        "lineCount": 21,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 398,
+          "sourceLines": 21,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-21",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/reference-canon.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "registry-proposal-20261011.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/registry-proposal-20261011.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "registry-proposal-20261011.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+      "afterSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/phase-governance/templates/registry-proposal-20261011.md"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "implementationSha": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "afterSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+        "lineCount": 304,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 29110,
+          "sourceLines": 304,
+          "sourceFinalNewline": true,
+          "inverseSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-304",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/registry.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "registry.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/registry.json:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "registry.json",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/phase-governance/templates/registry.json"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/registry.json",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "implementationSha": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "candidateSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "lineCount": 824,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 29292,
+          "sourceLines": 824,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "exactRoundTrip": true,
+          "topLevelShape": "json"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-824",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "task-card.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/phase-governance/templates/task-card.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "phase-governance",
+      "module": "templates",
+      "capability": "task-card.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "publicCallers": [
+        "docs/phase-governance/templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/phase-governance/templates/task-card.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/phase-governance/templates/task-card.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "implementationSha": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "candidateSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "lineCount": 25,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 541,
+          "sourceLines": 25,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-25",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/templates/task-card.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/e2e-report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "e2e-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/e2e-report.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "e2e-report.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+      "afterSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/e2e-report.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/e2e-report.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+        "implementationSha": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+        "candidateSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+        "afterSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+        "lineCount": 43,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 1453,
+          "sourceLines": 43,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-43",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/e2e-report.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/e2e-stage-README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "e2e-stage-README.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/e2e-stage-README.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "e2e-stage-README.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+      "afterSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/e2e-stage-README.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/e2e-stage-README.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+        "implementationSha": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+        "candidateSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+        "afterSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+        "lineCount": 31,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 670,
+          "sourceLines": 31,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-31",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/e2e-stage-README.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "evidence.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/evidence.json:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "evidence.json",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+      "afterSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/evidence.json"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/evidence.json",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+        "implementationSha": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+        "candidateSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+        "afterSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+        "lineCount": 29,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 775,
+          "sourceLines": 29,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+          "exactRoundTrip": true,
+          "topLevelShape": "json"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-29",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/evidence.json",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "quality-gate.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/quality-gate.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "quality-gate.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "afterSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/quality-gate.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/quality-gate.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+        "implementationSha": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+        "candidateSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+        "afterSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+        "lineCount": 18,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 416,
+          "sourceLines": 18,
+          "sourceFinalNewline": true,
+          "inverseSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-18",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/quality-gate.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-catalog.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-catalog.json:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-catalog.json",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+      "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-catalog.json"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-catalog.json",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+        "implementationSha": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+        "candidateSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+        "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+        "lineCount": 25,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 570,
+          "sourceLines": 25,
+          "sourceFinalNewline": true,
+          "inverseSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+          "exactRoundTrip": true,
+          "topLevelShape": "json"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-25",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-catalog.json",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-catalog.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-catalog.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-catalog.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+      "afterSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-catalog.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-catalog.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+        "implementationSha": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+        "candidateSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+        "afterSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+        "lineCount": 38,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 2967,
+          "sourceLines": 38,
+          "sourceFinalNewline": true,
+          "inverseSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-38",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-catalog.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-contract.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-contract.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-contract.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+      "afterSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-contract.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-contract.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+        "implementationSha": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+        "candidateSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+        "afterSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+        "lineCount": 20,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 466,
+          "sourceLines": 20,
+          "sourceFinalNewline": true,
+          "inverseSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-20",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-contract.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-domain-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-domain-report.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-domain-report.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+      "afterSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-domain-report.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-domain-report.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+        "implementationSha": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+        "candidateSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+        "afterSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+        "lineCount": 25,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 652,
+          "sourceLines": 25,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-25",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-domain-report.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-e2e-stage.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-e2e-stage.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-e2e-stage.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "afterSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-e2e-stage.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-e2e-stage.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+        "implementationSha": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+        "candidateSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+        "afterSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+        "lineCount": 26,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 520,
+          "sourceLines": 26,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-26",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-e2e-stage.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-machine-evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-machine-evidence.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-machine-evidence.json:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-machine-evidence.json",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+      "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": [
+        "current template registry",
+        "docs/testing/_templates/test-machine-evidence.json"
+      ],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-machine-evidence.json",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "implementationSha": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "candidateSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "lineCount": 46,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 1059,
+          "sourceLines": 46,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "exactRoundTrip": true,
+          "topLevelShape": "json"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-46",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-machine-evidence.json",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "test-run-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "truthAnchors": ["docs/testing/_templates/test-run-report.md:1"],
+      "unresolved": ["Template source changes require registry/consumer review before reuse."],
+      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "phase": "testing",
+      "module": "_templates",
+      "capability": "test-run-report.md",
+      "owner": "Codex",
+      "provenance": [
+        "canonical-template-source",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r62_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
+        }
+      ],
+      "sourceSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "afterSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "publicCallers": [
+        "docs/testing/_templates/README.md",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "legalInputs": ["current template registry", "docs/testing/_templates/test-run-report.md"],
+      "businessOracle": {
+        "type": "canonical-template-source",
+        "assertions": [
+          "original bytes remain unchanged",
+          "template source remains copyable/consumable",
+          "source and after SHA equal",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-preserved",
+        "against": [
+          "docs/testing/_templates/test-run-report.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+        "implementationSha": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+        "history": [
+          {
+            "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+            "date": "2026-10-17",
+            "action": "full template-source review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R62 byte-stable template source governance",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "template-source-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+        "sourceSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+        "candidateSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+        "afterSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+        "lineCount": 21,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable canonical template source",
+          "sourceBytes": 609,
+          "sourceLines": 21,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+          "exactRoundTrip": true,
+          "topLevelShape": "markdown"
+        }
+      },
+      "history": [
+        {
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R62 template source artifact envelope",
+          "reviewer": "r62_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy template-source presentation; canonical source retained byte-stably"
+      ],
+      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
+      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "reviewedLines": "1-21",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "canonical-template-source",
+      "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+      "candidateSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "primarySource": [
+        {
+          "path": "docs/testing/_templates/test-run-report.md",
+          "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+          "sha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+          "scope": "full template source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "_templates",
+        "currentBoundary": "template registry and direct consumers own canonical source truth"
+      },
+      "dependencies": "template README, registry and consumer tests.",
+      "versionScope": {
+        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+        "date": "2026-10-17",
+        "validity": "canonical-template-source"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R62-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

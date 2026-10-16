@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r62-template-sources-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+  "verdict": "accept",
+  "verdictScope": "candidate reception only; no product credit",
+  "scope": {
+    "targetDocuments": 23,
+    "readAndChecked": 23,
+    "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R62-B01",
+      "count": 23,
+      "status": "closed-for-receipt-open-for-source",
+      "statement": "Template and registry sources remain byte-stable and consumable."
+    },
+    {
+      "id": "R62-B02",
+      "count": 23,
+      "status": "closed-for-receipt-open-for-source",
+      "statement": "Registry/review/source SHA records agree."
+    },
+    {
+      "id": "R62-B03",
+      "count": 23,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "summaryChecks": {
+    "all23": true,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (817 documents; content-reviewed 817)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 756 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8050 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 817/817)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4284 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/phase-governance/templates/archive-record.md",
+      "sourceSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+      "afterSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/audit-report.md",
+      "sourceSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+      "afterSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/design-spec.md",
+      "sourceSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+      "afterSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/evidence-receipt.md",
+      "sourceSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "afterSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/governance-index.md",
+      "sourceSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+      "afterSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/guide-runbook.md",
+      "sourceSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+      "afterSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/narrative-idea.md",
+      "sourceSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+      "afterSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/plan-status.md",
+      "sourceSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+      "afterSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/reference-canon.md",
+      "sourceSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+      "afterSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+      "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+      "afterSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/registry.json",
+      "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/e2e-report.md",
+      "sourceSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+      "afterSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/e2e-stage-README.md",
+      "sourceSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+      "afterSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/evidence.json",
+      "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+      "afterSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "sourceSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "afterSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.json",
+      "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+      "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "sourceSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+      "afterSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "sourceSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+      "afterSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "sourceSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+      "afterSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "sourceSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "afterSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-machine-evidence.json",
+      "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+      "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "sourceSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "afterSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

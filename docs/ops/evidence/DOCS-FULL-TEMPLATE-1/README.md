@@ -318,3 +318,8 @@
 - [R61 只读独立复核](independent-r61-testing-domain-history-readonly-review-20261017.json)：17/17 全文读取；8 historical domain report、8 historical machine evidence、1 current legacy-flat audit。
 - [R61 根接入回执](contributor-r61-testing-domain-history-20261017.json)：保留 report/evidence 配对、source/after SHA、archive overlay 和 artifact-only 字节边界。
 - [R61 候选独立接收](independent-r61-testing-domain-history-candidate-acceptance-20261017.json)：17/17 候选接收；无 runtime/E2E/视觉/coverage 新信用。
+
+## R62 canonical template sources
+
+- [R62 review](independent-r62-template-sources-readonly-review-20261017.json)：23/23 模板/registry source byte-stable。
+- [R62 acceptance](independent-r62-template-sources-candidate-acceptance-20261017.json)：23/23 接收；无 runtime/E2E/视觉/coverage 信用。
