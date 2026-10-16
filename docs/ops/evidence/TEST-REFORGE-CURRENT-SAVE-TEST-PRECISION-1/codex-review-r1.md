@@ -1,32 +1,89 @@
 # 当前存档精简独立审核：返工
 
-历史r1审核：下列counter已在[三审](codex-review-r3.md)逐项闭合。保留原候选的失败结论，不作为当前候选的重复返工指令。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: evidence-receipt-v1 / 1.0.0
 
-固定候选：`1b89e3eb843f67d0c3c305e53a3d2b0a58991877`；测试提交`d731f0f493c997637cf9e33b963db1e6d730d4ba`；派发`d84b3db236c35d2f7e2671741f4320b904f5c58c`、产品冻结`ce808b42e06dcd85999c1f10a5f1ca0b9009580b`。Codex于2026-10-07独立核验，未修改贡献者树。
+本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-## 裁决
+## 证据身份
 
-counter；不得合main/done。定向12文件168/168及5/5冻结hash通过，不能抵消误删合同。14针原件40个artifact hash及原源/重建mutant逐枚对应，但这里只复算旧证据，未冒称14针业务全部重跑。
+- 当前存档精简独立审核：返工 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76。
 
-### B-R1-01：共享helper不等于独立字段接线相同
+## 来源与输入
 
-在独占临时树，四个变异各自单独作用于冻结current-structure.ts；每次运行候选三文件均73/73绿。将四变异同施于原派发结构测试则61例中恰四个原合同AssertionError。完整native JSON见下表（相位执行身份不同：候选73与旧61，明确不称同执行集三态反控）。
+- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
 
-| 被漏过的接线 | 候选独立变异 | 旧断言 |
-|---|---|---|
-| assertGridPos height有限数接线 | [height，73/73](codex-B-loss-height.json) | 缺height拒收 |
-| assertAppearance spriteId自己的类型条件 | [spriteId接受number，73/73](codex-B-loss-spriteId.json) | spriteId=数字拒收 |
-| assertAppearance battleSprite自己的类型条件 | [battleSprite接受null，73/73](codex-B-loss-battleSprite.json) | battleSprite=null拒收 |
-| assertSkillUseCounts内层数值接线 | [仅requireRecord，73/73](codex-B-loss-skillUseCounts.json) | skillUseCounts内层非有限数拒收 |
+## 断言与业务 oracle
 
-[旧61例四红原件](codex-B-old-loss-oracles.json)。三个appearance字段是三个独立optional闭包，不是同一条循环；position的三个requireFiniteNumber也是独立调用。resources同helper也不能证明skillUseCounts还在接线上。保留typed/unknown治理，但将这些合法外部输入边界归还各自原子合同；不机械恢复重复数字矩阵。
+- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
 
-同一位置调用同谓词的money Infinity/NaN、party null/对象、portrait number/null；以及hiddenExp.exp被更强R4消息断言替代，去重可保留。其它删/并逐接线复核，尤其“同helper”不得作为充分证据。两容器缺席补空是独立normalizer，请将skillUseCounts与entityLifecycles拆为独立oracle身份，保留原件不变断言。
+## 结果
 
-### B-R1-02：超出共享文档白名单
+- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
 
-候选修改了共享docs/ops/evidence/README.md及docs/phase-governance/reviews/20261004-semantic-current-batch.json，与卡面不符。恢复到派发值，导航/pin只由Codex集成时维护。已有未变业务证据保留；执行集合变动仅重采受影响针及其绿基线/恢复，更新before-after/ledger和真实计数。不得追加任务配额。
+## 限制与复核
 
-## 下一步
+- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
 
-原B会话使用GLM-5.3（由用户手工切换），只做上述有限r2修复；提交完整真实SHA及docs-only区间，停在review。A/C集成不授权B更新产品冻结、产品或其它旧测试。
+## 历史范围
+
+- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+
+## 原始结论
+
+- 当前存档精简独立审核：返工：原始正文完整保留于下方 quote。
+
+## 当时证据
+
+- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+
+## 当前有效性
+
+historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
+- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+
+## 继任文档
+
+- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+
+## 原文保全
+
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 当前存档精简独立审核：返工
+>
+> 历史r1审核：下列counter已在[三审](codex-review-r3.md)逐项闭合。保留原候选的失败结论，不作为当前候选的重复返工指令。
+>
+> 固定候选：`1b89e3eb843f67d0c3c305e53a3d2b0a58991877`；测试提交`d731f0f493c997637cf9e33b963db1e6d730d4ba`；派发`d84b3db236c35d2f7e2671741f4320b904f5c58c`、产品冻结`ce808b42e06dcd85999c1f10a5f1ca0b9009580b`。Codex于2026-10-07独立核验，未修改贡献者树。
+>
+> ## 裁决
+>
+> counter；不得合main/done。定向12文件168/168及5/5冻结hash通过，不能抵消误删合同。14针原件40个artifact hash及原源/重建mutant逐枚对应，但这里只复算旧证据，未冒称14针业务全部重跑。
+>
+> ### B-R1-01：共享helper不等于独立字段接线相同
+>
+> 在独占临时树，四个变异各自单独作用于冻结current-structure.ts；每次运行候选三文件均73/73绿。将四变异同施于原派发结构测试则61例中恰四个原合同AssertionError。完整native JSON见下表（相位执行身份不同：候选73与旧61，明确不称同执行集三态反控）。
+>
+> | 被漏过的接线 | 候选独立变异 | 旧断言 |
+> |---|---|---|
+> | assertGridPos height有限数接线 | [height，73/73](codex-B-loss-height.json) | 缺height拒收 |
+> | assertAppearance spriteId自己的类型条件 | [spriteId接受number，73/73](codex-B-loss-spriteId.json) | spriteId=数字拒收 |
+> | assertAppearance battleSprite自己的类型条件 | [battleSprite接受null，73/73](codex-B-loss-battleSprite.json) | battleSprite=null拒收 |
+> | assertSkillUseCounts内层数值接线 | [仅requireRecord，73/73](codex-B-loss-skillUseCounts.json) | skillUseCounts内层非有限数拒收 |
+>
+> [旧61例四红原件](codex-B-old-loss-oracles.json)。三个appearance字段是三个独立optional闭包，不是同一条循环；position的三个requireFiniteNumber也是独立调用。resources同helper也不能证明skillUseCounts还在接线上。保留typed/unknown治理，但将这些合法外部输入边界归还各自原子合同；不机械恢复重复数字矩阵。
+>
+> 同一位置调用同谓词的money Infinity/NaN、party null/对象、portrait number/null；以及hiddenExp.exp被更强R4消息断言替代，去重可保留。其它删/并逐接线复核，尤其“同helper”不得作为充分证据。两容器缺席补空是独立normalizer，请将skillUseCounts与entityLifecycles拆为独立oracle身份，保留原件不变断言。
+>
+> ### B-R1-02：超出共享文档白名单
+>
+> 候选修改了共享docs/ops/evidence/README.md及docs/phase-governance/reviews/20261004-semantic-current-batch.json，与卡面不符。恢复到派发值，导航/pin只由Codex集成时维护。已有未变业务证据保留；执行集合变动仅重采受影响针及其绿基线/恢复，更新before-after/ledger和真实计数。不得追加任务配额。
+>
+> ## 下一步
+>
+> 原B会话使用GLM-5.3（由用户手工切换），只做上述有限r2修复；提交完整真实SHA及docs-only区间，停在review。A/C集成不授权B更新产品冻结、产品或其它旧测试。
+>
+<!-- original-source-quote:end -->

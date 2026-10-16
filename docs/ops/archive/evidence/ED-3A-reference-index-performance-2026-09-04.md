@@ -1,246 +1,317 @@
 # ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）
 
-环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过
-Vite SSR 载入真实 `projects/pal`（294 scenes、5,077 entities）；文件 IO、loader 校验和初始组装不计入
-collector 样本。永久复现入口：
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: evidence-receipt-v1 / 1.0.0
 
-```sh
-pnpm --filter @type-pal/editor benchmark:references -- --project projects/pal --samples 20
-```
+本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 证据身份
+
+- `id`：原始证据记录的稳定 ID（保留于 quote）。
+- `schemaVersion`：原始记录版本（保留于 quote）。
+- `status`：historical receipt；不改写为当前 verified。
+- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+
+## 来源与输入
+
+- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md`。
+- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
+- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+
+## 断言与业务 oracle
+
+- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
+- 原子断言：quote 中每条机器/人工断言保持原样。
+- 排重对象：当前 task card、同批 evidence 和 successor receipt。
 
 ## 结果
 
-| 指标 | A 批前基线 `9d2473c6` | 候选 `55a7fe84` | 预算 | 结论 |
-|---|---:|---:|---:|---|
-| snapshot warm p50 | 563.3ms | 623.729ms | ≤647.8ms（基线 ×1.15） | pass |
-| snapshot warm p95 | 653.8ms | 749.724ms | ≤784.6ms（基线 ×1.20） | pass |
-| derived warm p50 | 541.3ms | 608.590ms | ≤622.5ms（基线 ×1.15） | pass |
-| derived warm p95 | 637.9ms | 663.234ms | ≤765.5ms（基线 ×1.20） | pass |
-| 统一索引 build p50 / p95 | N/A | 28.067 / 39.715ms | 记录型；不得令总门超限 | pass |
-| init request JSON / V8 | 16,556,593 / 15,511,159B | 相同 | JSON ≤16,887,725B | pass |
-| ready reply JSON / V8 | 11,605,082 / 9,154,977B | 5,222,254 / 4,685,416B | JSON ≤13,345,844B | pass |
-| request clone p50 | 221.1ms | 219.839ms | ≤245ms | pass |
-| reply clone p50 | 45.1ms | 29.150ms | ≤55ms | pass |
-| projectReferences JSON / V8 | N/A | 2,071,873 / 1,769,283B | JSON ≤2,500,000B | pass |
+- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
+- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
 
-基线将 38,126 条 entity-address DTO 全部发布到 Worker reply（V8 5,624,880B，占旧 reply 61.4%），
-其中 33,764 条是随目标实体一起删除的 self/companion 边，旧 UI 本来也会过滤。候选继续在 content 校验中
-扫描全部 38,126 条，但统一删除/引用索引只物化 4,362 条真实跨 owner blocker；复合 entity edge 以同一个
-edge id 加入必要 target bucket，不为 scene 父目标复制第二条 edge。候选最终为 5,991 rows、2,730 targets、
-1,832 sources、1,952 locators、7,767 bucket entries。
+## 限制与复核
 
-## 候选原始样本（ms，n=20）
+- 未执行/未覆盖：- 正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
+- 正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。
+- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
+- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
 
-```text
-snapshot:
-623.729, 607.365, 603.772, 608.729, 628.666, 757.411, 628.287, 586.585,
-628.633, 603.163, 607.635, 617.627, 749.724, 650.360, 643.557, 671.922,
-662.231, 731.670, 604.120, 591.124
+## 历史范围
 
-derived:
-591.083, 596.525, 598.194, 608.590, 634.644, 636.080, 624.586, 630.036,
-686.648, 662.005, 591.761, 596.508, 589.239, 591.760, 595.524, 602.773,
-612.957, 639.899, 636.122, 663.234
+- phase2/lore archive；日期：2026-09-04；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5。
 
-project reference build:
-35.805, 31.041, 28.477, 28.258, 27.195, 39.715, 40.567, 27.940,
-26.908, 28.048, 27.578, 27.297, 28.078, 27.388, 28.004, 28.067,
-27.814, 29.431, 29.405, 28.919
+## 原始结论
 
-init request structuredClone:
-224.549, 219.962, 217.356, 217.577, 217.104, 217.429, 223.245, 223.949,
-219.839, 265.412, 219.805, 225.210, 227.398, 322.519, 221.392, 216.432,
-216.723, 217.363, 221.703, 217.572
+- ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）：这是 evidence-receipt，当前文档状态为 historical。全文 247 行、10 个标题；摘要/首段为「环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过」。属于历史/归档材料，不能单独证明当前实现。
 
-ready reply structuredClone:
-29.962, 27.344, 30.516, 27.947, 30.425, 27.621, 30.362, 27.855,
-28.390, 29.795, 27.303, 30.770, 29.210, 31.575, 29.150, 28.723,
-30.860, 27.337, 30.588, 27.835
-```
+## 当时证据
 
-耗时只作同机手工回归，不进入易抖 CI。CI 使用确定性门：PAL blocker parity、rows/target buckets、
-统一快照 JSON 上限、sync/Worker deep equality，以及 Worker reply 不同时携带旧 entity/scene-entry DTO。
+- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
 
-## B 批战场 / 敌队 / 氛围纵切检查点
+## 当前有效性
 
-工作树基于 `03767dda`，加入 project-default / scene-default / hostile 的战场边、hostile 敌队边、
-runtime world 氛围边，并把 startBattle / setAmbience / toggleDayNight 映射到领域 relation。真实 PAL
-确定性规模变为 6,928 rows、2,961 targets、2,769 sources、2,889 locators、8,704 bucket entries；
-其中新增 937 rows = 项目默认战场 1 + 场景默认战场 108 + hostile 敌队 828。领域 census 为
-battle-field-use 141、enemy-team-use 1,002、ambience-use 42。
+historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
+- 历史冲突/未决：
+- 正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
+- 正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。
 
-隔离复跑（n=20）结果：snapshot p50/p95 = 598.126/659.089ms，derived p50/p95 =
-598.248/733.232ms，project-reference build p50/p95 = 32.247/43.107ms；均在 A 批冻结预算内。
-ready reply JSON/V8 = 5,612,699/5,035,325B，projectReferences JSON/V8 =
-2,462,318/2,118,980B，request payload 仍为 16,556,593/15,511,159B。索引 JSON 距 2.5MB
-确定性门只余 37,682B，后续 B/C 不得机械抬阈值：必须随 adopter 迁移同步退役旧 DTO，并以完整 reply
-净体积和冷/Worker 同构结果共同判断。
+## 继任文档
 
-在隔离复跑前的一轮同机样本受其他测试负载影响，snapshot p50/p95 = 636.619/725.167ms、derived
-p50/p95 = 675.556/817.795ms；前者通过、后者超手工时间预算。时间门不进 CI，因此保留该抖动记录；
-确定性门与随后隔离复跑均通过，若后续隔离复跑再次稳定超限则按卡面约定收缩物化范围。
+- C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.。
+- 当前事实由继任规范、代码、测试和新的 review 决定。
 
-## B 批 skill / enemy / poison 纵切检查点
+## 原文保全
 
-本纵切新增 1,194 条真实 PAL 战斗数据边：skill 338（含旧 collector 漏掉的 `learnSkill` 15）、
-enemy 791、poison 65。直接叠加后的统一索引一度达到 2,800,349B，触发 2.5MB 硬门；没有抬高
-预算，而是继续压 compact wire format：source key 改为由 `owner + section` 在消费端稳定重建、删除
-重复 `targetKeys`、detail 字符串入表，并让无 detail row 省略尾槽。同步退役旧
-`poisonReferenceIndex` Worker DTO。
+固定源 SHA `3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）
+>
+> 环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过
+> Vite SSR 载入真实 `projects/pal`（294 scenes、5,077 entities）；文件 IO、loader 校验和初始组装不计入
+> collector 样本。永久复现入口：
+>
+> ```sh
+> pnpm --filter @type-pal/editor benchmark:references -- --project projects/pal --samples 20
+> ```
+>
+> ## 结果
+>
+> | 指标 | A 批前基线 `9d2473c6` | 候选 `55a7fe84` | 预算 | 结论 |
+> |---|---:|---:|---:|---|
+> | snapshot warm p50 | 563.3ms | 623.729ms | ≤647.8ms（基线 ×1.15） | pass |
+> | snapshot warm p95 | 653.8ms | 749.724ms | ≤784.6ms（基线 ×1.20） | pass |
+> | derived warm p50 | 541.3ms | 608.590ms | ≤622.5ms（基线 ×1.15） | pass |
+> | derived warm p95 | 637.9ms | 663.234ms | ≤765.5ms（基线 ×1.20） | pass |
+> | 统一索引 build p50 / p95 | N/A | 28.067 / 39.715ms | 记录型；不得令总门超限 | pass |
+> | init request JSON / V8 | 16,556,593 / 15,511,159B | 相同 | JSON ≤16,887,725B | pass |
+> | ready reply JSON / V8 | 11,605,082 / 9,154,977B | 5,222,254 / 4,685,416B | JSON ≤13,345,844B | pass |
+> | request clone p50 | 221.1ms | 219.839ms | ≤245ms | pass |
+> | reply clone p50 | 45.1ms | 29.150ms | ≤55ms | pass |
+> | projectReferences JSON / V8 | N/A | 2,071,873 / 1,769,283B | JSON ≤2,500,000B | pass |
+>
+> 基线将 38,126 条 entity-address DTO 全部发布到 Worker reply（V8 5,624,880B，占旧 reply 61.4%），
+> 其中 33,764 条是随目标实体一起删除的 self/companion 边，旧 UI 本来也会过滤。候选继续在 content 校验中
+> 扫描全部 38,126 条，但统一删除/引用索引只物化 4,362 条真实跨 owner blocker；复合 entity edge 以同一个
+> edge id 加入必要 target bucket，不为 scene 父目标复制第二条 edge。候选最终为 5,991 rows、2,730 targets、
+> 1,832 sources、1,952 locators、7,767 bucket entries。
+>
+> ## 候选原始样本（ms，n=20）
+>
+> ```text
+> snapshot:
+> 623.729, 607.365, 603.772, 608.729, 628.666, 757.411, 628.287, 586.585,
+> 628.633, 603.163, 607.635, 617.627, 749.724, 650.360, 643.557, 671.922,
+> 662.231, 731.670, 604.120, 591.124
+>
+> derived:
+> 591.083, 596.525, 598.194, 608.590, 634.644, 636.080, 624.586, 630.036,
+> 686.648, 662.005, 591.761, 596.508, 589.239, 591.760, 595.524, 602.773,
+> 612.957, 639.899, 636.122, 663.234
+>
+> project reference build:
+> 35.805, 31.041, 28.477, 28.258, 27.195, 39.715, 40.567, 27.940,
+> 26.908, 28.048, 27.578, 27.297, 28.078, 27.388, 28.004, 28.067,
+> 27.814, 29.431, 29.405, 28.919
+>
+> init request structuredClone:
+> 224.549, 219.962, 217.356, 217.577, 217.104, 217.429, 223.245, 223.949,
+> 219.839, 265.412, 219.805, 225.210, 227.398, 322.519, 221.392, 216.432,
+> 216.723, 217.363, 221.703, 217.572
+>
+> ready reply structuredClone:
+> 29.962, 27.344, 30.516, 27.947, 30.425, 27.621, 30.362, 27.855,
+> 28.390, 29.795, 27.303, 30.770, 29.210, 31.575, 29.150, 28.723,
+> 30.860, 27.337, 30.588, 27.835
+> ```
+>
+> 耗时只作同机手工回归，不进入易抖 CI。CI 使用确定性门：PAL blocker parity、rows/target buckets、
+> 统一快照 JSON 上限、sync/Worker deep equality，以及 Worker reply 不同时携带旧 entity/scene-entry DTO。
+>
+> ## B 批战场 / 敌队 / 氛围纵切检查点
+>
+> 工作树基于 `03767dda`，加入 project-default / scene-default / hostile 的战场边、hostile 敌队边、
+> runtime world 氛围边，并把 startBattle / setAmbience / toggleDayNight 映射到领域 relation。真实 PAL
+> 确定性规模变为 6,928 rows、2,961 targets、2,769 sources、2,889 locators、8,704 bucket entries；
+> 其中新增 937 rows = 项目默认战场 1 + 场景默认战场 108 + hostile 敌队 828。领域 census 为
+> battle-field-use 141、enemy-team-use 1,002、ambience-use 42。
+>
+> 隔离复跑（n=20）结果：snapshot p50/p95 = 598.126/659.089ms，derived p50/p95 =
+> 598.248/733.232ms，project-reference build p50/p95 = 32.247/43.107ms；均在 A 批冻结预算内。
+> ready reply JSON/V8 = 5,612,699/5,035,325B，projectReferences JSON/V8 =
+> 2,462,318/2,118,980B，request payload 仍为 16,556,593/15,511,159B。索引 JSON 距 2.5MB
+> 确定性门只余 37,682B，后续 B/C 不得机械抬阈值：必须随 adopter 迁移同步退役旧 DTO，并以完整 reply
+> 净体积和冷/Worker 同构结果共同判断。
+>
+> 在隔离复跑前的一轮同机样本受其他测试负载影响，snapshot p50/p95 = 636.619/725.167ms、derived
+> p50/p95 = 675.556/817.795ms；前者通过、后者超手工时间预算。时间门不进 CI，因此保留该抖动记录；
+> 确定性门与随后隔离复跑均通过，若后续隔离复跑再次稳定超限则按卡面约定收缩物化范围。
+>
+> ## B 批 skill / enemy / poison 纵切检查点
+>
+> 本纵切新增 1,194 条真实 PAL 战斗数据边：skill 338（含旧 collector 漏掉的 `learnSkill` 15）、
+> enemy 791、poison 65。直接叠加后的统一索引一度达到 2,800,349B，触发 2.5MB 硬门；没有抬高
+> 预算，而是继续压 compact wire format：source key 改为由 `owner + section` 在消费端稳定重建、删除
+> 重复 `targetKeys`、detail 字符串入表，并让无 detail row 省略尾槽。同步退役旧
+> `poisonReferenceIndex` Worker DTO。
+>
+> 最终隔离复跑（n=20）：snapshot p50/p95 = 629.435/672.606ms，derived p50/p95 =
+> 616.444/717.467ms，project-reference build p50/p95 = 47.547/62.527ms，均在冻结预算内；单次
+> battle-data adapter 分解样本 12.631ms。ready reply JSON/V8 = 5,502,785/5,012,485B，统一索引
+> JSON/V8 = 2,365,516/2,108,012B。相对上一 B 检查点，增加 1,194 rows 后完整 reply 反而减少
+> 109,914B，统一索引减少 96,802B；没有用双份 DTO 换取页面迁移。
+>
+> 最终规模：8,122 rows、3,218 targets、3,293 sources、3,419 locators、9,898 bucket entries、
+> 30 relations。benchmark 现在同时输出统一索引各字段体积；当前最大项为 rows 758,174B、sources
+> 733,928B、locators 642,238B，后续域继续以完整 reply 净变化和 2.5MB 索引门双重约束。
+>
+> ## B 批 actor 纵切检查点
+>
+> 候选实现提交为 `1806a90f`。本纵切将人物结构引用、canonical command、
+> `startBattle.choreography`、state-machine transition、
+> legacy chunk 与 runtime party/reserve template 收敛进统一索引，并退役 Worker/UI/删除命令边界的旧
+> `actorReferenceIndex`。PAL 独立对账为 808 条人物引用、804 条删除 blocker；其中 canonical command
+> 精确 locator 516 条、state-machine owner locator 1 条、随人物删除的 `levelUp` companion 4 条。
+> 旧 collector 与统一索引按 `actorId + kind` multiset 等价，结构类引用另做 exact where 对账。
+>
+> 最终隔离复跑（n=20）：snapshot p50/p95 = 576.269/641.747ms，derived p50/p95 =
+> 554.072/626.202ms，project-reference build p50/p95 = 55.618/74.266ms；均在冻结预算内。单次 adapter
+> 分解样本：actor 15.488ms、battle-data 11.425ms、entity 2.951ms、compact 46.555ms。ready reply
+> JSON/V8 = 5,380,070/4,845,141B，统一索引 JSON/V8 = 2,432,621/2,133,380B，仍低于 2.5MB
+> 硬门；init request 保持 16,556,593/15,511,159B。
+>
+> 最终规模：8,930 rows、3,226 targets、3,459 sources、3,962 locators、10,706 bucket entries、
+> 44 relations；canonical command visits 60,295，state-machine transition visits 5,682。前一轮在并行测试
+> 与高 CPU 外部进程下得到 derived p50/p95 = 810.934/1,379.069ms，按既定规则视为受扰样本，不作为
+> 通过证据；停止并发工作后的上述正式样本通过全部冻结门。
+>
+> ## B 批 item 纵切检查点
+>
+> 候选实现提交为 `376934e0`。本纵切把 1,182 条 PAL 物品引用统一进图，其中 1,169 条为外部
+> blocker、13 条为随物品删除的 self 边；canonical command 801 条使用精确 locator，另有 6 条
+> state-machine transition owner 与 161 条敌人对象来源。旧 `itemReferenceIndex` Worker DTO、页面私有
+> 反查 map、专用 App 跳转和删除命令旧参数同时退役。
+>
+> 为给后续精灵域留出确定性余量，wire 继续压缩 target、source owner、script owner/container 与 locator；
+> 默认来源标签由稳定 owner 在消费端派生，不再逐条重复传输。最终检查点为 10,112 rows、11,888 bucket
+> entries；统一索引 JSON 1,916,386B，完整 ready reply JSON 4,246,713B。
+>
+> 隔离复跑（n=20）：snapshot p50/p95 = 587.990/657.075ms，derived p50/p95 =
+> 598.062/686.503ms，project-reference build p50/p95 = 75.200/98.293ms；全部通过 A 批冻结预算。
+>
+> ## B 批 world sprite / action / battle sprite 纵切检查点
+>
+> 候选实现提交为 `aeb35214`。本纵切新增 4,389 条 PAL row：world-sprite-use 3,824、
+> world-sprite-action-use 385、battle-sprite-use 180。动作引用以同一 edge id 同时进入 action 与父
+> world-sprite bucket，因此额外增加 385 个父 bucket entry；最终为 14,501 rows、16,662 bucket entries。
+> 573 个 world sprite 的父级引用聚合精确为 4,209，PAL test 直接逐 target 复算；31 个 action target pair
+> 保持稳定。
+>
+> 场景页引用改用稳定 PageId locator；canonical shared / item-private、enemy choreography / onDefeated、
+> legacy chunk 与 runtime world 均有结构化 owner 和定位策略。定义、动作和 battle sprite 删除全部使用
+> required current-author provider；UI 覆盖 checking/stale/failed/current-without-index、显示零但 live 新引用、
+> provider failure 与 redo 再验真。旧 `SpriteActionReferenceLocator.pageIndex`、编辑器 sync collector consumer
+> 及 `site.split` 跳转已退役。装备战斗精灵的重复校验豁免改为结构化 `origin: 'equip'`，脚本 ID 含
+> `:equip:` 的反例不会再被误跳过。
+>
+> 确定性体积：统一索引 JSON/V8 = 2,331,262/2,298,550B，低于 2.5MB 硬门 168,738B；完整 ready
+> reply JSON/V8 = 4,661,589/4,438,967B。最大 JSON 字段依次为 sources 724,288B、rows 633,124B、
+> locators 413,156B、deletionTargets 314,919B。
+>
+> 首轮 `aeb35214` 隔离样本的 derived p50 为 625.213ms，比 622.5ms 冻结门慢 2.713ms。没有反复抽样
+> 碰线，而是追加 `d521d965`：把 compact builder 的通用递归序列化替换为 relation/source/locator 的
+> 类型化稳定键，输出 JSON 字节与全部 row/bucket 计数保持不变。最终隔离复跑（n=20）：snapshot
+> p50/p95 = 569.135/689.797ms，derived p50/p95 = 568.473/628.512ms，project-reference build
+> p50/p95 = 72.372/99.720ms；init request clone p50 = 206.672ms，ready reply clone p50 =
+> 31.194ms，全部通过 A 批冻结预算。单次 adapter 分解样本为 item 8.908ms、sprite 16.849ms、
+> compact 58.587ms。
+>
+> 优化后的前一轮同机样本曾在 snapshot 阶段出现 1,574ms 外部抖动（snapshot p50/p95 =
+> 708.849/915.356ms），而紧随其后的 derived 已回落到 589.308/688.594ms；按既定规则保留记录但不作为
+> 通过证据。随后无项目测试或 reviewer 进程并发的完整 20 轮得到上述正式通过结果。
+>
+> ## C 批同步域、媒体与最终 compact 检查点
+>
+> 实现提交为 `3fe000eb`（剩余同步领域、媒体结构化定位与单一 resolver）、`cf552331`（异步地图事实）和
+> `01512c84`（复用 canonical asset visits 与最终性能收口）。最终统一索引覆盖 asset、world-variable、
+> behavior、scene-hook、shared-script，并退役旧 Worker DTO、媒体 `where/site` 反解和 App 专用跳转旁路。
+> `where` 只保留作者可读诊断路径，导航由 typed source/locator 完成。
+>
+> 最终 clean 候选 `01512c8481bc74ea89f2d0c844599ea9b65c308c` 在同机隔离运行，benchmark 自报
+> `worktreeDirty=false`。与 A 批冻结预算对照：
+>
+> | 指标 | C 批最终值 | 冻结预算 | 结论 |
+> |---|---:|---:|---|
+> | snapshot warm p50 / p95 | 595.130 / 677.743ms | ≤647.8 / 784.6ms | pass |
+> | derived warm p50 / p95 | 598.759 / 725.320ms | ≤622.5 / 765.5ms | pass |
+> | project reference build p50 / p95 | 108.841 / 155.442ms | 记录型；总门不得超限 | pass |
+> | init request clone p50 | 207.383ms | ≤245ms | pass |
+> | ready reply clone p50 | 19.805ms | ≤55ms | pass |
+> | projectReferences JSON / V8 | 2,372,327 / 2,328,260B | JSON ≤2,500,000B | pass |
+> | ready reply JSON / V8 | 2,523,748 / 2,473,131B | JSON ≤13,345,844B | pass |
+>
+> 最终确定性规模为 25,188 rows、10,579 targets、13,497 sources、101 relations、8,362 locators 和
+> 28,089 target bucket entries；canonical command visits 60,295，transition visits 5,682，资源引用
+> 6,002，behavior/scene-hook 分别 4,459/293。完整 reply 不再同时携带任一旧领域引用 DTO。
+>
+> 资源引用不再对 60,295 个 canonical command 做第二次递归：结构资源 walker 只收 2,121 条非 canonical
+> 引用，既有 visits 产出 3,881 条 canonical 引用。PAL differential 对
+> `asset + expectedKind + origin + owner-level site` 做多重集比较，合计仍精确为 6,002；canonical `where`
+> 从数组位置改为稳定作者路径是有意差异，不宣称完整 `LocatedAssetReference` 字节等价。合法 opaque ID
+> 可能产生相同显示路径，因此诊断投影使用 `[issue code, where]` 下按 validator 顺序逐条关联，而不再把
+> `where` 当唯一身份；直接反例和 `validateAuthorScenes → visits → diagnostics` 端到端反例均已钉住。
+>
+> 最终单次 adapter 分解样本（ms）：structural 1.760、canonical target 10.458、battle-data 12.476、
+> actor 15.173、item 9.669、sprite 16.039、asset structural collect 3.960、canonical asset collect
+> 10.496、asset edges 8.452、world-variable collect 13.589、scheme collect/edges 8.068/7.148、
+> shared-script collect 1.967、entity 2.940、compact 95.321。
+>
+> clean n=20 原始时间样本（ms）：
+>
+> ```text
+> snapshot:
+> 578.527, 584.177, 600.767, 578.752, 586.284, 603.283, 677.743, 562.665,
+> 621.953, 603.785, 582.242, 588.556, 602.318, 635.627, 634.729, 765.950,
+> 595.130, 559.213, 570.463, 605.987
+>
+> derived:
+> 643.968, 647.337, 606.039, 619.954, 725.320, 596.166, 565.475, 597.121,
+> 603.909, 579.889, 585.111, 601.583, 598.759, 613.569, 753.036, 605.111,
+> 562.845, 566.915, 581.813, 583.026
+>
+> project reference build:
+> 152.048, 155.442, 106.649, 104.898, 108.841, 110.517, 106.793, 106.569,
+> 106.480, 106.609, 107.585, 105.350, 108.376, 110.445, 112.611, 111.696,
+> 114.745, 115.206, 118.989, 164.137
+> ```
+>
+> ## C 批异步地图事实检查点
+>
+> 地图正文不进入 Worker，也不为引用扫描 hydrate 到 `EditorState.maps`。`EditSession` 维护独立的
+> `mapId + path + mapRevision + generation` facts，扫描和 hydrate 共享同一原始读取；迟到结果、换 path、
+> 在途 hydrate、partial/failure 及 revision 漂移全部令删除 proof fail-closed。地图笔画只失效当前地图，
+> stamp facts 由命令的稳定 stamp id 增量维护；页面订阅独立 facts revision 并自动续扫。Tileset 删除/替换
+> proof 另钉 asset record、path、SHA、共享 definition 与真实 bytes，Stamp 删除钉当前 placement 数量，
+> apply/redo 均同步复核。
+>
+> clean Node 文件读取下界：223/223 maps 完成、failures=0、初扫 1,128.795ms；扫描后 maps cache 仍为空，
+> history/version/dirty 均未变化。缓存 batch p50/p95=0/0.001ms，强制 batch 重建 p50/p95=
+> 0.624/0.860ms，index decode + tileset query p50/p95=0.169/0.604ms。异步 project-reference 部分
+> 41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
+> 1 个 map placement”探针，得到 225 rows、93,330B，fact collect p50/p95=0.001/0.007ms。
+>
+> Node 初扫明确只作浏览器 HTTP/FSA 的下界。真实 6010 PAL 页面从进入到首次 tileset 引用可见约 3.16s，
+> 全新页面冷启约 4s；之后同 revision 查询为缓存命中。1280/720 实测 Tileset 引用均可见且能打开
+> `map-001`，页面无横向溢出；PAL 无 authored stamp，`?ui_samples` 的 6 个 authored stamp 用于验证
+> Stamp 页完整 coverage 表现，不冒充 PAL 内容。
+>
+> 媒体最终抽验：`music.pal.004` 打开 project/startup，`sound.pal.001` 打开
+> `actor/li-xiaoyao/battle`，`portrait.pal.001` 打开 `actor/li-xiaoyao/appearance`，
+> `video.pal.003` 打开入口 `new-game`，`video.pal.004` 精确定位到 s281/e4800/default 第 82 条指令。
+> 1280/720 的 document/body `scrollWidth === clientWidth`，引用打开按钮均在视口内，console error 为 0。
+> 截图：[`cutscene-reference-1280.jpg`](ED-3/cutscene-reference-1280.jpg)、
+> [`cutscene-reference-720.jpg`](ED-3/cutscene-reference-720.jpg)。
 
-最终隔离复跑（n=20）：snapshot p50/p95 = 629.435/672.606ms，derived p50/p95 =
-616.444/717.467ms，project-reference build p50/p95 = 47.547/62.527ms，均在冻结预算内；单次
-battle-data adapter 分解样本 12.631ms。ready reply JSON/V8 = 5,502,785/5,012,485B，统一索引
-JSON/V8 = 2,365,516/2,108,012B。相对上一 B 检查点，增加 1,194 rows 后完整 reply 反而减少
-109,914B，统一索引减少 96,802B；没有用双份 DTO 换取页面迁移。
-
-最终规模：8,122 rows、3,218 targets、3,293 sources、3,419 locators、9,898 bucket entries、
-30 relations。benchmark 现在同时输出统一索引各字段体积；当前最大项为 rows 758,174B、sources
-733,928B、locators 642,238B，后续域继续以完整 reply 净变化和 2.5MB 索引门双重约束。
-
-## B 批 actor 纵切检查点
-
-候选实现提交为 `1806a90f`。本纵切将人物结构引用、canonical command、
-`startBattle.choreography`、state-machine transition、
-legacy chunk 与 runtime party/reserve template 收敛进统一索引，并退役 Worker/UI/删除命令边界的旧
-`actorReferenceIndex`。PAL 独立对账为 808 条人物引用、804 条删除 blocker；其中 canonical command
-精确 locator 516 条、state-machine owner locator 1 条、随人物删除的 `levelUp` companion 4 条。
-旧 collector 与统一索引按 `actorId + kind` multiset 等价，结构类引用另做 exact where 对账。
-
-最终隔离复跑（n=20）：snapshot p50/p95 = 576.269/641.747ms，derived p50/p95 =
-554.072/626.202ms，project-reference build p50/p95 = 55.618/74.266ms；均在冻结预算内。单次 adapter
-分解样本：actor 15.488ms、battle-data 11.425ms、entity 2.951ms、compact 46.555ms。ready reply
-JSON/V8 = 5,380,070/4,845,141B，统一索引 JSON/V8 = 2,432,621/2,133,380B，仍低于 2.5MB
-硬门；init request 保持 16,556,593/15,511,159B。
-
-最终规模：8,930 rows、3,226 targets、3,459 sources、3,962 locators、10,706 bucket entries、
-44 relations；canonical command visits 60,295，state-machine transition visits 5,682。前一轮在并行测试
-与高 CPU 外部进程下得到 derived p50/p95 = 810.934/1,379.069ms，按既定规则视为受扰样本，不作为
-通过证据；停止并发工作后的上述正式样本通过全部冻结门。
-
-## B 批 item 纵切检查点
-
-候选实现提交为 `376934e0`。本纵切把 1,182 条 PAL 物品引用统一进图，其中 1,169 条为外部
-blocker、13 条为随物品删除的 self 边；canonical command 801 条使用精确 locator，另有 6 条
-state-machine transition owner 与 161 条敌人对象来源。旧 `itemReferenceIndex` Worker DTO、页面私有
-反查 map、专用 App 跳转和删除命令旧参数同时退役。
-
-为给后续精灵域留出确定性余量，wire 继续压缩 target、source owner、script owner/container 与 locator；
-默认来源标签由稳定 owner 在消费端派生，不再逐条重复传输。最终检查点为 10,112 rows、11,888 bucket
-entries；统一索引 JSON 1,916,386B，完整 ready reply JSON 4,246,713B。
-
-隔离复跑（n=20）：snapshot p50/p95 = 587.990/657.075ms，derived p50/p95 =
-598.062/686.503ms，project-reference build p50/p95 = 75.200/98.293ms；全部通过 A 批冻结预算。
-
-## B 批 world sprite / action / battle sprite 纵切检查点
-
-候选实现提交为 `aeb35214`。本纵切新增 4,389 条 PAL row：world-sprite-use 3,824、
-world-sprite-action-use 385、battle-sprite-use 180。动作引用以同一 edge id 同时进入 action 与父
-world-sprite bucket，因此额外增加 385 个父 bucket entry；最终为 14,501 rows、16,662 bucket entries。
-573 个 world sprite 的父级引用聚合精确为 4,209，PAL test 直接逐 target 复算；31 个 action target pair
-保持稳定。
-
-场景页引用改用稳定 PageId locator；canonical shared / item-private、enemy choreography / onDefeated、
-legacy chunk 与 runtime world 均有结构化 owner 和定位策略。定义、动作和 battle sprite 删除全部使用
-required current-author provider；UI 覆盖 checking/stale/failed/current-without-index、显示零但 live 新引用、
-provider failure 与 redo 再验真。旧 `SpriteActionReferenceLocator.pageIndex`、编辑器 sync collector consumer
-及 `site.split` 跳转已退役。装备战斗精灵的重复校验豁免改为结构化 `origin: 'equip'`，脚本 ID 含
-`:equip:` 的反例不会再被误跳过。
-
-确定性体积：统一索引 JSON/V8 = 2,331,262/2,298,550B，低于 2.5MB 硬门 168,738B；完整 ready
-reply JSON/V8 = 4,661,589/4,438,967B。最大 JSON 字段依次为 sources 724,288B、rows 633,124B、
-locators 413,156B、deletionTargets 314,919B。
-
-首轮 `aeb35214` 隔离样本的 derived p50 为 625.213ms，比 622.5ms 冻结门慢 2.713ms。没有反复抽样
-碰线，而是追加 `d521d965`：把 compact builder 的通用递归序列化替换为 relation/source/locator 的
-类型化稳定键，输出 JSON 字节与全部 row/bucket 计数保持不变。最终隔离复跑（n=20）：snapshot
-p50/p95 = 569.135/689.797ms，derived p50/p95 = 568.473/628.512ms，project-reference build
-p50/p95 = 72.372/99.720ms；init request clone p50 = 206.672ms，ready reply clone p50 =
-31.194ms，全部通过 A 批冻结预算。单次 adapter 分解样本为 item 8.908ms、sprite 16.849ms、
-compact 58.587ms。
-
-优化后的前一轮同机样本曾在 snapshot 阶段出现 1,574ms 外部抖动（snapshot p50/p95 =
-708.849/915.356ms），而紧随其后的 derived 已回落到 589.308/688.594ms；按既定规则保留记录但不作为
-通过证据。随后无项目测试或 reviewer 进程并发的完整 20 轮得到上述正式通过结果。
-
-## C 批同步域、媒体与最终 compact 检查点
-
-实现提交为 `3fe000eb`（剩余同步领域、媒体结构化定位与单一 resolver）、`cf552331`（异步地图事实）和
-`01512c84`（复用 canonical asset visits 与最终性能收口）。最终统一索引覆盖 asset、world-variable、
-behavior、scene-hook、shared-script，并退役旧 Worker DTO、媒体 `where/site` 反解和 App 专用跳转旁路。
-`where` 只保留作者可读诊断路径，导航由 typed source/locator 完成。
-
-最终 clean 候选 `01512c8481bc74ea89f2d0c844599ea9b65c308c` 在同机隔离运行，benchmark 自报
-`worktreeDirty=false`。与 A 批冻结预算对照：
-
-| 指标 | C 批最终值 | 冻结预算 | 结论 |
-|---|---:|---:|---|
-| snapshot warm p50 / p95 | 595.130 / 677.743ms | ≤647.8 / 784.6ms | pass |
-| derived warm p50 / p95 | 598.759 / 725.320ms | ≤622.5 / 765.5ms | pass |
-| project reference build p50 / p95 | 108.841 / 155.442ms | 记录型；总门不得超限 | pass |
-| init request clone p50 | 207.383ms | ≤245ms | pass |
-| ready reply clone p50 | 19.805ms | ≤55ms | pass |
-| projectReferences JSON / V8 | 2,372,327 / 2,328,260B | JSON ≤2,500,000B | pass |
-| ready reply JSON / V8 | 2,523,748 / 2,473,131B | JSON ≤13,345,844B | pass |
-
-最终确定性规模为 25,188 rows、10,579 targets、13,497 sources、101 relations、8,362 locators 和
-28,089 target bucket entries；canonical command visits 60,295，transition visits 5,682，资源引用
-6,002，behavior/scene-hook 分别 4,459/293。完整 reply 不再同时携带任一旧领域引用 DTO。
-
-资源引用不再对 60,295 个 canonical command 做第二次递归：结构资源 walker 只收 2,121 条非 canonical
-引用，既有 visits 产出 3,881 条 canonical 引用。PAL differential 对
-`asset + expectedKind + origin + owner-level site` 做多重集比较，合计仍精确为 6,002；canonical `where`
-从数组位置改为稳定作者路径是有意差异，不宣称完整 `LocatedAssetReference` 字节等价。合法 opaque ID
-可能产生相同显示路径，因此诊断投影使用 `[issue code, where]` 下按 validator 顺序逐条关联，而不再把
-`where` 当唯一身份；直接反例和 `validateAuthorScenes → visits → diagnostics` 端到端反例均已钉住。
-
-最终单次 adapter 分解样本（ms）：structural 1.760、canonical target 10.458、battle-data 12.476、
-actor 15.173、item 9.669、sprite 16.039、asset structural collect 3.960、canonical asset collect
-10.496、asset edges 8.452、world-variable collect 13.589、scheme collect/edges 8.068/7.148、
-shared-script collect 1.967、entity 2.940、compact 95.321。
-
-clean n=20 原始时间样本（ms）：
-
-```text
-snapshot:
-578.527, 584.177, 600.767, 578.752, 586.284, 603.283, 677.743, 562.665,
-621.953, 603.785, 582.242, 588.556, 602.318, 635.627, 634.729, 765.950,
-595.130, 559.213, 570.463, 605.987
-
-derived:
-643.968, 647.337, 606.039, 619.954, 725.320, 596.166, 565.475, 597.121,
-603.909, 579.889, 585.111, 601.583, 598.759, 613.569, 753.036, 605.111,
-562.845, 566.915, 581.813, 583.026
-
-project reference build:
-152.048, 155.442, 106.649, 104.898, 108.841, 110.517, 106.793, 106.569,
-106.480, 106.609, 107.585, 105.350, 108.376, 110.445, 112.611, 111.696,
-114.745, 115.206, 118.989, 164.137
-```
-
-## C 批异步地图事实检查点
-
-地图正文不进入 Worker，也不为引用扫描 hydrate 到 `EditorState.maps`。`EditSession` 维护独立的
-`mapId + path + mapRevision + generation` facts，扫描和 hydrate 共享同一原始读取；迟到结果、换 path、
-在途 hydrate、partial/failure 及 revision 漂移全部令删除 proof fail-closed。地图笔画只失效当前地图，
-stamp facts 由命令的稳定 stamp id 增量维护；页面订阅独立 facts revision 并自动续扫。Tileset 删除/替换
-proof 另钉 asset record、path、SHA、共享 definition 与真实 bytes，Stamp 删除钉当前 placement 数量，
-apply/redo 均同步复核。
-
-clean Node 文件读取下界：223/223 maps 完成、failures=0、初扫 1,128.795ms；扫描后 maps cache 仍为空，
-history/version/dirty 均未变化。缓存 batch p50/p95=0/0.001ms，强制 batch 重建 p50/p95=
-0.624/0.860ms，index decode + tileset query p50/p95=0.169/0.604ms。异步 project-reference 部分
-41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
-1 个 map placement”探针，得到 225 rows、93,330B，fact collect p50/p95=0.001/0.007ms。
-
-Node 初扫明确只作浏览器 HTTP/FSA 的下界。真实 6010 PAL 页面从进入到首次 tileset 引用可见约 3.16s，
-全新页面冷启约 4s；之后同 revision 查询为缓存命中。1280/720 实测 Tileset 引用均可见且能打开
-`map-001`，页面无横向溢出；PAL 无 authored stamp，`?ui_samples` 的 6 个 authored stamp 用于验证
-Stamp 页完整 coverage 表现，不冒充 PAL 内容。
-
-媒体最终抽验：`music.pal.004` 打开 project/startup，`sound.pal.001` 打开
-`actor/li-xiaoyao/battle`，`portrait.pal.001` 打开 `actor/li-xiaoyao/appearance`，
-`video.pal.003` 打开入口 `new-game`，`video.pal.004` 精确定位到 s281/e4800/default 第 82 条指令。
-1280/720 的 document/body `scrollWidth === clientWidth`，引用打开按钮均在视口内，console error 为 0。
-截图：[`cutscene-reference-1280.jpg`](ED-3/cutscene-reference-1280.jpg)、
-[`cutscene-reference-720.jpg`](ED-3/cutscene-reference-720.jpg)。
+<!-- original-source-quote:end -->

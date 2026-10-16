@@ -1,85 +1,150 @@
 # 04 · 决策记录与待定问题
 
-## 已拍板的决策
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: governance-index-v1 / 1.0.0
 
-| # | 决策 | 说明 |
-|---|---|---|
-| D1 | 目标版本 = **1998 Win9x 版** | 非 1995 DOS 版。数据格式按 Win95/98 系;有语音文件、AVI 过场。 |
-| D2 | **原生 TS 重写**,不编译 C/WASM | 为了可读、可扩展。 |
-| D3 | **忠实移植优先** | 第一目标是完整忠实跑原版;扩展能力是第二阶段。 |
-| D4 | 不做通用游戏引擎 | 就针对这一个游戏;"可扩展"指这份代码以后好改。 |
-| D5 | sdlpal 作**参考规格**,不 fork | C 源码当规格说明书,用 TS 重写。 |
-| D6 | **两阶段架构**:离线 `pal-extract` + 运行时游戏 | 运行时完全脱离 MKF。 |
-| D7 | 资源转现代格式;事件转**可读 JSON 事件** | 见 `02-architecture.md`、D16/D17、`05-events-schema.md`。 |
-| D8 | 移植方式 = **方案 B(分层重构移植)** | 忠实还原行为,但用模块化 TS 重新分层。 |
-| D9 | 法律不在考虑范围 | 个人自用,不发布。 |
-| D10 | MIDI 音乐走 **SpessaSynth 运行时合成** | Win9x 版无 RIX 归档,BGM 是 86 个 `.mid`;运行时用 SpessaSynth(纯 TS,支持 SF2/SF3)实时合成,另配一个 SF3 音色库。`.mid` 原样进资源,不预转换。音色用 GM SoundFont,非 DOS OPL 原味 —— 数据里无 RIX,本就无法复原,接受。 |
-| D11 | 字体用 **GNU Unifont(CN 变体)** | 原版不带字库文件(DOS 靠系统 HZK16,Win98 靠系统宋体)。`game` 包自带 GNU Unifont 16×16 点阵(OFL 免费)当构建资源;Win9x 版是简体 GBK,取 CN 变体使字形为简体写法。`pal-extract` 不涉及字库。 |
-| D12 | 渲染 = **Canvas 2D + 软件索引帧缓冲** | 维护 320×200 索引色帧缓冲,每帧调色板查表写入 ImageData 再缩放上屏。精灵存**索引位图**、调色板单独存(不烤进 PNG)。调色板循环 / 渐变因此精确忠实。WebGL2 否决(对该分辨率过剩)。 |
-| D13 | 主循环 = **固定步长、逻辑速率渲染** | 探索 / 菜单 / 事件 10fps、战斗 25fps(照原版 `FPS` / `BATTLE_FPS`);逻辑 = 渲染同帧,不插值。全局 `frameNum` 计数器。切后台不补帧。 |
-| D14 | 输入 = **物理键 → 抽象按键** | Shell 把 `KeyboardEvent.code` 映射成抽象按键,核心层只见抽象按键(可单测)。`held`(走路)+ `pressed`(菜单,靠浏览器自动重复)双模型;方向最新按下优先。键位表可编辑、含 WASD 别名,不做改键 UI。输入流支持**录制 / 确定性回放**(自主端到端测试的基础,见 `06-testing.md`)。 |
-| D15 | 转场 = **表现层效果 + 可等待命令** | 转场是盖在当前模式上的表现层覆盖(主要是调色板插值),不做成顶层模式。触发系统发命令后**跨帧挂起等回执**;此「可等待命令」机制由对话 / 动画 / 视频 / 转场共用,事件系统是协程式步进器。 |
-| D16 | events.json = **忠实转写(反汇编级)** | 把字节码 1:1 转成带标签的可读命令清单,**不做结构化反编译**。无损可逆,`pal-extract` 可 round-trip 逐字节验证。结构化反编译降为第二阶段可选 pass,以忠实转写产出为测试基准。 |
-| D17 | 事件模型 **富、结构化优先** | 事件指令词汇含结构化(`sequence`/`if`/`choice`/`loop`)+ 动作 + 低层(`label`/`goto`)。原版转写落在 `label`/`goto` 子集;新内容用结构化子集手写。扩展能力靠此模型,与 D16 的反汇编策略无关。 |
-| D18 | events.json **按场景分文件** | `pal-extract` 从各场景入口做可达性追踪切分:`events/scene-NNN.json` 每场景一个 + `shared.json`(跨场景共用)+ `objects.json`(物品 / 法术脚本)。场景文件内按 NPC / 入口分段。 |
-| D19 | 技术栈确认 | TS + Vite + Vitest + pnpm monorepo;**3 个包** `pal-extract` / `game` / `shared`(共用 JSON 类型);Biome 做格式化 + lint;**不做 CI**,用本地 `pnpm check`(类型检查 + 测试)代替。 |
-| D20 | 数字 ID 的可读名 | 游戏自带名(`WORD.DAT`:物品 / 法术 / 人物 / 敌人 / 地名)由 `pal-extract` 自动解析;无名的(场景 / 路人)配可选、增量的 `symbols.json`。名字以 `_` 前缀注释字段呈现,**数字保持真值**,引擎不读注释。 |
-| D21 | 测试走**重档**:sdlpal 差分自动化 | 利用「正确答案已存在」:events round-trip 全量验证 + RLE / 数据与 sdlpal 对拍 + 战斗逐回合差分 + 自主通关回放。完整策略见 `06-testing.md`。 |
-| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + recompile + 可达性切分 + 字符串内联 + WORD.DAT 注释 + 全量 round-trip;~15 个常用 opcode 具名其余走 `raw` 兜底。**M4 削去事件部分**,只补剩余 MKF 格式、全场景资源、全数据表;剩余 ~80 opcode 具名由 M3 战斗 / M5 菜单等按玩法增量补。**理由**:M2 运行时事件系统要对着真 events.json 写,schema 形态若到 M4 才被真实数据敲打,M2 必返工。详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md)。**M1 完成验证(2026-05-23)**:SSS.MKF chunk 4 全量 43503 指令字节级 round-trip 通过 —— schema 经真实数据敲打,M2 起步前已钉死。 |
-| D23 | **Win9x 版用 YJ2 解压,不是 YJ1** | M1 实施扫所有 14 个 MKF 找不到任何 YJ1 magic;`sdlpal/global.c:202 fIsWIN95 ? YJ2_Decompress : YJ1_Decompress`。YJ2 = 适配 Huffman + LZSS,无 magic,首 u32 是 uncompressed length;调用者按 MKF 类型决定是否解压。`io/yj2.ts` 1:1 port 自 `yj1.c::YJ2_Decompress`。 |
-| D24 | **D20 修正:Win9x 版 WORD.DAT 无场景名** | D20 说"场景名在 WORD.DAT"。**Win9x 版的 `SCENE` struct 没有 name 字段**,WORD.DAT 末尾 14 条是毒物 / 杂项名而非场景名。`_scene` 注释**仅**从 `symbols.json` 拿。若以后做支持 DOS 版,DOS 版可能不同。 |
-| D25 | **items / spells / enemies 数据在 SSS.MKF chunk 2(OBJECT 数组),不是 DATA.MKF** | 原 plan 假设这三表在 DATA.MKF。实际:SSS.MKF chunk 2 = OBJECT 数组(union),索引 0-60 角色 / 61-295 items / 296-397 spells / 398-550 enemies。DATA.MKF chunk 1 + 4 是 ENEMY / MAGIC 详细 stats(补充结构)。`Enemy.mp` 字段始终为 0(sdlpal ENEMY struct 无 mp)。 |
-| D26 | **运行时 EventSystem 对未具名 raw opcode = no-op skip + log,不抛错** | M1 disasm 把 ~80 个未具名 opcode 走 `op: "raw"` 兜底,M2 起每个里程碑按玩法增量具名一批。运行时事件系统消费 events.json 时撞到 raw 的策略:**默认 no-op skip + `console.debug(ip, opcode, operands)` + ip++**,而非抛错。理由:scene 1 onEnter 等段大量 raw 是无关紧要环境设定(setBGM / setPalette / 设事件对象初始状态),抛错会让任何场景寸步难行;skip 让流程往前走,卡到真正影响执行流的 op(死循环 / 进战斗 / 切场景)时,console log 里看到 opcode 号再具名追加。**此决策跨所有里程碑生效**(M2 探索、M3 战斗触发、M5 菜单都遵循同一策略),避免每个里程碑重复决策。在 M2 设计 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md) 中钉死。 |
-| D27 | **角色 / NPC 精灵提取从 M1 推到 M2** | M1 设计写过"该场景所用精灵的索引位图 PNG | 各精灵 MKF",M1 实施收窄到只做 tile bitmap;角色 / NPC sprite 在 M2 跨包顺手补上(队长 4 方向 + scene 1 NPC 待机帧)。**理由**:M2 的"端到端"目标要求"真原版数据",占位色块会跳过 D12 的「真索引位图 × 调色板查表 × anchor」 渲染路径,等于砍掉一段忠实度验证。复用 M1 已踩坑的 `parseSpriteChunk`,新增 `extractCharacterSprites(...)` + 新产物 `data/extracted/data/scene-1.json`(NPC 列表 + 入口 label 表)。**M4 不受影响**,其余非切片场景的 sprite 仍在 M4 全量补。 |
-| D28 | **`Enemy` schema M3 必须重做(signed 语义 + 缺字段)** | M1 简化版 `Enemy = { id, name, level, hp, mp, attack, defense }` 不够用,M3 战斗实施时必须扩。两个真问题(M2 期间排查 enemies.json 数据时发现):**① signed 语义**:sdlpal `global.h::tagENEMY` 把 `wAttackStrength` / `wDefense` 等字段标 `WORD`(unsigned),但 `fight.c:4634` 实际用的时候强制 cast 成 `SHORT`(signed):`int str = (SHORT)g_Battle.rgEnemy[i].e.wAttackStrength`。所以 ATK=65535 = -1, DEF=65530 = -6 这种值是 stat **modifier**(在玩家等级算出的基础值上加减),不是直接伤害。**当前 enemies.json 把这些当 unsigned 直接 dump 出来,语义误导**。**② 缺字段**:`magStr / dex / pois / elemResistance[5] / physResistance / dualMove` 等战斗必需字段全部缺失;灯笼之类纯魔法攻击型敌人(ATK=0 DEF=0 magStr=6)在当前 schema 下完全看不出特征。**M2 不消费 enemies.json,不动**;**M3 第一件事**:① schema 扩字段;② attack/defense 用 `getInt16` 读,或加 `attackModifier: number`(signed) + JSDoc 说明语义;③ parseEnemies 同步改;④ 验证 sdlpal 战斗公式时把 signed cast 加进去。 |
-| D29 | **「sdlpal 即规格」类模块实施前必须先建基准 —— M2 教训** | M2 tilemap 渲染先后修了 4 个 bug(9-bit id 提取 / h sub-row 偏移 / ROW_Y_STEP=16 / layer 1 顶层),根因是**全程没启动过 sdlpal,只靠 grep C 源码翻译成 TS**。每次 bug 都是用户视觉抓出来,而 06-testing.md 早就说过 D21 重档路线(差分对拍是关键)、`build/sdlpal/unix/sdlpal` M1 就编好了。 → 流程纪律:**任何"sdlpal 是唯一规格"的模块(渲染 / 战斗公式 / AI 决策 / 编排执行)实施前必须先准备 sdlpal 输出基准**,具体形式按模块挑:① 视觉类(渲染 / 转场):跑 sdlpal 截图存 `build/sdlpal-baseline/`;② 数值类(战斗 / AI):headless harness 喂固定 seed + fixture dump JSON;③ 字节类(RLE / 数据表):逐字节对比。没基准就不准实施。review subagent 模板也加一条「实施前问:sdlpal 基准呢?」。**例外**:纯类型 / 纯数据 schema / round-trip 自洽模块(M1 events disasm/recompile)可豁免 —— 字节级 round-trip 已是自证基准。**M2 期间的局限**:`scripts/run-sdlpal-baseline.sh` 只能拿到玩家视角的 camera-clipped 截图(用户实测),无法 program 化对全图 diff。 → **M3 第一个 task = sdlpal headless map dumper**(patch + 重编 sdlpal):跳 SDL 窗口、`PAL_LoadMap` 后用 `PAL_TileBlitToSurface` 跑全图到 2048×2048 内存 surface、`SDL_SaveBMP` 或 stb_image_write 出 PNG。然后 `compare build/sdlpal-baseline/map-12.png build/scene-1-full.png` 像素 diff —— **像素一致 = 我们 tilemap 渲染 100% 对**,流程纪律真正落地。 |
-| D30 | **sdlpal 默认 build ≠ 忠实原版;战斗 / 数值类基准必须 PAL_CLASSIC build** | sdlpal `unix/Makefile` 默认编译不带 `-DPAL_CLASSIC`,产出的是 sdlpal 团队修订过的"更刺激更难"战斗(ATB 时间槽 / `flTimeMeter` 调度);**1995 / 1998 原版战斗实际上是纯回合制**(select-action → perform-action phase + 按 dexterity 排 ActionQueue 每轮重排),对应 sdlpal `common.h` 加 `#define PAL_CLASSIC 1` 重编后的 classic build。`fight.c` / `battle.c` / `global.c` 里大量 `#ifdef PAL_CLASSIC` / `#ifndef PAL_CLASSIC` 是关键分歧;`battle.c:1346` 的 `#if 1//def PAL_CLASSIC` 这类代码暗示某些 patch 已强制开 classic。**D3 忠实优先** → M3 加 `scripts/build-sdlpal-classic.sh` 编出 `build/sdlpal-classic/`(可与 M1 默认 build 并存),所有**数值类**基准(D29 战斗公式 / turn order / enemy AI / 经验奖励 / status effects)对照走 classic build;**视觉类**基准(tilemap dumper / 转场)两个 build 等价(PAL_CLASSIC 不影响渲染路径),为统一也用 classic build。决策来源:brainstorm 时用户纠正"原游戏是回合制不是 ATB",web 检索 sdlpal 官方文档原话:"By default, SDLPAL uses a revised battle system which is more exciting yet somewhat harder than the original game"。**M3 brainstorm 出**:[`plans/2026-05-23-m3-battle-vertical-slice-design.md`](plans/2026-05-23-m3-battle-vertical-slice-design.md) §1 / §8。 |
-| D31 | **M3 拆 Phase 1 / 2 两里程碑(M3 = 战斗骨架,M3.5 = 仙灵岛端到端)** | 03 plan 字面 M3 含"事件能触发一场战斗 + 战斗系统 + 战斗 UI",但 brainstorm 发现:① 真"事件触发战斗" = 走出 scene 1 → 仙灵岛 → 撞明雷怪草妖(用户:**明雷不是暗雷**;比较靠前的明雷怪 = 仙灵岛草妖 / 十里坡各类怪),要追端到端需补 scene 切换 + 明雷机制 + 多场景资源,scope 顶不进 M2 量级(22 task)的一个里程碑;② 战斗系统骨架本身(D29 双基准 + schema 大改 + PAL_CLASSIC 调度 + 5 actions 全集 + dev 入口)已经是个完整的"测试可用、可反复打磨"的里程碑产物。 → **拆**:M3 = Phase 1(战斗骨架,用 dev panel 入口反复测,**不**做 scene 切换 / 明雷 / 仙灵岛资源);M3.5 = Phase 2(scene 切换 opcode + 明雷怪机制 `EventObject.triggerMode` + 仙灵岛端到端,把 scene 1 onEnter 真跑完连到撞草妖)。**完成定义**两个里程碑独立。 → 副作用:战斗系统反复打磨的成本由 dev panel 担保(每次进战斗不用走真剧情),与 D21 测试基建(dev 调试面板)契合。 |
-| D32 | **明雷怪机制 = `EventObject.triggerMode` 自动 runScript** | `triggerMode=contact` 类型的 EventObject,玩家走进 trigger cell 即触发 trigger 段(无需 Confirm)。对照 sdlpal `play.c::PAL_PartyWalk` 行为。Confirm 触发(NPC)和 contact 触发(明雷怪 / 传送点)用同一 EventObject schema,只 `triggerMode` 字段分类。新场景剧情走 Confirm,新明雷怪走 contact。**triggerMode 真值含义实施时按 sdlpal `play.c` 真值定**(M3.5 实施时 grep verify;若涉及多种 contact 子类型,M3.5 简版按 binary 处理 + 实施过程发现记录,M5 完善)。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §2.3。 |
-| D33 | **scene chain 资源加载 lazy(SceneAssetsCache)** | 不在启动时一次加载所有 scene 资源,改成 `loadScene(N)` 时 lazy fetch + cache。M3 phase 1 当前是 M2 时一次性加载 scene 1 全部资源(几 MB);M3.5 / M5 多 scene 时改成 lazy。**M3.5 简版不做 LRU eviction**(scope 小,< 10MB 内存可接受);M5 全场景时加 LRU。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §2.4。 |
-| D34 | **M3.5 dev shortcut 跳 scene,不走真剧情链** | 用户 2026-05-24 关键澄清:走真剧情链(scene 1 onEnter → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)需补 ~30 个 onEnter / scene 切换 opcode 真具名 + 大段 showDialog/showFace/setBGM 链,工作量爆,**M3.5 做不到**。 → 用 dev panel 加 "跳 scene" 快捷键 — 程序化 jump 到仙灵岛入口 scene + 写 party 位置,然后**真实走 1-2 scene + 撞草妖(明雷)+ 真战斗**。M3.5 验证 "scene 切换链路 + 明雷机制 + 战斗 input wire" 三件大事的贯通,真剧情链推 M5。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §1.1。 |
-| D35 | **测试六层分类:L1a/b/c/d + L2 Playwright + L3 完整流程(L2/L3 是用户视觉关注层,L3 推 M7)** | 用户 2026-05-24 多轮澄清后定型。测试按**层级**分类(非按功能域),六层各负其责: **L1a 纯单元测试**(单函数 / 单 class 纯算法);**L1b 模块集成测试**(多 module 联动);**L1c Headless 集成 / 流程**(启动主循环 + 程序化喂 input + 无真渲染;M3 `e2e-battle.test.ts` 归此层);**L1d 数据 round-trip / 字节对拍**(events / tilemap baseline 等);**L2 独立功能点 Playwright 端到端**(真浏览器 + 真 canvas 渲染 + dev shortcut 跳进单一功能点验证视觉 + input 交互;**用户视觉关注**);**L3 游戏完整流程端到端**(scene 1 真 onEnter 跑真剧情链全程到结局;**用户视觉关注,推 M7 通关验证**)。L1 各子层由 implementer 按需归类用户不深究;**L2 是 M3.5 内补全 M1-M3.5 的视觉资产**(23 case:scene / battle / menu / dev 各组,见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §5.5)。L2 baseline PNG 因版权(含原版游戏画面)**不入 git**,本机生成存 `packages/game/e2e/baselines/`。跑法:`pnpm check` 跑 Vitest(L1a/b/c/d 快);`pnpm e2e` 跑 Playwright(L2 慢)。本决策覆盖原 D35"测试按功能域分组"(用户后续否决了功能域划分,改成按层级)。 |
+本页把 phase1 历史材料接入 `governance-index-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
-## 待定问题
+## 目的
 
-设计阶段的待定问题(Q1–Q6)已**全部讨论完毕**(2026-05-23),结论见上方决策表:
+- 历史 phase1 索引与导航：phase1 foundation document full-text review: 04 · 决策记录与待定问题.
 
-- Q1 渲染技术 → D12
-- Q2 表现层 / 外壳层 → D13(主循环)、D14(输入)、D15(转场)
-- Q3 events.json schema → D16、D17、D18;完整 schema 见 `05-events-schema.md`
-- Q4 技术栈 → D19
-- Q5 数据文件清单 → 见下方「数据核对结论」
-- Q6 符号表 → D20。注:原表述「标志位是数字编号」有误 —— 原版无标志位数组(见 `05-events-schema.md`)
+## 范围
 
-目前没有待定的设计问题。
+- 当前包含：原始章节入口、阶段边界、历史决策或 status 导航。
+- 明确不包含：当前缺陷台账、runtime/E2E/视觉/coverage 结论和未复核实现状态。
 
-## 数据核对结论(2026-05-23)
+## 当前状态
 
-原版数据已就位(`data/raw/`),核对结果 —— 对应原 Q5:
+- `status`: historical
+- `lastReviewed`: 2026-10-17
 
-- 拿到的是 **「完美补丁集成版 3.0.2014.628」**,基于正版 Win98 版重新打包。
-- **14 个 MKF 全部是标准格式**,偏移表单调有效,可正常解析。完整文件清单见 `data/raw/README.md`。
-- **音乐不是 RIX**:这一版没有 RIX 音乐归档。BGM 是 `Musics/` 下 86 个 `.mid`(编号 001–087,缺 029),外加 8 个 CD 音轨 `TRACK02–09.ogg`(Vorbis)。→ MIDI 的处理见 D10。
-- **没有独立字库文件**:原版不带字库(DOS 靠系统 HZK16,Win98 靠系统宋体);sdlpal 自己也是内嵌 GNU Unifont 解决的。`game` 包改用 GNU Unifont(16×16 点阵、OFL 免费)当构建资源,Win9x 版是简体 GBK 故取 CN 变体;`pal-extract` 只提取文本、不提取字库。详见 D11。
-- **视频**:6 个 `.avi`(msmpeg4v3 视频 + mp3 音频),ffmpeg 可直接转 mp4/webm。
-- **音效**:在 `SOUNDS.MKF`(505 子文件)内,需 `pal-extract` 解包;是否含语音待 M6 核实。
-- 附带 `1.RPG`–`5.RPG` 原版存档,可当 `pal-extract` 的校验 / 测试素材。
+## 入口与责任
 
-## 设计讨论进度
+- canonical 入口：当前 phase1 canonical 文档、代码、测试和审计台账。
+- Owner：Codex（文档治理；不代签原执行）。
+- 下游使用者：实现、审计和测试维护者。
 
-| D36 | **camera 语义改 sdlpal viewport(屏幕左上 world 坐标),引入 partyoffset(160, 112)** | 之前 `gs.camera` 是"屏幕中心对应 world",pixelToScreen 用 `pos - camera + SCREEN_CENTER`,与 sdlpal 真值差 12 像素 y + 后续 setPartyPos 衍生差 32 像素 x(M5.Sync.2 dump 对齐时定位)。改为 sdlpal `gpGlobals->viewport` 真值语义 + 固定 `partyoffset = (160, 112)`(`res.c:301`)— `screen = world - viewport`,party world = viewport + partyoffset。跨 ~15 处文件改(camera writer / pixelToScreen / drawTilemap / addCoverTileEntries / 测试 fixture)。ts e2e dump 跟 sdlpal classic dump frame 完全对齐(`tp-dump-sync2.spec.ts` 验证 frame 211 = sdl frame 0 字段精确匹配)。M5 Sync.2 实施过程发现。 |
-| D37 | **Save slot 上限 5,IndexedDB + in-memory fallback** | sdlpal `MAX_SAVE_SLOTS=5` 真值。Save API 4 个原语(saveSlot/loadSlot/listSlots/deleteSlot)用 IndexedDB(db='type-pal' / store='save-slots' / keyPath=slot id)真存;测试 / SSR 环境无 indexedDB 时 fallback in-memory map(同 API)。slot meta(partyLevel / cash / sceneId / savedAt)从 gs.PlayerRolesRuntime + gs.dwCash + gs.wNumScene 抽,无需反序列化整个 GameState 即可显列表预览。M5.S-w0.1/S-w1.a 实施。 |
-| D38 | **enemy AI 是 bytecode 脚本驱动,不是 C 决策算法** | sdlpal 真值:每只 enemy 在 OBJECT_ENEMY 段挂 4 个 script hook(wScriptOnReady / wScriptOnTurnStart / wScriptOnBattleEnd / wResistanceToSorcery),classic 模式 ActionQueue 跑到 enemy 时调 wScriptOnReady,脚本通过 ~50+ battle-context opcode mutate enemy state(0x0064 jump if hp>N% / 0x0067 enemy use magic / 0x0061 jump if not poisoned / ...),实际伤害 / 命中由 C 公式算(PAL_CalcMagicDamage 等)。普通怪 wScriptOnReady=0 走默认 C decideEnemyAction fallback;BOSS bytecode 100+ 条分阶段变招。pal-extract dump 154 条 OBJECT_ENEMY 全 5 字段,54 个含非 0 script(凤梨小妖 / 菜刀婆婆 / 小土鬼 等)。M5.B-w2.a 实施。 |
-| D39 | **classic 回合制无蓄气槽** | 用户 2026-05-27 关键澄清:我们走 sdlpal `PAL_CLASSIC` 编译路径,**没有** ATB 蓄气槽(`flTimeMeter` / `kFighterWait/Com/Act` 状态机 / `PAL_GetTimeChargingSpeed`)。classic 真值(fight.c:1706+):每回合开始按 dex 给 player+enemy 各算一次,塞 ActionQueue(已 sort);ActionQueue 顺序跑,enemy 轮到时调 wScriptOnReady → PerformAction。`#ifdef PAL_CLASSIC` 在 fight.c 包了 20+ 处分支,ts port 只 port classic 路径,ATB 字段(flTimeMeter / state machine)整体丢。M5.B-w2.a 实施过程发现。 |
-| D40 | **OBJECT_ENEMY 段 5 字段 dump 单独 enemy-objects.json**(不合并到 enemies.json) | sdlpal 数据 OBJECT 表(SSS.MKF chunk 2)ENEMY_OBJ_START=398 起 154 条 OBJECT_ENEMY 是 chunk 1 ENEMY 的"wrapper" — 同一 enemyId 可能挂多个 OBJECT_ENEMY 条目(不同场景 / 剧情阶段不同 script)。dump 时**不**反查合并到 enemies.json(那样会丢多版本信息),而是 enemy-objects.json 独立保留 OBJECT 表绝对 index → 4 个 script hook 的映射;enemy-teams.json 在翻译 enemyId 的同时用 enemyObjectIndexes 保留每槽原对象号,运行时据此精确挂脚本。 |
+## 证据与下一步
 
-**方案设计阶段已完成。** brainstorming 覆盖:可行性、目标、版本、移植方式、两阶段架构、资源 / 事件模型、核心层划分、渲染、表现 / 外壳层、events.json schema、技术栈、符号方案。
+- 关键来源：`docs/phase1/04-decisions.md` 原始全文；source revision `d62602284cbfe2d9306f4acb006d15d944d1f6e2`；source SHA `03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479`。
+- 未决/阻塞：- 正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec
+- 下一步：引用时带日期，并以当前 canonical 文档、代码和测试复核。
 
-下一步:进入实现,从 `03-development-plan.md` 的 M0 开始。
+## 历史范围
 
-## 曾经考虑过、已否决的方向
+- phase1 foundation archive；日期：2026-05-23；固定来源 `d62602284cbfe2d9306f4acb006d15d944d1f6e2`；source SHA `03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479`。
 
-- **方案 A(直译式移植)**:把 sdlpal 的 C 模块 1:1 翻成 TS。否决:会继承 C 的全局状态和大 switch,以后扩展痛苦。
-- **方案 C(第一天就做现代脚本 API)**:否决:偏离"忠实移植优先",属第二阶段。
-- **运行时直接解析 MKF**:否决:改为离线 `pal-extract` 一次性转换,运行时脱离 MKF。
-- **把字节码当"资源"原样保存**:否决:字节码是程序不是资源,改为反汇编成结构化 JSON 事件 + 事件系统执行。
+## 原始结论
+
+- Central phase1 decision ledger: fidelity, TS/Vite/pnpm, canvas, fixed frame model, event schema, extraction, sdlpal reference, and open questions. It is decision history rather than a universal current architecture contract.
+
+## 当时证据
+
+- 标题锚点：已拍板的决策；待定问题；数据核对结论(2026-05-23)；设计讨论进度；曾经考虑过、已否决的方向；原始正文、表格、状态词和链接在 quote 保全。
+
+## 当前有效性
+
+historical。do not promote historical claims to current truth without a current source or user decision
+- 历史冲突/未决：
+- 正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec
+
+## 继任文档
+
+- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 当前事实由继任规范、代码、测试和新的 review 决定。
+
+## 原文保全
+
+固定源 SHA `03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 04 · 决策记录与待定问题
+>
+> ## 已拍板的决策
+>
+> | # | 决策 | 说明 |
+> |---|---|---|
+> | D1 | 目标版本 = **1998 Win9x 版** | 非 1995 DOS 版。数据格式按 Win95/98 系;有语音文件、AVI 过场。 |
+> | D2 | **原生 TS 重写**,不编译 C/WASM | 为了可读、可扩展。 |
+> | D3 | **忠实移植优先** | 第一目标是完整忠实跑原版;扩展能力是第二阶段。 |
+> | D4 | 不做通用游戏引擎 | 就针对这一个游戏;"可扩展"指这份代码以后好改。 |
+> | D5 | sdlpal 作**参考规格**,不 fork | C 源码当规格说明书,用 TS 重写。 |
+> | D6 | **两阶段架构**:离线 `pal-extract` + 运行时游戏 | 运行时完全脱离 MKF。 |
+> | D7 | 资源转现代格式;事件转**可读 JSON 事件** | 见 `02-architecture.md`、D16/D17、`05-events-schema.md`。 |
+> | D8 | 移植方式 = **方案 B(分层重构移植)** | 忠实还原行为,但用模块化 TS 重新分层。 |
+> | D9 | 法律不在考虑范围 | 个人自用,不发布。 |
+> | D10 | MIDI 音乐走 **SpessaSynth 运行时合成** | Win9x 版无 RIX 归档,BGM 是 86 个 `.mid`;运行时用 SpessaSynth(纯 TS,支持 SF2/SF3)实时合成,另配一个 SF3 音色库。`.mid` 原样进资源,不预转换。音色用 GM SoundFont,非 DOS OPL 原味 —— 数据里无 RIX,本就无法复原,接受。 |
+> | D11 | 字体用 **GNU Unifont(CN 变体)** | 原版不带字库文件(DOS 靠系统 HZK16,Win98 靠系统宋体)。`game` 包自带 GNU Unifont 16×16 点阵(OFL 免费)当构建资源;Win9x 版是简体 GBK,取 CN 变体使字形为简体写法。`pal-extract` 不涉及字库。 |
+> | D12 | 渲染 = **Canvas 2D + 软件索引帧缓冲** | 维护 320×200 索引色帧缓冲,每帧调色板查表写入 ImageData 再缩放上屏。精灵存**索引位图**、调色板单独存(不烤进 PNG)。调色板循环 / 渐变因此精确忠实。WebGL2 否决(对该分辨率过剩)。 |
+> | D13 | 主循环 = **固定步长、逻辑速率渲染** | 探索 / 菜单 / 事件 10fps、战斗 25fps(照原版 `FPS` / `BATTLE_FPS`);逻辑 = 渲染同帧,不插值。全局 `frameNum` 计数器。切后台不补帧。 |
+> | D14 | 输入 = **物理键 → 抽象按键** | Shell 把 `KeyboardEvent.code` 映射成抽象按键,核心层只见抽象按键(可单测)。`held`(走路)+ `pressed`(菜单,靠浏览器自动重复)双模型;方向最新按下优先。键位表可编辑、含 WASD 别名,不做改键 UI。输入流支持**录制 / 确定性回放**(自主端到端测试的基础,见 `06-testing.md`)。 |
+> | D15 | 转场 = **表现层效果 + 可等待命令** | 转场是盖在当前模式上的表现层覆盖(主要是调色板插值),不做成顶层模式。触发系统发命令后**跨帧挂起等回执**;此「可等待命令」机制由对话 / 动画 / 视频 / 转场共用,事件系统是协程式步进器。 |
+> | D16 | events.json = **忠实转写(反汇编级)** | 把字节码 1:1 转成带标签的可读命令清单,**不做结构化反编译**。无损可逆,`pal-extract` 可 round-trip 逐字节验证。结构化反编译降为第二阶段可选 pass,以忠实转写产出为测试基准。 |
+> | D17 | 事件模型 **富、结构化优先** | 事件指令词汇含结构化(`sequence`/`if`/`choice`/`loop`)+ 动作 + 低层(`label`/`goto`)。原版转写落在 `label`/`goto` 子集;新内容用结构化子集手写。扩展能力靠此模型,与 D16 的反汇编策略无关。 |
+> | D18 | events.json **按场景分文件** | `pal-extract` 从各场景入口做可达性追踪切分:`events/scene-NNN.json` 每场景一个 + `shared.json`(跨场景共用)+ `objects.json`(物品 / 法术脚本)。场景文件内按 NPC / 入口分段。 |
+> | D19 | 技术栈确认 | TS + Vite + Vitest + pnpm monorepo;**3 个包** `pal-extract` / `game` / `shared`(共用 JSON 类型);Biome 做格式化 + lint;**不做 CI**,用本地 `pnpm check`(类型检查 + 测试)代替。 |
+> | D20 | 数字 ID 的可读名 | 游戏自带名(`WORD.DAT`:物品 / 法术 / 人物 / 敌人 / 地名)由 `pal-extract` 自动解析;无名的(场景 / 路人)配可选、增量的 `symbols.json`。名字以 `_` 前缀注释字段呈现,**数字保持真值**,引擎不读注释。 |
+> | D21 | 测试走**重档**:sdlpal 差分自动化 | 利用「正确答案已存在」:events round-trip 全量验证 + RLE / 数据与 sdlpal 对拍 + 战斗逐回合差分 + 自主通关回放。完整策略见 `06-testing.md`。 |
+> | D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + recompile + 可达性切分 + 字符串内联 + WORD.DAT 注释 + 全量 round-trip;~15 个常用 opcode 具名其余走 `raw` 兜底。**M4 削去事件部分**,只补剩余 MKF 格式、全场景资源、全数据表;剩余 ~80 opcode 具名由 M3 战斗 / M5 菜单等按玩法增量补。**理由**:M2 运行时事件系统要对着真 events.json 写,schema 形态若到 M4 才被真实数据敲打,M2 必返工。详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md)。**M1 完成验证(2026-05-23)**:SSS.MKF chunk 4 全量 43503 指令字节级 round-trip 通过 —— schema 经真实数据敲打,M2 起步前已钉死。 |
+> | D23 | **Win9x 版用 YJ2 解压,不是 YJ1** | M1 实施扫所有 14 个 MKF 找不到任何 YJ1 magic;`sdlpal/global.c:202 fIsWIN95 ? YJ2_Decompress : YJ1_Decompress`。YJ2 = 适配 Huffman + LZSS,无 magic,首 u32 是 uncompressed length;调用者按 MKF 类型决定是否解压。`io/yj2.ts` 1:1 port 自 `yj1.c::YJ2_Decompress`。 |
+> | D24 | **D20 修正:Win9x 版 WORD.DAT 无场景名** | D20 说"场景名在 WORD.DAT"。**Win9x 版的 `SCENE` struct 没有 name 字段**,WORD.DAT 末尾 14 条是毒物 / 杂项名而非场景名。`_scene` 注释**仅**从 `symbols.json` 拿。若以后做支持 DOS 版,DOS 版可能不同。 |
+> | D25 | **items / spells / enemies 数据在 SSS.MKF chunk 2(OBJECT 数组),不是 DATA.MKF** | 原 plan 假设这三表在 DATA.MKF。实际:SSS.MKF chunk 2 = OBJECT 数组(union),索引 0-60 角色 / 61-295 items / 296-397 spells / 398-550 enemies。DATA.MKF chunk 1 + 4 是 ENEMY / MAGIC 详细 stats(补充结构)。`Enemy.mp` 字段始终为 0(sdlpal ENEMY struct 无 mp)。 |
+> | D26 | **运行时 EventSystem 对未具名 raw opcode = no-op skip + log,不抛错** | M1 disasm 把 ~80 个未具名 opcode 走 `op: "raw"` 兜底,M2 起每个里程碑按玩法增量具名一批。运行时事件系统消费 events.json 时撞到 raw 的策略:**默认 no-op skip + `console.debug(ip, opcode, operands)` + ip++**,而非抛错。理由:scene 1 onEnter 等段大量 raw 是无关紧要环境设定(setBGM / setPalette / 设事件对象初始状态),抛错会让任何场景寸步难行;skip 让流程往前走,卡到真正影响执行流的 op(死循环 / 进战斗 / 切场景)时,console log 里看到 opcode 号再具名追加。**此决策跨所有里程碑生效**(M2 探索、M3 战斗触发、M5 菜单都遵循同一策略),避免每个里程碑重复决策。在 M2 设计 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md) 中钉死。 |
+> | D27 | **角色 / NPC 精灵提取从 M1 推到 M2** | M1 设计写过"该场景所用精灵的索引位图 PNG | 各精灵 MKF",M1 实施收窄到只做 tile bitmap;角色 / NPC sprite 在 M2 跨包顺手补上(队长 4 方向 + scene 1 NPC 待机帧)。**理由**:M2 的"端到端"目标要求"真原版数据",占位色块会跳过 D12 的「真索引位图 × 调色板查表 × anchor」 渲染路径,等于砍掉一段忠实度验证。复用 M1 已踩坑的 `parseSpriteChunk`,新增 `extractCharacterSprites(...)` + 新产物 `data/extracted/data/scene-1.json`(NPC 列表 + 入口 label 表)。**M4 不受影响**,其余非切片场景的 sprite 仍在 M4 全量补。 |
+> | D28 | **`Enemy` schema M3 必须重做(signed 语义 + 缺字段)** | M1 简化版 `Enemy = { id, name, level, hp, mp, attack, defense }` 不够用,M3 战斗实施时必须扩。两个真问题(M2 期间排查 enemies.json 数据时发现):**① signed 语义**:sdlpal `global.h::tagENEMY` 把 `wAttackStrength` / `wDefense` 等字段标 `WORD`(unsigned),但 `fight.c:4634` 实际用的时候强制 cast 成 `SHORT`(signed):`int str = (SHORT)g_Battle.rgEnemy[i].e.wAttackStrength`。所以 ATK=65535 = -1, DEF=65530 = -6 这种值是 stat **modifier**(在玩家等级算出的基础值上加减),不是直接伤害。**当前 enemies.json 把这些当 unsigned 直接 dump 出来,语义误导**。**② 缺字段**:`magStr / dex / pois / elemResistance[5] / physResistance / dualMove` 等战斗必需字段全部缺失;灯笼之类纯魔法攻击型敌人(ATK=0 DEF=0 magStr=6)在当前 schema 下完全看不出特征。**M2 不消费 enemies.json,不动**;**M3 第一件事**:① schema 扩字段;② attack/defense 用 `getInt16` 读,或加 `attackModifier: number`(signed) + JSDoc 说明语义;③ parseEnemies 同步改;④ 验证 sdlpal 战斗公式时把 signed cast 加进去。 |
+> | D29 | **「sdlpal 即规格」类模块实施前必须先建基准 —— M2 教训** | M2 tilemap 渲染先后修了 4 个 bug(9-bit id 提取 / h sub-row 偏移 / ROW_Y_STEP=16 / layer 1 顶层),根因是**全程没启动过 sdlpal,只靠 grep C 源码翻译成 TS**。每次 bug 都是用户视觉抓出来,而 06-testing.md 早就说过 D21 重档路线(差分对拍是关键)、`build/sdlpal/unix/sdlpal` M1 就编好了。 → 流程纪律:**任何"sdlpal 是唯一规格"的模块(渲染 / 战斗公式 / AI 决策 / 编排执行)实施前必须先准备 sdlpal 输出基准**,具体形式按模块挑:① 视觉类(渲染 / 转场):跑 sdlpal 截图存 `build/sdlpal-baseline/`;② 数值类(战斗 / AI):headless harness 喂固定 seed + fixture dump JSON;③ 字节类(RLE / 数据表):逐字节对比。没基准就不准实施。review subagent 模板也加一条「实施前问:sdlpal 基准呢?」。**例外**:纯类型 / 纯数据 schema / round-trip 自洽模块(M1 events disasm/recompile)可豁免 —— 字节级 round-trip 已是自证基准。**M2 期间的局限**:`scripts/run-sdlpal-baseline.sh` 只能拿到玩家视角的 camera-clipped 截图(用户实测),无法 program 化对全图 diff。 → **M3 第一个 task = sdlpal headless map dumper**(patch + 重编 sdlpal):跳 SDL 窗口、`PAL_LoadMap` 后用 `PAL_TileBlitToSurface` 跑全图到 2048×2048 内存 surface、`SDL_SaveBMP` 或 stb_image_write 出 PNG。然后 `compare build/sdlpal-baseline/map-12.png build/scene-1-full.png` 像素 diff —— **像素一致 = 我们 tilemap 渲染 100% 对**,流程纪律真正落地。 |
+> | D30 | **sdlpal 默认 build ≠ 忠实原版;战斗 / 数值类基准必须 PAL_CLASSIC build** | sdlpal `unix/Makefile` 默认编译不带 `-DPAL_CLASSIC`,产出的是 sdlpal 团队修订过的"更刺激更难"战斗(ATB 时间槽 / `flTimeMeter` 调度);**1995 / 1998 原版战斗实际上是纯回合制**(select-action → perform-action phase + 按 dexterity 排 ActionQueue 每轮重排),对应 sdlpal `common.h` 加 `#define PAL_CLASSIC 1` 重编后的 classic build。`fight.c` / `battle.c` / `global.c` 里大量 `#ifdef PAL_CLASSIC` / `#ifndef PAL_CLASSIC` 是关键分歧;`battle.c:1346` 的 `#if 1//def PAL_CLASSIC` 这类代码暗示某些 patch 已强制开 classic。**D3 忠实优先** → M3 加 `scripts/build-sdlpal-classic.sh` 编出 `build/sdlpal-classic/`(可与 M1 默认 build 并存),所有**数值类**基准(D29 战斗公式 / turn order / enemy AI / 经验奖励 / status effects)对照走 classic build;**视觉类**基准(tilemap dumper / 转场)两个 build 等价(PAL_CLASSIC 不影响渲染路径),为统一也用 classic build。决策来源:brainstorm 时用户纠正"原游戏是回合制不是 ATB",web 检索 sdlpal 官方文档原话:"By default, SDLPAL uses a revised battle system which is more exciting yet somewhat harder than the original game"。**M3 brainstorm 出**:[`plans/2026-05-23-m3-battle-vertical-slice-design.md`](plans/2026-05-23-m3-battle-vertical-slice-design.md) §1 / §8。 |
+> | D31 | **M3 拆 Phase 1 / 2 两里程碑(M3 = 战斗骨架,M3.5 = 仙灵岛端到端)** | 03 plan 字面 M3 含"事件能触发一场战斗 + 战斗系统 + 战斗 UI",但 brainstorm 发现:① 真"事件触发战斗" = 走出 scene 1 → 仙灵岛 → 撞明雷怪草妖(用户:**明雷不是暗雷**;比较靠前的明雷怪 = 仙灵岛草妖 / 十里坡各类怪),要追端到端需补 scene 切换 + 明雷机制 + 多场景资源,scope 顶不进 M2 量级(22 task)的一个里程碑;② 战斗系统骨架本身(D29 双基准 + schema 大改 + PAL_CLASSIC 调度 + 5 actions 全集 + dev 入口)已经是个完整的"测试可用、可反复打磨"的里程碑产物。 → **拆**:M3 = Phase 1(战斗骨架,用 dev panel 入口反复测,**不**做 scene 切换 / 明雷 / 仙灵岛资源);M3.5 = Phase 2(scene 切换 opcode + 明雷怪机制 `EventObject.triggerMode` + 仙灵岛端到端,把 scene 1 onEnter 真跑完连到撞草妖)。**完成定义**两个里程碑独立。 → 副作用:战斗系统反复打磨的成本由 dev panel 担保(每次进战斗不用走真剧情),与 D21 测试基建(dev 调试面板)契合。 |
+> | D32 | **明雷怪机制 = `EventObject.triggerMode` 自动 runScript** | `triggerMode=contact` 类型的 EventObject,玩家走进 trigger cell 即触发 trigger 段(无需 Confirm)。对照 sdlpal `play.c::PAL_PartyWalk` 行为。Confirm 触发(NPC)和 contact 触发(明雷怪 / 传送点)用同一 EventObject schema,只 `triggerMode` 字段分类。新场景剧情走 Confirm,新明雷怪走 contact。**triggerMode 真值含义实施时按 sdlpal `play.c` 真值定**(M3.5 实施时 grep verify;若涉及多种 contact 子类型,M3.5 简版按 binary 处理 + 实施过程发现记录,M5 完善)。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §2.3。 |
+> | D33 | **scene chain 资源加载 lazy(SceneAssetsCache)** | 不在启动时一次加载所有 scene 资源,改成 `loadScene(N)` 时 lazy fetch + cache。M3 phase 1 当前是 M2 时一次性加载 scene 1 全部资源(几 MB);M3.5 / M5 多 scene 时改成 lazy。**M3.5 简版不做 LRU eviction**(scope 小,< 10MB 内存可接受);M5 全场景时加 LRU。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §2.4。 |
+> | D34 | **M3.5 dev shortcut 跳 scene,不走真剧情链** | 用户 2026-05-24 关键澄清:走真剧情链(scene 1 onEnter → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)需补 ~30 个 onEnter / scene 切换 opcode 真具名 + 大段 showDialog/showFace/setBGM 链,工作量爆,**M3.5 做不到**。 → 用 dev panel 加 "跳 scene" 快捷键 — 程序化 jump 到仙灵岛入口 scene + 写 party 位置,然后**真实走 1-2 scene + 撞草妖(明雷)+ 真战斗**。M3.5 验证 "scene 切换链路 + 明雷机制 + 战斗 input wire" 三件大事的贯通,真剧情链推 M5。M3.5 brainstorm 出:[`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §1.1。 |
+> | D35 | **测试六层分类:L1a/b/c/d + L2 Playwright + L3 完整流程(L2/L3 是用户视觉关注层,L3 推 M7)** | 用户 2026-05-24 多轮澄清后定型。测试按**层级**分类(非按功能域),六层各负其责: **L1a 纯单元测试**(单函数 / 单 class 纯算法);**L1b 模块集成测试**(多 module 联动);**L1c Headless 集成 / 流程**(启动主循环 + 程序化喂 input + 无真渲染;M3 `e2e-battle.test.ts` 归此层);**L1d 数据 round-trip / 字节对拍**(events / tilemap baseline 等);**L2 独立功能点 Playwright 端到端**(真浏览器 + 真 canvas 渲染 + dev shortcut 跳进单一功能点验证视觉 + input 交互;**用户视觉关注**);**L3 游戏完整流程端到端**(scene 1 真 onEnter 跑真剧情链全程到结局;**用户视觉关注,推 M7 通关验证**)。L1 各子层由 implementer 按需归类用户不深究;**L2 是 M3.5 内补全 M1-M3.5 的视觉资产**(23 case:scene / battle / menu / dev 各组,见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md) §5.5)。L2 baseline PNG 因版权(含原版游戏画面)**不入 git**,本机生成存 `packages/game/e2e/baselines/`。跑法:`pnpm check` 跑 Vitest(L1a/b/c/d 快);`pnpm e2e` 跑 Playwright(L2 慢)。本决策覆盖原 D35"测试按功能域分组"(用户后续否决了功能域划分,改成按层级)。 |
+>
+> ## 待定问题
+>
+> 设计阶段的待定问题(Q1–Q6)已**全部讨论完毕**(2026-05-23),结论见上方决策表:
+>
+> - Q1 渲染技术 → D12
+> - Q2 表现层 / 外壳层 → D13(主循环)、D14(输入)、D15(转场)
+> - Q3 events.json schema → D16、D17、D18;完整 schema 见 `05-events-schema.md`
+> - Q4 技术栈 → D19
+> - Q5 数据文件清单 → 见下方「数据核对结论」
+> - Q6 符号表 → D20。注:原表述「标志位是数字编号」有误 —— 原版无标志位数组(见 `05-events-schema.md`)
+>
+> 目前没有待定的设计问题。
+>
+> ## 数据核对结论(2026-05-23)
+>
+> 原版数据已就位(`data/raw/`),核对结果 —— 对应原 Q5:
+>
+> - 拿到的是 **「完美补丁集成版 3.0.2014.628」**,基于正版 Win98 版重新打包。
+> - **14 个 MKF 全部是标准格式**,偏移表单调有效,可正常解析。完整文件清单见 `data/raw/README.md`。
+> - **音乐不是 RIX**:这一版没有 RIX 音乐归档。BGM 是 `Musics/` 下 86 个 `.mid`(编号 001–087,缺 029),外加 8 个 CD 音轨 `TRACK02–09.ogg`(Vorbis)。→ MIDI 的处理见 D10。
+> - **没有独立字库文件**:原版不带字库(DOS 靠系统 HZK16,Win98 靠系统宋体);sdlpal 自己也是内嵌 GNU Unifont 解决的。`game` 包改用 GNU Unifont(16×16 点阵、OFL 免费)当构建资源,Win9x 版是简体 GBK 故取 CN 变体;`pal-extract` 只提取文本、不提取字库。详见 D11。
+> - **视频**:6 个 `.avi`(msmpeg4v3 视频 + mp3 音频),ffmpeg 可直接转 mp4/webm。
+> - **音效**:在 `SOUNDS.MKF`(505 子文件)内,需 `pal-extract` 解包;是否含语音待 M6 核实。
+> - 附带 `1.RPG`–`5.RPG` 原版存档,可当 `pal-extract` 的校验 / 测试素材。
+>
+> ## 设计讨论进度
+>
+> | D36 | **camera 语义改 sdlpal viewport(屏幕左上 world 坐标),引入 partyoffset(160, 112)** | 之前 `gs.camera` 是"屏幕中心对应 world",pixelToScreen 用 `pos - camera + SCREEN_CENTER`,与 sdlpal 真值差 12 像素 y + 后续 setPartyPos 衍生差 32 像素 x(M5.Sync.2 dump 对齐时定位)。改为 sdlpal `gpGlobals->viewport` 真值语义 + 固定 `partyoffset = (160, 112)`(`res.c:301`)— `screen = world - viewport`,party world = viewport + partyoffset。跨 ~15 处文件改(camera writer / pixelToScreen / drawTilemap / addCoverTileEntries / 测试 fixture)。ts e2e dump 跟 sdlpal classic dump frame 完全对齐(`tp-dump-sync2.spec.ts` 验证 frame 211 = sdl frame 0 字段精确匹配)。M5 Sync.2 实施过程发现。 |
+> | D37 | **Save slot 上限 5,IndexedDB + in-memory fallback** | sdlpal `MAX_SAVE_SLOTS=5` 真值。Save API 4 个原语(saveSlot/loadSlot/listSlots/deleteSlot)用 IndexedDB(db='type-pal' / store='save-slots' / keyPath=slot id)真存;测试 / SSR 环境无 indexedDB 时 fallback in-memory map(同 API)。slot meta(partyLevel / cash / sceneId / savedAt)从 gs.PlayerRolesRuntime + gs.dwCash + gs.wNumScene 抽,无需反序列化整个 GameState 即可显列表预览。M5.S-w0.1/S-w1.a 实施。 |
+> | D38 | **enemy AI 是 bytecode 脚本驱动,不是 C 决策算法** | sdlpal 真值:每只 enemy 在 OBJECT_ENEMY 段挂 4 个 script hook(wScriptOnReady / wScriptOnTurnStart / wScriptOnBattleEnd / wResistanceToSorcery),classic 模式 ActionQueue 跑到 enemy 时调 wScriptOnReady,脚本通过 ~50+ battle-context opcode mutate enemy state(0x0064 jump if hp>N% / 0x0067 enemy use magic / 0x0061 jump if not poisoned / ...),实际伤害 / 命中由 C 公式算(PAL_CalcMagicDamage 等)。普通怪 wScriptOnReady=0 走默认 C decideEnemyAction fallback;BOSS bytecode 100+ 条分阶段变招。pal-extract dump 154 条 OBJECT_ENEMY 全 5 字段,54 个含非 0 script(凤梨小妖 / 菜刀婆婆 / 小土鬼 等)。M5.B-w2.a 实施。 |
+> | D39 | **classic 回合制无蓄气槽** | 用户 2026-05-27 关键澄清:我们走 sdlpal `PAL_CLASSIC` 编译路径,**没有** ATB 蓄气槽(`flTimeMeter` / `kFighterWait/Com/Act` 状态机 / `PAL_GetTimeChargingSpeed`)。classic 真值(fight.c:1706+):每回合开始按 dex 给 player+enemy 各算一次,塞 ActionQueue(已 sort);ActionQueue 顺序跑,enemy 轮到时调 wScriptOnReady → PerformAction。`#ifdef PAL_CLASSIC` 在 fight.c 包了 20+ 处分支,ts port 只 port classic 路径,ATB 字段(flTimeMeter / state machine)整体丢。M5.B-w2.a 实施过程发现。 |
+> | D40 | **OBJECT_ENEMY 段 5 字段 dump 单独 enemy-objects.json**(不合并到 enemies.json) | sdlpal 数据 OBJECT 表(SSS.MKF chunk 2)ENEMY_OBJ_START=398 起 154 条 OBJECT_ENEMY 是 chunk 1 ENEMY 的"wrapper" — 同一 enemyId 可能挂多个 OBJECT_ENEMY 条目(不同场景 / 剧情阶段不同 script)。dump 时**不**反查合并到 enemies.json(那样会丢多版本信息),而是 enemy-objects.json 独立保留 OBJECT 表绝对 index → 4 个 script hook 的映射;enemy-teams.json 在翻译 enemyId 的同时用 enemyObjectIndexes 保留每槽原对象号,运行时据此精确挂脚本。 |
+>
+> **方案设计阶段已完成。** brainstorming 覆盖:可行性、目标、版本、移植方式、两阶段架构、资源 / 事件模型、核心层划分、渲染、表现 / 外壳层、events.json schema、技术栈、符号方案。
+>
+> 下一步:进入实现,从 `03-development-plan.md` 的 M0 开始。
+>
+> ## 曾经考虑过、已否决的方向
+>
+> - **方案 A(直译式移植)**:把 sdlpal 的 C 模块 1:1 翻成 TS。否决:会继承 C 的全局状态和大 switch,以后扩展痛苦。
+> - **方案 C(第一天就做现代脚本 API)**:否决:偏离"忠实移植优先",属第二阶段。
+> - **运行时直接解析 MKF**:否决:改为离线 `pal-extract` 一次性转换,运行时脱离 MKF。
+> - **把字节码当"资源"原样保存**:否决:字节码是程序不是资源,改为反汇编成结构化 JSON 事件 + 事件系统执行。
+
+<!-- original-source-quote:end -->

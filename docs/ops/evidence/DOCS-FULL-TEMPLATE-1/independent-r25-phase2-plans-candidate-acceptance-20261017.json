@@ -1,0 +1,1926 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r25-phase2-plans-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex independent non-author reviewer (r22_independent_review)",
+  "candidateHead": "6f3754397498e5974d3e3bfc32518246692f2d60",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; no full-done or product/runtime credit",
+  "scope": {
+    "targetDocuments": 24,
+    "readAndChecked": 24,
+    "paths": [
+      "docs/phase2/archive/plans/actor-c0-plan.md",
+      "docs/phase2/archive/plans/cash-box-plan.md",
+      "docs/phase2/archive/plans/editor-b0-plan.md",
+      "docs/phase2/archive/plans/editor-b1-logic-plan.md",
+      "docs/phase2/archive/plans/equip-menu-plan.md",
+      "docs/phase2/archive/plans/equipment-foundation-plan.md",
+      "docs/phase2/archive/plans/magic-menu-plan.md",
+      "docs/phase2/archive/plans/menu-plan.md",
+      "docs/phase2/archive/plans/migrator-m1-plan.md",
+      "docs/phase2/archive/plans/model-plan.md",
+      "docs/phase2/archive/plans/palette-to-rgba-plan.md",
+      "docs/phase2/archive/plans/project-foundation-plan.md",
+      "docs/phase2/archive/plans/project-lifecycle-p1-filesource-plan.md",
+      "docs/phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md",
+      "docs/phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md",
+      "docs/phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md",
+      "docs/phase2/archive/plans/render-foundation-plan.md",
+      "docs/phase2/archive/plans/roadmap-early-history.md",
+      "docs/phase2/archive/plans/save-system-plan.md",
+      "docs/phase2/archive/plans/skill-data-plan.md",
+      "docs/phase2/archive/plans/status-page-plan.md",
+      "docs/phase2/archive/plans/system-menu-plan.md",
+      "docs/phase2/archive/plans/use-menu-plan.md",
+      "docs/phase2/archive/plans/visual-plan.md"
+    ],
+    "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "sourceReadonlyReceipt": {
+      "tmpPath": "/tmp/type-pal-r25-phase2-plans-readonly-review-20261017.json",
+      "evidenceCopy": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal/docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-review-20261017.json",
+      "tmpSha256": "e3418cd8a893e41615b191d14d162d55b6d80bfbbfeb030d867760f0fc329ac4",
+      "evidenceSha256": "b44a13c2b8d9a3be1fbf852dd0522c7f6f4fb7b1a5443d2a11d9425e567c5df3",
+      "rawByteIdentity": false,
+      "formattingNormalized": true,
+      "parsedContentEqual": true,
+      "scopeValid": true,
+      "rawDifferenceNonBlocking": true
+    },
+    "candidateReview": "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
+    "contributorEvidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-plans-r25-20261017.json",
+    "mutationBoundary": "Only this independent acceptance JSON/MD is written; no正文 semantic, registry/routing/catalog/central review/task card change by this reviewer."
+  },
+  "blockingCounters": [
+    {
+      "id": "R25-CANDIDATE-B01",
+      "count": 24,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Historical plan boundary and explicit successor/stopLine preserved for every candidate."
+    },
+    {
+      "id": "R25-CANDIDATE-B02",
+      "count": 24,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Plan-status five sections, archive overlay and exact source quote inverse verified."
+    },
+    {
+      "id": "R25-CANDIDATE-B03",
+      "count": 24,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Source/after/live and registry/review/routing/catalog ledgers agree; old review duplicate absent."
+    },
+    {
+      "id": "R25-CANDIDATE-B04",
+      "count": 24,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit, migration authorization or full-done declaration."
+    }
+  ],
+  "nonBlockingCounters": [
+    {
+      "id": "R25-CANDIDATE-NB01",
+      "count": 24,
+      "status": "pass",
+      "statement": "All candidate entries are unique and resolve to the same path."
+    },
+    {
+      "id": "R25-CANDIDATE-NB02",
+      "count": 24,
+      "status": "pass",
+      "statement": "The prior readonly receipt /tmp and evidence copy parse identically."
+    },
+    {
+      "id": "R25-CANDIDATE-NB03",
+      "count": 1,
+      "status": "pass",
+      "statement": "Prior receipt raw bytes differ only by JSON formatting: tmp SHA e3418cd8a893e41615b191d14d162d55b6d80bfbbfeb030d867760f0fc329ac4 vs evidence SHA b44a13c2b8d9a3be1fbf852dd0522c7f6f4fb7b1a5443d2a11d9425e567c5df3; parsedContentEqual=true; formattingNormalized=true; non-blocking."
+    },
+    {
+      "id": "R25-CANDIDATE-NB04",
+      "count": 1,
+      "status": "reported-to-parent",
+      "statement": "Post-write pnpm check:docs reports one missing README index link for this newly written MD evidence; no README/ledger mutation is authorized in this review."
+    }
+  ],
+  "summaryChecks": {
+    "all24": true,
+    "scope": true,
+    "sourceAfterQuoteTemplateLedgerAll24": true,
+    "issueCount": 0,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 327 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "pnpm check:docs": {
+      "preEvidenceWrite": {
+        "exitCode": 0,
+        "summary": "PASS (docs tools 120/120; docs 1238 Markdown / 8114 local links / 361 tasks; document model 327 contracts; testing docs 0; phase/lore 184; content review 733/733)"
+      },
+      "postEvidenceWrite": {
+        "exitCode": 1,
+        "summary": "FAIL (1 issue: README index does not link newly written independent-r25-phase2-plans-candidate-acceptance-20261017.md); README/ledger mutation is outside this review authorization."
+      }
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4140 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS after acceptance evidence write; no whitespace errors"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/phase2/archive/plans/actor-c0-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "720bdb3f5b46c184d8cef185d9ea4eb09de4762b26c4c08d861c1df31d5938a4",
+      "afterSha256": "752fe4a26d96e0bc5da59a1ee76f80d7e40d2146e386b26417a3db1ab0183f74",
+      "sourceLines": 153,
+      "afterLines": 226,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "752fe4a26d96e0bc5da59a1ee76f80d7e40d2146e386b26417a3db1ab0183f74"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/READ-FIRST.md；docs/phase2/archive/designs/actor-model-design.md；当前 content/reforge/editor/capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/READ-FIRST.md；docs/phase2/archive/designs/actor-model-design.md；当前 content/reforge/editor/capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/cash-box-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "1b2a0aba04755196e60a8e21f1f9972e350d546750a1786e52d5a399ddf9f289",
+      "afterSha256": "d89de563bacb8847c5533bb1c641dee1ee2b92529db88bead787e4af3d5c6f67",
+      "sourceLines": 232,
+      "afterLines": 305,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "d89de563bacb8847c5533bb1c641dee1ee2b92529db88bead787e4af3d5c6f67"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/archive/designs/asset-pipeline.md；当前 menu/asset code；capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/archive/designs/asset-pipeline.md；当前 menu/asset code；capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/editor-b0-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "254efed1d661faaabb1093ec5595af5e43e444583598bff9959b8e031a72668d",
+      "afterSha256": "e453f4fbdff1244bf186e16cce58387ea610f8a05bf1e63f679e60e21216b5fa",
+      "sourceLines": 396,
+      "afterLines": 469,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "e453f4fbdff1244bf186e16cce58387ea610f8a05bf1e63f679e60e21216b5fa"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/editor-architecture.md；docs/phase2/specs/editor-design-system.md；当前 packages/editor/reforge。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/editor-architecture.md；docs/phase2/specs/editor-design-system.md；当前 packages/editor/reforge。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/editor-b1-logic-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "4a5bac7982d8d59a95a7b069272da3d100464ce3acdc7a5777e8644a5c3e98e7",
+      "afterSha256": "ff6b68ca6834b259aaf7da123a547fe54128cfc2b887f2df32fbd790556d02dd",
+      "sourceLines": 202,
+      "afterLines": 275,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "ff6b68ca6834b259aaf7da123a547fe54128cfc2b887f2df32fbd790556d02dd"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/editor-architecture.md；当前 editor/src/core；project-lifecycle spec。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/editor-architecture.md；当前 editor/src/core；project-lifecycle spec。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/equip-menu-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "25fbca5226e4b6f63a5fc6bbc4e4c473298cf4a3c1d8802923d6f5d9aeb1e0c0",
+      "afterSha256": "433a3ee7144e1ec84ed13c839f26fbc81fd14b7f4ee936d2ad565d36afaf2ec7",
+      "sourceLines": 241,
+      "afterLines": 314,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "433a3ee7144e1ec84ed13c839f26fbc81fd14b7f4ee936d2ad565d36afaf2ec7"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：当前 content item API；docs/phase2/specs/editor-design-system.md；当前 reforge menu。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：当前 content item API；docs/phase2/specs/editor-design-system.md；当前 reforge menu。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/equipment-foundation-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "16b3855b62c659bc3c9769eb6ce8279339d1bfa206b953d4eb27fee363e3f4f0",
+      "afterSha256": "2f3c826d4a18ba8b1b5ad7b086294bb378045ea58a6d5a570855c6e86f7b0ece",
+      "sourceLines": 348,
+      "afterLines": 421,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "2f3c826d4a18ba8b1b5ad7b086294bb378045ea58a6d5a570855c6e86f7b0ece"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/archive/designs/item-data-design.md；当前 content item/status code；battle/menu successor。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/archive/designs/item-data-design.md；当前 content item/status code；battle/menu successor。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/magic-menu-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "9fdce6d934e132258fa2446c79777e5cddbe23e45b9d666c5f5b799b8eb3e11a",
+      "afterSha256": "98d03f1023881bd7ef836a0d6b534909932293a2ad3c9d2b3ab9f88d8bceaaa8",
+      "sourceLines": 186,
+      "afterLines": 259,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "98d03f1023881bd7ef836a0d6b534909932293a2ad3c9d2b3ab9f88d8bceaaa8"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：当前 packages/content skill data；当前 reforge menu；docs/phase2/specs/editor-design-system.md。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：当前 packages/content skill data；当前 reforge menu；docs/phase2/specs/editor-design-system.md。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/menu-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "02e8db9260f569c6275c6ee6a4d7b8a7cc20cab85b19523264543f8bae3c1672",
+      "afterSha256": "5502e49fd20e289c2a57632c3015224619f5564cc81bfa88e1ca0f8c54d08c07",
+      "sourceLines": 464,
+      "afterLines": 537,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "5502e49fd20e289c2a57632c3015224619f5564cc81bfa88e1ca0f8c54d08c07"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/archive/designs/menu-design.md；当前 reforge menu/editor design-system；content spec。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/archive/designs/menu-design.md；当前 reforge menu/editor design-system；content spec。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/migrator-m1-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "4d6091e341b811228d040f05ce54e6b6b9751630b342cbee39910928a9387b3b",
+      "afterSha256": "984cd5a7766d6ab283bc6cf2c4dde77ef0cc598442fba25b3fdb6b8a3402e6fd",
+      "sourceLines": 43,
+      "afterLines": 116,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "984cd5a7766d6ab283bc6cf2c4dde77ef0cc598442fba25b3fdb6b8a3402e6fd"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：当前 packages/migrate README/code；phase1 source audits；docs/phase2/READ-FIRST.md。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：当前 packages/migrate README/code；phase1 source audits；docs/phase2/READ-FIRST.md。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/model-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "78c740355142a637ff74df5df7e950add0428ab8f769a0917798d9104a88dae7",
+      "afterSha256": "fdabbd4a6efc85a02da1f4f72083b51866be9f49b7a18d7c05802178e09bdcc5",
+      "sourceLines": 637,
+      "afterLines": 710,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "fdabbd4a6efc85a02da1f4f72083b51866be9f49b7a18d7c05802178e09bdcc5"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/script-system.md；docs/phase2/specs/content-schema.md；current author-script/dialog runtime。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/script-system.md；docs/phase2/specs/content-schema.md；current author-script/dialog runtime。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/palette-to-rgba-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "12a98de43a27c4e8faebc1e8c370c82aae378bb16f80da3e3083ffb4df0edf8b",
+      "afterSha256": "185103b6e5b99487f5a6bab3c063685deab1816011d791fd056ba819db83c8f1",
+      "sourceLines": 284,
+      "afterLines": 357,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "185103b6e5b99487f5a6bab3c063685deab1816011d791fd056ba819db83c8f1"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/reference/dialogue-presentation.md；当前 reforge dialog/text/assets；asset pipeline successor。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/reference/dialogue-presentation.md；当前 reforge dialog/text/assets；asset pipeline successor。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/project-foundation-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "1800f946c2967434d0fa9272cc70a75f0bffd6bdfd2dd58427a8583393000fa9",
+      "afterSha256": "26bd7c6d5183885b4a8e185b2fe5e042c79e97611f7d8b8ea77c819d0b16a2f2",
+      "sourceLines": 129,
+      "afterLines": 202,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "26bd7c6d5183885b4a8e185b2fe5e042c79e97611f7d8b8ea77c819d0b16a2f2"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；docs/phase2/specs/content-schema.md；current loader/validators。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；docs/phase2/specs/content-schema.md；current loader/validators。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/project-lifecycle-p1-filesource-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1",
+      "afterSha256": "d7e916a7f608d716674a78ec4e14b15b3331da4e739bd93ed491ef0e51fe02a4",
+      "sourceLines": 410,
+      "afterLines": 483,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "d7e916a7f608d716674a78ec4e14b15b3331da4e739bd93ed491ef0e51fe02a4"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current reforge file-source/loader; current editor lifecycle。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current reforge file-source/loader; current editor lifecycle。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "1201f3986365ec9dbfd98722fecc97732039cc2ac128a965aa83f956be24d89d",
+      "afterSha256": "2282f25cd74b6ea057168e91503aa9d4175d781cc171fe7cc0e60e8be3cc7908",
+      "sourceLines": 290,
+      "afterLines": 363,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "2282f25cd74b6ea057168e91503aa9d4175d781cc171fe7cc0e60e8be3cc7908"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current reforge assets/loader; asset catalog。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current reforge assets/loader; asset catalog。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "e93cf7f7ba4dc0dbeee85c78b6774d6043e230f26c5fe875a0caeaed9ca9277c",
+      "afterSha256": "3187e9595b7687662fede85f9f74935e88e4674af3cb4a239de4e1794665e640",
+      "sourceLines": 424,
+      "afterLines": 497,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "3187e9595b7687662fede85f9f74935e88e4674af3cb4a239de4e1794665e640"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current editor FileSource/writeProject/handle-store。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current editor FileSource/writeProject/handle-store。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "0ca080e549d63812ed78932e86f0e5df553d5ac4cd1a720c465234e6acbf7983",
+      "afterSha256": "6a94f7187bad3573b38176a1759804c228e2693465603854a979a227bf512ef6",
+      "sourceLines": 89,
+      "afterLines": 162,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "6a94f7187bad3573b38176a1759804c228e2693465603854a979a227bf512ef6"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current editor ProjectPicker/clone code。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current editor ProjectPicker/clone code。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/render-foundation-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "e5bb9d16024d236e5c83f89fcf5b2f13b590baff8ecad78bfe8f9c91d1fdeca2",
+      "afterSha256": "d412441c967a924e59088340590cdbe5c1451692aa54564b53f345e2e5cba747",
+      "sourceLines": 269,
+      "afterLines": 342,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "d412441c967a924e59088340590cdbe5c1451692aa54564b53f345e2e5cba747"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/READ-FIRST.md；current content grid/reforge movement/collision/render；D16 successor records。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/READ-FIRST.md；current content grid/reforge movement/collision/render；D16 successor records。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/roadmap-early-history.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "86304bf0c1c8185e01607b867e201f07cd3a889fbd0a7a2f18e3c707b167a7ea",
+      "afterSha256": "0a735bf3163deb570e2719233b9a8005025c0c317c52065274d36c37805e704b",
+      "sourceLines": 50,
+      "afterLines": 123,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "0a735bf3163deb570e2719233b9a8005025c0c317c52065274d36c37805e704b"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/README.md；docs/phase2/READ-FIRST.md；current roadmap/decisions/capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/README.md；docs/phase2/READ-FIRST.md；current roadmap/decisions/capability-map。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/save-system-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "3c4ff91b0b827a8d744f7a2b354b81efec01cc9dfffbd79a6ddeca78a31d216b",
+      "afterSha256": "0764881fb8f4faa03887315a7138adc9abc63f38737f8fae54f7db3a2c276c36",
+      "sourceLines": 494,
+      "afterLines": 567,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "0764881fb8f4faa03887315a7138adc9abc63f38737f8fae54f7db3a2c276c36"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/save-system.md；current reforge save codec/store/browser; persistence tests。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/save-system.md；current reforge save codec/store/browser; persistence tests。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/skill-data-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "0ffbf1617a9cecceb0336fabb7bf5cdd25f534b466e196c5c59b11896673c34e",
+      "afterSha256": "cd70526b768bff9f3129a974372a41a1f28461d5969279951a8635629c415efd",
+      "sourceLines": 426,
+      "afterLines": 499,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "cd70526b768bff9f3129a974372a41a1f28461d5969279951a8635629c415efd"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/archive/designs/skill-data-design.md；current content skill/status code；phase3 backlog。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/archive/designs/skill-data-design.md；current content skill/status code；phase3 backlog。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/status-page-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "867bd3fcb050d444d79dd1ba3502344e9e6a4abcc09a920ba8b9a7471e7ced61",
+      "afterSha256": "e7b6032026114979ad89ef75e804b5082d1451064f6f2d3e5ebac589c08609be",
+      "sourceLines": 86,
+      "afterLines": 159,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "e7b6032026114979ad89ef75e804b5082d1451064f6f2d3e5ebac589c08609be"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：current reforge status UI；docs/phase2/specs/editor-design-system.md；phase1 game source。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：current reforge status UI；docs/phase2/specs/editor-design-system.md；phase1 game source。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/system-menu-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "600ae206de35c0f39c7e8d14b5015dc3423bd7722cb916350f136e683f94c95f",
+      "afterSha256": "3289735ef4579aa57d370790f03c38b83fd778fb137d5123074c3a46cd327415",
+      "sourceLines": 418,
+      "afterLines": 491,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "3289735ef4579aa57d370790f03c38b83fd778fb137d5123074c3a46cd327415"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/specs/save-system.md；current reforge menu/editor design-system；system-menu code。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/specs/save-system.md；current reforge menu/editor design-system；system-menu code。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/use-menu-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "667ebd73268c19cfad2124d42d6c0ae8c9e072d3cb42271565c52e7a69cd981e",
+      "afterSha256": "542fc24db6d6e2a244b4f11ead6ccaf65b880c8e16219bf4cd3b2a2357c61962",
+      "sourceLines": 326,
+      "afterLines": 399,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "542fc24db6d6e2a244b4f11ead6ccaf65b880c8e16219bf4cd3b2a2357c61962"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：current content item/use API；docs/phase2/specs/script-system.md；current reforge use menu。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：current content item/use API；docs/phase2/specs/script-system.md；current reforge use menu。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/plans/visual-plan.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "35dbe35e37a4674e5759e0984a89de9257909b9df22d0f7ec99119cf9c567bf8",
+      "afterSha256": "b879ab75782786b04943088b8267165109bbaadb5e1c549877a30ef93ae35473",
+      "sourceLines": 738,
+      "afterLines": 811,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "planTemplate": "plan-status-v1",
+        "archiveTemplate": "archive-record-v1",
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-plans-r25.json"
+        },
+        "review": {
+          "templateId": "plan-status-v1",
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "templateId": "plan-status-v1",
+          "historyOverlay": true
+        },
+        "catalog": {
+          "status": "archived",
+          "reviewStatus": "reviewed",
+          "afterSha256": "b879ab75782786b04943088b8267165109bbaadb5e1c549877a30ef93ae35473"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": "- current canonical / 复核入口：docs/phase2/reference/dialogue-presentation.md；current reforge text/dialog; editor design-system。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateSections": true,
+        "archiveOverlay": true,
+        "ledger": true,
+        "historicalBoundary": "- current canonical / 复核入口：docs/phase2/reference/dialogue-presentation.md；current reforge text/dialog; editor design-system。\n- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。\n- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。",
+        "oldReviewDuplicateAbsent": true,
+        "noPseudoCredit": true
+      }
+    }
+  ]
+}

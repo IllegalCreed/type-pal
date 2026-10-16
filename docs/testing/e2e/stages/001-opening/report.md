@@ -8,57 +8,19 @@ evidence: e2e/evidence/e2e-001.json
 {"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"21-29","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-114","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/opening-matrix-observer.mjs","lines":"11-125","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"515-630","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
 -->
 
-2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
-
-2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
-
 # 001 开场执行器：双引擎完整验证
 
-## 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+Last reviewed: 2026-10-15
+Owner: Codex
+Template: test-run-report-v1 / 1.0.0
 
-当前录制为`game-001-2026-10-07T14-24-08-842Z`及`reforge-001-2026-10-07T14-24-08-842Z`，
-正文55行/正式存读档已在该次真实独立流程通过。本次未重新启动浏览器，使用统一冻结比较器另存
-`build/e2e/001-offline-frozen-20261008.json`：0未决差异，1项既有批准的匀速末步差异。
-终结、时钟、日志完整性反例21/21被拒绝；复用来源、独立复核与质量门见
-[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
-旧录制/判定原样保留，以下10-07早批次为历史结论，不与新录制混接。
+## Scope
 
-## 2026-10-07 历史验收：独立流程与双轨比较通过
+本报告归属 phase1/game 与 phase2/reforge 的 001 开场 verify 合同，保留不同日期与版本的执行、源码核读和离线判定。顶部 testing-meta/revision 与配对机器回执维持原 source/candidate SHA、content22/SAVE11 的文档核读记录；正文 10-07/10-08 的录制判定有各自来源，不将其拼成新的同 revision 总通过。本次仅重排正文，没有执行游戏、浏览器、E2E、视觉或 coverage。
 
-本轮按[意图优先验收标准](../../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)验收，
-不机械复制第一阶段的绘制次数，也不省略实际帧、坐标和等待。
-`build/e2e/both-001-2026-10-07T09-59-42-212Z/comparison.json`为passed：0未决差异，
-1项明确批准的李大娘离房末半格匀速差异。两轨分别为`game-001-2026-10-07T09-59-42-451Z`、
-`reforge-001-2026-10-07T09-59-42-454Z`，正文、正式保存与新上下文读回均通过。
+## Execution and assertions
 
-房内固定等待35项逐一核实际timer/deadline与正确姿态；对白21段/确认23次逐页核实际渲染与消费；
-大娘30个移动提交逐个核正常100ms节拍与实际draw，主角起步同拍大娘位置为[60,-12.5]。
-回头不再先画错误朝向，接管对白站定，释放后延续步态；密道机关往返保留每次位移与等待。
-末步出屏采用真实相机/精灵几何解释，隐藏边界仍须完整连续，不把裁剪当作姿态豁免。
-
-修前反例、修法、只读独立复核和全量回归见[本轮任务卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#001-本轮收敛清单与验证边界)。
-本次没有完成002–006重验或连续演示。下列旧批次报告保留当时状态，不回填成当前版本通过。
-
-冻结后复跑仍通过：`both-001-2026-10-07T10-03-36-945Z/comparison.json`；Game/RF分别为
-`game-001-2026-10-07T10-03-37-177Z`、`reforge-001-2026-10-07T10-03-37-179Z`。
-最终文件hash及验证范围保存在`build/e2e/001-acceptance-20261007.json`；两份报告记录的23/34项当前源码hash已逐项复核。
-
-2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。
-
-2026-10-06 采集/消费合同源核验：assertOpeningMatrix 按sceneVisit/scene/id检查实体连续性；相邻相同scene的实例重建开启新状态链，但不伪造路线跳转。actors/renders/controls/pages/worldRenders统一核order与atMs，worldRenders单列核seq；绘制时钟独立60,000条容量，不挤占原actor/control上限，超限仍失败。本文仅刷新源码证据，未据此宣布新SAVE12独立实跑或双轨比较通过。
-
-2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
-
-2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
-
-## 2026-10-04 文档深审
-
-历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。
-
-2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
-
-
-## 新旧脚本具体差异
+### 新旧脚本具体差异
 
 | 项目 | 第一阶段 | Reforge | 裁决 |
 |---|---|---|---|
@@ -72,7 +34,7 @@ evidence: e2e/evidence/e2e-001.json
 不是多6句对白。game的55个“全显行/页变化”也不能当成55页与Reforge26页硬比。
 party位置提交9/10含不同的入场初始化（两边正文步行各8步）；不能按内部坐标/次数宣称剧情差异。
 
-## 自动失败门
+### 自动失败门
 
 `opening-matrix.mjs`冻结55个textId顺序，交叉核原始文本（只剥本段实际出现的$NN/~NN）与locale；
 运行前后源hash必须一致。game从实际drawDialogOverlay之后读取全显正文，Reforge从实际render/update边界
@@ -83,9 +45,9 @@ party位置提交9/10含不同的入场初始化（两边正文步行各8步）�
 结束/恢复各等待实际浏览器帧，并对本引擎静态房间Canvas RGBA作SHA256回验；拒绝黑帧和不一致画面，
 这不是跨引擎像素硬比，也不只相信逻辑“loaded”。
 
-## 怎么运行和观看
+### 怎么运行和观看
 
-### 2026-09-28 最终执行证据
+#### 2026-09-28 最终执行证据
 
 代码候选`0a8c998f`，有窗口双引擎独立运行与比较均exit0；原始产物已复制保存在主工作树
 `build/e2e/`（report.output保留原执行工作树地址）：
@@ -127,7 +89,7 @@ pnpm test:e2e-tools
 本地测试拒绝页浏览统计弹窗，不修改用户已有隐私选择。Ctrl-C会走自己的资源清理。
 `E2E=1`仅不挂basicSsl，不代表Service Worker或其它测试后门。
 
-## 一阶段真实执行链
+### 一阶段真实执行链
 
 1. 正常启动到标题；1/2.mp4为001边界之前的商标/标题视频，正常按Enter关闭并登记。
 2. 标题选择“新的故事”，3.mp4必须收到原生ended；禁止skip-intro/dev-scene、改播放速度、跳场景。
@@ -144,7 +106,7 @@ pnpm test:e2e-tools
 持久域比较含队伍位置/角色运行时/背包/现金、rgScene/rgObject/rgEventObject及全局NPC位置/状态/触发续点。
 动画计数不当作持久剧情差异；读档有现行清状态/装备重算等语义，不把所有瞬态硬对拍。
 
-## 二阶段真实执行链
+### 二阶段真实执行链
 
 `VITE_PROJECT_ID=pal`的独立HTTP宿主；正常`?menu`标题、新游戏introVideo（video.pal.003）原生ended，
 随后s000→s001。标题、对话和恢复结果读取独立只读DEV口`__tpObserve.readBoot/readRuntime`，不会调用调试advance；
@@ -166,7 +128,7 @@ DialogBox.observe返回冻结的新DTO：当前cue/slot/page、typing/waiting-in
 HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404，独立列为已知启动告警；任何资产404仍失败。
 浏览器Canvas2D的willReadFrequently性能提示如实记录，不等于lint/typecheck告警；声音与录像效果尚未验证。
 
-## 稀疏NPC提交与语义比较
+### 稀疏NPC提交与语义比较
 
 执行器使用独立`game-trace.config.mts`/`reforge-trace.config.mts`保留各包原Vite配置，并增加只读AST插桩。
 仅在本次隔离服务中生效；产品源码文件、普通dev/生产构建、存档和生成内容不改。
@@ -188,7 +150,50 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 再写`build/e2e/both-001-<time>/comparison.json`；一方失败不停止另一方，最终整体非零退出。
 发现差异保留原始日志，先定位内容/迁移/运行时或测试模型，不往Reforge加入“对话冻结所有NPC”的规则。
 
-## 有界证据与停止线
+## Results
+
+### 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+
+当前录制为`game-001-2026-10-07T14-24-08-842Z`及`reforge-001-2026-10-07T14-24-08-842Z`，
+正文55行/正式存读档已在该次真实独立流程通过。本次未重新启动浏览器，使用统一冻结比较器另存
+`build/e2e/001-offline-frozen-20261008.json`：0未决差异，1项既有批准的匀速末步差异。
+终结、时钟、日志完整性反例21/21被拒绝；复用来源、独立复核与质量门见
+[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
+旧录制/判定原样保留，以下10-07早批次为历史结论，不与新录制混接。
+
+### 2026-10-07 历史验收：独立流程与双轨比较通过
+
+本轮按[意图优先验收标准](../../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)验收，
+不机械复制第一阶段的绘制次数，也不省略实际帧、坐标和等待。
+`build/e2e/both-001-2026-10-07T09-59-42-212Z/comparison.json`为passed：0未决差异，
+1项明确批准的李大娘离房末半格匀速差异。两轨分别为`game-001-2026-10-07T09-59-42-451Z`、
+`reforge-001-2026-10-07T09-59-42-454Z`，正文、正式保存与新上下文读回均通过。
+
+房内固定等待35项逐一核实际timer/deadline与正确姿态；对白21段/确认23次逐页核实际渲染与消费；
+大娘30个移动提交逐个核正常100ms节拍与实际draw，主角起步同拍大娘位置为[60,-12.5]。
+回头不再先画错误朝向，接管对白站定，释放后延续步态；密道机关往返保留每次位移与等待。
+末步出屏采用真实相机/精灵几何解释，隐藏边界仍须完整连续，不把裁剪当作姿态豁免。
+
+修前反例、修法、只读独立复核和全量回归见[本轮任务卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#001-本轮收敛清单与验证边界)。
+本次没有完成002–006重验或连续演示。下列旧批次报告保留当时状态，不回填成当前版本通过。
+
+冻结后复跑仍通过：`both-001-2026-10-07T10-03-36-945Z/comparison.json`；Game/RF分别为
+`game-001-2026-10-07T10-03-37-177Z`、`reforge-001-2026-10-07T10-03-37-179Z`。
+最终文件hash及验证范围保存在`build/e2e/001-acceptance-20261007.json`；两份报告记录的23/34项当前源码hash已逐项复核。
+
+2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。
+
+2026-10-06 采集/消费合同源核验：assertOpeningMatrix 按sceneVisit/scene/id检查实体连续性；相邻相同scene的实例重建开启新状态链，但不伪造路线跳转。actors/renders/controls/pages/worldRenders统一核order与atMs，worldRenders单列核seq；绘制时钟独立60,000条容量，不挤占原actor/control上限，超限仍失败。本文仅刷新源码证据，未据此宣布新SAVE12独立实跑或双轨比较通过。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
+
+2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
+
+## Evidence
+
+配对[机器回执](../../evidence/e2e-001.json)保存来源合同；原始实跑文件仍按下方各轮路径追溯，文件存在与否不由静态迁移补证。
+
+### 有界证据与停止线
 
 产物只在gitignored `build/e2e/game-001-<time>/`：
 
@@ -200,7 +205,21 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 未知场景/菜单/战斗/对话phase、视频error、pageerror/console.error、检查点或起始槽不符均失败。
 50ms轮询仅用于等待状态，不用于指定剧情持续时间。没有多数通过或自动重试放行策略。
 
-## 边界与历史未完成项
+## Revision history
+
+### 源码核读更新（原前置记录）
+
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
+### 2026-10-04 文档深审
+
+历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。
+
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
+### 边界与历史未完成项
 
 - 全对白/本段e11、e8、出口与队长已在本轮补入矩阵；未参与本段的厨房/住客等NPC归后续碎片，不冒称整场景覆盖。
 - 002导航/机关/遇敌/剧情Boss、录像音轨/镜头/Content Studio材料、完整Q1/Q2不在首批通过范围。
@@ -222,7 +241,7 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 工具22/22、完整check9793、typecheck/严格lint零诊断；仅E2E工具/文档变更，官方覆盖基线保持不变。
 当时比较回执`build/e2e/both-001-2026-09-27T04-10-09-058Z/comparison.json`；这是本轮补齐前历史证据。
 
-## 本轮失败记录与归因
+### 本轮失败记录与归因
 
 - 一阶段真实tick回归原红（第五行缺失），修后10项分页/换样式/显式清屏/隐式pre-op及相邻共405项绿。
   scene145旧立绘测试未推进时钟，漏掉的第五行~80恢复后暴露测试驱动缺陷：补真实时钟与第五行断言，

@@ -11,95 +11,194 @@ Visual Verification Timing: N/A
 Contributor: Codex
 Branch: codex/code-quality-governance
 Base: `34ccffd5a`
-
-> Q1/Q2 已归档。本卡只审 `pal-extract/src/events/slice.ts` 与 `annotate.ts` 的类型边界和纯转换责任，
-> 不改原始资源、事件字节码、游戏运行时或覆盖率候选。
+Last reviewed: 2026-10-16
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
+Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-收紧事件切分/标注的内部类型边界，移除不必要的 `as unknown as` 结构转换，保持 scene/global BFS、goto 改写、
-annotation 字段和 recompile round-trip 行为不变。
+保存2026-10-04事件slice/annotate类型边界治理：移除结构级as unknown as访问，保留scene/global BFS、shared强制归属、goto改写、annotation输出及recompile round-trip。纯转换重构不能升级为事件语义重新认证。
 
 ## 范围
 
-- 范围内：`packages/pal-extract/src/events/slice.ts`、`annotate.ts` 及同域最小回归。
-- 范围外：`disasm.ts`/`recompile.ts` 算法、事件 schema、原始 `data/raw`、生成输出、game/reforge/editor、E2E 与覆盖率派发。
-- 明确不做：把普通结构相似误抽成万能 helper；修改 opcode 分类、标签语义或脚本可达性；调整测试 runner/coverage include。
+仅slice.ts、annotate.ts与同域最小回归；不改disasm/recompile算法、opcode、schema、raw、生成输出、运行时或coverage选择。不能把移除不可达rule表说成删除所有annotation字段。
 
-## 前提真值门
+## 前提与证据
+
+原Command联合、scene/event/global入口与SDLPal脚本解释提供真值边界；目标是具名窄访问而非万能helper。若未知字段确为合法跳转，应明确typed visitor，不能用未来扩展猜测保留结构级强转；任一reachable/shared/goto/annotation digest漂移须停线。
+
+## 验收
+
+原实现Object.values(Command)扫描字符串、按discriminant返回typed annotation；移除不可达_spell/_person/_enemy rule表不改变原可达输出。原45/45定向、全包68files/415tests、typecheck/lint3196及全仓门是当轮记录，本次不重跑。
+
+## 状态与交接
+
+原done与Codex身份保留；推进记录pending由后文accept/done和10-04最终日志解释，不改成新阻塞。2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收，旧Agent提示无新执行权限。
+
+以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
+
+### 前提真值门
+
+历史内容见[前提与证据](#前提与证据)；按原时点读取。
 
 ### 一句话工程前提
 
-事件切分和标注是纯内存转换器：输入 `Command` 联合和当前词表/符号，输出等价的命令集合；类型收紧不能改变
-BFS 可达集、shared 强制归属、goto 改写或注释字段。
+历史内容见[前提与证据](#前提与证据)；按原时点读取。
 
 ### 真值矩阵
 
-| 维度 | 当前真值 | 直接证据 |
-|---|---|---|
-| 原版 / primary source | PAL 脚本入口和 goto/advance/reset 由原始事件字节码决定；提取器只解释并切分，不修改原始 bytes | `reference/sdlpal/script.c:3140-3236`；`packages/pal-extract/src/events/disasm.ts`、`recompile.ts` |
-| 第一阶段 | `sliceByScene` 按 scene/event object/global entries BFS；`annotate` 只添加 `_item/_spell/_person/_enemy/_scene/_enemyTeam` 人读字段 | `packages/pal-extract/src/events/slice.ts:45-230`；`packages/pal-extract/src/events/annotate.ts:1-107`；`packages/shared/src/events.ts` |
-| 本任务目标 | 用具名/联合类型和窄访问器替代结构级强转；纯输入输出与 round-trip 不变 | `packages/pal-extract/src/events/slice.test.ts`、`slice.boundaries.test.ts`、`annotate.test.ts`、`annotate.glm-runtime-resource.test.ts` |
+历史内容见[前提与证据](#前提与证据)；按原时点读取。
 
 ### 反证与替代解释
 
-- 最强替代解释：`Command` 未来会继续扩展未知对象字段，`Object.values(c as Record)` 是为了兼容未建模 opcode；若证实现行输入含未声明字符串跳转字段，应增加显式 typed visitor，而不是保留强转。
-- 可证伪观察：任一现有 slice/annotate/recompile digest、scene/shared command count、annotation key 或未知命令处理结果改变。
-- 已排查替代根因：本批不改运行时或 raw 数据；反控只看纯输入输出和源码不再含目标强转，不把覆盖率提升当缺陷证据。
+历史内容见[前提与证据](#前提与证据)；按原时点读取。
 
 ### 用户可见偏离
 
-- 是否主动偏离已核真值：N/A
-- `before -> after`：`结构级强转访问 Command -> 具名窄访问/类型守卫，输出 JSON 语义相同`
-- 用户裁决：N/A
+历史内容见[原始结论](#原始结论)；按原时点读取。
 
-## 上下文锚点
+### 上下文锚点
 
-- `AGENTS.md:11-25,66-84`：零诊断、单 Owner、证据先于方案。
-- `CLAUDE.md:25-29,31-38`：第一阶段提取行为以原始数据/SDLPal 为真值，纯转换重构不夹带玩法修改。
-- `packages/pal-extract/src/events/slice.ts:45-230`：scene/global BFS、goto/raw target、shared 归属。
-- `packages/pal-extract/src/events/annotate.ts:60-107`：结构化递归、规则表、当前两处强转。
-- `packages/shared/src/events.ts`：现行 `Command` union 与 annotation optional 字段。
-- 相关测试：slice 全部边界/运行时资源测试、annotate 全部测试、recompile round-trip。
+历史内容见[前提与证据](#前提与证据)；按原时点读取。
 
-## 验收条件
+### 验收条件
 
-- 功能：slice scene/global reachable 数组、shared 归属和 `shared#L_` goto 改写逐字节/逐对象保持；annotate 规则和递归输出保持。
-- 类型：目标生产文件无 `as unknown as`，typecheck 零诊断；不以 `any`/ignore 替代。
-- 测试：pal-extract 全包、shared 相邻、完整 check、ratchet、protected fast、lint。
-- 视觉：N/A。
+历史内容见[验收](#验收)；按原时点读取。
 
-## 当前模式推进记录
+### 当前模式推进记录
 
-- Codex 范围/前提核验：verified（纯转换、直接 caller、反证观察已列）
-- Coding Owner / 隔离树：Codex / `/Users/zhangxu/illegal/type-pal-code-quality`
-- 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。
-- build 准入：Codex build allowed
-- 独立验收：pending
+历史内容见[原始结论](#原始结论)；按原时点读取。
 
-## Build / Review / Done
+### Build / Review / Done
 
-- 实现摘要：`slice.ts` 直接以 `Object.values(Command)` 扫描字符串字段；`annotate.ts` 按 `Command` discriminant 逐类返回 typed annotation，移除结构级 `as unknown as` 与不可达 `_spell/_person/_enemy` rule 表；scene/global BFS 与现有 output contract 保持。
-- 验证证据：pal-extract 定向 45/45、全包 68/415、typecheck、lint 3196 文件零诊断通过。
-- Codex 独立复核：accept（完整 check、ratchet、protected fast、lint 与 pal-extract 全包均通过）
-- done 准入：Codex done allowed
+历史内容见[原始结论](#原始结论)；按原时点读取。
 
-## 交接日志
+### 交接日志
 
-- 2026-10-04 Codex：Q2 完成后审阅 pal-extract 事件转换层，确认 slice/annotate 各有结构级强转；当前行为合同已有纯测试与 round-trip 证据。Next: 收窄访问边界并验证纯输出不漂移。
-- 2026-10-04 Codex：Q3 实现完成，移除事件切分/标注生产强转并保留不可达 annotation 字段边界；定向 45/45、pal-extract 全包 68/415、typecheck/lint 通过。Next: 统一质量门。
-- 2026-10-04 Codex：完整 `pnpm check`、`pnpm lint`、`pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 全部通过；pal-extract 纯转换输出合同无漂移。Q3a 完成，Q3 其它 extract/game 文件保持待核。
+历史内容见[原始结论](#原始结论)；按原时点读取。
 
-## 下一位 Agent 提示词
+### 下一位 Agent 提示词
 
-无；本批由 Codex 继续实现与独立验收。
+历史内容见[原始结论](#原始结论)；按原时点读取。
 
-## 2026-10-16 当前成果复审（历史done保留，本轮partial）
+## 历史范围
 
-原type收紧没有改变BFS控制流；当前slice与48b623d66字节相同，annotate后续多出3f symbols IO准入。全文/生产caller与测试读取边界见[当前证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md)。三枚隔离变异旧28例全部绿；本片只补两测试的A2/reset/EO oracle，原28身份保持，新各精确1个业务AssertionError。定向45、extract72文件434/typecheck、shared16文件126/typecheck恢复绿且无运行时诊断。
+2026-10-04、基点34ccffd5a；原历史称Q3a，稳定文件名CODE-QUALITY-3保持。415全包与其它卡后续417/419/421不相加，不把后继测试增长回填。
 
-发现人读元数据伪BFS边与非零计数goto遗漏续行，已停线[控制流真值专卡](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)draft，不改产品/公共接口/生成物。当前raw完整43503条roundtrip绿不能证明切片正确；game默认全局all.json，不能据局部差异宣布游戏表现故障。两旧关闭转review、一待核测试登记review、0新关闭；annotation排重/合法oracle与统一门继续，83卡当前accept仍0。无下一位Agent提示词，Codex单Agent继续。
+## 当时证据
 
-## 2026-10-16 当前全量复审补记（历史done保留）
+[账本](../../../audits/code-quality-file-ledger.md)43–49行保留Q3a纯输出合同，annotate另列Q3f；本轮窄读固定源annotate.ts1–80，未全文重读slice/recompile或全部测试。原卡自身保留primary与生产caller锚点。
 
-本轮仅annotation/symbols两测试切片partial，非整卡accept；[逐文件读取、caller/primary、六反控、四重复与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)。17→16，旧六变异全绿→新各单一业务AssertionError，生产未改。完整包433原生绿含六条错误原盘路径早退及其它parser日志，不能以其验收；完整质量门未新跑。两测试旧关闭撤回review，0新增关闭；原卡实现/CLI与其余文件不因本切片重新通过。后续先原盘执行完整性，再逐卡继续；无下一位Agent提示词。
+## 当前有效性
+
+historical。旧sourcecast移除不等于所有cast都不合法，不能据此清理当前代码。原round-trip、包级绿数只限定当轮，不授本轮opcode真值、测试质量或coverage信用。
+
+## 继任文档
+
+[Q3f](CODE-QUALITY-3f-pal-extract-symbols-input.md)接续symbols入口，[Q3b](CODE-QUALITY-3b-pal-extract-io-boundaries.md)接续raw表边界。新工作按[现行工作流](../../../agent-workflow.md)另准入，无可执行旧提示词。
+
+## 原始结论
+
+保存2026-10-04事件slice/annotate类型边界治理：移除结构级as unknown as访问，保留scene/global BFS、shared强制归属、goto改写、annotation输出及recompile round-trip。纯转换重构不能升级为事件语义重新认证。
+
+当轮验收范围：原实现Object.values(Command)扫描字符串、按discriminant返回typed annotation；移除不可达_spell/_person/_enemy rule表不改变原可达输出。原45/45定向、全包68files/415tests、typecheck/lint3196及全仓门是当轮记录，本次不重跑。
+
+完整原卡来自 Git blob `10f7b69e50924114eb21989a4ba9ee6732504fde`，source revision `bb90428668808368e816bd8e2ddeb5da57e4b166`；预审 `40bce2fb7fb8d19ff99b228063e337e1b3050fa2` 对应blob完全相同。引用每行仅增加 `> `，空行只增加 `>`，可逐字节逆回读。旧prompt、命令、临时路径与历史accept/done不构成本轮产品执行、当前测试质量或独立签收。
+
+<!-- original-source-quote:start -->
+
+> # CODE-QUALITY-3 - pal-extract 事件切分与标注类型边界
+>
+> Status: done
+> Phase: phase1 pal-extract
+> Capability: ops / code-quality
+> Coding Owner: Codex
+> Generation Owner: N/A
+> Reviewer: Codex（独立验收）
+> Visual Verification Owner: N/A
+> Visual Verification Timing: N/A
+> Contributor: Codex
+> Branch: codex/code-quality-governance
+> Base: `34ccffd5a`
+>
+> > Q1/Q2 已归档。本卡只审 `pal-extract/src/events/slice.ts` 与 `annotate.ts` 的类型边界和纯转换责任，
+> > 不改原始资源、事件字节码、游戏运行时或覆盖率候选。
+>
+> ## 目标
+>
+> 收紧事件切分/标注的内部类型边界，移除不必要的 `as unknown as` 结构转换，保持 scene/global BFS、goto 改写、
+> annotation 字段和 recompile round-trip 行为不变。
+>
+> ## 范围
+>
+> - 范围内：`packages/pal-extract/src/events/slice.ts`、`annotate.ts` 及同域最小回归。
+> - 范围外：`disasm.ts`/`recompile.ts` 算法、事件 schema、原始 `data/raw`、生成输出、game/reforge/editor、E2E 与覆盖率派发。
+> - 明确不做：把普通结构相似误抽成万能 helper；修改 opcode 分类、标签语义或脚本可达性；调整测试 runner/coverage include。
+>
+> ## 前提真值门
+>
+> ### 一句话工程前提
+>
+> 事件切分和标注是纯内存转换器：输入 `Command` 联合和当前词表/符号，输出等价的命令集合；类型收紧不能改变
+> BFS 可达集、shared 强制归属、goto 改写或注释字段。
+>
+> ### 真值矩阵
+>
+> | 维度 | 当前真值 | 直接证据 |
+> |---|---|---|
+> | 原版 / primary source | PAL 脚本入口和 goto/advance/reset 由原始事件字节码决定；提取器只解释并切分，不修改原始 bytes | `reference/sdlpal/script.c:3140-3236`；`packages/pal-extract/src/events/disasm.ts`、`recompile.ts` |
+> | 第一阶段 | `sliceByScene` 按 scene/event object/global entries BFS；`annotate` 只添加 `_item/_spell/_person/_enemy/_scene/_enemyTeam` 人读字段 | `packages/pal-extract/src/events/slice.ts:45-230`；`packages/pal-extract/src/events/annotate.ts:1-107`；`packages/shared/src/events.ts` |
+> | 本任务目标 | 用具名/联合类型和窄访问器替代结构级强转；纯输入输出与 round-trip 不变 | `packages/pal-extract/src/events/slice.test.ts`、`slice.boundaries.test.ts`、`annotate.test.ts`、`annotate.glm-runtime-resource.test.ts` |
+>
+> ### 反证与替代解释
+>
+> - 最强替代解释：`Command` 未来会继续扩展未知对象字段，`Object.values(c as Record)` 是为了兼容未建模 opcode；若证实现行输入含未声明字符串跳转字段，应增加显式 typed visitor，而不是保留强转。
+> - 可证伪观察：任一现有 slice/annotate/recompile digest、scene/shared command count、annotation key 或未知命令处理结果改变。
+> - 已排查替代根因：本批不改运行时或 raw 数据；反控只看纯输入输出和源码不再含目标强转，不把覆盖率提升当缺陷证据。
+>
+> ### 用户可见偏离
+>
+> - 是否主动偏离已核真值：N/A
+> - `before -> after`：`结构级强转访问 Command -> 具名窄访问/类型守卫，输出 JSON 语义相同`
+> - 用户裁决：N/A
+>
+> ## 上下文锚点
+>
+> - `AGENTS.md:11-25,66-84`：零诊断、单 Owner、证据先于方案。
+> - `CLAUDE.md:25-29,31-38`：第一阶段提取行为以原始数据/SDLPal 为真值，纯转换重构不夹带玩法修改。
+> - `packages/pal-extract/src/events/slice.ts:45-230`：scene/global BFS、goto/raw target、shared 归属。
+> - `packages/pal-extract/src/events/annotate.ts:60-107`：结构化递归、规则表、当前两处强转。
+> - `packages/shared/src/events.ts`：现行 `Command` union 与 annotation optional 字段。
+> - 相关测试：slice 全部边界/运行时资源测试、annotate 全部测试、recompile round-trip。
+>
+> ## 验收条件
+>
+> - 功能：slice scene/global reachable 数组、shared 归属和 `shared#L_` goto 改写逐字节/逐对象保持；annotate 规则和递归输出保持。
+> - 类型：目标生产文件无 `as unknown as`，typecheck 零诊断；不以 `any`/ignore 替代。
+> - 测试：pal-extract 全包、shared 相邻、完整 check、ratchet、protected fast、lint。
+> - 视觉：N/A。
+>
+> ## 当前模式推进记录
+>
+> - Codex 范围/前提核验：verified（纯转换、直接 caller、反证观察已列）
+> - Coding Owner / 隔离树：Codex / `/Users/zhangxu/illegal/type-pal-code-quality`
+> - 修改白名单：`slice.ts`、`annotate.ts`、同域测试、此卡、看板/索引、必要 baseline。
+> - build 准入：Codex build allowed
+> - 独立验收：pending
+>
+> ## Build / Review / Done
+>
+> - 实现摘要：`slice.ts` 直接以 `Object.values(Command)` 扫描字符串字段；`annotate.ts` 按 `Command` discriminant 逐类返回 typed annotation，移除结构级 `as unknown as` 与不可达 `_spell/_person/_enemy` rule 表；scene/global BFS 与现有 output contract 保持。
+> - 验证证据：pal-extract 定向 45/45、全包 68/415、typecheck、lint 3196 文件零诊断通过。
+> - Codex 独立复核：accept（完整 check、ratchet、protected fast、lint 与 pal-extract 全包均通过）
+> - done 准入：Codex done allowed
+>
+> ## 交接日志
+>
+> - 2026-10-04 Codex：Q2 完成后审阅 pal-extract 事件转换层，确认 slice/annotate 各有结构级强转；当前行为合同已有纯测试与 round-trip 证据。Next: 收窄访问边界并验证纯输出不漂移。
+> - 2026-10-04 Codex：Q3 实现完成，移除事件切分/标注生产强转并保留不可达 annotation 字段边界；定向 45/45、pal-extract 全包 68/415、typecheck/lint 通过。Next: 统一质量门。
+> - 2026-10-04 Codex：完整 `pnpm check`、`pnpm lint`、`pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 全部通过；pal-extract 纯转换输出合同无漂移。Q3a 完成，Q3 其它 extract/game 文件保持待核。
+>
+> ## 下一位 Agent 提示词
+>
+> 无；本批由 Codex 继续实现与独立验收。

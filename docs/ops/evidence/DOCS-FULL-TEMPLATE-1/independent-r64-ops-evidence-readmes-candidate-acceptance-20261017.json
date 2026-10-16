@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r64-ops-evidence-readmes-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 10,
+    "readAndChecked": 10,
+    "candidateReview": "docs/phase-governance/reviews/docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R64-B01",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 10 evidence Markdown documents preserve source/after SHA, quote inverse and historical boundaries."
+    },
+    {
+      "id": "R64-B02",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; no runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "summaryChecks": {
+    "all10": true,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (837 documents; content-reviewed 837)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 776 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8070 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 837/837)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4292 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+      "afterSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+      "afterSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md",
+      "afterSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+      "afterSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md",
+      "afterSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+      "afterSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md",
+      "afterSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+      "afterSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md",
+      "afterSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md",
+      "afterSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    }
+  ]
+}

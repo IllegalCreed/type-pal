@@ -1,103 +1,168 @@
 # 本地开发服务器 · 端口与启动命令
 
-> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。
-> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。
-> 端口已烤死进各包 `dev` 脚本(`--strictPort`:被占直接报错,不静默漂移到别的端口)。
-> 所有命令在**仓库根目录**执行,复制即用。
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: guide-runbook-v1 / 1.0.0
 
-## 新人前置(clone 后必做)
+本页把历史材料接入 `guide-runbook-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
-PAL 的原版输入放在 `data/raw/`，提取中间物在 `data/extracted/`；终态中二者都不是第二阶段
-运行时资源目录（A7 已 catalog-only）。`projects/pal/assets/migrated/` 与 `runtime/` 不进 git，
-须由 `migrate:content --write` 物化；`projects/pal/assets/index.json` 入库。首次跑通：
+## 目的
 
-```bash
-# 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)
-pnpm install
-pnpm extract
-pnpm --filter @type-pal/migrate run migrate:content --write
+- 读者和完成后得到的结果：按当前 ops guide/runbook 完成 Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.。
 
-# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
-pnpm --filter @type-pal/migrate run migrate:content
-```
+## 前置条件
 
-`data/baked/` 已退役，不再是工程或引擎输入。`pnpm --filter @type-pal/migrate run bake` 只供维护者
-重建 `packages/reforge/src/engine-chrome/assets/**` 的 bundler-owned 默认 UI、标题和对话光标；它不会
-物化 PAL 工程资源，也不应作为缺工程图片时的修复命令。
+- 权限、输入、版本和安全边界：以当前 AGENTS、ops workflow、任务卡和仓库入口为准。
+- 当前执行前必须确认：工具、版本、数据路径、Owner 和用户授权。
 
-没有原版资产时可先跑 demo 工程(自包含,不依赖上述产物):editor `dev:demo`(6011)/ reforge `dev`(6050)。
+## 步骤
 
-## 一阶段 · 仙剑本体(game)
+1. 先读取当前入口、前置条件和本页适用范围。
+2. 按步骤执行并把结果写回当前 task/evidence 入口。
+3. 对失败、边界和人工接管保留可复核证据。
 
-| 端口 | 用途 |
-|---|---|
-| **6005** | 日常 dev(6000 被 Chrome 拉黑,勿用) |
+## 失败处理
 
-```bash
-pnpm --filter @type-pal/game run dev
-```
+- 可预期失败：- 正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
+- 停止线：follow current repository routes and ownership; do not use historical instructions as current authorization
+- 回滚/人工接管：停止当前操作，保留日志并交当前 Owner 裁决。
 
-- 打开 <http://localhost:6005/>(basic-ssl 下实际是 `https://`,证书自签点信任即可)。
-- 需要 HTTP 开发入口（不挂 `basicSsl()`）时用 `E2E=1`:
+## 完成定义
 
-```bash
-E2E=1 pnpm --filter @type-pal/game run dev
-```
+- 可观察的完成条件：步骤结果、证据路径、Owner 和下一步均已写回。
+- 证据路径与复核人：本页、当前 task card、evidence receipt 和 Codex 独立复核。
 
-第一阶段 Playwright L2 已退役，当前没有 `game` 的 `e2e` 脚本或 6001 专用实例；`E2E=1` 只切到上述
-HTTP 开发入口，不是测试真 Service Worker 的路径，也不是 Playwright 入口。
+## 历史范围
 
-## 二阶段 · 编辑器(editor)
+- phase2/lore archive；日期：2026-07-04；固定来源 `f4c664a8cf0dd564f68857b393861f553e35c73f`；source SHA `448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368。
 
-| 端口 | 用途 |
-|---|---|
-| **6010** | 日常 dev(**默认 pal 工程**,`VITE_PROJECT_ID=pal` 已烤进脚本,不用手带) |
-| 6011 | demo 工程(引擎冒烟/教学样例用) |
+## 原始结论
 
-```bash
-pnpm --filter @type-pal/editor run dev
-```
+- 本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
 
-打开 <http://localhost:6010/>。demo 版:
+## 当时证据
 
-```bash
-pnpm --filter @type-pal/editor run dev:demo
-```
+- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
 
-需要从另一台设备通过局域网 IP 使用文件夹读写时，不能使用 `http://<IP>:6010`：Chrome 只把
-localhost/loopback 的 HTTP 当作开发期安全来源，普通 IP 必须走 HTTPS。使用专门的 LAN 模式：
+## 当前有效性
 
-```bash
-pnpm --filter @type-pal/editor run dev:lan
-```
+historical。follow current repository routes and ownership; do not use historical instructions as current authorization
+- 历史冲突/未决：
+- 正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
 
-然后打开 `https://<运行编辑器电脑的局域网IP>:6010/`。该命令使用开发期自签证书，首次访问需在浏览器高级设置中
-继续（只应在可信局域网操作）；长期或多人使用应换成包含该 IP/稳定 DNS SAN 且客户端信任的正式开发证书。协议、主机名或端口变化会形成
-新的浏览器 origin，localhost 下保存的“最近工程”句柄不会迁移，首次需重新选择工程文件夹。`dev:lan` 会把
-源码及开发资源暴露给同一局域网，只能在可信网络使用。
+## 继任文档
 
-## 二阶段 · 新引擎(reforge)
+- C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.。
+- 当前事实由继任规范、代码、测试和新的 review 决定。
 
-| 端口 | 用途 |
-|---|---|
-| 6050 | demo 工程(鬼界民居) |
-| **6051** | **pal 工程**(仙剑迁移内容,日常验证用这个) |
+## 原文保全
 
-```bash
-pnpm --filter @type-pal/reforge run dev:pal
-```
+固定源 SHA `448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 本地开发服务器 · 端口与启动命令
+>
+> > 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。
+> > game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。
+> > 端口已烤死进各包 `dev` 脚本(`--strictPort`:被占直接报错,不静默漂移到别的端口)。
+> > 所有命令在**仓库根目录**执行,复制即用。
+>
+> ## 新人前置(clone 后必做)
+>
+> PAL 的原版输入放在 `data/raw/`，提取中间物在 `data/extracted/`；终态中二者都不是第二阶段
+> 运行时资源目录（A7 已 catalog-only）。`projects/pal/assets/migrated/` 与 `runtime/` 不进 git，
+> 须由 `migrate:content --write` 物化；`projects/pal/assets/index.json` 入库。首次跑通：
+>
+> ```bash
+> # 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)
+> pnpm install
+> pnpm extract
+> pnpm --filter @type-pal/migrate run migrate:content --write
+>
+> # 可选：确认同源再迁移已经稳定，无待写、待删或冲突
+> pnpm --filter @type-pal/migrate run migrate:content
+> ```
+>
+> `data/baked/` 已退役，不再是工程或引擎输入。`pnpm --filter @type-pal/migrate run bake` 只供维护者
+> 重建 `packages/reforge/src/engine-chrome/assets/**` 的 bundler-owned 默认 UI、标题和对话光标；它不会
+> 物化 PAL 工程资源，也不应作为缺工程图片时的修复命令。
+>
+> 没有原版资产时可先跑 demo 工程(自包含,不依赖上述产物):editor `dev:demo`(6011)/ reforge `dev`(6050)。
+>
+> ## 一阶段 · 仙剑本体(game)
+>
+> | 端口 | 用途 |
+> |---|---|
+> | **6005** | 日常 dev(6000 被 Chrome 拉黑,勿用) |
+>
+> ```bash
+> pnpm --filter @type-pal/game run dev
+> ```
+>
+> - 打开 <http://localhost:6005/>(basic-ssl 下实际是 `https://`,证书自签点信任即可)。
+> - 需要 HTTP 开发入口（不挂 `basicSsl()`）时用 `E2E=1`:
+>
+> ```bash
+> E2E=1 pnpm --filter @type-pal/game run dev
+> ```
+>
+> 第一阶段 Playwright L2 已退役，当前没有 `game` 的 `e2e` 脚本或 6001 专用实例；`E2E=1` 只切到上述
+> HTTP 开发入口，不是测试真 Service Worker 的路径，也不是 Playwright 入口。
+>
+> ## 二阶段 · 编辑器(editor)
+>
+> | 端口 | 用途 |
+> |---|---|
+> | **6010** | 日常 dev(**默认 pal 工程**,`VITE_PROJECT_ID=pal` 已烤进脚本,不用手带) |
+> | 6011 | demo 工程(引擎冒烟/教学样例用) |
+>
+> ```bash
+> pnpm --filter @type-pal/editor run dev
+> ```
+>
+> 打开 <http://localhost:6010/>。demo 版:
+>
+> ```bash
+> pnpm --filter @type-pal/editor run dev:demo
+> ```
+>
+> 需要从另一台设备通过局域网 IP 使用文件夹读写时，不能使用 `http://<IP>:6010`：Chrome 只把
+> localhost/loopback 的 HTTP 当作开发期安全来源，普通 IP 必须走 HTTPS。使用专门的 LAN 模式：
+>
+> ```bash
+> pnpm --filter @type-pal/editor run dev:lan
+> ```
+>
+> 然后打开 `https://<运行编辑器电脑的局域网IP>:6010/`。该命令使用开发期自签证书，首次访问需在浏览器高级设置中
+> 继续（只应在可信局域网操作）；长期或多人使用应换成包含该 IP/稳定 DNS SAN 且客户端信任的正式开发证书。协议、主机名或端口变化会形成
+> 新的浏览器 origin，localhost 下保存的“最近工程”句柄不会迁移，首次需重新选择工程文件夹。`dev:lan` 会把
+> 源码及开发资源暴露给同一局域网，只能在可信网络使用。
+>
+> ## 二阶段 · 新引擎(reforge)
+>
+> | 端口 | 用途 |
+> |---|---|
+> | 6050 | demo 工程(鬼界民居) |
+> | **6051** | **pal 工程**(仙剑迁移内容,日常验证用这个) |
+>
+> ```bash
+> pnpm --filter @type-pal/reforge run dev:pal
+> ```
+>
+> 打开 <http://localhost:6051/>(dev 直达某场景:`?scene=s001`)。demo 版:
+>
+> ```bash
+> pnpm --filter @type-pal/reforge run dev
+> ```
+>
+> ## 常见坑
+>
+> - **页面在但接口全挂(Failed to fetch)**= dev server 已死、浏览器里是残留 SPA。重跑上面的命令再刷新即可(server 跨夜/休眠常被系统回收)。
+> - **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行
+>   `pnpm --filter @type-pal/migrate run migrate:content --write`；只跑 dry-run 或 `bake` 都不会写 PAL 工程。
+> - **`VITE_PROJECT_ID` 忘带** → 加载 demo 工程(鬼界民居)而非仙剑。日常脚本已烤死不用管;只有手写 `vite` 裸命令时才需要。
+> - **strictPort 报"端口被占"** = 该服务已有实例在跑,直接用现成的,别再起一个。
+> - Claude 起验证实例时**直接复用本表脚本/端口**(先探测端口,活着就复用),不再另开临时端口。
 
-打开 <http://localhost:6051/>(dev 直达某场景:`?scene=s001`)。demo 版:
-
-```bash
-pnpm --filter @type-pal/reforge run dev
-```
-
-## 常见坑
-
-- **页面在但接口全挂(Failed to fetch)**= dev server 已死、浏览器里是残留 SPA。重跑上面的命令再刷新即可(server 跨夜/休眠常被系统回收)。
-- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行
-  `pnpm --filter @type-pal/migrate run migrate:content --write`；只跑 dry-run 或 `bake` 都不会写 PAL 工程。
-- **`VITE_PROJECT_ID` 忘带** → 加载 demo 工程(鬼界民居)而非仙剑。日常脚本已烤死不用管;只有手写 `vite` 裸命令时才需要。
-- **strictPort 报"端口被占"** = 该服务已有实例在跑,直接用现成的,别再起一个。
-- Claude 起验证实例时**直接复用本表脚本/端口**(先探测端口,活着就复用),不再另开临时端口。
+<!-- original-source-quote:end -->

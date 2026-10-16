@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r84-ops-evidence-index-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent current evidence index review",
+  "candidateHead": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+  "verdict": "accept-readonly-proposal",
+  "scope": {
+    "documentsRead": 1,
+    "all1": true,
+    "paths": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"]
+  },
+  "summary": {
+    "documents": "1/1 fully read",
+    "issues": "0",
+    "execution": "not run"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+      "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "pass": true
+    }
+  ]
+}

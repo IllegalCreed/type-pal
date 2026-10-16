@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "kind": "static-catalog-pilot-consumer-receipt",
+  "date": "2026-10-15",
+  "scope": "JSON schema/envelope, 18 full entry readings, four explicit source-backed classification corrections, real publication consumers; no runtime execution.",
+  "path": "docs/testing/catalog.json",
+  "sourceRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+  "sourceGitObject": "f1832ec54e4be6db7bf105bfc373b122e319d9bb",
+  "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+  "afterSha256": "26361ea7c0d01331bce02d1d7d186b4f384d61d3d4893fd4b45180854290adc8",
+  "reversibleOriginalObjectEquality": true,
+  "fieldCorrections": [
+    {
+      "id": "editor-command-form-families",
+      "field": "engines",
+      "before": ["reforge"],
+      "after": ["editor"]
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "field": "engines",
+      "before": ["reforge"],
+      "after": ["editor"]
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "field": "phase",
+      "before": ["phase2"],
+      "after": ["phase1"]
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "field": "engines",
+      "before": ["reforge"],
+      "after": ["game"]
+    }
+  ],
+  "consumers": {
+    "catalog": [],
+    "paired": [],
+    "indexes": []
+  },
+  "entries": [
+    {
+      "id": "e2e-contract",
+      "canonical": "e2e/contract.md",
+      "status": "current",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge", "editor"],
+      "reading": "共同验收合同 current；两引擎独立 checkpoint/verify/capture 与真实输入、状态和恢复 oracle；不把10-04 SAVE11出版审计升级当前实跑。"
+    },
+    {
+      "id": "e2e-route",
+      "canonical": "e2e/route-proposal.md",
+      "status": "proposal",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。10-18 reviewBy 保留，不自动续期。"
+    },
+    {
+      "id": "e2e-common-issues",
+      "canonical": "e2e/cross-stage/common-issues.md",
+      "status": "current",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "001～005 问题族汇总，依赖五片段但不复制通过数字；来源含收集器/绘制/比较 oracle，source audit 非新运行。"
+    },
+    {
+      "id": "e2e-001",
+      "canonical": "e2e/stages/001-opening/report.md",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "原 verified/09-28 与无前驱身份保留；55正文、站定及新上下文恢复是原业务义务，不升级旧 checkpoint 为当前SAVE12前驱。"
+    },
+    {
+      "id": "e2e-002",
+      "canonical": "e2e/stages/002-inn-guests-and-reward/report.md",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "原 verified/10-02 依赖001；20行、cash0→500与三苗人进房及恢复状态，各引擎独立，e56/s003只作源身份。"
+    },
+    {
+      "id": "e2e-003",
+      "canonical": "e2e/stages/003-kitchen/report.md",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "原 verified/10-02 依赖002；楼梯12次、14行、126/127控制权与禁止取菜捷径，004入口核读不计本段实跑。"
+    },
+    {
+      "id": "e2e-004",
+      "canonical": "e2e/stages/004-meal/report.md",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "原 verified/10-02 依赖003；story/items/saves六case、取消不扣酒/赠酒收尾，旧failed与receipt-only复核不抹除。"
+    },
+    {
+      "id": "e2e-005",
+      "canonical": "e2e/stages/005-shrimp/report.md",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "原 verified/10-02 依赖004；story/guards/saves、唯一50文/报信偏序及后台返程，原启动失败和旧前驱不升级。"
+    },
+    {
+      "id": "e2e-006",
+      "canonical": "e2e/stages/006-doctor-boat/report.md",
+      "status": "rework",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "reading": "保留 rework 与10-15 reviewBy；期望当前SAVE12输入但revision仍原SAVE11审计，求药/出海/岛口双轨日志和视觉缺口不能被路线终点代替。"
+    },
+    {
+      "id": "runtime-active-scene",
+      "canonical": "domains/runtime/scene/active-scene/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "reading": "换场资源/镜头 ownership；17旧回归与AST/步数对照不计新E2E，原history report/evidence与supersedes保持。"
+    },
+    {
+      "id": "runtime-battle-host",
+      "canonical": "domains/runtime/battle/battle-host/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "reading": "战斗准备/启动身份与世界提交，当前port/source阅读不替代BattleSession内部合同或历史随机输入反控重跑。"
+    },
+    {
+      "id": "runtime-battle-session-owners",
+      "canonical": "domains/runtime/battle/battle-session-owners/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "reading": "readiness/settlement/selection/action owner，不重复BattleHost；35旧回归、300ms与AST接线不证明当前胜败演出。"
+    },
+    {
+      "id": "runtime-world-owners",
+      "canonical": "domains/runtime/world/world-runtime/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "reading": "canonical endpoint→live提交→touch→continuation、取消与draw责任；Motion coordinator/ActiveScene/presentation各有界，不重算整场景E2E。"
+    },
+    {
+      "id": "legacy-flat-audit",
+      "canonical": "domains/ops/testing-governance/legacy-flat-audit.md",
+      "status": "current",
+      "phase": ["phase1", "phase2", "ops"],
+      "engines": ["game", "reforge", "editor", "content"],
+      "reading": "331项旧closeout（209移动+122工具停止线）的有限账本；不等于当前1838+全docs逐篇语义迁移或artifact全部归属。"
+    },
+    {
+      "id": "editor-command-form-families",
+      "canonical": "domains/editor/commands/command-form-families/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["editor"],
+      "reading": "完整报告与CommandForm实际caller表明引擎为editor；原reforge分类纠正留历史。typed桥接/家庭表单ownership不新增UI/覆盖信用。"
+    },
+    {
+      "id": "reforge-menu-session",
+      "canonical": "domains/runtime/menu/menu-session/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "reading": "菜单/物品pending ownership与真实port事件；已迁移报告和paired evidence维持原候选/版本，不把历史mutants转当前E2E。"
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "canonical": "domains/editor/map/map-workspace-sessions/report.md",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["editor"],
+      "reading": "完整报告与MapMode实际caller表明引擎为editor；指针取消零写/地图与EditSession身份，原生剪贴板与完整视觉仍未核。"
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "canonical": "domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "status": "current",
+      "phase": ["phase1"],
+      "engines": ["game"],
+      "reading": "完整D1报告和GameState/game owner源码表明phase1/game；原phase2/reforge纠正留历史。SCC/161函数/8旧测试和最小浏览器不成为当前游戏E2E或SAVE12合同。"
+    }
+  ],
+  "notRun": ["runtime", "E2E", "visual", "coverage"],
+  "stopLine": "Publication validation and JSON preservation do not certify actual execution or migration of paired reports/evidence.",
+  "relatedReportMigrations": [
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "id": "editor-command-form-families",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "10ea6da860f3c6e7cf44b6420acadb2fda1fe676",
+      "sourceSha256": "61c48a7c23ee9a36133808e692590a9a589fd9c221a21cdc40a175460a0474e1",
+      "afterSha256": "9989a9612dce3d8ade72a3f62ce504d475c875ff495474f1e0e927ead09f3d5c",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "id": "editor-map-workspace-sessions",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "8dc02e7799a680f6fef6180792614249782c6b19",
+      "sourceSha256": "fa31c37d1520dabb14395d1a3749dadd2fce83f07c76752a801f37dce1c13809",
+      "afterSha256": "d791831d7c0ac2f09be40dbfd60b72566d6cc9f3b2fcf4f0ae407e6cf8b7db98",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "id": "phase1-dependency-ownership",
+      "sourceRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+      "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
+      "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+      "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+      "method": "Full four original sections preserved with heading demotion; exact YAML/testing-meta; concrete claim/input/scope/limit/quality chapters; no runtime execution."
+    }
+  ],
+  "relatedReportConsumerResults": [
+    {
+      "id": "editor-command-form-families",
+      "issues": []
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "issues": []
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "issues": []
+    }
+  ]
+}

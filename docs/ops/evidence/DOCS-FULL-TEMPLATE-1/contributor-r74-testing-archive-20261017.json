@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r74-testing-archive-20261017",
+  "kind": "R74 testing archive migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+  "scope": {
+    "documents": 50,
+    "docTypes": {
+      "archive-record": 50
+    },
+    "kinds": {
+      "markdown": 28,
+      "json": 22
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/evidence.json",
+      "sourceSha256": "b820b108ec9d052a064312447ce650d0851ec7e584c8bf96eda6f62c34264fd4",
+      "afterSha256": "b820b108ec9d052a064312447ce650d0851ec7e584c8bf96eda6f62c34264fd4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/frozen-evidence.json",
+      "sourceSha256": "ed06b5e669a4189f3be0af787a5226ff58de685a878cc97a5e7d5257ad0c45b4",
+      "afterSha256": "ed06b5e669a4189f3be0af787a5226ff58de685a878cc97a5e7d5257ad0c45b4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/receipt.md",
+      "sourceSha256": "f520e521d955878181fdc852c95aca97039738895a192aa6bc910cb9ef72e940",
+      "afterSha256": "6fb19257806118129aafd2d09d2dc2ce0d71090154aebd24d2256e8c92efd672",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/README.md",
+      "sourceSha256": "45bc3071b285326c6f994fe4c4aaeb1744ede2a10700aa1704ed58f1b79335ce",
+      "afterSha256": "9498797609f1de2a8f6c103b46d8e661443a747b31ffe6be30a2ca4da22b4ba0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/codex-integration.md",
+      "sourceSha256": "825cf5f5b46b2d3a664d7888b72e91b76bc6c139059a7e767818632cc96b9bc4",
+      "afterSha256": "d9511c7f93fc2752d209f898568588d400d2ec3bea8f18c8f998b237bc6cc74f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md",
+      "sourceSha256": "65288dfefe3eb33a00cc26a272a6fad27fdc61dd8e62b4d08cd15a2e54a299d8",
+      "afterSha256": "a0e5e67f36f258c04686305c6594d939e37434b0be34a7ce7bfaea7b1aaf0864",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/README.md",
+      "sourceSha256": "7c56f5072e2018665c4591d50005cbef32167e0f3b4b33e29d35a52b290693c7",
+      "afterSha256": "d6d66855868d1ad0c255dda1578b37b10c1903630b54a0d2bd580a62f6eb76d2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+      "sourceSha256": "7d3e86779215e03dace2408715e9ca824bed5c17d124545e3edef1b6fec52055",
+      "afterSha256": "650f439ad6603c7dcbe18dab18b1d844297b953ed72fcf176e91f43d2a1aa8ae",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-review-4ebea2b5.md",
+      "sourceSha256": "477bd84961ff51ed10a0c8a4f466a7c3da7707a7fe251f96406d670e138bfc79",
+      "afterSha256": "b4a29d1901cc79a2eaa820e735b0fb7cb0fb5cd9a62a998d99aaaf4e3b14e1c3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/README.md",
+      "sourceSha256": "527252b5f609bed8099d0632ed1f7b6d83153505171222c7c9ebfe1dfa9ba948",
+      "afterSha256": "bd45a0f8f9fb2e2c852a9327ac8adc020df255537ce82b13c6d3d00aa84a8465",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/evidence.json",
+      "sourceSha256": "53b04a1668d10dbb0a8d6b956846003574d6bd2f5a76a8dc38733415039fc930",
+      "afterSha256": "53b04a1668d10dbb0a8d6b956846003574d6bd2f5a76a8dc38733415039fc930",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/evidence.md",
+      "sourceSha256": "690f684cba0bc75b9bd8a85965a76a61bbaf4705207caf0f6830e74b29f0043e",
+      "afterSha256": "b0748f2935e949365a7c3d7b4426d3f660fd0e471202e3663ea89d842df5939b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/targets.json",
+      "sourceSha256": "d2268a9f8770d42786be38b935692ba9ff31257d8ea44cc262cfbdd6aa6f3483",
+      "afterSha256": "d2268a9f8770d42786be38b935692ba9ff31257d8ea44cc262cfbdd6aa6f3483",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/vitest-directed.json",
+      "sourceSha256": "08ba61722f9cb74dc571f57f7d076d3e3a741195fbb81447243fa78ee1860cbe",
+      "afterSha256": "08ba61722f9cb74dc571f57f7d076d3e3a741195fbb81447243fa78ee1860cbe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/README.md",
+      "sourceSha256": "65b046e765b9310785ea0f8fa84ea94c507009a6e9400ec7038a6bad270b6fb2",
+      "afterSha256": "daa68b7697f9fc888052eb368d6c41dc192fc4c091818b722dad1dacda7c18dc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/evidence.json",
+      "sourceSha256": "b599421b54cfd1258866e99734d3e67f94b15cc7b59810a420d787c3879cf3d0",
+      "afterSha256": "b599421b54cfd1258866e99734d3e67f94b15cc7b59810a420d787c3879cf3d0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/receipt.md",
+      "sourceSha256": "945b100c6adc42a291066b8952ea9dad808b89791e39e3ce6b56cddde8d573fb",
+      "afterSha256": "1db05b384f8e09ee0b2aca526fa8761cb8d6e8ab564c4fd98723dc00d34fc528",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/README.md",
+      "sourceSha256": "d5e852f1c681c262070322e2a1ea537f27c8ea077898b2524bd4058ddd919b27",
+      "afterSha256": "6065becc3f4abacdbadfaf16ccf9d036052cd45ca0d1e87693f3d32bec6741de",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json",
+      "sourceSha256": "c215a982dd1a818726194639e29a0dafbcecccba7485a4c85d73f827de3a6060",
+      "afterSha256": "c215a982dd1a818726194639e29a0dafbcecccba7485a4c85d73f827de3a6060",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-b-directed.json",
+      "sourceSha256": "1b03ef078873d68107293bdc710aad7ceb167142da3fe67b3196b31fb2e6547a",
+      "afterSha256": "1b03ef078873d68107293bdc710aad7ceb167142da3fe67b3196b31fb2e6547a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-c-directed.json",
+      "sourceSha256": "3982ff29966f4ec499dbf8fbca5a22235f447b3241de85e73ba19e593d0784fa",
+      "afterSha256": "3982ff29966f4ec499dbf8fbca5a22235f447b3241de85e73ba19e593d0784fa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-d-directed.json",
+      "sourceSha256": "a290a48bffe3e122852505feaf2bfea8a5f0ed5d6f7b4931782a660f46e8dc19",
+      "afterSha256": "a290a48bffe3e122852505feaf2bfea8a5f0ed5d6f7b4931782a660f46e8dc19",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+      "sourceSha256": "cb01b0803c46dbee4ebdfeed195fb34b8adfd7ea2accd7b4351c79c4a5f8e0a7",
+      "afterSha256": "5fd5b3ee9abebd2f4e0d02bdded377a51a70d2b564c902b3b61d0a11f2a65f48",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+      "sourceSha256": "c2bccf848f63695a82a34c670a284afb815d708901f6a736104677a2553305db",
+      "afterSha256": "c2bccf848f63695a82a34c670a284afb815d708901f6a736104677a2553305db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+      "sourceSha256": "39eeaf0c71826f717bcf3363ceb63024e647692498b7a5c4217d313f74e593a4",
+      "afterSha256": "39eeaf0c71826f717bcf3363ceb63024e647692498b7a5c4217d313f74e593a4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+      "sourceSha256": "8fed4ecde431d92ba516b319869ec26c8c373178ef9a49ae74ca00c4824743fc",
+      "afterSha256": "8fed4ecde431d92ba516b319869ec26c8c373178ef9a49ae74ca00c4824743fc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-accept-r3-4e200099.md",
+      "sourceSha256": "7651adba552b0da8e2640017559b912511dde27e2f19d5cc3d609a45effa3047",
+      "afterSha256": "5fca4bcb2d1489c19a34fec7ac4346280eadf7ee8ced4cbbd246ff811effee23",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md",
+      "sourceSha256": "cc1268e948a2bc14699315f2e2b5598771dcd5b1461b4a666bd1fbca29c30125",
+      "afterSha256": "4a02425d6f0ba58fcdc040789d8540f780f5c2a28dd243ee402e2cea6e360352",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md",
+      "sourceSha256": "4fe7a271c56a47196502dd6ec62e3a3903882fa416c9ec1216661ac3843c992b",
+      "afterSha256": "b2dc39966519fa4214a75e645854f6caf97697a56ea43fc796078759fae871cc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/five-batch-union.md",
+      "sourceSha256": "0e761a58ad009e1b1840c755d2df93327b629d8f2d0ddd8189b280319551b511",
+      "afterSha256": "961914ce2c71cc5126fd1910d2d1c62f84d542630776f7c8569dd76b5d77e4fe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-a.md",
+      "sourceSha256": "e71921c6489efd474cd7f940793e76e45f3891979f43c2342dff56ac64bffb07",
+      "afterSha256": "34b67e6d272e7b2e6537cbfb3e3792263385a245a90285625d51acbe0d63a7bb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-b.md",
+      "sourceSha256": "6bf60bce77307c9560745a823ce865f6914888ff783642c2092f463137c42395",
+      "afterSha256": "c361558d154a4583f177cf14f3fb0d7de7ab1470dc7d64bed26b47076f842bce",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-c.md",
+      "sourceSha256": "df7291d9d0b6ef61c203ec049c3d2ea49f2ef65d578019aa87ffe51b6b261755",
+      "afterSha256": "4a2340dbfc93ae35f8d64af993d40fae089d2672a41f07574d4c36bcc26c9cec",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-d.md",
+      "sourceSha256": "4fd417be6291c4156fbc037bed2069269edcca1a1b4ee7bff29780e8fde1ff7c",
+      "afterSha256": "f9c1ec0548259522ad3cf02d64a48ff3531515fa508c84f0c1d76db29c2c6edd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-e.md",
+      "sourceSha256": "d45af69a30cf95c4894ed205ae74aa18383430ab65740e82e7d963b7816d1c3b",
+      "afterSha256": "ea0b5ac1048cb7ccb9a1b3c447559d331bf57e8cfa1b1c16206f3d90927ae372",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/rework-r2-evidence.md",
+      "sourceSha256": "3086e674b9e66a5dbf1bb5b2a79d4c5f350be58d0d5b167bfecf1f9dc6e31a66",
+      "afterSha256": "bea07afab22a006ef517cea82f071b685a521789b0aa012258ddddae781bd23a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/targets.json",
+      "sourceSha256": "a720fe3e1a9fdb202847a84121c4a953a8508d727717be46593889b21842a859",
+      "afterSha256": "a720fe3e1a9fdb202847a84121c4a953a8508d727717be46593889b21842a859",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+      "sourceSha256": "9f6d963dc9269f29fc792342887217c12f0d270c3e1a602c403b0271a1304c5f",
+      "afterSha256": "2a061cb68e000b6f76bc62e4b64aa0d83bfc5a7ae518e0c7597c87a1df4a805c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AD-coverage-delta.json",
+      "sourceSha256": "1ba7be0dfc78d99f782b9bf6e82c2a2934dd045a39f1f0801ab18d473e6b718c",
+      "afterSha256": "1ba7be0dfc78d99f782b9bf6e82c2a2934dd045a39f1f0801ab18d473e6b718c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AH-coverage-delta.json",
+      "sourceSha256": "857d8343321309053f56d826cd7ab58d3db4f9b378bad10c5ce725bc3d2d6efa",
+      "afterSha256": "857d8343321309053f56d826cd7ab58d3db4f9b378bad10c5ce725bc3d2d6efa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+      "sourceSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "afterSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+      "sourceSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "afterSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+      "sourceSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "afterSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-mutant-summary.json",
+      "sourceSha256": "ab1a449b411079513e61069a2884123847e266401da047eb1d6b97513c17488e",
+      "afterSha256": "ab1a449b411079513e61069a2884123847e266401da047eb1d6b97513c17488e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-directed.json",
+      "sourceSha256": "eb4c35490cfe8627fa106c693f2bcb2951f660575a5b3aaed7b4026fcf747e96",
+      "afterSha256": "eb4c35490cfe8627fa106c693f2bcb2951f660575a5b3aaed7b4026fcf747e96",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-mutant-summary.json",
+      "sourceSha256": "3f3bb2403f29ee336f692c4218a84e77bda765366f793d45f6fa4c3b582adb09",
+      "afterSha256": "3f3bb2403f29ee336f692c4218a84e77bda765366f793d45f6fa4c3b582adb09",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
+      "sourceSha256": "3ae0f012422679d543bb8fb0c00ff789d4d53e51705194fc24ecfc82fb9e9a24",
+      "afterSha256": "bf4dedc5c246372f4169632babd3fd5ebad8171f85a25389690796e501f87aba",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md",
+      "sourceSha256": "b534352b4ef401fe42b979acd93a55d85ec4378ef28b2cc71e7d4691f9dddab8",
+      "afterSha256": "47ebf4c114b296098d8f28d75c18ac1d82e7e9fe70ade9380ac7ced191a10fc9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/assets/README.md",
+      "sourceSha256": "d21f3a4971e18639a165ad83dceeef785a715277848b1475777c49ba7328e341",
+      "afterSha256": "f043449591c301b9170f680f50dc61546ed74d938602ae1c4fb9d952a781d853",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md",
+      "sourceSha256": "19386b3a0768f5e62671d982609f1f85da4fdfb5ef6aaa2cc951dc7125527446",
+      "afterSha256": "8c1bfe7c5fb09aa6205d0f8e4b75ac54f489d04dadf5df603f82307b2e992f18",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    }
+  ]
+}

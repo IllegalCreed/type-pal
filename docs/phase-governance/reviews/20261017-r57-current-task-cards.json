@@ -1,0 +1,959 @@
+{
+  "schemaVersion": 1,
+  "id": "r57-current-task-cards-20261017",
+  "reviewer": "Codex root full-text current task-card migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R57: current task cards keep their exact status and owner boundaries while adopting task-card-v1. Source quote and SHA preserve history; migration does not advance status or grant product/runtime/E2E/visual/coverage credit.",
+  "entries": [
+    {
+      "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "E2E-005-1 买虾出门与香兰报信：current task card with status review; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:1",
+        "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:20",
+        "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:73"
+      ],
+      "unresolved": [
+        "技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "e2e-005-1",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
+      "afterSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+      "publicCallers": [
+        "scripts/e2e/meal-contract.mjs",
+        "scripts/e2e/meal-journey.mjs",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+          "scripts/e2e/meal-contract.mjs",
+          "scripts/e2e/meal-journey.mjs",
+          "docs/testing/e2e/stages/005-shrimp/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+        "implementationSha": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
+        "candidateSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+        "afterSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+        "lineCount": 242,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 16296,
+          "sourceLines": 193,
+          "sourceFinalNewline": true,
+          "inverseSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-242",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "review",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "scripts/e2e/meal-contract.mjs; scripts/e2e/meal-journey.mjs; docs/testing/e2e/stages/005-shrimp/report.md",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "review"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "E2E-006-1 — 回客栈求药与张四出海上仙灵岛：current task card with status rework; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77"
+      ],
+      "unresolved": [
+        "当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "e2e-006-1",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+      "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "publicCallers": [
+        "projects/pal/content/scenes/s002.json",
+        "projects/pal/content/scenes/s005.json",
+        "scripts/e2e/boat-contract.mjs",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "projects/pal/content/scenes/s002.json",
+          "projects/pal/content/scenes/s005.json",
+          "scripts/e2e/boat-contract.mjs",
+          "docs/testing/e2e/stages/006-doctor-boat/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "implementationSha": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+        "candidateSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "lineCount": 134,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 7098,
+          "sourceLines": 85,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-134",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "rework",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "projects/pal/content/scenes/s002.json; projects/pal/content/scenes/s005.json; scripts/e2e/boat-contract.mjs; docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "rework"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "E2E-R4-1 — 路线驱动与合法检查点薄基线：current task card with status build; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:1",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:8",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:139"
+      ],
+      "unresolved": [
+        "当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "e2e-r4-1",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
+      "afterSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+      "publicCallers": [
+        "docs/testing/e2e/contract.md",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "docs/testing/e2e/contract.md",
+          "docs/testing/e2e/cross-stage/common-issues.md",
+          "docs/testing/e2e/stages/001-opening/report.md",
+          "docs/testing/e2e/stages/005-shrimp/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "implementationSha": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
+        "candidateSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "afterSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "lineCount": 394,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 31386,
+          "sourceLines": 345,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-394",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "build",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "docs/testing/e2e/contract.md; docs/testing/e2e/cross-stage/common-issues.md; docs/testing/e2e/stages/001-opening/report.md; docs/testing/e2e/stages/005-shrimp/report.md",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "build"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝：current task card with status draft; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:1",
+        "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:11",
+        "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:21"
+      ],
+      "unresolved": [
+        "当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "reforge-opening-load-error-1",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
+      "afterSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+      "publicCallers": [
+        "packages/reforge/src/save/store.ts:116-139",
+        "packages/reforge/src/opening-menu.ts:113-121,138",
+        "packages/reforge/src/main.ts:460-518",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+          "packages/reforge/src/save/store.ts:116-139",
+          "packages/reforge/src/opening-menu.ts:113-121,138",
+          "packages/reforge/src/main.ts:460-518"
+        ]
+      },
+      "revision": {
+        "currentSha": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+        "implementationSha": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
+        "candidateSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+        "afterSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+        "lineCount": 77,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 2555,
+          "sourceLines": 28,
+          "sourceFinalNewline": true,
+          "inverseSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-77",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "draft",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "packages/reforge/src/save/store.ts:116-139; packages/reforge/src/opening-menu.ts:113-121,138; packages/reforge/src/main.ts:460-518",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "draft"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位：current task card with status build; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:1",
+        "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:34",
+        "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:75"
+      ],
+      "unresolved": [
+        "本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "script-author-2",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
+      "afterSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+      "publicCallers": [
+        "projects/pal/content/scenes/s001.json",
+        "projects/pal/content/scenes/s003.json",
+        "packages/reforge/src/script/entity-walk.ts",
+        "scripts/e2e/inn-contract.mjs",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+          "projects/pal/content/scenes/s001.json",
+          "projects/pal/content/scenes/s003.json",
+          "packages/reforge/src/script/entity-walk.ts",
+          "scripts/e2e/inn-contract.mjs"
+        ]
+      },
+      "revision": {
+        "currentSha": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+        "implementationSha": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
+        "candidateSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+        "afterSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+        "lineCount": 274,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 20703,
+          "sourceLines": 225,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-274",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "build",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "projects/pal/content/scenes/s001.json; projects/pal/content/scenes/s003.json; packages/reforge/src/script/entity-walk.ts; scripts/e2e/inn-contract.mjs",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "build"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts：current task card with status rework; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "truthAnchors": [
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:1",
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:44"
+      ],
+      "unresolved": [
+        "当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。"
+      ],
+      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "test-glm-game-turn-boundaries-1",
+      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r57_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        }
+      ],
+      "sourceSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+      "afterSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+      "publicCallers": [
+        "packages/game/src/core/battle/turn-queue.ts",
+        "packages/game/src/core/battle/battle-finalization.ts",
+        "packages/game/src/core/battle/battle-system.ts",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+        "corresponding code/content/test/e2e consumer"
+      ],
+      "businessOracle": {
+        "type": "current-task-card-template-migration",
+        "assertions": [
+          "original goal/scope/status/owner remain traceable",
+          "current status is not advanced by formatting migration",
+          "source/after SHA and quote inverse pass",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+          "packages/game/src/core/battle/turn-queue.ts",
+          "packages/game/src/core/battle/battle-finalization.ts",
+          "packages/game/src/core/battle/battle-system.ts",
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+        "implementationSha": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+        "history": [
+          {
+            "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R57 current task-card template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
+        "sourceSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+        "candidateSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+        "afterSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+        "lineCount": 209,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 11818,
+          "sourceLines": 160,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R57 task-card migration",
+          "reviewer": "r57_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; current task status and original source retained"
+      ],
+      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
+      "reviewedLines": "1-209",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "rework",
+      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+      "candidateSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+          "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+          "sha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "tasks",
+        "currentBoundary": "current task card and board/consumer own truth"
+      },
+      "dependencies": "packages/game/src/core/battle/turn-queue.ts; packages/game/src/core/battle/battle-finalization.ts; packages/game/src/core/battle/battle-system.ts; docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "versionScope": {
+        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
+        "date": "2026-10-17",
+        "validity": "rework"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R57-NO-STATUS-ADVANCE",
+          "status": "closed-for-migration-open-for-task",
+          "statement": "Migration does not advance task status or execution credit."
+        },
+        {
+          "id": "R57-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

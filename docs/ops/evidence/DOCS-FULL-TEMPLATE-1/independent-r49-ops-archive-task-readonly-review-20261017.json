@@ -1,0 +1,3032 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r49-ops-archive-task-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 20,
+    "all20": true,
+    "paths": [
+      "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
+      "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
+      "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+      "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
+      "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+      "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+      "docs/ops/archive/tasks/done/R2-script-single-model.md",
+      "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+      "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+      "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+      "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
+      "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+      "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read bytes + strict UTF-8 decode + SHA-256; headings and status read from content; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "20/20 fully read",
+    "sourceAfter": "20/20 byte SHA equal at intake",
+    "registry": "20/20 governed-legacy entries and review references",
+    "catalog": "ops archive paths outside phase/lore catalog scope",
+    "routing": "archive task cards to receive body routes; README indexes to receive body routes",
+    "classification": "20 task-card archive overlays",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
+      "format": "markdown",
+      "title": "TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "8fdef5320864290959be8f624c17745e0c595dd82cfbc1ecc75a11fe59a9bd6c",
+      "afterSha256": "8fdef5320864290959be8f624c17745e0c595dd82cfbc1ecc75a11fe59a9bd6c",
+      "bytes": 29542,
+      "physicalLineSlots": 380,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure"
+        },
+        {
+          "line": 10,
+          "level": 2,
+          "text": "Codex build allowed"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "独占范围与明确合同点"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "验收交付"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "Kimi r3 交付回执（2026-10-04，main 文档治理基线重建候选）"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "总结论"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "质量门（fresh，2026-10-04 干净 worktree（git worktree add，HEAD=r3 候选）实跑）"
+        },
+        {
+          "line": 99,
+          "level": 3,
+          "text": "Branch delta（fast lcov 一手测量，base=本分支开工点）"
+        },
+        {
+          "line": 115,
+          "level": 3,
+          "text": "合同逐项记录"
+        },
+        {
+          "line": 203,
+          "level": 3,
+          "text": "反控（真实变异点三态；原始/变异/恢复 sha256 + 执行身份 + exit code）"
+        },
+        {
+          "line": 227,
+          "level": 3,
+          "text": "Unreachable ledger（一手不可达证明；均附源码条件与公开入口调查）"
+        },
+        {
+          "line": 334,
+          "level": 3,
+          "text": "定向/相邻测试声明"
+        },
+        {
+          "line": 342,
+          "level": 3,
+          "text": "diff 摘要（本分支相对 codex/coverage-85-dispatch-r1）"
+        },
+        {
+          "line": 352,
+          "level": 3,
+          "text": "下一位 Agent 提示词（Codex 独立验收）"
+        },
+        {
+          "line": 371,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 378,
+          "level": 2,
+          "text": "Codex quality closure (2026-10-04)"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "format": "markdown",
+      "title": "ED-MEDIA-ASSET-ACTIONS-1 - 媒体资源对象操作与生命周期统一",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "3c22ba4f7e632e1ff5780aafa4cfa9c32b2bb49fdae51e16afb011a22dc7de27",
+      "afterSha256": "3c22ba4f7e632e1ff5780aafa4cfa9c32b2bb49fdae51e16afb011a22dc7de27",
+      "bytes": 33307,
+      "physicalLineSlots": 381,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-MEDIA-ASSET-ACTIONS-1 - 媒体资源对象操作与生命周期统一"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 41,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 43,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 48,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 57,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 73,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 119,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 121,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 185,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 254,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 256,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 266,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 273,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 285,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 322,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 332,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 338,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 379,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
+      "format": "markdown",
+      "title": "TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "505c373db024af6106f775cc574811ba3ebd04ad23576f402f02df9b7b9187fc",
+      "afterSha256": "505c373db024af6106f775cc574811ba3ebd04ad23576f402f02df9b7b9187fc",
+      "bytes": 32576,
+      "physicalLineSlots": 382,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure"
+        },
+        {
+          "line": 10,
+          "level": 2,
+          "text": "Codex build allowed"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "独占范围与明确合同点"
+        },
+        {
+          "line": 35,
+          "level": 2,
+          "text": "验收交付"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 59,
+          "level": 2,
+          "text": "GLM r1 交付回执（2026-10-04，分支 codex/coverage85-glm-game-r1，base 76475c01c）"
+        },
+        {
+          "line": 66,
+          "level": 3,
+          "text": "交付物（全部为本卡白名单新增，零产品改动）"
+        },
+        {
+          "line": 81,
+          "level": 3,
+          "text": "branch delta（fast 口径逐字复刻 run.mjs 选择，本地 vitest 4.1.7 + v8）"
+        },
+        {
+          "line": 88,
+          "level": 3,
+          "text": "三态反控（原始绿 → 变异红 → 恢复绿；`mutation-results.json` 6/6 VALID）"
+        },
+        {
+          "line": 102,
+          "level": 3,
+          "text": "未覆盖臂账（r1 后，`uncovered-ledger-r1.json` 逐臂 line:type:arm）"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "质量门"
+        },
+        {
+          "line": 126,
+          "level": 3,
+          "text": "判例沉淀（r2 复用）"
+        },
+        {
+          "line": 136,
+          "level": 3,
+          "text": "下一位 Agent 提示词（Codex 复核 r1）"
+        },
+        {
+          "line": 149,
+          "level": 2,
+          "text": "GLM r1 返工回执（Codex 六项逐条，2026-10-04，仍不请求 done）"
+        },
+        {
+          "line": 195,
+          "level": 2,
+          "text": "GLM r1 窄返工回执（Codex 四项，2026-10-04，仍不请求 done）"
+        },
+        {
+          "line": 212,
+          "level": 2,
+          "text": "GLM r3 回执（2026-10-04，基于 main ea1fddb8c，仍不请求 done）"
+        },
+        {
+          "line": 217,
+          "level": 3,
+          "text": "r3 新增合同（每条含 source:line / 公开 caller / 合法 typed 输入 / 业务 oracle / 旧 fullName 排重）"
+        },
+        {
+          "line": 241,
+          "level": 3,
+          "text": "数字"
+        },
+        {
+          "line": 250,
+          "level": 3,
+          "text": "r3 反控(6 新针,合计 12/12 VALID,完整 identity 证据沿用 r1 返工版 runner)"
+        },
+        {
+          "line": 264,
+          "level": 3,
+          "text": "r3 判例"
+        },
+        {
+          "line": 275,
+          "level": 2,
+          "text": "GLM r4 返工回执（Codex 五项排重指令，2026-10-04，仍不请求 done）"
+        },
+        {
+          "line": 315,
+          "level": 2,
+          "text": "GLM r5 窄返工回执（Codex 四项排重，2026-10-04，仍不请求 done）"
+        },
+        {
+          "line": 352,
+          "level": 2,
+          "text": "GLM r6 窄返工回执（Codex 唯一反项:26 处日志 EOF 空行,2026-10-04,仍不请求 done）"
+        },
+        {
+          "line": 370,
+          "level": 2,
+          "text": "GLM r7 窄返工回执（Codex 最后一项:runner JSON 落盘缺末尾换行,2026-10-04,仍不请求 done）"
+        },
+        {
+          "line": 380,
+          "level": 2,
+          "text": "Codex quality closure (2026-10-04)"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+      "format": "markdown",
+      "title": "M3 - 迁移脚本去内联、按场景分片与体积门禁",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "f5cbf8813e0e838072308c2fc63db22b8db7c8659568c7389921d4c0d20a6ce4",
+      "afterSha256": "f5cbf8813e0e838072308c2fc63db22b8db7c8659568c7389921d4c0d20a6ce4",
+      "bytes": 44760,
+      "physicalLineSlots": 383,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "M3 - 迁移脚本去内联、按场景分片与体积门禁"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "用户裁决(2026-07-13)"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "现状量化"
+        },
+        {
+          "line": 42,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 74,
+          "level": 3,
+          "text": "A. 体积审计与硬门禁"
+        },
+        {
+          "line": 84,
+          "level": 3,
+          "text": "B. clean 分片脚本库"
+        },
+        {
+          "line": 110,
+          "level": 3,
+          "text": "B2. 归属规则：执行边与绑定边分开"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "C. Runner 控制流语义"
+        },
+        {
+          "line": 127,
+          "level": 3,
+          "text": "D. 迁移器改为图注册，不再展开边"
+        },
+        {
+          "line": 135,
+          "level": 3,
+          "text": "E. 可重复迁移与手工演出保护"
+        },
+        {
+          "line": 142,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 152,
+          "level": 3,
+          "text": "Codex 主审立场(2026-07-13)"
+        },
+        {
+          "line": 158,
+          "level": 3,
+          "text": "Opus 上一版主审立场(2026-07-13,已被分片修订取代，待重签)"
+        },
+        {
+          "line": 201,
+          "level": 3,
+          "text": "Opus 分片版主审立场(2026-07-13 重签,架构/加载边界/运行语义)"
+        },
+        {
+          "line": 241,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 254,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 256,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 302,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 325,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 354,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 365,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 381,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "format": "markdown",
+      "title": "MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "dd9979b4f02f5c3bf4d657ec701c8a5b938ac56901444e58eb2f1bc14e50ffcb",
+      "afterSha256": "dd9979b4f02f5c3bf4d657ec701c8a5b938ac56901444e58eb2f1bc14e50ffcb",
+      "bytes": 34023,
+      "physicalLineSlots": 383,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 34,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 36,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 41,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 50,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 62,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 69,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 94,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 96,
+          "level": 3,
+          "text": "进入 build 前：前提 / 设计"
+        },
+        {
+          "line": 197,
+          "level": 3,
+          "text": "进入 done 前：审查签字"
+        },
+        {
+          "line": 273,
+          "level": 2,
+          "text": "Draft / Build / Review"
+        },
+        {
+          "line": 279,
+          "level": 2,
+          "text": "Build / Review 证据"
+        },
+        {
+          "line": 306,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 311,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 362,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
+      "format": "markdown",
+      "title": "TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "f50b31e98497db73ec6ad310a1c61c49d1b3e5ce7cb3d884d42e05dcd6e48ab2",
+      "afterSha256": "f50b31e98497db73ec6ad310a1c61c49d1b3e5ce7cb3d884d42e05dcd6e48ab2",
+      "bytes": 48088,
+      "physicalLineSlots": 388,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "目标与边界"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 53,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "四组范围与完成标准"
+        },
+        {
+          "line": 65,
+          "level": 3,
+          "text": "A · shared解码与归档"
+        },
+        {
+          "line": 73,
+          "level": 3,
+          "text": "B · 当前内容与脚本校验"
+        },
+        {
+          "line": 83,
+          "level": 3,
+          "text": "C · pal-extract原盘表解析"
+        },
+        {
+          "line": 91,
+          "level": 3,
+          "text": "D · 纯迁移合并与计划"
+        },
+        {
+          "line": 100,
+          "level": 2,
+          "text": "白名单"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "测试与证据合同"
+        },
+        {
+          "line": 129,
+          "level": 2,
+          "text": "执行与验证"
+        },
+        {
+          "line": 151,
+          "level": 2,
+          "text": "验收与推进签字"
+        },
+        {
+          "line": 156,
+          "level": 3,
+          "text": "build前"
+        },
+        {
+          "line": 217,
+          "level": 3,
+          "text": "done前"
+        },
+        {
+          "line": 276,
+          "level": 2,
+          "text": "额度、并行与交接"
+        },
+        {
+          "line": 324,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        },
+        {
+          "line": 328,
+          "level": 3,
+          "text": "历史交接：集成候选终审（已完成）"
+        },
+        {
+          "line": 332,
+          "level": 4,
+          "text": "Kimi独立终审"
+        },
+        {
+          "line": 341,
+          "level": 4,
+          "text": "GLM仅补实现者自验登记"
+        },
+        {
+          "line": 349,
+          "level": 3,
+          "text": "历史交接：GLM定点修c0c94333剩余R2（已闭）"
+        },
+        {
+          "line": 359,
+          "level": 3,
+          "text": "历史交接：GLM返工01c149b5（已按本轮结论收窄）"
+        },
+        {
+          "line": 369,
+          "level": 3,
+          "text": "GLM"
+        },
+        {
+          "line": 381,
+          "level": 3,
+          "text": "Kimi（与GLM设计审查并行）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "format": "markdown",
+      "title": "MIG-PAL-ACTOR-FACE-1 - PAL 角色小头像缺席语义与迁移收口",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "8ce79c410e2d40b21132f7b24fa0b2c89975956a35515bd65fc582fcb635be0c",
+      "afterSha256": "8ce79c410e2d40b21132f7b24fa0b2c89975956a35515bd65fc582fcb635be0c",
+      "bytes": 29518,
+      "physicalLineSlots": 389,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "MIG-PAL-ACTOR-FACE-1 - PAL 角色小头像缺席语义与迁移收口"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 38,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 43,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 52,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 63,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 95,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 113,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 115,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 177,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 221,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 223,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 232,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 241,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 251,
+          "level": 3,
+          "text": "三方争议记录(按需)"
+        },
+        {
+          "line": 265,
+          "level": 2,
+          "text": "额度 / 代班记录(如适用)"
+        },
+        {
+          "line": 275,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 311,
+          "level": 2,
+          "text": "资源生成记录(如适用)"
+        },
+        {
+          "line": 321,
+          "level": 2,
+          "text": "视觉验证记录(如适用)"
+        },
+        {
+          "line": 331,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 340,
+          "level": 3,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 344,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 349,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 377,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "format": "markdown",
+      "title": "ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "a5b3cc53092b403d762341d4025d9dc170a55eaf9430caa3fe988fa8dc468050",
+      "afterSha256": "a5b3cc53092b403d762341d4025d9dc170a55eaf9430caa3fe988fa8dc468050",
+      "bytes": 34446,
+      "physicalLineSlots": 398,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 30,
+          "level": 3,
+          "text": "一句话前提"
+        },
+        {
+          "line": 36,
+          "level": 3,
+          "text": "四向真值矩阵"
+        },
+        {
+          "line": 45,
+          "level": 3,
+          "text": "替代解释与可证伪"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 63,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 76,
+          "level": 2,
+          "text": "设计方案"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 117,
+          "level": 2,
+          "text": "实现与验证证据"
+        },
+        {
+          "line": 146,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 148,
+          "level": 3,
+          "text": "进入 build 前"
+        },
+        {
+          "line": 260,
+          "level": 3,
+          "text": "进入 done 前"
+        },
+        {
+          "line": 339,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 394,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "format": "markdown",
+      "title": "ED-STAMP-MAP-MODEL-1 - 组合/地图共享等距内容模型与相对高度",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "403bfef1e75e979922d425809ab0dddb665b68dd35e03e496292207f0b4e0392",
+      "afterSha256": "403bfef1e75e979922d425809ab0dddb665b68dd35e03e496292207f0b4e0392",
+      "bytes": 34264,
+      "physicalLineSlots": 402,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-STAMP-MAP-MODEL-1 - 组合/地图共享等距内容模型与相对高度"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 45,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 50,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 59,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 110,
+          "level": 3,
+          "text": "设计结论（Codex 候选，待三方签字）"
+        },
+        {
+          "line": 138,
+          "level": 3,
+          "text": "方案可证伪点"
+        },
+        {
+          "line": 145,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 153,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 159,
+          "level": 3,
+          "text": "三方争议记录"
+        },
+        {
+          "line": 167,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 180,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 182,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 246,
+          "level": 4,
+          "text": "Kimi 独立反证审查（2026-08-18，schema/公共接口/renderer/版本主审；本人一手读码）"
+        },
+        {
+          "line": 296,
+          "level": 3,
+          "text": "进入 done 前：审查签字"
+        },
+        {
+          "line": 337,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 359,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 364,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 385,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 389,
+          "level": 2,
+          "text": "历史交接提示词（已完成）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF-RW - release worker 墙钟优化",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "a54fbacac98025d22691d0ae2d32927fbd5052db1da991d43064d4cd8e660f75",
+      "afterSha256": "a54fbacac98025d22691d0ae2d32927fbd5052db1da991d43064d4cd8e660f75",
+      "bytes": 35597,
+      "physicalLineSlots": 407,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF-RW - release worker 墙钟优化"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "当前证据（只读基线）"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "不可做"
+        },
+        {
+          "line": 60,
+          "level": 2,
+          "text": "候选方案与冻结顺序"
+        },
+        {
+          "line": 62,
+          "level": 3,
+          "text": "A. 阶段计时（低风险，当前 build 范围）"
+        },
+        {
+          "line": 77,
+          "level": 3,
+          "text": "B. 独立分组并行（中风险，A 完成后的单独 build）"
+        },
+        {
+          "line": 93,
+          "level": 3,
+          "text": "C. 集中 determinism proof（大收益，另行任务卡/三方设计）"
+        },
+        {
+          "line": 107,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 129,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 131,
+          "level": 3,
+          "text": "进入 build 前：设计"
+        },
+        {
+          "line": 140,
+          "level": 3,
+          "text": "进入 done 前：实现"
+        },
+        {
+          "line": 152,
+          "level": 2,
+          "text": "GLM final evidence 复审（2026-08-12，HEAD d30f2180；本人只读 + 本人实跑，未改实现文件，未代签 Kimi）"
+        },
+        {
+          "line": 191,
+          "level": 2,
+          "text": "2026-08-22 current-only 后续处置"
+        },
+        {
+          "line": 198,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 205,
+          "level": 2,
+          "text": "Kimi 设计复审（2026-08-10）"
+        },
+        {
+          "line": 239,
+          "level": 2,
+          "text": "GLM 设计复审（2026-08-10）"
+        },
+        {
+          "line": 260,
+          "level": 2,
+          "text": "GLM 返工复审（2026-08-10）"
+        },
+        {
+          "line": 273,
+          "level": 2,
+          "text": "Kimi 返工复审（2026-08-10）"
+        },
+        {
+          "line": 290,
+          "level": 2,
+          "text": "Codex A 实现进度（2026-08-10）"
+        },
+        {
+          "line": 304,
+          "level": 3,
+          "text": "2026-08-11 FRESH 返工闭环证据（Codex，未代签）"
+        },
+        {
+          "line": 322,
+          "level": 3,
+          "text": "2026-08-12 三次 full baseline 回填（用户确认 + Codex 契约核对）"
+        },
+        {
+          "line": 340,
+          "level": 2,
+          "text": "Kimi A 实现复审（历史记录，已由下方最终复审取代；2026-08-10）"
+        },
+        {
+          "line": 356,
+          "level": 2,
+          "text": "Kimi A 最终实现复审（2026-08-10）"
+        },
+        {
+          "line": 362,
+          "level": 2,
+          "text": "GLM A 实现最终复审（2026-08-10）"
+        },
+        {
+          "line": 367,
+          "level": 2,
+          "text": "Kimi final evidence 复审（2026-08-12，本人；只读核对 + 本人复跑，未改实现文件，未代签 GLM）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+      "format": "markdown",
+      "title": "SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "c8c0863008adcda9577d2d1dd59d689e78a4ac94a47a8ec9ac3103b015b2070a",
+      "afterSha256": "c8c0863008adcda9577d2d1dd59d689e78a4ac94a47a8ec9ac3103b015b2070a",
+      "bytes": 45810,
+      "physicalLineSlots": 408,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "目标与范围"
+        },
+        {
+          "line": 31,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 48,
+          "level": 3,
+          "text": "替代解释与证伪"
+        },
+        {
+          "line": 60,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 67,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 77,
+          "level": 2,
+          "text": "Draft：r1设计与风险"
+        },
+        {
+          "line": 79,
+          "level": 3,
+          "text": "1. 统一当前host的开战身份"
+        },
+        {
+          "line": 85,
+          "level": 3,
+          "text": "2. lineage绑定真实在途lease，不用计数当准入凭据"
+        },
+        {
+          "line": 93,
+          "level": 3,
+          "text": "3. 嵌套持久活动窄准入，并保留它的完整调用语义"
+        },
+        {
+          "line": 105,
+          "level": 3,
+          "text": "预计改动与审查面"
+        },
+        {
+          "line": 115,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 133,
+          "level": 3,
+          "text": "集中E2E登记"
+        },
+        {
+          "line": 142,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 144,
+          "level": 3,
+          "text": "进入build前"
+        },
+        {
+          "line": 234,
+          "level": 3,
+          "text": "进入done前"
+        },
+        {
+          "line": 306,
+          "level": 2,
+          "text": "Build / Review / 用户验收"
+        },
+        {
+          "line": 312,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 359,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        },
+        {
+          "line": 363,
+          "level": 3,
+          "text": "历史：r1实现终审（已完成）"
+        },
+        {
+          "line": 367,
+          "level": 4,
+          "text": "Kimi实现审查"
+        },
+        {
+          "line": 376,
+          "level": 4,
+          "text": "GLM实现审查"
+        },
+        {
+          "line": 385,
+          "level": 3,
+          "text": "历史：r1设计转交（已完成，不再执行）"
+        },
+        {
+          "line": 390,
+          "level": 3,
+          "text": "Kimi"
+        },
+        {
+          "line": 400,
+          "level": 3,
+          "text": "GLM"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
+      "format": "markdown",
+      "title": "R2 - 事件脚本单一模型与 unmigrated 退役",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "ffe3e892d3effcfcfc74ade3988138eaf13f5aebc12a693dc5a62ac60813a1ad",
+      "afterSha256": "ffe3e892d3effcfcfc74ade3988138eaf13f5aebc12a693dc5a62ac60813a1ad",
+      "bytes": 40486,
+      "physicalLineSlots": 413,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "R2 - 事件脚本单一模型与 unmigrated 退役"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "当前残余基线"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 105,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 109,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 164,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 179,
+          "level": 3,
+          "text": "GLM done 前覆盖复验（2026-07-14）"
+        },
+        {
+          "line": 221,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 223,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 225,
+          "level": 4,
+          "text": "A. 可执行内容只有 clean `Command`"
+        },
+        {
+          "line": 233,
+          "level": 4,
+          "text": "B. 全局脚本地址按数组地址解析"
+        },
+        {
+          "line": 241,
+          "level": 4,
+          "text": "C. `0x6D` 使用可表达“继承 / 覆写 / 禁用”的场景脚本状态"
+        },
+        {
+          "line": 251,
+          "level": 4,
+          "text": "D. `0x78` 与 `0xA0`"
+        },
+        {
+          "line": 256,
+          "level": 4,
+          "text": "E. 删除运行时第二解释器"
+        },
+        {
+          "line": 262,
+          "level": 4,
+          "text": "F. 实施分期"
+        },
+        {
+          "line": 270,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 281,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 299,
+          "level": 3,
+          "text": "三方争议记录(按需)"
+        },
+        {
+          "line": 306,
+          "level": 2,
+          "text": "额度 / 代班记录(如适用)"
+        },
+        {
+          "line": 316,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 362,
+          "level": 2,
+          "text": "视觉验证记录(如适用)"
+        },
+        {
+          "line": 378,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 385,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 390,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 411,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/R2-script-single-model.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+      "format": "markdown",
+      "title": "X3-1 - 场景入场呈现事务",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "34bf28c303c857cadadaf510a12370321d8e7b511660be356af558eed3a06a15",
+      "afterSha256": "34bf28c303c857cadadaf510a12370321d8e7b511660be356af558eed3a06a15",
+      "bytes": 38649,
+      "physicalLineSlots": 419,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "X3-1 - 场景入场呈现事务"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 41,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 74,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 119,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 121,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 164,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 242,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 244,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 256,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 267,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 298,
+          "level": 3,
+          "text": "三方争议记录(按需)"
+        },
+        {
+          "line": 307,
+          "level": 2,
+          "text": "额度 / 代班记录(如适用)"
+        },
+        {
+          "line": 311,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 346,
+          "level": 2,
+          "text": "视觉验证记录(如适用)"
+        },
+        {
+          "line": 372,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 380,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 385,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 417,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "format": "markdown",
+      "title": "ED-FLOATING-LAYER-ADOPTION-1 - 编辑器浮层真实采用与防假绿门禁",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "09b919ff016ef6de77e9711f2d68c163de5d575051ff5a5689d7ed5effb8b138",
+      "afterSha256": "09b919ff016ef6de77e9711f2d68c163de5d575051ff5a5689d7ed5effb8b138",
+      "bytes": 33467,
+      "physicalLineSlots": 420,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-FLOATING-LAYER-ADOPTION-1 - 编辑器浮层真实采用与防假绿门禁"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 47,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 52,
+          "level": 3,
+          "text": "四向真值矩阵"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "用户可见 before -> after"
+        },
+        {
+          "line": 71,
+          "level": 3,
+          "text": "替代解释与可证伪观察"
+        },
+        {
+          "line": 82,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "冻结设计"
+        },
+        {
+          "line": 106,
+          "level": 3,
+          "text": "Popup owner"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "Modal owner"
+        },
+        {
+          "line": 124,
+          "level": 3,
+          "text": "Adoption gate"
+        },
+        {
+          "line": 133,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 146,
+          "level": 2,
+          "text": "验证命令（设计冻结，build 后执行）"
+        },
+        {
+          "line": 161,
+          "level": 2,
+          "text": "风险"
+        },
+        {
+          "line": 170,
+          "level": 2,
+          "text": "Build 证据"
+        },
+        {
+          "line": 191,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 193,
+          "level": 3,
+          "text": "进入 build 前设计签字（当前）"
+        },
+        {
+          "line": 315,
+          "level": 3,
+          "text": "进入 done 前签字"
+        },
+        {
+          "line": 372,
+          "level": 2,
+          "text": "Review"
+        },
+        {
+          "line": 378,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 386,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 418,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF-FRESH - release fresh hook/test 超时根因",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "69c169610e0e4b358f94620fe5483cd4cbbd8ae0e8c9eae8d7afc33b7a241caf",
+      "afterSha256": "69c169610e0e4b358f94620fe5483cd4cbbd8ae0e8c9eae8d7afc33b7a241caf",
+      "bytes": 35619,
+      "physicalLineSlots": 420,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF-FRESH - release fresh hook/test 超时根因"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 32,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 74,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 109,
+          "level": 4,
+          "text": "Kimi 复签证据（2026-08-11，本人；命令均为本会话实跑）"
+        },
+        {
+          "line": 126,
+          "level": 4,
+          "text": "GLM 数据/覆盖设计复审（2026-08-10，本人，非代理）：**agree（附 2 条卡文修正）**"
+        },
+        {
+          "line": 162,
+          "level": 3,
+          "text": "进入 done 前：实现签字"
+        },
+        {
+          "line": 179,
+          "level": 4,
+          "text": "GLM R1 复审证据（2026-08-12，HEAD d30f2180；本人实跑）"
+        },
+        {
+          "line": 210,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 212,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 231,
+          "level": 3,
+          "text": "根因诊断（2026-08-10，只读）"
+        },
+        {
+          "line": 258,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 263,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 306,
+          "level": 3,
+          "text": "Codex counter 返工答复（2026-08-11；只读诊断，未改实现）"
+        },
+        {
+          "line": 346,
+          "level": 3,
+          "text": "Codex 受控 build 实现证据（2026-08-11；未代签）"
+        },
+        {
+          "line": 383,
+          "level": 3,
+          "text": "Kimi 实现复审（2026-08-12，本人；只读 + 本人复跑，未改实现文件，未代签 GLM）"
+        },
+        {
+          "line": 415,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+      "format": "markdown",
+      "title": "D14-3 - 奖励/事件总线统一收尾（议题 14 剩余③）",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "dfc066dd6c6cf229f53c8d76b797b24fb799434467aaac56093901d0c6eb538a",
+      "afterSha256": "dfc066dd6c6cf229f53c8d76b797b24fb799434467aaac56093901d0c6eb538a",
+      "bytes": 31818,
+      "physicalLineSlots": 421,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "D14-3 - 奖励/事件总线统一收尾（议题 14 剩余③）"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 70,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 81,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 96,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 98,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 127,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 134,
+          "level": 3,
+          "text": "三方争议记录(按需)"
+        },
+        {
+          "line": 140,
+          "level": 4,
+          "text": "Kimi 设计抽审（2026-08-07，视觉/UX，额度恢复补审）：**agree（附 K1-K3 build 准入钉）**"
+        },
+        {
+          "line": 175,
+          "level": 4,
+          "text": "GLM 设计压测（2026-08-07，覆盖矩阵主审）：**agree（附 G1-G2 build 准入钉）**"
+        },
+        {
+          "line": 204,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 247,
+          "level": 3,
+          "text": "钉逐项对照(G1-G2/K1-K3)"
+        },
+        {
+          "line": 260,
+          "level": 2,
+          "text": "视觉验证记录(如适用)"
+        },
+        {
+          "line": 276,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 285,
+          "level": 3,
+          "text": "GLM 实现复审（2026-08-07，覆盖矩阵 build 期核对）：**accept**"
+        },
+        {
+          "line": 323,
+          "level": 3,
+          "text": "Kimi 视觉抽验与实现复审（2026-08-08，视觉/UX 席）：**accept**"
+        },
+        {
+          "line": 358,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 364,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 419,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
+      "format": "markdown",
+      "title": "TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "79c318578ff1a6d562d509693bd8ff32386f317771ab8d0d32b029d6fd33ad3c",
+      "afterSha256": "79c318578ff1a6d562d509693bd8ff32386f317771ab8d0d32b029d6fd33ad3c",
+      "bytes": 57022,
+      "physicalLineSlots": 424,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "目标与边界"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 38,
+          "level": 2,
+          "text": "上下文与完整工作包"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "输入、观测与白名单"
+        },
+        {
+          "line": 59,
+          "level": 2,
+          "text": "验收与负控"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 67,
+          "level": 3,
+          "text": "build前"
+        },
+        {
+          "line": 112,
+          "level": 3,
+          "text": "done前"
+        },
+        {
+          "line": 114,
+          "level": 4,
+          "text": "当前r5独立接收（2026-09-24）"
+        },
+        {
+          "line": 133,
+          "level": 4,
+          "text": "历史r4独立接收（2026-09-24，原文保留）"
+        },
+        {
+          "line": 140,
+          "level": 4,
+          "text": "历史r3独立接收（2026-09-24；前一日开始取证，原文保留）"
+        },
+        {
+          "line": 158,
+          "level": 4,
+          "text": "历史r2独立接收（2026-09-23，原文保留）"
+        },
+        {
+          "line": 176,
+          "level": 4,
+          "text": "历史r1接收与签字（原文保留）"
+        },
+        {
+          "line": 208,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 364,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        },
+        {
+          "line": 366,
+          "level": 3,
+          "text": "当前：本卡done，无下一位Agent提示词"
+        },
+        {
+          "line": 371,
+          "level": 3,
+          "text": "历史给GLM：r4只剩队友消费一项（无Kimi交接）"
+        },
+        {
+          "line": 381,
+          "level": 3,
+          "text": "历史给GLM：r3收窄残项N1～N4（无Kimi交接）"
+        },
+        {
+          "line": 392,
+          "level": 3,
+          "text": "历史给GLM：r2残项C1～C4（无Kimi交接）"
+        },
+        {
+          "line": 402,
+          "level": 3,
+          "text": "历史给GLM：R1～R4整包返工"
+        },
+        {
+          "line": 410,
+          "level": 3,
+          "text": "历史给GLM：六组连续实施（16ac8cee交付后被counter）"
+        },
+        {
+          "line": 416,
+          "level": 3,
+          "text": "以下为历史设计审查提示词（已完成）"
+        },
+        {
+          "line": 418,
+          "level": 3,
+          "text": "给GLM（与Kimi同r1并行）"
+        },
+        {
+          "line": 422,
+          "level": 3,
+          "text": "给Kimi（与GLM同r1并行）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "format": "markdown",
+      "title": "OPS-MAP-1 - 能力地图真值对账与选择器校准",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "66a3779c00a1133c3464775917a658b270e140a8662af1511bf1a284947d83d1",
+      "afterSha256": "66a3779c00a1133c3464775917a658b270e140a8662af1511bf1a284947d83d1",
+      "bytes": 33927,
+      "physicalLineSlots": 441,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-MAP-1 - 能力地图真值对账与选择器校准"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 38,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 42,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 51,
+          "level": 3,
+          "text": "已发现的证据冲突"
+        },
+        {
+          "line": 63,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 74,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 118,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 151,
+          "level": 4,
+          "text": "GLM 独立反证审查（2026-08-13，本人；非代理）"
+        },
+        {
+          "line": 202,
+          "level": 4,
+          "text": "Kimi 独立四证对账（2026-08-13，本人；非代理）"
+        },
+        {
+          "line": 258,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 296,
+          "level": 4,
+          "text": "GLM done 前终审证据（2026-08-13，本人；非代理）"
+        },
+        {
+          "line": 342,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 344,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 349,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 358,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 368,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 398,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 407,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 412,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 436,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+      "format": "markdown",
+      "title": "EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "f2180c18761e646f66b53ea64a6a1a743011c52dc7239ceecf488f080f4f40e3",
+      "afterSha256": "f2180c18761e646f66b53ea64a6a1a743011c52dc7239ceecf488f080f4f40e3",
+      "bytes": 44605,
+      "physicalLineSlots": 442,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "当前结论与目标"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 46,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 48,
+          "level": 3,
+          "text": "一句话前提"
+        },
+        {
+          "line": 53,
+          "level": 3,
+          "text": "四向真值矩阵（源码行号均据 fa8d4e52）"
+        },
+        {
+          "line": 62,
+          "level": 3,
+          "text": "替代解释、反证及边界"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "用户可见变化"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "Draft：设计"
+        },
+        {
+          "line": 100,
+          "level": 3,
+          "text": "1. 短决策与用户激活"
+        },
+        {
+          "line": 121,
+          "level": 3,
+          "text": "2. 单一离开入口与最后复验"
+        },
+        {
+          "line": 138,
+          "level": 3,
+          "text": "3. 刷新 / 关闭"
+        },
+        {
+          "line": 147,
+          "level": 3,
+          "text": "4. 文件与风险边界"
+        },
+        {
+          "line": 154,
+          "level": 2,
+          "text": "验收条件与测试矩阵"
+        },
+        {
+          "line": 181,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 183,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 257,
+          "level": 3,
+          "text": "Codex 准入吸收（不改他席原始签字）"
+        },
+        {
+          "line": 265,
+          "level": 3,
+          "text": "进入 done 前：审查签字"
+        },
+        {
+          "line": 333,
+          "level": 2,
+          "text": "Build / Review / 视觉 / 用户验收"
+        },
+        {
+          "line": 345,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 404,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 408,
+          "level": 3,
+          "text": "给 Codex（历史：汇总核定 done，技术门已核定）"
+        },
+        {
+          "line": 418,
+          "level": 3,
+          "text": "给 Kimi（历史：与 GLM 并行终审，已完成，r1 / 候选 10c84238）"
+        },
+        {
+          "line": 431,
+          "level": 3,
+          "text": "给 GLM（历史：与 Kimi 并行终审，已完成，r1 / 候选 10c84238）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+      "format": "markdown",
+      "title": "MIG-PAL-GOURD-FAILURE-MESSAGE-1 - PAL 紫金葫芦零灵葫值原文迁移闭环",
+      "status": "historical-done",
+      "sourceRevision": "f499196f7941d957d5985a8c0efa408008c0d0b3",
+      "sourceSha256": "e24527073a981987f54933beff353ff9e9053cb02f1a1494d4138b7af70bb56e",
+      "afterSha256": "e24527073a981987f54933beff353ff9e9053cb02f1a1494d4138b7af70bb56e",
+      "bytes": 39307,
+      "physicalLineSlots": 446,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "MIG-PAL-GOURD-FAILURE-MESSAGE-1 - PAL 紫金葫芦零灵葫值原文迁移闭环"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 37,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 39,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 44,
+          "level": 3,
+          "text": "四向真值矩阵"
+        },
+        {
+          "line": 53,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 68,
+          "level": 3,
+          "text": "用户可见 before -> after"
+        },
+        {
+          "line": 76,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 87,
+          "level": 2,
+          "text": "设计方案"
+        },
+        {
+          "line": 99,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 117,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 119,
+          "level": 3,
+          "text": "进入 build 前：前提 / 设计"
+        },
+        {
+          "line": 237,
+          "level": 3,
+          "text": "进入 done 前：审查签字"
+        },
+        {
+          "line": 332,
+          "level": 2,
+          "text": "Draft / Build / Review"
+        },
+        {
+          "line": 338,
+          "level": 2,
+          "text": "Build / Review 证据"
+        },
+        {
+          "line": 367,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 372,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 426,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

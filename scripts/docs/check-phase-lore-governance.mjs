@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
+import { renderPhaseGovernanceIndexes } from './build-phase-lore-governance.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const docsRoot = resolve(repoRoot, 'docs')
@@ -66,6 +67,11 @@ for (const path of seen)
   if (!expected.includes(path)) issues.push(`catalog points outside phase/lore roots: ${path}`)
 if (catalog.summary?.total !== expected.length)
   issues.push(`catalog summary total ${catalog.summary?.total} != ${expected.length}`)
+for (const [name, expectedText] of Object.entries(renderPhaseGovernanceIndexes(catalog))) {
+  const path = resolve(docsRoot, 'phase-governance', name)
+  if (!existsSync(path) || readFileSync(path, 'utf8') !== expectedText)
+    issues.push(`phase/lore generated index drift: ${name}`)
+}
 console.log(
   `phase/lore governance: ${issues.length ? 'FAIL' : 'PASS'} (${expected.length} documents)`,
 )

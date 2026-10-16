@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r83-testing-current-20261017",
+  "kind": "R83 current testing governance",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
+  "scope": {
+    "documents": 4,
+    "docTypes": {
+      "governance-index": 1,
+      "guide-runbook": 1,
+      "test-catalog": 2
+    },
+    "artifactOnlyJson": 2
+  },
+  "entries": [
+    {
+      "path": "docs/testing/README.md",
+      "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
+      "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+      "templateId": "governance-index-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": false
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+      "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "templateId": "guide-runbook-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": false
+    },
+    {
+      "path": "docs/testing/legacy-flat-classification.json",
+      "sourceSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "afterSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "templateId": "test-catalog-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/legacy-flat.json",
+      "sourceSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "afterSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "templateId": "test-catalog-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    }
+  ]
+}

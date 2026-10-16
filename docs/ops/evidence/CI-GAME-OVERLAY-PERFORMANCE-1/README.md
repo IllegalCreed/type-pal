@@ -1,29 +1,86 @@
 # Game 大世界叠层测试性能修复
 
-Codex在用户2026-10-08授权下完成第一阶段`p12-overlays.test.ts`的测试夹具优化。只改同一测试文件，四个fullName不变，不删业务断言，不改产品、配置、超时、ignore或官方基准。普通/coverage定向、相邻44/44、Game全包3519/3519、typecheck、7项有效反控及受保护fast全部通过；收口docs零问题、lint完整3693文件0/0/0、diff通过。新提交GitHub CI按实际推送HEAD另核，不将本地门冒充托管通过。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: evidence-receipt-v1 / 1.0.0
 
-## 已核原因与修改
+本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-冻结起点`91aac75c54c2afa82e7ccb6ee295485b73a14aa7`。此前[失败CI](https://github.com/IllegalCreed/type-pal/actions/runs/37744699839)目标单例5795ms超过默认5000ms；[同代码新CI](https://github.com/IllegalCreed/type-pal/actions/runs/37774256927)单例4115ms、整job24分53秒通过，未撞30分钟总上限。诊断CPU采样中`repairTilemapSeams`占整个worker采样58.32%；稀疏1×1瓦片触发全屏最多16轮扩散，coverage与并行放大成本，不是缺资源或等待IO。
+## 证据身份
 
-当前夹具用不透明黑底覆盖视口、两个显式标记瓦片形成第8行x=0..32像素条；只保留(16,8)一处小孔和确定颜色的西北邻居。真实接缝修复仍运行，并由原像素oracle核验“先修接缝再卷动”，不把接缝函数mock掉，也不丢其调用/顺序判别力。
+- Game 大世界叠层测试性能修复 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371。
 
-原波幅、补帧相位、像素196/210/218/230、sprite覆盖次序及输入不变断言全部保留；位图不变检查扩大到三份实际输入。额外一个逻辑帧以245/212两个边缘像素判别相位前进，而非只看到波幅变化。重映射用例复用同一合法夹具；其它两个用例不改。接缝算法自身的扩散、opaque index0和邻居顺序继续由相邻旧测承担，不堆新用例。
+## 来源与输入
 
-## 实测与原子合同
+- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
 
-本机Node22.23.2、pnpm10.29.2、Vitest4.1.7，compile cache关闭，真实V8 coverage；单次对照而非统计性能保证：目标普通运行54.19→16.26ms，coverage966.67→52.72ms。最终同文件4/4，新增推进帧也在这一个既有水波合同内，不以例数减少证明优化。命令、JSON/raw hash和执行身份见[验证回执](receipt.json)。
+## 断言与业务 oracle
 
-受保护fast以起点91aac75c5比较：19597例通过，726源码，整体分支50132/60209（83.26%），所有指标与范围不变。baseline SHA256仍为`c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318`；无指标或范围变化，不重建基准。
+- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
 
-## 反控与恢复
+## 结果
 
-[完整反控原件](counterproof.json)包含20项复用严格判据自测、7项变异、16次真实执行相位：原始绿、逐针红/真正恢复绿和末次绿。每次执行同一文件四个身份的多重集合，拒收pending/skip/collection/hook/runtime/global错误、信号或spawn失败；每针恰一指定业务AssertionError，不按exit/count单独判断。
+- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
 
-变异分别禁止逻辑波幅推进、错误推进补帧相位、冻结逻辑相位、跳过水波、跳过场景重映射、跳过有水波时的接缝修复、把接缝修复移到水波之后。最后两项专门证明优化没有因黑底而丢失原接线/顺序oracle。
+## 限制与复核
 
-JSON内的`rawNativeText`/`jsonNativeText`是原始UTF-8字节文本；解析字符串后可逐字重建SHA256，外层JSON格式化不改变原件。未把原生JSON重排后冒称原hash。临时独占counter worktree的产品与测试恢复后已清理，只清本次树；其它GLM会话和工作树未动。
+- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
 
-## 验收边界
+## 历史范围
 
-这是Codex同Owner连续低风险测试小改的自验证，不冒称第三方独立审查。产品渲染/公式/UX不变，不需要新的原版机制或视觉裁决；不把临时变异用于产品实现。没有下一位Agent提示词，Codex负责本次有限收口；三张GLM新卡继续按各自原白名单执行，不追加任务。
+- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+
+## 原始结论
+
+- Game 大世界叠层测试性能修复：原始正文完整保留于下方 quote。
+
+## 当时证据
+
+- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+
+## 当前有效性
+
+historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
+- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+
+## 继任文档
+
+- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+
+## 原文保全
+
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # Game 大世界叠层测试性能修复
+>
+> Codex在用户2026-10-08授权下完成第一阶段`p12-overlays.test.ts`的测试夹具优化。只改同一测试文件，四个fullName不变，不删业务断言，不改产品、配置、超时、ignore或官方基准。普通/coverage定向、相邻44/44、Game全包3519/3519、typecheck、7项有效反控及受保护fast全部通过；收口docs零问题、lint完整3693文件0/0/0、diff通过。新提交GitHub CI按实际推送HEAD另核，不将本地门冒充托管通过。
+>
+> ## 已核原因与修改
+>
+> 冻结起点`91aac75c54c2afa82e7ccb6ee295485b73a14aa7`。此前[失败CI](https://github.com/IllegalCreed/type-pal/actions/runs/37744699839)目标单例5795ms超过默认5000ms；[同代码新CI](https://github.com/IllegalCreed/type-pal/actions/runs/37774256927)单例4115ms、整job24分53秒通过，未撞30分钟总上限。诊断CPU采样中`repairTilemapSeams`占整个worker采样58.32%；稀疏1×1瓦片触发全屏最多16轮扩散，coverage与并行放大成本，不是缺资源或等待IO。
+>
+> 当前夹具用不透明黑底覆盖视口、两个显式标记瓦片形成第8行x=0..32像素条；只保留(16,8)一处小孔和确定颜色的西北邻居。真实接缝修复仍运行，并由原像素oracle核验“先修接缝再卷动”，不把接缝函数mock掉，也不丢其调用/顺序判别力。
+>
+> 原波幅、补帧相位、像素196/210/218/230、sprite覆盖次序及输入不变断言全部保留；位图不变检查扩大到三份实际输入。额外一个逻辑帧以245/212两个边缘像素判别相位前进，而非只看到波幅变化。重映射用例复用同一合法夹具；其它两个用例不改。接缝算法自身的扩散、opaque index0和邻居顺序继续由相邻旧测承担，不堆新用例。
+>
+> ## 实测与原子合同
+>
+> 本机Node22.23.2、pnpm10.29.2、Vitest4.1.7，compile cache关闭，真实V8 coverage；单次对照而非统计性能保证：目标普通运行54.19→16.26ms，coverage966.67→52.72ms。最终同文件4/4，新增推进帧也在这一个既有水波合同内，不以例数减少证明优化。命令、JSON/raw hash和执行身份见[验证回执](receipt.json)。
+>
+> 受保护fast以起点91aac75c5比较：19597例通过，726源码，整体分支50132/60209（83.26%），所有指标与范围不变。baseline SHA256仍为`c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318`；无指标或范围变化，不重建基准。
+>
+> ## 反控与恢复
+>
+> [完整反控原件](counterproof.json)包含20项复用严格判据自测、7项变异、16次真实执行相位：原始绿、逐针红/真正恢复绿和末次绿。每次执行同一文件四个身份的多重集合，拒收pending/skip/collection/hook/runtime/global错误、信号或spawn失败；每针恰一指定业务AssertionError，不按exit/count单独判断。
+>
+> 变异分别禁止逻辑波幅推进、错误推进补帧相位、冻结逻辑相位、跳过水波、跳过场景重映射、跳过有水波时的接缝修复、把接缝修复移到水波之后。最后两项专门证明优化没有因黑底而丢失原接线/顺序oracle。
+>
+> JSON内的`rawNativeText`/`jsonNativeText`是原始UTF-8字节文本；解析字符串后可逐字重建SHA256，外层JSON格式化不改变原件。未把原生JSON重排后冒称原hash。临时独占counter worktree的产品与测试恢复后已清理，只清本次树；其它GLM会话和工作树未动。
+>
+> ## 验收边界
+>
+> 这是Codex同Owner连续低风险测试小改的自验证，不冒称第三方独立审查。产品渲染/公式/UX不变，不需要新的原版机制或视觉裁决；不把临时变异用于产品实现。没有下一位Agent提示词，Codex负责本次有限收口；三张GLM新卡继续按各自原白名单执行，不追加任务。
+>
+<!-- original-source-quote:end -->

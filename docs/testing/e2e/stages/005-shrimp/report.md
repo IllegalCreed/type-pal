@@ -8,6 +8,103 @@ evidence: e2e/evidence/e2e-005.json
 {"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-game.mjs","lines":"3-3","anchor":"await runErrandJourney","role":"caller","sha256":"177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7"},{"path":"scripts/e2e/errand-contract.mjs","lines":"427-439","anchor":"export function validateErrandPredecessor(","role":"input","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-contract.mjs","lines":"304-343","anchor":"export function assertErrandStory(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-contract.mjs","lines":"346-376","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/errand-contract.mjs","lines":"266-298","anchor":"export function assertErrandCollector(","role":"collector consumer","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-observer.mjs","lines":"1-126","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa"},{"path":"scripts/e2e/evidence-recorder.mjs","lines":"1-18","anchor":"worldRenders: 24 * 1024 * 1024","role":"bounded clock storage","sha256":"24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route and dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves 六 case 分开","唯一50文与报信偏序","读回后后台返程与前台控制并存"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","e2e/stages/005-shrimp/report.md#历史"],"notes":"早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-005.json"}
 -->
 
+# 005 买虾出门与香兰报信
+
+Status: verified
+Owner: Codex（本轮治理责任）；history_cards_a（固定777正文迁移）
+Last reviewed: 2026-10-16
+Template: test-run-report-v1 / 1.0.0
+
+## Scope
+
+唯一e2e-005报告覆盖同引擎004 saves到买虾、唯一奖励和丁香兰报信。两轨×story/guards/saves六case与用户观感、录像、R4监督分开。98a42d4e原执行、d02222/11来源出版审计和10月6日窄源22/12各为独立轴；旧当前检查点不能当今天输入授权。
+
+原frontmatter/testing-meta是唯一live声明，candidate d02278dc0154dd73b5db24388a35c30bb096cc81/content22/SAVE11/10月4日notRun原样不动。原报告无独立Owner/Last reviewed，新增只属本次治理；verified仅出版，不是今天的实跑或期限续期。
+
+## Execution and assertions
+
+正常held/交谈，不改世界或直跳剧情。story40行/说话人完整、钱500→550仅一次；guards独立核大娘复读不重奖及张四催回店/打渔祈愿共49行；saves40行后正式保存、fresh正式读回完整持久域，并有香兰真实后台walk和前台可控。张四开启报信晚于522早于282，走近取布防后实际移动提交；旧巡逻、摆位或单纯在场不是oracle。香兰先停自己的巡逻，实际停点朝上后说话；原九行/音乐/病倒状态与后台五目标返程按原作者意图，不让玩家等返程完成。
+
+Game在正式深拷贝保存/成功恢复提交点捕获世界，RF在生产快照/恢复事务提交后、后台runner恢复前比完整持久域。环境继续活动，不冻结世界或删字段迎合Canvas hash；跨时刻画面只按正确场景/人物/位置/非黑帧/实际截图的原陈述解释。普通事件/原子快照独立预算，worldRenders原60,000条/24MiB溢出失败。10月6日后不再要求尾部control-move。
+
+## Results
+
+- **原最终六case**：冻结98a42d4e，005-final-independent-review是independent-case-receipt-revalidation；416登记输入、413Git、8trace和两终档由原Codex复核，技术passed不等用户连续观感或006完成。原run目录和两终档/完整世界hash在下表与原文。
+- **wrapper失败/补跑**：原both-005-12:43 comparison保留failed，game guards在newContext时renderer退出，尚无剧情输入；只终止ownedChrome，后补game guards及两边saves。不把六case汇总伪成同一次wrapper全程成功，R4启动/崩溃监督仍另待办。
+- **计数与诊断**：story/guards/saves两轨分别40/49/40行；game警告0/0/1、RF1/1/2，engine errors空，不重写零。最终8trace最大4,277,061字节、没有视频。11002包测试+198工具与后继211工具/2773、2774lint分收据，不称最终HEAD重跑完整check。
+- **已核失败边界**：热路径全实体、同场景错房、静态触发范围、以旧巡逻代布防后走近，分别是原工具错误。半格NPC阻挡揭示占位模型错误，后续引擎策略/重规划反控与动态模拟不替代实际自然case覆盖；最终case未触发replan。历史转换两路径缺陷不泛指全脚本，也不恢复已退役转换核。
+- **后继/保全**：旧“当前检查点”只属10月3日content22/SAVE11快照；源码绑定刷新/后继10月11日另轮不是旧98a或d022升级。377文件/177,904,834字节归档和gzip解压hash是原声明，本轮未读raw/截图或确认存储Owner、retention；不新增用户体验签名、capture或006信用。
+
+完整链强结论的后继：[10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
+
+## Evidence
+
+原[治理后的当前检查点](../../../archive/legacy/batches/script-governance/current-checkpoints.md)在此明确为10月3日content22/SAVE11快照，不当作今天SAVE12的合法前驱；其source状态须回该文对应时点。
+
+第一表是原story/guards/saves职责与checkpoint关系，第二表是98a42d4e六case目录时刻，不是新运行。原完整保存hash、World、warning、gzip/归档路径及失败保留在text来源；正常story、guards专项与saves上下文不能互算执行。
+
+### 原三case合同与下一段前驱
+
+| case | 操作与证据 | 是否产出下一段前驱 |
+| --- | --- | --- |
+| story | 连续正常路线，完整40行对白、说话人、唯一50文、报信偏序、恢复控制权 | 否，只有live结束证据 |
+| guards | 正常路线中独立检查大娘复读不重给钱，以及张四的催回店和打渔祈愿 | 否，不混入正常演示 |
+| saves | 正常路线结束后立即正式保存，在fresh空存储上下文正式读回；核完整持久状态和后台返程续跑 | 是，`005.end.save.json` |
+
+### 98a42d4e六case原目录表
+
+| 引擎 | story目录时间 | guards目录时间 | saves目录时间 |
+| --- | --- | --- | --- |
+| game | 12-43-14-523Z | 12-50-42-468Z | 12-53-06-187Z |
+| Reforge | 12-43-14-523Z | 12-44-20-227Z | 12-52-00-880Z |
+
+配对[机器证据](../../evidence/e2e-005.json)是原16键document-audit，不是执行回执；sourceRefs、publication verified与runtimeExecution.performed=false/artifacts=[]保持，候选/版本/日期不改。实际producer为原公开journey/collector及各run，原观察身份不被本轮冒领；当前raw/截图/trace可用字节、存储Owner及retention未重核。原命令仅在非交互来源中保存，不运行旧工具、同步writer或raw。
+
+## Revision history
+
+同路径按五章重写，所有原日期、数字、SHA、失败、counter和非零警告在下方完整body留存；原live前缀+text payload严格恢复完整source。以下原题名仅作当时范围的导航，不因“当前/通过/已核”字样授今天信用。
+
+### 2026-10-04 文档深审
+
+98a42d4e执行与d02222/11来源审计分轴，wrapper失败和后补不合并成一次成功。
+
+### 验证状态
+
+技术六case与用户观感/006/capture分开，旧当前检查点只属10月3日快照。
+
+### 执行入口
+
+本引擎真实004 saves、正常路线及fresh恢复见[执行合同](#execution-and-assertions)；不执行原命令。
+
+### 脚本合理化
+
+作者正文/稳定ID及报信后台返程按原阶段保留，不在文档治理恢复转换核或新产品模型。
+
+### 存档与持续自动行为
+
+完整世界正式事务及后台继续/前台可控同核，跨时间动态Canvas不强求同hash。
+
+### 已核历史根因与测试边界
+
+只确认原两条历史转换路径与列明工具错误，不泛化所有脚本或新增运行信用。
+
+### 正式回执
+
+原六目录/40-49-40/源hash与wrapper补跑边界见[结果](#results)及[证据](#evidence)。
+
+### 质量门与保全
+
+11002/198及后继211分轮；377项保全是旧记录、当前字节与retention未知，R4仍待办。
+
+### 历史
+
+本活跃alias承接原native dedupe的report.md#历史；原JSON字段不改。原failed、receipt-only复核、正式重跑和用户/capture待办分别查上方结果及完整来源。
+
+### 冻结原始正文（source 5a125c37）
+
+本text保存全部原body，包括H1前来源刷新说明、旧命令和旧错误href；仅为历史来源，不可交互。顶部唯一原前缀加payload逐字节恢复原文件，固定Git blob提供第二条原始来源。
+
+````text
 2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
 
 2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
@@ -149,3 +246,4 @@ Root另跑全部211项E2E工具和全仓lint2774文件零诊断，日志`005-fin
 公共浏览器启动RPC的独立超时/崩溃自动清理仍是R4工具待办，不能因补跑成功声称异常监督机制已完善。
 用户可在6012选盛渔村s004→丁香兰e83→交互脚本“回村报信：李大娘突然病倒”，查看首报/复读两步；
 后台返程另为一个自动步骤。服务与页面保持运行，正常演示用story，不夹带guards/saves专项。
+````

@@ -13,6 +13,12 @@ const digest = (path) => createHash('sha256').update(readFileSync(path)).digest(
 const issues = []
 const add = (message) => issues.push(message)
 
+for (const root of registry.structuralRoots ?? []) {
+  if (!root.path || !root.reason || !root.kind || !root.owner)
+    add('structural root declaration incomplete')
+  else if (!existsSync(resolve(repoRoot, root.path))) add(`structural root missing: ${root.path}`)
+}
+
 const matrixPath = resolve(repoRoot, 'docs/phase-governance/cross-phase-matrix.json')
 if (!existsSync(matrixPath)) add('cross-phase matrix missing')
 else {

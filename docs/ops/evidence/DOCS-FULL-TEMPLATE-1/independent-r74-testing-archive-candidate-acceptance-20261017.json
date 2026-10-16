@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r74-testing-archive-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "b9af6517a6298e0fb247b97a3b653294d6b45fa2",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 50,
+    "readAndChecked": 50,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r74-testing-archive.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R74-B01",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 50 testing archive documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R74-B02",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all50": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1094 documents; content-reviewed 1094)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 937 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7988 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1094/1094; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4332 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/evidence.json",
+      "afterSha256": "b820b108ec9d052a064312447ce650d0851ec7e584c8bf96eda6f62c34264fd4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/frozen-evidence.json",
+      "afterSha256": "ed06b5e669a4189f3be0af787a5226ff58de685a878cc97a5e7d5257ad0c45b4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/receipt.md",
+      "afterSha256": "6fb19257806118129aafd2d09d2dc2ce0d71090154aebd24d2256e8c92efd672",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/README.md",
+      "afterSha256": "9498797609f1de2a8f6c103b46d8e661443a747b31ffe6be30a2ca4da22b4ba0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/codex-integration.md",
+      "afterSha256": "d9511c7f93fc2752d209f898568588d400d2ec3bea8f18c8f998b237bc6cc74f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md",
+      "afterSha256": "a0e5e67f36f258c04686305c6594d939e37434b0be34a7ce7bfaea7b1aaf0864",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/README.md",
+      "afterSha256": "d6d66855868d1ad0c255dda1578b37b10c1903630b54a0d2bd580a62f6eb76d2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+      "afterSha256": "650f439ad6603c7dcbe18dab18b1d844297b953ed72fcf176e91f43d2a1aa8ae",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-review-4ebea2b5.md",
+      "afterSha256": "b4a29d1901cc79a2eaa820e735b0fb7cb0fb5cd9a62a998d99aaaf4e3b14e1c3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/README.md",
+      "afterSha256": "bd45a0f8f9fb2e2c852a9327ac8adc020df255537ce82b13c6d3d00aa84a8465",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/evidence.json",
+      "afterSha256": "53b04a1668d10dbb0a8d6b956846003574d6bd2f5a76a8dc38733415039fc930",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/evidence.md",
+      "afterSha256": "b0748f2935e949365a7c3d7b4426d3f660fd0e471202e3663ea89d842df5939b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/targets.json",
+      "afterSha256": "d2268a9f8770d42786be38b935692ba9ff31257d8ea44cc262cfbdd6aa6f3483",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/vitest-directed.json",
+      "afterSha256": "08ba61722f9cb74dc571f57f7d076d3e3a741195fbb81447243fa78ee1860cbe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/README.md",
+      "afterSha256": "daa68b7697f9fc888052eb368d6c41dc192fc4c091818b722dad1dacda7c18dc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/evidence.json",
+      "afterSha256": "b599421b54cfd1258866e99734d3e67f94b15cc7b59810a420d787c3879cf3d0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/receipt.md",
+      "afterSha256": "1db05b384f8e09ee0b2aca526fa8761cb8d6e8ab564c4fd98723dc00d34fc528",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/README.md",
+      "afterSha256": "6065becc3f4abacdbadfaf16ccf9d036052cd45ca0d1e87693f3d32bec6741de",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-a-directed.json",
+      "afterSha256": "c215a982dd1a818726194639e29a0dafbcecccba7485a4c85d73f827de3a6060",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-b-directed.json",
+      "afterSha256": "1b03ef078873d68107293bdc710aad7ceb167142da3fe67b3196b31fb2e6547a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-c-directed.json",
+      "afterSha256": "3982ff29966f4ec499dbf8fbca5a22235f447b3241de85e73ba19e593d0784fa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/batch-d-directed.json",
+      "afterSha256": "a290a48bffe3e122852505feaf2bfea8a5f0ed5d6f7b4931782a660f46e8dc19",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/README.md",
+      "afterSha256": "5fd5b3ee9abebd2f4e0d02bdded377a51a70d2b564c902b3b61d0a11f2a65f48",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+      "afterSha256": "c2bccf848f63695a82a34c670a284afb815d708901f6a736104677a2553305db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+      "afterSha256": "39eeaf0c71826f717bcf3363ceb63024e647692498b7a5c4217d313f74e593a4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+      "afterSha256": "8fed4ecde431d92ba516b319869ec26c8c373178ef9a49ae74ca00c4824743fc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-accept-r3-4e200099.md",
+      "afterSha256": "5fca4bcb2d1489c19a34fec7ac4346280eadf7ee8ced4cbbd246ff811effee23",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md",
+      "afterSha256": "4a02425d6f0ba58fcdc040789d8540f780f5c2a28dd243ee402e2cea6e360352",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md",
+      "afterSha256": "b2dc39966519fa4214a75e645854f6caf97697a56ea43fc796078759fae871cc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/five-batch-union.md",
+      "afterSha256": "961914ce2c71cc5126fd1910d2d1c62f84d542630776f7c8569dd76b5d77e4fe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-a.md",
+      "afterSha256": "34b67e6d272e7b2e6537cbfb3e3792263385a245a90285625d51acbe0d63a7bb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-b.md",
+      "afterSha256": "c361558d154a4583f177cf14f3fb0d7de7ab1470dc7d64bed26b47076f842bce",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-c.md",
+      "afterSha256": "4a2340dbfc93ae35f8d64af993d40fae089d2672a41f07574d4c36bcc26c9cec",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-d.md",
+      "afterSha256": "f9c1ec0548259522ad3cf02d64a48ff3531515fa508c84f0c1d76db29c2c6edd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-e.md",
+      "afterSha256": "ea0b5ac1048cb7ccb9a1b3c447559d331bf57e8cfa1b1c16206f3d90927ae372",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/rework-r2-evidence.md",
+      "afterSha256": "bea07afab22a006ef517cea82f071b685a521789b0aa012258ddddae781bd23a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/targets.json",
+      "afterSha256": "a720fe3e1a9fdb202847a84121c4a953a8508d727717be46593889b21842a859",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
+      "afterSha256": "2a061cb68e000b6f76bc62e4b64aa0d83bfc5a7ae518e0c7597c87a1df4a805c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AD-coverage-delta.json",
+      "afterSha256": "1ba7be0dfc78d99f782b9bf6e82c2a2934dd045a39f1f0801ab18d473e6b718c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AH-coverage-delta.json",
+      "afterSha256": "857d8343321309053f56d826cd7ab58d3db4f9b378bad10c5ce725bc3d2d6efa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
+      "afterSha256": "f519eb6a94e548f1cc0fb51694e7b5ab9759789a853bd24018b5710197d86e40",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+      "afterSha256": "081556ec737887f772f7108c813d18249235496a2a6564f9c491fa1a179799b0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
+      "afterSha256": "93872d9564920c1d8c44d9ded0408bff7307cbdb0321cb87f091441cef818c9c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-mutant-summary.json",
+      "afterSha256": "ab1a449b411079513e61069a2884123847e266401da047eb1d6b97513c17488e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-directed.json",
+      "afterSha256": "eb4c35490cfe8627fa106c693f2bcb2951f660575a5b3aaed7b4026fcf747e96",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-mutant-summary.json",
+      "afterSha256": "3f3bb2403f29ee336f692c4218a84e77bda765366f793d45f6fa4c3b582adb09",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
+      "afterSha256": "bf4dedc5c246372f4169632babd3fd5ebad8171f85a25389690796e501f87aba",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/README.md",
+      "afterSha256": "47ebf4c114b296098d8f28d75c18ac1d82e7e9fe70ade9380ac7ced191a10fc9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/assets/README.md",
+      "afterSha256": "f043449591c301b9170f680f50dc61546ed74d938602ae1c4fb9d952a781d853",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/receipt.md",
+      "afterSha256": "8c1bfe7c5fb09aa6205d0f8e4b75ac54f489d04dadf5df603f82307b2e992f18",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "scope": "New E2E contract record only; existing E-06 and matrix reviews revised in original files with priorReadings. No runtime acceptance.",
+  "entries": [
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-contract",
+      "templateId": "test-contract-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-contract.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": false,
+      "readMethod": "full-text-manual-semantic-migration; original paragraphs and metadata preservation; real static consumer",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "完整保留 2026-09-27 至 10-12 用户裁决，按测试问题/输入/caller-oracle/排重/revision 重排；两阶段独立链、真实输入、NPC 帧/对白槽、编排命名与编辑器预览五项硬门不损失。SAVE10/content21/001～005 等旧状态就地标历史；testing-meta、YAML、evidence 与 catalog 原字段不改，不授予新通过。",
+      "truthAnchors": [
+        "scripts/e2e/opening-both.mjs:14-80",
+        "packages/content/src/character.ts:168-170",
+        "packages/reforge/src/save/types.ts:9",
+        "docs/testing/e2e/contract.md:1"
+      ],
+      "primarySource": [
+        "scripts/e2e/opening-both.mjs:14-80",
+        "packages/content/src/character.ts:168-170",
+        "packages/reforge/src/save/types.ts:9",
+        "docs/testing/e2e/contract.md:1"
+      ],
+      "documentStatus": "current-contract; no new execution acceptance",
+      "phaseAnchors": [
+        "docs/phase1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/lore/timeline.md",
+        "docs/testing/catalog.json"
+      ],
+      "dependencies": [
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "Document governance only; original normative/historical/runtime scopes explicitly retained.",
+      "publicEntry": "docs/testing/e2e/contract.md",
+      "counterReworkBlocked": {
+        "status": "none-open-for-this-document-migration",
+        "explainedLimits": [
+          "本批未运行 E2E/采集/离线比较或编辑器预览，旧状态与片段真实结果必须查各自 canonical 报告；合同 current 不等于执行 verified。"
+        ],
+        "notClosedByThisReview": [
+          "full docs governance",
+          "current runtime/E2E/visual/coverage",
+          "catalog template pilot"
+        ]
+      },
+      "unresolved": [
+        "本批未运行 E2E/采集/离线比较或编辑器预览，旧状态与片段真实结果必须查各自 canonical 报告；合同 current 不等于执行 verified。"
+      ],
+      "nextStep": "本类型可供后续逐篇真实迁移；缺失的历史 raw/执行不补造，按当前产品任务验证动态结论。",
+      "phase": "testing",
+      "module": "contract-quality-boundaries",
+      "owner": "Codex（本次治理；原作者与旧验收身份不变）",
+      "provenance": [
+        "full-original-text-read",
+        "Git source blob",
+        "manual semantic rewrite",
+        "real docs/testing consumer"
+      ],
+      "sourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+      "reviewedSourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+      "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+      "sourceGitObject": "06fc33e3bfb61ddd2bb0c5529cca26c5b971a9a3",
+      "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+      "publicCallers": [
+        "pnpm e2e:001:both through pnpm e2e:005:both (not run)",
+        "node scripts/docs/check-testing.mjs"
+      ],
+      "legalInputs": [
+        "current canonical project",
+        "same-engine checkpoint with declared provenance",
+        "declared fragment and verify/capture profile; record-corruption counter domain separate"
+      ],
+      "businessOracle": {
+        "type": "semantic-preservation-and-authority-bounds",
+        "assertions": [
+          "完整保留 2026-09-27 至 10-12 用户裁决，按测试问题/输入/caller-oracle/排重/revision 重排；两阶段独立链、真实输入、NPC 帧/对白槽、编排命名与编辑器预览五项硬门不损失。SAVE10/content21/001～005 等旧状态就地标历史；testing-meta、YAML、evidence 与 catalog 原字段不改，不授予新通过。",
+          "原段落、日期、数值、失败与用户裁决均保留；模板不得将历史/静态改成执行通过",
+          "testing metadata/paired consumer 与公开路径不因重排改变；具体模板及历史合同同时满足"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase1",
+          "docs/phase2/READ-FIRST.md",
+          "docs/lore/timeline.md",
+          "docs/testing/catalog.json",
+          "docs/phase-governance/templates/registry.json"
+        ],
+        "notes": "合同冻结共用义务，片段 report/evidence 冻结执行、lore 时间线承载剧情解释，Content Studio 持有活动/成品 ID，不创建平行真值。"
+      },
+      "revision": {
+        "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+        "implementationSha": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "contentVersion": "N/A-doc-governance; original revision versions retained",
+        "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "full-text-contract-or-historical-gate-migration",
+            "sourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+            "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "static-semantic-migration-and-original-content-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+        "sourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+        "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "lineCount": 548
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "action": "semantic-template-migration",
+          "sourceSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65",
+          "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "previousAfterSha256": null,
+          "beforeAfter": "累积长合同与旧状态混排 → 五节现行合同；原九章完整保留并明确历史版本/执行范围。"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Template conformity and historical/static results grant no new runtime/E2E/visual/coverage, product, or zero-diagnostics acceptance.",
+      "userVisibleBeforeAfter": "累积长合同与旧状态混排 → 五节现行合同；原九章完整保留并明确历史版本/执行范围。",
+      "reviewedLines": "1-548",
+      "templateConformity": {
+        "result": "template-compliant",
+        "templateId": "test-contract-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "method": "concrete purpose/inputs/oracle/decision/limits plus original metadata/body preservation"
+      }
+    }
+  ]
+}

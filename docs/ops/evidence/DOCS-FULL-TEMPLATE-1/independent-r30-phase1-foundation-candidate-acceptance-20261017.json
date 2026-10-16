@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r30-phase1-foundation-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 9,
+    "readAndChecked": 9,
+    "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
+    "docTypes": {
+      "reference-canon": 2,
+      "design-spec": 2,
+      "governance-index": 2,
+      "guide-runbook": 3
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R30-CANDIDATE-B01",
+      "count": 9,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 8 phase1 status/plan documents preserve historical boundary and successor/stopLine."
+    },
+    {
+      "id": "R30-CANDIDATE-B02",
+      "count": 9,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Source/after and quote inverse pass; trailing whitespace uses explicit reversible sentinels ␠/⇥."
+    },
+    {
+      "id": "R30-CANDIDATE-B03",
+      "count": 9,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing/catalog agree and old review duplicates are absent."
+    },
+    {
+      "id": "R30-CANDIDATE-B04",
+      "count": 9,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all9": true,
+    "sourceAfterQuoteTemplateLedgerAll9": true,
+    "issueCount": 0,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 390 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "node scripts/docs/check-phase-lore-governance.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (184 documents)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4160 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1249 Markdown / 8149 local links / 361 tasks / content22 SAVE12; model 390 body contracts; testing 0; phase/lore 184; content 733/733)"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "design-spec-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "afterSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "reference-canon-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r30-phase1-foundation.json",
+      "catalogAfterMatches": true,
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

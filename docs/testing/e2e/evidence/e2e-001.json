@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "verified",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "scripts/e2e/game-opening.mjs",
@@ -108,5 +111,19 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": ["existing paired testing evidence", "DOCS-FULL-TEMPLATE-1 structural migration"],
+    "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+    "sourceGitObject": "9d4755265356c0e76af1cdbd469fa71783ce04f8",
+    "scope": "Document-audit of e2e-001; original versions/candidate/claims/history retained. No new runtime execution.",
+    "beforeAfter": "Original flat paired audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
+    "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
+    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+  }
 }

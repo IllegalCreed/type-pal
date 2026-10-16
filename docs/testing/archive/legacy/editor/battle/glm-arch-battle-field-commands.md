@@ -1,4 +1,41 @@
-# GLM 战场命令族拆分候选回执（ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1）
+# 战场命令族独立接收历史回执
+
+Status: historical
+Last reviewed: 2026-10-16
+Owner: Codex（文档治理；原贡献与验收身份保留）
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+GLM在f5f166aa冻结上贡献83833719，Codex最终接收并以22a4492c推主线；620a29dd只属更早准入锚。GLM自验、已删除mock与Codex真实加载反证分开。
+
+## 来源与输入
+
+D24合法战场、首次登记/undo、patch深保真、引用阻断、七公开符号身份与instanceof；同一Vite模块图直接去阻断门或让Add.invert返回state。原生confirm受工具限制，后续仅替换window.confirm宿主边界。
+
+## 断言与业务 oracle
+
+原203行7276 bytes/hash、119→119出口与13模块无回环，加真实D24对应断言红/对照8绿支撑窄拆保真。GLM删除mock的记录保留，不将其重新认证为当前有效负控。
+
+## 结果
+
+156/156与8657完整check、8165项/644文件strict是原最终不同范围；覆盖分子分母未变不等覆盖提升。历史界面新建/复制/撤销及默认024引用阻断通过；confirm宿主替身删除/恢复不代表IAB原生确认自动化通过。
+
+## 限制与复核
+
+只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。
+
+本轮仅全文审读并迁移历史记录，未执行旧产品测试、诊断工具、浏览器或coverage；旧exit0不能替代当前零诊断门。
+
+## 历史范围
+
+原范围为2026-09-26配对归档卡所记窄切片。原本地/远端、作者/接收者与中间/最终时态分别保留，不重开旧任务或执行旧交接提示词。
+
+## 原始结论
+
+以下完整保留原文，仅将原ATX标题降两级；原链接仍在原目录，原完整字节另由Git源对象固定。原标题身份继续可达。
+
+### GLM 战场命令族拆分候选回执（ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1）
 
 任务卡：[ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1](../../../../../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)。
 状态：**Codex独立accept，done归档**。实现候选`83833719`由GLM贡献，主线统一验证和收口由Codex完成；
@@ -8,7 +45,7 @@
 - 生产冻结 / 基点：`f5f166aaf7291cb15eb0046e09819f0d6c99cc61`（2026-09-26 实际 fetch 后的 origin/main；任务卡写作时的 620a29dd 已被 fast-forward 覆盖，本基点为其后代）
 - Coding Owner：GLM；Review/Integration Owner：Codex
 
-## 改动（白名单内）
+#### 改动（白名单内）
 
 | 文件 | 变更 |
 |---|---|
@@ -31,7 +68,7 @@ M	packages/editor/src/core/commands.ts
 `packages/content`、`reforge`、`main/App/MapMode/ScriptEditor`、schema/SAVE8、
 资产/生成工程、公共配置、覆盖基线全部未触碰；无新增 `await`、副作用或状态采样时点变化。
 
-## 保真证据
+#### 保真证据
 
 **逐字节搬移**：`sed -n '2185,2387p'`（origin/main 版本）与新模块函数体区段 `diff` 为空
 （"BODY STILL BYTE-IDENTICAL"，Biome import 排序修复后复核仍一致）。
@@ -70,7 +107,7 @@ edit-session 的既有 MoveEntityCommand re-export，均不在该子图）。运
 （说明：tsx/node 直载 commands.ts 不可行，因 reforge 既有 `import.meta.glob` 是 Vite
 宿主能力，与本次改动无关，故运行期取证经 vitest 真实模块图完成。）
 
-## 验证序列与计数
+#### 验证序列与计数
 
 命令均在 `packages/editor` 下执行（`pnpm exec vitest run` / `pnpm typecheck`）， Biome 在仓根执行：
 
@@ -96,7 +133,7 @@ D24 战场命令(不可变 + invert) > DeleteBattleField 缺目标跳过 oracle�
 D24 战场命令(不可变 + invert) > UpdateBattleField 在命令边界拒绝非法五行结构
 ```
 
-## 同证测试（新增文件内容概要）
+#### 同证测试（新增文件内容概要）
 
 `battle-field-commands.test.ts` 6 条，不重复 D24 完整矩阵，只锁「搬移不改行为」：
 
@@ -108,7 +145,7 @@ D24 战场命令(不可变 + invert) > UpdateBattleField 在命令边界拒绝�
 6. 未引用可删、删空保留已声明空表、undo 原位还原；系统默认字段删除阻断，且错误经旧入口
    `BattleFieldInUseError` 同样 `instanceof` 可辨。
 
-## 隔离反控（不入仓，运行取证后已删除）
+#### 隔离反控（不入仓，运行取证后已删除）
 
 两反控均以 `vi.mock('./battle-field-commands.js', importOriginal)` 注入破损实现（零生产文件
 改动；re-export 链使旧入口同样拿到坏实现，证明现行 `commands.test.ts` 会红），各自以
@@ -124,21 +161,21 @@ D24 战场命令(不可变 + invert) > UpdateBattleField 在命令边界拒绝�
 
 反控文件 `__isolation-control-{A,B}.test.ts` 已删除，不在提交内。
 
-## 可证伪观察兑现情况
+#### 可证伪观察兑现情况
 
 卡面列出的翻船观察逐项核对：无运行期 import 环（上图 + 独立加载 + 全图测试通过）；旧入口
 `instanceof` 身份不变（`toBe`/双向 instanceof 同证）；首次 apply/invert 保真与删除阻断轨迹
 不变（逐字节搬移 + 156/156 + 反控证明现行断言对回归敏感）。未发现需要停线 counter 的情形；
 重构过程中未发现需另报的产品缺陷。
 
-## 边界声明
+#### 边界声明
 
 本节为GLM交付时的权限边界；当前收口状态见文末Codex验收。
 
 - 本回执不更新任何官方覆盖率基线/计数；不宣称行数减少为收益。
 - 不合 main、不标 done；Codex 接收后统一串行全仓 check→ratchet→受保护 strict-fast 与最小功能核验。
 
-## Codex 最终独立验收（2026-09-26）
+#### Codex 最终独立验收（2026-09-26）
 
 **accept / done。** 原203行正文（含末尾换行）与新模块末段精确相等：7276 bytes，SHA256
 `8a56bbfcc9dd487a92363195deb92fcc475a60cb02a9a1478ea34165ec0351d1`；AST公开出口119→119，
@@ -160,3 +197,17 @@ IAB原生确认框操作接口阻塞，单列为工具限制；随后使用仅�
 
 集成提交`22a4492c`已推送main；原候选保存于远端`archive/glm-arch-battle-field-commands-r1`标签。
 原独立worktree及本地/远端贡献分支已清理，可从该标签恢复历史。
+
+## 当时证据
+
+原7276字节SHA 8a56bbfcc9dd487a92363195deb92fcc475a60cb02a9a1478ea34165ec0351d1、119出口、13闭包与/tmp/codex-bfc日志完整保留；不宣称这些历史产物今天可重放。
+
+原临时路径为历史产物标识，不认定当前存在或可恢复；现存被引机器证据/诊断脚本保留字段与路径，本次不改写、不执行、不继承迁移完成信用。
+
+## 当前有效性
+
+historical。本次接受对象是文档语义、结构和来源保留；原产品实现、动态反证、视觉及覆盖率只按原候选时点读。未重验项保持unknown，不能由文档静态门推成当前通过。
+
+## 继任文档
+
+[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

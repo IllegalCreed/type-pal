@@ -1,49 +1,89 @@
 # SAVE10治理检查点历史记录
 
-以下保留2026-10-02批次的原始记录。它们不适用于当前content22 / SAVE11；新入口见[当前检查点](current-checkpoints.md)。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: archive-record-v1 / 1.0.0
 
-脚本内容冻结在e3586965e39ece390e77bd9357b14b21ecaaeba2，二阶段002、003、004 saves和005 saves已沿真实前驱链重建。
-四份报告均passed，Root独立重算登记输入、原档和9份trace，保存与正式读回的完整世界hash相同。
-这是当前二阶段检查点刷新，不是重新完成同revision的双引擎story、guards、items全套验收。
+本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-## 可继续使用的入口
+## 历史范围
 
-证据根目录为主工程的`build/evidence-archive/script-governance-20261002/e2e/`。
-下表各目录均含`report.json`与相应`NNN.end.save.json`；使用报告入口，不手工改档或替换digest。
+- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
 
-| 段落 | 目录 | 终档SHA256 |
-| --- | --- | --- |
-| 002 | reforge-002-2026-10-02T14-11-25-321Z | 5a35393ef333adb6dbe21b24a74ab6974ab9824d4ed34ad991d7c8f2ecdb5040 |
-| 003 | reforge-003-2026-10-02T14-12-34-823Z | 1dc676fffcda62784a7947372880bfad612937975c540e87e506abc009037614 |
-| 004 saves | reforge-004-saves-2026-10-02T14-13-28-622Z | 6c479afbcf1df0ed876ea8c09544862fcfbd9595434193b8c47fff31a9f0f9dc |
-| 005 saves | reforge-005-saves-2026-10-02T14-14-39-629Z | 8e8b3de4c39cafaf460f6328dec072a2c32a3c0f793508417e91b04a6382a5da |
+## 原始结论
 
-例如从当前004检查点正常演示005，仍使用既有脚本：
+- SAVE10治理检查点历史记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
 
-```sh
-pnpm e2e:005:reforge --from build/evidence-archive/script-governance-20261002/e2e/reforge-004-saves-2026-10-02T14-13-28-622Z/report.json --headed
-```
+## 当时证据
 
-复用的旧001报告位于`build/evidence-archive/e2e005-20261002/e2e/reforge-001-2026-10-02T12-13-17-769Z/report.json`，
-原档SHA为158d4f59f6b6e04d9855801000059c76913c85432e3a515de98313c3855ab695。
-它没有auto.resume，已通过当前生产preflight和002前驱合同；本轮没有重播001视频，也没有改写该报告和存档。
-第一阶段既有检查点没有因此失效，不为二阶段内容变化重复生成。
+- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
 
-## 为什么旧002至005不能当当前档
+## 当前有效性
 
-当前运行器为整个内容模块计算自动续跑指纹。虽然s000至s005正文原字节未改，段外作者内容变化仍会改变该指纹。
-此前二阶段002至005分别含1、2、1、19个旧指纹续跑点，因此需要自然执行并正式保存新档，不能手改指纹骗过恢复校验。
-本轮新续跑指纹统一为c949c06a7ac42c001207ace7b1912c507698e75b79cb7b9ea57d05afcbf61a19。
-旧回执与原档仍是历史证据，原样保存；旧005页面中原“当前可用”入口由本页替代。
+historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
 
-## 验证与保全
+## 继任文档
 
-002核20行、赏银500及三苗人进房；003核14行、12次楼梯位移及厨房交代；
-004核40行、端菜中途和终点两次正式恢复；005核40行、唯一50文、报信因果、正常移动及后台返程恢复。
-Root另目视003厨房读回、004端菜读回与005村口读回：人物、场景、端菜外观和画面亮度正常。
+- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
 
-浏览器引擎errors均为0，原warning计数依次1、1、2、2：清工程404与Chrome Canvas读回建议。
-这些原始信息不删除，也不混作静态质量门的零诊断声明。本轮无视频，无失败case，无cleanup错误。
+## 停止线
 
-52个E2E文件共17,990,370字节已逐字节保全，映射为证据根上级的`archive-map.json`。
-报告里的原绝对目录按映射查找，不重写原report。各测试自建的浏览器和服务已退出，用户6012保持运行。
+- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+
+## 原文保全
+
+固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `d8d76264b27f0a8ff01064b4c31ac958f59041b0e3920c101b2b41cf4728f467`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # SAVE10治理检查点历史记录
+>
+> 以下保留2026-10-02批次的原始记录。它们不适用于当前content22 / SAVE11；新入口见[当前检查点](current-checkpoints.md)。
+>
+> 脚本内容冻结在e3586965e39ece390e77bd9357b14b21ecaaeba2，二阶段002、003、004 saves和005 saves已沿真实前驱链重建。
+> 四份报告均passed，Root独立重算登记输入、原档和9份trace，保存与正式读回的完整世界hash相同。
+> 这是当前二阶段检查点刷新，不是重新完成同revision的双引擎story、guards、items全套验收。
+>
+> ## 可继续使用的入口
+>
+> 证据根目录为主工程的`build/evidence-archive/script-governance-20261002/e2e/`。
+> 下表各目录均含`report.json`与相应`NNN.end.save.json`；使用报告入口，不手工改档或替换digest。
+>
+> | 段落 | 目录 | 终档SHA256 |
+> | --- | --- | --- |
+> | 002 | reforge-002-2026-10-02T14-11-25-321Z | 5a35393ef333adb6dbe21b24a74ab6974ab9824d4ed34ad991d7c8f2ecdb5040 |
+> | 003 | reforge-003-2026-10-02T14-12-34-823Z | 1dc676fffcda62784a7947372880bfad612937975c540e87e506abc009037614 |
+> | 004 saves | reforge-004-saves-2026-10-02T14-13-28-622Z | 6c479afbcf1df0ed876ea8c09544862fcfbd9595434193b8c47fff31a9f0f9dc |
+> | 005 saves | reforge-005-saves-2026-10-02T14-14-39-629Z | 8e8b3de4c39cafaf460f6328dec072a2c32a3c0f793508417e91b04a6382a5da |
+>
+> 例如从当前004检查点正常演示005，仍使用既有脚本：
+>
+> ```sh
+> pnpm e2e:005:reforge --from build/evidence-archive/script-governance-20261002/e2e/reforge-004-saves-2026-10-02T14-13-28-622Z/report.json --headed
+> ```
+>
+> 复用的旧001报告位于`build/evidence-archive/e2e005-20261002/e2e/reforge-001-2026-10-02T12-13-17-769Z/report.json`，
+> 原档SHA为158d4f59f6b6e04d9855801000059c76913c85432e3a515de98313c3855ab695。
+> 它没有auto.resume，已通过当前生产preflight和002前驱合同；本轮没有重播001视频，也没有改写该报告和存档。
+> 第一阶段既有检查点没有因此失效，不为二阶段内容变化重复生成。
+>
+> ## 为什么旧002至005不能当当前档
+>
+> 当前运行器为整个内容模块计算自动续跑指纹。虽然s000至s005正文原字节未改，段外作者内容变化仍会改变该指纹。
+> 此前二阶段002至005分别含1、2、1、19个旧指纹续跑点，因此需要自然执行并正式保存新档，不能手改指纹骗过恢复校验。
+> 本轮新续跑指纹统一为c949c06a7ac42c001207ace7b1912c507698e75b79cb7b9ea57d05afcbf61a19。
+> 旧回执与原档仍是历史证据，原样保存；旧005页面中原“当前可用”入口由本页替代。
+>
+> ## 验证与保全
+>
+> 002核20行、赏银500及三苗人进房；003核14行、12次楼梯位移及厨房交代；
+> 004核40行、端菜中途和终点两次正式恢复；005核40行、唯一50文、报信因果、正常移动及后台返程恢复。
+> Root另目视003厨房读回、004端菜读回与005村口读回：人物、场景、端菜外观和画面亮度正常。
+>
+> 浏览器引擎errors均为0，原warning计数依次1、1、2、2：清工程404与Chrome Canvas读回建议。
+> 这些原始信息不删除，也不混作静态质量门的零诊断声明。本轮无视频，无失败case，无cleanup错误。
+>
+> 52个E2E文件共17,990,370字节已逐字节保全，映射为证据根上级的`archive-map.json`。
+> 报告里的原绝对目录按映射查找，不重写原report。各测试自建的浏览器和服务已退出，用户6012保持运行。
+>
+<!-- original-source-quote:end -->

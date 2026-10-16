@@ -1,0 +1,669 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r31-ops-archive-records",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R31 semantic migration of 8 historical phase1 status/plan documents; preserve source and historical boundary; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R31 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "验收清单(做完划掉;不对就截图)：这是 archive-record，当前文档状态为 historical。全文 160 行、16 个标题；摘要/首段为「> **样例附件清理（2026-09-06，用户确认用途后）**：旧 `docs/ops/samples/` 的五张上传调试图已退出当前」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/acceptance/2026-07-checklist.md:1",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:5 验收清单(做完划掉;不对就截图)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:17 ~~① W6 夜色观感~~ ✅ 2026-07-11 验收过(「特别好」)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:23 ~~⑧ C3 装备页 UI 两连修~~ ✅ 2026-07-11 验收过(「就这样吧」)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:31 ~~② C3 装备手感~~ ✅ 2026-07-11 验收过(顺带揪出黑label无影+ITEMBOX图标偏下,已修 → 见⑧)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:40 ~~③ B5 战斗物品演出 + 战斗 UI 四修~~ ✅ 2026-07-11 验收过(「物品动画终版 ok」)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:54 ~~④ E9 商店/当铺~~ ✅ 2026-07-11 买卖都验过(顺带揪出对话期 unmigrated 0x8 警告,考证中)",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:62 ~~⑤ E2E-1 空白工程 FSA 烟测~~ ✅ 2026-07-11 验收过",
+        "docs/ops/archive/acceptance/2026-07-checklist.md:69 ⑥ A4 素材上传(2026-07-11 重构版:类型先行/动作帧行/追加帧)"
+      ],
+      "unresolved": [
+        "正文信号 8:> 其中已完成项保留划线与结论，未勾项属于**当时批次**而非当前待办——后续功能验收以",
+        "正文信号 81:- 敌人外观(未动):数据 → 敌人 → 「⬆ 上传外观」→ `enemy-4f.png` → 应用 → ⚔ 试打。",
+        "正文信号 82:- 预期:未保存就能预览;保存后引擎生效;撤销可回退(含追加)。",
+        "正文信号 159:- 预期:结构一致、素材都在;有未保存改动时导出前会弹提醒。",
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-acceptance-2026-07-checklist",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r31_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c"
+        }
+      ],
+      "sourceSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+      "afterSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+      "publicCallers": [
+        "docs/ops/archive/acceptance/2026-07-checklist.md → ../../audits/pre-e2e/summary.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/acceptance/2026-07-checklist.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/acceptance/2026-07-checklist.md"]
+      },
+      "revision": {
+        "currentSha": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+        "implementationSha": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+            "date": "2026-10-17",
+            "action": "R31 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r31-ops-archive-records-20261017.json",
+        "sourceSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+        "candidateSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+        "afterSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+        "lineCount": 222,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 12225,
+          "sourceLines": 159,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+          "action": "R31 readonly proposal accepted then root migration",
+          "reviewer": "r31_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-222",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "candidateSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+          "revision": "140d11b23201715bc93763f9e07b075de63ba34c",
+          "sha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+        "date": "2026-07-11",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R31-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+        },
+        {
+          "id": "R31-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R31 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史验收批次：这是 archive-record，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「保留用户在当时批次的验收记录。未勾项不自动成为当前待办，现行状态查任务和审计台账。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/acceptance/README.md:1",
+        "docs/ops/archive/acceptance/README.md:1 历史验收批次",
+        "docs/ops/archive/acceptance/README.md:7 文档与附件"
+      ],
+      "unresolved": [
+        "正文信号 3:保留用户在当时批次的验收记录。未勾项不自动成为当前待办，现行状态查任务和审计台账。",
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-acceptance-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r31_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c"
+        }
+      ],
+      "sourceSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+      "afterSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+      "publicCallers": [
+        "docs/ops/archive/acceptance/README.md → ../README.md",
+        "docs/ops/archive/acceptance/README.md → 2026-07-checklist.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/archive/acceptance/README.md"],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/acceptance/README.md"]
+      },
+      "revision": {
+        "currentSha": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+        "implementationSha": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+            "date": "2026-10-17",
+            "action": "R31 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r31-ops-archive-records-20261017.json",
+        "sourceSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+        "candidateSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+        "afterSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+        "lineCount": 72,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 284,
+          "sourceLines": 9,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+          "action": "R31 readonly proposal accepted then root migration",
+          "reviewer": "r31_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-72",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "candidateSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/acceptance/README.md",
+          "revision": "140d11b23201715bc93763f9e07b075de63ba34c",
+          "sha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+        "date": "undated",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R31-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+        },
+        {
+          "id": "R31-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R31 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "多 Agent 任务看板：这是 archive-record，当前文档状态为 historical。全文 227 行、4 个标题；摘要/首段为「这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/board-history/board-20261004.md:1",
+        "docs/ops/archive/board-history/board-20261004.md:1 多 Agent 任务看板",
+        "docs/ops/archive/board-history/board-20261004.md:97 进行中",
+        "docs/ops/archive/board-history/board-20261004.md:205 阻塞",
+        "docs/ops/archive/board-history/board-20261004.md:221 看板规则"
+      ],
+      "unresolved": [
+        "正文信号 10:三包不接进行中的 E2E-R4-1；1155/1301/1473 未覆盖臂仅是候选缺口，并非增量承诺。",
+        "正文信号 28:完整通关/录制矩阵未证。用户随后要求Codex自主补测再争取全仓分支覆盖率绝对+2pp，",
+        "正文信号 50:2026-09-25 [F2 溢出文本组件窄拆](../../../testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md)由 Grok 贡献、Codex 独立复核并 done：原/候选 Design Lab 两状态截图逐字节一致，根 check、ratchet、严",
+        "正文信号 52:2026-09-26 [F2 标签/只读值窄拆](../../../testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md)由 Cursor 贡献、Codex 独立复核并 done：旧导出与 DOM/SSR 保真；Codex 同步修正两条 adoption owne",
+        "正文信号 94:旧oracle537文件保真，全仓check10742项、2690文件静态零诊断。当前PAL作者工程未改，",
+        "正文信号 101:85% 未达，仍差 4,360 臂。A–E/F–J 六张纯测试卡均已由 Codex 归档 done；",
+        "正文信号 110:| E2E-R4-1 | [路线驱动与检查点薄基线](../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；先治理机械拆分/后继/时基，浏览器启动失败自动清理待补 |",
+        "正文信号 112:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](../../tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 006剧情链可达但视觉与关键NPC日志未验收；截图显示船体锚点/张四动作/人物落船异常 |",
+        "正文信号 128:2026-09-26 [Cursor九组剩余命令](../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/",
+        "正文信号 130:2026-09-26 [B1编辑器总壳会话候选](../../../testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md)四段已落：导航、场景工作区、试玩与工程生命周期各有owner，App5170→4688；18新增/二十针、Editor2847、TC/",
+        "正文信号 132:2026-09-26 [战场命令族窄拆](../../../testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8",
+        "正文信号 134:2026-09-26 [Cursor24组](../../../testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../../../testing/archive/architecture-regression-la",
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-board-history-board-20261004",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r31_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c"
+        }
+      ],
+      "sourceSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "afterSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+      "publicCallers": [
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/batches/glm-tenfold-triple/README.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/batches/glm-next-triple/README.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../../AGENTS.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/batches/quality-zero/README.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/e2e/route-proposal.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../audits/architecture-debt.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../audits/architecture-debt.md#并行所有权2026-09-26-更新",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../agent-workflow.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../templates/TASK-template.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../templates/TASK-lite-template.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/ops/testing-records/glm-nine-rework-review.md",
+        "docs/ops/archive/board-history/board-20261004.md → ../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/board-history/board-20261004.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/board-history/board-20261004.md"]
+      },
+      "revision": {
+        "currentSha": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+        "implementationSha": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+            "date": "2026-10-17",
+            "action": "R31 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r31-ops-archive-records-20261017.json",
+        "sourceSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+        "candidateSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+        "afterSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+        "lineCount": 289,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 29398,
+          "sourceLines": 226,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+          "action": "R31 readonly proposal accepted then root migration",
+          "reviewer": "r31_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-289",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "candidateSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/board-history/board-20261004.md",
+          "revision": "140d11b23201715bc93763f9e07b075de63ba34c",
+          "sha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+        "date": "2026-09-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R31-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+        },
+        {
+          "id": "R31-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R31 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史协作看板：这是 archive-record，当前文档状态为 historical。全文 6 行、1 个标题；摘要/首段为「- [2026-10-04 收口前快照](board-20261004.md)」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/board-history/README.md:1",
+        "docs/ops/archive/board-history/README.md:1 历史协作看板"
+      ],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-board-history-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r31_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c"
+        }
+      ],
+      "sourceSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+      "afterSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+      "publicCallers": [
+        "docs/ops/archive/board-history/README.md → board-20261004.md",
+        "docs/ops/archive/board-history/README.md → board-20261004.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/board-history/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-phase1-template-migration",
+        "assertions": [
+          "historical status/plan semantics traceable",
+          "source quote inverse exact",
+          "historical completion is not current implementation",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/board-history/README.md"]
+      },
+      "revision": {
+        "currentSha": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+        "implementationSha": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+            "date": "2026-10-17",
+            "action": "R31 phase1 status/plan migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r31-ops-archive-records-20261017.json",
+        "sourceSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+        "candidateSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+        "afterSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+        "lineCount": 68,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 149,
+          "sourceLines": 5,
+          "sourceFinalNewline": true,
+          "inverseSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+          "action": "R31 readonly proposal accepted then root migration",
+          "reviewer": "r31_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-68",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "candidateSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/board-history/README.md",
+          "revision": "140d11b23201715bc93763f9e07b075de63ba34c",
+          "sha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "dependencies": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "versionScope": {
+        "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+        "date": "2026-10-04",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R31-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+        },
+        {
+          "id": "R31-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-readonly-review-20261017.json",
+    "sha256": "3809acac75855ac6c9fafcd5f6eec6a9e704dedc8ae3d3fc14418a3693f466c5",
+    "verdict": "accept-readonly-proposal",
+    "scope": "4/4 ops archive records"
+  },
+  "migrationSummary": {
+    "documents": 4,
+    "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+    "sourceQuoteInverse": "4/4",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "archive-record": 4
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r31-ops-archive-records-candidate-acceptance-20261017.json",
+    "sha256": "03c69eb675ca6ea6c0c8901f40247e8501512ec72b5da012197b25345ebf0a29",
+    "verdict": "accept",
+    "scope": "4/4 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

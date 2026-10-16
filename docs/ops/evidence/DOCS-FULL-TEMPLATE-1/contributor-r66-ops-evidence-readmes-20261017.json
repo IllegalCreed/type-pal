@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r66-ops-evidence-readmes-20261017",
+  "kind": "R66 ops evidence Markdown",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "183ec0bf0b7ce290bcfa68839e5ce9d29af3245a",
+  "scope": {
+    "documents": 10,
+    "docTypes": {
+      "evidence-receipt": 10
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md",
+      "sourceSha256": "492abd9ee0335ed5e0bf86ef8426d67f84625102bed1bd95c89322cb987331ae",
+      "afterSha256": "dd979ce634cdb31579fee97e3bfda202174317f6902e9f446bdfe2b68bea0f92",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
+      "sourceSha256": "90fa1fea9dc30fa1816566943acfa51bbaabbca3fe99dd8e56994fdd48fd3d18",
+      "afterSha256": "003e7c70ff31cfd3ef582ef6c332de53ed42e6d672d8b78799bb226ec0fdee19",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md",
+      "sourceSha256": "9934a9e704086765d5a28949c031134a0e5d9cb300c7b586dcaa54454501e01f",
+      "afterSha256": "c405dbb4b2a576b046de57508fb2d7c12d3b3a178ab87e00bc5d133024e0c80c",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/gates/README.md",
+      "sourceSha256": "78fbabae1bfe11755b966ed6d25ad7d74efc19c99506cec7ece3d470a4d7b2d7",
+      "afterSha256": "6045a0c607db80f456ce8467d9e0c2aac530fc84cea9fe3c388e3c34c0f0c73e",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
+      "sourceSha256": "bf2310355750be965a3561ee2e9faad387fd1888b3a20785dd0fef882b774d62",
+      "afterSha256": "207264fd0d669b7f25a2d073ca87d24c41df5ab3bf0b462c103a35167e32eee1",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md",
+      "sourceSha256": "6cf55099e8b29501ab931e0c9fc08b033d1c686ec1ed105a3e600e09da446aa3",
+      "afterSha256": "624f99b1715697fd26edd459685ad7ccc037d1aa93b40428f288d27bbcc4b9bb",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
+      "sourceSha256": "32dadd9e9f0dc5cedfe4782e2040143408a2f4721e3110eb4680306e908c34e8",
+      "afterSha256": "a0e2098e044057d138061513bc81eebfb94d172d775123eb050a8ec49418c2c8",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/dedup-ledger.md",
+      "sourceSha256": "4ec92c9c08fce1f8eb1ed527aebe9b4b2e569206252c9265bcd629fa79397e5c",
+      "afterSha256": "8e38286a59985ba1d2a6f3e5112c6d2309794ffb51a68441c760ac2ecb2589ee",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
+      "sourceSha256": "16619d9296ae1865628193f12f0558d609bfbfd395287fba171ed95103179c72",
+      "afterSha256": "4aff013080f7a583d718611b1737f4c39008ecec1fa83b744eac1088cdf05f45",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/dedup-ledger.md",
+      "sourceSha256": "fdeeee94bb041ca11a3dd8986497b6eb762a9f7f27dc9014deee84566c035776",
+      "afterSha256": "5b38c9302fea278016c70a267c7b75969e7677e20ff31daebaca738556df324a",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r31-ops-archive-records-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 4,
+    "all4": true,
+    "paths": [
+      "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "docs/ops/archive/acceptance/README.md",
+      "docs/ops/archive/board-history/board-20261004.md",
+      "docs/ops/archive/board-history/README.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "4/4 fully read",
+    "sourceAfter": "4/4 byte SHA equal at intake",
+    "registry": "4/4 governed-legacy entries and review references",
+    "catalog": "ops archive paths are outside phase/lore catalog scope; registry/review/routing are authoritative",
+    "routing": "archive-only at intake",
+    "classification": "4 archive-record",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "format": "markdown",
+      "title": "验收清单(做完划掉;不对就截图)",
+      "date": "2026-07-11",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+      "afterSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+      "bytes": 12225,
+      "physicalLineSlots": 159,
+      "headings": [
+        {
+          "line": 5,
+          "level": 1,
+          "text": "验收清单(做完划掉;不对就截图)"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "~~① W6 夜色观感~~ ✅ 2026-07-11 验收过(「特别好」)"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "~~⑧ C3 装备页 UI 两连修~~ ✅ 2026-07-11 验收过(「就这样吧」)"
+        },
+        {
+          "line": 31,
+          "level": 2,
+          "text": "~~② C3 装备手感~~ ✅ 2026-07-11 验收过(顺带揪出黑label无影+ITEMBOX图标偏下,已修 → 见⑧)"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "~~③ B5 战斗物品演出 + 战斗 UI 四修~~ ✅ 2026-07-11 验收过(「物品动画终版 ok」)"
+        },
+        {
+          "line": 54,
+          "level": 2,
+          "text": "~~④ E9 商店/当铺~~ ✅ 2026-07-11 买卖都验过(顺带揪出对话期 unmigrated 0x8 警告,考证中)"
+        },
+        {
+          "line": 62,
+          "level": 2,
+          "text": "~~⑤ E2E-1 空白工程 FSA 烟测~~ ✅ 2026-07-11 验收过"
+        },
+        {
+          "line": 69,
+          "level": 2,
+          "text": "⑥ A4 素材上传(2026-07-11 重构版:类型先行/动作帧行/追加帧)"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "~~⑨ B5 战斗快捷键~~ ✅ 2026-07-11 验收过(「快捷键验收了没问题」)"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "⑩ M3 opcode 兼容层 + 扬州夜转昼(顺剧情验,无需专测)"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "⑪ B5 战斗 P0 效果接线:选队友 + 还魂香复活(1 分钟,2026-07-11 新)"
+        },
+        {
+          "line": 112,
+          "level": 2,
+          "text": "⑫ B5 逃跑/变身/分裂演出(30 秒)"
+        },
+        {
+          "line": 121,
+          "level": 2,
+          "text": "⑬ 隐蛊隐身 + 屏波/图层(1 分钟,2026-07-11 新)"
+        },
+        {
+          "line": 131,
+          "level": 2,
+          "text": "⑭ B5 替挡 cover(1 分钟,2026-07-11 新)"
+        },
+        {
+          "line": 143,
+          "level": 2,
+          "text": "⑮ P2 状态板三件 + 战斗库存预占(1 分钟,2026-07-11 新)"
+        },
+        {
+          "line": 156,
+          "level": 2,
+          "text": "⑦ A5 导出 zip(1 分钟)"
+        }
+      ],
+      "semanticOutline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "proposedClassification": "archive-record",
+      "proposedTemplate": "archive-record-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "format": "markdown",
+      "title": "历史验收批次",
+      "date": "undated",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+      "afterSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+      "bytes": 284,
+      "physicalLineSlots": 9,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "历史验收批次"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "proposedClassification": "archive-record",
+      "proposedTemplate": "archive-record-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "format": "markdown",
+      "title": "多 Agent 任务看板",
+      "date": "2026-09-17",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "afterSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "bytes": 29398,
+      "physicalLineSlots": 226,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "多 Agent 任务看板"
+        },
+        {
+          "line": 97,
+          "level": 2,
+          "text": "进行中"
+        },
+        {
+          "line": 205,
+          "level": 2,
+          "text": "阻塞"
+        },
+        {
+          "line": 221,
+          "level": 2,
+          "text": "看板规则"
+        }
+      ],
+      "semanticOutline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "proposedClassification": "archive-record",
+      "proposedTemplate": "archive-record-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "format": "markdown",
+      "title": "历史协作看板",
+      "date": "2026-10-04",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+      "sourceSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+      "afterSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+      "bytes": 149,
+      "physicalLineSlots": 5,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "历史协作看板"
+        }
+      ],
+      "semanticOutline": "Historical acceptance/board-history record requiring explicit archive boundary and successor navigation.",
+      "conflicts": [
+        "历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current ops board/task/evidence records and a fresh primary-source review.",
+      "proposedClassification": "archive-record",
+      "proposedTemplate": "archive-record-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

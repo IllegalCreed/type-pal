@@ -1,25 +1,25 @@
 # Lore / 三阶段文档索引
 
-由 `scripts/docs/build-phase-lore-governance.mjs` 生成。
+由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
 
 ## lore
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [官方角色设定（characters）](../lore/characters.md) | canon | current | Codex |
-| [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) | canon | draft | Codex |
-| [仙剑江湖势力关系图（factions）](../lore/factions.md) | canon | current | Codex |
+| [官方角色设定（characters）](../lore/characters.md) | canon | draft | Codex governance; original author unknown |
+| [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) | ideas | draft | Codex |
+| [仙剑江湖势力关系图（factions）](../lore/factions.md) | canon | draft | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
 | [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) | ideas | draft | Codex |
 | [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) | ideas | draft | Codex |
-| [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) | ideas | draft | Codex |
-| [故事与 DLC 设想](../lore/ideas/README.md) | ideas | draft | Codex |
-| [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) | canon | current | Codex |
-| [docs/lore/ — 仙剑设定真值库](../lore/README.md) | canon | current | Codex |
-| [扩展红线清单（taboos）](../lore/taboos.md) | canon | current | Codex |
+| [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) | ideas | current | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
+| [故事与 DLC 设想](../lore/ideas/README.md) | ideas | current | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
+| [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
+| [docs/lore/ — 仙剑设定真值库](../lore/README.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
+| [扩展红线清单（taboos）](../lore/taboos.md) | canon | current | Codex current integration; history_cards_c_tail authored c7d; history_cards_a independent exact source reception |
 | [仙剑剧情时间线与流程攻略](../lore/timeline.md) | canon | current | Codex |
-| [版本差异登记（versions）](../lore/versions.md) | canon | current | Codex |
-| [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) | canon | current | Codex |
-| [世界规则（world-rules）](../lore/world-rules.md) | canon | current | Codex |
+| [版本差异登记（versions）](../lore/versions.md) | canon | draft | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
+| [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) | canon | draft | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
+| [世界规则（world-rules）](../lore/world-rules.md) | canon | draft | Codex current intake; history_cards_c_tail fixed author; history_cards_a exact independent source reviewer |
 
 ## phase1
 
@@ -51,7 +51,7 @@
 | [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) | plans | draft | Codex |
 | [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) | plans | draft | Codex |
 | [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) | plans | draft | Codex |
-| [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) | plans | draft | Codex |
+| [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) | plans | archived | Codex |
 | [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) | plans | draft | Codex |
 | [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) | plans | draft | Codex |
 | [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) | plans | draft | Codex |
@@ -90,9 +90,9 @@
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) | archive | archived | Codex |
-| [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) | archive | archived | Codex |
-| [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) | archive | archived | Codex |
+| [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) | archive | archived | Codex（文档治理；不代签历史执行） |
+| [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) | archive | archived | Codex（文档治理；不代签历史执行） |
+| [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) | archive | archived | Codex（文档治理；不代签历史执行） |
 | [资产 / 提取 / 迁移 八单元 三方逐函数对照审计(MKF / 精灵 / 字节码 / 资产管线 / manifest / 投掷物 / 战斗物品 / 数据 bug 补丁台账)](../phase2/archive/audits/am-asset-migrate-audit.md) | archive | archived | Codex |
 | [攻击 / 法术系统 四单元 三方逐函数对照审计(物理攻击 / 法术攻击 / 召唤 / 混乱打友)](../phase2/archive/audits/b-attack-magic-audit.md) | archive | archived | Codex |
 | [战斗核心逻辑三方逐函数审计(公式 / 状态机 / 回合队列 / 结算)](../phase2/archive/audits/b-core-audit.md) | archive | archived | Codex |
@@ -110,7 +110,7 @@
 | [事件 / 脚本系统三方逐函数审计(事件解释器 / autoScript / 触发器 / 走位骑乘相机 / 页切换状态机)](../phase2/archive/audits/n-event-script-audit.md) | archive | archived | Codex |
 | [N1-1 对话控制码退役审计](../phase2/archive/audits/n1-dialogue-migration-audit.md) | archive | archived | Codex |
 | [第一阶段深度审计跟踪表](../phase2/archive/audits/phase1-audit-tracker.md) | archive | archived | Codex |
-| [历史专项审计](../phase2/archive/audits/README.md) | archive | archived | Codex |
+| [历史专项审计](../phase2/archive/audits/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [原版事件脚本字节码普查(M3 设计输入,2026-07-02)](../phase2/archive/audits/script-census.md) | archive | archived | Codex |
 | [字体 / 调色板 / 屏幕特效 — 三方逐函数对照审计](../phase2/archive/audits/w-font-palette-audit.md) | archive | archived | Codex |
 | [渲染地基三方逐函数审计(瓦片 / 精灵 / 场景合成)](../phase2/archive/audits/w-render-audit.md) | archive | archived | Codex |
@@ -121,7 +121,7 @@
 | [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) | archive | archived | Codex |
 | [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) | archive | archived | Codex |
 | [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) | archive | archived | Codex |
-| [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) | archive | archived | Codex |
+| [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) | archive | archived | Codex（文档治理；不代签历史执行） |
 | [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) | archive | archived | Codex |
 | [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) | archive | archived | Codex |
 | [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) | archive | archived | Codex |
@@ -132,14 +132,14 @@
 | [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) | archive | archived | Codex |
 | [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) | archive | archived | Codex |
 | [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) | archive | archived | Codex |
-| [历史设计与规范快照](../phase2/archive/designs/README.md) | archive | archived | Codex |
+| [历史设计与规范快照](../phase2/archive/designs/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) | archive | archived | Codex |
 | [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) | archive | archived | Codex |
 | [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) | archive | archived | Codex |
 | [剧情脚本系统](../phase2/archive/designs/script-system-design.md) | archive | archived | Codex |
 | [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) | archive | archived | Codex |
 | [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) | archive | archived | Codex |
-| [历史界面草案](../phase2/archive/mockups/README.md) | archive | archived | Codex |
+| [历史界面草案](../phase2/archive/mockups/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) | archive | archived | Codex |
 | [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) | archive | archived | Codex |
 | [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) | archive | archived | Codex |
@@ -156,7 +156,7 @@
 | [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) | archive | archived | Codex |
 | [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) | archive | archived | Codex |
 | [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) | archive | archived | Codex |
-| [历史实施计划](../phase2/archive/plans/README.md) | archive | archived | Codex |
+| [历史实施计划](../phase2/archive/plans/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) | archive | archived | Codex |
 | [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) | archive | archived | Codex |
 | [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) | archive | archived | Codex |
@@ -165,13 +165,13 @@
 | [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) | archive | archived | Codex |
 | [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) | archive | archived | Codex |
 | [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) | archive | archived | Codex |
-| [第二阶段历史归档](../phase2/archive/README.md) | archive | archived | Codex |
+| [第二阶段历史归档](../phase2/archive/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) | archive | archived | Codex |
 | [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) | archive | archived | Codex |
 | [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) | archive | archived | Codex |
-| [室内切片历史](../phase2/archive/slices/indoor/README.md) | archive | archived | Codex |
+| [室内切片历史](../phase2/archive/slices/indoor/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) | archive | archived | Codex |
-| [历史垂直切片](../phase2/archive/slices/README.md) | archive | archived | Codex |
+| [历史垂直切片](../phase2/archive/slices/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) | governance | current | Codex |
 | [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) | governance | current | Codex |
 | [第二阶段 · 设计议题池（backlog）](../phase2/design-backlog.md) | governance | draft | Codex |
@@ -179,20 +179,20 @@
 | [战场作者工作台](../phase2/guides/battlefield-authoring.md) | guides | current | Codex |
 | [PAL 内容导入与发布](../phase2/guides/content-publication.md) | guides | current | Codex |
 | [reforge 调试工具（D13-1 首刀）](../phase2/guides/debug-tools.md) | guides | current | Codex |
-| [第二阶段使用指南](../phase2/guides/README.md) | guides | current | Codex |
+| [第二阶段使用指南](../phase2/guides/README.md) | guides | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [场景入场呈现编辑说明](../phase2/guides/scene-entry-authoring.md) | guides | current | Codex |
 | [脚本库与可复用脚本作者手册](../phase2/guides/shared-script-author-guide.md) | guides | current | Codex |
 | [第二阶段（Reforge）· 开工前必读](../phase2/READ-FIRST.md) | governance | current | Codex |
-| [第二阶段 · Reforge 文档](../phase2/README.md) | governance | current | Codex |
+| [第二阶段 · Reforge 文档](../phase2/README.md) | governance | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [切片 1 子任务：对话框外观继承原版（spec for Claude）](../phase2/reference/dialogue-presentation.md) | reference | current | Codex |
 | [一阶段知识测绘（Phase 1 Knowledge Harvest）](../phase2/reference/phase1-knowledge-harvest.md) | reference | current | Codex |
-| [第二阶段知识参考](../phase2/reference/README.md) | reference | current | Codex |
+| [第二阶段知识参考](../phase2/reference/README.md) | reference | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [第二阶段路线图 — 重制引擎 + 内容编辑器](../phase2/roadmap.md) | governance | current | Codex |
 | [内容工程当前格式](../phase2/specs/content-schema.md) | specs | current | Codex |
 | [编辑器架构与工作台合同](../phase2/specs/editor-architecture.md) | specs | current | Codex |
 | [Type-Pal 编辑器设计系统与交互规范 v1](../phase2/specs/editor-design-system.md) | specs | current | ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）/ ED-ACTION-GROUP-ADOPTION-3（v2.23.0）/ ED-SPRITE-ACTION-MODAL-1（v2.24.0） |
 | [工程与工作区生命周期](../phase2/specs/project-lifecycle.md) | specs | current | Codex |
-| [第二阶段现行规范](../phase2/specs/README.md) | specs | current | Codex |
+| [第二阶段现行规范](../phase2/specs/README.md) | specs | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [当前存档合同](../phase2/specs/save-system.md) | specs | current | Codex |
 | [作者脚本与运行时合同](../phase2/specs/script-system.md) | specs | current | Codex |
 
@@ -200,9 +200,8 @@
 
 | 文档 | 模块 | 状态 | Owner |
 |---|---|---|---|
-| [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) | governance | draft | Codex |
-| [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) | governance | current | Codex |
+| [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) | backlog | draft | Codex |
+| [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) | design | draft | Codex |
 | [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) | governance | current | Codex |
-| [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) | reference | current | Codex |
+| [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) | reference | archived | Codex |
 | [第三阶段参考输入](../phase3/reference/README.md) | reference | current | Codex |
-

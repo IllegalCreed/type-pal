@@ -1,0 +1,580 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "status": "inventory-only-not-semantic-review",
+  "approvedCohort": 1838,
+  "observedCandidatesBeforeThisReceipt": 1926,
+  "sourceRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+  "policy": "This is a fixed snapshot before writing this control receipt. No source entry is silently reclassified or counted as migrated. The receipt itself is control evidence, versioned by Git rather than self-hashed.",
+  "cohortPresent": 1838,
+  "cohortMissing": [],
+  "cohortChanged": [
+    {
+      "path": "docs/README.md",
+      "baselineSha256": "31b698d8e2eff0fedc2107086308ec04f8da54a36e68ef49daca0faaba4a1003",
+      "currentSha256": "50d199f1915d9bcb4ef8e8979c00901981f960aebb0579b21c0ef946a688f883"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "baselineSha256": "5ff81f7f8d12371bfd20874a302b3c294ae586b112e72073186ecf3df7f2fdef",
+      "currentSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "baselineSha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
+      "currentSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "baselineSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
+      "currentSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "baselineSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+      "currentSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa"
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "baselineSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+      "currentSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5"
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "baselineSha256": "c96b17737c8e0132409bb7cd688f398f4360cdea9280085c29c0a8bbaffce3d2",
+      "currentSha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897"
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "baselineSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
+      "currentSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "baselineSha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
+      "currentSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "baselineSha256": "c8b2201cde0e65c82b74a3d9e7465ef4d0bf944e264b879641f262ce1ccb25db",
+      "currentSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2"
+    },
+    {
+      "path": "docs/phase-governance/catalog.json",
+      "baselineSha256": "ec759e6bf25766cad4ef997839a0829b9f930bf91d261ec41755691f10983ea9",
+      "currentSha256": "3016580f4f110f0dcfd501f716732953b4e92018674cf73dc7fd08f29bc7beea"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "baselineSha256": "516355182c95dff01a27d22f359b1a1d8e251400722e776fd35dcc70dda0085e",
+      "currentSha256": "8e293045c89d9b7967d17a0abaeca3bba67e78a9eaa47f1f13a6a95af2ceb537"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
+      "baselineSha256": "af345685ae4a9d1b48fce667a4b522ea4c2a41ef33fd3af83ded0fd1bc878f95",
+      "currentSha256": "88481af4b819bf8b4ce3b4b794ec8eb5ade2d91d785f6c1e58d121c02bd4c362"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "baselineSha256": "08c3e9bc71511aa401ccb59f1c6117d8e21b7d78986b0de6143a867f33d45532",
+      "currentSha256": "8504c3d8a50d57115bc44e7d0ae7848730990ad55c597a44961261d433302310"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-structured-content-ops-05.json",
+      "baselineSha256": "b12789441e322a06ea7b31d24f360965ae10bb34c7aa844c313d0c7569e874c0",
+      "currentSha256": "0e7de342e0881cdd3cc17bcf8352ca5ed3755ae0f968f8aeaac0cfe34af1bc04"
+    },
+    {
+      "path": "docs/phase-governance/reviews/README.md",
+      "baselineSha256": "c1a88d06f1e115fb56edabf4a8712e574a3f9e67d9a9c427faf210a31853faf4",
+      "currentSha256": "34bfeea75242886f885c7b66106d44fbfdcccdaaa7a0c1e4a2784cfa4d886d6f"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "baselineSha256": "36bd55e5587dac41f50acbafce9a51061b29e252313e902e11c60b8904f0badd",
+      "currentSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d"
+    },
+    {
+      "path": "docs/phase-governance/templates/registry.json",
+      "baselineSha256": "7439481e8e3f368ce61cdd9f6056084459d5394d6b48521b8d6156120e573f7c",
+      "currentSha256": "17f86facd2ac03cfa5982842b14c4bf199a7efffb381998c6219b127817ef51c"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "baselineSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+      "currentSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed"
+    },
+    {
+      "path": "docs/testing/_templates/README.md",
+      "baselineSha256": "728b9cc5eca8815d93b2c4e7905c661cb86fe9097133a34245136cf0bff472d4",
+      "currentSha256": "3a52f9eeb3f290f9c70ea8ee1d80a4832847618964d444b9fdf2cae94a177da2"
+    },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "baselineSha256": "fcad23c7ce9652939695ee358a5ead5b237eb1adfe0eaf3db60d4fab28112997",
+      "currentSha256": "310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "baselineSha256": "cd9779763b01f03956f8e427d91fb6bed779edb866c8762e91a81b6036c2f807",
+      "currentSha256": "19ccf0fbeebe108aedc232c38f515891023f33fb923c8024bb44c182370a8a65"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "baselineSha256": "77485500574812a7e370e6435a18fc3a0c1bca7cad360db99b691cb9da9bb53d",
+      "currentSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7"
+    }
+  ],
+  "addedCandidates": [
+    {
+      "path": "docs/ops/archive/tasks/done/GAME-RIX-MUSIC-1.md",
+      "sha256": "07809fd81965a1d31d80eb3fbe4395df5ff0e2c0e227504971eaa6c222510a45",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
+      "sha256": "f8c81a1ce4260e2aa84191583ef21981b5f95f515a6e73aed3de95a62c8cf62f",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1.md",
+      "sha256": "00a1fe31c840cddd87ea6dd3701aa8a719ab2a60a114d6db853af33ff3e5d558",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1.md",
+      "sha256": "a5cd59f1cffcc6c72e88349473c0e7b1cecf4370bc1aa6a1ed2d1958d652f631",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md",
+      "sha256": "6df0ec36a5c5865a742a983a207096a70dc03ead41b12d9c7e33a265f06e7717",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "sha256": "9189da83dcc69d82af65b0f5db4cf4bdfeaac35264a682a905f8c9f803c78a66",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "sha256": "1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json",
+      "sha256": "84bc7fea67b3075231e8fffd4285fee9f19d1281a2929d20f5f1755113e59923",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-01.json",
+      "sha256": "3a87f506fe3d4700e3d547591785d9edaeff18b3e566871d1f4e9939dbd9dff8",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-02.json",
+      "sha256": "e078b6d3cef2f5c21b451e296fb73b0b3112f227b20a4b401d98e8842f7f28fa",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-03.json",
+      "sha256": "094e9b888d7f260a99164a48e08a7cbd4ccc8a64111a33be12af7f63964f362e",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-04.json",
+      "sha256": "0e00fdbca874b813d6db186a04070a22602434fb0f719a34edce14118f5206fc",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-05.json",
+      "sha256": "8df417721353a65de445bee842e55a5e1a71d64fc68cc3eb188cafb81079dfd2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-06.json",
+      "sha256": "f14a6ff2369b8d9e1a3d3e8c9b606f992a3efae2ceab887951b479bff6452812",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-07.json",
+      "sha256": "f6b6a14e4bcd6930bff7bc4c0527de13f400ae2c87aa79671b476043775601af",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-08.json",
+      "sha256": "57a2cef9bd5e9813a70b4c3b577bc059e9010c89f759435f5f53677694fc97ad",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-09.json",
+      "sha256": "fc333a475b41897d148f224466c16a8af8f4c2a9fbf7193f01b192c4a5d3fd15",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json",
+      "sha256": "f67966c1b8d3d6883e5064b1751c63c42497dd414f6d006691846be3a754694e",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-candidates.json",
+      "sha256": "ad50a044476d374f4e34b3918996ac80f24c1bac6d0c219c2b5e7c19b94dd6bd",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots.json",
+      "sha256": "0cb8a444bd087c2fc32847e061edca1715fa55835f288c786487b6465b771adf",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1/candidate.json",
+      "sha256": "a11168d32bc8e072657ea47c3f40be90cde5a289b7c99173497f4b5cfcb4beb2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1/candidate.json",
+      "sha256": "0323ef6722b00d72b075c950679c83d0910f0f67eebddd57cf3ba9fbf455cbe5",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protection.json",
+      "sha256": "d217424ea0d6f526e527e2063c94f697e73ee7d3784bda5f8a0c58c8b75b187e",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
+      "sha256": "e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+      "sha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/counterproof-receipt.json",
+      "sha256": "c26161d5403564ec79e69675b3fe175dc7fcdbc3be17f886f2ac50b573c50cfe",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green0.json",
+      "sha256": "51d1d1c266690bf2a98d180358b9f5d2aa1b195af8354ecb3d678f9f8a0ecac2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.json",
+      "sha256": "e8427b6fc4bb71a1215f753d9c13fad842f2933eb45462d6c7bfacda1a981378",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n1.json",
+      "sha256": "5f271142054f5148d7faf65c4704e9f87316a20d268fcd9994f07ca4dbe5d37e",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n2.json",
+      "sha256": "89a40cde32bd23f2f16d138bbe8708e5ddc29c46b198b780af97c83428df5477",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n3.json",
+      "sha256": "c51740a514c76d94c262f489db255e06c3325ce0e2e951f59ac351743d34cc7b",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/replay-n1.json",
+      "sha256": "2928d72f5f278ff4b0d07500aa10ba5fce0878cf2b2a5638378566d595a4be7c",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
+      "sha256": "10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+      "sha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+      "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+      "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
+      "sha256": "2bb4040917a7cdb49504a0d1c92a66c881497aafac028b743ad0112604ffa861",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json",
+      "sha256": "beb1c7d7f579445003dce617ff9d62372b1eb8d05abd8092c7da82fe390fee6b",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json",
+      "sha256": "f3dd26afc0816ead7f510d787b5756e2328cf09550d37f84776ac223a678d348",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.red.json",
+      "sha256": "bb20e8368a23365811caf45f88f1d66a24cb47f2eab501989f7b380bae043261",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.green.json",
+      "sha256": "f08efc80fea242e03d2847f0c06708fd48fa928ab125631fb66cc8484a30e44f",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.red.json",
+      "sha256": "947aa553c75d3cadd782314dd30d4062d5410461c9a9e90d1219faaa109a1ecd",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.green.json",
+      "sha256": "aa16295f9b6b7d94c7e52f5800cf5767f55ad137be31499f486d73b4eff33943",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.red.json",
+      "sha256": "25725a1a839cd791fa674e3078941a17e3994730fc6f78885e23b8601b385a92",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/green-baseline.json",
+      "sha256": "e67061effcb6f09b8e74e9550f6b052b629cade8ac0ff8b60db1f0d301d23897",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/README.md",
+      "sha256": "465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/all-tracks-recheck.json",
+      "sha256": "e0404024dd528008d1f70dec49bc2a5df84c9aab9407c9ff735ba3d129db1d95",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/all-tracks.json",
+      "sha256": "4c694336f285f5e2bf6c49fe341084fa8b875ecf64586ec758428729824ea2c1",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/branch-cleanup.json",
+      "sha256": "dfd28985d835ab3d1bc94a5e7f6d78d1f435e95381cc18baa15b9039fd96e750",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/browser-smoke.json",
+      "sha256": "ecdc85b6a497fc6e189f3daf072f51bc52c8d9b73a95aafd61d38bf1053b3c56",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/ci-checks.json",
+      "sha256": "a337acd512a352a4c0442d70c2739761c146b173acf3dce6ff45ca37a82837ea",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/ci-jobs.json",
+      "sha256": "6640a2c8717865320a36b6445b25f07aef649d2ec9989f29539bd165041a5f59",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/coverage-baseline.json",
+      "sha256": "bd814e9fbf4f1c0a3a369aa9af4afa027479b894ce23fa1876681a809cd11f2e",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/issue-closure.json",
+      "sha256": "ff7d97b993782aeaac8d71c24cbedd667c841e8b39cd8831f5108659542c618c",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-browser.json",
+      "sha256": "50861f97e7352e41b01bc6c50efb1e761d32bf244d37bf20cc9768a25e63630f",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-cdn-wasm-refresh.json",
+      "sha256": "988c16b914d02781afa7000207ce77acc66447db5dab2bd078bca04b1cd80c39",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-release.json",
+      "sha256": "0d1183ba77781abc259d7f7231f06276c4ca1a73ed96fb1319e86205df5797de",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-verification.json",
+      "sha256": "4b0a58f0e0f5f4ddc30cfc1d0bf935b7eff35cc54f291d69d2cd5d9af9bd3007",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/reference-golden.json",
+      "sha256": "74dd8e89d03c8460ea79bf2d44fab6d27c6b0efe935d5f78687cbbb2b8bd942a",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-inventory-delta.json",
+      "sha256": "39426a94ff9a09ce44e021bcd60c771ecbee2fa8fa6ff11f0c850bbd771cef63",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-preflight.json",
+      "sha256": "25b4c313c3061c4c589c084abe7ab448d805ca0e77e686143f92c36411762894",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-verification.json",
+      "sha256": "48d88fdad173462ae2d8bc8ff0ad63c93250d5d01c64010344e302a3e6cc6dcb",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
+      "sha256": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-desktop.json",
+      "sha256": "51e018b22efa58cfacc86e477b450a8991cfc8fbf0c22b5e852149cff77b7b28",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-focus.json",
+      "sha256": "97a7e47e21945980480499c0fcacb465d1d5e0b499e72e5b72bd9a3cb32a30db",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+      "sha256": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+      "sha256": "963261e17ea4cfbfb14b2dbfcdf305e8868506a7a47dff7f6a8aaaaae53ccec1",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+      "sha256": "0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "sha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "sha256": "289e5e4fb5ca94cd937fc408b129a307c06d9474a763dead6d28172fde28b818",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "sha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/counterproof.json",
+      "sha256": "4fc880f072d975e539ace1cf0de2c58c20d2b7819060e4ed0effc26831093289",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.json",
+      "sha256": "bc4fb418061248896697a2f8485accd81e8f447a0d57a05ccb9bb30405c36a89",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
+      "sha256": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
+      "sha256": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
+      "sha256": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+      "sha256": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
+      "sha256": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+      "sha256": "f8ff2ca42c75fd8bad6bcb34f73bd859ca125e9191d7c96e7354747ffe1d1042",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/phase-governance/routing.json",
+      "sha256": "9b89340144276dc458cb292f69769a0a44cf3302e356101973c4a0dda2bd0f88",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+      "sha256": "4ffe855b999c3d9dc33687c4a14043b6852d60391d04f66c45d51ffcc9402a1f",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "sha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "sha256": "51f829173838ea2d4a4a32251c719f34bb0fc5023465b29a3ed059fca4df5cc3",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "sha256": "b545c0b6eb5fd58184651deb8232247f013b66e8e0d7782f04d7437f36ddc4b3",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "sha256": "dd5d6b45c99596d539d6bfe13cf954a25e2017da72e3487468c60e5c36d1f140",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "sha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-machine-evidence.json",
+      "sha256": "71bbfa7953970c21f81a0b8ddf4e8ce556c88ad083463ab4f9a3988bf8e40b03",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "sha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
+      "semanticReview": "pending unless covered by an explicit current review record"
+    }
+  ],
+  "candidateCountsByRoot": {
+    "README.md": 1,
+    "lore": 14,
+    "ops": 944,
+    "phase-governance": 36,
+    "phase1": 60,
+    "phase2": 108,
+    "phase3": 5,
+    "testing": 758
+  }
+}

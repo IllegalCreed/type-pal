@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r77-testing-archive-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "226f8cb90880b74c82f3c39b6e09d949f2a16e7b",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 50,
+    "readAndChecked": 50,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r77-testing-archive.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R77-B01",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 50 testing archive documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R77-B02",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all50": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1244 documents; content-reviewed 1244)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1024 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7994 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1244/1244; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4344 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C04.readback.json",
+      "afterSha256": "074caa7cd35b034958601e66597ab15efceb451f8a3a9c04928e71e94b2c5cdb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C11.readback.json",
+      "afterSha256": "c104ea87ed272efa35bf988a2ea9f745a7e5e0518ef5f8371a9a6f90adeca7c7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D01.readback.json",
+      "afterSha256": "58df05fe4998288cbf2d953144676310655afce9a222cbdfc2b571c690b4baf4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D08.readback.json",
+      "afterSha256": "f31f6c03a8aea3ceaa043520fbdb067558f02ebd447a8caa35e74241f248bd25",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D20.readback.json",
+      "afterSha256": "4a2c02d9f71b37121e65156374425eb5cdb4952683f74587adf8b22e4a6c39f9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-fade.readback.json",
+      "afterSha256": "4e258b9c88189d63cc0c86cf11cb5433994c32b89f65f69910bbc6b831e6584c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-final.readback.json",
+      "afterSha256": "d5a3883d02c3e3f740c1723f7831e49a10fc6b7f4829bbd3af332940134ee102",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B02-final.readback.json",
+      "afterSha256": "8e706d57b8966c20983003991a73692db5bda588a457dfd545b62adb72e539cd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/README.md",
+      "afterSha256": "6a932b4fffdafb5ae25193da5aced92d974392150acb5270095ad977c9c0c2cd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-present-regressions/README.md",
+      "afterSha256": "2927e6b3c3b11e0c90431697f72c41bca53a306013720daf6699ae7e489da225",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/README.md",
+      "afterSha256": "6ae1061b199f481e928bfc6ab6e2c084a263127bf6778af83da4357296378f00",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/README.md",
+      "afterSha256": "5a8557ccc6d3144aec5a8832c1a4c68743d3cf3f2fe20f010b0106df8b4b48bc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/counter-control/README.md",
+      "afterSha256": "ac2a1eda2c6b7f87bb4b8fb9fb872d6be423a780abe59fc3eb92dd5b66ca768d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/coverage-compare/README.md",
+      "afterSha256": "3e90de923843c53d797164e72ac2f680662a8853d111ded8d7463974ad46d095",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/evidence.json",
+      "afterSha256": "2111f0bf2e8860683e65ed60f47772e073c5c5762fc21d6fb403e3218e3f5b55",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/receipt.md",
+      "afterSha256": "165934f861a0d67d27fc2f40b08b6eb49c942ef1506b4d3f7109b268dd90fd3d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/targets.json",
+      "afterSha256": "d6b270bbd85844f4b77770df2a66f0f5770d24b35d1e717f6dee58a128784c9e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/quality-zero/README.md",
+      "afterSha256": "40c4305916dfd910e4e4f45c7a742f071d9cf71dc1d76f74ac9888c9489dda5e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/README.md",
+      "afterSha256": "4cb80960beee03fafafe174f012f834c1122e8a87ded0aaf2f437423a559c615",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/current-checkpoints.md",
+      "afterSha256": "9b4af24b6b42de3e2ed1f0ce29f7f0bea2527d14ada5446c5a8ac16241f6b65a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/entity-proximity-premise.md",
+      "afterSha256": "01a2bdf39daed8d6a9212458871107a5fe9f8c61ba0f3c27a445bbd0ca73f377",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/frame-animation-hold-premise.md",
+      "afterSha256": "8a6ca99496dfd76b9e6b1b3b52be53e7f15476ddf405f476f6d06eaf885a7b12",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/independent-review.json",
+      "afterSha256": "d487f6cc8ec03cf774d72cc6afc7dcac0bb8f091ddf377091b877b82915489d6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/install-census.json",
+      "afterSha256": "96ef41db9235e9449bcb113e7171cdb3a8c57d7ca9bea793f04d66a3a085f9d3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/install-census.md",
+      "afterSha256": "1402ebe8429a8fed5c8495336b5b7a4c49131d3932348e5ceabf90591a0e9981",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/machine-census.json",
+      "afterSha256": "e17e99aeec29a6a1192bd47352c93b2a215e2e7758da45f2a73475d321305f83",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/payment-repairs.json",
+      "afterSha256": "f8ee1414ec686645581516d9e44d42619a1b2706d426d2e3b57e8a0c3ada03d0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/residual-cross-family-premise.md",
+      "afterSha256": "0dbbf11653981f67096cb6254fdacbb367cfbcb75ea3699dfacb387ddb6b2faf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/residual-dynamic-premise.md",
+      "afterSha256": "459a50ec7bfe8cf3f01afda3feeed29c13e70c7f04b7cde2e9b577ceb79fe0a9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/residual-motion-premise.md",
+      "afterSha256": "050cc9bd21768d2b5a6e4741cb37c6f1b191939e7595a0cb55e6511a65fab6e4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/save10-checkpoints-20261002.md",
+      "afterSha256": "950d13f8ba19fa916881605c9314c641c885f83e4a7026e6dfd4ee7ef3ca4010",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/successor-repairs.json",
+      "afterSha256": "4d9c6e47eb66d0f054a5578ee9bb0c6cde5e51d0aa39c553208841f66ab52106",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/unified-steps-evidence.md",
+      "afterSha256": "81b189ed5c1fa25408ecbc27d156f5b2493dd585a87db3896b1da1400d61d62c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/unified-steps-plan.md",
+      "afterSha256": "c242d4c2b405d15df06c21aec0ae44f31ea332e63c2c69b6a6f945bb41bd02d0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/README.md",
+      "afterSha256": "7b4db9de3b65bc1ce22773dea4f76708e59bb0b85c897d3f10c60083670ff10f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/README.md",
+      "afterSha256": "e9bee708583bf462c219b9552490e70bb348b355ad584324e1d596ec76ea26d4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/codex-content-boundaries.md",
+      "afterSha256": "5d18fdf510f508d92e629d48f0da026b18ed0f5edcca666da172eba096d0f2f7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/content-residual-review.md",
+      "afterSha256": "33a6b8d3afc8c56856560cca1522c0757e3257c7b508b438e12cb8c9e3c3f636",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md",
+      "afterSha256": "b49551289a63e5cafab600dde43043b19ffdd22dd31f9f2c54e0f9bac7397746",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-content-pure-wave2-codex-review.md",
+      "afterSha256": "430a750fb4caea039292767308fb359ab23bceea3887d4f9ee12f5bff58bfc09",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration-evidence.json",
+      "afterSha256": "24fa8c8c8129818acf60d591884b3975e5349edf0e6cfe6f40b6bb86f3559d8b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration.md",
+      "afterSha256": "4ce423261525e37a4348b55c406ed2997db1e8446f8c81d9e8fc1cdadfada5f0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r1-review.md",
+      "afterSha256": "11ef85ab277a0445e5a6f5e358b9a97f8f21f486a1bab49392840009bf91dc89",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r2-review.md",
+      "afterSha256": "7b1b36533739c4aee7d09f0a37b252ad59a35032c4f4d814cee45c6482a59899",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-review.md",
+      "afterSha256": "2aaf0a5cbda1bdd98ac7c4e0322877f93e7d58602736fb1318df67012486a1a2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-truth.md",
+      "afterSha256": "80afadf98f87b69aa5a04b7baec79654006c63cfe0f4c0a27b0554220415adf5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json",
+      "afterSha256": "017d12d6f4c73f6bf2bd6e9eae067abf70fc36ee60d2d6b8ec9291fc9d00816b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual-evidence.json",
+      "afterSha256": "07890942fb5a26c7cf0883826427e639122b006d02f2c640998e439e81aa0e62",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual.md",
+      "afterSha256": "e778aa635927426fe69727e5dd7049d67d3ce19f62a24d6bb3b74140b3857ef1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/README.md",
+      "afterSha256": "247f5616d16be08e8abf869d184935f8b9c442ffa0b8b4000d5a7a9a1224d4ac",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    }
+  ]
+}

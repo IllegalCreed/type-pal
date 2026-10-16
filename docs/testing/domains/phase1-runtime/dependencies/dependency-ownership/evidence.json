@@ -132,5 +132,46 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON field-by-field reading",
+      "paired report full-text semantic migration",
+      "original Git blob",
+      "real publication consumer"
+    ],
+    "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
+    "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。",
+    "primarySource": [
+      "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "packages/game/src/core/script-catalog.ts:33-40",
+      "packages/game/src/core/inventory-state.ts:10-23",
+      "packages/game/src/core/equipment-state.ts:6-13",
+      "packages/game/src/core/player-poison-state.ts:12-19",
+      "packages/game/src/core/scene-identity.ts:6-13",
+      "packages/game/src/core/menu/menu-stack.ts:12-19",
+      "packages/game/src/core/dependency-ownership.test.ts:26-45",
+      "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit顶层对象 → 同一机器对象加统一治理envelope；每个原字段和值保持，按实际阶段/caller/历史明确限制。",
+    "evidenceLimit": "publication versions.content22/minimumSave11属于原统一审计元数据，不能推导一阶段SAVE合同/兼容；performed=false、缺raw、空artifacts和全部候选/原history保留。",
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual machine evidence semantic/template migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "静态publication审查与source-backed不产生runtime-backed；原raw缺失、旧counter、版本和历史结果不得升级为当前通过。",
+    "nextStep": "通过真实paired consumer后登记source/after SHA；后续动态验证使用实际任务与原始产物，不复写本次static证据。"
+  }
 }

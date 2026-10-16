@@ -1,0 +1,1757 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r44-ops-archive-task-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 20,
+    "all20": true,
+    "paths": [
+      "docs/ops/archive/tasks/done/JS1-jiu-shen-nine-use-limit.md",
+      "docs/ops/archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md",
+      "docs/ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md",
+      "docs/ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md",
+      "docs/ops/archive/tasks/done/REFORGE-BATTLE-EQUIP-1-permanent-granted-status.md",
+      "docs/ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-NEW-G-1-reforge-host.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md",
+      "docs/ops/archive/tasks/done/W7C-3-dual-layer-collision-brush.md",
+      "docs/ops/archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md",
+      "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md",
+      "docs/ops/archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md",
+      "docs/ops/archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md",
+      "docs/ops/archive/tasks/done/DOC-CURSOR-1-current-guide-check.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read bytes + strict UTF-8 decode + SHA-256; headings and status read from content; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "20/20 fully read",
+    "sourceAfter": "20/20 byte SHA equal at intake",
+    "registry": "20/20 governed-legacy entries and review references",
+    "catalog": "ops archive paths outside phase/lore catalog scope",
+    "routing": "archive task cards to receive body routes; README indexes to receive body routes",
+    "classification": "20 task-card archive overlays",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/tasks/done/JS1-jiu-shen-nine-use-limit.md",
+      "format": "markdown",
+      "title": "JS1 - 酒神一生九次限用与移除(持久化计数器)",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "0c2398f479b1a05a27932cadd840c9693283e96f686798ff7169c06b69760df0",
+      "afterSha256": "0c2398f479b1a05a27932cadd840c9693283e96f686798ff7169c06b69760df0",
+      "bytes": 7771,
+      "physicalLineSlots": 114,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "JS1 - 酒神一生九次限用与移除(持久化计数器)"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "背景与用户裁决"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 37,
+          "level": 2,
+          "text": "实现与验证"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "编辑器入口（2026-08-05 追加闭环，常规迭代免签）"
+        },
+        {
+          "line": 59,
+          "level": 2,
+          "text": "复审签字"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "待办"
+        },
+        {
+          "line": 112,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/JS1-jiu-shen-nine-use-limit.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md",
+      "format": "markdown",
+      "title": "TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "8e3909d71f8e4e6dd5909ad6e3a9eb19fc39a6590ea1d6dda1daa1e211e03ee9",
+      "afterSha256": "8e3909d71f8e4e6dd5909ad6e3a9eb19fc39a6590ea1d6dda1daa1e211e03ee9",
+      "bytes": 8157,
+      "physicalLineSlots": 114,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "目标与准入"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "三包"
+        },
+        {
+          "line": 39,
+          "level": 2,
+          "text": "所有权和白名单"
+        },
+        {
+          "line": 54,
+          "level": 2,
+          "text": "交付与验证"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "上下文锚点与交接"
+        },
+        {
+          "line": 86,
+          "level": 2,
+          "text": "当前模式推进记录"
+        },
+        {
+          "line": 92,
+          "level": 2,
+          "text": "Codex 首轮独立接收（2026-09-27）"
+        },
+        {
+          "line": 103,
+          "level": 2,
+          "text": "Codex 返工接收与收口（2026-09-27）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md",
+      "format": "markdown",
+      "title": "TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "c65e2c36a47d964007883e8b4f44a90a9833ed958995fd88d8d7080db018d8a9",
+      "afterSha256": "c65e2c36a47d964007883e8b4f44a90a9833ed958995fd88d8d7080db018d8a9",
+      "bytes": 9174,
+      "physicalLineSlots": 114,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "准入、前提与上下文锚点"
+        },
+        {
+          "line": 31,
+          "level": 2,
+          "text": "六组交付范围"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "验收与交接"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 90,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立首轮审核"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "2026-09-29 Codex r2 独立验收与集成终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md",
+      "format": "markdown",
+      "title": "TEST-GLM-NEW-H-1 — 一阶段战斗当前合同",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "1516116626839ff56b301bf4ba911fdb0feb2ba6c36ac677976e5686a41a57fe",
+      "afterSha256": "1516116626839ff56b301bf4ba911fdb0feb2ba6c36ac677976e5686a41a57fe",
+      "bytes": 8243,
+      "physicalLineSlots": 114,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-NEW-H-1 — 一阶段战斗当前合同"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "授权与冻结"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "四向前提与停止线"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "写入白名单、验收和交接"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立审核与返工"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "历史首轮派发提示词（已执行）"
+        },
+        {
+          "line": 80,
+          "level": 2,
+          "text": "历史 GLM Wave H 返工提示词（已执行）"
+        },
+        {
+          "line": 95,
+          "level": 2,
+          "text": "2026-09-29 Codex r1 返工候选验收"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "2026-09-29 Codex 集成终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md",
+      "format": "markdown",
+      "title": "TEST-GLM-NEW-J-1 — 迁移编排与发布前校验",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "ca4d66552362f7b1e1604b68361c900e5fa189bb1c0747a033855841125d143c",
+      "afterSha256": "ca4d66552362f7b1e1604b68361c900e5fa189bb1c0747a033855841125d143c",
+      "bytes": 8320,
+      "physicalLineSlots": 115,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-NEW-J-1 — 迁移编排与发布前校验"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "授权与冻结"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "四向前提与停止线"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "写入白名单、验收和交接"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立审核与返工"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "历史首轮派发提示词（已执行）"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "历史 GLM Wave J 返工提示词（已执行）"
+        },
+        {
+          "line": 97,
+          "level": 2,
+          "text": "2026-09-29 Codex r2 候选验收"
+        },
+        {
+          "line": 105,
+          "level": 2,
+          "text": "2026-09-29 Codex 集成终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md",
+      "format": "markdown",
+      "title": "TEST-GLM-NEW-F-1 — 编辑器主工作台与预览",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "db698f63d086d689a137c54ecac58a6b9290bce52b4e807f1b387d578dfe0de9",
+      "afterSha256": "db698f63d086d689a137c54ecac58a6b9290bce52b4e807f1b387d578dfe0de9",
+      "bytes": 8269,
+      "physicalLineSlots": 116,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-NEW-F-1 — 编辑器主工作台与预览"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "授权与冻结"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "四向前提与停止线"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "写入白名单、验收和交接"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立审核与返工"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "历史首轮派发提示词（已执行）"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "历史 GLM Wave F 返工提示词（已执行）"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "2026-09-29 Codex r2 候选验收"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "2026-09-29 Codex 集成终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md",
+      "format": "markdown",
+      "title": "TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "6dd29caa4040b9e31c264037cf13c5ae0bc92438ab3e35a3ed67bb9f105bb43e",
+      "afterSha256": "6dd29caa4040b9e31c264037cf13c5ae0bc92438ab3e35a3ed67bb9f105bb43e",
+      "bytes": 12571,
+      "physicalLineSlots": 117,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "目标与准入"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "冻结入口与去重"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "六组连续工作包"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "候选纪律与交付"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "阶段门与交接"
+        },
+        {
+          "line": 79,
+          "level": 3,
+          "text": "Codex 最终接收与 done（2026-09-25，候选 `7a49d651`）"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "Codex 首轮独立接收（2026-09-25，候选 `e0d7511e`）"
+        },
+        {
+          "line": 90,
+          "level": 3,
+          "text": "下一位 Grok 定点返工提示词"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "历史开工提示词（已交付）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GROK-PRESENT-2-phase1-composition.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md",
+      "format": "markdown",
+      "title": "TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "e3b580e20c47d4e53d75d84b41b6c6664b24f28943507bee2b0aa0d27cf49033",
+      "afterSha256": "e3b580e20c47d4e53d75d84b41b6c6664b24f28943507bee2b0aa0d27cf49033",
+      "bytes": 9203,
+      "physicalLineSlots": 118,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "准入与边界"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "八组连续工作"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "白名单与交付"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "下一位Cursor提示词"
+        },
+        {
+          "line": 63,
+          "level": 3,
+          "text": "2026-09-26 Codex 返工接收 `a732f7d2`"
+        },
+        {
+          "line": 72,
+          "level": 3,
+          "text": "2026-09-26 Codex 独立接收 `b6bcc9b4`"
+        },
+        {
+          "line": 88,
+          "level": 2,
+          "text": "作者交付"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "作者返工"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/REFORGE-BATTLE-EQUIP-1-permanent-granted-status.md",
+      "format": "markdown",
+      "title": "REFORGE-BATTLE-EQUIP-1 — 装备常驻状态与临时状态分层",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "d9904d817df4fac7d8968497e6953296f9ad06eb11ba351756d3bf386b3eed6a",
+      "afterSha256": "d9904d817df4fac7d8968497e6953296f9ad06eb11ba351756d3bf386b3eed6a",
+      "bytes": 9763,
+      "physicalLineSlots": 120,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "REFORGE-BATTLE-EQUIP-1 — 装备常驻状态与临时状态分层"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 28,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 32,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 41,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 51,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 58,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 74,
+          "level": 2,
+          "text": "当前模式推进记录"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "进入 build 前：Codex 核定"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 86,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 90,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 95,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 111,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "交接日志"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/REFORGE-BATTLE-EQUIP-1-permanent-granted-status.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md",
+      "format": "markdown",
+      "title": "E2E-002-CHOREO-1 — 三苗人对白期间的显式接管",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "ea46fd8d9ae22c817172d97f99090539b3e6d65d2e8eecef070ea5caf5b9a821",
+      "afterSha256": "ea46fd8d9ae22c817172d97f99090539b3e6d65d2e8eecef070ea5caf5b9a821",
+      "bytes": 9594,
+      "physicalLineSlots": 125,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "E2E-002-CHOREO-1 — 三苗人对白期间的显式接管"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标与范围"
+        },
+        {
+          "line": 27,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 29,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 34,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 43,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 54,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "设计与风险"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "验收条件与E2E登记"
+        },
+        {
+          "line": 91,
+          "level": 2,
+          "text": "当前模式推进记录"
+        },
+        {
+          "line": 118,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 123,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md",
+      "format": "markdown",
+      "title": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "b0fdcca00647469c22f07683cfdad16c170e582a7a85746680e387bddf37d798",
+      "afterSha256": "b0fdcca00647469c22f07683cfdad16c170e582a7a85746680e387bddf37d798",
+      "bytes": 9450,
+      "physicalLineSlots": 125,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "Codex build allowed（dispatch 2026-10-04）"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "白名单"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "排重与不可达账（build 期核验，2026-10-04）"
+        },
+        {
+          "line": 59,
+          "level": 2,
+          "text": "GLM 交付回执（r2 返工，2026-10-04，待 Codex 独立验收）"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 123,
+          "level": 2,
+          "text": "Codex quality closure (2026-10-04)"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-G-1-reforge-host.md",
+      "format": "markdown",
+      "title": "TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "8a91e3e82c8845e056e09e1e1622cc0078eaa20f4addf51a99b402588a42dbf0",
+      "afterSha256": "8a91e3e82c8845e056e09e1e1622cc0078eaa20f4addf51a99b402588a42dbf0",
+      "bytes": 9154,
+      "physicalLineSlots": 126,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "授权与冻结"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "四向前提与停止线"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "写入白名单、验收和交接"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立审核与返工"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "历史首轮派发提示词（已执行）"
+        },
+        {
+          "line": 80,
+          "level": 2,
+          "text": "历史 GLM Wave G 返工提示词（已执行）"
+        },
+        {
+          "line": 97,
+          "level": 2,
+          "text": "2026-09-29 Codex r2 候选验收"
+        },
+        {
+          "line": 105,
+          "level": 2,
+          "text": "2026-09-29 Codex 代码集成后保留 review"
+        },
+        {
+          "line": 114,
+          "level": 2,
+          "text": "2026-09-29 Codex 集成与视觉终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-G-1-reforge-host.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md",
+      "format": "markdown",
+      "title": "TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "e15599998215f7d6111aca332a306efdd5390a66ffe2044a1dde34cb247f3520",
+      "afterSha256": "e15599998215f7d6111aca332a306efdd5390a66ffe2044a1dde34cb247f3520",
+      "bytes": 9198,
+      "physicalLineSlots": 126,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "授权与冻结"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "四向前提与停止线"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "写入白名单、验收和交接"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "2026-09-29 Codex 独立审核与返工"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "历史首轮派发提示词（已执行）"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "历史 GLM Wave I 返工提示词（已执行）"
+        },
+        {
+          "line": 97,
+          "level": 2,
+          "text": "2026-09-29 Codex r2 候选验收"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "2026-09-29 Codex 代码集成后保留 review"
+        },
+        {
+          "line": 114,
+          "level": 2,
+          "text": "2026-09-29 Codex 集成与视觉终态"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/W7C-3-dual-layer-collision-brush.md",
+      "format": "markdown",
+      "title": "W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "6183dafde61496a82aad5ff385ceb601770925d49ae4c431ac21026437bf977d",
+      "afterSha256": "6183dafde61496a82aad5ff385ceb601770925d49ae4c431ac21026437bf977d",
+      "bytes": 14229,
+      "physicalLineSlots": 132,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 12,
+          "level": 3,
+          "text": "范围澄清 / 用户质疑"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 39,
+          "level": 2,
+          "text": "验证"
+        },
+        {
+          "line": 44,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 46,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 55,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 64,
+          "level": 3,
+          "text": "流程偏差记录"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 98,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 109,
+          "level": 2,
+          "text": "交接"
+        },
+        {
+          "line": 118,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/W7C-3-dual-layer-collision-brush.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md",
+      "format": "markdown",
+      "title": "E2E-002-SAVE-1 — 已完成 auto 的保存安全点",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "21c72f590eaed80ff41f259725562964b683e0ada508ae49def8e302df845cb5",
+      "afterSha256": "21c72f590eaed80ff41f259725562964b683e0ada508ae49def8e302df845cb5",
+      "bytes": 10276,
+      "physicalLineSlots": 133,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "E2E-002-SAVE-1 — 已完成 auto 的保存安全点"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "目标与范围"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 30,
+          "level": 3,
+          "text": "一句话行为 / 工程前提"
+        },
+        {
+          "line": 35,
+          "level": 3,
+          "text": "真值矩阵"
+        },
+        {
+          "line": 44,
+          "level": 3,
+          "text": "反证与替代解释"
+        },
+        {
+          "line": 55,
+          "level": 3,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "设计与风险"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "验收条件与E2E登记"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "当前模式推进记录"
+        },
+        {
+          "line": 125,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 131,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/E2E-002-SAVE-1-completed-auto-safe-point.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md",
+      "format": "markdown",
+      "title": "E2E-004-2 - 连续剧情演示与呈现时钟修正",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "a8067605a7b0ee808d7495aab329fb68bb66d3eb1e729fbe18acc567453804c0",
+      "afterSha256": "a8067605a7b0ee808d7495aab329fb68bb66d3eb1e729fbe18acc567453804c0",
+      "bytes": 13005,
+      "physicalLineSlots": 133,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "E2E-004-2 - 连续剧情演示与呈现时钟修正"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "2026-10-02清账收口（当前结论）"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "用户反馈与边界（2026-10-02）"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "单一Owner白名单"
+        },
+        {
+          "line": 67,
+          "level": 3,
+          "text": "根因反控与相邻夹具准入"
+        },
+        {
+          "line": 80,
+          "level": 2,
+          "text": "验收"
+        },
+        {
+          "line": 89,
+          "level": 2,
+          "text": "上下文"
+        },
+        {
+          "line": 96,
+          "level": 2,
+          "text": "交接"
+        },
+        {
+          "line": 101,
+          "level": 2,
+          "text": "独立接收与实跑（2026-10-02）"
+        },
+        {
+          "line": 122,
+          "level": 3,
+          "text": "统一质量门与交付结论"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md",
+      "format": "markdown",
+      "title": "TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "84bc99e5043fc4bf96ae2d6eca2e02103c56878f530dcb0036888f87dbd91ef4",
+      "afterSha256": "84bc99e5043fc4bf96ae2d6eca2e02103c56878f530dcb0036888f87dbd91ef4",
+      "bytes": 12724,
+      "physicalLineSlots": 133,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "目标与范围"
+        },
+        {
+          "line": 22,
+          "level": 3,
+          "text": "开工与并行隔离"
+        },
+        {
+          "line": 32,
+          "level": 2,
+          "text": "八组（先去重，再补真实差异轴）"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "让执行保持简单"
+        },
+        {
+          "line": 63,
+          "level": 2,
+          "text": "唯一写入白名单"
+        },
+        {
+          "line": 78,
+          "level": 2,
+          "text": "验证与交付"
+        },
+        {
+          "line": 92,
+          "level": 2,
+          "text": "推进签字与交接"
+        },
+        {
+          "line": 100,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        },
+        {
+          "line": 117,
+          "level": 2,
+          "text": "Codex正式接入与修复 — 2026-09-25"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md",
+      "format": "markdown",
+      "title": "E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "159868590f1c3285ea09084bb1be8deb16fca9198ae372e41efd3bc0d4f44ae0",
+      "afterSha256": "159868590f1c3285ea09084bb1be8deb16fca9198ae372e41efd3bc0d4f44ae0",
+      "bytes": 12418,
+      "physicalLineSlots": 135,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "2026-10-02清账收口（当前结论）"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "目标与范围"
+        },
+        {
+          "line": 31,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 53,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "设计与验收"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "当前模式推进记录"
+        },
+        {
+          "line": 83,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 87,
+          "level": 2,
+          "text": "实施范围与命名收据（2026-10-02）"
+        },
+        {
+          "line": 114,
+          "level": 2,
+          "text": "技术验收收据与最小复验"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-CURSOR-1-current-guide-check.md",
+      "format": "markdown",
+      "title": "DOC-CURSOR-1 — 十二份现行文档的轻量核对",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "3d5f540bbc4b8a1c0297914b702ea6f0eed459ea8123ad564f66743d30f477b4",
+      "afterSha256": "3d5f540bbc4b8a1c0297914b702ea6f0eed459ea8123ad564f66743d30f477b4",
+      "bytes": 9880,
+      "physicalLineSlots": 140,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "DOC-CURSOR-1 — 十二份现行文档的轻量核对"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "Codex 收口（2026-09-25）"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "目标与边界"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "前提与上下文"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "固定检查范围（十二份，不递归扩成全仓审计）"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "交付与验证"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "推进签字与交接"
+        },
+        {
+          "line": 89,
+          "level": 2,
+          "text": "下一位Agent提示词"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "Codex首轮接收席位 — 2026-09-25（历史）"
+        },
+        {
+          "line": 115,
+          "level": 3,
+          "text": "首轮下一位Agent提示词（历史；返工已接收）"
+        },
+        {
+          "line": 132,
+          "level": 2,
+          "text": "Codex当前接收席位 — 2026-09-25"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/DOC-CURSOR-1-current-guide-check.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-02.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md",
+      "format": "markdown",
+      "title": "TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包",
+      "status": "historical-done",
+      "sourceRevision": "d85568172d5530903547770a30c2dab6a2a3dc3a",
+      "sourceSha256": "9d0b259a1b2134cec7d317559788139e9eb9f0b4b08408e9b47bdcc6ea05a619",
+      "afterSha256": "9d0b259a1b2134cec7d317559788139e9eb9f0b4b08408e9b47bdcc6ea05a619",
+      "bytes": 10134,
+      "physicalLineSlots": 142,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-WAVE-M-1 — 编辑器数据页、资源库和设计控件大包"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "准入与前提"
+        },
+        {
+          "line": 32,
+          "level": 2,
+          "text": "七组范围与可证伪结果"
+        },
+        {
+          "line": 56,
+          "level": 2,
+          "text": "推进记录与交接"
+        },
+        {
+          "line": 63,
+          "level": 2,
+          "text": "Codex 独立审核（2026-09-30，候选 0b045c15）"
+        },
+        {
+          "line": 87,
+          "level": 3,
+          "text": "历史 r1 返工提示词（已执行）"
+        },
+        {
+          "line": 101,
+          "level": 2,
+          "text": "Codex 二审（2026-09-30，r2 候选 b59f1738）"
+        },
+        {
+          "line": 129,
+          "level": 3,
+          "text": "历史首轮派发提示词（已执行，非本次返工指令）"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

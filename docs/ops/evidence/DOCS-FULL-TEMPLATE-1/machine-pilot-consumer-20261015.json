@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "recorded",
+  "path": "docs/testing/e2e/evidence/e2e-001.json",
+  "templateId": "test-machine-evidence-v1",
+  "templateVersion": "1.1.0",
+  "variant": "document-audit-v2",
+  "sourceGitObject": "9d4755265356c0e76af1cdbd469fa71783ce04f8",
+  "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
+  "afterSha256": "15bd53370eb526a7a7f49f15a9d1894d64f034c0f729852264fbd300520f1c07",
+  "preservedTopLevelFields": [
+    "schemaVersion",
+    "id",
+    "kind",
+    "status",
+    "candidateSha",
+    "versions",
+    "sourceRefs",
+    "publicCallers",
+    "legalInputs",
+    "businessOracle",
+    "dedupe",
+    "claims",
+    "runtimeExecution",
+    "findings",
+    "artifacts",
+    "history"
+  ],
+  "deepEqualityAfterRemovingEnvelope": true,
+  "consumer": {
+    "name": "validateCanonicalEvidence",
+    "path": "scripts/docs/check-testing.mjs",
+    "sourceSha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+    "entryId": "e2e-001",
+    "issues": []
+  },
+  "notRun": ["runtime", "E2E", "visual", "coverage"],
+  "conclusion": "Original consumer fields and historical execution boundary preserved; no runtime proof granted."
+}

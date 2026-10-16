@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r29-phase1-status-20261017",
+  "kind": "R29 phase1 status/plan migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+  "scope": {
+    "documents": 8,
+    "docTypes": {
+      "plan-status": 7,
+      "governance-index": 1
+    },
+    "historyOverlay": "archive-record-v1 for all",
+    "migrationCredit": 8
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r29-phase1-status-readonly-review-20261017.json",
+    "sha256": "2cb2ca5c244792ee8f9a03a80c79ded55c9a7ba0e8c4150ec7e4869606ee54f0",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 8,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/phase1/03-development-plan.md",
+      "title": "03 · 开发计划",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+      "afterSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+      "sourceLines": 191,
+      "afterLines": 258,
+      "outline": "phase1 status/plan historical document: 03 · 开发计划; full source read for template classification.",
+      "conflicts": [
+        "正文信号 94:- **P3 全 295 scene 资源**(8 task):222 unique mapNum tileset / 540 MGO sprite union / 全 294 scene-N.json / sdlpal --dump-map 99.7% diff pass / a9 端到端 unskip + pass(M3.5 ⚠️ #8 修)/ setPalette opcode handler(M3.5 ⚠️ palette 跨 scene 修)。",
+        "正文信号 95:- **P4 字体真渲染**(5 task):Unifont 9MB BDF ship + 57083 glyphs.json + present/font.ts 17 调用点真 glyph blit + L2 baseline 全重生 + b* spec 切 sdlpal real baseline(diff 1-4%,M3.5 ⚠️ 接合)。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/cutscene-status.md",
+      "title": "演出状态表",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
+      "afterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+      "sourceLines": 687,
+      "afterLines": 752,
+      "outline": "phase1 status/plan historical document: 演出状态表; full source read for template classification.",
+      "conflicts": [
+        "正文信号 25:> ⚠️ **覆盖说明**:动画过场播放器 opcode = `0x35/36/37`(RNG)、`0x76/0xA4/0xA5`(FBP)、`0x96`(结局);开场.RNG/AVI、结局动画由 shell 播放器(`avi/rng/fbp/ending-player`)驱动,不一定走脚本 opcode,故\"动画过场=12\"只计**脚本内**触发的,开场 AVI / 片头不在此列。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/feature-status.md",
+      "title": "Feature Status · type-pal",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
+      "afterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+      "sourceLines": 230,
+      "afterLines": 317,
+      "outline": "phase1 status/plan historical document: Feature Status · type-pal; full source read for template classification.",
+      "conflicts": [
+        "正文信号 11:- **✅ claimed**:Claude port 自认 1:1,但还需要 user 最终拍板。",
+        "正文信号 12:- **⚠️ partial**:主功能可用,但已知有表现、低频分支、像素 / 时序或听验残项。",
+        "正文信号 13:- **⬜ todo**:未做。",
+        "正文信号 20:- **✅ partial**:部分覆盖;常见于渲染 / 听验 / 长剧情 e2e。注意这是“测试覆盖不足”,不等于功能状态是 partial。",
+        "正文信号 21:- **⬜ todo**:无测试。",
+        "正文信号 31:### 当前状态列 partial",
+        "正文信号 33:目前没有玩家功能状态列标为 `⚠️ partial`;表内 `✅ partial` 只表示测试、听验或长路线验收还不完整。",
+        "正文信号 41:| 商标画面和标题前动画 | ✅ claimed | ✅ partial | WIN95 走 mp4, DOS fallback 走 palette/RNG/FBP 编排;`?skip-intro` 可跳过。 |",
+        "正文信号 42:| 标题菜单:新的故事 / 读取存档 | ✅ claimed | ✅ partial | 选项文字、位置公式、键盘选择已接;读档入口接 IndexedDB。 |",
+        "正文信号 43:| 新游戏开场影片 | ✅ claimed | ✅ partial | WIN95 播 `3.mp4`;DOS 无 AVI 时按原版直接返回。 |",
+        "正文信号 44:| 通关动画和回标题 | ✅ claimed | ✅ partial | WIN95 播 `4/5/6.mp4`;DOS 结局走 RNG/FBP/EndingAnimation 编排。 |",
+        "正文信号 51:| 新游戏初始场景、金钱、队伍、背包、毒 / 状态清空 | ✅ claimed | ✅ regress | 对齐 `PAL_LoadDefaultGame`;角色等级和 8 类经验等级初始化已补齐。 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/item-status.md",
+      "title": "物品状态表",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
+      "afterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+      "sourceLines": 302,
+      "afterLines": 373,
+      "outline": "phase1 status/plan historical document: 物品状态表; full source read for template classification.",
+      "conflicts": [
+        "正文信号 11:  - ⚠️部分:**1**(圣灵珠260 剧情演出链已接核心 opcode,仍需真档视觉验收)",
+        "正文信号 13:  - ❌未实现:**0**",
+        "正文信号 248:| 260 | 圣灵珠 | 手饰 | 使用:剧情演出(facing判定/对话/淡屏/批量改obj状态/音效,0x81/0x49/0x50/0x73/0x9A/0x47);装备:设属性+授「武神」法术(0x18+0x1A+0x17)。 | ⚠️部分 | 0x47 音效、0x50 淡屏、0x73 大世界淡场、0x81 失败 success gate 均已接;剧情全链仍需真档视觉验收 |",
+        "正文信号 291:| 260 | 圣灵珠 | ⚠️部分 | 核心 opcode 已接;仍需真档验证整段剧情演出时序和视觉一致性 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/magic-status.md",
+      "title": "仙术状态表",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
+      "afterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+      "sourceLines": 229,
+      "afterLines": 294,
+      "outline": "phase1 status/plan historical document: 仙术状态表; full source read for template classification.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "title": "Opcode Status · type-pal",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
+      "afterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+      "sourceLines": 315,
+      "afterLines": 396,
+      "outline": "phase1 status/plan historical document: Opcode Status · type-pal; full source read for template classification.",
+      "conflicts": [
+        "正文信号 6:> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A",
+        "正文信号 8:> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。",
+        "正文信号 39:>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)",
+        "正文信号 49:> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)",
+        "正文信号 73:| **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |",
+        "正文信号 138:>   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,",
+        "正文信号 189:> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 runtime ⬜(todo)剩余**(2026-06-07 对抗复核更新;0xA5 effectSprite 为 0 调用参数残项)。",
+        "正文信号 198:| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;大世界 item/magic 用 gate 消耗,战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |",
+        "正文信号 310:| 0xA5 | show FBP with sprite effects | D | ⚠️ 主 FBP 路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传给 showFbp。真实数据 0 调用(DOS-only 结局路径),fbp-player 已支持 effectSpriteFrames 但该 opcode 参数尚未 plumb |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/README.md",
+      "title": "docs/phase1/status/ — 第一阶段覆盖快照",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
+      "afterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+      "sourceLines": 16,
+      "afterLines": 81,
+      "outline": "phase1 historical status snapshot index and navigation; current status is owned by successor audits and task cards.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/status/resource-status.md",
+      "title": "Resource Status · type-pal",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "642dd483f0d6b982d5f074553a129bce374ffad5",
+      "sourceSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
+      "afterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+      "sourceLines": 262,
+      "afterLines": 327,
+      "outline": "phase1 status/plan historical document: Resource Status · type-pal; full source read for template classification.",
+      "conflicts": [
+        "正文信号 6:> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 status tables/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    }
+  ],
+  "candidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r29-phase1-status-candidate-acceptance-20261017.json",
+    "sha256": "806ef86cbf3e8b3e952d2213508fb4ee94c9cf4f81abdfe4610e7d30f7ceb815",
+    "verdict": "accept",
+    "scope": "8/8 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

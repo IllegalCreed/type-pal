@@ -1,23 +1,80 @@
 # 战斗宿主终局测试独立验收
 
-候选：`b28ba0d81b21f6e5e17599b4b2efd8e6ed40d8b2`；测试提交：`9e902846df6a850d3fde9c32cbfd56277a0c981a`。Codex于2026-10-07只读固定候选并在独占副本复跑；贡献者树未写。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: evidence-receipt-v1 / 1.0.0
 
-结论：代码与R1–R8合同接受，本地串行集成门全部通过，本卡done；不是GitHub CI通过声明。
+本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-- 4/4产品冻结hash一致；白名单外零改动。BF-08/10旧业务oracle保留，BF-09两输入拆开；四条关闭路径实际消费start、释放持定IO并恢复宿主。
-- 默认期限vi.waitFor替代轮数预算合理。CI红已位于准备期；调度放大机制仍是U-1，不把本地对照推成每个替代根因均已穷尽。
-- 独立重跑formal：22判据自测、3真实污染探针、N1–N5单目标红与恢复/重放通过。N6是四条harness恢复合同的家族红，不计成恰一业务针；N3跨层四红仅作级联披露。
-- 原作者48个raw/JSON引用的字节hash、六个重建mutant与恢复hash复核一致。探针的六个相对路径漏了counterproof前缀，Codex集成时仅修路径及runner生成规则；不重写业务原件。
-- 定向instrumentation三文件31/31；Reforge typecheck退出0、零诊断。全仓check、official ratchet、受保护fast以最终集成记录为准。
+## 证据身份
 
-独立重跑回执hash为`6d18cea7dd81f7d81876ca8f66beb39dfaf69bc577e93f0c4785403cd1c79b61`；原候选回执hash为`7b49b63c2e43ea31066d5d710a06e0df063752851c2d83c3aac2cfe33639d73c`。两者为不同时间/隔离路径的真实运行，不混称同一字节。
+- 战斗宿主终局测试独立验收 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78。
 
-## 串行集成收口
+## 来源与输入
 
-全仓check退出0：七包全部test/typecheck通过（其中Reforge8786、Editor4906）；根lint完整3607文件0/0/0，docs/格式/diff通过。随后官方ratchet、以派发d84b3db236c35d2f7e2671741f4320b904f5c58c为保护基点的fast均退出0，指标完全相同。主树并集分支50113/60209=83.23%，726个生产源，分母与冻结未缩；包含此前main尚未结算的已接收合同，不能把总增益全归本卡。详见[唯一集成门回执](codex-integration-gates.json)。仅A/C合入，B counter不夹带；远端新CI状态另核。
+- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
 
-暂存区全量diff检查补发现五份非反控日志的表格尾随空格/EOF空行；只移除这些排版空白，完整诊断与有效内容不删，前后SHA逐份登记于集成回执，原始字节保留在作者固定提交。48份反控raw/JSON原件未改变。另修identity八个缺后缀/缺失路径：基点单文件3/3只有作者自述、无独立原件，改为有原件的相邻26/26内三条旧身份通过，不虚构单文件原件。上述均为Codex证据整理，不替换业务复跑。
+## 断言与业务 oracle
 
-## 新CI与主树小修（不扩大GLM卡）
+- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
 
-[0a9cb833的CI](https://github.com/IllegalCreed/type-pal/actions/runs/37600496568)文档、typecheck/lint通过，A终局8/8通过；整门仍因旧main.frame-animation-owner.test.ts:216一例红而失败。Codex维护仅该旧测试的三个20轮IO等待：原生解压没有完成即开始替代请求，未进入声明的首帧淡入相位；使用默认vi.waitFor+真实精确首帧条件，未改产品、扩timeout、增例或降低oracle。正常旧8/8、隔离真读IO延迟80ms旧7/8（恰同[]→[17,29]红）、同身份修后8/8、主树相邻31/31，完整Reforge8786与typecheck全过；生产覆盖9909/12166与已接收baseline完全一致。完整原件/hash见[帧动画IO同步对照](ci-frame-animation-io-sync.json)。这是Codex主树维护，不重开A/C，不让B越界修；新 hosted CI结果另核。
+## 结果
+
+- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+
+## 限制与复核
+
+- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+
+## 历史范围
+
+- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+
+## 原始结论
+
+- 战斗宿主终局测试独立验收：原始正文完整保留于下方 quote。
+
+## 当时证据
+
+- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+
+## 当前有效性
+
+historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
+- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+
+## 继任文档
+
+- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+
+## 原文保全
+
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 战斗宿主终局测试独立验收
+>
+> 候选：`b28ba0d81b21f6e5e17599b4b2efd8e6ed40d8b2`；测试提交：`9e902846df6a850d3fde9c32cbfd56277a0c981a`。Codex于2026-10-07只读固定候选并在独占副本复跑；贡献者树未写。
+>
+> 结论：代码与R1–R8合同接受，本地串行集成门全部通过，本卡done；不是GitHub CI通过声明。
+>
+> - 4/4产品冻结hash一致；白名单外零改动。BF-08/10旧业务oracle保留，BF-09两输入拆开；四条关闭路径实际消费start、释放持定IO并恢复宿主。
+> - 默认期限vi.waitFor替代轮数预算合理。CI红已位于准备期；调度放大机制仍是U-1，不把本地对照推成每个替代根因均已穷尽。
+> - 独立重跑formal：22判据自测、3真实污染探针、N1–N5单目标红与恢复/重放通过。N6是四条harness恢复合同的家族红，不计成恰一业务针；N3跨层四红仅作级联披露。
+> - 原作者48个raw/JSON引用的字节hash、六个重建mutant与恢复hash复核一致。探针的六个相对路径漏了counterproof前缀，Codex集成时仅修路径及runner生成规则；不重写业务原件。
+> - 定向instrumentation三文件31/31；Reforge typecheck退出0、零诊断。全仓check、official ratchet、受保护fast以最终集成记录为准。
+>
+> 独立重跑回执hash为`6d18cea7dd81f7d81876ca8f66beb39dfaf69bc577e93f0c4785403cd1c79b61`；原候选回执hash为`7b49b63c2e43ea31066d5d710a06e0df063752851c2d83c3aac2cfe33639d73c`。两者为不同时间/隔离路径的真实运行，不混称同一字节。
+>
+> ## 串行集成收口
+>
+> 全仓check退出0：七包全部test/typecheck通过（其中Reforge8786、Editor4906）；根lint完整3607文件0/0/0，docs/格式/diff通过。随后官方ratchet、以派发d84b3db236c35d2f7e2671741f4320b904f5c58c为保护基点的fast均退出0，指标完全相同。主树并集分支50113/60209=83.23%，726个生产源，分母与冻结未缩；包含此前main尚未结算的已接收合同，不能把总增益全归本卡。详见[唯一集成门回执](codex-integration-gates.json)。仅A/C合入，B counter不夹带；远端新CI状态另核。
+>
+> 暂存区全量diff检查补发现五份非反控日志的表格尾随空格/EOF空行；只移除这些排版空白，完整诊断与有效内容不删，前后SHA逐份登记于集成回执，原始字节保留在作者固定提交。48份反控raw/JSON原件未改变。另修identity八个缺后缀/缺失路径：基点单文件3/3只有作者自述、无独立原件，改为有原件的相邻26/26内三条旧身份通过，不虚构单文件原件。上述均为Codex证据整理，不替换业务复跑。
+>
+> ## 新CI与主树小修（不扩大GLM卡）
+>
+> [0a9cb833的CI](https://github.com/IllegalCreed/type-pal/actions/runs/37600496568)文档、typecheck/lint通过，A终局8/8通过；整门仍因旧main.frame-animation-owner.test.ts:216一例红而失败。Codex维护仅该旧测试的三个20轮IO等待：原生解压没有完成即开始替代请求，未进入声明的首帧淡入相位；使用默认vi.waitFor+真实精确首帧条件，未改产品、扩timeout、增例或降低oracle。正常旧8/8、隔离真读IO延迟80ms旧7/8（恰同[]→[17,29]红）、同身份修后8/8、主树相邻31/31，完整Reforge8786与typecheck全过；生产覆盖9909/12166与已接收baseline完全一致。完整原件/hash见[帧动画IO同步对照](ci-frame-animation-io-sync.json)。这是Codex主树维护，不重开A/C，不让B越界修；新 hosted CI结果另核。
+>
+<!-- original-source-quote:end -->

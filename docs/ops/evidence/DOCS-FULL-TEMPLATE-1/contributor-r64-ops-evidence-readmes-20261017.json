@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r64-ops-evidence-readmes-20261017",
+  "kind": "R64 ops evidence Markdown",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+  "scope": {
+    "documents": 10,
+    "docTypes": {
+      "evidence-receipt": 10
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+      "sourceSha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+      "afterSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+      "sourceSha256": "6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9",
+      "afterSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md",
+      "sourceSha256": "626b1510c07b02f895325a8416c8b9fd3a7e678cf56b4ea43a20c060a62a192d",
+      "afterSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+      "sourceSha256": "cb2a93927a765e2cf4a00f1b49a7489ba5a82fec4b58acfe439553284fdee76f",
+      "afterSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md",
+      "sourceSha256": "45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc",
+      "afterSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+      "sourceSha256": "9b0c8f88e72c17616726e38569cc4202f47d405770ded990a5c0a48a2439d92e",
+      "afterSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md",
+      "sourceSha256": "69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d",
+      "afterSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+      "sourceSha256": "8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83",
+      "afterSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md",
+      "sourceSha256": "14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f",
+      "afterSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md",
+      "sourceSha256": "cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21",
+      "afterSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "quoteInverse": true
+    }
+  ]
+}

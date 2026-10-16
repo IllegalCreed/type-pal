@@ -10,7 +10,16 @@ evidence: domains/runtime/menu/menu-session/evidence.json
 
 # Reforge 菜单与物品会话所有权
 
-## 复核范围与结论
+Status: current（source/publication；未新增动态验收）
+Last reviewed: 2026-10-15
+Owner: Codex
+Template: test-domain-report-v1 / 1.1.0
+
+## Domain scope
+
+phase2/reforge 的 menu-session 与 item-use-session 所有权文档核读。catalog、testing-meta 与 paired evidence 保留各自历史 revision；本次只重排报告和纠正旧版本“当前”措辞，没有运行产品、旧反控或 coverage。
+
+### 复核范围与结论
 
 Historical A1 receipt states its original SAVE8/content20 scope and browser boundary. Current source audit does not rerun the PAL menu or storage chain.
 
@@ -18,7 +27,17 @@ Historical A1 receipt states its original SAVE8/content20 scope and browser boun
 
 2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。
 
-## 真实 caller、输入与业务 oracle
+## Claim matrix
+
+| 合同主张 | 来源 | 本轮证据等级 | 限制 |
+|---|---|---|---|
+| 取消物品使用后 pending 仍被原操作占有至 settle | ItemUseSession.run/cancel 与既有测试 | 源码/已出版 oracle | 本次未执行；不增加测试信用 |
+| menu pop 恢复正确 view，独立会话隔离 | MenuSession 与既有 menu-session.test | 报告声明的合同 | 没有新浏览器或存储链回执 |
+| save/load 结果经真实端口事件观察 | 原报告 caller/oracle 与配对 evidence | 原 source-audit 范围 | 不把历史 A1 SAVE8/content20 作为当前 SAVE12 通过 |
+
+## Inputs and fixtures
+
+### 真实 caller、输入与业务 oracle
 
 - `packages/reforge/src/menu/menu-session.ts:105-128`（contract；anchor `export class MenuSession`）
 - `packages/reforge/src/menu/item-use-session.ts:2-19`（contract；anchor `export class ItemUseSession`）
@@ -29,7 +48,9 @@ Historical A1 receipt states its original SAVE8/content20 scope and browser boun
 
 业务判据：cancelled item use remains owned until settle；menu pop restores the correct view；save/load completion is observed through real port events。这里是对既有测试合同的核读，不是新增测试或历史运行真实性再认证。
 
-## 排重和处理理由
+## Results and gaps
+
+### 排重和处理理由
 
 A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate.
 
@@ -37,8 +58,12 @@ A1 report/evidence covers menu/session ownership; historical parity and mutant t
 
 保留唯一历史 report/evidence；当前索引与报告 supersede 原平面材料的导航和当前状态口径，原失败、warnings、计数和候选 SHA 均由 [历史报告](history/report.md) 和 [原始机账](history/evidence.json) 保留。
 
-## 证据与 revision
+## Quality gate
 
-[配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](/docs/testing/archive/migrations/testing-domains-20261004-wave2.json)；当前内容22/保存11，历史内容20/保存8不升级。
+本次由 `node scripts/docs/check-testing.mjs` 核 canonical/metadata/catalog/evidence 的真实配对和源码 hash；结构门不运行 Vitest/PAL、不产生新 E2E、视觉或 coverage 通过。原运行、warnings 与 counter 的适用范围保留在历史材料，复核截止与状态以 catalog 为准。
+
+### 证据与 revision
+
+[配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](/docs/testing/archive/migrations/testing-domains-20261004-wave2.json)；2026-10-04 文档核读 revision 为内容22/保存11，历史执行为内容20/保存8；当前源常量为内容22/minimumSave12，不将旧记录升级为当前运行时通过。
 
 2026-10-04：基线 2aed1f0dbbbed8ce01cb3511315745ab1ccdf159，迁移+source audit；未重新执行产品，原作者验收与历史 counter 按旧记录保留。

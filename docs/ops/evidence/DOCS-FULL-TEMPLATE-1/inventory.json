@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 2,
+  "status": "draft",
+  "baselineHead": "9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+  "snapshotDate": "2026-10-11",
+  "sourceTree": "/Users/zhangxu/illegal/type-pal",
+  "scopePolicy": "Physical tree includes ignored files. Committed + untracked visible baseline shown separately. No semantic review or final template binding implied. This snapshot predates proposal artifacts.",
+  "summary": {
+    "tracked": {
+      "files": 3410,
+      "documentCandidates": 1837,
+      "artifacts": 1573,
+      "byRoot": {
+        "README.md": 1,
+        "lore": 14,
+        "ops": 865,
+        "phase-governance": 33,
+        "phase1": 60,
+        "phase2": 108,
+        "phase3": 5,
+        "testing": 751
+      },
+      "extensions": {
+        ".md": 1168,
+        ".png": 30,
+        ".json": 654,
+        ".jpg": 3,
+        ".mjs": 276,
+        ".mts": 32,
+        ".ts": 13,
+        ".raw": 489,
+        ".txt": 215,
+        ".gz": 1,
+        ".tsv": 89,
+        ".sha256": 2,
+        ".log": 356,
+        ".py": 1,
+        ".console": 50,
+        ".html": 15,
+        ".gif": 1,
+        ".tsx": 15
+      }
+    },
+    "visible": {
+      "files": 3411,
+      "documentCandidates": 1838,
+      "artifacts": 1573,
+      "byRoot": {
+        "README.md": 1,
+        "lore": 14,
+        "ops": 866,
+        "phase-governance": 33,
+        "phase1": 60,
+        "phase2": 108,
+        "phase3": 5,
+        "testing": 751
+      },
+      "extensions": {
+        ".md": 1169,
+        ".png": 30,
+        ".json": 654,
+        ".jpg": 3,
+        ".mjs": 276,
+        ".mts": 32,
+        ".ts": 13,
+        ".raw": 489,
+        ".txt": 215,
+        ".gz": 1,
+        ".tsv": 89,
+        ".sha256": 2,
+        ".log": 356,
+        ".py": 1,
+        ".console": 50,
+        ".html": 15,
+        ".gif": 1,
+        ".tsx": 15
+      }
+    },
+    "physical": {
+      "files": 3412,
+      "documentCandidates": 1838,
+      "artifacts": 1574,
+      "byRoot": {
+        "README.md": 1,
+        "lore": 14,
+        "ops": 866,
+        "phase-governance": 33,
+        "phase1": 60,
+        "phase2": 108,
+        "phase3": 5,
+        "testing": 751
+      },
+      "extensions": {
+        "": 1,
+        ".md": 1169,
+        ".png": 30,
+        ".json": 654,
+        ".jpg": 3,
+        ".mjs": 276,
+        ".mts": 32,
+        ".ts": 13,
+        ".raw": 489,
+        ".txt": 215,
+        ".gz": 1,
+        ".tsv": 89,
+        ".sha256": 2,
+        ".log": 356,
+        ".py": 1,
+        ".console": 50,
+        ".html": 15,
+        ".gif": 1,
+        ".tsx": 15
+      }
+    },
+    "inheritedBindings": 570,
+    "newVisibleUnbound": 1268,
+    "priorTypes": {
+      "guide-runbook": 14,
+      "archive-record": 15,
+      "audit-report": 58,
+      "evidence-receipt": 37,
+      "task-card": 307,
+      "governance-index": 16,
+      "reference-canon": 18,
+      "plan-status": 64,
+      "design-spec": 41
+    }
+  },
+  "drift": [],
+  "entriesFiles": [
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-01.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-02.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-03.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-04.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-05.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-06.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-07.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-08.json",
+    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-09.json"
+  ],
+  "entryCount": 3412,
+  "storageHistory": [
+    {
+      "date": "2026-10-15",
+      "action": "partition-inventory-without-dropping-entries",
+      "sourceSha256": "e9a5f815c0cca212ee54e8d2343d3d2b9d17ed9dad8465e0cc1e1979b36b95a1",
+      "sourceGitRevision": "0283a0b3f",
+      "policy": "All entry values preserved; partitioned to remain within static checker file-size bounds, no ignore or severity change."
+    }
+  ]
+}

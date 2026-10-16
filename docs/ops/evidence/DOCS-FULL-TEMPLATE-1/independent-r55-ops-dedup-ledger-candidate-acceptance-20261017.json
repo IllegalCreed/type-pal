@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r55-ops-dedup-ledger-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "7ea529ab5a3f2be583ae02909066824913eee66a",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 2,
+    "readAndChecked": 2,
+    "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+    "docTypes": {
+      "evidence-receipt": 2
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R55-CANDIDATE-B01",
+      "count": 2,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Both dedup ledgers retain source/caller/legal-input/oracle/fullName and explicit historical boundary."
+    },
+    {
+      "id": "R55-CANDIDATE-B02",
+      "count": 2,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Quote inverse, source/after SHA, template chapters and archive overlay pass."
+    },
+    {
+      "id": "R55-CANDIDATE-B03",
+      "count": 2,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; old direct review duplicates removed."
+    },
+    {
+      "id": "R55-CANDIDATE-B04",
+      "count": 2,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit; current turn-boundaries rework remains open."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all2": true,
+    "sourceAfterQuoteTemplateLedgerAll2": true,
+    "issueCount": 0,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 697 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7940 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 733/733)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4256 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+      "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "quoteInverse": true,
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r55-ops-dedup-ledger.json",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "quoteInverse": true,
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r55-ops-dedup-ledger.json",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

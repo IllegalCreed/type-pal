@@ -1,0 +1,557 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r41-ops-archive-task-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 10,
+    "all10": true,
+    "paths": [
+      "docs/ops/archive/tasks/done/README.md",
+      "docs/ops/archive/tasks/README.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+      "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read bytes + strict UTF-8 decode + SHA-256; headings and status read from content; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "10/10 fully read",
+    "sourceAfter": "10/10 byte SHA equal at intake",
+    "registry": "10/10 governed-legacy entries and review references",
+    "catalog": "ops archive paths outside phase/lore catalog scope",
+    "routing": "archive task cards to receive body routes; README indexes to receive body routes",
+    "classification": "2 governance-index; 8 task-card archive overlays",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "format": "markdown",
+      "title": "已完成任务",
+      "status": "navigation-index",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+      "afterSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+      "bytes": 259,
+      "physicalLineSlots": 7,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "已完成任务"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/README.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "format": "markdown",
+      "title": "历史任务",
+      "status": "navigation-index",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+      "afterSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+      "bytes": 293,
+      "physicalLineSlots": 10,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "历史任务"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "分类入口"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/README.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "proposedClassification": "archive-governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "format": "markdown",
+      "title": "TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
+      "afterSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
+      "bytes": 3215,
+      "physicalLineSlots": 31,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-WAVE-O-1 — 供应/内容守卫冻结交付收口"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "冻结边界与历史"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "独立裁决"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "收口门"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "format": "markdown",
+      "title": "TEST-GLM-WAVE-P-1 — Editor冻结交付收口",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
+      "afterSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
+      "bytes": 2915,
+      "physicalLineSlots": 31,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-WAVE-P-1 — Editor冻结交付收口"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "冻结边界与历史"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "独立裁决"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "收口门"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "format": "markdown",
+      "title": "TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
+      "afterSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
+      "bytes": 3172,
+      "physicalLineSlots": 32,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "冻结边界与历史"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "独立裁决"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "收口门"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-04.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "format": "markdown",
+      "title": "QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
+      "afterSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
+      "bytes": 3756,
+      "physicalLineSlots": 34,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "QUALITY-TEST-INPUTS-1 — 两处旧测试输入的确定性与CI可重建性"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "前提与有限建议"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "待用户批准的范围与门"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "format": "markdown",
+      "title": "TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
+      "afterSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
+      "bytes": 2585,
+      "physicalLineSlots": 35,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "准入"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "范围与验收"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "实施与收口"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "format": "markdown",
+      "title": "TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
+      "afterSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
+      "bytes": 2403,
+      "physicalLineSlots": 35,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "准入与边界"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "六组与白名单"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "实施与收口"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+      "format": "markdown",
+      "title": "EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
+      "afterSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
+      "bytes": 2796,
+      "physicalLineSlots": 37,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "EDITOR-SCENE-FACING-1 — 切场景指令无法清除显式朝向"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "已核事实"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "实施边界"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "format": "markdown",
+      "title": "QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护",
+      "status": "historical-done",
+      "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "sourceSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
+      "afterSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
+      "bytes": 3483,
+      "physicalLineSlots": 37,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "QUALITY-OPQ-RETIREMENT-1 - 历史测试退役保护账窄维护"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "目标与准入"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "前提与边界"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "验收"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "记录"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "currentRegistry": {
+        "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+        "phase": "ops",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "template": "docs/phase-governance/templates/task-card.md",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-ops-03.json"
+      },
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS",
+      "conflicts": [
+        "Historical task status and evidence remain date-scoped; no current execution or product completion is inferred."
+      ]
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

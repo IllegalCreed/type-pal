@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { basename, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -9,6 +9,7 @@ import {
   linkExceptions,
 } from './config.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const taskDirectory = 'docs/ops/tasks/'
@@ -68,6 +69,30 @@ export function renderTaskIndex(tasks) {
     '当前行动入口为 [看板](../board.md)，维护规则见 [任务卡说明](README.md)。',
     '已关闭卡内的旧指令、签字请求与交接提示均为历史，不自动授权当前执行。',
     '',
+    'Last reviewed: 2026-10-17',
+    'Template: governance-index-v1 / 1.0.0',
+    '',
+    '## 目的',
+    '- 提供任务卡状态、入口和历史边界的单一导航视图。',
+    '',
+    '## 范围',
+    '- 当前包含：活动、已完成和已取消任务卡的生成索引。',
+    '- 明确不包含：产品实现验收、runtime、E2E、视觉或 coverage 结论。',
+    '',
+    '## 当前状态',
+    '- `status`: current',
+    '- `lastReviewed`: 2026-10-17',
+    '',
+    '## 入口与责任',
+    '- canonical 入口：`docs/ops/tasks/index.md` 与当前任务卡。',
+    '- Owner：Codex 维护生成器与治理账本；任务 Owner 维护卡内状态。',
+    '- 下游使用者：看板、任务卡检查器和文档治理 registry。',
+    '',
+    '## 证据与下一步',
+    '- 关键来源：`scripts/docs/check.mjs`、`docs/ops/board.md`、各任务卡顶部 `Status`。',
+    '- 未决/阻塞：历史任务的产品验收和证据缺口仍以各卡为准。',
+    '- 下一步：每次任务状态或入口变化后重新生成索引并刷新 review SHA。',
+    '',
   ]
   const ordered = [...tasks].sort((a, b) => a.file.localeCompare(b.file, 'en'))
   for (const [label, group] of [
@@ -89,7 +114,7 @@ export function renderTaskIndex(tasks) {
     }
     out.push('')
   }
-  return `${out.join('\n')}\n`
+  return `${out.join('\n').trimEnd()}\n`
 }
 
 export function checkCurrentSection(text, rule, expected) {
@@ -103,6 +128,13 @@ export function checkCurrentSection(text, rule, expected) {
     const match = rule.end.exec(section)
     if (!match) return ['现行合同终点不存在，请更新检查规则并核对文档分界']
     section = section.slice(0, match.index)
+  } else {
+    // Historical template wrappers keep source quotes after this marker.
+    // They are evidence, not the current product contract.
+    const history = /^## 原文保全/m.exec(section)
+    const currentValidity = /^## 当前有效性/m.exec(section)
+    if (currentValidity) section = section.slice(currentValidity.index, history?.index)
+    else if (history) section = section.slice(0, history.index)
   }
   const errors = []
   // Ignore rejection ranges (1..19). Only content/SAVE identifiers are checked,
@@ -184,8 +216,12 @@ export function auditDocuments({
       add(task.file, 1, '顶部缺少有效 Status；不要把正文历史状态当成当前状态')
     if (task.historical && !terminal.has(task.status))
       add(task.file, 1, '历史中文状态例外只用于终态卡，活动卡必须使用 Status')
-    if (terminal.has(task.status) && dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`)
-      add(task.file, 1, '终态任务应移入对应 done/cancelled 归档目录，并更新引用与索引')
+    if (
+      terminal.has(task.status) &&
+      dirname(task.file) !== taskDirectory.slice(0, -1) &&
+      dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`
+    )
+      add(task.file, 1, '已归档终态任务的目录必须匹配 done/cancelled；原位关闭不强制移动')
     if (!terminal.has(task.status) && dirname(task.file) !== taskDirectory.slice(0, -1))
       add(task.file, 1, '活动任务不能放在历史归档目录')
   }
@@ -275,6 +311,19 @@ export function auditDocuments({
 function main(args) {
   if (args.some((arg) => !['--print-task-index', '--json'].includes(arg)))
     throw new Error('用法：node scripts/docs/check.mjs [--json | --print-task-index]')
+  const namespace = inspectTerminalNamespace(repoRoot)
+  if (!namespace.ok) {
+    const issues = namespace.issues.map((issue) => ({
+      file: issue.file,
+      line: 1,
+      message: issue.message,
+    }))
+    if (args.includes('--json'))
+      console.log(JSON.stringify({ documents: 0, links: 0, issues }, null, 2))
+    else for (const issue of issues) console.error(`${issue.file}:1: ${issue.message}`)
+    process.exitCode = 1
+    return
+  }
   const files = execFileSync(
     'git',
     ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
@@ -325,5 +374,9 @@ function main(args) {
   if (result.issues.length) process.exitCode = 1
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+if (
+  process.argv[1] &&
+  existsSync(process.argv[1]) &&
+  realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+)
   main(process.argv.slice(2))

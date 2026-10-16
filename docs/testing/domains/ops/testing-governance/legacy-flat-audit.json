@@ -138,5 +138,45 @@
       "action": "legacy full closeout: 209 archive moves + 122 tool stop-lines",
       "notRun": ["product runtime", "old tests", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex（本次文档治理；原发布/执行身份不变）",
+    "provenance": [
+      "complete original JSON field reading",
+      "source Git blob",
+      "scripts/docs/classify-testing-legacy.mjs:24-45",
+      "docs/testing/legacy-flat.json:1-20",
+      "packages/content/src/character.ts:168-170",
+      "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+      "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+      "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+    ],
+    "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
+    "sourceGitObject": "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
+    "primarySource": [
+      "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+      "scripts/docs/classify-testing-legacy.mjs:24-45",
+      "docs/testing/legacy-flat.json:1-20",
+      "packages/content/src/character.ts:168-170",
+      "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16",
+      "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16",
+      "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
+    ],
+    "scope": "359 census/331决策/209归档/122工具是旧账不同口径；分类器以movedTo或closeout存在决定reviewed，而正文source-path/filename规则只提供分类，不证明本次1838真实逐篇阅读或全部artifact治理。",
+    "publicationStatusAxis": "catalog-publication; original top-level status projects unique catalog id; not an execution lifecycle",
+    "originalFieldPolicy": "Every preexisting key/value remains at top level; no renaming, payload move, execution update or date extension.",
+    "reviewLimits": [
+      "完整读取分类器发现reviewed=Boolean(options.movedTo || closeout)，本次不继承其深审信用，也不重跑生成器覆盖旧账。",
+      "三份migration计划与legacy manifest只读声明范围/头部，未全文审核其所有条目；原current发布与source-backed claims不授予全量深审完成。",
+      "artifacts四个结构化账本仍是独立候选文档，不能作为700类raw/artifact归属已完成。"
+    ],
+    "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
+    "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
+    "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope."
+  }
 }

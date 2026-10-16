@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r31-ops-archive-records-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "140d11b23201715bc93763f9e07b075de63ba34c",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 4,
+    "readAndChecked": 4,
+    "sourceRevision": "140d11b23201715bc93763f9e07b075de63ba34c",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r31-ops-archive-records.json",
+    "docTypes": {
+      "archive-record": 4
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R31-CANDIDATE-B01",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 8 phase1 status/plan documents preserve historical boundary and successor/stopLine."
+    },
+    {
+      "id": "R31-CANDIDATE-B02",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Source/after and quote inverse pass; trailing whitespace uses explicit reversible sentinels ␠/⇥."
+    },
+    {
+      "id": "R31-CANDIDATE-B03",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; ops archive paths are explicitly outside phase/lore catalog scope."
+    },
+    {
+      "id": "R31-CANDIDATE-B04",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all4": true,
+    "sourceAfterQuoteTemplateLedgerAll4": true,
+    "issueCount": 0,
+    "issues": [],
+    "catalogScope": "ops archive paths are not catalog entries by policy; no catalog claim is made"
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 394 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "node scripts/docs/check-phase-lore-governance.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (184 documents)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4164 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1251 Markdown / 8153 local links / 361 tasks / content22 SAVE12; model 394 body contracts; testing 0; phase/lore 184; content 733/733)"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "sourceSha256": "1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584",
+      "afterSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r31-ops-archive-records.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "sourceSha256": "0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329",
+      "afterSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r31-ops-archive-records.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "sourceSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "afterSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r31-ops-archive-records.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "sourceSha256": "59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1",
+      "afterSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "archive-record-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r31-ops-archive-records.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

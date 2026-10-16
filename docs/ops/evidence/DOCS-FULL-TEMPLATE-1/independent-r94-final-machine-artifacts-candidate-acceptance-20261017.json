@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r94-final-machine-artifacts-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 30,
+    "readAndChecked": 30,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R94-B01",
+      "count": 30,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 30 final machine artifacts preserve byte-stable source/after SHA and historical boundaries."
+    }
+  ],
+  "summaryChecks": {
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {},
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
+      "afterSha256": "721d9999c08a63b29726e86c0433087d2dd622177591d21ca93458cf691b5233",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+      "afterSha256": "8d5d9af181a7846f4e52e9c11540c0c34c9ef3eae6ea76abffd167b85babac02",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-readonly-review-20261017.json",
+      "afterSha256": "3e8be5ae162a431087a6bac7c4adcbf4b43330c6cdbf266afb4de3f26ff2cfad",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r93-phase-governance-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "6129cf0aba206e06d66527124c0a16196fe88f8f7bbc9d08bd356ba7a8d9e2c1",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r93-phase-governance-artifacts-readonly-review-20261017.json",
+      "afterSha256": "8c5997b1e2ecb46a470f87b6fe25c4240fce51fbb650241cc5833b932ca3bf46",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+      "afterSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "afterSha256": "6b131b40d382dad28e2a1aaafbdfbbbf7532f449e45c4ed0f4316935ca4497f0",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
+      "afterSha256": "094764edd89fd6de358986e263f03a8d4a2b7e8e2e16119e3d6c6d74bb1871f3",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r89-ops-evidence-artifacts-20261017.json",
+      "afterSha256": "28fe3d1190bcdf295a5eddad539ea459ee26da7f2563346b1fff81134c81ac8b",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r90-ops-evidence-artifacts-20261017.json",
+      "afterSha256": "9e1017ca3b826b267627d361b7a7bf32b81971f58a0a2f15de2dccc206799857",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r91-ops-evidence-artifacts-20261017.json",
+      "afterSha256": "ada14f0867cd8870cb37422ae0410ad62a05065283ad8ecc4a2d0f2ccda21e03",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r88-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "82b4e95ce5256b9174b815d26b0c6574a7e0440cb846f1091f2acfc8a8976209",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r88-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "c2a81e477310485dab2620c45c54b998e8a42e1ef31e3836d23f8217bf1ee3b2",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "2473d0f3529b5a06b5deff4b2b3bdfda56e372aeb54f8c41a48c59902f31fce9",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "aff80a9653dbdf1b2238427478f4b22a15b14ff98605801de58e4f0eb09956cb",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r90-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "89cd4cdfcbf35308f8dff1429bf9f9fc804e5cf517bc130fab8f5d64e9c0a97a",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r90-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "e02b0b9af6ee99e645bbc7b84ebdc02f1286cd9b5a3590daf4bc5818fe4f9128",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r91-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "4daea42951e50a64ec707c2cd90b7b91bfc4aa5863edcfd02d01cf731be6eff7",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r91-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "df4c9cc63c2a3f8301c381e7c8d60695758ee10e06e58c4319c1b657d0475809",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1/counterproof.json",
+      "afterSha256": "89ed5b876317b2ac6a9cdf666a3b72849457ecb01b9098dba49b4fd1e2305e70",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/counterproof.json",
+      "afterSha256": "4fc880f072d975e539ace1cf0de2c58c20d2b7819060e4ed0effc26831093289",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.json",
+      "afterSha256": "bc4fb418061248896697a2f8485accd81e8f447a0d57a05ccb9bb30405c36a89",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
+      "afterSha256": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
+      "afterSha256": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
+      "afterSha256": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+      "afterSha256": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
+      "afterSha256": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986",
+      "templateId": "archive-record-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/mutation-evidence.json",
+      "afterSha256": "78de32d44f8d17c661d0141b13fb7ab75d52d0c283ae11a107196c775e74053e",
+      "templateId": "archive-record-v1",
+      "pass": true
+    }
+  ]
+}

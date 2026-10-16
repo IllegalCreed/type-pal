@@ -1,186 +1,259 @@
 # 仙术菜单 实现计划(接技能地基)
 
-> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
-> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: plan-status-v1 / 1.0.0
 
-> **分工**:Task A(状态机·纯逻辑)= **GLM**;Task B/C/D(Canvas UI · 集成 · 浏览器对齐)= **Claude**(视觉活,GLM 无多模态)。
-> **依赖地基**:技能数据三层已就位([skill-data-design](../designs/skill-data-design.md))——`SkillData` / `DEMO_SKILLS` / `WorldState.learnedSkills` 在 `@type-pal/content`。本计划**不再自造仙术数据**(旧 Task 1 已被地基取代、删除)。
-> **视觉参考**:一阶段 game `packages/game/src/present/menu/draw-magic.ts` + `core/menu/in-game-magic-menu.ts`(原版 1:1 复刻),照搬布局/坐标/导航,不照搬其全局架构。第二阶段 Reforge,先读 [READ-FIRST](../../READ-FIRST.md)。
+本页把历史实施计划接入 `plan-status-v1`，并追加 `archive-record-v1` 历史 overlay。原计划的日期、checkbox、执行分工、数字、结果词、未知和链接均在 quote 中保全；本页不授予当前待办、runtime、E2E、视觉或 coverage 信用。
 
-**Goal:** 大世界仙术菜单(单人查看版):红框仙术网格 + 左上 MP box + 底部角色框 + 顶部描述,数据来自地基 `learnedSkills → DEMO_SKILLS`。
+## 目标与时间范围
 
-**范围(demo 单人查看):** ✅ 网格(仙术名 + 选中光标)+ MP box + 角色框 + 描述。❌ 选施法人(单人跳过)、选目标、实际施法(查看版;effects 不执行——战斗引擎是 phase3)。
+- 历史目标：单人查看仙术菜单：learnedSkills→DEMO_SKILLS、网格状态机和原版坐标，Canvas MP/player box/描述/光标，主菜单集成与浏览器验；实际施法留 phase3。
+- 原始时间范围：原文未单列日期；固定 source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `9fdce6d934e132258fa2446c79777e5cddbe23e45b9d666c5f5b799b8eb3e11a`。
+- 当前时间状态：历史归档；本页只说明当时计划的目的和边界，不续写执行期限。
 
-## 数据来源(地基已就绪,勿再造)
+## 里程碑
 
-- 可用仙术 = `resolveOutdoorSkills(world, casterId)`(Task A 实现):`world.learnedSkills[casterId]`(demo `['296','298','299']`)→ 查 `DEMO_SKILLS` → 过滤 `usableOutsideBattle`。
-- 字段映射:网格名 = `SkillData.name`;描述 = `SkillData.desc`;needed MP = `SkillData.cost.mp`;current MP = `world.party[0].mp`;HP/maxHP/MP/maxMP = `world.party[0].{hp,maxHP,mp,maxMP}`。
+- 原始章节/里程碑：数据来源(地基已就绪,勿再造)；真值规格(game draw-magic.ts 坐标,Task B 用,勿改)；Global Constraints；Task A 〔GLM〕: 仙术菜单状态机(纯逻辑,可单测)；Task B 〔Claude〕: 仙术菜单 Canvas UI；Task C 〔Claude〕: 集成(主菜单 → 仙术菜单)；Task D 〔Claude〕: 浏览器验收；Self-Review。
+- 计划步骤、Task 编号、分工和 checkbox 的原始含义均保留在下方 quote；它们不构成今天的 build 准入。
+- 本次治理里程碑：完成具体语义分栏、历史 overlay、源/after SHA 和继任入口登记。
 
-## 真值规格(game draw-magic.ts 坐标,Task B 用,勿改)
+## 当前状态
 
-- **仙术网格红框**:`PAL_CreateBoxWithShadow(10,42)` rows=4 cols=16 **style 1(红框,已 bake `ui/box-red/frame-0X.png`)**;仙术名起点 `(35,54)`,**3 列**(每列 +87px)× **5 行**(每行 +18px);选中 cursor sprite(`ui/cursor/grid.png`)at `(itemX+25, itemY+10)`。
-- **MP box(左上,WIN95)**:`drawSingleLineBox(0,0) len5`;needed MP `(15,14)` 黄右对齐 + slash sprite `(45,14)` + current MP `(50,14)` 青右对齐。**不画金钱框**(与描述互斥)。
-- **PlayerInfoBox(底部)**:`(45 + 78×i, 165)`——playerbox(`ui/magic/playerbox.png`)+ face(`ui/magic/face-0.png`,画在 box `x-2,y-4`)+ HP/MP(slash@`x+49,y+6/22`;HP 黄 cur@`x+26,y+5` max@`x+47,y+8`;MP 青 cur@`x+26,y+21` max@`x+47,y+24`)。单人画 1 个。
-- **描述(顶部)**:`(102,3)`,色 `0x3C`,每行 +16。demo 显当前选中仙术 `SkillData.desc`。
-- **数字色**:needed/HP/maxHP 黄,current/maxMP 青。复用已 bake 的 `ui/num`(黄)/`ui/num-cyan`(青)/`ui/num/slash`。
-- **网格导航**(game 真值):↑↓ = ±3(列数),←→ = ±1,边界 clamp **不 wrap**。
+- 当前文档状态：`historical` / `archive`；正文状态信号：3:> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。；4:> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。；6:> **分工**:Task A(状态机·纯逻辑)= **GLM**;Task B/C/D(Canvas UI · 集成 · 浏览器对齐)= **Claude**(视觉活,GLM 无多模态)。；30:- **阶段隔离(D18)**:仙术数据在 `@type-pal/content`(地基已建);状态机/渲染在 reforge。reforge 把 skill `id` 当**不透明 string**。
+- 历史结论：仙术菜单 实现计划(接技能地基)：这是 plan-status，当前文档状态为 historical。全文 187 行、9 个标题；摘要/首段为「> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。」。属于历史/归档材料，不能单独证明当前实现。
+- 当前能力、实现结果和任务排序必须从继任规范、代码、看板/任务卡和新的独立证据读取。
 
-## Global Constraints
+## 阻塞与决策
 
-- **阶段隔离(D18)**:仙术数据在 `@type-pal/content`(地基已建);状态机/渲染在 reforge。reforge 把 skill `id` 当**不透明 string**。
-- **sprite 已全 bake**(`packages/migrate/scripts/bake-assets.mts`):`ui/box-red/`(红框 9 帧)、`ui/magic/playerbox|face-0`、`ui/cursor/up|down|grid`、`ui/num*`(黄/青/斜杠)。Task B 直接 fetch `/ui/...`。
-- 零 lint/type:每 Task `pnpm --filter @type-pal/reforge run check` 绿 + `biome check` 0/0。canvas 视觉靠浏览器验。
+- 历史冲突/未决：
+- 单人/三技能 demo、坐标和 cursor/asset 名称是历史切片；effects 不执行、caster/target 留后。
+- 当前 skill/content/menu 版本可能已变化，不能以计划验收项宣称视觉闭环。
+- 停止线：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；单人/三技能 demo、坐标和 cursor/asset 名称是历史切片；effects 不执行、caster/target 留后。
+- 旧计划中的 done/open/待审/浏览器验收词只保留为日期化证据，不能改写为 current。
 
----
+## 下一步
 
-## Task A 〔GLM〕: 仙术菜单状态机(纯逻辑,可单测)
+- 继任入口：当前 packages/content skill data；当前 reforge menu；docs/phase2/specs/editor-design-system.md。
+- 若需重新执行：先建立新的 task card，核对当前 primary source、合法输入、版本范围、business oracle、可证伪观察和独立验收；不得直接沿用本页步骤。
+- 本次迁移完成后仍需候选独立接收；全量 1838 目标保持 active/build。
 
-**Files:**
-- Create: `packages/reforge/src/magic-menu-state.ts`
-- Test: `packages/reforge/src/magic-menu-state.test.ts`
+## 历史范围
 
-**Interfaces:**
-- Consumes: `DEMO_SKILLS`, `SkillData`, `WorldState`(from `@type-pal/content`,地基已导出)。
-- Produces: `MagicMenuState`, `MAGIC_GRID_COLS`, `resolveOutdoorSkills`, `openMagicMenu`, `closeMagicMenu`, `magicMoveCursor`(供 Claude 的 UI/集成消费)。
+- 原始范围：phase2 archive plan；日期/版本：原文未单列日期；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原文 186 行 / 10418 bytes。
+- 归档原因：计划包含当时的执行分工、接口、checkbox 和验收步骤，当前合同已经由后继规范/代码承接。
 
-参考一阶段 `in-game-magic-menu.ts` 的 `moveSpellGrid`(±列数 / ±1)。**纯函数,返回新 state,不可变;不碰 canvas / DOM / 渲染。**
+## 原始结论
 
-- [ ] **Step 1: 写失败测试** —— `packages/reforge/src/magic-menu-state.test.ts`
+- 仙术菜单 实现计划(接技能地基)：这是 plan-status，当前文档状态为 historical。全文 187 行、9 个标题；摘要/首段为「> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。」。属于历史/归档材料，不能单独证明当前实现。
+- 保留原始结论的历史适用范围；新增章节不把计划结果提升为当前实现。
 
-```ts
-import { initialWorld } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
-import {
-  closeMagicMenu,
-  magicMoveCursor,
-  type MagicMenuState,
-  openMagicMenu,
-  resolveOutdoorSkills,
-} from './magic-menu-state.js'
+## 当时证据
 
-describe('resolveOutdoorSkills', () => {
-  test('李逍遥 demo:learnedSkills → DEMO_SKILLS,全 outdoor', () => {
-    const world = initialWorld()
-    const spells = resolveOutdoorSkills(world, 'li-xiaoyao')
-    expect(spells.map((s) => s.id)).toEqual(['296', '298', '299'])
-    expect(spells.every((s) => s.usableOutsideBattle)).toBe(true)
-  })
-  test('未知角色 → 空', () => {
-    expect(resolveOutdoorSkills(initialWorld(), 'nobody')).toEqual([])
-  })
-})
+- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `9fdce6d934e132258fa2446c79777e5cddbe23e45b9d666c5f5b799b8eb3e11a`；标题锚点：1:仙术菜单 实现计划(接技能地基), 14:数据来源(地基已就绪,勿再造), 19:真值规格(game draw-magic.ts 坐标,Task B 用,勿改), 28:Global Constraints, 36:Task A 〔GLM〕: 仙术菜单状态机(纯逻辑,可单测), 166:Task B 〔Claude〕: 仙术菜单 Canvas UI, 172:Task C 〔Claude〕: 集成(主菜单 → 仙术菜单), 176:Task D 〔Claude〕: 浏览器验收, 180:Self-Review。
+- 原始链接、代码、表格、checkbox 与状态词在下方逐行 quote 保留；本轮未运行计划中的 runtime/E2E/视觉/coverage。
 
-describe('仙术网格导航', () => {
-  const mk = (n: number): MagicMenuState =>
-    openMagicMenu(Array.from({ length: n }, (_, i) => ({ id: String(i) }) as never))
+## 当前有效性
 
-  test('openMagicMenu:active + cursor 0', () => {
-    const s = openMagicMenu([])
-    expect(s.active).toBe(true)
-    expect(s.cursor).toBe(0)
-  })
-  test('↓ = +3(列数),↑ 边界 clamp 不动', () => {
-    expect(magicMoveCursor(mk(6), 'down').cursor).toBe(3)
-    expect(magicMoveCursor(mk(6), 'up').cursor).toBe(0) // cursor0 上越界 → 不动
-  })
-  test('→ = +1,← 边界 clamp;下越界不动', () => {
-    expect(magicMoveCursor(mk(6), 'right').cursor).toBe(1)
-    expect(magicMoveCursor({ ...mk(6), cursor: 5 }, 'down').cursor).toBe(5) // 5+3 越界 → 不动
-    expect(magicMoveCursor({ ...mk(6), cursor: 0 }, 'left').cursor).toBe(0)
-  })
-  test('空列表导航不崩', () => {
-    expect(magicMoveCursor(mk(0), 'down').cursor).toBe(0)
-  })
-  test('closeMagicMenu:active false', () => {
-    expect(closeMagicMenu().active).toBe(false)
-  })
-})
-```
+historical。当前不把计划步骤、Self-Review、done/open 标签、浏览器 gate 或历史数字视为现行契约或执行证据。
+- 当前不得外推：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；单人/三技能 demo、坐标和 cursor/asset 名称是历史切片；effects 不执行、caster/target 留后。
 
-- [ ] **Step 2: 跑测试确认失败**
+## 继任文档
 
-Run: `pnpm --filter @type-pal/reforge exec vitest run src/magic-menu-state.test.ts`
-Expected: FAIL（`Cannot find module './magic-menu-state.js'`）
+- current canonical / 复核入口：当前 packages/content skill data；当前 reforge menu；docs/phase2/specs/editor-design-system.md。
+- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。
+- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。
 
-- [ ] **Step 3: 写 `packages/reforge/src/magic-menu-state.ts`**
+## 原文保全
 
-```ts
-// 仙术菜单状态机(纯逻辑;非视觉)。数据来自地基 learnedSkills → DEMO_SKILLS。
-// 参考一阶段 game in-game-magic-menu.ts 的 moveSpellGrid。
-import { DEMO_SKILLS, type SkillData, type WorldState } from '@type-pal/content'
-
-/** 原版仙术网格列数(draw-magic.ts:3 列)。 */
-export const MAGIC_GRID_COLS = 3
-
-export interface MagicMenuState {
-  active: boolean
-  spells: SkillData[] // 已解析 + 已过滤 outdoor 的可用仙术(网格按此渲染)
-  cursor: number // 选中索引(0-based,flat)
-}
-
-/** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → DEMO_SKILLS → 过滤 usableOutsideBattle。 */
-export function resolveOutdoorSkills(world: WorldState, casterId: string): SkillData[] {
-  const ids = world.learnedSkills[casterId] ?? []
-  return ids
-    .map((id) => DEMO_SKILLS[id])
-    .filter((s): s is SkillData => s != null) // 类型谓词单条件收窄(避 biome useOptionalChain 与谓词 boolean 返回冲突)
-    .filter((s) => s.usableOutsideBattle)
-}
-
-export function openMagicMenu(spells: SkillData[]): MagicMenuState {
-  return { active: true, spells, cursor: 0 }
-}
-
-export function closeMagicMenu(): MagicMenuState {
-  return { active: false, spells: [], cursor: 0 }
-}
-
-/** 网格导航:↑↓ = ±MAGIC_GRID_COLS,←→ = ±1;越界 clamp(不动、不 wrap)。 */
-export function magicMoveCursor(s: MagicMenuState, dir: 'up' | 'down' | 'left' | 'right'): MagicMenuState {
-  const n = s.spells.length
-  if (n === 0) return s
-  const delta = dir === 'up' ? -MAGIC_GRID_COLS : dir === 'down' ? MAGIC_GRID_COLS : dir === 'left' ? -1 : 1
-  const next = s.cursor + delta
-  if (next < 0 || next >= n) return s // 越界 → 不动
-  return { ...s, cursor: next }
-}
-```
-
-- [ ] **Step 4: 跑测试 + check + biome**
-
-Run: `pnpm --filter @type-pal/reforge exec vitest run src/magic-menu-state.test.ts` → PASS
-Run: `pnpm --filter @type-pal/reforge run check` → typecheck + 全 test 绿
-Run: `pnpm --filter @type-pal/reforge exec biome check src/magic-menu-state.ts src/magic-menu-state.test.ts` → 0/0
-
-- [ ] **Step 5: commit**
-
-```bash
-git add packages/reforge/src/magic-menu-state.ts packages/reforge/src/magic-menu-state.test.ts
-git commit -m "feat(reforge): 仙术菜单状态机(网格导航 + learnedSkills→DEMO_SKILLS 解析,纯函数)"
-```
-
-**GLM 到此为止。Task B/C/D 由 Claude 接手(视觉)。**
-
----
-
-## Task B 〔Claude〕: 仙术菜单 Canvas UI
-
-**Files:** Create `packages/reforge/src/menu/magic-box.ts`;按需从 `menu-box.ts` export 复用(`drawSlicedBox` / `drawNumber` / `drawNumberLeft`)。
-
-`drawMagicMenu(ctx, state: MagicMenuState, world, now)`:① 红框网格(`drawSlicedBox` 喂 `ui/box-red` tiles,box@10,42)+ 仙术名 3 列(米白 / 选中黄闪,@35,54 起)+ grid cursor;② MP box(单行框@0,0 + needed/current MP);③ PlayerInfoBox(playerbox+face+HP/MP,@45,165);④ 描述(选中 `SkillData.desc`@102,3)。坐标全用「真值规格」。浏览器对截图调。
-
-## Task C 〔Claude〕: 集成(主菜单 → 仙术菜单)
-
-**Files:** `menu-state.ts`(`MAIN_ITEMS` 的 `magic` 项 `enabled: true`);`main.ts`(menu==='magic' 时:`openMagicMenu(resolveOutdoorSkills(world, world.party[0].id))`,持有独立 `magicMenu` 态;↑↓←→ 走 `magicMoveCursor`、Esc/back 返回主菜单;render 调 `drawMagicMenu`)。
-
-## Task D 〔Claude〕: 浏览器验收
-
-`pnpm --filter @type-pal/reforge run dev` → Esc 开主菜单 → 选「仙术」→ 对你的原版截图核:红框网格 + 气疗术/凝神归元/元灵归心术名 + grid 光标、左上 MP box(needed/current)、底部李逍遥角色框(头像+HP/MP)、顶部描述、×4 高清。不贴合就调坐标(浏览器看)。
-
-## Self-Review
-
-1. **接地基**:数据全来自 `learnedSkills → DEMO_SKILLS`(旧自造 Task 1 删除);字段用 `SkillData`(name/cost.mp/desc/usableOutsideBattle)。✅
-2. **分工清**:Task A 纯逻辑(GLM,可单测、无 canvas);B/C/D 视觉(Claude,浏览器对齐)。✅
-3. **真值**:坐标全标 game draw-magic.ts 出处;导航 ±列/±1 clamp 对齐原版。✅
-4. **阶段隔离**:数据 content、状态机/渲染 reforge;id 不透明。✅
-5. **范围显式**:单人查看版(砍 caster/target/施法);effects 不执行(phase3 战斗引擎)。✅
+固定源 SHA `9fdce6d934e132258fa2446c79777e5cddbe23e45b9d666c5f5b799b8eb3e11a`；以下只增加 quote 前缀，逆回读必须得到相同 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 仙术菜单 实现计划(接技能地基)
+>
+> > **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
+> > 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
+>
+> > **分工**:Task A(状态机·纯逻辑)= **GLM**;Task B/C/D(Canvas UI · 集成 · 浏览器对齐)= **Claude**(视觉活,GLM 无多模态)。
+> > **依赖地基**:技能数据三层已就位([skill-data-design](../designs/skill-data-design.md))——`SkillData` / `DEMO_SKILLS` / `WorldState.learnedSkills` 在 `@type-pal/content`。本计划**不再自造仙术数据**(旧 Task 1 已被地基取代、删除)。
+> > **视觉参考**:一阶段 game `packages/game/src/present/menu/draw-magic.ts` + `core/menu/in-game-magic-menu.ts`(原版 1:1 复刻),照搬布局/坐标/导航,不照搬其全局架构。第二阶段 Reforge,先读 [READ-FIRST](../../READ-FIRST.md)。
+>
+> **Goal:** 大世界仙术菜单(单人查看版):红框仙术网格 + 左上 MP box + 底部角色框 + 顶部描述,数据来自地基 `learnedSkills → DEMO_SKILLS`。
+>
+> **范围(demo 单人查看):** ✅ 网格(仙术名 + 选中光标)+ MP box + 角色框 + 描述。❌ 选施法人(单人跳过)、选目标、实际施法(查看版;effects 不执行——战斗引擎是 phase3)。
+>
+> ## 数据来源(地基已就绪,勿再造)
+>
+> - 可用仙术 = `resolveOutdoorSkills(world, casterId)`(Task A 实现):`world.learnedSkills[casterId]`(demo `['296','298','299']`)→ 查 `DEMO_SKILLS` → 过滤 `usableOutsideBattle`。
+> - 字段映射:网格名 = `SkillData.name`;描述 = `SkillData.desc`;needed MP = `SkillData.cost.mp`;current MP = `world.party[0].mp`;HP/maxHP/MP/maxMP = `world.party[0].{hp,maxHP,mp,maxMP}`。
+>
+> ## 真值规格(game draw-magic.ts 坐标,Task B 用,勿改)
+>
+> - **仙术网格红框**:`PAL_CreateBoxWithShadow(10,42)` rows=4 cols=16 **style 1(红框,已 bake `ui/box-red/frame-0X.png`)**;仙术名起点 `(35,54)`,**3 列**(每列 +87px)× **5 行**(每行 +18px);选中 cursor sprite(`ui/cursor/grid.png`)at `(itemX+25, itemY+10)`。
+> - **MP box(左上,WIN95)**:`drawSingleLineBox(0,0) len5`;needed MP `(15,14)` 黄右对齐 + slash sprite `(45,14)` + current MP `(50,14)` 青右对齐。**不画金钱框**(与描述互斥)。
+> - **PlayerInfoBox(底部)**:`(45 + 78×i, 165)`——playerbox(`ui/magic/playerbox.png`)+ face(`ui/magic/face-0.png`,画在 box `x-2,y-4`)+ HP/MP(slash@`x+49,y+6/22`;HP 黄 cur@`x+26,y+5` max@`x+47,y+8`;MP 青 cur@`x+26,y+21` max@`x+47,y+24`)。单人画 1 个。
+> - **描述(顶部)**:`(102,3)`,色 `0x3C`,每行 +16。demo 显当前选中仙术 `SkillData.desc`。
+> - **数字色**:needed/HP/maxHP 黄,current/maxMP 青。复用已 bake 的 `ui/num`(黄)/`ui/num-cyan`(青)/`ui/num/slash`。
+> - **网格导航**(game 真值):↑↓ = ±3(列数),←→ = ±1,边界 clamp **不 wrap**。
+>
+> ## Global Constraints
+>
+> - **阶段隔离(D18)**:仙术数据在 `@type-pal/content`(地基已建);状态机/渲染在 reforge。reforge 把 skill `id` 当**不透明 string**。
+> - **sprite 已全 bake**(`packages/migrate/scripts/bake-assets.mts`):`ui/box-red/`(红框 9 帧)、`ui/magic/playerbox|face-0`、`ui/cursor/up|down|grid`、`ui/num*`(黄/青/斜杠)。Task B 直接 fetch `/ui/...`。
+> - 零 lint/type:每 Task `pnpm --filter @type-pal/reforge run check` 绿 + `biome check` 0/0。canvas 视觉靠浏览器验。
+>
+> ---
+>
+> ## Task A 〔GLM〕: 仙术菜单状态机(纯逻辑,可单测)
+>
+> **Files:**
+> - Create: `packages/reforge/src/magic-menu-state.ts`
+> - Test: `packages/reforge/src/magic-menu-state.test.ts`
+>
+> **Interfaces:**
+> - Consumes: `DEMO_SKILLS`, `SkillData`, `WorldState`(from `@type-pal/content`,地基已导出)。
+> - Produces: `MagicMenuState`, `MAGIC_GRID_COLS`, `resolveOutdoorSkills`, `openMagicMenu`, `closeMagicMenu`, `magicMoveCursor`(供 Claude 的 UI/集成消费)。
+>
+> 参考一阶段 `in-game-magic-menu.ts` 的 `moveSpellGrid`(±列数 / ±1)。**纯函数,返回新 state,不可变;不碰 canvas / DOM / 渲染。**
+>
+> - [ ] **Step 1: 写失败测试** —— `packages/reforge/src/magic-menu-state.test.ts`
+>
+> ```ts
+> import { initialWorld } from '@type-pal/content'
+> import { describe, expect, test } from 'vitest'
+> import {
+>   closeMagicMenu,
+>   magicMoveCursor,
+>   type MagicMenuState,
+>   openMagicMenu,
+>   resolveOutdoorSkills,
+> } from './magic-menu-state.js'
+>
+> describe('resolveOutdoorSkills', () => {
+>   test('李逍遥 demo:learnedSkills → DEMO_SKILLS,全 outdoor', () => {
+>     const world = initialWorld()
+>     const spells = resolveOutdoorSkills(world, 'li-xiaoyao')
+>     expect(spells.map((s) => s.id)).toEqual(['296', '298', '299'])
+>     expect(spells.every((s) => s.usableOutsideBattle)).toBe(true)
+>   })
+>   test('未知角色 → 空', () => {
+>     expect(resolveOutdoorSkills(initialWorld(), 'nobody')).toEqual([])
+>   })
+> })
+>
+> describe('仙术网格导航', () => {
+>   const mk = (n: number): MagicMenuState =>
+>     openMagicMenu(Array.from({ length: n }, (_, i) => ({ id: String(i) }) as never))
+>
+>   test('openMagicMenu:active + cursor 0', () => {
+>     const s = openMagicMenu([])
+>     expect(s.active).toBe(true)
+>     expect(s.cursor).toBe(0)
+>   })
+>   test('↓ = +3(列数),↑ 边界 clamp 不动', () => {
+>     expect(magicMoveCursor(mk(6), 'down').cursor).toBe(3)
+>     expect(magicMoveCursor(mk(6), 'up').cursor).toBe(0) // cursor0 上越界 → 不动
+>   })
+>   test('→ = +1,← 边界 clamp;下越界不动', () => {
+>     expect(magicMoveCursor(mk(6), 'right').cursor).toBe(1)
+>     expect(magicMoveCursor({ ...mk(6), cursor: 5 }, 'down').cursor).toBe(5) // 5+3 越界 → 不动
+>     expect(magicMoveCursor({ ...mk(6), cursor: 0 }, 'left').cursor).toBe(0)
+>   })
+>   test('空列表导航不崩', () => {
+>     expect(magicMoveCursor(mk(0), 'down').cursor).toBe(0)
+>   })
+>   test('closeMagicMenu:active false', () => {
+>     expect(closeMagicMenu().active).toBe(false)
+>   })
+> })
+> ```
+>
+> - [ ] **Step 2: 跑测试确认失败**
+>
+> Run: `pnpm --filter @type-pal/reforge exec vitest run src/magic-menu-state.test.ts`
+> Expected: FAIL（`Cannot find module './magic-menu-state.js'`）
+>
+> - [ ] **Step 3: 写 `packages/reforge/src/magic-menu-state.ts`**
+>
+> ```ts
+> // 仙术菜单状态机(纯逻辑;非视觉)。数据来自地基 learnedSkills → DEMO_SKILLS。
+> // 参考一阶段 game in-game-magic-menu.ts 的 moveSpellGrid。
+> import { DEMO_SKILLS, type SkillData, type WorldState } from '@type-pal/content'
+>
+> /** 原版仙术网格列数(draw-magic.ts:3 列)。 */
+> export const MAGIC_GRID_COLS = 3
+>
+> export interface MagicMenuState {
+>   active: boolean
+>   spells: SkillData[] // 已解析 + 已过滤 outdoor 的可用仙术(网格按此渲染)
+>   cursor: number // 选中索引(0-based,flat)
+> }
+>
+> /** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → DEMO_SKILLS → 过滤 usableOutsideBattle。 */
+> export function resolveOutdoorSkills(world: WorldState, casterId: string): SkillData[] {
+>   const ids = world.learnedSkills[casterId] ?? []
+>   return ids
+>     .map((id) => DEMO_SKILLS[id])
+>     .filter((s): s is SkillData => s != null) // 类型谓词单条件收窄(避 biome useOptionalChain 与谓词 boolean 返回冲突)
+>     .filter((s) => s.usableOutsideBattle)
+> }
+>
+> export function openMagicMenu(spells: SkillData[]): MagicMenuState {
+>   return { active: true, spells, cursor: 0 }
+> }
+>
+> export function closeMagicMenu(): MagicMenuState {
+>   return { active: false, spells: [], cursor: 0 }
+> }
+>
+> /** 网格导航:↑↓ = ±MAGIC_GRID_COLS,←→ = ±1;越界 clamp(不动、不 wrap)。 */
+> export function magicMoveCursor(s: MagicMenuState, dir: 'up' | 'down' | 'left' | 'right'): MagicMenuState {
+>   const n = s.spells.length
+>   if (n === 0) return s
+>   const delta = dir === 'up' ? -MAGIC_GRID_COLS : dir === 'down' ? MAGIC_GRID_COLS : dir === 'left' ? -1 : 1
+>   const next = s.cursor + delta
+>   if (next < 0 || next >= n) return s // 越界 → 不动
+>   return { ...s, cursor: next }
+> }
+> ```
+>
+> - [ ] **Step 4: 跑测试 + check + biome**
+>
+> Run: `pnpm --filter @type-pal/reforge exec vitest run src/magic-menu-state.test.ts` → PASS
+> Run: `pnpm --filter @type-pal/reforge run check` → typecheck + 全 test 绿
+> Run: `pnpm --filter @type-pal/reforge exec biome check src/magic-menu-state.ts src/magic-menu-state.test.ts` → 0/0
+>
+> - [ ] **Step 5: commit**
+>
+> ```bash
+> git add packages/reforge/src/magic-menu-state.ts packages/reforge/src/magic-menu-state.test.ts
+> git commit -m "feat(reforge): 仙术菜单状态机(网格导航 + learnedSkills→DEMO_SKILLS 解析,纯函数)"
+> ```
+>
+> **GLM 到此为止。Task B/C/D 由 Claude 接手(视觉)。**
+>
+> ---
+>
+> ## Task B 〔Claude〕: 仙术菜单 Canvas UI
+>
+> **Files:** Create `packages/reforge/src/menu/magic-box.ts`;按需从 `menu-box.ts` export 复用(`drawSlicedBox` / `drawNumber` / `drawNumberLeft`)。
+>
+> `drawMagicMenu(ctx, state: MagicMenuState, world, now)`:① 红框网格(`drawSlicedBox` 喂 `ui/box-red` tiles,box@10,42)+ 仙术名 3 列(米白 / 选中黄闪,@35,54 起)+ grid cursor;② MP box(单行框@0,0 + needed/current MP);③ PlayerInfoBox(playerbox+face+HP/MP,@45,165);④ 描述(选中 `SkillData.desc`@102,3)。坐标全用「真值规格」。浏览器对截图调。
+>
+> ## Task C 〔Claude〕: 集成(主菜单 → 仙术菜单)
+>
+> **Files:** `menu-state.ts`(`MAIN_ITEMS` 的 `magic` 项 `enabled: true`);`main.ts`(menu==='magic' 时:`openMagicMenu(resolveOutdoorSkills(world, world.party[0].id))`,持有独立 `magicMenu` 态;↑↓←→ 走 `magicMoveCursor`、Esc/back 返回主菜单;render 调 `drawMagicMenu`)。
+>
+> ## Task D 〔Claude〕: 浏览器验收
+>
+> `pnpm --filter @type-pal/reforge run dev` → Esc 开主菜单 → 选「仙术」→ 对你的原版截图核:红框网格 + 气疗术/凝神归元/元灵归心术名 + grid 光标、左上 MP box(needed/current)、底部李逍遥角色框(头像+HP/MP)、顶部描述、×4 高清。不贴合就调坐标(浏览器看)。
+>
+> ## Self-Review
+>
+> 1. **接地基**:数据全来自 `learnedSkills → DEMO_SKILLS`(旧自造 Task 1 删除);字段用 `SkillData`(name/cost.mp/desc/usableOutsideBattle)。✅
+> 2. **分工清**:Task A 纯逻辑(GLM,可单测、无 canvas);B/C/D 视觉(Claude,浏览器对齐)。✅
+> 3. **真值**:坐标全标 game draw-magic.ts 出处;导航 ±列/±1 clamp 对齐原版。✅
+> 4. **阶段隔离**:数据 content、状态机/渲染 reforge;id 不透明。✅
+> 5. **范围显式**:单人查看版(砍 caster/target/施法);effects 不执行(phase3 战斗引擎)。✅
+<!-- original-source-quote:end -->

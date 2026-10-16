@@ -1,47 +1,96 @@
 # 脚本步骤卡与继续按钮修复
 
-2026-09-28，Codex按用户截图修复二阶段作者界面；基点1529f97e。
+Status: historical
+Last reviewed: 2026-10-15
+Owner: Codex（文档治理；原作者和验证范围保持）
+Template: evidence-receipt-v1 / 1.0.0
 
-## 原因与范围
+## 证据身份
 
-- `PreviewCanvas.tsx` 的普通确认按钮直接写了“继续 ▾”，没有下拉菜单。改为“继续”，确认回调不变。
-- `ScriptEditor.tsx` 的步骤选择面用了 `DsButton`：其单层children包装使原grid未分开标题/数量；
-  primary按钮hover只染上半块，同时按钮和外卡使用不同圆角。
-- 按现行设计系统的域选择面合同改为 `DsPressable`；标题、指令数、首次运行和下一步说明分组，
-  父卡统一selected/hover背景与10px卡片圆角，使用规范间距。步骤详情仍是独立普通动作按钮。
-- 保留原选择、详情、继续行为，补明确可访问名与整卡键盘焦点环；不改脚本数据/执行语义。
+2026-09-28 的二阶段作者界面回执，原 Owner/Codex、基点1529f97e与用户截图来源保持。此次2026-10-15只治理记录，未重新打开界面。
 
-## 直接验证
+## 来源与输入
 
-现有ScriptEditor流程回归补标题/数量独立节点、元信息分行及可访问名断言；PreviewCanvas回归
-更新纯确认按钮定位，继续核真实确认回调。定向两文件27/27、editor typecheck零诊断。
+历史输入为正式s001页面、6010独立验证标签、步骤卡选择/详情与对话确认。原截图路径、SHA和临时日志名完整保留下方；截图是本地忽略证据，不能因SHA被转录就认定当前文件可取回。
 
-在6010的独立验证标签打开正式s001页面、实际播放进场脚本：
+## 断言与业务 oracle
 
-1. 对话按钮显示“继续”，不带箭头。
-2. 步骤1选中并hover、步骤2未选中：两卡160×114px、圆角均10px；选择按钮背景透明，
-   状态由整卡呈现，不再上下断层。标题/数量水平间距分别约40.68/52.28px。
-3. “首次运行”和“下次进入步骤 2”各自占行；正文数字不孤立换行。
-4. Tab到详情按钮有2px焦点环，Enter打开“步骤 1 · 详情”，关闭回到原按钮；
-   Shift+Tab回选择面，父卡显示2px焦点环。
+继续按钮移除没有菜单的箭头，确认回调不变；选择面使用DsPressable、整卡selected/hover背景、10px圆角及独立详情动作。历史视觉检查分别覆盖尺寸/间距、分行、Tab焦点、Enter详情与返回，不把这些UI操作提升为剧情或执行语义验证。
 
-实测截图：`build/verification/script-card-ui/selected-hover.png`（本地忽略证据，非入库资产）。
-SHA-256：`7553d6a6a6adaddb44d06e8de3895677b7a0d84a6ddf95b1ab8334847566b786`。
-用户原标签未写入内容，验证标签已关闭；6010开发服务继续保留。
-仅验功能性UI，不把此次播放当E2E-001/002剧情收口或full/Q1/Q2验收。
+## 结果
 
-## 质量门
+原两文件27/27与editor typecheck、10,176完整check、9,715 ratchet和受保护strict均保留原身份；原分支47,637/63,361=75.18%，分子分母未变。adoption/text-overflow初次拒绝与格式诊断一并保留，不能将首轮改写成一次通过。
 
-首轮完整check发现两条新增nowrap CSS尚未登记，设计系统adoption与text-overflow门正确拒绝。
-补记当前CanonicalScriptFlowEditor真实入口的编号/数量短标记：不截断、不加排除、不改审计规则；
-没有改变业务语义或用预期失败掩盖问题。新增断言的单处格式诊断也已按Biome修正。
+## 限制与复核
 
-最终完整check 10,176项全绿（editor 3,288项），全部typecheck通过，lint 2,391文件
-0 error / 0 warning / 0 info。
-官方ratchet 9,715项/730生产文件通过：四指标分子/分母及基线文件均未改变，
-分支仍为47,637/63,361=75.18%。此次不宣称覆盖率提升。
+本轮只核原回执与配对任务卡，不复跑旧测试/浏览器/coverage。原声明排除E2E-001/002剧情收口、full/Q1/Q2验收。当前产品行为、截图可用性或旧日志真实性若需再验，应另有实际候选/命令与操作证据。
 
-保护基点1529f97e的单次strict-fast 9,715项/730文件同样通过，零回退。
-Codex独立核定[任务收口](../../../../../ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md)。原始日志位于
-`/tmp/codex-script-card-ui-{check-final,ratchet,strict}.log`；首次失败保留于
-`/tmp/codex-script-card-ui-check.log`。
+## 历史范围
+
+范围仅2026-09-28的功能性UI实现/验证；6010服务仍保留与验证标签关闭是当时会话事实，不能指示当前服务状态。
+
+## 原始结论
+
+以下完整引用迁移前文本；原相对链接不移动，字节来源由Git blob定位。
+
+> # 脚本步骤卡与继续按钮修复
+>
+> 2026-09-28，Codex按用户截图修复二阶段作者界面；基点1529f97e。
+>
+> ## 原因与范围
+>
+> - `PreviewCanvas.tsx` 的普通确认按钮直接写了“继续 ▾”，没有下拉菜单。改为“继续”，确认回调不变。
+> - `ScriptEditor.tsx` 的步骤选择面用了 `DsButton`：其单层children包装使原grid未分开标题/数量；
+>   primary按钮hover只染上半块，同时按钮和外卡使用不同圆角。
+> - 按现行设计系统的域选择面合同改为 `DsPressable`；标题、指令数、首次运行和下一步说明分组，
+>   父卡统一selected/hover背景与10px卡片圆角，使用规范间距。步骤详情仍是独立普通动作按钮。
+> - 保留原选择、详情、继续行为，补明确可访问名与整卡键盘焦点环；不改脚本数据/执行语义。
+>
+> ## 直接验证
+>
+> 现有ScriptEditor流程回归补标题/数量独立节点、元信息分行及可访问名断言；PreviewCanvas回归
+> 更新纯确认按钮定位，继续核真实确认回调。定向两文件27/27、editor typecheck零诊断。
+>
+> 在6010的独立验证标签打开正式s001页面、实际播放进场脚本：
+>
+> 1. 对话按钮显示“继续”，不带箭头。
+> 2. 步骤1选中并hover、步骤2未选中：两卡160×114px、圆角均10px；选择按钮背景透明，
+>    状态由整卡呈现，不再上下断层。标题/数量水平间距分别约40.68/52.28px。
+> 3. “首次运行”和“下次进入步骤 2”各自占行；正文数字不孤立换行。
+> 4. Tab到详情按钮有2px焦点环，Enter打开“步骤 1 · 详情”，关闭回到原按钮；
+>    Shift+Tab回选择面，父卡显示2px焦点环。
+>
+> 实测截图：`build/verification/script-card-ui/selected-hover.png`（本地忽略证据，非入库资产）。
+> SHA-256：`7553d6a6a6adaddb44d06e8de3895677b7a0d84a6ddf95b1ab8334847566b786`。
+> 用户原标签未写入内容，验证标签已关闭；6010开发服务继续保留。
+> 仅验功能性UI，不把此次播放当E2E-001/002剧情收口或full/Q1/Q2验收。
+>
+> ## 质量门
+>
+> 首轮完整check发现两条新增nowrap CSS尚未登记，设计系统adoption与text-overflow门正确拒绝。
+> 补记当前CanonicalScriptFlowEditor真实入口的编号/数量短标记：不截断、不加排除、不改审计规则；
+> 没有改变业务语义或用预期失败掩盖问题。新增断言的单处格式诊断也已按Biome修正。
+>
+> 最终完整check 10,176项全绿（editor 3,288项），全部typecheck通过，lint 2,391文件
+> 0 error / 0 warning / 0 info。
+> 官方ratchet 9,715项/730生产文件通过：四指标分子/分母及基线文件均未改变，
+> 分支仍为47,637/63,361=75.18%。此次不宣称覆盖率提升。
+>
+> 保护基点1529f97e的单次strict-fast 9,715项/730文件同样通过，零回退。
+> Codex独立核定[任务收口](../../../../../ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md)。原始日志位于
+> `/tmp/codex-script-card-ui-{check-final,ratchet,strict}.log`；首次失败保留于
+> `/tmp/codex-script-card-ui-check.log`。
+
+## 当时证据
+
+原文给出selected-hover.png SHA-256 7553d6a6a6adaddb44d06e8de3895677b7a0d84a6ddf95b1ab8334847566b786及/tmp原始/首次失败日志。本次没有恢复被忽略截图或临时日志，保留明确缺失边界。
+
+## 当前有效性
+
+该回执保留历史判断，不授权新的产品修改、视觉通过或覆盖率验收。模板结构与链接可检查；动态证据不能由文档静态门补出。
+
+## 继任文档
+
+任务收口和当时独立判断取配对归档卡；当前治理进度取全量任务卡。没有把旧UI回执替换为新的当前产品规范。
+
+[配对历史收口卡](../../../../../ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md) · [当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)

@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r35-ops-guides-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 4,
+    "all4": true,
+    "paths": [
+      "docs/ops/guides/browser-verification.md",
+      "docs/ops/guides/dev-servers.md",
+      "docs/ops/guides/documentation.md",
+      "docs/ops/guides/README.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "4/4 fully read",
+    "sourceAfter": "4/4 byte SHA equal at intake",
+    "registry": "4/4 governed-legacy entries and review references",
+    "catalog": "ops guide paths outside phase/lore catalog scope",
+    "routing": "archive-only at intake",
+    "classification": "4 guide-runbook current-guide records",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "format": "markdown",
+      "title": "Kimi 浏览器实测操作手册",
+      "date": "undated",
+      "status": "current-guide",
+      "currentRegistry": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-semantic-current-batch.json"
+      },
+      "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "afterSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "bytes": 3746,
+      "physicalLineSlots": 59,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "Kimi 浏览器实测操作手册"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "1. 环境与入口"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "2. 游戏键位速查（reforge 运行时）"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "3. 浏览器实测手法（给 Kimi）"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "4. 调试面板 `?debug`（D13-1）"
+        },
+        {
+          "line": 48,
+          "level": 2,
+          "text": "5. 常见键盘流程样例"
+        },
+        {
+          "line": 55,
+          "level": 2,
+          "text": "6. 关键纪律"
+        }
+      ],
+      "semanticOutline": "Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.",
+      "conflicts": [],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "successor": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "proposedClassification": "guide-runbook",
+      "proposedTemplate": "guide-runbook-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "format": "markdown",
+      "title": "本地开发服务器 · 端口与启动命令",
+      "date": "2026-07-04",
+      "status": "current-guide",
+      "currentRegistry": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-semantic-current-batch.json"
+      },
+      "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "afterSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "bytes": 4634,
+      "physicalLineSlots": 103,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "本地开发服务器 · 端口与启动命令"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "新人前置(clone 后必做)"
+        },
+        {
+          "line": 15,
+          "level": 1,
+          "text": "原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)"
+        },
+        {
+          "line": 20,
+          "level": 1,
+          "text": "可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "一阶段 · 仙剑本体(game)"
+        },
+        {
+          "line": 50,
+          "level": 2,
+          "text": "二阶段 · 编辑器(editor)"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "二阶段 · 新引擎(reforge)"
+        },
+        {
+          "line": 96,
+          "level": 2,
+          "text": "常见坑"
+        }
+      ],
+      "semanticOutline": "Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.",
+      "conflicts": ["正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "successor": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "proposedClassification": "guide-runbook",
+      "proposedTemplate": "guide-runbook-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "format": "markdown",
+      "title": "文档维护与自动检查",
+      "date": "2026-09-06",
+      "status": "current-guide",
+      "currentRegistry": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-semantic-current-batch.json"
+      },
+      "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "sourceSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+      "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+      "bytes": 6513,
+      "physicalLineSlots": 85,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "文档维护与自动检查"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "AI Quick Path"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "文档的有效范围"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "索引与文件存放"
+        },
+        {
+          "line": 41,
+          "level": 2,
+          "text": "检查命令"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "目录职责"
+        },
+        {
+          "line": 77,
+          "level": 2,
+          "text": "例外与准入"
+        }
+      ],
+      "semanticOutline": "Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.",
+      "conflicts": [
+        "正文信号 74:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
+        "正文信号 84:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
+      ],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "successor": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "proposedClassification": "guide-runbook",
+      "proposedTemplate": "guide-runbook-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "format": "markdown",
+      "title": "工程维护指南",
+      "date": "undated",
+      "status": "current-guide",
+      "currentRegistry": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-semantic-current-batch.json"
+      },
+      "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+      "sourceSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+      "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+      "bytes": 501,
+      "physicalLineSlots": 12,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "工程维护指南"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.",
+      "conflicts": [],
+      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
+      "successor": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "proposedClassification": "guide-runbook",
+      "proposedTemplate": "guide-runbook-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

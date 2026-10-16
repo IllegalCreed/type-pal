@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "status": "recorded",
+  "scope": "eight individually read and rewritten pilot documents",
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "1276b799ba6cb6a4300384d507df8ad773beac3f2e5c16bf70fddf39319ec564",
+      "sourceGitObject": "6969a72235dc8f538f0321e066402f482a7fdd82",
+      "afterSha256": "42508d7c7f134a919da9d8f4f4157653aa4b7d6ec0019f31c20950c1991ef0ab",
+      "method": "specific task-card chapters plus archive overlay; original whole card quoted",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "b4093091aa17b284b13c04d0446bda612ded7001f17078c6d176744188703324",
+      "sourceGitObject": "6bf712028890ac52a75751092fffb6affcb4bd9e",
+      "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+      "method": "specific historical audit findings and archive overlay; whole original preserved",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "9908fb41360efe0192849a128aed56f9993db52f5271e9907ad2a12f61a6e62e",
+      "sourceGitObject": "a6e394e4d82b9329b392fe47b8dbedb36cd4e2b9",
+      "afterSha256": "5364d55e79e460aedf84d893457786d67e6c1ac347e27d8057c03cfa1cd488a6",
+      "method": "restructured evidence identity/method/oracle/results/limits; all original probe facts retained",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af",
+      "sourceGitObject": "95677425c9b9a3daa28a83f9763e5a695a261f7d",
+      "afterSha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
+      "method": "historical plan milestones explained; archive overlay plus whole original retained",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+      "sourceGitObject": "2b9a05d69d0154dc57de427c068731dfd1eb985c",
+      "afterSha256": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
+      "method": "specific design chapters; original spec paragraphs and implementation anchors retained under plan/acceptance",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/phase3/reference/art-pipeline.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+      "sourceGitObject": "0836b8ad256ac02ed960bda48282dd5bc9918bbb",
+      "afterSha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
+      "method": "source-labelled reference and explicit conflicts; archive overlay with whole original retained",
+      "notRun": ["runtime", "E2E", "visual", "coverage"],
+      "formatNote": {
+        "trimmedQuoteLines": [170, 176, 203, 204],
+        "scope": "four original prompt lines had insignificant trailing spaces; source Git blob retains original bytes, all textual prompt content preserved"
+      }
+    },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+      "sourceGitObject": "167eee4fe105ba7e5f2767426811f801aa1a0abe",
+      "afterSha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
+      "method": "manually reorganized all original idea sections into constraints/content/open choices; no new canon claims",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
+      "sourceRevision": "572756d0dd2b0b527f06298c1dbfdf12bc3d91df",
+      "sourceSha256": "5482667cf2718f3d29ad63c979956a856d6f146a500c0e4b9e139f7910e61bc5",
+      "sourceGitObject": "0649e072d7df4b4ab8f79c9e867c1358dd391644",
+      "afterSha256": "720b44911acf172e6f02779534b7e28902bef875e2b758b678252adf0f353942",
+      "method": "All four original section contents preserved/reorganized; old current22/SAVE11 wording scoped to original audit date; testing frontmatter/meta unchanged",
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    }
+  ]
+}

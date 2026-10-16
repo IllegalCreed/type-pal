@@ -1,0 +1,2491 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-testing-lab-history-i-20261016",
+  "kind": "documentation-migration-candidate",
+  "status": "author-candidate-pending-independent-acceptance",
+  "owner": "Codex / contributor history_cards_a",
+  "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+  "preflightRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
+  "branch": "codex/docs-testing-lab-history-i",
+  "governanceTask": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "scope": {
+    "candidateMarkdown": 13,
+    "jsonPendingI0": 1,
+    "fullI14Complete": false,
+    "paths": [
+      "docs/testing/archive/architecture-regression-lab/README.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "docs/testing/archive/architecture-regression-lab-history.md"
+    ],
+    "onlyNewArtifact": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json",
+    "sharedWrites": false,
+    "productOldTestsCoverageBrowser": false,
+    "progressCredit": "none until non-author and root acceptance; 13 Markdown candidate is not I14 done"
+  },
+  "sourceManifest": {
+    "algorithm": "path NUL Gitblob NUL SHA256 LF in task-table order",
+    "sha256": "16324c3d4a7747fcdf42ae685d814e88a9775ec536da7ab6a6525764666d72f5",
+    "files": 14,
+    "sourceLines": 496,
+    "markdownSourceLines": 429,
+    "jsonSourceLines": 67
+  },
+  "readScope": {
+    "fullI14Originals": [
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/README.md",
+        "gitObject": "467b1297dcba48b2d5f09e8d3f0f729cfa57ab82",
+        "sourceSha256": "4890bba4d3e834610f761964ec49767dc5d3e4e2a19a06cbfea791f1a7d9c54e",
+        "lines": 18
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+        "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+        "lines": 67
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "gitObject": "d781dec4f596e334cea1bb3660bfb89f6cb9a7e7",
+        "sourceSha256": "55cbdf5bbec35584399c11dc48b597a2424adb22236989eecef3458ff5767005",
+        "lines": 43
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+        "gitObject": "4e55fecccced52952e0457977c359c0ba937615b",
+        "sourceSha256": "3138f03fcb3880767e9a5d1017edd0aef4acc063a847749db02069ce5ad725a3",
+        "lines": 29
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+        "gitObject": "2c0afeee6dcdb0de671a3b65da43fbaf489954f2",
+        "sourceSha256": "91924061fd4a2079397442c5907f8f123d701795d6344c40feb5e7dc55af92f2",
+        "lines": 29
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+        "gitObject": "8ddface0597928ef7a245386148849a2c0c973bf",
+        "sourceSha256": "3a059c4b171c80affc137c774013b8e734cbc5fbd1cf122f2e5f12c0bbb07a61",
+        "lines": 34
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+        "gitObject": "3db1dbd0e271b4536c34bc89b26b466ce79ee4ef",
+        "sourceSha256": "78a23d15b24bd1d9c87b44b7fd2d93656fb6c8bb3354f438d8354cb235c92d66",
+        "lines": 36
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+        "gitObject": "82ecfd793dcf9329b80140082f9c978244caf4a3",
+        "sourceSha256": "3c127bcde4927c4c00013bb2347772472c79fee23b854e13a2fcf48b962030fe",
+        "lines": 29
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+        "gitObject": "78306f9c4266f4c8d4850310c410dedaefb5a5ab",
+        "sourceSha256": "852acc49cb06dc6fcc39fb6ad0fb6530efafebcd8358561be48fd37c7187fc48",
+        "lines": 32
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+        "gitObject": "dfbca98f257dc22078e33233bd2ffa3c24295d75",
+        "sourceSha256": "19aa3adfe08e5e703ae0da8c999a2250d42b2e009edd8403203d25c793a052f7",
+        "lines": 27
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "gitObject": "06e54607bc3fb86b035e4e1c8fb35f794e315d29",
+        "sourceSha256": "06ba531dd6bc25087e25b525a613d59a76adfc9ee6088d1b54613422074e46ed",
+        "lines": 23
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+        "gitObject": "7e9b38c85aaea8cfc6a56f6eb8531827c7222fd1",
+        "sourceSha256": "32e16f46ab061dbbea959cd85b1a3518c95190a27d8800e6446dd65c4b386a93",
+        "lines": 44
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "gitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+        "sourceSha256": "0b775a0d08d7603513e6a7972951cea71c79373ad428829a1240ef952908b580",
+        "lines": 48
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab-history.md",
+        "gitObject": "5c1bfdf833c7ee0faf17a8fba2406b3edb8226c1",
+        "sourceSha256": "1a0f24b670ebbea235f3e54a01f618560134c2eb843259922ba800bbba952d26",
+        "lines": 37
+      }
+    ],
+    "fullMarkdownCandidates": 13,
+    "primaryNarrowRead": [
+      "cafac8dc author-script-core.ts:650–732 and author-script.ts:99–124",
+      "ebef3d5a author-script-core.ts one options propagation diff",
+      "cafac8dc red-control judge/needles and verify execution ledger sections",
+      "cafac8dc G08 test120–EOF186;62142b16 G08 test155–EOF219 (requested range ended235; actual EOF respected)",
+      "architecture-continuation-integration.md full50 lines and original lab task full443 lines at equal preflight source"
+    ],
+    "productSourceFullAudit": false,
+    "reexecutedHistoricalTools": false,
+    "fullMarkdownCandidateNewLayersReadBack": 13
+  },
+  "pendingMachineEvidence": {
+    "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+    "sourceGitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+    "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+    "written": false,
+    "reason": "waiting root I0 stable contract/old14 version roll/real CLI negative proofs and explicit JSON build authorization"
+  },
+  "centralCoverageAtSource": {
+    "registry": 0,
+    "review": 0,
+    "testingCatalog": 0,
+    "classificationMembershipReviewed": 12,
+    "legacyMembershipIsNotDepthCredit": true
+  },
+  "checks": {
+    "status": "author-self-checks-passed; independent/root acceptance pending; JSON awaiting I0",
+    "notRun": [
+      "product/old tests",
+      "coverage",
+      "browser/E2E/visual",
+      "historical red-control/verify commands",
+      "raw/log/screenshot replay or availability certification"
+    ],
+    "temporaryFailures": [
+      {
+        "action": "direct Python3 execution of /tmp authoring script",
+        "result": "Non-UTF-8 source parse error before any repository write",
+        "resolution": "explicit read_text(encoding=utf-8) and compile Unicode source passed, then generated exactly authorized13MD+receipt",
+        "productImpact": false
+      },
+      {
+        "action": "tracked repository incoming-fragment scanner",
+        "result": "non-materialized tracked reference/sdlpal/AUTHORS.md initially stopped helper",
+        "resolution": "read exact immutable sourceRevision Git blob for only that tracked absent Markdown; recorded fallback, no file materialization or skip",
+        "productImpact": false
+      }
+    ],
+    "authorSemanticRework": [
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "before": "新增层把G06-08/09/10也写成与E2排重",
+        "after": "准确区分08/09/10正式接入与11对E2十三路径排重",
+        "source": "completion固定源第11与19行；原quote未改",
+        "status": "author-corrected-before-independent-review"
+      },
+      {
+        "paths": "ten audit reports",
+        "change": "explicit historical label on all remediation requirements and dated current-validity scope; original full quote unchanged",
+        "status": "author-corrected-before-independent-review"
+      }
+    ],
+    "sourceAndBodyVerification": {
+      "status": "pass",
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "method": "Actual Marked GFM parse with Unicode slug heading renderer; compare original heading ids/text before quote; outgoing and tracked repository incoming local fragment lookup. Not online GitHub render or runtime verification.",
+      "documents": 13,
+      "sourceMarkdownLines": 429,
+      "originalHeadings": 52,
+      "originalLinks": 19,
+      "outgoingFragments": 38,
+      "inbound": [],
+      "inboundFragments": 0,
+      "externalInboundFragments": 0,
+      "nonMaterializedGitFallback": ["reference/sdlpal/AUTHORS.md"],
+      "pendingJsonUnchanged": true,
+      "whitelistMarkdown": 13,
+      "whitelistNewReceipt": 1,
+      "perFile": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/README.md",
+          "sourceLines": 18,
+          "candidateLines": 91,
+          "sourceHeadings": 1,
+          "liveOriginalHeadings": 1,
+          "originalLinks": 13,
+          "outgoingLinks": 35,
+          "outgoingFragments": 0,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+          "sourceLines": 43,
+          "candidateLines": 126,
+          "sourceHeadings": 6,
+          "liveOriginalHeadings": 6,
+          "originalLinks": 1,
+          "outgoingLinks": 13,
+          "outgoingFragments": 5,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+          "sourceLines": 29,
+          "candidateLines": 100,
+          "sourceHeadings": 3,
+          "liveOriginalHeadings": 3,
+          "originalLinks": 1,
+          "outgoingLinks": 10,
+          "outgoingFragments": 2,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+          "sourceLines": 29,
+          "candidateLines": 100,
+          "sourceHeadings": 3,
+          "liveOriginalHeadings": 3,
+          "originalLinks": 1,
+          "outgoingLinks": 10,
+          "outgoingFragments": 2,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+          "sourceLines": 34,
+          "candidateLines": 109,
+          "sourceHeadings": 4,
+          "liveOriginalHeadings": 4,
+          "originalLinks": 1,
+          "outgoingLinks": 11,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+          "sourceLines": 36,
+          "candidateLines": 111,
+          "sourceHeadings": 4,
+          "liveOriginalHeadings": 4,
+          "originalLinks": 0,
+          "outgoingLinks": 10,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+          "sourceLines": 29,
+          "candidateLines": 100,
+          "sourceHeadings": 3,
+          "liveOriginalHeadings": 3,
+          "originalLinks": 2,
+          "outgoingLinks": 11,
+          "outgoingFragments": 2,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+          "sourceLines": 32,
+          "candidateLines": 107,
+          "sourceHeadings": 4,
+          "liveOriginalHeadings": 4,
+          "originalLinks": 0,
+          "outgoingLinks": 10,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+          "sourceLines": 27,
+          "candidateLines": 102,
+          "sourceHeadings": 4,
+          "liveOriginalHeadings": 4,
+          "originalLinks": 0,
+          "outgoingLinks": 10,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+          "sourceLines": 23,
+          "candidateLines": 98,
+          "sourceHeadings": 4,
+          "liveOriginalHeadings": 4,
+          "originalLinks": 0,
+          "outgoingLinks": 10,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+          "sourceLines": 44,
+          "candidateLines": 119,
+          "sourceHeadings": 5,
+          "liveOriginalHeadings": 5,
+          "originalLinks": 0,
+          "outgoingLinks": 10,
+          "outgoingFragments": 3,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "sourceLines": 48,
+          "candidateLines": 131,
+          "sourceHeadings": 5,
+          "liveOriginalHeadings": 5,
+          "originalLinks": 0,
+          "outgoingLinks": 11,
+          "outgoingFragments": 4,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab-history.md",
+          "sourceLines": 37,
+          "candidateLines": 118,
+          "sourceHeadings": 6,
+          "liveOriginalHeadings": 6,
+          "originalLinks": 0,
+          "outgoingLinks": 14,
+          "outgoingFragments": 5,
+          "sourceInverseExact": true,
+          "shaExact": true,
+          "typedAndHistoryIssues": 0
+        }
+      ],
+      "issues": []
+    },
+    "runs": [
+      {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "result": "68 docs-tool tests,0fail/0skip;1223Markdown/7436links/361tasks;model136/testing0/phase184/review645 all pass",
+        "scope": "fd504255 central136 excludes I; I13 separately validated; no product/runtime/coverage",
+        "log": "/tmp/type-pal-i-check-docs.log"
+      },
+      {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "result": "4090files;0errors/0warnings/0infos",
+        "log": "/tmp/type-pal-i-lint.log"
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0,
+        "result": "zero diagnostics"
+      },
+      {
+        "command": "pnpm check:docs (final after dated remediation clarification)",
+        "exitCode": 0,
+        "result": "68 tests/0fail/0skip;1223Markdown/7436links/361tasks;model136/testing0/phase184/review645 all zero issues",
+        "scope": "sourcefd504255 central model136 excludes I13; I13 complete typed+history consumer separately passed",
+        "log": "/tmp/type-pal-i-check-docs-final.log"
+      },
+      {
+        "command": "pnpm lint (final)",
+        "exitCode": 0,
+        "result": "4090files;0errors/0warnings/0infos",
+        "log": "/tmp/type-pal-i-lint-final.log"
+      }
+    ],
+    "receiptFinalization": "After full docs/lint gates only check-result metadata was appended; final receipt parse/format, source/body/link, whitelist and diff checks are required and executed before candidate commit. No Markdown/source hash changed in this finalization."
+  },
+  "entries": [
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "同一GLM实验包十轮独立审查与最终接收的原文目录；只导航，不新增产品/执行结论。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# 架构回归实验历史原文",
+        "originalDateLine": null,
+        "dateAbsent": true,
+        "derivedProvenance": "目录/索引原无独立作者字段；本轮治理Owner另列"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "467b1297dcba48b2d5f09e8d3f0f729cfa57ab82",
+      "sourceSha256": "4890bba4d3e834610f761964ec49767dc5d3e4e2a19a06cbfea791f1a7d9c54e",
+      "candidateSha256": "dbf75e5d50d2ecbb7953e101de86b3cf1ac4ee614c1df0bf666f955317cbb4bf",
+      "afterSha256": "dbf75e5d50d2ecbb7953e101de86b3cf1ac4ee614c1df0bf666f955317cbb4bf",
+      "sourceLines": 18,
+      "candidateLines": 91,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原18行governance-index材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；同一GLM实验包十轮独立审查与最终接收的原文目录；只导航，不新增产品/执行结论。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/README.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "467b1297dcba48b2d5f09e8d3f0f729cfa57ab82",
+          "lines": [1, 18],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "undated historical navigation; exact Git identity supplied",
+        "phase1": "not a phase1 mechanism claim",
+        "phase2": "历史第二阶段准备包的导航，不授产品build",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab-history.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": null,
+        "candidate": null,
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/README.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "合法消费为按原revision读取对应历史审查/最终回执；README不接收或认证产品输入"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": ["每个相邻原文目标可达；十轮/最终回执/合并索引职责不混淆，不复制最终逐组真源"]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "无原始独立Owner/发布日期；不能补造",
+        "14项仅13MD获准，JSON仍待I0；不相加旧轮执行"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab-history.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "目的",
+          "范围",
+          "当前状态",
+          "入口与责任",
+          "证据与下一步",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 18,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 1,
+        "originalMarkdownLinks": 13
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/README.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "467b1297dcba48b2d5f09e8d3f0f729cfa57ab82",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": null,
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/README.md",
+        "sourceLines": 18,
+        "candidateLines": 91,
+        "sourceHeadings": 1,
+        "liveOriginalHeadings": 1,
+        "originalLinks": 13,
+        "outgoingLinks": 35,
+        "outgoingFragments": 0,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "整批counter，G01-07及V01人物名仅窄轴成立；原主卡保持build而不是退回候选旧draft。五针真实judge要求业务红，独立G08丢命令exit0明确MISSED；41绿和五针不能关闭该漏洞。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 r10 独立接收",
+        "originalDateLine": "2026-09-26；候选 `cafac8dc`，分支 `codex/glm-architecture-regression-lab-r2`，起点 `f5f166aa`。**整批 counter；G01 平移取消轴 accept，V01 人物名称阻断已由 Codex 实测排除。** 主线任务保持 `build`（首批 37 项已经正式接入），不回退为候选卡的旧 `draft`。本轮未合候选、未改产品/正式测试/官方基线。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "d781dec4f596e334cea1bb3660bfb89f6cb9a7e7",
+      "sourceSha256": "55cbdf5bbec35584399c11dc48b597a2424adb22236989eecef3458ff5767005",
+      "candidateSha256": "1fae6550d9cf7847d2964832514789ca939dddf0497e126ac42c48f3080d8b5f",
+      "afterSha256": "1fae6550d9cf7847d2964832514789ca939dddf0497e126ac42c48f3080d8b5f",
+      "sourceLines": 43,
+      "candidateLines": 126,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原43行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；整批counter，G01-07及V01人物名仅窄轴成立；原主卡保持build而不是退回候选旧draft。五针真实judge要求业务红，独立G08丢命令exit0明确MISSED；41绿和五针不能关闭该漏洞。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "d781dec4f596e334cea1bb3660bfb89f6cb9a7e7",
+          "lines": [1, 43],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26",
+        "candidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "G01经正常DOM PointerEvent进入监听器与可信迟到move；V01角色名真实textbox输入；合法作者cue含identity",
+        "G06缺identity是精确拒绝负例；G08缺布局中段异常与补布局合法成功路径分开"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "G01正常平移/取消冻结/反控漂移三向hash；V01真实提交与undo；G06直达/嵌套同一cue应守同门",
+          "G08成功必须实际产出setActorSprite与稳定身份，吞命令仍绿不满足真实judge"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "整批counter、G06真实漏options",
+        "G08丢输出MISSED/exit0、Biome1warning、旧交付位置/数字矛盾"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 43,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 6,
+        "originalMarkdownLinks": 1
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "d781dec4f596e334cea1bb3660bfb89f6cb9a7e7",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "sourceLines": 43,
+        "candidateLines": 126,
+        "sourceHeadings": 6,
+        "liveOriginalHeadings": 6,
+        "originalLinks": 1,
+        "outgoingLinks": 13,
+        "outgoingFragments": 5,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "整批counter，不转正式测试、不计官方覆盖率。33绿与启动反控仅是该候选机械事实；账本矛盾和caller缺口不因总数上升而闭合。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 — Codex 二轮独立接收",
+        "originalDateLine": "2026-09-25；候选 `af43311ad8eb470b0d72552264c981339c5fc8d3`。结论：**counter，不转正式测试，不计官方覆盖率**。本轮确有 33 项候选测试全绿、启动单针业务红；但交付总账与最终树不一致，数个组仍未进入其声称的目标调用链。保留以下窄证据，不以作者自验充独立证明。上一轮反证见[首轮复核](architecture-regression-lab-codex-review.md)。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "4e55fecccced52952e0457977c359c0ba937615b",
+      "sourceSha256": "3138f03fcb3880767e9a5d1017edd0aef4acc063a847749db02069ce5ad725a3",
+      "candidateSha256": "57f0c1a2b92392f73b115fdae7553fb932088a4f62f3005ac3ab1fc0fe2c0cb5",
+      "afterSha256": "57f0c1a2b92392f73b115fdae7553fb932088a4f62f3005ac3ab1fc0fe2c0cb5",
+      "sourceLines": 29,
+      "candidateLines": 100,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原29行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；整批counter，不转正式测试、不计官方覆盖率。33绿与启动反控仅是该候选机械事实；账本矛盾和caller缺口不因总数上升而闭合。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "4e55fecccced52952e0457977c359c0ba937615b",
+          "lines": [1, 29],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "af43311ad8eb470b0d72552264c981339c5fc8d3",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "af43311ad8eb470b0d72552264c981339c5fc8d3",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "独立会话、合法草稿/播放/校验输入应到真实入口；旧错误helper和强转fixture不被本轮治理认证",
+        "执行JSON、截图与主线合入点应对应本候选，不借其它revision的绿数"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "真实执行标题/状态/数量与机账一一匹配，回执机械口径一致",
+          "每组真实业务输出仍须独立反证，33/33不是完整合同oracle"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "40实账与两种39转述冲突",
+        "截图仅16位前缀、verify非只读、React act warning、TS未证"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 29,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 3,
+        "originalMarkdownLinks": 1
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "4e55fecccced52952e0457977c359c0ba937615b",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "af43311ad8eb470b0d72552264c981339c5fc8d3",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+        "sourceLines": 29,
+        "candidateLines": 100,
+        "sourceHeadings": 3,
+        "liveOriginalHeadings": 3,
+        "originalLinks": 1,
+        "outgoingLinks": 10,
+        "outgoingFragments": 2,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "十二组暂不按完整合同转正式，整批counter、原任务draft；窄正控可保留。32/32不是33项，单针不证明其余组鉴别力。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 — Codex 三轮独立接收",
+        "originalDateLine": "2026-09-25；候选 `bc8613d17a15262bddb01a1a47b3669428d22b02`。结论：**counter，十二组均暂不以完整组合同转正式测试；保留已证的窄正控，任务仍为 draft。** 这轮接收只针对最终候选，不把二轮旧 SHA 的结果冒充当前验证。[二轮反证](architecture-regression-lab-codex-r2-review.md)保留为历史。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "2c0afeee6dcdb0de671a3b65da43fbaf489954f2",
+      "sourceSha256": "91924061fd4a2079397442c5907f8f123d701795d6344c40feb5e7dc55af92f2",
+      "candidateSha256": "864d546920af850761a73547b23799491f00592cd485f68ad330e4ad8a8e5ef4",
+      "afterSha256": "864d546920af850761a73547b23799491f00592cd485f68ad330e4ad8a8e5ef4",
+      "sourceLines": 29,
+      "candidateLines": 100,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原29行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；十二组暂不按完整合同转正式，整批counter、原任务draft；窄正控可保留。32/32不是33项，单针不证明其余组鉴别力。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "2c0afeee6dcdb0de671a3b65da43fbaf489954f2",
+          "lines": [1, 29],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "bc8613d17a15262bddb01a1a47b3669428d22b02",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "bc8613d17a15262bddb01a1a47b3669428d22b02",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "最终bc8613d1执行JSON与真实存在的候选条目；删除测试不再作执行证据",
+        "合法typed跨模块输入与新/旧会话独立状态；强转或错层helper不获正控资格"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "fullName/status/执行数与机账双向一致；旧草稿提交和保存IO等业务输出需实际观察",
+          "单针业务红只覆盖启动小样，不外推十二组"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "实32不是33、11个标题错配、G08-03已删仍登记",
+        "TS缺失及多组完整业务合同counter"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 29,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 3,
+        "originalMarkdownLinks": 1
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "2c0afeee6dcdb0de671a3b65da43fbaf489954f2",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "bc8613d17a15262bddb01a1a47b3669428d22b02",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+        "sourceLines": 29,
+        "candidateLines": 100,
+        "sourceHeadings": 3,
+        "liveOriginalHeadings": 3,
+        "originalLinks": 1,
+        "outgoingLinks": 10,
+        "outgoingFragments": 2,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "整批counter；三轮业务反证继续有效，不能转正式或计覆盖率。完整hash和39账局部修正不使十二组完成。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 — Codex 四轮独立接收",
+        "originalDateLine": "2026-09-25；候选 `494f9b5d194987b5e42cffbf8e43d8b1057fbd48`。结论：**counter，不能把十二组按完整合同转正**。本轮 `bc8613d1..494f9b5d` 仅修改 `receipt.md`、`results.json`、`tools/verify.mjs`，候选测试文件零 diff；三轮[业务反证](architecture-regression-lab-codex-r3-review.md)仍适用。GLM 自验不算 Codex 独立证明；任务继续 draft，不合候选、不计官方覆盖率、不标 done。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "8ddface0597928ef7a245386148849a2c0c973bf",
+      "sourceSha256": "3a059c4b171c80affc137c774013b8e734cbc5fbd1cf122f2e5f12c0bbb07a61",
+      "candidateSha256": "53c0f3ed7a8d0940fead1a362cdbe4fa683fdc8610ae8d1b19803c22a01fcf5a",
+      "afterSha256": "53c0f3ed7a8d0940fead1a362cdbe4fa683fdc8610ae8d1b19803c22a01fcf5a",
+      "sourceLines": 34,
+      "candidateLines": 109,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原34行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；整批counter；三轮业务反证继续有效，不能转正式或计覆盖率。完整hash和39账局部修正不使十二组完成。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "8ddface0597928ef7a245386148849a2c0c973bf",
+          "lines": [1, 34],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "494f9b5d194987b5e42cffbf8e43d8b1057fbd48",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "494f9b5d194987b5e42cffbf8e43d8b1057fbd48",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "必须本候选新鲜执行JSON，不能缺参或默认旧JSON冒充本次",
+        "实际caller/合法typed夹具仍受三轮逐组反证，改账不改变输入资格"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "缺JSON/错标题/零执行必须拒绝；原候选业务断言仍须到目标消费层",
+          "截图完整SHA仅核图身份，不证图外操作矩阵"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": ["候选测试零diff", "缺JSON仍PASS、16失败/10过时标题、Biome exit1"],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 34,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 4,
+        "originalMarkdownLinks": 1
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "8ddface0597928ef7a245386148849a2c0c973bf",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "494f9b5d194987b5e42cffbf8e43d8b1057fbd48",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+        "sourceLines": 34,
+        "candidateLines": 109,
+        "sourceHeadings": 4,
+        "liveOriginalHeadings": 4,
+        "originalLinks": 1,
+        "outgoingLinks": 11,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "十二组仍counter。32绿不等39次独立执行，清理临时目录后的局部门不覆盖未清理污染；历史2 warnings不能改为今天零诊断。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 · Codex 五轮独立接收",
+        "originalDateLine": "2026-09-25；候选 `b403efd375cddce284b6968de8075c4e72953c33`。结论：**counter，十二组仍不能按原工作包完整合同转正**。本轮相对四轮候选 `494f9b5d` 没有修改任何候选测试或 fixture；仅改执行 JSON、机账、回执、verify，并合入 Codex 授权的 main。下表承认局部可用的证据，不把 32 个绿测试说成十二组完成。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "3db1dbd0e271b4536c34bc89b26b466ce79ee4ef",
+      "sourceSha256": "78a23d15b24bd1d9c87b44b7fd2d93656fb6c8bb3354f438d8354cb235c92d66",
+      "candidateSha256": "d871ef382a8fc2db7a109f0026b7c6101fd3a26fabbce8987b3d8a06418a4ab8",
+      "afterSha256": "d871ef382a8fc2db7a109f0026b7c6101fd3a26fabbce8987b3d8a06418a4ab8",
+      "sourceLines": 36,
+      "candidateLines": 111,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原36行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；十二组仍counter。32绿不等39次独立执行，清理临时目录后的局部门不覆盖未清理污染；历史2 warnings不能改为今天零诊断。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "3db1dbd0e271b4536c34bc89b26b466ce79ee4ef",
+          "lines": [1, 36],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "b403efd375cddce284b6968de8075c4e72953c33",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "b403efd375cddce284b6968de8075c4e72953c33",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "每个candidate-green必须对应独立真实file/fullName执行；不能共享标题重复计数",
+        "真实CmdS保存/换源/异常/跨模块合同输入，缺资源与beforeunload各归原类"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "一对一执行映射、真实保存IO和转换回调产物；目录门在真实最终树而非移走污染后的假等价环境",
+          "同一绿测试被计两次仍PASS是该轮最强反例"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "G04同一标题计两次、测试零改、旧receipt矛盾",
+        "临时目录污染与2 warnings保留"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 36,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 4,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "3db1dbd0e271b4536c34bc89b26b466ce79ee4ef",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "b403efd375cddce284b6968de8075c4e72953c33",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+        "sourceLines": 36,
+        "candidateLines": 111,
+        "sourceHeadings": 4,
+        "liveOriginalHeadings": 4,
+        "originalLinks": 0,
+        "outgoingLinks": 10,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "counter，不转正式、不计覆盖率、不标done。标题勘误是证据修正，不能替代断言修复；类型门失败不得被32绿覆盖。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 · Codex 六轮独立接收",
+        "originalDateLine": "2026-09-25；候选 `33df93783accee4c6250eb27394758b008e824dd`。结论：**counter；不转正式测试、不计覆盖率、不标 done**。本轮承认机账 G04-04 标题与 V04 结构化备注的勘误，但用户转述的“逐条修正测试断言并补 entered/业务状态/真实 tick”与提交树不符：`git diff 494f9b5d..33df9378 -- candidates/ fixtures/` **零 diff**，同范围对上轮 `b403efd3` 亦零 diff。三轮[逐组反证](architecture-regression-lab-codex-r3-review.md)及[五轮审查](architecture-regression-lab-codex-r5-review.md)中的业务缺口不会因改账本而消失。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "82ecfd793dcf9329b80140082f9c978244caf4a3",
+      "sourceSha256": "3c127bcde4927c4c00013bb2347772472c79fee23b854e13a2fcf48b962030fe",
+      "candidateSha256": "a64289906954f2a4581723d7ce6fa6174c278e118076247ee78c43185563d2a7",
+      "afterSha256": "a64289906954f2a4581723d7ce6fa6174c278e118076247ee78c43185563d2a7",
+      "sourceLines": 29,
+      "candidateLines": 100,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原29行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；counter，不转正式、不计覆盖率、不标done。标题勘误是证据修正，不能替代断言修复；类型门失败不得被32绿覆盖。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "82ecfd793dcf9329b80140082f9c978244caf4a3",
+          "lines": [1, 29],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "33df93783accee4c6250eb27394758b008e824dd",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "33df93783accee4c6250eb27394758b008e824dd",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "真实最终树测试与合法typed输入，不能用“已改”转述替代代码diff",
+        "baseUrl弃用诊断不可跳过；历史修复需原任务后继证据"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "外部body换后旧草稿不得写回、真实save-state/tick/caller结果才是业务oracle",
+          "types真实exit2与零测试diff直接反证所有门/断言已修的宣称"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": ["TS5101/exit2", "测试零diff、G04标题修正但业务未闭"],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 29,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 3,
+        "originalMarkdownLinks": 2
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "82ecfd793dcf9329b80140082f9c978244caf4a3",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "33df93783accee4c6250eb27394758b008e824dd",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+        "sourceLines": 29,
+        "candidateLines": 100,
+        "sourceHeadings": 3,
+        "liveOriginalHeadings": 3,
+        "originalLinks": 2,
+        "outgoingLinks": 11,
+        "outgoingFragments": 2,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "整批counter，G02/G04当前候选合同accept，G01/G06/G07/G08只部分accept。原任务draft与不正式接入不变；32绿不补足被明确pending的轴。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 r7 独立接收",
+        "originalDateLine": "2026-09-26；候选内容 `9a197825`，登记树 `fb251df8`。结论：**counter，隔离候选暂不转正**；任务保持 `draft`，不计入官方覆盖率、不合入产品或正式测试。GLM 是候选贡献者，以下是 Codex 独立复核。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "78306f9c4266f4c8d4850310c410dedaefb5a5ab",
+      "sourceSha256": "852acc49cb06dc6fcc39fb6ad0fb6530efafebcd8358561be48fd37c7187fc48",
+      "candidateSha256": "6e82f2bcace58c915744dc1a3557f0b4dd0b99c265882337d8bd769734855cd8",
+      "afterSha256": "6e82f2bcace58c915744dc1a3557f0b4dd0b99c265882337d8bd769734855cd8",
+      "sourceLines": 32,
+      "candidateLines": 107,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原32行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；整批counter，G02/G04当前候选合同accept，G01/G06/G07/G08只部分accept。原任务draft与不正式接入不变；32绿不补足被明确pending的轴。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "78306f9c4266f4c8d4850310c410dedaefb5a5ab",
+          "lines": [1, 32],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "9a197825（内容）/fb251df8（登记树）",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26",
+        "candidate": "9a197825（内容）/fb251df8（登记树）",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "独立深拷贝新旧session、合法ScriptStage/EnemyDef；源换入真实工作区而非手工解绑假卸载",
+        "保存事务真实终态、卸载前基线与旧wait挂起必须可见"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "save-state.phase=committed、同实例卸载stop增量、越过旧wait窗口且见证其进入",
+          "启动本就stop却只断言曾调用是无鉴别力反例"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "最终JSON未格式化导致Biome exit1",
+        "G03终态/G05挂起与stop假阳性；部分accept不可算整包"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 32,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 4,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "78306f9c4266f4c8d4850310c410dedaefb5a5ab",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "9a197825（内容）/fb251df8（登记树）",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+        "sourceLines": 32,
+        "candidateLines": 107,
+        "sourceHeadings": 4,
+        "liveOriginalHeadings": 4,
+        "originalLinks": 0,
+        "outgoingLinks": 10,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "整批counter收窄至G05-02与G08-05/06。G03/G05-04接收，但不能将三针和37绿外推未被针覆盖的等待/图语义；G06不是七入口全矩阵。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 r8 独立接收",
+        "originalDateLine": "2026-09-26；候选 `e1857e66`。结论：**counter（收窄至 G05-02、G08-05/06）**；隔离候选仍不合 `main`、不计官方覆盖率，任务保持 `draft`。G03-03、G05-04 与 G06/G07 新轴已有可接收的窄证据；GLM 是测试贡献者，非独立终审。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "dfbca98f257dc22078e33233bd2ffa3c24295d75",
+      "sourceSha256": "19aa3adfe08e5e703ae0da8c999a2250d42b2e009edd8403203d25c793a052f7",
+      "candidateSha256": "33ed06d1afc687940cb19ba79ca34f32da37917e18499765ee0c9fe263b57b17",
+      "afterSha256": "33ed06d1afc687940cb19ba79ca34f32da37917e18499765ee0c9fe263b57b17",
+      "sourceLines": 27,
+      "candidateLines": 102,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原27行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；整批counter收窄至G05-02与G08-05/06。G03/G05-04接收，但不能将三针和37绿外推未被针覆盖的等待/图语义；G06不是七入口全矩阵。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "dfbca98f257dc22078e33233bd2ffa3c24295d75",
+          "lines": [1, 27],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "e1857e66",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26",
+        "candidate": "e1857e66",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "G05真实ScriptRunner异步边界和固定推进窗口；G08有效脚本根/真实图地址空间",
+        "非法worldSpriteFrameCounts仅作预检拒绝反例，不作合法转换中段异常"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "committed/stop增量已能鉴别；wait必须真挂起，globalRoots须改变ownership而非输入计数",
+          "wait立即完成/忽略图根仍绿直接反证两条扩大结论"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": ["G05立即wait仍绿", "G08图根剔除仍绿，预检异常冒称中段异常"],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 27,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 4,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "dfbca98f257dc22078e33233bd2ffa3c24295d75",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "e1857e66",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+        "sourceLines": 27,
+        "candidateLines": 102,
+        "sourceHeadings": 4,
+        "liveOriginalHeadings": 4,
+        "originalLinks": 0,
+        "outgoingLinks": 10,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "accept本轮G05-02、G08-05/06三个候选窄合同；不是正式测试接入，也不等十二组/V矩阵完成，原主卡此时仍draft。37/37不计官方覆盖率。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 r9 独立接收",
+        "originalDateLine": "2026-09-26；隔离候选 `97e21f34`。结论：**accept 本轮 G05-02、G08-05/06 的候选测试合同**；这不是正式测试接入，也不代表十二组全合同或 V01–V04 矩阵完成。任务保持 `draft`，候选不合 `main`、不计官方覆盖率。GLM 为测试贡献者，以下为 Codex 独立复核。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "06e54607bc3fb86b035e4e1c8fb35f794e315d29",
+      "sourceSha256": "06ba531dd6bc25087e25b525a613d59a76adfc9ee6088d1b54613422074e46ed",
+      "candidateSha256": "384cef63f8d83d66a7b4d1a1f8d78f73cff7ba127db45f35252c6a54e97481de",
+      "afterSha256": "384cef63f8d83d66a7b4d1a1f8d78f73cff7ba127db45f35252c6a54e97481de",
+      "sourceLines": 23,
+      "candidateLines": 98,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原23行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；accept本轮G05-02、G08-05/06三个候选窄合同；不是正式测试接入，也不等十二组/V矩阵完成，原主卡此时仍draft。37/37不计官方覆盖率。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "06e54607bc3fb86b035e4e1c8fb35f794e315d29",
+          "lines": [1, 23],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "97e21f34",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26",
+        "candidate": "97e21f34",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "真实异步边界后的挂起wait；四命令合法-2表、有效global root地址3",
+        "非法worldSpriteFrameCounts仅为预检负例，去掉非法项后的重试按该层收窄"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "立即wait使right/up业务红；忽略根使global/unreachable业务红；两针证据不重复当全部组通过",
+          "正式去重与统一门仍由后继接入处理"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "旧三针/时序回执勘误待正式转正前同步",
+        "七入口/其它options/V矩阵未证，不从窄accept升格"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 23,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 4,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "06e54607bc3fb86b035e4e1c8fb35f794e315d29",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "97e21f34",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "sourceLines": 23,
+        "candidateLines": 98,
+        "sourceHeadings": 4,
+        "liveOriginalHeadings": 4,
+        "originalLinks": 0,
+        "outgoingLinks": 10,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "该轮十二组完整合同counter，保留G01/G02/G03窄证据及V02-02既有证明；32/32、39条账与启动单针不升级成整包完成。旧draft、不转正式、不计覆盖率属于当时隔离候选裁决。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 — Codex 独立接收复核",
+        "originalDateLine": "2026-09-25；GLM 候选 `30397b1d847dcba13c08bef6d9662a5c9b5f14ab`，起点 `a3ceaf05`，生产冻结 `86e928b5`。这是隔离实验材料复核，不是正式产品/测试接入，也不计算官方覆盖率。GLM 为贡献者，其自验不代替本席判断。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "7e9b38c85aaea8cfc6a56f6eb8531827c7222fd1",
+      "sourceSha256": "32e16f46ab061dbbea959cd85b1a3518c95190a27d8800e6446dd65c4b386a93",
+      "candidateSha256": "4e63b9f5186b37792d02139cc5f11624eaaf7b0cca90be8a7a9871fb84e3c317",
+      "afterSha256": "4e63b9f5186b37792d02139cc5f11624eaaf7b0cca90be8a7a9871fb84e3c317",
+      "sourceLines": 44,
+      "candidateLines": 119,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原44行audit-report材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；该轮十二组完整合同counter，保留G01/G02/G03窄证据及V02-02既有证明；32/32、39条账与启动单针不升级成整包完成。旧draft、不转正式、不计覆盖率属于当时隔离候选裁决。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "7e9b38c85aaea8cfc6a56f6eb8531827c7222fd1",
+          "lines": [1, 44],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "30397b1d847dcba13c08bef6d9662a5c9b5f14ab",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-25/26 第二阶段跨 editor/content/migrate 与 G07 第一阶段消费者的隔离准备包；不是本轮产品审计",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-25",
+        "candidate": "30397b1d847dcba13c08bef6d9662a5c9b5f14ab",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "地图/session/表单/Playback与合法转换输入应经真实公开入口；as unknown as/as never强转和无效对象不充当合法业务正控",
+        "V04实际缺资源与脏页中止分开，不以非法/缺席输入要求产品放行"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "取消后真实session状态、保存IO、回调调用与产物、跨模块消费和完整视觉事件链；原文逐组指出未达到处",
+          "反例：零执行/错误caller/吞业务动作仍绿，不能因总数或截图存在而接收"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "23 errors/7 warnings/1 info与SyntaxError原失败",
+        "十二组完整合同counter；V04错误产品归因已撤回，资源阻断保留"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "审计问题",
+          "范围与证据",
+          "发现",
+          "结论",
+          "整改与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 44,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 5,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "7e9b38c85aaea8cfc6a56f6eb8531827c7222fd1",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "30397b1d847dcba13c08bef6d9662a5c9b5f14ab",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+        "sourceLines": 44,
+        "candidateLines": 119,
+        "sourceHeadings": 5,
+        "liveOriginalHeadings": 5,
+        "originalLinks": 0,
+        "outgoingLinks": 10,
+        "outgoingFragments": 3,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "2026-09-26只接收准备包、代表功能视觉及正式测试41项；不等于架构/覆盖目标/完整E2E或本轮动态验证。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# ARCH-REGRESSION-LAB-GLM-1 · 十二组准备包最终接收",
+        "originalDateLine": "2026-09-26；GLM r12候选`62142b16`；Codex补正`34f7bf91`。**本卡回归准备、代表功能视觉和已接受测试接入完成，accept/收口**；不等于架构实现、覆盖率目标或完整E2E完成。",
+        "dateAbsent": false,
+        "derivedProvenance": "GLM候选贡献/Codex逐轮复核来自标题与原文叙述；不是补造原Owner字段"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+      "sourceSha256": "0b775a0d08d7603513e6a7972951cea71c79373ad428829a1240ef952908b580",
+      "candidateSha256": "bff007823179987595d4e1f04a8463cfa8d721a02a2a5c82e3f2798f1bd90ee6",
+      "afterSha256": "bff007823179987595d4e1f04a8463cfa8d721a02a2a5c82e3f2798f1bd90ee6",
+      "sourceLines": 48,
+      "candidateLines": 131,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原48行evidence-receipt材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；2026-09-26只接收准备包、代表功能视觉及正式测试41项；不等于架构/覆盖目标/完整E2E或本轮动态验证。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+          "lines": [1, 48],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "62142b16（GLM r12）/34f7bf91（Codex补正）",
+        "phase1": "G07原消费者范围只作旧证据；本轮不重审第一阶段机制",
+        "phase2": "2026-09-26第二阶段准备包有限收口；架构、完整E2E与覆盖目标另归继任",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26",
+        "candidate": "62142b16（GLM r12）/34f7bf91（Codex补正）",
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": [
+        "历史自有当前格式fixture先经正式守卫，红蓝资源须可判别；不改用户数据",
+        "原缺布局/读取失败/乱序是各自边界反例，不创造当前产品输入或兼容承诺"
+      ],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": [
+          "G08具体命令/稳定身份/Map深快照/失败前新鲜完整输出基准与污染反控",
+          "V01–V04原实际业务事件、资源身份与恢复，不以单帧/启动数量代闭环"
+        ]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "原生成工具ReferenceError/JSON重复编码已由后继补正，不倒写候选第一次即通过",
+        "42/41/75/109排重；焦点与separator泛化撤回；zoom/boot/布局/旧options仍有限范围"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "证据身份",
+          "来源与输入",
+          "断言与业务 oracle",
+          "结果",
+          "限制与复核",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 48,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 5,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "c0e0241db78d657e47d69ae6b4b9356585f3040d",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": "62142b16（GLM r12）/34f7bf91（Codex补正）",
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "sourceLines": 48,
+        "candidateLines": 131,
+        "sourceHeadings": 5,
+        "liveOriginalHeadings": 5,
+        "originalLinks": 0,
+        "outgoingLinks": 11,
+        "outgoingFragments": 4,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": {
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0"
+      },
+      "status": "author-candidate-pending-independent-acceptance",
+      "coreConclusion": "同包十轮审查的合并导航，不supersede原counter；最终历史范围只路由completion/任务卡，不制造平行真相。",
+      "originalIdentity": {
+        "explicitFields": [],
+        "absentFields": ["Owner", "Status"],
+        "originalTitle": "# 架构回归实验历次复核合并索引",
+        "originalDateLine": null,
+        "dateAbsent": true,
+        "derivedProvenance": "目录/索引原无独立作者字段；本轮治理Owner另列"
+      },
+      "sourceRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+      "sourceGitObject": "5c1bfdf833c7ee0faf17a8fba2406b3edb8226c1",
+      "sourceSha256": "1a0f24b670ebbea235f3e54a01f618560134c2eb843259922ba800bbba952d26",
+      "candidateSha256": "1a40f6f7882319a777c7f9e66f2ab9b8893c36d166e0fa67fe685f5f61eebf57",
+      "afterSha256": "1a40f6f7882319a777c7f9e66f2ab9b8893c36d166e0fa67fe685f5f61eebf57",
+      "sourceLines": 37,
+      "candidateLines": 118,
+      "reviewReadScope": {
+        "fullOriginal": true,
+        "fullCandidateAuthoredAndRead": true,
+        "sourceReadRevision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "originalBlobEqualsPreflight22eeAnd33cc": true,
+        "productFullReadCredit": false
+      },
+      "beforeAfter": "原37行governance-index材料→五类实质章节+具体历史五章+原标题live导航+完整原文quote；同包十轮审查的合并导航，不supersede原counter；最终历史范围只路由completion/任务卡，不制造平行真相。",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab-history.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "5c1bfdf833c7ee0faf17a8fba2406b3edb8226c1",
+          "lines": [1, 37],
+          "role": "full original publication, frozen source, not re-executed"
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "undated historical navigation; exact Git identity supplied",
+        "phase1": "not a phase1 mechanism claim",
+        "phase2": "跨轮次历史导航，当前状态仅表示文档作用",
+        "thisMigration": "static prose governance only; no product/test/build credit"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "applicability": {
+        "historicalDate": null,
+        "candidate": null,
+        "currentFormat": "typed Markdown1.0.0 with archive1.0.0; original version/input scope retained",
+        "currentOnly": "old profile/alias/compatibility claims are dated history, not renewed product support"
+      },
+      "publicEntry": {
+        "self": "docs/testing/archive/architecture-regression-lab-history.md",
+        "directoryIndex": "docs/testing/archive/architecture-regression-lab/README.md",
+        "historicalIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "读历史审查时必须按本篇日期/候选，不按标题accept推当前运行状态",
+        "原任务卡/后继回执/历史索引的证据导航；机器原JSON由r10报告直接引用且本轮未改"
+      ],
+      "legalInputs": ["按对应日期/revision检索历史材料；不能把旧标签/路径当当前产品合同"],
+      "businessOracle": {
+        "type": "source-specific historical content preservation plus typed-navigation contract",
+        "assertions": ["十轮不双计，导航不复制completion最终事实；supersedes仅导航而非原历史结论"]
+      },
+      "dedupe": {
+        "result": "same lab revision sequence; no new official tests/executions or independent product contracts counted",
+        "against": [
+          "r1–r10同包重复审查，不相加运行数",
+          "42候选/41正式/75账与后继109针不同集合；G06-11对E2十三路径排重"
+        ]
+      },
+      "counterReworkBlocked": [
+        "原“九个”与实际十份报告的数词差异显式限定",
+        "r10时点未证与completion后来补验不能合并成当前矛盾"
+      ],
+      "unresolved": [
+        "当前/tmp/raw/截图实物可用性unknown；本轮未运行历史命令",
+        "候选等待非作者全文复核及根中央接收",
+        "第14份r10 JSON待I0稳定后另明确准入"
+      ],
+      "history": {
+        "originalConclusionRetained": true,
+        "sourceDateNotReplacedByReviewDate": true,
+        "laterConclusionDoesNotRewriteEarlierCounter": true,
+        "supersedes": "navigation/format only; original conclusion is not deleted"
+      },
+      "supersedes": [],
+      "successor": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "stopLine": "原字节/原身份/标题链接或历史状态若改变即rework；不执行旧prompt、不改产品/旧测/coverage、不把静态符合性当runtime/E2E/视觉通过",
+      "nextStep": "非作者全文原/新/receipt独立核；根接收后新增中央。JSON继续等I0，不提前计I14。",
+      "templateConformity": {
+        "authorBodyCheck": "pass: complete checkMigratedDocument with typed+archive contract; source identity/bytes/headings/links independently calculated by author helper",
+        "independentAcceptance": "pending",
+        "requiredSubstantiveSections": [
+          "目的",
+          "范围",
+          "当前状态",
+          "入口与责任",
+          "证据与下一步",
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档"
+        ]
+      },
+      "originalPreservation": {
+        "method": "quote each original line without edits; empty original line becomes >; inverse source bytes required",
+        "startMarker": "<!-- I-SOURCE-BEGIN -->",
+        "endMarker": "<!-- I-SOURCE-END -->",
+        "sourceLines": 37,
+        "originalLinksChanged": false,
+        "originalCommandsExecutableAuthorization": false,
+        "inverseCheck": "exact UTF-8 source bytes restored",
+        "liveHeadingCheck": 6,
+        "originalMarkdownLinks": 0
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab-history.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "gitObject": "5c1bfdf833c7ee0faf17a8fba2406b3edb8226c1",
+          "status": "historical publication, original metadata names retained"
+        },
+        "historicalCandidate": null,
+        "originalRuntimeProducer": "GLM candidate/Codex review only as described by original narrative; raw not revalidated",
+        "currentGovernanceProducer": "history_cards_a author only; independent/root acceptance pending",
+        "artifactOwnership": "this receipt belongs to DOCS-FULL-TEMPLATE-1; historical raw remains attached to original producer/revision",
+        "retention": "retain source Git blob, original dated claims and unknown raw; no artifact deletion"
+      },
+      "authorChecks": {
+        "path": "docs/testing/archive/architecture-regression-lab-history.md",
+        "sourceLines": 37,
+        "candidateLines": 118,
+        "sourceHeadings": 6,
+        "liveOriginalHeadings": 6,
+        "originalLinks": 0,
+        "outgoingLinks": 14,
+        "outgoingFragments": 5,
+        "sourceInverseExact": true,
+        "shaExact": true,
+        "typedAndHistoryIssues": 0
+      }
+    }
+  ]
+}

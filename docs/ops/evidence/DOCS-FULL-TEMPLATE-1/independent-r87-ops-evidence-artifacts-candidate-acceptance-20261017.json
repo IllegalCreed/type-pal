@@ -1,0 +1,762 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r87-ops-evidence-artifacts-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 100,
+    "readAndChecked": 100,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R87-B01",
+      "count": 100,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 100 ops evidence historical artifact documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R87-B02",
+      "count": 100,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all100": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1782 documents; content-reviewed 1782)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1189 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8008 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1782/1782; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4384 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
+      "afterSha256": "2bb4040917a7cdb49504a0d1c92a66c881497aafac028b743ad0112604ffa861",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json",
+      "afterSha256": "beb1c7d7f579445003dce617ff9d62372b1eb8d05abd8092c7da82fe390fee6b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json",
+      "afterSha256": "f3dd26afc0816ead7f510d787b5756e2328cf09550d37f84776ac223a678d348",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.red.json",
+      "afterSha256": "bb20e8368a23365811caf45f88f1d66a24cb47f2eab501989f7b380bae043261",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.green.json",
+      "afterSha256": "f08efc80fea242e03d2847f0c06708fd48fa928ab125631fb66cc8484a30e44f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.red.json",
+      "afterSha256": "947aa553c75d3cadd782314dd30d4062d5410461c9a9e90d1219faaa109a1ecd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.green.json",
+      "afterSha256": "aa16295f9b6b7d94c7e52f5800cf5767f55ad137be31499f486d73b4eff33943",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K5-empty-slot-skip.red.json",
+      "afterSha256": "25725a1a839cd791fa674e3078941a17e3994730fc6f78885e23b8601b385a92",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/green-baseline.json",
+      "afterSha256": "e67061effcb6f09b8e74e9550f6b052b629cade8ac0ff8b60db1f0d301d23897",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "afterSha256": "3d18df42c0fcbd1b17f7b8856d98107e3f2cea00487b42b085c6a9848706d285",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json",
+      "afterSha256": "bb56665a082dbe8ba61f9d85fd6adf504ffe617a008ab27b5080bd1017395bbe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/identity.json",
+      "afterSha256": "5902a223aa608652efcb202a249e49efad5edf7ba277079827c36ba9af0a6cac",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/adjacent.json",
+      "afterSha256": "eafb115d9faba29d7ad34ba0cab672e1bc75c51041422427ceb3603587195960",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.json",
+      "afterSha256": "9012f742d028f6a06a3f746a6f8b99c883dda623bc1a20fbfe988f34cff7d467",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/instrumentation.json",
+      "afterSha256": "579ef762d0ef5ca8220b49c734446d4503d4f21f1578015a75e007feb6279c23",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/probe-p1-loaded.json",
+      "afterSha256": "4114f5a28e7949347f13a4eef4c3eff27a7735cf62009bffa7c73a908c854452",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/probe-r1.json",
+      "afterSha256": "753f034aca969be9a45ff94f147ac3176a8d1fd33281418d13ea363edc16f7e1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-adjacent.json",
+      "afterSha256": "9b4378b5812e84d5ed173ed772480b5819d47ccae7440fac09eada346e06faa2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-animation-io-sync.json",
+      "afterSha256": "197b9ac0dae187f5e9764526ee79988b1bc582c8a14629005b829b4b322464cc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-delayed-fixed.json",
+      "afterSha256": "1b5c41663c4da3522e62ff9a0dcece1fbdd89f3d4f4f0cff73b9be298dc25a04",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-delayed-original.json",
+      "afterSha256": "5e47ee0f5aedcef4a58d048aec07475b0864d3ba790a60380ee982fa3ab40367",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-original.json",
+      "afterSha256": "0aaeb71254b16156ca7916d204732ac8ac035f5249741d7c15f2561daed2ce2c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-focus-fixed-adjacent.json",
+      "afterSha256": "b8f97c02c76027c8398ad1c19b82f1f0ea5f3fbe656b746cc57079b28b7b7c6f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-focus-frame-fixed.json",
+      "afterSha256": "37b7c633e94f94b7747fff4d3f55c09578cdff9483899821213bce12a00e9e5f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-focus-frame-original.json",
+      "afterSha256": "f0285a7555abd9db159c4b9e45c3725672ae9e60f277a8ed402401d529b38772",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-focus-original.json",
+      "afterSha256": "067cd6c3ee5bcbd98420ff553bc666b854434e8ab12751092eeabf1952249b5e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-menu-focus-sync.json",
+      "afterSha256": "55b19379a3e24bebd68be721f286d1261e8340df0d5e2fceb0f3fcbd5613013c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
+      "afterSha256": "94e8d6449c4c73e7f1a24a609626d026a3209f1c3555f69fa39c84391244a365",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof-markers.json",
+      "afterSha256": "a44723de704deab9c6f47da747dc1307c44e02fdcf2b154524990ca7f3baef35",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/counterproof.json",
+      "afterSha256": "c6d185a132c089e817dd132e00d2e51e7122ce9f8a106233318f5b21cc8417f0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.red.json",
+      "afterSha256": "b4b325cc95c3589e02c0ab4ea492feb29ae90b7db1439a9f63e19c451a51b218",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.replay-green.json",
+      "afterSha256": "24f3f7fadd70343d2d6890dd9de011d5aba98025280fdaa7bd26fd5a6a8c8b5c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.restored-green.json",
+      "afterSha256": "9230996a76cb336ba80792f24d4bb7c950b716893ba7e2c257ecd350ae1925fb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.red.json",
+      "afterSha256": "a821e1adbf91db6fe7ab0af91c751762ae26dd78e567e3c355d7eea1ffa850af",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.replay-green.json",
+      "afterSha256": "4449f085c2c942962bbf99bf0b172f7a196e4fbb7c2007ccf72c614580c03673",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.restored-green.json",
+      "afterSha256": "4c3889851baac2d39597437ae6d71bf56eb28664e77bf40698c276a689db5b86",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.cascade-threefile.json",
+      "afterSha256": "d09021af88b771d7610a1cd0701feac859f34bf8653c312466e8613f95f7db21",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.red.json",
+      "afterSha256": "ba956278633d5068939c137712f9c1b94dc314115b1457c7a55cee9f94939ffd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.replay-green.json",
+      "afterSha256": "e0a95bd63822b1864220da2ebab80ac722b235404a72e6ff027eb064b88de90a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.restored-green.json",
+      "afterSha256": "7efef23312b33aaec8a831697a387d1a908a3b02360a0da7dee4f662f49715ff",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.red.json",
+      "afterSha256": "1f54e7cf0d49f9b7145421d69f4fdb3bbbb47a4029439ea5c1b66ec9635a5937",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.replay-green.json",
+      "afterSha256": "fb2cbbd706d0f05861ea9bb740d6b413b4d063843cf89f877799ed6982ac6249",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.restored-green.json",
+      "afterSha256": "395fb47c62b0ae9b4a623d8458f339187e68c9140abbd9e3bb1a8bac2eb470e7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.red.json",
+      "afterSha256": "9c43e4744295f9bc98708e7fcc1cd8cb9bb26fbf6455be492d11aca9e1b259e4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.replay-green.json",
+      "afterSha256": "b9977d9e9a0158d21eeee77f6cae727813a74cdd7028da2e7557430f0b380f76",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.restored-green.json",
+      "afterSha256": "181570bff3592ba8d0befb5ad8f0add93a1e16499193f82a927ee3e72ca8536f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.red.json",
+      "afterSha256": "94856bbb3003e530dbf1b2246674183e9fddd55859f688b48bc2e4f62579c9a6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.replay-green.json",
+      "afterSha256": "97dbd58affd1643dc5c20e90fdb59fd8b6a222e03ea3b73f0605755033ae21c6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.restored-green.json",
+      "afterSha256": "d3f0847aecde7d2f9e087bafbd2a37cdfa8ca92ff0f96615ffa9ffba9bc224b1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/baseline.singlefile-green.json",
+      "afterSha256": "8cf058d7851888f441097af11ba1db976c7b74286556c20d567ef376aec55e97",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/baseline.threefile-green.json",
+      "afterSha256": "486594d487e14595c24af26571eafee19596ee3f781824d6371f52cb2c9066ba",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/probe-pure-business-red-accepted.json",
+      "afterSha256": "f540543557c7f4efe4f79e2bd55b7f9d07c163352237f67fe0f35ac9d55221b4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/probe-red-plus-afterall-hook-error-rejected.json",
+      "afterSha256": "1eabb0e275229c745f3965febebb308d33450d538747d4aeb62d418855c8bdb7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/probe-red-plus-async-uncaught-rejected.json",
+      "afterSha256": "571d21464d1e7ad074c1e2f9709ffbc39c758c7db38a69a7d2a099ffced5a2d3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/adjacent-r1.json",
+      "afterSha256": "20daddf1c0ceba0b7100dc96e4dbdd337d464486d7e3c4ec2e6baacd5ddc70e6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json",
+      "afterSha256": "dca9f35f33ec1874b5f7f2f527609852a2d2e70f09101a4c417d1be7f1b4ccfb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-2.json",
+      "afterSha256": "b97e8a19fae273a2bdd6dceba9a229fc0e84b5ec11489921cde87186d94e9825",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/repeat-3.json",
+      "afterSha256": "ad90a44bd88d6af88248714e197a067ca09003fcd1e5f70f9f8723b22577c4c7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/identity.json",
+      "afterSha256": "e045e5a4dc6a99151123f3d91091519e94e13c6a1fa6429e167076c6393a432c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-pollution.vitest.json",
+      "afterSha256": "21c962d8244b30e8e8718cf3373a613124a0401a9ed8c1375320d46a6bf142a5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-repro.json",
+      "afterSha256": "b074f597e12a1538fef9238da120f129bb9668089a7220141a2cda5885625825",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-repro.vitest.json",
+      "afterSha256": "cc187c45e6f816aaa100729b174d76ef4290553e0cd3208109a28374166f4dc8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates/directed.json",
+      "afterSha256": "2a39ccc1ce177882a70d34bae1669eaa0142e4c065509330f283c7b29c5f07a7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/baseline-inventory.json",
+      "afterSha256": "19f4ac9b736246c64d8c292e8dae848985564f048bea1b21c88cf808212006c5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/ci-tracked-inventory-refresh.json",
+      "afterSha256": "33ab5a0409727963e702210dd13a71c766dc6d56cfcaf1c03f3e964ce5e5af1a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-loss-battleSprite.json",
+      "afterSha256": "8edfa1da2b44fd482bfaa54ff8435a5b3e487796c54dee26f36fdea5a18d5984",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-loss-height.json",
+      "afterSha256": "c5e927b731393cd8750ec12538f532bbf1ec74f8bff6cdcb72e96d444ee7fa3d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-loss-skillUseCounts.json",
+      "afterSha256": "c94ad1344e8c35fdf7d1c0fffb8e6ce192a6e8e4e817cedbd4af8dcf6ae7f8b6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-loss-spriteId.json",
+      "afterSha256": "ab8e8f1350da19e46076a250bdf2d8b639afea9bf4071b40653c62f662cc5842",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-old-loss-oracles.json",
+      "afterSha256": "3b2b43663962ae87d6af5a9cd595383d4ec84bd28f81c87b5f571446224492a5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-integration-gates.json",
+      "afterSha256": "116c9afb30c206c9f8b37d04e67f3ff1830d9d68220ac5b5fdc7e844add33e1b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-artifact-audit.json",
+      "afterSha256": "d1dafe02e35fbcfb1bf8bf209bf7272dd1614e818f3cb80e936014a62414b8a0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/extraStatuses-hole-candidate.json",
+      "afterSha256": "cf386e6bb6c92ea8c4a979a2b3b697cbccefbb78bc8927dd7e3f699bb475dd7e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/extraStatuses-hole-dispatch.json",
+      "afterSha256": "c9c16cdd956f00dac50202a00c3e338b91e38fc189ca2c4373ab0a36770d6307",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/maxMP-membership-candidate.json",
+      "afterSha256": "442dced33848ff455273275d473aef6b18c1e9cbab1e0baa1447819c78e25060",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/maxMP-membership-dispatch.json",
+      "afterSha256": "9ffe7d619946a9a140953d4a120299672034459e7248be07bc38d0d66ae566aa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/poisons-hole-candidate.json",
+      "afterSha256": "490892bc7c25aacc6b4afb7769957221c6c11e2fd3e63e64ed7cdb3b39b0cdff",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/poisons-hole-dispatch.json",
+      "afterSha256": "e911e1bedef3b42b0496eb5a737300356a9e9738e4b5e899ac9a5a0719fb77db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/receipt.json",
+      "afterSha256": "a8280fc4b070e342e1e998cc09e2df84ece6a0687f033eeafddb16d34be21633",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r3-artifact-audit.json",
+      "afterSha256": "493cc3c7dcbd9f03f62f00b4f1e434280dc74ba7e694196336f678eef3a28a4f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR1-gridpos-height-wiring.json",
+      "afterSha256": "523a4157e2c5037c17fc3e7ca9d817a147f588133a8820d8e572d907f0ac92ab",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR2-appearance-spriteid-wiring.json",
+      "afterSha256": "9b1f3e222dbbc28fb988a9ca36bd40f096e4d572e711ea33370b85ec6c8f72c4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR3-appearance-battlesprite-wiring.json",
+      "afterSha256": "fc017488c0e80503a1add1802724628d27f6e804cac12a23f4f9c9a9ce8142c6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR4-skillusecounts-inner-wiring.json",
+      "afterSha256": "0f4309aca6954d9d1d4de2b714ea066635b8b22d7cbe09f60b4b75fcf18d184b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR5-skillusecounts-absence-fill.json",
+      "afterSha256": "bcc9ea3a6121d169561b0df45166da213a36ffc2c74bdf978b828f349d6bdd90",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR6-entitylifecycles-absence-fill.json",
+      "afterSha256": "cc543985b33c243e46ab830d4e0665c47561b989bf623039c17651974a188368",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/final-replay.json",
+      "afterSha256": "2452e24f1398536e8758f01a2995f06e6f37c0953116289a7c52a2e6ebbc9c38",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/green.json",
+      "afterSha256": "69615081946c3494de4e714aaae8ffaff03f829074bbf0e4acd488f242f1c59c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/restored-green.json",
+      "afterSha256": "9495f2de556f0408bbecada1e9ec5b00bf583da92df34a8414ca5677bad76624",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2.json",
+      "afterSha256": "36904623dee7b2b7dabcab2ade33aa54c210c9014cb8dff3cbff14373a4fd48b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json",
+      "afterSha256": "3dd7a847c99ba51f560e71d02a08ad5bd6931d30d23dccf759dba202101c8130",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N02-empty-skill-id.json",
+      "afterSha256": "ce1b06a63087a52e20f9e00b7893500cb8451322293219dd60979c278fdd8a88",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N03-negative-count.json",
+      "afterSha256": "a3c2a2e3e4f6f2b9a356102e66ba775c7dbfcfe618062c37ffacd4dd7472886c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json",
+      "afterSha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json",
+      "afterSha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json",
+      "afterSha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N07-script-deep-wiring.json",
+      "afterSha256": "d2cb5e7cdc30e942c1bef6381995a1bb37784c4929110e8a7871e41b27b06bc5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N08-sparse-inventory-hole.json",
+      "afterSha256": "f5316efaf895b5842d88acd2b7ff70408cad9a515a841e2442474e988653f495",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N09-sparse-tags-hole.json",
+      "afterSha256": "e1f4653d187c7da626e2ebb872931b301693e71b3acb8773f9068a4dc201465b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N10-hiddenexp-full-keyset.json",
+      "afterSha256": "3ec2ad7f86c6aa27a773a203054bf7da61e27ba615eff40d6bcc16c792b53828",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

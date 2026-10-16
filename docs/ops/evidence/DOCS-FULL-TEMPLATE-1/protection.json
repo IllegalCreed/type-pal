@@ -1,0 +1,31 @@
+{
+  "status": "recorded",
+  "sourceTree": "/Users/zhangxu/illegal/type-pal",
+  "head": "9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+  "protected": [
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "sha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "08c3e9bc71511aa401ccb59f1c6117d8e21b7d78986b0de6143a867f33d45532"
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "sha256": "c96b17737c8e0132409bb7cd688f398f4360cdea9280085c29c0a8bbaffce3d2"
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "sha256": "655e4effb23490c85f70e9216139d63e6fa9335bd029bcdf9099d908a755336e",
+      "observedAt": "2026-10-11",
+      "note": "additional dirty file observed after initial inventory; untouched"
+    }
+  ],
+  "policy": "Original files untouched; dirty state not copied into candidate or committed by this task.",
+  "note": "Main worktree remains untouched. Initial four protected paths plus one additional dirty task file observed during follow-up."
+}

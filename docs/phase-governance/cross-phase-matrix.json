@@ -64,24 +64,164 @@
         "docs/lore/README.md",
         "docs/lore/characters.md",
         "docs/lore/versions.md",
-        "docs/lore/taboos.md"
+        "docs/lore/taboos.md",
+        "docs/lore/narrative-workflow.md",
+        "docs/lore/world-rules.md",
+        "docs/lore/world-rules-ghost-realm.md",
+        "docs/lore/factions.md",
+        "docs/lore/ideas/README.md",
+        "docs/lore/ideas/guijie/README.md"
       ],
       "to": [
         "docs/phase2/reference/phase1-knowledge-harvest.md",
         "docs/phase2/guides/content-publication.md",
-        "docs/phase2/specs/content-schema.md"
+        "docs/phase2/specs/content-schema.md",
+        "docs/phase2/decisions.md",
+        "docs/phase2/design-backlog.md"
       ],
-      "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+      "relationship": "Lore separates author-adopted project constraints, source-labelled collection claims, paper methods and undecided versions. Existing no-resurrection/T5.5/independentT6 constraints stay applicable when official provenance is unverified; publication must not promote fan/variant/draft claims into fresh official canon. Paper1-5 proceeds within D19, editor6/product build and phase3 real-time scope remain separate. Version variants/five-pearls and official childbirth remain unresolved; Jun30 ghost entry/Jul2 parents-already-reincarnated/back-view trap succeed obsolete entry/projection todo only at their explicit source scopes. Current idea indexes route drafts without DLC production permission; source factions recommendations never guarantee safe unrelated expansion.",
       "status": "guarded",
       "evidence": [
-        "docs/lore/README.md:1-63",
-        "docs/lore/characters.md:1-360",
-        "docs/lore/taboos.md:1-106"
+        "docs/phase-governance/reviews/20261016-lore-reference-n.json:1",
+        "docs/lore/README.md:1-53",
+        "docs/lore/taboos.md:1-71",
+        "docs/lore/narrative-workflow.md:1-49",
+        "docs/lore/timeline.md:213-220",
+        "docs/phase2/decisions.md:90-104,223-249",
+        "docs/phase2/design-backlog.md:105-115",
+        "docs/lore/versions.md:1-132",
+        "docs/lore/world-rules.md:1-141",
+        "docs/lore/world-rules-ghost-realm.md:1-140",
+        "docs/lore/factions.md:1-189",
+        "docs/lore/ideas/README.md:1-46",
+        "docs/lore/ideas/guijie/README.md:1-50",
+        "docs/phase-governance/reviews/20261016-lore-remaining-l4.json:1",
+        "docs/lore/characters.md:1-318"
       ],
       "unresolved": [
-        "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+        "Official provenance for the reincarnation claim and later-series collected details remains unverified; that uncertainty does not revoke existing project constraints.",
+        "T7ending/pearl-user, T8official childbirth claim and T9TV scope remain source-specific undecided; no new author adjudication is invented.",
+        "Six N source/current semantics separately accepted at exact f577 and root verdict at canonical control; four long lore and all remaining sources/artifacts still require their own full governance. Navigation does not approve canon/product/DLC."
       ],
-      "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+      "stopLine": "Keep project constraints distinct from unverified official/fan claims, old confidence icons and paper methods. Do not revoke existing constraints or choose canon/DLC/product execution merely through static documentation migration.",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "N3 correct existing lore relation after exact c7d independent semantic acceptance; retain complete prior relation including obsolete broad evidence spans",
+          "base": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+          "previousCompleteRow": {
+            "id": "lore-canon-vs-phase2-content",
+            "from": [
+              "docs/lore/README.md",
+              "docs/lore/characters.md",
+              "docs/lore/versions.md",
+              "docs/lore/taboos.md"
+            ],
+            "to": [
+              "docs/phase2/reference/phase1-knowledge-harvest.md",
+              "docs/phase2/guides/content-publication.md",
+              "docs/phase2/specs/content-schema.md"
+            ],
+            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+            "status": "guarded",
+            "evidence": [
+              "docs/lore/README.md:1-63",
+              "docs/lore/characters.md:1-360",
+              "docs/lore/taboos.md:1-106"
+            ],
+            "unresolved": [
+              "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+            ],
+            "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+          },
+          "scope": "One existing relation only, not all39source rereview or new runtime credit."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "N6 adds five existing theme pointers and scoped source succession only, no new relationship or canon decision",
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "d8ec18185a058fd1f1142163f2246512802ecce8",
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "gitObject": "e933f16d2bbb37df9d37500642d4d3ca4cdc7cd0",
+            "fileSha256": "54663beb4f547bda782f4190ab5c81a1130170a4bcbd803490c4337f8f9dff05",
+            "selector": {
+              "rows.id": "lore-canon-vs-phase2-content",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "previousCompleteRow": {
+            "id": "lore-canon-vs-phase2-content",
+            "from": [
+              "docs/lore/README.md",
+              "docs/lore/characters.md",
+              "docs/lore/versions.md",
+              "docs/lore/taboos.md",
+              "docs/lore/narrative-workflow.md"
+            ],
+            "to": [
+              "docs/phase2/reference/phase1-knowledge-harvest.md",
+              "docs/phase2/guides/content-publication.md",
+              "docs/phase2/specs/content-schema.md",
+              "docs/phase2/decisions.md",
+              "docs/phase2/design-backlog.md"
+            ],
+            "relationship": "Lore separates author-adopted project constraints, source-labelled collection claims, paper methods and undecided versions. Existing no-resurrection/T5.5/independentT6 constraints stay applicable when official provenance is unverified; publication must not promote fan/variant/draft claims into fresh official canon. Paper1-5 proceeds within D19, editor6/product build and phase3 real-time scope remain separate.",
+            "status": "guarded",
+            "evidence": [
+              "docs/phase-governance/reviews/20261016-lore-reference-n.json:1",
+              "docs/lore/README.md:1-53",
+              "docs/lore/taboos.md:1-71",
+              "docs/lore/narrative-workflow.md:1-49",
+              "docs/lore/world-rules.md:52-55",
+              "docs/lore/timeline.md:213-220",
+              "docs/phase2/decisions.md:90-104,223-249",
+              "docs/phase2/design-backlog.md:105-115"
+            ],
+            "unresolved": [
+              "Official provenance for the reincarnation claim and later-series collected details remains unverified; that uncertainty does not revoke existing project constraints.",
+              "T7ending/pearl-user, T8official childbirth claim and T9TV scope remain source-specific undecided; no new author adjudication is invented.",
+              "Other six N and four long lore bodies remain separate full-governance work; no index or method completes their sources or product implementation."
+            ],
+            "stopLine": "Keep project constraints distinct from unverified official/fan claims, old confidence icons and paper methods. Do not revoke existing constraints or choose canon/DLC/product execution merely through static documentation migration.",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "N3 correct existing lore relation after exact c7d independent semantic acceptance; retain complete prior relation including obsolete broad evidence spans",
+                "base": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+                "previousCompleteRow": {
+                  "id": "lore-canon-vs-phase2-content",
+                  "from": [
+                    "docs/lore/README.md",
+                    "docs/lore/characters.md",
+                    "docs/lore/versions.md",
+                    "docs/lore/taboos.md"
+                  ],
+                  "to": [
+                    "docs/phase2/reference/phase1-knowledge-harvest.md",
+                    "docs/phase2/guides/content-publication.md",
+                    "docs/phase2/specs/content-schema.md"
+                  ],
+                  "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+                  "status": "guarded",
+                  "evidence": [
+                    "docs/lore/README.md:1-63",
+                    "docs/lore/characters.md:1-360",
+                    "docs/lore/taboos.md:1-106"
+                  ],
+                  "unresolved": [
+                    "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+                  ],
+                  "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+                },
+                "scope": "One existing relation only, not all39source rereview or new runtime credit."
+              }
+            ]
+          },
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "guijie-vs-phase3-roadmap",
@@ -109,7 +249,9 @@
       "from": [
         "docs/ops/evidence/README.md",
         "docs/ops/audits/README.md",
-        "docs/ops/tasks/README.md"
+        "docs/ops/tasks/README.md",
+        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md"
       ],
       "to": ["packages/", "scripts/e2e/", "docs/testing/"],
       "relationship": "Ops documents describe work, evidence and claims; only current callers, executable tests and business oracles can establish runtime/test results.",
@@ -117,10 +259,13 @@
       "evidence": [
         "docs/ops/evidence/README.md:1",
         "docs/ops/audits/README.md:1",
-        "docs/ops/agent-workflow.md:1"
+        "docs/ops/agent-workflow.md:1",
+        "docs/ops/archive/tasks/done/A4-own-sprite-upload.md:1",
+        "docs/ops/archive/tasks/done/B10-poison-structured-editor.md:1"
       ],
       "unresolved": [
-        "Static content review does not re-run every historical command or re-validate every old artifact."
+        "Static content review does not re-run every historical command or re-validate every old artifact.",
+        "A4 saved-engine FSA smoke and B10 user visual recheck have no historical completion receipt; document admission preserves those limits."
       ],
       "stopLine": "Do not promote a historical receipt, coverage number, screenshot or task status to current quality proof."
     },
@@ -130,17 +275,1113 @@
         "docs/phase-governance/templates/registry.json",
         "docs/phase-governance/document-registry.json"
       ],
-      "to": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
-      "relationship": "All 563 governed materials have one stable type/template binding; existing bodies remain governed legacy, while new documents must be template-compliant.",
-      "status": "resolved",
+      "to": [
+        "docs/ops",
+        "docs/lore",
+        "docs/phase1",
+        "docs/phase2",
+        "docs/phase3",
+        "docs/testing",
+        "docs/phase-governance",
+        "docs/README.md"
+      ],
+      "relationship": "The approved 1838-document baseline and later candidates require per-document semantic migration. Registered legacy bindings are inventory only; completion requires matching review SHA and concrete template contracts. Frozen binding capture governance counts only its nonmember file incremental1: original1838 ordered provisional/unread entries and15-type summary are source history. Fixed raw Git Buffer identity and governed view are independently accepted, not source-document approvals.",
+      "status": "guarded",
       "evidence": [
-        "docs/phase-governance/document-registry.json:summary",
-        "docs/phase-governance/templates/README.md:1-22"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "scripts/docs/report-governance-progress.mjs:1",
+        "docs/phase-governance/templates/README.md:1",
+        "docs/phase-governance/reviews/20261016-binding-baseline-contract.json:1",
+        "scripts/docs/frozen-document-source.mjs:1",
+        "scripts/docs/git-document-snapshot.mjs:1"
       ],
       "unresolved": [
-        "Body rewrites for legacy records are intentionally not performed in bulk; a future migration task must preserve history and links."
+        "The full approved cohort and incremental candidates have not all been read, migrated or assigned artifact ownership.",
+        "Types without real pilots cannot be migrated in bulk; legacy reviewed/governed-legacy status does not close this gap."
       ],
-      "stopLine": "No new independent document style or unregistered type may enter the governed roots."
+      "stopLine": "Do not claim whole-docs completion from old 563/570 registrations, path classification, preserved-source samples or partial green gates. Do not turn capture/index structural traversal into1838 semantic reviews or native status promotion.",
+      "history": [
+        {
+          "date": "2026-10-04",
+          "relationship": "All 563 governed materials have one stable type/template binding; existing bodies remain governed legacy, while new documents must be template-compliant.",
+          "status": "resolved",
+          "unresolved": [
+            "Body rewrites for legacy records are intentionally not performed in bulk; a future migration task must preserve history and links."
+          ],
+          "scope": "Original limited-registry statement retained; not whole-docs proof."
+        }
+      ]
+    },
+    {
+      "id": "historical-cooperation-vs-current-ops",
+      "from": [
+        "docs/ops/archive/protocols/three-sages-20261015.md",
+        "docs/ops/archive/protocols/workflow-snapshot-20261015.md"
+      ],
+      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/ops/tasks/README.md"],
+      "relationship": "Old three-party signatures and retired role rules are preserved as historical source; current Codex dispatch/independent acceptance controls new work. Closed tasks keep stable identities and do not regain authority from old handoffs.",
+      "status": "resolved",
+      "evidence": [
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json:1"
+      ],
+      "stopLine": "No historical prompt restores retired mandatory seats or reopens a completed task."
+    },
+    {
+      "id": "phase1-lower-bound-probe-vs-test-credit",
+      "from": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md"
+      ],
+      "to": ["docs/testing/governance.md", "docs/ops/agent-workflow.md"],
+      "relationship": "The onEnter scan stops at first end and does not follow goto/jumps; absence in that linear lower bound is not proof of whole-program unreachability or missing business coverage.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md:1"
+      ],
+      "unresolved": [
+        "No full CFG/BFS or independent raw command/SHA was supplied in the original probe."
+      ],
+      "stopLine": "Do not delete contracts or grant coverage from this lower-bound census alone."
+    },
+    {
+      "id": "phase3-art-reference-vs-current-build",
+      "from": ["docs/phase3/reference/art-pipeline.md"],
+      "to": ["docs/phase3/backlog.md", "docs/phase2/READ-FIRST.md", "docs/lore/dlc-ideas.md"],
+      "relationship": "Art pipeline proposals, model/API recommendations and legal safety assertions belong to dated historical planning input; the accepted phase boundary does not certify those technical/legal claims or approve current generation/publication.",
+      "status": "guarded",
+      "evidence": ["docs/phase3/reference/art-pipeline.md:1", "docs/phase3/backlog.md:1"],
+      "unresolved": [
+        "Current technical capability, legal assertions and old source links were not revalidated by this document migration.",
+        "No new art_description/schema task or commercial publication is authorized by historical now/recommended wording."
+      ],
+      "stopLine": "Only the documented phase boundary is current; old art/legal advice is not a present product or legal approval."
+    },
+    {
+      "id": "paired-test-publication-vs-current-version",
+      "from": [
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/e2e/stages/001-opening/report.md",
+        "docs/testing/e2e/evidence/e2e-001.json",
+        "docs/testing/e2e/contract.md",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "docs/testing/e2e/stages/003-kitchen/README.md",
+        "docs/testing/e2e/stages/003-kitchen/report.md",
+        "docs/testing/e2e/stages/004-meal/README.md",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "docs/testing/e2e/stages/005-shrimp/README.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md"
+      ],
+      "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+      "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit. Six003-005 retain own-engine002/003/004saves predecessor contracts, unique stage duties and original warnings/failures. Oct2 specific004 continuous-demo user recognition is preserved; other per-item/capture/fullQ1Q2/publication and006 rework are separate. Oct8 local kitchen result lacks initial idle and does not restore complete-chain credit;005 wrapper failed plus supplements do not become one successful wrapper. No static reception creates current-version execution.",
+      "status": "guarded",
+      "evidence": [
+        "packages/content/src/character.ts:168-170",
+        "packages/reforge/src/save/types.ts:9",
+        "scripts/docs/check-testing.mjs:187",
+        "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
+        "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
+        "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61",
+        "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md:13-18"
+      ],
+      "unresolved": [
+        "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
+        "Raw bytes/storage owner/retention not recertified. Fixed777 source is independently received by tail b715; six003-005 root dc2 intake received by A8d7 and later42b metadata by receipt b40. Subsequent writeback has its own scope;001/006/paired native evidence unchanged."
+      ],
+      "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass.",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Six003-005 source-specific document relation,39to39",
+          "previousCompleteRow": {
+            "id": "paired-test-publication-vs-current-version",
+            "from": [
+              "docs/testing/domains/runtime/menu/menu-session/report.md",
+              "docs/testing/e2e/stages/001-opening/report.md",
+              "docs/testing/e2e/evidence/e2e-001.json",
+              "docs/testing/e2e/contract.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
+            ],
+            "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+            "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
+            "status": "guarded",
+            "evidence": [
+              "packages/content/src/character.ts:168-170",
+              "packages/reforge/src/save/types.ts:9",
+              "scripts/docs/check-testing.mjs:187",
+              "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
+              "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
+              "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61"
+            ],
+            "unresolved": [
+              "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
+              "M002 raw availability/storage owner/retention is not reverified; other6 stage MD and006 remain separate scopes."
+            ],
+            "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
+          },
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C3: scope actual fixed M/P root reception event, keep all raw/target/execution limitations",
+          "previousCompleteRow": {
+            "id": "paired-test-publication-vs-current-version",
+            "from": [
+              "docs/testing/domains/runtime/menu/menu-session/report.md",
+              "docs/testing/e2e/stages/001-opening/report.md",
+              "docs/testing/e2e/evidence/e2e-001.json",
+              "docs/testing/e2e/contract.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+              "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+              "docs/testing/e2e/stages/003-kitchen/README.md",
+              "docs/testing/e2e/stages/003-kitchen/report.md",
+              "docs/testing/e2e/stages/004-meal/README.md",
+              "docs/testing/e2e/stages/004-meal/report.md",
+              "docs/testing/e2e/stages/005-shrimp/README.md",
+              "docs/testing/e2e/stages/005-shrimp/report.md"
+            ],
+            "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+            "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit. Six003-005 retain own-engine002/003/004saves predecessor contracts, unique stage duties and original warnings/failures. Oct2 specific004 continuous-demo user recognition is preserved; other per-item/capture/fullQ1Q2/publication and006 rework are separate. Oct8 local kitchen result lacks initial idle and does not restore complete-chain credit;005 wrapper failed plus supplements do not become one successful wrapper. No static reception creates current-version execution.",
+            "status": "guarded",
+            "evidence": [
+              "packages/content/src/character.ts:168-170",
+              "packages/reforge/src/save/types.ts:9",
+              "scripts/docs/check-testing.mjs:187",
+              "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
+              "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
+              "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61",
+              "docs/ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md:13-18"
+            ],
+            "unresolved": [
+              "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
+              "Raw bytes/storage owner/retention not recertified. Six003-005 root intake separately pending;001/006/paired native evidence unchanged."
+            ],
+            "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass.",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "Six003-005 source-specific document relation,39to39",
+                "previousCompleteRow": {
+                  "id": "paired-test-publication-vs-current-version",
+                  "from": [
+                    "docs/testing/domains/runtime/menu/menu-session/report.md",
+                    "docs/testing/e2e/stages/001-opening/report.md",
+                    "docs/testing/e2e/evidence/e2e-001.json",
+                    "docs/testing/e2e/contract.md",
+                    "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+                    "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
+                  ],
+                  "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+                  "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
+                  "status": "guarded",
+                  "evidence": [
+                    "packages/content/src/character.ts:168-170",
+                    "packages/reforge/src/save/types.ts:9",
+                    "scripts/docs/check-testing.mjs:187",
+                    "docs/phase-governance/reviews/20261016-e2e-stage-m.json:1",
+                    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1",
+                    "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md:2513-2537",
+                    "docs/ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md:1-61"
+                  ],
+                  "unresolved": [
+                    "No current-version runtime/E2E/visual/coverage execution was performed by this documentation work.",
+                    "M002 raw availability/storage owner/retention is not reverified; other6 stage MD and006 remain separate scopes."
+                  ],
+                  "stopLine": "Do not rewrite candidateSha/versions/history/performed or call static publication checks a new current-version pass."
+                },
+                "runtimeExecutionPerformed": false
+              }
+            ]
+          },
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "gitObject": "c06531fe1e2efd408517470de13abdeb162eb9eb",
+            "fileSha256": "63a2d41900259caa835606a669a39956ea610fc874ea0b6ea0361347c07dda8e",
+            "selector": {
+              "rows.id": "paired-test-publication-vs-current-version",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
+        }
+      ]
+    },
+    {
+      "id": "historical-static-diagnostics-vs-current-zero-gate",
+      "from": ["docs/ops/audits/pre-e2e/quality-gate-remediation.md"],
+      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "relationship": "The 2026-09-06 E-06 report preserves its final 0 errors / 50 warnings / 11 infos and original check/coverage/CI decisions. The later zero-diagnostics policy governs current checks without falsifying the past.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/audits/pre-e2e/quality-gate-remediation.md:1",
+        "AGENTS.md:1",
+        "docs/ops/agent-workflow.md:1"
+      ],
+      "unresolved": [
+        "Historical tool versions and complete raw log hashes are missing in that report; original CI and product checks were not rerun by this migration."
+      ],
+      "stopLine": "A historical exit0 or old accepted exception is not current zero-diagnostics approval; do not rewrite old counts or infer current residual diagnostics."
+    },
+    {
+      "id": "published-test-source-vs-quality-admission",
+      "from": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
+      ],
+      "to": ["docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "relationship": "A source-backed publication records original caller/oracle obligations, but cannot grant current test-quality acceptance. The cited readiness fixture includes an as unknown as BattleState cast that requires a separate legal-input/contract audit.",
+      "status": "guarded",
+      "evidence": [
+        "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md:1"
+      ],
+      "unresolved": [
+        "Whether the minimal snapshot fixture satisfies the current typed-input rule has not been independently audited; this docs-only task cannot modify old tests or grant acceptance."
+      ],
+      "stopLine": "Do not count source-backed, old green totals or migration conformity as test-quality accept; no product/test changes are authorized by this row."
+    },
+    {
+      "id": "report-body-navigation-vs-current-source",
+      "from": [
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/report.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json"
+      ],
+      "relationship": "Six report-body line ranges lagged behind already-correct paired sourceRefs. Current body anchors are aligned only after reading the cited source ranges; original line mappings/Git blobs remain in the migration receipt.",
+      "status": "resolved",
+      "evidence": [
+        "packages/reforge/src/main.ts:407-455",
+        "packages/reforge/src/main.ts:1242-1261",
+        "packages/reforge/src/battle/battle-host.ts:156-160",
+        "packages/reforge/src/world-motion-runtime.ts:167-193"
+      ],
+      "stopLine": "This resolves registered navigation corrections only; it neither refreshes historical execution nor proves all other docs source references are current."
+    },
+    {
+      "id": "testing-publication-status-vs-execution-status",
+      "from": [
+        "docs/testing/catalog.json",
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json"
+      ],
+      "to": ["docs/phase-governance/templates/registry.json", "scripts/docs/document-model.mjs"],
+      "relationship": "Domain report and document-audit status project the unique catalog publication entry. Default execution evidence keeps a separate lifecycle; current/verified publication does not mean this task executed runtime.",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase-governance/templates/registry-proposal-20261011.md:1",
+        "scripts/docs/document-model.test.mjs:1"
+      ],
+      "stopLine": "Reject execution current, publication/catalog mismatch and status hidden in code or quote; no new dynamic credit from publication status."
+    },
+    {
+      "id": "archived-ui-and-quality-reports-vs-current-acceptance",
+      "from": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+        "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "The 09-28 functional UI receipt and 10-03 finite audit retain dated counters, first failures, source and successor scopes. Machine screening is not deletion evidence; historical checkpoint totals differ from final unified closure and current docs progress.",
+      "status": "guarded",
+      "evidence": [
+        "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md:1",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md:1"
+      ],
+      "unresolved": [
+        "Ignored historical screenshot and temporary logs were not restored or rerun.",
+        "Current runtime, counter validity and coverage are not reaccepted by the documentation migration."
+      ],
+      "stopLine": "No current visual/quality/coverage approval or automatic test deletion from archived numbers and static migration."
+    },
+    {
+      "id": "legacy-classification-review-vs-semantic-reading",
+      "from": [
+        "scripts/docs/classify-testing-legacy.mjs",
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+        "docs/testing/legacy-flat-classification.json",
+        "docs/testing/indexes/README.md",
+        "docs/testing/indexes/legacy-by-domain.md",
+        "scripts/docs/generate-testing-index.mjs",
+        "docs/phase2/README.md",
+        "docs/phase2/guides/README.md",
+        "docs/phase2/specs/README.md",
+        "docs/phase2/reference/README.md",
+        "docs/phase2/archive/README.md",
+        "docs/phase2/archive/slices/README.md",
+        "docs/phase2/archive/mockups/README.md",
+        "docs/phase2/archive/slices/indoor/README.md",
+        "docs/phase2/archive/designs/README.md",
+        "docs/phase2/archive/plans/README.md",
+        "docs/phase2/archive/audits/README.md"
+      ],
+      "to": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+        "docs/ops/guides/documentation-model.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/testing/catalog.json",
+        "docs/testing/indexes/by-phase.md",
+        "docs/testing/indexes/by-engine.md"
+      ],
+      "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership. L ten indexes preserve18 stable IDs,359 old classification rows/227targets and12lab-to-one-history dedupe. Nine generated plus one manual entry separate navigation current, source publication states and legacy reviewStatus. Required two-SSOT parsing precedes any writer output; fixed review date never renews downstream acceptance. P11 actual202 source/all11 new888lines and complete43-field records independently accepted at fixed121ff. Ten path-derived types corrected to governance-index and seven historical-collection indexes become current only as navigation; all target dates/claims/oldAgent prompts remain historical. Complete24 original headings,107members and118href occurrences preserved, no target/HTML/runtime acceptance from static reachability.",
+      "status": "guarded",
+      "evidence": [
+        "scripts/docs/classify-testing-legacy.mjs:120",
+        "scripts/docs/classify-testing-legacy.mjs:136",
+        "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1",
+        "docs/phase-governance/reviews/20261016-testing-index-navigation.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1",
+        "docs/phase-governance/reviews/20261016-phase2-navigation-p.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json:1"
+      ],
+      "unresolved": [
+        "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
+        "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review.",
+        "L index acceptance does not audit the359 source bodies,112 tools/raw or every future dimension change; actual changed report/body requires new review.",
+        "P navigation acceptance does not review107 target bodies or threeHTML; indoor unnamed oldimages/acceptancecommit remain unknown. Exact c562 root administrative/central/projection intake is received by fdf102; subsequent writeback has its own scope."
+      ],
+      "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant.",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Extend existing classification-vs-semantic-reading relation to content-proven phase2 navigation",
+          "previousCompleteRow": {
+            "id": "legacy-classification-review-vs-semantic-reading",
+            "from": [
+              "scripts/docs/classify-testing-legacy.mjs",
+              "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+              "docs/testing/legacy-flat-classification.json",
+              "docs/testing/indexes/README.md",
+              "docs/testing/indexes/legacy-by-domain.md",
+              "scripts/docs/generate-testing-index.mjs"
+            ],
+            "to": [
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+              "docs/ops/guides/documentation-model.md",
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+              "docs/testing/catalog.json",
+              "docs/testing/indexes/by-phase.md",
+              "docs/testing/indexes/by-engine.md"
+            ],
+            "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership. L ten indexes preserve18 stable IDs,359 old classification rows/227targets and12lab-to-one-history dedupe. Nine generated plus one manual entry separate navigation current, source publication states and legacy reviewStatus. Required two-SSOT parsing precedes any writer output; fixed review date never renews downstream acceptance.",
+            "status": "guarded",
+            "evidence": [
+              "scripts/docs/classify-testing-legacy.mjs:120",
+              "scripts/docs/classify-testing-legacy.mjs:136",
+              "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1",
+              "docs/phase-governance/reviews/20261016-testing-index-navigation.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1"
+            ],
+            "unresolved": [
+              "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
+              "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review.",
+              "L index acceptance does not audit the359 source bodies,112 tools/raw or every future dimension change; actual changed report/body requires new review."
+            ],
+            "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant."
+          },
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C3: scope actual fixed M/P root reception event, keep all raw/target/execution limitations",
+          "previousCompleteRow": {
+            "id": "legacy-classification-review-vs-semantic-reading",
+            "from": [
+              "scripts/docs/classify-testing-legacy.mjs",
+              "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+              "docs/testing/legacy-flat-classification.json",
+              "docs/testing/indexes/README.md",
+              "docs/testing/indexes/legacy-by-domain.md",
+              "scripts/docs/generate-testing-index.mjs",
+              "docs/phase2/README.md",
+              "docs/phase2/guides/README.md",
+              "docs/phase2/specs/README.md",
+              "docs/phase2/reference/README.md",
+              "docs/phase2/archive/README.md",
+              "docs/phase2/archive/slices/README.md",
+              "docs/phase2/archive/mockups/README.md",
+              "docs/phase2/archive/slices/indoor/README.md",
+              "docs/phase2/archive/designs/README.md",
+              "docs/phase2/archive/plans/README.md",
+              "docs/phase2/archive/audits/README.md"
+            ],
+            "to": [
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+              "docs/ops/guides/documentation-model.md",
+              "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+              "docs/testing/catalog.json",
+              "docs/testing/indexes/by-phase.md",
+              "docs/testing/indexes/by-engine.md"
+            ],
+            "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership. L ten indexes preserve18 stable IDs,359 old classification rows/227targets and12lab-to-one-history dedupe. Nine generated plus one manual entry separate navigation current, source publication states and legacy reviewStatus. Required two-SSOT parsing precedes any writer output; fixed review date never renews downstream acceptance. P11 actual202 source/all11 new888lines and complete43-field records independently accepted at fixed121ff. Ten path-derived types corrected to governance-index and seven historical-collection indexes become current only as navigation; all target dates/claims/oldAgent prompts remain historical. Complete24 original headings,107members and118href occurrences preserved, no target/HTML/runtime acceptance from static reachability.",
+            "status": "guarded",
+            "evidence": [
+              "scripts/docs/classify-testing-legacy.mjs:120",
+              "scripts/docs/classify-testing-legacy.mjs:136",
+              "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1",
+              "docs/phase-governance/reviews/20261016-testing-index-navigation.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1",
+              "docs/phase-governance/reviews/20261016-phase2-navigation-p.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json:1"
+            ],
+            "unresolved": [
+              "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
+              "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review.",
+              "L index acceptance does not audit the359 source bodies,112 tools/raw or every future dimension change; actual changed report/body requires new review.",
+              "P navigation acceptance does not review107 target bodies or threeHTML; indoor unnamed oldimages/acceptancecommit remain unknown. Root new administrative/central/projection intake separately pending."
+            ],
+            "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant.",
+            "history": [
+              {
+                "date": "2026-10-16",
+                "action": "Extend existing classification-vs-semantic-reading relation to content-proven phase2 navigation",
+                "previousCompleteRow": {
+                  "id": "legacy-classification-review-vs-semantic-reading",
+                  "from": [
+                    "scripts/docs/classify-testing-legacy.mjs",
+                    "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+                    "docs/testing/legacy-flat-classification.json",
+                    "docs/testing/indexes/README.md",
+                    "docs/testing/indexes/legacy-by-domain.md",
+                    "scripts/docs/generate-testing-index.mjs"
+                  ],
+                  "to": [
+                    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+                    "docs/ops/guides/documentation-model.md",
+                    "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+                    "docs/testing/catalog.json",
+                    "docs/testing/indexes/by-phase.md",
+                    "docs/testing/indexes/by-engine.md"
+                  ],
+                  "relationship": "The existing classifier sets reviewed from movedTo or closeout membership; body-source dominance and filename rules classify inventory. Its historical reviewed/zero-pending tally does not establish present per-document semantic reading, template migration or artifact ownership. L ten indexes preserve18 stable IDs,359 old classification rows/227targets and12lab-to-one-history dedupe. Nine generated plus one manual entry separate navigation current, source publication states and legacy reviewStatus. Required two-SSOT parsing precedes any writer output; fixed review date never renews downstream acceptance.",
+                  "status": "guarded",
+                  "evidence": [
+                    "scripts/docs/classify-testing-legacy.mjs:120",
+                    "scripts/docs/classify-testing-legacy.mjs:136",
+                    "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json:1",
+                    "docs/phase-governance/reviews/20261016-testing-index-navigation.json:1",
+                    "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1"
+                  ],
+                  "unresolved": [
+                    "All old 359/331 entry decisions and artifact ownership are not independently reaudited by reading this classifier or its audit envelope.",
+                    "Do not regenerate the classification ledger and inherit semantic acceptance before actual per-entry review.",
+                    "L index acceptance does not audit the359 source bodies,112 tools/raw or every future dimension change; actual changed report/body requires new review."
+                  ],
+                  "stopLine": "Keep historical machine fields and publication status, but never count membership-based reviewed as full-docs content-reviewed or template-compliant."
+                },
+                "runtimeExecutionPerformed": false
+              }
+            ]
+          },
+          "completeImmediatePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/cross-phase-matrix.json",
+            "gitObject": "c06531fe1e2efd408517470de13abdeb162eb9eb",
+            "fileSha256": "63a2d41900259caa835606a669a39956ea610fc874ea0b6ea0361347c07dda8e",
+            "selector": {
+              "rows.id": "legacy-classification-review-vs-semantic-reading",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
+        }
+      ]
+    },
+    {
+      "id": "phase3-navigation-vs-implementation-maturity",
+      "from": [
+        "docs/phase3/README.md",
+        "docs/phase3/reference/README.md",
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md"
+      ],
+      "to": [
+        "docs/phase2/decisions.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/capability-map.md",
+        "AGENTS.md"
+      ],
+      "relationship": "The two current indexes route future work; backlog and map design remain draft. Approved phase/release boundaries remain constraints, while historical D6-D8 decisions, 48e2019 source examples, tool/size/time estimates and MMO infrastructure wishes do not become present implementation truth or build authority.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase2/decisions.md:522-531",
+        "docs/phase3/backlog.md:1",
+        "docs/phase3/map-reconstruction.md:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json:1"
+      ],
+      "unresolved": [
+        "Specific scene/composition/migration/performance design and future product/release choices still require scoped primary-source review and user decisions.",
+        "Old technical/legal/size/time suggestions and MAP observations were not revalidated as current facts."
+      ],
+      "stopLine": "No phase3 product/schema/asset/script build, no phase2 MMO hooks and no reopening completed phase2 tools from this documentation migration."
+    },
+    {
+      "id": "phase3-index-vs-candidate-text-authority",
+      "from": ["docs/phase3/README.md"],
+      "to": [
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/README.md"
+      ],
+      "relationship": "The index routes stable source/heading identities; original long goal/authoring/localization/forecast and far-future blocks move intact into the existing backlog. Fourteen source blocks retain original dates, decisions, numbers and links with one heading-level demotion; navigation does not maintain a second product plan.",
+      "status": "resolved",
+      "evidence": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json:1",
+        "docs/phase3/README.md:1",
+        "docs/phase3/backlog.md:1"
+      ],
+      "stopLine": "Block preservation is only one check; semantic review and actual link/contract gates remain mandatory and do not grant runtime acceptance."
+    },
+    {
+      "id": "f2-historical-contributor-and-integration-evidence",
+      "from": [
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"
+      ],
+      "relationship": "Contributor assertions, Codex independent source-loading evidence, extra integration metadata fixes and final historical acceptance retain separate identities. Overflow September 25 labels-draft state precedes labels September 26 accept. RF-22 image nonidentity, RF-06 two-state byte identity and confirm host substitution have distinct scopes.",
+      "status": "guarded",
+      "evidence": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1"],
+      "unresolved": [
+        "Old temporary screenshots/logs and deleted contributor mock tools not recovered or rerun.",
+        "Current source/test quality and runtime/visual/coverage acceptance not established by migration."
+      ],
+      "stopLine": "Do not reopen old pending prompts, count contributor self-check as independent, promote confirm host substitution to native-dialog automation, or carry old warning exemptions into current zero-diagnostic gates."
+    },
+    {
+      "id": "a3-slice-parity-ci-and-current-acceptance",
+      "from": [
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "A3-a/b are historical narrow ownership slices under explicit single-agent authorization, not whole-A3 completion or non-author product audit. Internal enumeration/parity combinations are not additional official tests; loader fixtures do not prove decoder/Canvas behavior. cb1 remote readiness failure, ad16 waiting-driver fix and fdad candidate CI remain distinct.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1",
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md:1",
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md:1"
+      ],
+      "unresolved": [
+        "Original transient summaries and in-chat images not recovered; old diagnostic execution and runtime compatibility not revalidated.",
+        "Frame browser short press changed direction without observed movement; full narrative/E2E/full/Q1/Q2 were excluded."
+      ],
+      "stopLine": "Do not infer locomotion from direction, current execution from AST/static records, fdad remote pass from ad16 helper CI, or current zero diagnostics from historical 47 warnings/6 infos."
+    },
+    {
+      "id": "a7-music-role-and-denominator-history",
+      "from": ["docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md"],
+      "to": ["docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md"],
+      "relationship": "四音乐角色被第五标题菜单角色纠正；1326/13与1327/12按不同日期，G5 Record atomic错误归因不恢复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": ["002仅binding、048无专门走场和O2统一回执缺口保留。"],
+      "stopLine": "绑定、同逻辑或浏览器网络链不等实际走场/物理听觉；不恢复旧upgrader。"
+    },
+    {
+      "id": "a7-face-absence-supersedes-transparent-stub",
+      "from": ["docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"],
+      "to": ["docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md"],
+      "relationship": "旧6face/10392B/68B透明stub被Aug23/24 raw后继5face/10324B/absence取代，portrait044保留。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": ["本轮未重新解码DATA.MKF或运行产品/视觉；后继固定raw证据与原历史快照分开。"],
+      "stopLine": "旧accept不升当前真值，不新增按角色号或透明度猜测fallback。"
+    },
+    {
+      "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
+      "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+      "to": [
+        "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md"
+      ],
+      "relationship": "旧设计§11/总审计§3.8的s066空格跳过PASS已由A7-3 C1–C5撤回；两共享来源现经真实模板迁移/非作者accept明确撤回旧信用并正确指向A7-3卡，原错误完整留历史，不再双重有效。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": [
+        "s059 activewave邻域验证未走真正s066→s059全路；旧raw/原生OS picker/当前视觉未复验，静态文档纠正不替代动态证据。"
+      ],
+      "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
+            "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+            "to": [
+              "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+              "docs/phase2/archive/audits/a7-resource-closure-audit.md"
+            ],
+            "relationship": "旧设计末§11/总审计§3.8的s066空格跳过PASS与A7-3后续C1–C5撤签返工冲突；后继C3默认不可跳取代旧accept，旧两源待正文治理追加勘误。",
+            "status": "guarded",
+            "evidence": [
+              "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:1",
+              "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+            ],
+            "unresolved": [
+              "共享设计与总审计尚未正文迁移；s059 active wave邻域验证未走s066到s059完整门路线，原raw/原生OS picker仍缺。"
+            ],
+            "stopLine": "不继承旧skip accept；OPFS/API不等原生OS UI，邻域不等全剧情E2E。"
+          },
+          "change": "Shared design/audit now semantically migrated with explicitwithdrawal andcorrected A7-3 evidence navigation; dynamicgap remains guarded"
+        }
+      ]
+    },
+    {
+      "id": "a7-tileset-ofl-failure-and-later-byte-restoration",
+      "from": ["docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md"],
+      "to": [
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"
+      ],
+      "relationship": "原migrate222pass/1fail/1skip是OFL hash失败；后继5b7b49c8359795f8eb9f2de2397d837b754dd4b8恢复4249B/ddd…到4340B/869…并保护字节，原测试未改。PAL单零尾和作者无尾均为严格parser接受的结构，无origin拒绝。",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:1",
+        "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
+      ],
+      "unresolved": [
+        "只核历史Git/字节，非今天法律认证或重跑通过；223mapNum缺168/171与636文件/580定义/21共享及5+15+1均为历史分母。"
+      ],
+      "stopLine": "不倒填旧失败、不降低hash门、不添作者带尾来源禁令，不授今天测试质量信用。"
+    },
+    {
+      "id": "quality-codec-legal-inputs-vs-strict-guards",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md"
+      ],
+      "to": [
+        "docs/phase1/05-events-schema.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "历史MKF/RNG/YJ2/PNG/symbols各有合法宽容域：空槽/失败跳过/end后尾部、early-EOS零尾与重叠回引、WORD/palette容差、optional opaque与可选字符串map都不能被统一fail-closed概括误删；数字事件ID仍真值，CLI只读审计不算生产修复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1"
+      ],
+      "unresolved": [
+        "本轮只复核任务历史语义及列明窄源码；未重新执行raw解码、提取器、旧测试或证明当前所有caller。"
+      ],
+      "stopLine": "无新primary/caller反证不得添加任意尺寸/数字键限制、来源禁令或把只读审计变成修复。"
+    },
+    {
+      "id": "quality-history-count-conflicts-vs-current-acceptance",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md"
+      ],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q2b原131/129轮次仍unknown；Q3k卡/原总纲明确4total/3passed/1failed，旧ledger3fail误述现由G纠正live摘要且完整273行snapshot保留。只关闭文档误述，不补造旧反控执行。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/audits/code-quality-file-ledger.md#证据与下一步",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md:1"
+      ],
+      "unresolved": [
+        "Q2b131/129差异未解释；原wave反控raw/JSON缺失和未知动态/视觉未由live摘要纠错闭合。"
+      ],
+      "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "quality-history-count-conflicts-vs-current-acceptance",
+            "from": [
+              "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md"
+            ],
+            "to": [
+              "docs/ops/audits/code-quality-governance.md",
+              "docs/ops/audits/code-quality-file-ledger.md"
+            ],
+            "relationship": "Q2b原shared131与129两数并存且轮次未知；Q3k卡/总纲明确4total/3passed/1failed而ledger182误述3fail。迁移并列来源并guarded，不择数补造执行解释；共享正文由后继完整治理。",
+            "status": "guarded",
+            "evidence": [
+              "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json:1",
+              "docs/ops/audits/code-quality-file-ledger.md:182"
+            ],
+            "unresolved": [
+              "131/129轮次差异未解释；ledger摘要冲突尚未在本批越界重写。原wave反控raw/JSON缺失，不补造新回读。"
+            ],
+            "stopLine": "不得把文档相互引用算第二次执行，不把错误3fail继承为真值或静态接收写成旧反控重跑。"
+          },
+          "reason": "G liveledger summary corrected; original snapshot retained, no replay"
+        }
+      ]
+    },
+    {
+      "id": "coverage-determinism-history-vs-runner-assumption",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md"
+      ],
+      "to": [
+        "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "docs/testing/governance.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "十月同census292/identity的Workbench174单branch回归收窄旧runner猜测，24165→24166/266fast/417full/4682probe不同分母；九月2ac4a9de的reorder23→24及hold/flush另属独立事件，不能合并或把探针当正式gate。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1",
+        "docs/ops/audits/pre-e2e/coverage-determinism.md:1"
+      ],
+      "unresolved": ["未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"],
+      "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。",
+      "history": [
+        {
+          "date": "2026-10-16",
+          "before": {
+            "id": "coverage-determinism-history-vs-runner-assumption",
+            "from": [
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md"
+            ],
+            "to": [
+              "docs/ops/audits/pre-e2e/coverage-determinism.md",
+              "docs/testing/governance.md",
+              "docs/ops/audits/code-quality-governance.md",
+              "docs/ops/audits/code-quality-file-ledger.md"
+            ],
+            "relationship": "同census292/identity的editor单branch缺口由具体Workbench回归闭合，原worker/runner猜测收窄；24165→24166原全门、266fast/417full与4682probe分属不同分母。提取器单包绿灯不替代全仓门。",
+            "status": "guarded",
+            "evidence": [
+              "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+              "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1"
+            ],
+            "unresolved": [
+              "未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"
+            ],
+            "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。"
+          },
+          "reason": "G full September source review distinguishes two historical events"
+        }
+      ]
+    },
+    {
+      "id": "catalog-own-labels-vs-inherited-properties",
+      "from": ["docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md"],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q3n只修继承属性误解析；null-prototype/Object.hasOwn允许自有toString/constructor/__proto__label，zero-item overlay和WORD/fade降级各属原caller，不因旧兼容字样删除。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json:1"
+      ],
+      "unresolved": [
+        "只核历史语义及catalog98源码；原最终pushSHA/时刻未在卡给出，其它依赖/测试与当前overlay适用性未全文重验。"
+      ],
+      "stopLine": "不得把原型名变禁词或从历史done补造push证据，不授当前整产品代码/旧测试质量。"
+    },
+    {
+      "id": "battle-opcode-user-decision-vs-stale-canon-summary",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md"
+      ],
+      "to": [
+        "docs/phase1/game-mechanics.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "保留既定0x2E >=与6月13日敌吉运裁决；抗性关rangeInclusive(0,9)>=0为100%，canon1075同享90cap与1074/实际dispatch冲突，整体招式其它固定率不在该结论。早期应照搬敌身法建议不恢复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/phase1/game-mechanics.md:1074",
+        "docs/phase1/game-mechanics.md:1075",
+        "docs/phase1/game-mechanics.md:855"
+      ],
+      "unresolved": [
+        "机制文档尚未逐篇全文治理，1075旧摘要在本批未越界修改；未重新认证原版late-version/raw或整招命中率。"
+      ],
+      "stopLine": "不回改既定产品行为、不从单抗性门外推整招100%，不凭本批静态迁移认证全canon。"
+    },
+    {
+      "id": "battle-state-finalization-dedupe-vs-historical-counts",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+      ],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q3u明确2product+3newtest=5，positions和runtime.test沿用Q3m/Q3s；Q3w仅2product+1newtest=3，finalization.test沿用u。旧u4tests619/close7、w2newtests/close4原句保留guarded；总纲t/u同215与新增5时点未知，不累加。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json:1"
+      ],
+      "unresolved": [
+        "四测试619只数行，不授新测试语义信用；旧统计/执行先后未有raw解释；w复用同轮全门不是再跑一次。"
+      ],
+      "stopLine": "不重复关闭或造执行时序，不把74+1特定超时推广所有屏，不把宿主审计扩成全部actions/save/视觉通过。"
+    },
+    {
+      "id": "quality-ledger-integrity-vs-code-semantic-acceptance",
+      "from": [
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/code-quality-governance.md"
+      ],
+      "to": [
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "唯一live汇总/连续表与真实tracked集合对账；原234消费+3尾pending归并、7新增仅pending，原closed229/review5不变；完整旧稿fenced避免重复机器输入，机器PASS不等源码语义或旧测试质量。",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json:1",
+        "scripts/quality/code-quality-ledger.mjs:42",
+        "scripts/quality/code-quality-inventory.mjs:131"
+      ],
+      "stopLine": "只关闭本次记录结构/库存漂移，不自动改已验证、不授234条原记录的语义复审或全仓完成、runtime/coverage信用。"
+    },
+    {
+      "id": "startup-character-baseline-vs-condition-lifecycle",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+        "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+        "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md"
+      ],
+      "to": ["docs/phase2/READ-FIRST.md", "packages/reforge/src/actor-condition-lifecycle.ts"],
+      "relationship": "角色ActorDef基线、入口当前hp/mp覆盖、入口condition快照和剧情apply/clear各有维护权；undefined首次learnedSkills播种与空数组/再入队不同，restore清incurable与战后severe封顶不同。稳定defaultEntryId不共享StartWorld，旧query组合语义变化仍披露。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原非零静态诊断、SFX失败与剧情视觉未由历史功能验收或本轮迁移清零；本轮不重审全部当前产品。"
+      ],
+      "stopLine": "不把condition放ActorDef/setParty、不把最大值放入口、不以入队替undefined判据，不复活旧版本。"
+    },
+    {
+      "id": "current-only-axes-vs-pal-author-ownership",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+        "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md"
+      ],
+      "to": ["docs/phase2/READ-FIRST.md", "docs/phase2/guides/content-publication.md"],
+      "relationship": "开发期current-only按产品epoch/本地格式/源与平台分轴；PAL作者正文独立后完整原版脚本转换与动作audit按r6退役，资源/地图/商店/角色及批准窄输入仍有供应真源。PB4 leaf通过与current-v4表示重建失败不同，不删除整个migrate。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原raw mismatch6/residual4/height3及临时oracle/日志未重验；历史G0无例外不等永久拒绝已批准不可重建输入。"
+      ],
+      "stopLine": "先核字段owner，不恢复退休转换核、不手改供应生成产物、不执行含journal恢复的旧dry-run。"
+    },
+    {
+      "id": "architecture-preparation-vs-formal-integration-credit",
+      "from": [
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "24+9组、11项加A1/A2、八准备包与十二回归/视觉准备包是各自范围。42候选/41正式/75账/109沿用针不相加；G06-11与E2十三项去重，材料accept不开放产品build，原作者/独立集成/当前治理三身份分开。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-h.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json:1"
+      ],
+      "unresolved": [
+        "原zoom/boot/options、720与separator命中区及旧warning/info不因done或数量关闭；17图丢失是10-02原记录，本轮未新查盘。"
+      ],
+      "stopLine": "不以机械拆分/绿数/材料接受授当前代码质量、完整E2E或视觉通过，不恢复旧Agent交接执行。"
+    },
+    {
+      "id": "historical-lab-counter-vs-successor-acceptance",
+      "from": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "同一实验包逐轮原生counter与后来接收分时点：r9仅三个候选合同，r10整批counter/主卡build，后继completion才接准备包、代表视觉和正式41项。G06-08/09/10接入与G06-11对E2十三路径排重分开；42/41/75与共享8707/strict8215/686不重复计本包。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json:1"
+      ],
+      "unresolved": [
+        "原缩图/16位hash、只读verify缺执行JSON、TS/格式失败和误归因撤回按原轮保留；zoom/boot/布局/options未由本次模板核验关闭。"
+      ],
+      "stopLine": "不倒写旧counter为accept，不把后来Map深快照/完整输出修正等同中间JSON.stringify(Map)候选，不恢复旧产品实现或旧prompt。"
+    },
+    {
+      "id": "historical-native-review-vs-current-document-audit",
+      "from": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md"
+      ],
+      "to": [
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/guides/documentation-model.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "r10原九字段是历史复核对象，没有publication schema/id/status；1.4历史原生变体只加_governance，固定33cc来源和完整native深等约束历史counter/MISSED/exit0。currentAudit=false记录这次静态治理，不能拿旧五针detected或退出0授今天动态执行信用。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json:1"
+      ],
+      "unresolved": [
+        "历史/tmp/截图/raw未新查可用性，不补造运行；该原生模板只适用于已批准九键合同，其它机器shape仍须设计和pilot。"
+      ],
+      "stopLine": "不补造schema2/catalog状态，不改原九字段/失败/警告；联合换标签或刷review SHA不得绕过固定原生源，格式通过不关闭全量或产品验收。"
+    },
+    {
+      "id": "historical-integration-denominators-vs-current-native-governance",
+      "from": [
+        "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+        "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+        "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "原八项9573/957与9081/728分母分开，109分项针未重跑；Cursor24/GLM41正式共享8707/8215/686且29=25+4不重复归因，wave2的8740/8248/701与15judge+5针另时点。三JSON currentAudit=false与三配对MD历史层各自已接收文档来源/模板范围，不刷新原status/owner/诊断或关闭其它任务；machine1.5与evidence-receipt/archive1.0各守格式。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-architecture-integration-history.json:1",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md:1"
+      ],
+      "unresolved": [
+        "原62/53/55warnings及各6infos保持；原有视觉/zoom/boot/组合/远端CI未证不因静态模板关闭。",
+        "仅36明确旧路径exists-only缺席被记录，未重验内容；其它raw可用性unknown。"
+      ],
+      "stopLine": "不把coverage四维total当测试增量、不把路径数组fingerprint当raw内容SHA、不恢复旧授权/兼容/清理命令；不得将历史accept当当前运行验收。"
+    },
+    {
+      "id": "domain-navigation-vs-publication-and-historical-tool-execution",
+      "from": [
+        "docs/testing/domains/README.md",
+        "docs/testing/domains/runtime/README.md",
+        "docs/testing/domains/phase1-runtime/README.md",
+        "docs/testing/domains/ops/testing-governance/README.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "49导航/36历史层各守来源；9catalog出版22/11与原10-06或10-11 SAVE12源注分轴，原Owner缺席不由catalog Codex倒填。原README图31→49、18无入链工具页由20目录入口可达；112域内脚本只按path/SHA关联旧122账，另10归档未决不恢复，不从名称/regex caller推合法runner。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-domain-navigation.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json:1"
+      ],
+      "unresolved": [
+        "原工具producer/caller/input/oracle及raw/截图当前完整性未由导航治理重认证。",
+        "原2026-11-01保留期限/catalog日期不续期，phase1不继承phase2版本执行信用。"
+      ],
+      "stopLine": "导航可达/模板/source归属不等于报告、112工具业务语义、runtime/E2E/视觉/coverage或全量docs完成；旧失败和版本按原时点保留。"
+    },
+    {
+      "id": "q-author-guidance-vs-unverified-runtime-and-save-paths",
+      "from": [
+        "docs/phase2/guides/content-publication.md",
+        "docs/phase2/guides/actor-presets.md",
+        "docs/phase2/guides/battlefield-authoring.md",
+        "docs/phase2/guides/debug-tools.md",
+        "docs/phase2/guides/scene-entry-authoring.md",
+        "docs/phase2/guides/shared-script-author-guide.md"
+      ],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/specs/script-system.md",
+        "docs/phase2/specs/save-system.md",
+        "docs/testing/governance.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "relationship": "六篇作者指南的操作合同与实际执行信用分开：人物身份/资源共享不共享实例行为；现代战场0合法且显式startBattle→hostile→scene→24；debug直接改内存仍可能由普通保存持久化；scene只有prepare/body入口且完整安全门未实现；shared N6b/DFS未实现、required-self保存发布待证；PAL恢复写入警告继续有效。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-phase2-guides-q.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-guides-q-20261016.json:1",
+        "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md:1"
+      ],
+      "unresolved": [
+        "旧构建、手测、Oct4/11与SAVE12历史结果不续期；本轮不运行编辑器/保存/迁移/发布/E2E/视觉/coverage。",
+        "未知后继UI、完整prepare安全门、required-self全保存发布与未实现N6b/DFS须另任务事实核验；指南不授权补产品。"
+      ],
+      "stopLine": "不得以模板/源码窄域/操作说明证明产品完整通过；保留原413行及失败、历史与未知，不将静态正文审查升级执行信用。"
     }
   ],
   "acceptance": {
@@ -148,5 +1389,7 @@
     "guardedRowsAreNotCurrentTruth": true,
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
-  }
+  },
+  "lastReviewed": "2026-10-16",
+  "acceptanceScope": "Only relationships registered in rows; not an exhaustive census of all docs and not product/runtime or full-governance acceptance."
 }

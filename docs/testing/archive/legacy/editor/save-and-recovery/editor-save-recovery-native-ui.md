@@ -1,79 +1,119 @@
 # 作者保存恢复：原生目录与界面验证
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../../../../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
-执行：Codex，2026-09-12；产品候选 **1ba88755**，本轮产品代码、测试和覆盖率基线零改动。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: archive-record-v1 / 1.0.0
 
-更新：2026-09-13已补真实OS目录的整浏览器重启、恢复中撤权与中文指引，见[最终候选收口](editor-save-recovery-closeout.md#原生os目录补证)。以下保留本页原批次证据和当时边界，不作为最新待办表。
+本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
 
-## 结论与范围
+## 历史范围
 
-本轮补证通过：**真实系统目录选择/授权 → 编辑器新增人物及场景引用 → 保存中断 → 关闭旧编辑页 →
-新页面恢复 → 继续修改保存 → 从编辑器启动试玩**；外部冲突会拒绝恢复，授权拒绝也不会留下半个新项目。
-这不是整卡验收，更不是完整通关E2E。
+- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
 
-- 浏览器：本机Google Chrome的单独无痕窗口，CUA操作按钮、输入框、菜单、画布及原生目录/权限对话框。
-- 来源：专用localhost:6011开发实例，未重启或改写用户6010。
-- 目录：`/tmp/codex-save-ui.cPh552/project-a`、`project-b`；都是本轮新建的临时目录，不是PAL或用户作者工程。
-- 真实后端：操作系统目录的File System Access、浏览器原生IndexedDB/Web Locks；**没有用OPFS替代本轮目录选择**。
-- 关闭的是旧编辑页，不是整个无痕会话。此前原生OPFS的整浏览器上下文关闭/重开证据仍单独见父卡，不能混成
-  “本轮OS目录已经做了完整浏览器重启”。本轮也不覆盖恢复中撤权、所有浏览器/OS权限组合或全量PAL内容。
+## 原始结论
 
-最初尝试另起同名Chrome资料实例，但CUA定位到日常实例；该准备尝试已停止，未计入下述结论。
-随后使用单独无痕窗口。注入配置启用前的未保存人物准备不计入正式用例；正式用例开始时磁盘只有hero、场景无实体。
+- 作者保存恢复：原生目录与界面验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
 
-## 故障注入边界
+## 当时证据
 
-临时Vite配置只在`author-save-journal.ts`的`writeBytes`函数体入口插入验证钩子，条件同时要求：
-页面含`__save_ui`参数、目录名为`project-a`、路径为`content/actors.json`、不是私有暂存写。
-默认off；专用`/__save_ui_control?mode=fail|hold|off`控制故障/可控等待/释放。
+- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
 
-- **fail**：抛出“测试注入：人物表写入中断”。实际边界是该作者文件写入前，不宣称已经执行到stream.close。
-  原生产流程已完整暂存、发布pending及issued；其他先行作者文件可已提交。
-- **hold**：只为观察真实“正在完成上次保存”界面而延后该IO，释放后继续原代码，不修改恢复结果。
-- **off**：不抛错；所有授权、原生IO、校验、恢复、登记及App状态处理均为生产实现。
+## 当前有效性
 
-该钩子没有加入仓库生产代码或默认Vite配置。源码位置与调用域见
-[恢复执行器](../../../../../../packages/editor/src/core/author-save-journal.ts)、
-[打开/恢复入口](../../../../../../packages/editor/src/core/open-actions.ts)、
-[启动页](../../../../../../packages/editor/src/ui/ProjectPicker.tsx)和[App保存流程](../../../../../../packages/editor/src/ui/App.tsx)。
+historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
 
-## 实测过程
+## 继任文档
 
-| 用例 | 真实操作与观测 | 结果 |
-|---|---|---|
-| U1 原生创建 | 启动页“新建空白项目”；系统选择project-a；Chrome“Allow”授权；显示project-a与“本地项目·已保存”，磁盘有当前工程 | 通过 |
-| U2 保存中断 | “角色→角色编辑→复制当前人物”，ID=ui-recovery-actor、名称=恢复验证人物；数字输入最大体力237；“场景→场景编排→添加实体→预制人物”放入画布，entity-1引用新人物。启用fail后点“保存” | 通过：进度浮层退出，底栏完整显示失败原因，保存按钮仍可用；磁盘pending、场景引用已写、actors仍只有hero |
-| U3 新页恢复 | 保留无痕窗口，建立新启动页，确认旧编辑tab已关闭；新页点“最近项目”project-a。hold期间真实显示恢复文案，off后进入编辑器 | 通过：磁盘committed、新人物maxHP=237、entity-1关联保持；人物界面可见237且“已保存” |
-| U4 继续编辑/试玩 | 用实际数字输入将237改为238，再点保存；场景“从默认落点引擎试玩” | 通过：磁盘238/committed；界面“已保存”、旧错误不残留；同源play.html实际渲染地图及主角/新增实体两个人物 |
-| U5 外部冲突 | 将下一目标设239，fail中断；确认磁盘仍238/pending；仅对临时actors文件外部改为777。关闭旧tab，off后新页点最近项目 | 通过：完整显示“项目恢复冲突：content/actors.json；已停止恢复，未继续覆盖，恢复数据仍保留”；打开/新建按钮仍可用 |
-| U6 权限对照 | 从冲突页选“新建空白项目”，原生选择project-b；Chrome“Don't Allow”；随后同一目录重选并“Allow” | 通过：拒绝后project-b为空、返回可操作启动页；允许后正常创建project-b并显示已保存/磁盘committed。主动拒绝按取消返回，不要求额外错误提示 |
+- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
 
-U5的前后快照包含23文件及目录共36项：逐文件SHA-256/mtimeNs、目录清单/mtimeNs完全相同，`cmp` exit0；
-777外部修改及恢复数据保留。此处证明可观测磁盘内容/元数据未改变，不冒称已拦截计数所有系统调用。
-U3/U4覆盖SR-01/08/09/10的本地界面主链；U5/U6补SR-05/06的冲突及选择授权边界，不能据此把全部SR项打勾。
+## 停止线
 
-## 证据与复跑
+- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
 
-- 本轮操作截图与AX状态为当前会话CUA工具输出，已实际查看保存失败、恢复等待、试玩画面和冲突提示；
-  带浏览器外框的截图未写入源码，不杜撰截图文件路径。本报告保留可追踪的范围和逐项结论。
-- `/tmp/codex-save-ui.cPh552/vite.config.mts`：实际故障配置，SHA-256
-  `8404378047080b5db2a02a20f7c723138e3bb741f0cb28d3f213059d83da8ff2`。
-- 同目录`snapshot.mjs`、`conflict-before.json`、`conflict-after.json`：真实文件快照及对照。
-- project-a最终保持外部冲突现场；project-b是成功正控。目录均保留作测试证据，没有删除作者文件。
-- 无痕测试窗口已关闭，自建6011及最初独立浏览器/9333调试端口已停止。本轮不保留无痕恢复凭据，
-  不把冲突测试目录当作后续可继续恢复的作者工程。
+## 原文保全
 
-后续审查复用本轮已完成的视觉证据；没有新缺陷或候选行为变化，不重复整段视觉流程。
-确需复跑时新建隔离目录/浏览器环境，按U1–U6操作；启用故障配置后再开始正式编辑，不把开发服务器重载
-造成的“未点击保存编辑丢失”误记为保存恢复失败。故障只在测试文件目录启用，禁止选择用户项目。
-
-## 遗留边界
-
-- OS目录的整浏览器重启、恢复中权限被撤回仍没有本轮原生证据；已有单测/API证据与此分栏。
-- 试玩的临时跳转提示末尾可见裁切：来源[main.ts](../../../../../../packages/reforge/src/main.ts)第7067行的
-  “已跳至…onEnter已跳过”调试长文案。登记到R4试玩入口巡检，不在本卡顺手修改运行时提示；保存/恢复提示未见该问题。
-- [110臂待核清单](../../quality/quality-gates/editor-save-recovery-coverage-pending.md)没有因本轮手工UI验证减少；约81秒的大克隆成本风险仍在。
-
-本轮仅新增验证记录，`pnpm check:docs`通过：20项工具测试、405 Markdown/1,859本地链接/140任务。
-首次检查的一处源码行号链接已改正，日志保留于`docs.log`和`docs-final.log`；产品树相对1ba88755零diff。
-不重跑/改写生产覆盖率来替代界面证据，不代签、不标父卡done。
+固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5fb078aea72c466965c7fb2f2d34ddc9e44f15f56519cfcb3e5e61a152a1fed1`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # 作者保存恢复：原生目录与界面验证
+>
+> 父卡：[EDITOR-SAVE-RECOVERY-1](../../../../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
+> 执行：Codex，2026-09-12；产品候选 **1ba88755**，本轮产品代码、测试和覆盖率基线零改动。
+>
+> 更新：2026-09-13已补真实OS目录的整浏览器重启、恢复中撤权与中文指引，见[最终候选收口](editor-save-recovery-closeout.md#原生os目录补证)。以下保留本页原批次证据和当时边界，不作为最新待办表。
+>
+> ## 结论与范围
+>
+> 本轮补证通过：**真实系统目录选择/授权 → 编辑器新增人物及场景引用 → 保存中断 → 关闭旧编辑页 →
+> 新页面恢复 → 继续修改保存 → 从编辑器启动试玩**；外部冲突会拒绝恢复，授权拒绝也不会留下半个新项目。
+> 这不是整卡验收，更不是完整通关E2E。
+>
+> - 浏览器：本机Google Chrome的单独无痕窗口，CUA操作按钮、输入框、菜单、画布及原生目录/权限对话框。
+> - 来源：专用localhost:6011开发实例，未重启或改写用户6010。
+> - 目录：`/tmp/codex-save-ui.cPh552/project-a`、`project-b`；都是本轮新建的临时目录，不是PAL或用户作者工程。
+> - 真实后端：操作系统目录的File System Access、浏览器原生IndexedDB/Web Locks；**没有用OPFS替代本轮目录选择**。
+> - 关闭的是旧编辑页，不是整个无痕会话。此前原生OPFS的整浏览器上下文关闭/重开证据仍单独见父卡，不能混成
+>   “本轮OS目录已经做了完整浏览器重启”。本轮也不覆盖恢复中撤权、所有浏览器/OS权限组合或全量PAL内容。
+>
+> 最初尝试另起同名Chrome资料实例，但CUA定位到日常实例；该准备尝试已停止，未计入下述结论。
+> 随后使用单独无痕窗口。注入配置启用前的未保存人物准备不计入正式用例；正式用例开始时磁盘只有hero、场景无实体。
+>
+> ## 故障注入边界
+>
+> 临时Vite配置只在`author-save-journal.ts`的`writeBytes`函数体入口插入验证钩子，条件同时要求：
+> 页面含`__save_ui`参数、目录名为`project-a`、路径为`content/actors.json`、不是私有暂存写。
+> 默认off；专用`/__save_ui_control?mode=fail|hold|off`控制故障/可控等待/释放。
+>
+> - **fail**：抛出“测试注入：人物表写入中断”。实际边界是该作者文件写入前，不宣称已经执行到stream.close。
+>   原生产流程已完整暂存、发布pending及issued；其他先行作者文件可已提交。
+> - **hold**：只为观察真实“正在完成上次保存”界面而延后该IO，释放后继续原代码，不修改恢复结果。
+> - **off**：不抛错；所有授权、原生IO、校验、恢复、登记及App状态处理均为生产实现。
+>
+> 该钩子没有加入仓库生产代码或默认Vite配置。源码位置与调用域见
+> [恢复执行器](../../../../../../packages/editor/src/core/author-save-journal.ts)、
+> [打开/恢复入口](../../../../../../packages/editor/src/core/open-actions.ts)、
+> [启动页](../../../../../../packages/editor/src/ui/ProjectPicker.tsx)和[App保存流程](../../../../../../packages/editor/src/ui/App.tsx)。
+>
+> ## 实测过程
+>
+> | 用例 | 真实操作与观测 | 结果 |
+> |---|---|---|
+> | U1 原生创建 | 启动页“新建空白项目”；系统选择project-a；Chrome“Allow”授权；显示project-a与“本地项目·已保存”，磁盘有当前工程 | 通过 |
+> | U2 保存中断 | “角色→角色编辑→复制当前人物”，ID=ui-recovery-actor、名称=恢复验证人物；数字输入最大体力237；“场景→场景编排→添加实体→预制人物”放入画布，entity-1引用新人物。启用fail后点“保存” | 通过：进度浮层退出，底栏完整显示失败原因，保存按钮仍可用；磁盘pending、场景引用已写、actors仍只有hero |
+> | U3 新页恢复 | 保留无痕窗口，建立新启动页，确认旧编辑tab已关闭；新页点“最近项目”project-a。hold期间真实显示恢复文案，off后进入编辑器 | 通过：磁盘committed、新人物maxHP=237、entity-1关联保持；人物界面可见237且“已保存” |
+> | U4 继续编辑/试玩 | 用实际数字输入将237改为238，再点保存；场景“从默认落点引擎试玩” | 通过：磁盘238/committed；界面“已保存”、旧错误不残留；同源play.html实际渲染地图及主角/新增实体两个人物 |
+> | U5 外部冲突 | 将下一目标设239，fail中断；确认磁盘仍238/pending；仅对临时actors文件外部改为777。关闭旧tab，off后新页点最近项目 | 通过：完整显示“项目恢复冲突：content/actors.json；已停止恢复，未继续覆盖，恢复数据仍保留”；打开/新建按钮仍可用 |
+> | U6 权限对照 | 从冲突页选“新建空白项目”，原生选择project-b；Chrome“Don't Allow”；随后同一目录重选并“Allow” | 通过：拒绝后project-b为空、返回可操作启动页；允许后正常创建project-b并显示已保存/磁盘committed。主动拒绝按取消返回，不要求额外错误提示 |
+>
+> U5的前后快照包含23文件及目录共36项：逐文件SHA-256/mtimeNs、目录清单/mtimeNs完全相同，`cmp` exit0；
+> 777外部修改及恢复数据保留。此处证明可观测磁盘内容/元数据未改变，不冒称已拦截计数所有系统调用。
+> U3/U4覆盖SR-01/08/09/10的本地界面主链；U5/U6补SR-05/06的冲突及选择授权边界，不能据此把全部SR项打勾。
+>
+> ## 证据与复跑
+>
+> - 本轮操作截图与AX状态为当前会话CUA工具输出，已实际查看保存失败、恢复等待、试玩画面和冲突提示；
+>   带浏览器外框的截图未写入源码，不杜撰截图文件路径。本报告保留可追踪的范围和逐项结论。
+> - `/tmp/codex-save-ui.cPh552/vite.config.mts`：实际故障配置，SHA-256
+>   `8404378047080b5db2a02a20f7c723138e3bb741f0cb28d3f213059d83da8ff2`。
+> - 同目录`snapshot.mjs`、`conflict-before.json`、`conflict-after.json`：真实文件快照及对照。
+> - project-a最终保持外部冲突现场；project-b是成功正控。目录均保留作测试证据，没有删除作者文件。
+> - 无痕测试窗口已关闭，自建6011及最初独立浏览器/9333调试端口已停止。本轮不保留无痕恢复凭据，
+>   不把冲突测试目录当作后续可继续恢复的作者工程。
+>
+> 后续审查复用本轮已完成的视觉证据；没有新缺陷或候选行为变化，不重复整段视觉流程。
+> 确需复跑时新建隔离目录/浏览器环境，按U1–U6操作；启用故障配置后再开始正式编辑，不把开发服务器重载
+> 造成的“未点击保存编辑丢失”误记为保存恢复失败。故障只在测试文件目录启用，禁止选择用户项目。
+>
+> ## 遗留边界
+>
+> - OS目录的整浏览器重启、恢复中权限被撤回仍没有本轮原生证据；已有单测/API证据与此分栏。
+> - 试玩的临时跳转提示末尾可见裁切：来源[main.ts](../../../../../../packages/reforge/src/main.ts)第7067行的
+>   “已跳至…onEnter已跳过”调试长文案。登记到R4试玩入口巡检，不在本卡顺手修改运行时提示；保存/恢复提示未见该问题。
+> - [110臂待核清单](../../quality/quality-gates/editor-save-recovery-coverage-pending.md)没有因本轮手工UI验证减少；约81秒的大克隆成本风险仍在。
+>
+> 本轮仅新增验证记录，`pnpm check:docs`通过：20项工具测试、405 Markdown/1,859本地链接/140任务。
+> 首次检查的一处源码行号链接已改正，日志保留于`docs.log`和`docs-final.log`；产品树相对1ba88755零diff。
+> 不重跑/改写生产覆盖率来替代界面证据，不代签、不标父卡done。
+>
+<!-- original-source-quote:end -->

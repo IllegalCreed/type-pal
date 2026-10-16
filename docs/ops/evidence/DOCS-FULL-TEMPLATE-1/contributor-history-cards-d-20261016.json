@@ -1,0 +1,2040 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-history-cards-d-20261016",
+  "kind": "documentation-migration-candidate",
+  "status": "author-candidate-pending-independent-acceptance",
+  "owner": "Codex / contributor history_cards_a",
+  "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+  "branch": "codex/docs-history-cards-d",
+  "governanceTask": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "scope": {
+    "documents": 12,
+    "paths": [
+      "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md"
+    ],
+    "onlyNewArtifact": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json",
+    "sharedWrites": false,
+    "productOrOldTestsOrCoverageWrites": false,
+    "progressCredit": "none until root independent acceptance; goal remains active"
+  },
+  "readScope": {
+    "fullTaskDocuments": [
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 95,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 84,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 95,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 141,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 66,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 65,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 54,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 55,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 72,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 69,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 73,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 74,
+        "migrationSourceBlobIdenticalAt": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+      }
+    ],
+    "fullTaskLines": 943,
+    "fullSupportingDocuments": [
+      {
+        "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "lines": 98
+      }
+    ],
+    "narrowSources": [
+      {
+        "path": "docs/ops/audits/code-quality-governance.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["1–51", "79–118"]
+      },
+      {
+        "path": "docs/ops/audits/code-quality-file-ledger.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["1–17", "38–80", "111", "150–189"]
+      },
+      {
+        "path": "packages/pal-extract/src/events/annotate.ts",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["1–80"],
+        "wholeFile": false
+      },
+      {
+        "path": "packages/pal-extract/src/resources/sprite.ts",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["1–70"],
+        "wholeFile": false
+      },
+      {
+        "path": "packages/game/src/present/screen-wave.ts",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["1–73"],
+        "wholeFile": true
+      },
+      {
+        "path": "docs/phase1/05-events-schema.md",
+        "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "ranges": ["121–145"],
+        "wholeFile": false
+      }
+    ],
+    "notReadWhole": [
+      "pal-extract CLI73–896",
+      "slice/recompile",
+      "SSS/M.MSG parser and raw",
+      "game remaining five primitives/asset/shell/tools production files",
+      "historical product tests",
+      "coverage-final.json/lcov/raw archives"
+    ],
+    "historicalRawExistenceOnly": [
+      {
+        "path": "/tmp/type-pal-q3h-counter.bMPKQT/q3j-mutant.raw",
+        "existsAtPreflight": false,
+        "contentRead": false
+      },
+      {
+        "path": "/tmp/type-pal-q3h-counter.bMPKQT/q3j-mutant.json",
+        "existsAtPreflight": false,
+        "contentRead": false
+      },
+      {
+        "path": "/tmp/type-pal-q3k-counter/screen-wave-mutant.raw",
+        "existsAtPreflight": false,
+        "contentRead": false
+      },
+      {
+        "path": "/tmp/type-pal-q3k-counter/screen-wave-mutant.json",
+        "existsAtPreflight": false,
+        "contentRead": false
+      }
+    ]
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-04 shared MKF/RNG边界治理：损坏offset、截断payload或surface越界从静默截断/吞写改为明确失败；合法PAL资源字节结果与既有跳过政策保持。只关闭本卡窄域，不代表shared所有caller或全仓代码已审完。",
+      "originalTitle": "CODE-QUALITY-2 - shared MKF / RNG codec 边界治理",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 shared codec",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`65dbeba3f`（Q1 已收口候选）"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "b9c8780f230e53dbcb6c3c65e0b76ca607b18acc",
+      "sourceSha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
+      "afterSha256": "dcd987d8eeb8faf57aeef300cf2862fc179f8c7d000d1381662ba26675e99dcc",
+      "candidateSha256": "dcd987d8eeb8faf57aeef300cf2862fc179f8c7d000d1381662ba26675e99dcc",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。合法空块、YJ2失败跳过和RNG end尾部仍属原合同；拒绝非法输入不授予新恢复/兼容策略。旧全绿及已验证词不等于本次产品测试、视觉、coverage或当前测试质量审核。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:38–41",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:83–85",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 shared codec",
+        "boundary": "原白名单mkf.ts、rng.ts及同域tests；不改extract/game caller、raw、生成物、schema、UI或YJ2正常算法。空chunk与decodeRngFrames对YJ2失败的跳过、RNG end opcode忽略尾随payload，不能被“fail-closed”概括误删。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原白名单mkf.ts、rng.ts及同域tests；不改extract/game caller、raw、生成物、schema、UI或YJ2正常算法。空chunk与decodeRngFrames对YJ2失败的跳过、RNG end opcode忽略尾随payload，不能被“fail-closed”概括误删。",
+      "versionAndApplicability": "2026-10-04，原基点65dbeba3f、原隔离路径和分支按原时点读取；完整check/ratchet/protected fast/lint是原轮结果，不将protected base b9ba7e0fa变成本轮基点。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-2 - shared MKF / RNG codec 边界治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "Build / Review / Done",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "合法MKF offset表/空chunk与RNG合法opcode、surface及end后尾部；malformed边界失败不改变既有YJ2失败跳过。",
+      "publicCallers": "shared公开decoder供pal-extract CLI和game rng-player消费；本包未重读全部生产caller。",
+      "businessOracle": "合法chunk/帧字节与索引不变，非法读取/写入前明确失败，而非仅测试数增长。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "原pending被后续dated accept闭合；不能执行旧build。",
+        "原raw digest和动态日志未在本轮复跑或认证。"
+      ],
+      "history": "2026-10-04，原基点65dbeba3f、原隔离路径和分支按原时点读取；完整check/ratchet/protected fast/lint是原轮结果，不将protected base b9ba7e0fa变成本轮基点。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q2b](CODE-QUALITY-2b-shared-yj2-boundaries.md)接续YJ2；当前新治理任务按[现行工作流](../../../agent-workflow.md)准入。原“由Codex继续实现”提示只保留历史，无本卡新产品Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "b9c8780f230e53dbcb6c3c65e0b76ca607b18acc",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 6158,
+        "sourceLines": 95,
+        "sourceFinalNewline": true,
+        "inverseSha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原pnpm check/lint/coverage:ratchet/coverage:fast及raw对拍为引用，未执行"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-file-ledger.md:38–41",
+        "docs/ops/audits/code-quality-governance.md:83–85",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-04至05日YJ2位流/回引边界修复：截断位流、负回引窗口和超目标写入明确失败，合法raw、重叠回引及early-EOS零填充不变。不能把早停零尾一概改成伪成功。",
+      "originalTitle": "CODE-QUALITY-2b - shared YJ2 位流与回引边界",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 shared",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`e295d9804`",
+        "Worktree": "`/Users/zhangxu/illegal/type-pal-code-quality`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "4df2fb09fc0e6ee2e7ab50c9935f4fbfba02f6d8",
+      "sourceSha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
+      "afterSha256": "602c90e6a183e28999484572cac8364219f17b95f426e12ae92f0b01b140a05b",
+      "candidateSha256": "602c90e6a183e28999484572cac8364219f17b95f426e12ae92f0b01b140a05b",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical；131/129计数差异guarded，历史正式门通过不升级为本轮通过。合法early-EOS尾零和overlap继续按原文保留，不因current-only政策删去仍合法的codec输入；不授任意fallback。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:63,76",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:21–33,58–62",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 shared",
+        "boundary": "仅yj2.ts、同域边界测试与历史账本；YJ1/MKF/RNG、资源类型、其它包和生成物不纳入实现。resources/tables等纯类型核验是后继账本分列，不算本卡修改；不增加任意尺寸上限。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅yj2.ts、同域边界测试与历史账本；YJ1/MKF/RNG、资源类型、其它包和生成物不纳入实现。resources/tables等纯类型核验是后继账本分列，不算本卡修改；不增加任意尺寸上限。",
+      "versionAndApplicability": "10-04定位，10-05收口；原基点e295d9804。原shared test count127→131与同卡全仓shared129并列不同记录；未有足够run SHA/log解释其对应轮次，标guarded而非伪造统一口径。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-2b - shared YJ2 位流与回引边界",
+          "目标",
+          "范围",
+          "前提真值门",
+          "反证与替代解释",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "Build / Review",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "合法YJ2输出长度、重叠回引及明确early-EOS零填充；坏位流/负窗口/超目标写入拒绝，无任意尺寸上限。",
+      "publicCallers": "shared YJ2供extract/game/migrate；本包未重新审其全部caller。",
+      "businessOracle": "旧新真实raw逐字节与冻结向量不变；移除三guard应暴露malformed失败。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "shared131（69行）与129（72行）原卡未解释：guarded，不推定同轮或命令范围差异。",
+        "默认串行editor少1 branch另归Q3c；不是本卡更改runner的授权。"
+      ],
+      "history": "10-04定位，10-05收口；原基点e295d9804。原shared test count127→131与同卡全仓shared129并列不同记录；未有足够run SHA/log解释其对应轮次，标guarded而非伪造统一口径。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3c确定性卡](CODE-QUALITY-3c-editor-coverage-determinism.md)接续editor差额；[治理总纲](../../../audits/code-quality-governance.md)84行约束Q2仅codec/type子批。131/129由根后继治理保留出处，不要求用户替Agent选择数。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "4df2fb09fc0e6ee2e7ab50c9935f4fbfba02f6d8",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 5920,
+        "sourceLines": 84,
+        "sourceFinalNewline": true,
+        "inverseSha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": [
+          "原raw对拍旧实现e295d9804、guard mutant、support-mode ratchet/protected fast仅引用"
+        ],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-file-ledger.md:63,76",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:21–33,58–62",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-04事件slice/annotate类型边界治理：移除结构级as unknown as访问，保留scene/global BFS、shared强制归属、goto改写、annotation输出及recompile round-trip。纯转换重构不能升级为事件语义重新认证。",
+      "originalTitle": "CODE-QUALITY-3 - pal-extract 事件切分与标注类型边界",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 pal-extract",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`34ccffd5a`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "10f7b69e50924114eb21989a4ba9ee6732504fde",
+      "sourceSha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
+      "afterSha256": "388886c866d7393a753282dfca7b1ad22c43ef0499347aa38618fbe5f7c8a011",
+      "candidateSha256": "388886c866d7393a753282dfca7b1ad22c43ef0499347aa38618fbe5f7c8a011",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。旧sourcecast移除不等于所有cast都不合法，不能据此清理当前代码。原round-trip、包级绿数只限定当轮，不授本轮opcode真值、测试质量或coverage信用。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:43–49",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "packages/pal-extract/src/events/annotate.ts:1–80",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 pal-extract",
+        "boundary": "仅slice.ts、annotate.ts与同域最小回归；不改disasm/recompile算法、opcode、schema、raw、生成输出、运行时或coverage选择。不能把移除不可达rule表说成删除所有annotation字段。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅slice.ts、annotate.ts与同域最小回归；不改disasm/recompile算法、opcode、schema、raw、生成输出、运行时或coverage选择。不能把移除不可达rule表说成删除所有annotation字段。",
+      "versionAndApplicability": "2026-10-04、基点34ccffd5a；原历史称Q3a，稳定文件名CODE-QUALITY-3保持。415全包与其它卡后续417/419/421不相加，不把后继测试增长回填。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3 - pal-extract 事件切分与标注类型边界",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "Build / Review / Done",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "当前Command联合及合法词表/symbols的纯转换；不新增未建模opcode字符串字段或修改annotation真值。",
+      "publicCallers": "sliceByScene/annotate供事件提取与round-trip；本包未全文重读其全部代码/测试。",
+      "businessOracle": "reachable集、shared归属、goto目标及可达annotation输出保持，而非仅grep强转消失。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "不可达rule表移除不等于删除所有annotation字段。",
+        "原pending是中间态，后续accept只属旧轮。"
+      ],
+      "history": "2026-10-04、基点34ccffd5a；原历史称Q3a，稳定文件名CODE-QUALITY-3保持。415全包与其它卡后续417/419/421不相加，不把后继测试增长回填。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3f](CODE-QUALITY-3f-pal-extract-symbols-input.md)接续symbols入口，[Q3b](CODE-QUALITY-3b-pal-extract-io-boundaries.md)接续raw表边界。新工作按[现行工作流](../../../agent-workflow.md)另准入，无可执行旧提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "10f7b69e50924114eb21989a4ba9ee6732504fde",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 5915,
+        "sourceLines": 95,
+        "sourceFinalNewline": true,
+        "inverseSha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原定向45/45、pal-extract68/415、check/ratchet/protected/lint仅历史引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-file-ledger.md:43–49",
+        "packages/pal-extract/src/events/annotate.ts:1–80",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-04至05日SSS/M.MSG输入边界：chunk固定结构未对齐、消息offset越界/倒序显式失败，合法字段、GBK及bytecode不变。WORD/palette宽容短输入留待另行裁决，本卡未改。",
+      "originalTitle": "CODE-QUALITY-3b - pal-extract 原始表与消息边界",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 pal-extract",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`48b623d66`",
+        "Worktree": "`/Users/zhangxu/illegal/type-pal-code-quality`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "8d6dbf989839f3021b8c7d9fbc592d999dd8a919",
+      "sourceSha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
+      "afterSha256": "55fb6b347fe586fd59aa99ed708a1d2e7fbe9259f4b1801b1d340837711e5dd0",
+      "candidateSha256": "55fb6b347fe586fd59aa99ed708a1d2e7fbe9259f4b1801b1d340837711e5dd0",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。当前done不抹去原rework；417全包、266 fast及editor差额不能混作同一计数。WORD/palette宽容合同未被本卡收紧，本轮不替未知方言或旧测试合法输入签新accept。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:21–33,58–62",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:50–53",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 pal-extract",
+        "boundary": "仅io/msg.ts、sss.ts及同域边界测试/治理文档；不改codec、事件算法、raw、生成物、runtime或coverage派发。chunk2/3/4对齐是本次具体修复，不把所有未知SSS方言一概认作非法。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅io/msg.ts、sss.ts及同域边界测试/治理文档；不改codec、事件算法、raw、生成物、runtime或coverage派发。chunk2/3/4对齐是本次具体修复，不把所有未知SSS方言一概认作非法。",
+      "versionAndApplicability": "基点48b623d66，10-04实现/门失败至10-05后继通过。原后续命名Q3c resources/CLI为旧规划，不能覆盖现Q3c确定性卡或恢复新产品范围。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3b - pal-extract 原始表与消息边界",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "专项审查安排",
+          "Build: 实现与自测",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "完整可安全解释的SSS结构与非递减且落在buffer内的消息offset；合法GBK/bytecode不变，WORD/palette短输入宽容不改。",
+      "publicCallers": "parseSss/parseMessages供CLI raw提取；本包未重新全文读parser/raw。",
+      "businessOracle": "合法真实字段/digest不变，未对齐/越界/倒序明确失败；不以生成产物补丁掩盖。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "10-04 fast三次少1branch失败，10-05支持模式门通过，时点并存。",
+        "266 fast与417 full不同分母；WORD/palette待裁决不由本卡关闭。"
+      ],
+      "history": "基点48b623d66，10-04实现/门失败至10-05后继通过。原后续命名Q3c resources/CLI为旧规划，不能覆盖现Q3c确定性卡或恢复新产品范围。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3c](CODE-QUALITY-3c-editor-coverage-determinism.md)处理确定性，[Q3d](CODE-QUALITY-3d-pal-extract-png-inputs.md)接续PNG。新实现须另准入，无可执行旧Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "8d6dbf989839f3021b8c7d9fbc592d999dd8a919",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 9708,
+        "sourceLines": 141,
+        "sourceFinalNewline": true,
+        "inverseSha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原34定向/full check/ratchet/protected失败与后继通过仅引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:21–33,58–62",
+        "docs/ops/audits/code-quality-file-ledger.md:50–53",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-04至05日editor少1 branch调查及回归补齐：同scope/门槛下定位公开组件缺帧fallback，补受控动画合同而不改生产或coverage config。不是把所有未来不确定性宣布消失。",
+      "originalTitle": "CODE-QUALITY-3c - editor coverage 分支确定性",
+      "originalStatus": "done",
+      "originalOwner": "Codex",
+      "originalCodingOwner": "not present; preserve original Owner field",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Owner": "Codex",
+        "Reviewer": "Codex（独立验收）",
+        "Phase": "ops",
+        "Capability": "ops / code-quality",
+        "Visual Verification Timing": "N/A"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "8cb961a970f456c40e72fa7b9e1f0947a73016a4",
+      "sourceSha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
+      "afterSha256": "e46fc54f3d4a8c6145167ea0e06a013e1e76dc69977ce99a8340cd54c9e6c2d2",
+      "candidateSha256": "e46fc54f3d4a8c6145167ea0e06a013e1e76dc69977ce99a8340cd54c9e6c2d2",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。最终修复层为受控合法业务回归，不能沿旧猜测改runner/reorder或靠重复多数放行。原covered数与质量门仅限定旧树，本次文档治理无coverage执行信用；后续新差额仍应按新SHA/范围定位。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/pre-e2e/coverage-determinism.md:1–98",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:79–80",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "ops",
+        "boundary": "仅SpriteFrameWorkbench.animation-boundary.test.tsx、文档与官方生成baseline；原Owner: Codex保持，不补造原Coding Owner。不能改reorder产品、Q3b parser、runner/include/exclude或降低精确比率。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅SpriteFrameWorkbench.animation-boundary.test.tsx、文档与官方生成baseline；原Owner: Codex保持，不补造原Coding Owner。不能改reorder产品、Q3b parser、runner/include/exclude或降低精确比率。",
+      "versionAndApplicability": "10-04至10-05，先Q3b editor24165/29058对基线24166/29058差1，后逐文件定位并补回归。9月reorder调查是独立旧轮，23→24与213生产文件/1600→1601测试不可套到本卡292/4682/4845。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3c - editor coverage 分支确定性",
+          "目标",
+          "范围",
+          "前提真值门",
+          "已完成的逐文件对照",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "公开组件合法缺帧动画请求与受控performance/timer/canvas；不靠非法fixture、sleep或降低baseline。",
+      "publicCallers": "SemanticFrameShelf公开预览与Workbench动画fallback；本包未全文重读生产组件/专属测试。",
+      "businessOracle": "同一合法请求应回退第0帧并终点停止，删fallback须使该断言失败；相同计数或probe绿不能替代。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "worker/runner归因只是中间猜测，branch证据收窄后不得仍认证runner缺陷。",
+        "旧probe断言在本卡已失效，9月reorder根因不解释全部10月差额。"
+      ],
+      "history": "10-04至10-05，先Q3b editor24165/29058对基线24166/29058差1，后逐文件定位并补回归。9月reorder调查是独立旧轮，23→24与213生产文件/1600→1601测试不可套到本卡292/4682/4845。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3b](CODE-QUALITY-3b-pal-extract-io-boundaries.md)与[Q3d](CODE-QUALITY-3d-pal-extract-png-inputs.md)保留受其阻塞/后继闭合关系；未来差额按[现行工作流](../../../agent-workflow.md)处理，不复活旧probe断言。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "8cb961a970f456c40e72fa7b9e1f0947a73016a4",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "original field absent; do not invent"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 6501,
+        "sourceLines": 66,
+        "sourceFinalNewline": true,
+        "inverseSha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原worker对照/hold-flush probe/单点mutant/正式门只引用，无重跑"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/pre-e2e/coverage-determinism.md:1–98",
+        "docs/ops/audits/code-quality-file-ledger.md:79–80",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05 indexed PNG编码入口治理：非法尺寸、短pixels或短opaque明确失败，合法帧PNG和alpha语义保持。RGB复制palette index而非烘色；不能把opaque palette-0当透明。",
+      "originalTitle": "CODE-QUALITY-3d - pal-extract indexed PNG 输入边界",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 pal-extract",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`ea0ba6c97`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "d3d01d80409d510c7d15eb030a756d02eaaf4f39",
+      "sourceSha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
+      "afterSha256": "5b0e93848af3e161a454968e60c480bc14ba7ece1a8750c073bb842623b680d7",
+      "candidateSha256": "5b0e93848af3e161a454968e60c480bc14ba7ece1a8750c073bb842623b680d7",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。只保存入口合同与当轮验证，不以旧cast/兼容词删除合法无opaque输入，不扩大为全尺寸分配安全认证。本次未执行产品、视觉或coverage，也未给旧测试当前质量新accept。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "packages/pal-extract/src/resources/sprite.ts:1–70",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:77–78",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:58–62",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 pal-extract",
+        "boundary": "仅resources/sprite.ts入口与专属边界测试，不改PNG库/调色板/生成物/runtime。opaque可省略并全opaque是合法调用，不增加任意尺寸上限或改成必须提供mask。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅resources/sprite.ts入口与专属边界测试，不改PNG库/调色板/生成物/runtime。opaque可省略并全opaque是合法调用，不增加任意尺寸上限或改成必须提供mask。",
+      "versionAndApplicability": "10-05，基点ea0ba6c97；原check中editor605/4844与Q3c最终606/4845是不同记录，不合计或替换成当前数量。原合法PNG digest反证与上游修复约束保留。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3d - pal-extract indexed PNG 输入边界",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "Build / Review",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "正整数宽高、pixels长度至少width×height、可省略opaque；提供opaque时长度至少所需像素数。没有本卡新增任意尺寸上限。",
+      "publicCallers": "encodeIndexedPng及framesToOut，原CLI/rng-frames/ball/rgm caller仅按卡引用，未重新全文读。",
+      "businessOracle": "合法PNG索引复制与opaque alpha不变，短数组不再undefined→0静默补齐；guard mutant应失败。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "先单包coverage提升并等待Q3c，不冒称当时全仓门已闭合。",
+        "opaque省略为合法全opaque，不能恢复错误的palette0透明判断。"
+      ],
+      "history": "10-05，基点ea0ba6c97；原check中editor605/4844与Q3c最终606/4845是不同记录，不合计或替换成当前数量。原合法PNG digest反证与上游修复约束保留。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3c](CODE-QUALITY-3c-editor-coverage-determinism.md)解释门闭合，[Q3f](CODE-QUALITY-3f-pal-extract-symbols-input.md)接续sidecar输入；新实现/运行按[现行工作流](../../../agent-workflow.md)另准入。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "d3d01d80409d510c7d15eb030a756d02eaaf4f39",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 3771,
+        "sourceLines": 65,
+        "sourceFinalNewline": true,
+        "inverseSha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原encoder9定向/69files419/guard负控/支持模式门仅引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "packages/pal-extract/src/resources/sprite.ts:1–70",
+        "docs/ops/audits/code-quality-file-ledger.md:77–78",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:58–62",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05可选symbols.json的结构入口治理：坏JSON带路径失败，合法sidecar与缺文件{}保持；名字只是人读注释，不把注释写成事件数字真值。",
+      "originalTitle": "CODE-QUALITY-3f - pal-extract symbols 输入合同",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 pal-extract",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`5e1213f60`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "40b42cf5ec9c5e077ff518c29ff362b59ee91325",
+      "sourceSha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
+      "afterSha256": "cb4e963fa8076a56187cee18f8a3a4f6b9cc3d37bb0e8604227171ea78b490c7",
+      "candidateSha256": "cb4e963fa8076a56187cee18f8a3a4f6b9cc3d37bb0e8604227171ea78b490c7",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。数字ID真值与五map结构保留，不把名字当runtime输入或为模板扩schema；未重新执行annotate或核完全部caller/旧测试质量。结构强转不是本包继续删cast的授权。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/phase1/05-events-schema.md:121–145",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "packages/pal-extract/src/events/annotate.ts:1–80",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:43–45,111",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 pal-extract",
+        "boundary": "仅annotate的parseSymbols、CLI读取入口与专属回归/账本；不改opcode、数字ID、WORD fallback、raw或生成物。五种可选映射为item/spell/person/enemy/scene，不能扩大未知字段或额外要求Record键必须为数字。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "仅annotate的parseSymbols、CLI读取入口与专属回归/账本；不改opcode、数字ID、WORD fallback、raw或生成物。五种可选映射为item/spell/person/enemy/scene，不能扩大未知字段或额外要求Record键必须为数字。",
+      "versionAndApplicability": "2026-10-05，基点5e1213f60；前轮PNG419到本轮421是历史不同树，不相加、不回填今天基准。原Symbols cast风险和结构验证替换按时点保留。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3f - pal-extract symbols 输入合同",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "缺文件保持{}；对象含可选item/spell/person/enemy/scene字符串映射；Record<string,string>不另限数字键，拒绝未知字段/数组/null/非字符串值。",
+      "publicCallers": "CLI parseSymbols后供annotate人读注释，schema明确引擎不读名字；未全文重读CLI。",
+      "businessOracle": "合法annotate输出与数字事件ID不变，坏结构在入口带路径失败，非深层崩溃。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "symbols名字不是真值；不扩五map或限制成数字键。",
+        "本轮只直接读parser窄源与schema，不授全CLI/事件机制当前全文信用。"
+      ],
+      "history": "2026-10-05，基点5e1213f60；前轮PNG419到本轮421是历史不同树，不相加、不回填今天基准。原Symbols cast风险和结构验证替换按时点保留。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3g](CODE-QUALITY-3g-pal-extract-cli-io.md)接续CLI总装审计；当前新工作按[现行工作流](../../../agent-workflow.md)另准入，无可执行旧Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "40b42cf5ec9c5e077ff518c29ff362b59ee91325",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 2881,
+        "sourceLines": 54,
+        "sourceFinalNewline": true,
+        "inverseSha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原17定向/69files421/full gates仅历史引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/phase1/05-events-schema.md:121–145",
+        "packages/pal-extract/src/events/annotate.ts:1–80",
+        "docs/ops/audits/code-quality-file-ledger.md:43–45,111",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05CLI总装IO/失败策略的只读审计结论：原卡未发现新增直接缺陷，没有实现改动。把边界登记清楚，不能改写成已修复生产问题或因行数完成全仓治理。",
+      "originalTitle": "CODE-QUALITY-3g - pal-extract CLI IO 与失败边界",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 pal-extract",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`abb759ceb`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "681d9715acecacd14ebbb5622479270a886180c5",
+      "sourceSha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
+      "afterSha256": "cab6fb26cebaf4d539d5e54cb1e04829a44df2b264f252c875b16196f3692df8",
+      "candidateSha256": "cab6fb26cebaf4d539d5e54cb1e04829a44df2b264f252c875b16196f3692df8",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。只读审计完成不等于有生产问题被修复；原CLI降级/caller结论不在本轮重新认证，旧全绿不授当前测试质量或覆盖率。尾部旧pending提示不改变历史done，也不恢复新build。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:111",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:84–85",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 pal-extract",
+        "boundary": "原审计覆盖CLI raw输入、OUT清理、写盘、可选资源降级、round-trip及manifest；已收codec/事件/PNG/symbols子批不重复领，raw和extracted格式不变。当前文档治理不执行CLI、不接手其实现。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原审计覆盖CLI raw输入、OUT清理、写盘、可选资源降级、round-trip及manifest；已收codec/事件/PNG/symbols子批不重复领，raw和extracted格式不变。当前文档治理不执行CLI、不接手其实现。",
+      "versionAndApplicability": "2026-10-05、基点abb759ceb；先已有symbols子批，其余CLI留review，后73–896审计归档。原卡没有新产品代码commit或独立raw执行SHA，不由本次补造。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3g - pal-extract CLI IO 与失败边界",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "原CLI合法raw与有caller依据的可选资源/未压缩降级；不由文档认定所有catch都是缺陷或授权无guard删除。",
+      "publicCallers": "CLI总装输入/清理/round-trip/资源写盘/manifest；本轮未重读73–896生产全文。",
+      "businessOracle": "真实输出格式保持，清理不越界、必要失败传播、可选降级有caller；仅保存原审计结论，不给新代码修复信用。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "末旧“未获build/不得done”与后继dated done并存，历史化不执行。",
+        "纯审计未发现直接缺陷，不能写成生产修复；无新增测试数或实现SHA。"
+      ],
+      "history": "2026-10-05、基点abb759ceb；先已有symbols子批，其余CLI留review，后73–896审计归档。原卡没有新产品代码commit或独立raw执行SHA，不由本次补造。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3h](CODE-QUALITY-3h-game-assets-shell.md)接续game窄域；未来CLI变化按[现行工作流](../../../agent-workflow.md)重新核caller与反证。无可执行的旧下一位Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "681d9715acecacd14ebbb5622479270a886180c5",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 3432,
+        "sourceLines": 55,
+        "sourceFinalNewline": true,
+        "inverseSha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原CLI73–896只读审计、full check/support-mode gates只引用，无本轮CLI执行"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-file-ledger.md:111",
+        "docs/ops/audits/code-quality-governance.md:84–85",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05 game资产/启动六文件窄批：逐文件核职责与失败合同，仅fetch-retry非法retries/backoff发现直接可证伪缺陷并最小修复。其余五文件保留既定资源/屏障行为，不把六文件或包级绿灯当全game完成。",
+      "originalTitle": "CODE-QUALITY-3h - game 资产与启动边界逐文件治理",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 game",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "N/A",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`5f13c3010`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "e34dc04faf228be5b1949d47abe5c631326375ad",
+      "sourceSha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+      "afterSha256": "3118cb748780dfda173618ffea078094c3163fd5afb20929077a4df6b867b4fb",
+      "candidateSha256": "3118cb748780dfda173618ffea078094c3163fd5afb20929077a4df6b867b4fb",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。唯一生产窄修为fetch参数边界，其余资源降级和barrier保留；旧包级通过不认证当前代码、测试质量、visual或coverage。机器清单/已闭合数只是当时进度，不能宣布全仓治理完成。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:90–94",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:1–17,150–156",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 game",
+        "boundary": "原assets loader/tileset-blob/png/rle-decode与shell fetch-retry/bootstrap-resources；不改bootstrap主流程、save/scene语义、生成资源、schema、coverage runner或E2E。当前仅历史文档，不接实现白名单。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原assets loader/tileset-blob/png/rle-decode与shell fetch-retry/bootstrap-resources；不改bootstrap主流程、save/scene语义、生成资源、schema、coverage runner或E2E。当前仅历史文档，不接实现白名单。",
+      "versionAndApplicability": "10-05、基点5f13c3010。原顶部2962/98纠为实际2964/106，后登记113是旧清单进度；当前固定预审源账本又有3283 tracked，均按revision分开，不选旧数字当今天全量分母。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3h - game 资产与启动边界逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "合法HTTP/解码/资源barrier输入与既有空槽/CDN降级；非法retries/backoff以本卡历史guard合同失败，不扩大成全部资源宽容非法。",
+      "publicCallers": "main唯一安装fetch retry，bootstrap消费资源/soundfont barrier；本轮未全文读六生产文件。",
+      "businessOracle": "合法资源不变，坏配置不能零请求后throw undefined；删guard须使精确合同失败。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "2962/98→2964/106为原清单勘误，不是本轮census。",
+        "fenced build/提交推送提示已被本卡done覆盖为历史，无新授权。"
+      ],
+      "history": "10-05、基点5f13c3010。原顶部2962/98纠为实际2964/106，后登记113是旧清单进度；当前固定预审源账本又有3283 tracked，均按revision分开，不选旧数字当今天全量分母。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3i](CODE-QUALITY-3i-game-dialog-precache-ui.md)接续对话/预缓存UI；新资源/启动行为按[现行工作流](../../../agent-workflow.md)重新准入，旧build prompt退为历史。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "e34dc04faf228be5b1949d47abe5c631326375ad",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 6140,
+        "sourceLines": 72,
+        "sourceFinalNewline": true,
+        "inverseSha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": [
+          "原fetch guard negative control、12/77、game3397/full gates、22840ef03推送记录只引用"
+        ],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:90–94",
+        "docs/ops/audits/code-quality-file-ledger.md:1–17,150–156",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05对话资源、precache client/UI、音量与DOS商标五文件窄批：只有音量NaN进入sink/localStorage有直接缺陷，按0修复；trademark只纠正skipKeys过时注释，dialog/precache未发现直接缺陷。",
+      "originalTitle": "CODE-QUALITY-3i - game 对话资源与预缓存 UI 逐文件治理",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 game",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "dev-functional（仅 DOM 状态，不做剧情 E2E）",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`9c9b4b973`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "b7dbc731f4063e28e68bcd6d981d3c7a26be66c1",
+      "sourceSha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
+      "afterSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
+      "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。DOM功能状态、typed合同与原NaN修复不等于新浏览器视觉、商标演出或E2E通过；不把修正skipKeys注释写成行为改变。原已验证只按当时范围，guard候选不得扩张。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:96–100",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:157–162",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 game",
+        "boundary": "原dialog-assets与shell precache-client/precache-ui/audio-volume/trademark-fallback及对应合同；不扩sw.ts、audio backend、生成资源、剧情E2E或schema。DOM状态核验不改变UI形态，不等于看图。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原dialog-assets与shell precache-client/precache-ui/audio-volume/trademark-fallback及对应合同；不扩sw.ts、audio backend、生成资源、剧情E2E或schema。DOM状态核验不改变UI形态，不等于看图。",
+      "versionAndApplicability": "10-05、基点9c9b4b973；原ledger113闭合/2846尚未核验属于接手时点，不与今日清单混写。商标DOS chunk6/1000ms/600ms行为未改，注释纠正不算新产品时序设计。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3i - game 对话资源与预缓存 UI 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "原合法资源/SW协议与既有音量持久输入归一化；只记录已证NaN→0，不扩成所有外部数值统一拒绝。",
+      "publicCallers": "manifest对话图像、SW ready/onPlayable、precache DOM、三通道applyVolume、商标fallback；本轮未全文重读。",
+      "businessOracle": "NaN不进入音量sink/storage，既有precache时序/商标行为保持；DOM状态不替代视觉。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "候选NaN/Infinity不能全写成已修缺陷，最终仅音量NaN有证。",
+        "skipKeys仅纠正注释；旧build prompt与DOM-only验证不能升格E2E。"
+      ],
+      "history": "10-05、基点9c9b4b973；原ledger113闭合/2846尚未核验属于接手时点，不与今日清单混写。商标DOS chunk6/1000ms/600ms行为未改，注释纠正不算新产品时序设计。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3j](CODE-QUALITY-3j-game-tools-speedrun.md)接续工具小域；当前剧情视觉与新实现按[现行工作流](../../../agent-workflow.md)准入，无可执行旧prompt。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "b7dbc731f4063e28e68bcd6d981d3c7a26be66c1",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 5788,
+        "sourceLines": 69,
+        "sourceFinalNewline": true,
+        "inverseSha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": ["原10/68、game3398、NaN负控/full gates、17f2c6dab推送记录只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:96–100",
+        "docs/ops/audits/code-quality-file-ledger.md:157–162",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05七个tools/speedrun文件治理：仅display-scale的NaN百分比进入CSS/storage有证据，按默认100%修复；FPS、toast、map-names、time-format、countdown合同保留，checkpoints只读且坐标仍待实跑。",
+      "originalTitle": "CODE-QUALITY-3j - game tools 与速通纯函数逐文件治理",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 game",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "dev-functional（仅工具 DOM 状态）",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`fe189dc4d`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "e5b0ac44686e1d33b987837446e194181a282010",
+      "sourceSha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
+      "afterSha256": "c482adac661efbf6e34b8efb0f9afa01cecb2ff44f57bab73dd9555796180de9",
+      "candidateSha256": "c482adac661efbf6e34b8efb0f9afa01cecb2ff44f57bab73dd9555796180de9",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。坐标与速通路线实跑仍unknown；配置/caller只读不构成新路线验收。只保存原NaN窄修与当轮反控/全门，临时raw不在不抹去历史结论，也不冒充本轮测试质量验证。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:102–106",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:163–170",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 game",
+        "boundary": "原display-scale/fps-overlay/toast/map-names及speedrun time-format/countdown/checkpoints；不动core/save、玩法、UI形态、coverage runner或速通节点。NaN修复不自动扩大为Infinity/所有边界统一拒绝。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原display-scale/fps-overlay/toast/map-names及speedrun time-format/countdown/checkpoints；不动core/save、玩法、UI形态、coverage runner或速通节点。NaN修复不自动扩大为Infinity/所有边界统一拒绝。",
+      "versionAndApplicability": "10-05、基点fe189dc4d；原119已闭合/2840待核为当时账本，不当今日进度。47定向、3399全包与6条mutant有不同分母，不相加；工具DOM不替代剧情视觉。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3j - game tools 与速通纯函数逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "反控证据",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "既有工具百分比/计时/DOM与已配置节点；仅NaN应回100%的已证边界，不以未证运行改坐标或扩坏输入域。",
+      "publicCallers": "canvas/storage/fullscreen、tools面板/rAF、toast/countdown、speedrun store/detectors；本包未全文重读七文件。",
+      "businessOracle": "NaN不能写NaN CSS/storage且默认100%；删guard唯一业务断言失败；checkpoint实跑不因配置已读通过。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "坐标/路线真实运行未知，不能随原done关闭。",
+        "临时mutant raw/JSON不存在，保留原6/5/1与恢复6/6，不冒称当前重验。"
+      ],
+      "history": "10-05、基点fe189dc4d；原119已闭合/2840待核为当时账本，不当今日进度。47定向、3399全包与6条mutant有不同分母，不相加；工具DOM不替代剧情视觉。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[Q3k](CODE-QUALITY-3k-game-present-primitives.md)接续present primitive；新速通坐标/行为任务依[现行工作流](../../../agent-workflow.md)另准入，无可执行旧Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "e5b0ac44686e1d33b987837446e194181a282010",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 5750,
+        "sourceLines": 73,
+        "sourceFinalNewline": true,
+        "inverseSha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": [
+          "原vitest mutant/restored命令和/tmp/type-pal-q3h-counter.bMPKQT输出只引用，路径当前不存在；原96710de55推送只引用"
+        ],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:102–106",
+        "docs/ops/audits/code-quality-file-ledger.md:163–170",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-10-05六个present primitive治理：只有screen-wave负progression跨零未关断有直接raw/WORD证据，以<=0关断；其余framebuffer/shake/dither/number/follower公式与边界保留。不能把基础helper关闭扩大为battle/menu/全仓完成。",
+      "originalTitle": "CODE-QUALITY-3k - game present 基础 primitive 逐文件治理",
+      "originalStatus": "done",
+      "originalOwner": "not present; preserve original Coding Owner field",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Codex（独立验收）",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase1 game",
+        "Capability": "ops / code-quality",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Codex（独立验收）",
+        "Visual Verification Owner": "N/A",
+        "Visual Verification Timing": "dev-functional（仅 framebuffer/DOM-free primitive；剧情视觉集中 E2E）",
+        "Contributor": "Codex",
+        "Branch": "codex/code-quality-governance",
+        "Base": "`c1bce8b42`"
+      },
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourceGitObject": "8bd9f00f0273177f370a687e5d480e839e00a228",
+      "sourceSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+      "afterSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
+      "candidateSha256": "83de54659a5adfc1d6efa42d70f3ab6c51f39b53485d17da9383869ecd6ebeaf",
+      "beforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical；共享计数冲突guarded。采用卡面与总纲明确记录的3 passed/1 failed，并并列说明ledger误述，未把文档一致当第二次执行。未知视觉坐标、其它五primitive当前代码/测试质量未在本轮重新全文核；不从wave源码读完推广全present已审。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "packages/game/src/present/screen-wave.ts:1–73",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:108–118",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:171–189",
+          "revision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase1 game",
+        "boundary": "原framebuffer、screen-shake、screen-wave、dither-fade、draw-number、follower-pos及对应测试；不改battle present/dialog/menu、剧情E2E、坐标重判、save/schema或runner。非法边界概括不能删除framebuffer等既有合法宽容合同。",
+        "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+      },
+      "scope": "原framebuffer、screen-shake、screen-wave、dither-fade、draw-number、follower-pos及对应测试；不改battle present/dialog/menu、剧情E2E、坐标重判、save/schema或runner。非法边界概括不能删除framebuffer等既有合法宽容合同。",
+      "versionAndApplicability": "10-05、基点c1bce8b42；原146已闭合/5 review/2813待核属于当时清单。总纲108–111“门尚待收口”由113–115后继全门记录更新；两时点都保留，不把旧等待视作新阻塞或抹去。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3k - game present 基础 primitive 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "反控证据",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "legalInputs": "合法320×200索引framebuffer、typed wave状态与advance=false补帧；保留opaque mask、相位及各helper既有合法宽容，不能扩为所有边界必须抛错。",
+      "publicCallers": "present真实wave/framebuffer/actor/fade/number/follower调用按原卡引用；本轮仅wave生产全文，非六文件全部。",
+      "businessOracle": "真实负progression跨零应关断，旧===0 mutant唯一业务断言失败；其余公式/坐标不臆改，不以静态断言代视觉。",
+      "dedupe": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。",
+      "counterReworkBlocked": [
+        "ledger182“3 fail”与卡48/60、总纲110“3 passed/1 failed”相反：guarded，根后继治理共享源。",
+        "未知视觉坐标保留；两个mutant raw/JSON不存在，不声称重验；旧build prompt失效。"
+      ],
+      "history": "10-05、基点c1bce8b42；原146已闭合/5 review/2813待核属于当时清单。总纲108–111“门尚待收口”由113–115后继全门记录更新；两时点都保留，不把旧等待视作新阻塞或抹去。",
+      "supersedes": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes.",
+      "successor": "[总纲](../../../audits/code-quality-governance.md)117起另记后续battle-present，只作历史导航、不授本包阅读信用；新任务按[现行工作流](../../../agent-workflow.md)准入。共享ledger纠错由根维护，无可执行旧提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "role": "author candidate; not independent acceptance",
+        "preflightRevision": "40bce2fb7fb8d19ff99b228063e337e1b3050fa2",
+        "preflightGitBlob": "8bd9f00f0273177f370a687e5d480e839e00a228",
+        "sourceBlobEqualityVerified": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D内容设计与文档准入",
+        "generationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author checkTemplateBody(task-card-v1) plus archive-record required sections; root independent acceptance pending",
+        "semanticReview": "全文预审943行；相同Git blob迁移；独立验收待根。"
+      },
+      "originalPreservation": {
+        "startMarker": "<!-- original-source-quote:start -->",
+        "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+        "sourceBytes": 5978,
+        "sourceLines": 74,
+        "sourceFinalNewline": true,
+        "inverseSha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+        "exactRoundTrip": true,
+        "originalLinkDestinationsChanged": false,
+        "oldHeadingReachability": "PASS actual GFM heading parse and local derived Unicode slug; live original titles precede full quote, no hosted browser rendering"
+      },
+      "producerReferences": {
+        "references": [
+          "原screen-wave mutant/restored vitest与/tmp/type-pal-q3k-counter输出只引用、对应mutant raw/JSON不存在；原03cc513df推送只引用"
+        ],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "currentProductOrTestQualityAcceptance": false
+      },
+      "dependencies": [
+        "packages/game/src/present/screen-wave.ts:1–73",
+        "docs/ops/audits/code-quality-governance.md:108–118",
+        "docs/ops/audits/code-quality-file-ledger.md:171–189",
+        "docs/ops/agent-workflow.md"
+      ]
+    }
+  ],
+  "guardedSharedSources": [
+    {
+      "id": "D-Q2b-shared-count",
+      "sources": ["CODE-QUALITY-2b:69 shared131", "CODE-QUALITY-2b:72 shared129"],
+      "conclusion": "Original card does not explain count/run difference; retain both, do not infer command scope or choose one.",
+      "status": "guarded",
+      "owner": "root follow-up governance",
+      "sharedBodyChanged": false
+    },
+    {
+      "id": "D-Q3k-mutant-count",
+      "sources": [
+        "docs/ops/audits/code-quality-file-ledger.md:182 — 4 total/3 fail",
+        "CODE-QUALITY-3k:48,60 — 4 total/3 passed/1 failed",
+        "docs/ops/audits/code-quality-governance.md:110 — 4 total/3 passed/1 failed"
+      ],
+      "conclusion": "Candidate uses explicit card/governance 3 passed/1 failed and discloses contradictory ledger shorthand; no second execution inferred.",
+      "status": "guarded",
+      "owner": "root follow-up governance",
+      "sharedBodyChanged": false
+    }
+  ],
+  "checks": {
+    "status": "PASS author scoped content/byte/hash/template/link/static checks; root independent acceptance and new central12 integration remain pending",
+    "documentToolTests": {
+      "command": "node --test --test-reporter=spec scripts/docs/*.test.mjs",
+      "tests": 68,
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    "actualConsumers": [
+      {
+        "command": "node scripts/docs/check.mjs",
+        "status": "PASS",
+        "markdown": 1223,
+        "localLinks": 7167,
+        "tasks": 361,
+        "issues": 0
+      },
+      {
+        "command": "node scripts/docs/check-document-model.mjs",
+        "status": "PASS",
+        "existingBodyContracts": 91,
+        "routes": 7,
+        "issues": 0,
+        "scope": "only central existing contracts; package12 directly checked separately, no route writes"
+      },
+      {
+        "command": "node scripts/docs/check-testing.mjs",
+        "status": "PASS",
+        "issues": 0
+      },
+      {
+        "command": "node scripts/docs/check-phase-lore-governance.mjs",
+        "status": "PASS",
+        "documents": 184,
+        "issues": 0
+      }
+    ],
+    "packageContractsAndFragments": {
+      "status": "pass",
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "method": "Marked GFM real heading parse; compare exact original heading text and derived local Unicode slug before quote; local outbound and tracked-repository inbound fragment lookup, not online GitHub rendering.",
+      "perFile": [
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+          "sourceLines": 95,
+          "sourceHeadings": 14,
+          "livePreservedHeadings": 14,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 11
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+          "sourceLines": 84,
+          "sourceHeadings": 11,
+          "livePreservedHeadings": 11,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 8
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+          "sourceLines": 95,
+          "sourceHeadings": 14,
+          "livePreservedHeadings": 14,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 11
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+          "sourceLines": 141,
+          "sourceHeadings": 22,
+          "livePreservedHeadings": 22,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 19
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+          "sourceLines": 66,
+          "sourceHeadings": 10,
+          "livePreservedHeadings": 10,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 7
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+          "sourceLines": 65,
+          "sourceHeadings": 9,
+          "livePreservedHeadings": 9,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 8
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+          "sourceLines": 54,
+          "sourceHeadings": 8,
+          "livePreservedHeadings": 8,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 7
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+          "sourceLines": 55,
+          "sourceHeadings": 8,
+          "livePreservedHeadings": 8,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 7
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+          "sourceLines": 72,
+          "sourceHeadings": 8,
+          "livePreservedHeadings": 8,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 7
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+          "sourceLines": 69,
+          "sourceHeadings": 8,
+          "livePreservedHeadings": 8,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 7
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+          "sourceLines": 73,
+          "sourceHeadings": 9,
+          "livePreservedHeadings": 9,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 8
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+          "sourceLines": 74,
+          "sourceHeadings": 9,
+          "livePreservedHeadings": 9,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 8
+        }
+      ],
+      "outgoingCount": 108,
+      "inboundCount": 0,
+      "inbound": [],
+      "nonMaterializedGitFallback": ["reference/sdlpal/AUTHORS.md"],
+      "issues": []
+    },
+    "originalSource": {
+      "cards": 12,
+      "lines": 943,
+      "exactByteRoundTrip": true,
+      "sourceGitBlobEqualsPreflight": true,
+      "originalMetadataRetained": true,
+      "sourceRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166"
+    },
+    "centralReviewGate": {
+      "command": "node scripts/docs/check-content-review.mjs --strict",
+      "status": "PASS for pre-existing616 only; D not covered",
+      "centralDocuments": 616,
+      "diagnostics": 0,
+      "packageInRegistry": 0,
+      "packageInReview": 0,
+      "packageDocuments": 12,
+      "coverageGap": "checker loops registry.entries; no D entry exists, so absence of drift is not D validation",
+      "designExpectation": "anticipated12 afterSHA drifts",
+      "expectationCounter": "actual source/registry/review/consumer evidence refutes anticipated drift; do not fabricate drift or waiver",
+      "rootConfirmed": "root acknowledged actual0/12; will add12 new records after independent review, not move nonexistent old entries",
+      "centralWrite": false
+    },
+    "diffCheck": "PASS git diff --check; zero output",
+    "lint": {
+      "command": "biome check .",
+      "status": "PASS",
+      "files": 4084,
+      "errors": 0,
+      "warnings": 0,
+      "info": 0,
+      "fixesApplied": false
+    },
+    "whitelist": {
+      "status": "PASS",
+      "files": 13,
+      "paths": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json"
+      ],
+      "sharedProductOrOldTestsOrCoverageChanges": 0,
+      "originalCBranchStill": "f19e878a60688522c768107dd960f05ba4f42813"
+    },
+    "authorUtilityNote": "Temporary Python renderer initially failed file-source decoding under hostPython3.9; verified UTF8, compiled decoded source explicitly, then wrote exactly12+receipt. No product or gate behavior changed.",
+    "formatter": {
+      "status": "PASS",
+      "scope": "new receipt only; original Markdown quote bytes not formatted"
+    },
+    "guardedSemantics": {
+      "q2b": "131/129 both retained with line/command references; no inferred reconciliation",
+      "q3k": "3pass1fail stated with contradictory ledger3fail disclosed; shared source unchanged",
+      "oldPrompts": "all complete quotes retained, no execution authorization",
+      "unreadSources": "exact readScope retained; no whole CLI/all-production-file acceptance"
+    }
+  },
+  "independentAcceptance": {
+    "status": "pending",
+    "owner": "root Codex",
+    "authorMayAcceptOwnWork": false
+  },
+  "unresolved": [
+    "Q2b131/129 original count difference remains guarded.",
+    "Q3k shared ledger3fail conflicts with card/governance3pass1fail; shared correction belongs to root.",
+    "Historical checkpoint/visual/runtime/raw gaps remain scoped; no product execution or current old-test-quality acceptance."
+  ],
+  "notRun": [
+    "product/old tests",
+    "runtime/E2E/browser/visual/audio",
+    "coverage/probes/mutants",
+    "producer/extractor commands",
+    "main merge/push"
+  ],
+  "nextStep": "Root independent source/candidate/primary review then central review/SHA/routing/matrix integration; do not count this author candidate accepted.",
+  "authorChecksCompletedLocalDate": "2026-10-16"
+}

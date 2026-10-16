@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "r84-ops-evidence-index",
+  "reviewer": "Codex root current evidence index migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R84: DOCS-FULL-TEMPLATE-1 README uses governance-index-v1 as the current evidence navigation entry; batch receipts remain historical/static and retain no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full Markdown UTF-8 read and current governance-index migration; original evidence index retained under 原始证据正文",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "DOCS-FULL-TEMPLATE-1 evidence index：current governance-index；保留清单、批次回执、SHA、保护边界和历史停止线，不授权执行通过。",
+      "truthAnchors": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md:1"],
+      "unresolved": [
+        "The full cohort remains active/build; historical receipts require current registry/routing and fresh review before reuse."
+      ],
+      "nextStep": "继续治理剩余 ops/phase-governance candidates，并在 consumer/successor/SHA 齐全后单独评估 cleanup。",
+      "phase": "ops",
+      "module": "evidence-governance",
+      "capability": "DOCS-FULL-TEMPLATE-1 evidence index",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r84_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e"
+        }
+      ],
+      "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+      "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/phase-governance/document-registry.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "governance-index",
+        "assertions": [
+          "batch receipts and source/after SHA remain navigable",
+          "historical status and no-execution boundaries remain explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+        "implementationSha": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+        "history": [
+          {
+            "revision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+            "date": "2026-10-17",
+            "action": "current governance-index migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r84-ops-evidence-index-20261017.json",
+        "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+        "candidateSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+        "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+        "lineCount": 462,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "full current body retained under template sections",
+          "sourceBytes": 38193,
+          "sourceLines": 430,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+          "exactRoundTrip": false
+        }
+      },
+      "history": [
+        {
+          "revision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R84 current evidence index migration",
+          "reviewer": "r84_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["unstructured evidence index presentation; batch receipts remain historical"],
+      "stopLine": "do not promote governance index or receipts to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始全量证据索引保持 → 增加 governance-index 元数据、必填章节和当前停止线；批次事实不变。",
+      "reviewedLines": "1-462",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "documentStatus": "current",
+      "sourceGitRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+      "candidateSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+          "revision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+          "sha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-governance",
+        "currentBoundary": "registry/routing/task card and batch review records own current truth"
+      },
+      "dependencies": "document registry, routing, task card and batch review records.",
+      "versionScope": {
+        "sourceRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+        "date": "2026-10-17",
+        "validity": "current index; receipts remain date-scoped"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R84-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

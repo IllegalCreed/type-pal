@@ -1,28 +1,58 @@
 # 文档类型与模板治理
 
-这里是 `docs/ops`、`docs/lore`、`docs/phase1`、`docs/phase2`、`docs/phase3` 的统一文档类型注册表。每份纳入治理范围的文档必须：
+Status: current
+Last reviewed: 2026-10-16
+Owner: Codex
+Template: governance-index-v1 / 1.0.0
 
-1. 在 [`registry.json`](registry.json) 中拥有一个稳定的 `docType` 和 `templateId`；
-2. 在对应模板中表达目的、状态、证据、边界和下一步；
-3. 如果是历史归档，保留原结论，但补齐类型与模板元数据，不伪造为当前结论；
-4. 旧正文不做破坏性重写，统一绑定为 `templateCompliance: governed-legacy`；这表示它已归类、按模板合同审查并纳入后续变更门禁，不表示旧正文已经被改写成模板样式；
-5. 新增文档必须达到 `templateCompliance: template-compliant`，不再产生新的独立格式。
+## 目的
 
-模板是结构合同，不是内容真值。真值仍必须回到正文的一手证据、阶段锚点和内容深审记录。
+提供全 docs 的模板合同。模板规定结构、状态词、证据字段与历史边界；内容真值仍须回到一手来源和实际 consumer。
 
-## 类型速查
+## 范围
 
-| docType | 适用文档 | 模板 |
+通用 10 类与 testing 专用 7 类统一登记在 [registry.json](registry.json)。完整与轻量 Ops 任务卡是 task-card 的两个变体，不重复计数。路径/文件名只用于候选排期，最终 docType 须读取正文后决定。
+
+## 当前状态
+
+17 类设计获用户批准，注册表在真实 pilot 后冻结供分批迁移（frozen-for-migration）。每篇仍须真实阅读与格式/consumer 核验；新增格式变体先补设计。2026-10-11 的保真样本不足以证明模板符合性，不算已验 pilot。正文必须包含具体内容、状态边界、证据与下一步，不能只有章节名或 preserved-source wrapper。
+
+## 入口与责任
+
+| docType | 目的 | 模板 |
 |---|---|---|
-| `governance-index` | README、目录、索引、看板 | [`governance-index.md`](governance-index.md) |
-| `task-card` | 当前/历史任务卡、任务归档 | [`task-card.md`](task-card.md) |
-| `guide-runbook` | 操作指南、runbook、工作流 | [`guide-runbook.md`](guide-runbook.md) |
-| `audit-report` | 审计、评估、差异报告 | [`audit-report.md`](audit-report.md) |
-| `evidence-receipt` | JSON/日志/回执/机器证据说明 | [`evidence-receipt.md`](evidence-receipt.md) |
-| `design-spec` | 设计、规范、架构、接口、schema | [`design-spec.md`](design-spec.md) |
-| `plan-status` | 计划、里程碑、状态、backlog | [`plan-status.md`](plan-status.md) |
-| `reference-canon` | phase/lore/reference 真值资料 | [`reference-canon.md`](reference-canon.md) |
-| `narrative-idea` | lore 创意、草案、brainstorm、beat sheet | [`narrative-idea.md`](narrative-idea.md) |
-| `archive-record` | 仅保留历史记录的归档材料 | [`archive-record.md`](archive-record.md) |
+| `governance-index` | 职责导航与权威入口 | [governance-index.md](governance-index.md) |
+| `task-card` | 单一变更的目标、准入、实施与交接 | [task-card.md](task-card.md) |
+| `guide-runbook` | 可重复操作的前提、步骤与失败处理 | [guide-runbook.md](guide-runbook.md) |
+| `audit-report` | 审计问题、发现与整改复核 | [audit-report.md](audit-report.md) |
+| `evidence-receipt` | 指定来源、输入与候选的证据回执 | [evidence-receipt.md](evidence-receipt.md) |
+| `design-spec` | 问题、真值约束与设计验收 | [design-spec.md](design-spec.md) |
+| `plan-status` | 时间范围、里程碑与阻塞 | [plan-status.md](plan-status.md) |
+| `reference-canon` | 分清已核真值与候选来源 | [reference-canon.md](reference-canon.md) |
+| `narrative-idea` | 尚未升格 canon 的创意与取舍 | [narrative-idea.md](narrative-idea.md) |
+| `archive-record` | 保留时点结论、证据与继任关系 | [archive-record.md](archive-record.md) |
+| `test-catalog` | 机器索引与依赖的事实源 | [test-catalog.json](../../testing/_templates/test-catalog.json) |
+| `test-contract` | 合法输入、caller、oracle 与排重的测试合同 | [test-contract.md](../../testing/_templates/test-contract.md) |
+| `test-domain-report` | 域内 claim/evidence 与缺口 | [test-domain-report.md](../../testing/_templates/test-domain-report.md) |
+| `test-e2e-stage` | 稳定阶段的入口、前驱与当期结论 | [test-e2e-stage.md](../../testing/_templates/test-e2e-stage.md) |
+| `test-run-report` | 一次执行的断言、结果与回执 | [test-run-report.md](../../testing/_templates/test-run-report.md) |
+| `test-machine-evidence` | 机器执行身份、步骤与退出清理 | [test-machine-evidence.json](../../testing/_templates/test-machine-evidence.json) |
+| `quality-gate` | 命令、原始诊断与接受/拒绝判据 | [quality-gate.md](../../testing/_templates/quality-gate.md) |
 
-旧文档可以暂时保留原有内容和标题，但不得继续扩张独立格式；若需要重写正文，必须单独开迁移任务并保留历史。新增文档必须从模板复制。
+Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、evidenceFields 和 historyRule 是结构合同。JSON 另由 requiredFields 定义机器字段；不能用 Markdown 章节检查替代 schema/consumer 验证。
+
+采用 statusPolicy 的域报告/document-audit 按唯一 catalog id 校验发布状态，默认机器 execution 按执行状态校验。historical-review-payload-v1 在1.4引入并通过九键 r10 原生保真独立 pilot；它保留原 counter/MISSED/诊断，治理 lifecycle 固定 historical、本轮执行 false，不造 catalog 身份或把 verdict 当状态。
+
+机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。三份固定源格式已分别通过真实 consumer/来源反例和 canonical 单篇非作者独立 pilot；三配对历史 MD 已在固定候选 `79dce016` 获逐篇非作者内容接收；根中央记录、路由及矩阵接入须另依当前 [J 分批 review](../reviews/20261016-architecture-integration-history.json) 与实际受审快照核验。其它未读 JSON 仍须逐篇治理，不能由登记格式外推。版本与边界见设计提案 C1/C2/I/J。
+
+catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
+新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
+不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；
+固定e136实现/canonical与dd377自然接入已分别获非作者独立接收；后续根行政及中央接入按当前字节另验，见[F1专属记录](../reviews/20261016-binding-baseline-contract.json)；不能由source/结构绿或作者自验授迁移完成。
+
+## 证据与下一步
+
+- [已批准的设计提案](registry-proposal-20261011.md)保留 2026-10-11 的范围与大纲，适配流程见[项目文档模型](../../ops/guides/documentation-model.md)。
+- 新文档从对应模板开始；历史文档保留原结论/日期/SHA，使用 archive wrapper 说明当前有效性与继任者。
+- governed-legacy 仅是旧 ledger 状态，不是迁移完成；全量完成前除用户批准保留项外必须消除。
+- 每类至少一篇实际迁移、逐篇审查与 consumer 验证通过后，才能推进同类批次。静态门不证明 runtime/E2E/视觉/coverage。

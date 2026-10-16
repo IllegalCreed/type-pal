@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r84-ops-evidence-index-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 1,
+    "readAndChecked": 1,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R84-B01",
+      "count": 1,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Evidence index is current-template compliant with source/after SHA and historical execution boundary."
+    }
+  ],
+  "summaryChecks": {
+    "all1": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1482 documents; content-reviewed 1482)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1189 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8008 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1482/1482; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4372 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "templateId": "governance-index-v1",
+      "pass": true
+    }
+  ]
+}

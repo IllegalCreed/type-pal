@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "reviewer": "Codex",
+  "sourceGuide": "https://github.com/IllegalCreed/agent-doc-architecture/tree/169fc3d04f86ededf567e2b9d0417497ed7ef775",
+  "status": "counter",
+  "acceptedPilots": 0,
+  "examinedSamples": 17,
+  "historyRule": "Keep original 2026-10-11 samples and their claims; this assessment narrows the conclusion without rewriting history.",
+  "rows": [
+    {
+      "templateId": "governance-index-v1",
+      "sourcePath": "docs/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/governance-index-v1/candidate.md.raw",
+      "actualCandidateSha256": "cc87c7aa67a7b0ea040e202d69a397520f6564f3faffb71bb9460d912881e1e0",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "expected one document title",
+        "missing section: 目的",
+        "missing section: 范围",
+        "missing section: 当前状态",
+        "missing section: 入口与责任",
+        "missing section: 证据与下一步"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "task-card-v1",
+      "sourcePath": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/task-card-v1/candidate.md.raw",
+      "actualCandidateSha256": "9cde9f7b2322a5bdd6568d47924a401c86627e0859c20e441249c2bb7b281655",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 前提与证据",
+        "missing section: 验收",
+        "missing section: 状态与交接"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "guide-runbook-v1",
+      "sourcePath": "docs/ops/agent-workflow.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/guide-runbook-v1/candidate.md.raw",
+      "actualCandidateSha256": "f785435ebfeebf0bab429d1405f3f133826e1185c235f0ec055f428366435c70",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 目的",
+        "missing section: 前置条件",
+        "missing section: 步骤",
+        "missing section: 失败处理",
+        "missing section: 完成定义"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "audit-report-v1",
+      "sourcePath": "docs/ops/audits/architecture-debt.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/audit-report-v1/candidate.md.raw",
+      "actualCandidateSha256": "e87f64d3d8cffc90ad74ee02f33bf9a79cf5d72ae06bbd9e7fbfda29e500b15a",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 审计问题",
+        "missing section: 范围与证据",
+        "missing section: 发现",
+        "missing section: 结论",
+        "missing section: 整改与复核"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "evidence-receipt-v1",
+      "sourcePath": "docs/ops/evidence/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/evidence-receipt-v1/candidate.md.raw",
+      "actualCandidateSha256": "79fbb54bfff8b93b58e867581e4f23d37033af941cefb4436a017588ec8af90d",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 证据身份",
+        "missing section: 来源与输入",
+        "missing section: 断言与业务 oracle",
+        "missing section: 结果",
+        "missing section: 限制与复核"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "design-spec-v1",
+      "sourcePath": "docs/phase2/specs/save-system.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/design-spec-v1/candidate.md.raw",
+      "actualCandidateSha256": "cc43eced18090f1f7047237f2d959b38ed0275fc787b8dd303dfa865bce17970",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 问题与目标",
+        "missing section: 真值与约束",
+        "missing section: 方案",
+        "missing section: 边界与风险",
+        "missing section: 验收"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "plan-status-v1",
+      "sourcePath": "docs/phase3/backlog.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/plan-status-v1/candidate.md.raw",
+      "actualCandidateSha256": "2c0de952478f35c2e34a98cfd5cac7f091874ad56d64c815391b743c4aa20161",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 目标与时间范围",
+        "missing section: 里程碑",
+        "missing section: 当前状态",
+        "missing section: 阻塞与决策",
+        "missing section: 下一步"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "reference-canon-v1",
+      "sourcePath": "docs/lore/timeline.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/reference-canon-v1/candidate.md.raw",
+      "actualCandidateSha256": "591acedc9c7bef762f152e8c2708716fbfdde4cbff655a0c82b5fd73c13c97c3",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 适用范围",
+        "missing section: 一手来源",
+        "missing section: 当前真值",
+        "missing section: 未知与冲突",
+        "missing section: 使用边界"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "narrative-idea-v1",
+      "sourcePath": "docs/lore/ideas/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/narrative-idea-v1/candidate.md.raw",
+      "actualCandidateSha256": "7140f982f4895ab2a8b5275091c09281a9589f669a81687465906c3e57632511",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 创意目的",
+        "missing section: 已知约束",
+        "missing section: 候选内容",
+        "missing section: 未决选择",
+        "missing section: 升级为 canon 的门槛"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "archive-record-v1",
+      "sourcePath": "docs/ops/archive/acceptance/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/archive-record-v1/candidate.md.raw",
+      "actualCandidateSha256": "6d456e71346952398a714d183b50ce7e919da2dcc9210ba2e6eb11f8ac570ea7",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 历史范围",
+        "missing section: 原始结论",
+        "missing section: 当时证据",
+        "missing section: 当前有效性",
+        "missing section: 继任文档"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "test-catalog-v1",
+      "sourcePath": "docs/testing/catalog.json",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1/candidate.json",
+      "actualCandidateSha256": "675e6b39d30c61e611203b3073a5f539f72ee5e3b69ad60648adb59b84299fc3",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "expected one document title",
+        "missing section: Catalog identity",
+        "missing section: Domain and lifecycle",
+        "missing section: Dependencies and publication rules"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review.",
+      "candidateHashAfterFormat": "a11168d32bc8e072657ea47c3f40be90cde5a289b7c99173497f4b5cfcb4beb2",
+      "formatNote": "Format-only change for static zero diagnostics; original assessment hash preserved, no semantic acceptance added."
+    },
+    {
+      "templateId": "test-contract-v1",
+      "sourcePath": "docs/testing/e2e/contract.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-contract-v1/candidate.md.raw",
+      "actualCandidateSha256": "4ba8570f85b7393e02360830f7b6994783ea090ffc364ee1c349e25821dcd3a7",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: Contract question",
+        "missing section: Legal typed inputs",
+        "missing section: Caller and oracle",
+        "missing section: Dedupe and limits",
+        "missing section: Revision"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "test-e2e-stage-v1",
+      "sourcePath": "docs/testing/e2e/stages/001-opening/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-e2e-stage-v1/candidate.md.raw",
+      "actualCandidateSha256": "a2113a58b1d18e385d721a18a7d9cf0788d0101e8e1d2a9d3a51ccf82df76b52",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: 入口与前置",
+        "missing section: 当前结论",
+        "missing section: 证据与状态",
+        "missing section: 依赖与历史"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "test-run-report-v1",
+      "sourcePath": "docs/testing/e2e/stages/001-opening/report.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-run-report-v1/candidate.md.raw",
+      "actualCandidateSha256": "46559eb34bf0ff929ba615117c000e3045f5a938e9b60ca8aae0c525fcf2432b",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: Scope",
+        "missing section: Execution and assertions",
+        "missing section: Results",
+        "missing section: Evidence",
+        "missing section: Revision history"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "test-machine-evidence-v1",
+      "sourcePath": "docs/testing/e2e/evidence/e2e-001.json",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1/candidate.json",
+      "actualCandidateSha256": "bf0940897a75faa2bb88abe59435d8f46ba03ddad7c7bc80ea43626d67c7d77f",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing machine field: schemaVersion",
+        "missing machine field: id",
+        "missing machine field: status",
+        "missing machine field: execution",
+        "missing machine field: sourceRefs",
+        "missing machine field: publicCallers",
+        "missing machine field: legalInputs",
+        "missing machine field: businessOracle",
+        "missing machine field: dedupe",
+        "missing machine field: steps",
+        "missing machine field: hashes",
+        "missing machine field: artifacts",
+        "missing machine field: failures",
+        "missing machine field: cleanup",
+        "missing machine field: history"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review.",
+      "candidateHashAfterFormat": "0323ef6722b00d72b075c950679c83d0910f0f67eebddd57cf3ba9fbf455cbe5",
+      "formatNote": "Format-only change for static zero diagnostics; original assessment hash preserved, no semantic acceptance added."
+    },
+    {
+      "templateId": "test-domain-report-v1",
+      "sourcePath": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-domain-report-v1/candidate.md.raw",
+      "actualCandidateSha256": "cdb782b544332d784f12e5b07ffdfa0d5120c5882c46f990184933dd1378170a",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: Domain scope",
+        "missing section: Claim matrix",
+        "missing section: Inputs and fixtures",
+        "missing section: Results and gaps",
+        "missing section: Quality gate"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    },
+    {
+      "templateId": "quality-gate-v1",
+      "sourcePath": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/quality-gate-v1/candidate.md.raw",
+      "actualCandidateSha256": "2058938849a5f4cf55fc2f5fe313b70ec191802efc7b83bea93772b7263a35df",
+      "originalPreservationClaim": true,
+      "templateIssues": [
+        "missing section: Gate scope",
+        "missing section: Diagnostics policy",
+        "missing section: Commands and raw counts",
+        "missing section: Decision",
+        "missing section: Stop line"
+      ],
+      "decision": "rework",
+      "reason": "Preserved text/payload only; no accepted semantic migration or consumer compatibility. Raw extension does not waive template/link review."
+    }
+  ]
+}

@@ -1,0 +1,4615 @@
+{
+  "schemaVersion": "r28-phase1-plans-readonly-review-v1",
+  "id": "type-pal-r28-phase1-plans-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex independent readonly reviewer (r22_independent_review)",
+  "verdict": "accept-readonly-proposal",
+  "scope": {
+    "root": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+    "documentsRead": 22,
+    "all22": true,
+    "paths": [
+      "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "docs/phase1/plans/2026-06-02-item-audit.md",
+      "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "docs/phase1/plans/README.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256 + Git blob; no implementation/runtime execution"
+  },
+  "sourceIdentity": {
+    "governanceSourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "allSourceAfterLiveShaEqual": true,
+    "allReviewSourceAfterMatch": true,
+    "allCatalogSourceAfterMatch": true,
+    "allReviewUnique": true,
+    "bytesTotal": 932841,
+    "physicalLineSlotsTotal": 9998,
+    "gitBlobAlgorithm": "git hash-object SHA-1 recorded per path"
+  },
+  "summary": {
+    "documents": "22/22 fully read",
+    "sourceAfter": "22/22 byte SHA equal",
+    "registry": "22/22 governed-legacy entries and review references",
+    "catalog": "22/22 source/after SHA matched; catalog draft/reviewed",
+    "routing": "0/22 migratedDocuments entries; archive-only",
+    "classification": "13 proposed archive-plan-status; 2 proposed archive-design-spec; 6 proposed audit-report; 1 proposed governance-index",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "blockingCounters": {
+    "sourceShaMismatch": 0,
+    "afterShaMismatch": 0,
+    "registryMismatch": 0,
+    "reviewMissingOrDuplicate": 0,
+    "catalogShaMismatch": 0,
+    "routingContradiction": 0,
+    "fullReadFailure": 0,
+    "semanticReadFailure": 0,
+    "issueCount": 0
+  },
+  "nonBlockingCounters": {
+    "historicalDocuments": 22,
+    "unresolvedHistoricalSignals": 161,
+    "archiveOnlyRouting": 22,
+    "catalogDraftStatus": 22,
+    "designOrPlanArchive": 15,
+    "auditReport": 6,
+    "governanceIndex": 1
+  },
+  "issues": {
+    "count": 0,
+    "interpretation": "Unresolved TODOs, old milestone conflicts, draft status and absent current routing are preserved historical boundaries; no current product truth or execution credit is inferred."
+  },
+  "templateDecision": {
+    "verdict": "accept-readonly-proposal",
+    "archivePlanStatus": "Apply plan-status-v1 with archive-record-v1 overlay to 15 design/implementation plan documents; preserve all original fields, checkboxes, unresolved decisions and source quotes.",
+    "auditReport": "Apply audit-report-v1 with archive-record-v1 overlay to the 6 audit documents; preserve deviation tables and historical findings.",
+    "fiveChapterBoundary": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+    "migrationAuthorized": false,
+    "ledgerWriteAuthorized": false,
+    "governanceIndex": "README.md uses governance-index-v1 + archive-record-v1 overlay",
+    "htmlOrOtherScope": "none"
+  },
+  "accounting": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "productCredit": 0,
+    "migrationAuthorized": false,
+    "ledgerWriteAuthorized": false,
+    "fullGoalDone": false
+  },
+  "ledgerChecks": {
+    "registryPath": "docs/phase-governance/document-registry.json",
+    "catalogPath": "docs/phase-governance/catalog.json",
+    "routingPath": "docs/phase-governance/routing.json",
+    "reviewPath": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+    "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "all22Registry": true,
+    "all22Catalog": true,
+    "all22ReviewUnique": true,
+    "all22RoutingArchiveOnly": true
+  },
+  "documents": [
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "format": "markdown",
+      "title": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan",
+      "date": "2026-05-31",
+      "bodyDates": ["2026-05-31"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-133",
+        "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+        "afterSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+        "sourceAfterMatch": true,
+        "coreConclusion": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、17 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B2。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 15:| D10 0x67 | \"未真驱动\" | **已真驱动**;剩 silence 漏判(真 bug)/0xFFFF/群体魔法 |",
+          "正文信号 16:| D10 0x90 | \"battle 未实现自禁\" | 写 gs.rgObject 已对;**sdlpal 战斗内从不同步 rgObject→敌;真 show-once = 脚本返回值回写**(c7),0x90 与自禁无关 → 0x90 **不加 battle sync** |",
+          "正文信号 17:| D10 0x79 | \"battle 未实现\" | **已 fallthrough 生效** → 仅清 stale 注释 |"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+        "afterSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+      "afterSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "9ca0f7ec62ed246b68da2436317dee2837995e13",
+      "bytes": 11323,
+      "physicalLineSlots": 133,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "0. workflow 纠正的 roadmap 错误假设(关键,防误改)"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "1. 全 commit 切分(TDD,每行为先失败测,数据级断言)"
+        },
+        {
+          "line": 28,
+          "level": 3,
+          "text": "c1 — 敌方 AI 状态门(D10):decideEnemyAction overhaul"
+        },
+        {
+          "line": 37,
+          "level": 3,
+          "text": "c2 — enemy→player 物理公式修(D27)"
+        },
+        {
+          "line": 45,
+          "level": 3,
+          "text": "c3 — 物理 fAutoDefend 闪避 + 守护 cover(D27,user 全做)"
+        },
+        {
+          "line": 54,
+          "level": 3,
+          "text": "c4 — 魔法 auto-defend + Protect 除数(D27)"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "c5 — iHidingTime 隐身全套(D24,高)"
+        },
+        {
+          "line": 66,
+          "level": 3,
+          "text": "c6 — scriptOnBattleEnd 战后 resume(D10,高)"
+        },
+        {
+          "line": 71,
+          "level": 3,
+          "text": "c7 — 真 show-once / re-arm(D10,额外保真)"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "c8 — dualMove 二动真值(额外保真)"
+        },
+        {
+          "line": 81,
+          "level": 3,
+          "text": "c9 — 敌群体魔法 target=-1(额外保真)"
+        },
+        {
+          "line": 86,
+          "level": 3,
+          "text": "c10 — D9 RNG 对拍 + stale 注释清(额外保真 + 收尾)"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "2. 落点文件"
+        },
+        {
+          "line": 103,
+          "level": 2,
+          "text": "3. 完成判据"
+        },
+        {
+          "line": 110,
+          "level": 2,
+          "text": "4. 进度(2026-05-31)"
+        },
+        {
+          "line": 126,
+          "level": 3,
+          "text": "c7 精确 scope(已彻查 sdlpal PAL_RunTriggerScript script.c:3140-3478,留专项做)"
+        }
+      ],
+      "statusSignals": [
+        "> **read 清单(TOP 0)= workflow `b2-enemy-ai-understand` 18-agent 穷尽通读 + 对抗验证**完成;",
+        "### c1 — 敌方 AI 状态门(D10):decideEnemyAction overhaul",
+        "**ts**:enemy-ai.ts decideEnemyAction 扩 `DecideEnemyActionInput` 带敌 status + 全敌列表(confused 选敌)。sleep/paralyzed→pass;silence→强制物理(漏判是真 bug);confused→选随机活敌(预过滤,自带 safety,**非** sdlpal 无界 while);wMagic 0xFFFF→pass。"
+      ],
+      "semanticOutline": "B2 enemy AI truth/script-driven TDD, target selection, opcodes, state paths and completion.",
+      "conflicts": [
+        "正文信号 15:| D10 0x67 | \"未真驱动\" | **已真驱动**;剩 silence 漏判(真 bug)/0xFFFF/群体魔法 |",
+        "正文信号 16:| D10 0x90 | \"battle 未实现自禁\" | 写 gs.rgObject 已对;**sdlpal 战斗内从不同步 rgObject→敌;真 show-once = 脚本返回值回写**(c7),0x90 与自禁无关 → 0x90 **不加 battle sync** |",
+        "正文信号 17:| D10 0x79 | \"battle 未实现\" | **已 fallthrough 生效** → 仅清 stale 注释 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current battle AI/script code, tests, feature/opcode status and source review.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "format": "markdown",
+      "title": "B6 — 数值精度 + 装备(D3残 / D14残)详细 plan",
+      "date": "2026-05-31",
+      "bodyDates": ["2026-05-31"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-139",
+        "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+        "afterSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+        "sourceAfterMatch": true,
+        "coreConclusion": "B6 — 数值精度 + 装备(D3残 / D14残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 139 行、16 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B6。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+        "afterSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+      "afterSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "192313c5a03ed240360b2dcef5e74c6336bea86c",
+      "bytes": 11804,
+      "physicalLineSlots": 139,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "B6 — 数值精度 + 装备(D3残 / D14残)详细 plan"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "0. sdlpal 全 callpath 读完清单(TOP 0)"
+        },
+        {
+          "line": 11,
+          "level": 3,
+          "text": "D3 — 玩家物理攻击公式"
+        },
+        {
+          "line": 23,
+          "level": 3,
+          "text": "D14 — 装备 scriptOnEquip + removeEquipmentEffect 副作用"
+        },
+        {
+          "line": 34,
+          "level": 3,
+          "text": "byte-level 真实数据验证(反 shallow)"
+        },
+        {
+          "line": 47,
+          "level": 2,
+          "text": "1. 差异表"
+        },
+        {
+          "line": 49,
+          "level": 3,
+          "text": "D3-a 单体攻击(attack.ts 单体路径)"
+        },
+        {
+          "line": 59,
+          "level": 3,
+          "text": "D3-b 群攻(attack.ts `targetIdx<0` 路径)"
+        },
+        {
+          "line": 68,
+          "level": 3,
+          "text": "D14-a scriptOnEquip 新 opcode(equip-effect.ts `runEquipScriptSync`)"
+        },
+        {
+          "line": 74,
+          "level": 3,
+          "text": "D14-b removeEquipmentEffect 副作用(equip-effect.ts)"
+        },
+        {
+          "line": 80,
+          "level": 3,
+          "text": "D14-c 持久状态桥(架构,[[architecture-before-features]])"
+        },
+        {
+          "line": 90,
+          "level": 2,
+          "text": "2. TDD 实施步骤(bite-sized;每步先写失败测,数据级断言)"
+        },
+        {
+          "line": 94,
+          "level": 3,
+          "text": "落点文件"
+        },
+        {
+          "line": 103,
+          "level": 3,
+          "text": "步骤"
+        },
+        {
+          "line": 116,
+          "level": 3,
+          "text": "commit 切分(每行为一 commit)"
+        },
+        {
+          "line": 126,
+          "level": 2,
+          "text": "3. 完成判据(对齐 roadmap B6)—— ✅ 全达成(2026-05-31)"
+        }
+      ],
+      "statusSignals": [
+        "- dualAttack 双击 loop `for (t=0; t<(rgPlayerStatus[role][kStatusDualAttack]?2:1); t++)`(3628 / 3681)✓",
+        "- read entry: `PAL_UpdateEquipments`(global.c:1333-1369)✓ —— memset rgEquipmentEffect=0,逐 role×part 跑 `wScriptOnEquip = PAL_RunTriggerScript(scriptOnEquip, role)`",
+        "- `PAL_RemoveEquipmentEffect`(global.c:1371-1456)✓ —— 清 effect 行;**Hand(part3)→ `rgPlayerStatus[role][kStatusDualAttack]=0`**;**Wear(part5)→ 移除 level≥99 毒(数组压缩,`<99` 保留)**",
+        "- `0x2D`(script.c:1367-1375)✓ → `PAL_SetPlayerStatus(role, op0, op1)`",
+        "- `PAL_SetPlayerStatus`(global.c:2173-2277)✓ —— good 状态(Bravery/Protect/DualAttack/Haste):`HP!=0 && cur<rounds` 才 set",
+        "- `PAL_ClearAllPlayerStatus`(global.c:2310-2344)✓ / `PAL_RemovePlayerStatus`(global.c:2279-2308)✓ —— **只清 value ≤ 999**,装备状态(32760)免清",
+        "- enum:`kBodyPart` Head=0/Body=1/Shoulder=2/**Hand=3**/Feet=4/**Wear=5**/Extra=6(global.h:65-71);`kStatusAll=9`,DualAttack=8(global.h:42-55)",
+        "- global state:`rgPlayerStatus[MAX_PLAYER_ROLES][kStatusAll]`(global.h:522,持久);`rgPoisonStatus`(global.h:547)"
+      ],
+      "semanticOutline": "B6 numeric precision/equipment callpaths, formula gaps, TDD and completion.",
+      "conflicts": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "format": "markdown",
+      "title": "D 系列(战斗系统)完工 roadmap",
+      "date": "2026-05-31",
+      "bodyDates": ["2026-05-31", "2026-06-01", "2026-06-06"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-226",
+        "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+        "afterSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+        "sourceAfterMatch": true,
+        "coreConclusion": "D 系列(战斗系统)完工 roadmap：这是 plan-status，当前文档状态为 historical。全文 226 行、11 个标题；摘要/首段为「> **目标(user 2026-05-31 原话)**:\"先把 D 系列全部做完,测完,和 sdl 原版复核一遍逻辑,最后给我用例挨个测一遍\"。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 10:> 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。",
+          "正文信号 48:- D8: `confused`(混乱)攻友军 / `paralyzed`(麻痹)跳回合 行为**未在 selectAction 真接**;`boolean` 类状态(haste/protect/dualAttack)**不衰减**。",
+          "正文信号 49:- D21: `finalizeBattle` **未** clear sleep/confused/paralyzed(整条 ⬜)。",
+          "正文信号 51:**sdlpal 入口(待详细 plan 完整 read)**:",
+          "正文信号 60:- `core/battle/turn-queue.ts`(paralyzed 跳过排程?待 read 确认 sdlpal 真值)",
+          "正文信号 73:- D9: 敌 AI 选 target 仍**简版 random + magicRate**;真值 target 偏好(`fight.c:4520 PAL_BattleSelectEnemyTargetIndex`)+ **Bug-1 死循环 safety**(fight.c:4500-4517 全敌死无退出 while)未做。",
+          "正文信号 74:- D10: `0x67` 改 `wMagic` 后**未真驱动 PerformAction**(仍走 fallback decideEnemyAction);`0x90` 自禁(show-once)/ `0x79` 队伍条件分支在 battle 未实现;`scriptOnBattleEnd` 解析存了**未调**(挂战后 resume)。",
+          "正文信号 75:- D24: 隐身回合(iHidingTime)\"敌不可选队员为目标\"未在 target/AI 接。",
+          "正文信号 78:**sdlpal 入口(待详细 plan 完整 read)**:",
+          "正文信号 104:- D15: 战斗内毒 **5 函数**(抗性 `RandomLong` gate + 每回合 `PoisonDamage` 扣血 + 毒槽管理)⬜。大世界 rgPoisonStatus 已做(commit 6792dd8),战斗内未接。",
+          "正文信号 107:**sdlpal 入口(待详细 plan 完整 read)**:",
+          "正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+        "afterSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+      "afterSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "37a2a492d385765b5a4bf13a3f75d6bc2a69c508",
+      "bytes": 13844,
+      "physicalLineSlots": 226,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "D 系列(战斗系统)完工 roadmap"
+        },
+        {
+          "line": 14,
+          "level": 2,
+          "text": "工作纪律(全程,违反即 bug)"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "批次总览(推荐顺序:逻辑正确性优先,演出视觉殿后)"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "B1 — 玩家状态行为正确性(D8 / D21)"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10 / D24 / D27残)"
+        },
+        {
+          "line": 101,
+          "level": 2,
+          "text": "B3 — 战斗内毒系统(D15 / D20 紫色)"
+        },
+        {
+          "line": 124,
+          "level": 2,
+          "text": "B4 — 缺失玩家动作类型(D2 / D16 / D18残)"
+        },
+        {
+          "line": 150,
+          "level": 2,
+          "text": "B5 — 战斗演出视觉残留(D17残 / D19 / D13视觉 / D20 Trance)"
+        },
+        {
+          "line": 177,
+          "level": 2,
+          "text": "B6 — 数值精度 + 装备(D3残 / D14残)"
+        },
+        {
+          "line": 199,
+          "level": 2,
+          "text": "B7 — 全 D 段 sdlpal 逐行复核 + 用例交付(收尾)"
+        },
+        {
+          "line": 215,
+          "level": 2,
+          "text": "进度跟踪"
+        }
+      ],
+      "statusSignals": [
+        "> **本文档性质**:总 roadmap(批次分解 + 顺序 + 依赖 + 完成判据)。**不是** bite-sized 实施 plan ——",
+        "> **权威状态来源**:[docs/feature-status.md](../status/feature-status.md) D 段 + [docs/opcode-status.md](../status/opcode-status.md)。",
+        "> 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。",
+        "3. **数据级测,不靠截图**:Claude 用 gs 状态 + log 验证;截图是 user 用来发现 bug 的,不是 Claude 的判据。",
+        "4. **不偷懒不推后**:每批\"残\"项要么本批做完,要么**明确**移到 M6(音频/手柄等已知 M6 项)并在 feature-status 标注,不私自降级。",
+        "| **B1** | 玩家状态行为正确性 | D8 / D21 | 逻辑 | 无 | 中 |",
+        "| **B4** | 缺失玩家动作类型 | D2 / D16 / D18残 | 逻辑+UI | B1(status 行为)| 大 |"
+      ],
+      "semanticOutline": "D-series B1-B7 roadmap, discipline, logic-first order and real-device cases.",
+      "conflicts": [
+        "正文信号 10:> 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。",
+        "正文信号 48:- D8: `confused`(混乱)攻友军 / `paralyzed`(麻痹)跳回合 行为**未在 selectAction 真接**;`boolean` 类状态(haste/protect/dualAttack)**不衰减**。",
+        "正文信号 49:- D21: `finalizeBattle` **未** clear sleep/confused/paralyzed(整条 ⬜)。",
+        "正文信号 51:**sdlpal 入口(待详细 plan 完整 read)**:",
+        "正文信号 60:- `core/battle/turn-queue.ts`(paralyzed 跳过排程?待 read 确认 sdlpal 真值)",
+        "正文信号 73:- D9: 敌 AI 选 target 仍**简版 random + magicRate**;真值 target 偏好(`fight.c:4520 PAL_BattleSelectEnemyTargetIndex`)+ **Bug-1 死循环 safety**(fight.c:4500-4517 全敌死无退出 while)未做。",
+        "正文信号 74:- D10: `0x67` 改 `wMagic` 后**未真驱动 PerformAction**(仍走 fallback decideEnemyAction);`0x90` 自禁(show-once)/ `0x79` 队伍条件分支在 battle 未实现;`scriptOnBattleEnd` 解析存了**未调**(挂战后 resume)。",
+        "正文信号 75:- D24: 隐身回合(iHidingTime)\"敌不可选队员为目标\"未在 target/AI 接。",
+        "正文信号 78:**sdlpal 入口(待详细 plan 完整 read)**:",
+        "正文信号 104:- D15: 战斗内毒 **5 函数**(抗性 `RandomLong` gate + 每回合 `PoisonDamage` 扣血 + 毒槽管理)⬜。大世界 rgPoisonStatus 已做(commit 6792dd8),战斗内未接。",
+        "正文信号 107:**sdlpal 入口(待详细 plan 完整 read)**:",
+        "正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current D-series status and user-verified behavior evidence.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "format": "markdown",
+      "title": "中毒机制 + 战斗头像颜色 实现规划(2026-05-31)",
+      "date": "2026-05-31",
+      "bodyDates": ["2026-05-31"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-75",
+        "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+        "afterSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+        "sourceAfterMatch": true,
+        "coreConclusion": "中毒机制 + 战斗头像颜色 实现规划(2026-05-31)：这是 plan-status，当前文档状态为 historical。全文 75 行、12 个标题；摘要/首段为「> user 指令:审计完更新文档后,实现中毒机制(投掷毒/法术中毒/4 基础+7 高级毒/抗性)+ 战斗头像颜色(中毒染色 + 死亡黑白,我之前漏的)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。",
+          "正文信号 39:| 处 | 现状 | 待做 |"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+        "afterSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+      "afterSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "fbfd021e7a7b60d4fa707ec1a0f4ac72b1d6ea57",
+      "bytes": 5959,
+      "physicalLineSlots": 75,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "中毒机制 + 战斗头像颜色 实现规划(2026-05-31)"
+        },
+        {
+          "line": 5,
+          "level": 2,
+          "text": "sdlpal 真值出处(已预读)"
+        },
+        {
+          "line": 7,
+          "level": 3,
+          "text": "毒 OBJECT 结构(global.h:209-217 poison union)"
+        },
+        {
+          "line": 14,
+          "level": 3,
+          "text": "数据已 plumb(无需重新提取)"
+        },
+        {
+          "line": 18,
+          "level": 3,
+          "text": "头像色(uibattle.c:114-162 PAL_PlayerInfoBox face)"
+        },
+        {
+          "line": 31,
+          "level": 3,
+          "text": "应用毒(script.c:1185-1230,0x28)"
+        },
+        {
+          "line": 35,
+          "level": 3,
+          "text": "cure(script.c:1071/1091 CurePoisonByLevel(role,3))"
+        },
+        {
+          "line": 38,
+          "level": 2,
+          "text": "ts 现状缺口"
+        },
+        {
+          "line": 50,
+          "level": 2,
+          "text": "理解 workflow(wnt5uzmt7)关键修正(2026-05-31)"
+        },
+        {
+          "line": 60,
+          "level": 2,
+          "text": "全部中毒**施加**路径(user 2026-05-31 补充,别遗漏)"
+        },
+        {
+          "line": 66,
+          "level": 2,
+          "text": "实现批次(TDD,逐批 commit)"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "执行顺序(user 定)— 已完成审计 + 文档"
+        }
+      ],
+      "statusSignals": [
+        "w = rgPoisonStatus[i][partyIndex].wPoisonID",
+        "→ ts `drawPlayerInfoBoxes`(present/battle/draw-battle-ui.ts)需:① 读队员毒状态算 bPoisonColor ② mono 重染 blit(头像精灵按单 palette index 重画)。需 mono-blit helper。"
+      ],
+      "semanticOutline": "Poison application/resistance/damage and battle portrait poison/death colors, TDD batches.",
+      "conflicts": [
+        "正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。",
+        "正文信号 39:| 处 | 现状 | 待做 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "format": "markdown",
+      "title": "D 系列真机手测用例表(2026-06-01)",
+      "date": "2026-06-01",
+      "bodyDates": ["2026-05-29", "2026-05-31", "2026-06-01"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-864",
+        "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+        "afterSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+        "sourceAfterMatch": true,
+        "coreConclusion": "D 系列真机手测用例表(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 864 行、115 个标题；摘要/首段为「> 来源:24-agent workflow 逐 D 项生成(读 ts 实现 + sdlpal 真值 + 确认 gs 字段)+ 完整性 critic 审查。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 8:## 真机设施纠正(critic 揪出,用例里凡冲突以此段为准)",
+          "正文信号 31:- **D14** 装备:console 调不到 runEquipScript 等(未挂 window)→ partially,须走装备菜单 UI",
+          "正文信号 42:无 stub/简版子部分需排除 —— startBattle 本体(找队/展开槽位/建态/切 mode/缓存资源)是完整实现。一处简化注明:enemyTeam 槽位\"直接当 enemies.json id 索引\"(battle-system.ts:18-22,T23 baseline 待校),若选某队后敌人数/种类与原版对不上属此映射、非启动流程 bug,D",
+          "正文信号 53:- **预期**: startBattle 遍历 team.enemies 槽位(battle-system.ts:269-284):跳 0/0xFFFF,其余每槽 input.enemies.find(en=>en.id===slot) 解引用压入 enemyList;找不到的槽位 console.warn '[battle] startBattle: e",
+          "正文信号 73:**已知边界/排除**: 无未做子部分:单体 jitter(RandomLong(1,2))、暴击 ×3(1/6 或 bravery)、李逍遥额外 ×2(roleId===0 && 1/12)、末尾 RandomFloat(1,1.125)、<=0→1 钳位、群攻命中序 [2,1,0,4,3] + division 逐敌翻倍、DualAttack 双击,at",
+          "正文信号 74:注意两点边界,非「未做」但用户测时要知道:(1) 暴击/李逍遥/双击都是 RNG 概率事件(1/6、1/12、装备授),真机单次攻击不一定触发 —— 验证靠多次重复看伤害分布 / 区间,而非一击定值,故用例验证点用「范围 + 重复观察」。(2) 群攻和 DualAttack 需要装备授(attackAll 武器 / 0x2D DualAttack 状态),d",
+          "正文信号 97:- **预期**: sdlpal fight.c:3625 `for (t = 0; t < (rgPlayerStatus[role][kStatusDualAttack] ? 2 : 1); t++)`(ts attack.ts:195 `for (let t=0; t<hits; t++)`):整套伤害结算(jitter/crit/李逍遥/Random",
+          "正文信号 101:- **前置**: ?skip-intro=1 → devpanel → B 选**多体**敌队(至少 3 只敌人同屏,且各 health 高扛得住)。默认单人李逍遥。进 selectAction 后 console 注入群攻能力:`window.__game.gs.battleState.players[0].status.attackAll = 1` 不",
+          "正文信号 143:5) 玩家 base dex 简化:battle-system.ts:552-554 用 role.dexterity+(role.level+6)*4,未含装备 dex 加成(注释明示 M3 不实现),与真 PAL_GetPlayerDexterity 有差;手算玩家 dex 按此简化式。",
+          "正文信号 156:- **预期**: sdlpal fight.c:356-359 PAL_CLASSIC:rgPlayerStatus[role][kStatusHaste]!=0 → wDexterity *= 3;fight.c:382-386 cap 999。formulas.ts:207-214 getPlayerActualDexterity 同款(dex*=3,",
+          "正文信号 178:1) dualMove 进队的「随机 jitter + 取小者标 fIsSecond」语义未真做到位（简版）。sdlpal fight.c:1480-1489 真值：dualMove 敌的两条 entry 各自独立 RandomFloat(0.9,1.1) 摇 dex，再比两个 dex 取小者标 fIsSecond=TRUE（即两动谁先谁后由随机决定，第二动",
+          "正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+        "afterSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+      "afterSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "bb57171b67b9618171ab26f88c1eaf1f86329f7c",
+      "bytes": 194551,
+      "physicalLineSlots": 864,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "D 系列真机手测用例表(2026-06-01)"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "真机设施纠正(critic 揪出,用例里凡冲突以此段为准)"
+        },
+        {
+          "line": 35,
+          "level": 2,
+          "text": "D1 — 战斗启动 StartBattle (opcode 0x07 / battle picker)"
+        },
+        {
+          "line": 44,
+          "level": 3,
+          "text": "D1-1 B 键 picker 进战斗:mode 切 battle、battleState 被创建、phase 起于 preBattle、turn=0"
+        },
+        {
+          "line": 50,
+          "level": 3,
+          "text": "D1-2 enemies 数组按所选战队槽位填充,每敌 .e.health 起手等于 maxHealth"
+        },
+        {
+          "line": 56,
+          "level": 3,
+          "text": "D1-3 players 由 partyMembers 映射,roleId 对齐入队角色;超 3 人 startBattle 抛错"
+        },
+        {
+          "line": 62,
+          "level": 3,
+          "text": "D1-4 战斗局部计数器初始化:iHidingTime 与 iBlow 起手为 0"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "D3 — 物理伤害公式(单体 jitter/crit/李逍遥×2/群攻 division/DualAttack 双击)"
+        },
+        {
+          "line": 76,
+          "level": 3,
+          "text": "D3-1 单体物理攻击落实伤害且永远 >=1(jitter + 钳位)"
+        },
+        {
+          "line": 82,
+          "level": 3,
+          "text": "D3-2 暴击 ×3 真机出现(1/6 概率,重复观察伤害翻三倍)"
+        },
+        {
+          "line": 88,
+          "level": 3,
+          "text": "D3-3 李逍遥额外 ×2 加成只对 roleId===0 生效"
+        },
+        {
+          "line": 94,
+          "level": 3,
+          "text": "D3-4 DualAttack 双击:一次攻击命令对同一敌人结算两次伤害"
+        },
+        {
+          "line": 100,
+          "level": 3,
+          "text": "D3-5 群攻 division 逐敌减半:命中序 [2,1,0,4,3] 越靠后伤害越低"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "D4 — 法术伤害公式(5 元素 + 抗性 + fieldEffect)"
+        },
+        {
+          "line": 113,
+          "level": 3,
+          "text": "D4-1 攻击法术对敌人造成法术伤害(基本公式跑通)"
+        },
+        {
+          "line": 119,
+          "level": 3,
+          "text": "D4-2 同一法术对高元素抗敌人伤害显著低于无抗敌人"
+        },
+        {
+          "line": 125,
+          "level": 3,
+          "text": "D4-3 fieldEffect 战场元素加成放大/削弱同元素法术(数据级注入)"
+        },
+        {
+          "line": 133,
+          "level": 2,
+          "text": "D5D6 — 出手顺序:玩家 dex(haste×3)/ 敌人 dex((level+6)×3+dex)→ ActionQueue 排序"
+        },
+        {
+          "line": 147,
+          "level": 3,
+          "text": "D5D6-1 敌人 dex 公式逐只核验:(level+6)×3+dex,与 actionQueue 实际值字节级对齐"
+        },
+        {
+          "line": 153,
+          "level": 3,
+          "text": "D5D6-2 玩家加速 haste → 有效 dex×3,在 actionQueue 中跃居敌人之前先手"
+        },
+        {
+          "line": 159,
+          "level": 3,
+          "text": "D5D6-3 三人队:玩家间纯按各自有效 dex 互排,同 dex 时玩家优先于敌人"
+        },
+        {
+          "line": 165,
+          "level": 3,
+          "text": "D5D6-4 PAL_CLASSIC 反证:给敌人注入 haste 不改其 dex(敌人 dex 不读 status)"
+        },
+        {
+          "line": 173,
+          "level": 2,
+          "text": "D7 — ActionQueue / turn order（敌 dualMove 第二动作排队）"
+        },
+        {
+          "line": 184,
+          "level": 3,
+          "text": "D7-1 dualMove 单敌一回合出手两次（最易观察）"
+        },
+        {
+          "line": 190,
+          "level": 3,
+          "text": "D7-2 fIsSecond 第二条 entry 的字段标记 + dex-1 排序位次"
+        },
+        {
+          "line": 196,
+          "level": 3,
+          "text": "D7-3 多只同 dualMove 敌 → 队列条数翻倍（计数核对）"
+        },
+        {
+          "line": 202,
+          "level": 3,
+          "text": "D7-4 防御 ×5 / 逃跑 ÷2 dex 倍率影响出手先后（turn order 排序真值）"
+        },
+        {
+          "line": 210,
+          "level": 2,
+          "text": "D8 — 玩家/敌方 status:睡眠·麻痹跳过、混乱攻击、每回合衰减、AttackMate"
+        },
+        {
+          "line": 222,
+          "level": 3,
+          "text": "D8-1 玩家睡眠:不出动作菜单 + 该回合 Pass + 每回合衰减"
+        },
+        {
+          "line": 228,
+          "level": 3,
+          "text": "D8-2 玩家麻痹:与睡眠同路跳过(验 paralyzed 也走 Pass)"
+        },
+        {
+          "line": 234,
+          "level": 3,
+          "text": "D8-3 敌方混乱 → AttackMate 打另一只敌人(敌打敌掉血)"
+        },
+        {
+          "line": 240,
+          "level": 3,
+          "text": "D8-4 玩家混乱(原版随机打敌或打友)+ 混乱衰减"
+        },
+        {
+          "line": 248,
+          "level": 2,
+          "text": "D9 — 敌人 AI 选 target — 纯均匀随机 reject 重摇,无偏好(B2)"
+        },
+        {
+          "line": 253,
+          "level": 3,
+          "text": "D9-1 三人全存活:长程统计敌人攻击目标分布应近似均匀(无偏好)"
+        },
+        {
+          "line": 259,
+          "level": 3,
+          "text": "D9-2 死亡角色被 reject 重摇:已阵亡角色一次都不应被命中"
+        },
+        {
+          "line": 267,
+          "level": 2,
+          "text": "D10 — 敌人 AI 脚本 show-once / re-arm(turnStart / ready 返回值回写,0x00 每轮重显 vs 0x01 一次性)"
+        },
+        {
+          "line": 272,
+          "level": 3,
+          "text": "D10-1 boss turnStart 嘲讽对话进战斗起手即显(菜单之前)+ 每轮重跑一次"
+        },
+        {
+          "line": 278,
+          "level": 3,
+          "text": "D10-2 turnStart 每轮仅跑一次:对话 hold 暂停期重入不重复(turnStartDoneForTurn guard)"
+        },
+        {
+          "line": 284,
+          "level": 3,
+          "text": "D10-3 turnStart 对全体活敌各跑一次 + 死敌跳过(health<=0 continue)"
+        },
+        {
+          "line": 290,
+          "level": 3,
+          "text": "D10-4 scriptOnReady 行动前脚本返回值回写 + 本 action 一次性 guard(数据级)"
+        },
+        {
+          "line": 298,
+          "level": 2,
+          "text": "D11 — 战斗胜利 BattleWon + 升级(exp/现金入账 · 属性成长 · 升级满血满蓝 · 学法术 · 战末半血)"
+        },
+        {
+          "line": 316,
+          "level": 3,
+          "text": "D11-1 打完单战 → 胜利结算 exp/现金入账 + 回 explore"
+        },
+        {
+          "line": 322,
+          "level": 3,
+          "text": "D11-2 fixture-levelup 连升多级 → 升级屏 + 升级即满 HP/MP + 各属性成长"
+        },
+        {
+          "line": 328,
+          "level": 3,
+          "text": "D11-3 升级后学新法术(fixture-levelup 李逍遥 lv10 凝神归元)"
+        },
+        {
+          "line": 334,
+          "level": 3,
+          "text": "D11-4 残血胜利 → Phase F 战末半血半蓝恢复"
+        },
+        {
+          "line": 342,
+          "level": 2,
+          "text": "D12 — 战斗逃跑 PlayerEscape — 全队逃 + 16 步右下滑动画 + 移出屏 → fleed → 回 explore"
+        },
+        {
+          "line": 357,
+          "level": 3,
+          "text": "D12-1 按 Q 逃跑成功 → 16 步右下滑 + 移出屏 → fleed 退出战斗回探索"
+        },
+        {
+          "line": 363,
+          "level": 3,
+          "text": "D12-2 一人选逃跑 = 全队逃(三人队全活队员 action 都被置 flee)"
+        },
+        {
+          "line": 369,
+          "level": 3,
+          "text": "D12-3 逃跑失败 → 不切 phase、不设 fleeAnim、战斗继续(可重试)"
+        },
+        {
+          "line": 377,
+          "level": 2,
+          "text": "D14 — 装备 stat 加成 + scriptOnEquip(0x2D DualAttack / 0x29 寿葫芦毒 / 卸装 reset)"
+        },
+        {
+          "line": 389,
+          "level": 3,
+          "text": "D14-1 0x2D DualAttack 端到端:装备脚本写 gs.rgPlayerStatus[role][8] → 进战斗 seed 成 dualAttack → 攻击真打两次"
+        },
+        {
+          "line": 395,
+          "level": 3,
+          "text": "D14-2 装备 stat 加成累加 + 卸装归零(effective Atk/Dex = base + Σ rgEquipmentEffect)"
+        },
+        {
+          "line": 401,
+          "level": 3,
+          "text": "D14-3 卸装副作用:卸 Hand(part3)reset DualAttack;卸 Wear(part5)清 level-99 寿葫芦毒,低级毒保留;卸非 Hand 不动 DualAttack"
+        },
+        {
+          "line": 407,
+          "level": 3,
+          "text": "D14-4 0x29 寿葫芦装备授 level-99 正面毒(grant 进 rgPoisonStatus),poisonResistance 门控"
+        },
+        {
+          "line": 413,
+          "level": 3,
+          "text": "D14-5 0x1A 装备进行中 redirect 写覆盖层 + 脚本结束 iCurEquipPart reset=-1(防泄漏污染后续脚本)"
+        },
+        {
+          "line": 421,
+          "level": 2,
+          "text": "D15 — 毒系统(0x29 玩家中毒抗性 gate / 每回合扣血 tick / cure / 敌普攻附毒 / 头像染色)"
+        },
+        {
+          "line": 426,
+          "level": 3,
+          "text": "D15-1 玩家中毒后每回合自动扣血(tickPostAction 玩家毒 tick)"
+        },
+        {
+          "line": 432,
+          "level": 3,
+          "text": "D15-2 cure / 战斗胜利解玩家毒后停止扣血、毒槽清零"
+        },
+        {
+          "line": 438,
+          "level": 3,
+          "text": "D15-3 敌人中毒后每回合扣血 + 0x28 抗性 gate(tickEnemyPoison + resistanceToSorcery)"
+        },
+        {
+          "line": 444,
+          "level": 3,
+          "text": "D15-4 敌普攻附毒命中我方(attackEquivItem scriptOnUse,fight.c:5139)"
+        },
+        {
+          "line": 452,
+          "level": 2,
+          "text": "D16 — 协力合击 CooperativeMagic(HP 代价=costMP / str=Σ(攻+法)/4 / 装备 override 改合击)"
+        },
+        {
+          "line": 465,
+          "level": 3,
+          "text": "D16-1 三人满血发起协力合击对单敌造成伤害(单体分支 + str=Σ(攻+法)/4)"
+        },
+        {
+          "line": 471,
+          "level": 3,
+          "text": "D16-2 协力对全体 healthy 队员扣 HP 代价(代价=合击 magic.costMP，从 HP 扣不是 MP)"
+        },
+        {
+          "line": 477,
+          "level": 3,
+          "text": "D16-3 协力图标的可选性门控:本人 healthy 且 healthy 人数>1 才能选(<=1 人不可发起)"
+        },
+        {
+          "line": 485,
+          "level": 2,
+          "text": "D17 — 战斗动画/演出(物理攻击/受击/死亡淡出/敌 idle/伤害数字/法术链/召唤神)"
+        },
+        {
+          "line": 499,
+          "level": 3,
+          "text": "D17-1 玩家物理攻击全链:冲刺帧8/9 + 命中特效 overlay + 敌闪白 + 蓝色伤害数字 + 敌掉血"
+        },
+        {
+          "line": 505,
+          "level": 3,
+          "text": "D17-2 敌人死亡淡出:deathFadeStep 0→72 crossfade 渐隐,期间战斗暂停"
+        },
+        {
+          "line": 511,
+          "level": 3,
+          "text": "D17-3 敌人物理攻击 + 我方受击:队员 currentFrame=4 受击姿 + iColorShift=6 红闪 + 击退 + 蓝伤害数字"
+        },
+        {
+          "line": 517,
+          "level": 3,
+          "text": "D17-4 玩家攻击魔法链:施法帧5/6 + cast 特效(PreMagic)+ FIRE.MKF 法术 sprite overlay 落敌(OffMagic)+ 敌抖动(PostMagic)"
+        },
+        {
+          "line": 523,
+          "level": 3,
+          "text": "D17-5 敌人 idle 轮播:无动作时敌人精灵按 idle 时钟换帧(currentFrame=undefined 驱动)"
+        },
+        {
+          "line": 531,
+          "level": 2,
+          "text": "D18 — 战斗 UI + 选择动作菜单(主菜单4图标方向选/二级网格滚动/目标光标ColorShift闪/当前队员箭头/友方目标箭头)"
+        },
+        {
+          "line": 544,
+          "level": 3,
+          "text": "D18-1 主菜单 4 图标方向选 + 高亮/灰项(selectedAction)"
+        },
+        {
+          "line": 550,
+          "level": 3,
+          "text": "D18-2 杂项盒 5 项环动 + miscMenuCursor 跨次持久"
+        },
+        {
+          "line": 556,
+          "level": 3,
+          "text": "D18-3 法术二级网格滚动 + MP 显示 + 灰项"
+        },
+        {
+          "line": 562,
+          "level": 3,
+          "text": "D18-4 敢方目标光标 ColorShift 闪(选中敌闪烁,无箭头)+ uiCursor 跳活敌"
+        },
+        {
+          "line": 568,
+          "level": 3,
+          "text": "D18-5 友方目标箭头(治疗物品/法术)+ 当前队员头顶箭头"
+        },
+        {
+          "line": 576,
+          "level": 2,
+          "text": "D21 — 战斗结束清状态/毒/Extra(curePoisonByLevel 3 + removeEquipmentEffect Extra)"
+        },
+        {
+          "line": 591,
+          "level": 3,
+          "text": "D21-1 胜利后清毒:中毒打赢战斗 → rgPoisonStatus 被清零"
+        },
+        {
+          "line": 597,
+          "level": 3,
+          "text": "D21-2 逃跑后也清毒:中毒 → 逃跑 → rgPoisonStatus 被清(覆盖无条件分支)"
+        },
+        {
+          "line": 603,
+          "level": 3,
+          "text": "D21-3 边界:level==99 装备毒战末不清(curePoisonByLevel 只清 ≤3)"
+        },
+        {
+          "line": 609,
+          "level": 3,
+          "text": "D21-4 胜利专属半血恢复(Phase F,逃跑/战败不触发)"
+        },
+        {
+          "line": 617,
+          "level": 2,
+          "text": "D22 — 偷盗 StealFromEnemy(逻辑 + 偷窃冲刺动画 + 居中\"获得 X\"框)"
+        },
+        {
+          "line": 626,
+          "level": 3,
+          "text": "D22-1 偷物成功:飞龙探云手偷蛹身上的蛊 → 库存多1个蛊 + 居中框「获得 蛊」"
+        },
+        {
+          "line": 632,
+          "level": 3,
+          "text": "D22-2 偷尽即无:同一只蛹偷成功后再偷 → stealItemCount 已 0,无任何获得、库存不再增"
+        },
+        {
+          "line": 638,
+          "level": 3,
+          "text": "D22-3 偷物入库正确性:偷得的蛊作为 itemId 148 进 gs.inventory,数量上限 99 钳制逻辑可核"
+        },
+        {
+          "line": 646,
+          "level": 2,
+          "text": "D23 — 战斗 scripted enemy AI opcode 子集(0x67 enemy use magic + 0x64/0x68/0x91 等敌脚本分支)"
+        },
+        {
+          "line": 651,
+          "level": 3,
+          "text": "D23-1 0x67 真值:敌 magic/magicRate 设值后,会魔法的敌每回合按概率放法术"
+        },
+        {
+          "line": 657,
+          "level": 3,
+          "text": "D23-2 magicRate 边界:rate=10 恒放魔法 vs rate=0 恒物理(console 注入 0x67 等价效果)"
+        },
+        {
+          "line": 663,
+          "level": 3,
+          "text": "D23-3 silence + 0xFFFF 哨兵边界:沉默 或 wMagic==0xFFFF → 敌不放魔法"
+        },
+        {
+          "line": 669,
+          "level": 3,
+          "text": "D23-4 0x64 enemy HP% 分支(jump-if-HP-above-%):敌脚本跨血量阈值前后行为不同"
+        },
+        {
+          "line": 677,
+          "level": 2,
+          "text": "D24 — hide 0x5C iHidingTime"
+        },
+        {
+          "line": 682,
+          "level": 3,
+          "text": "D24-1 注入正值核每轮自减 1 且隐身期间敌整轮跳过"
+        },
+        {
+          "line": 688,
+          "level": 3,
+          "text": "D24-2 核 0x5C 取反语义激活前存负值 perform 阶段才翻正"
+        },
+        {
+          "line": 694,
+          "level": 3,
+          "text": "D24-3 对照组默认 iHidingTime 为 0 时敌方正常行动"
+        },
+        {
+          "line": 702,
+          "level": 2,
+          "text": "D25 — 战斗内 magic scriptOnSuccess 治疗/复活(0x1B/1C/1D heal + 0x22 复活)"
+        },
+        {
+          "line": 715,
+          "level": 3,
+          "text": "D25-1 气疗术(0x1B 单体治疗):给受伤的李逍遥加 75 HP,封顶 maxHP"
+        },
+        {
+          "line": 721,
+          "level": 3,
+          "text": "D25-2 治疗不复活死人:对已 KO 的队员施 0x1B 无效"
+        },
+        {
+          "line": 727,
+          "level": 3,
+          "text": "D25-3 还魂咒(0x22 复活):救活 KO 的队员,HP 由 0 变 maxHP×1/10"
+        },
+        {
+          "line": 733,
+          "level": 3,
+          "text": "D25-4 复活术对活人无效:0x22 不影响未死队员(不当治疗用)"
+        },
+        {
+          "line": 741,
+          "level": 2,
+          "text": "D26 — 战斗内对话(scriptOnReady/scriptOnTurnStart 0xFFFF showDialog 走 dialog box 暂停战斗)"
+        },
+        {
+          "line": 752,
+          "level": 3,
+          "text": "D26-1 turnStart 嘲讽对话:进战斗即弹 dialog box 并暂停战斗(选不了动作)"
+        },
+        {
+          "line": 758,
+          "level": 3,
+          "text": "D26-2 Confirm 推进对话到放完 → 战斗恢复(且关框键不误触普通攻击)"
+        },
+        {
+          "line": 764,
+          "level": 3,
+          "text": "D26-3 scriptOnReady 对话:敌人行动前先说话,期间战斗暂停"
+        },
+        {
+          "line": 770,
+          "level": 3,
+          "text": "D26-4 narration(居中小窗)风格战斗对话:1.4s 或任意键自动消"
+        },
+        {
+          "line": 778,
+          "level": 2,
+          "text": "D27 — 敌方攻击魔法伤害结算(enemy→player:magStr 公式 + autoDefend 除因子)"
+        },
+        {
+          "line": 792,
+          "level": 3,
+          "text": "D27-1 敌方攻击魔法基础掉血(无防御/无护体,确定分支)"
+        },
+        {
+          "line": 798,
+          "level": 3,
+          "text": "D27-2 defending 防御减半(用户可控的确定除因子)"
+        },
+        {
+          "line": 804,
+          "level": 3,
+          "text": "D27-3 AoE 攻击魔法跳过已死队员(skip dead)"
+        },
+        {
+          "line": 810,
+          "level": 3,
+          "text": "D27-4 magStr 公式数据级核对(magicStrength + level)"
+        },
+        {
+          "line": 818,
+          "level": 2,
+          "text": "D2 — 5 actions: 攻/技/防/逃/物 + throw-item"
+        },
+        {
+          "line": 833,
+          "level": 3,
+          "text": "D2-1 普通攻击:对单敌结算物理伤害 + 敌血下降(攻击动作核心)"
+        },
+        {
+          "line": 839,
+          "level": 3,
+          "text": "D2-2 防御(D 键):本回合受敌物理攻击减伤(defending flag → 敌攻 def×2)"
+        },
+        {
+          "line": 845,
+          "level": 3,
+          "text": "D2-3 逃跑成功:roll 通过 → 播逃跑滑出动画 → 退出战斗回场景(非 boss)"
+        },
+        {
+          "line": 851,
+          "level": 3,
+          "text": "D2-4 投掷物(W 键):跑 scriptOnThrow + 投掷后消耗 1 个(throw-item action)"
+        },
+        {
+          "line": 857,
+          "level": 3,
+          "text": "D2-5 使用物品(杂项盒→道具→使用):扣 inventory + 跑 scriptOnUse(物品 action)"
+        }
+      ],
+      "statusSignals": [
+        "- 加状态 → 战斗中按 `B` 开 picker 顶部 **战斗状态调试 section**(混乱/麻痹/睡眠/沉默/傀儡/狂暴/护体/加速/双攻/中毒/清除,设 5 回合,只作用 player 0,仅战斗中;dev-panel.ts:341-400)",
+        "- 敌人 HP:`gs.battleState.enemies[i].e.health`;敌状态:`gs.battleState.enemies[i].status`",
+        "- 战斗态:`gs.mode` / `gs.battleState.{turn,phase,iHidingTime,iBlow,players[i].status,battleDialogQueue}`",
+        "**战斗内按键**(shell/input.ts:54-60,真实):A=Auto / D=Defend / Q=Flee / W=ThrowItem / S=Status / R=Repeat / E=UseItem;移动=方向键;Confirm=Space/Enter。"
+      ],
+      "semanticOutline": "D1-D21 real-device cases with fixtures, assertions, RNG boundaries and prerequisites.",
+      "conflicts": [
+        "正文信号 8:## 真机设施纠正(critic 揪出,用例里凡冲突以此段为准)",
+        "正文信号 31:- **D14** 装备:console 调不到 runEquipScript 等(未挂 window)→ partially,须走装备菜单 UI",
+        "正文信号 42:无 stub/简版子部分需排除 —— startBattle 本体(找队/展开槽位/建态/切 mode/缓存资源)是完整实现。一处简化注明:enemyTeam 槽位\"直接当 enemies.json id 索引\"(battle-system.ts:18-22,T23 baseline 待校),若选某队后敌人数/种类与原版对不上属此映射、非启动流程 bug,D",
+        "正文信号 53:- **预期**: startBattle 遍历 team.enemies 槽位(battle-system.ts:269-284):跳 0/0xFFFF,其余每槽 input.enemies.find(en=>en.id===slot) 解引用压入 enemyList;找不到的槽位 console.warn '[battle] startBattle: e",
+        "正文信号 73:**已知边界/排除**: 无未做子部分:单体 jitter(RandomLong(1,2))、暴击 ×3(1/6 或 bravery)、李逍遥额外 ×2(roleId===0 && 1/12)、末尾 RandomFloat(1,1.125)、<=0→1 钳位、群攻命中序 [2,1,0,4,3] + division 逐敌翻倍、DualAttack 双击,at",
+        "正文信号 74:注意两点边界,非「未做」但用户测时要知道:(1) 暴击/李逍遥/双击都是 RNG 概率事件(1/6、1/12、装备授),真机单次攻击不一定触发 —— 验证靠多次重复看伤害分布 / 区间,而非一击定值,故用例验证点用「范围 + 重复观察」。(2) 群攻和 DualAttack 需要装备授(attackAll 武器 / 0x2D DualAttack 状态),d",
+        "正文信号 97:- **预期**: sdlpal fight.c:3625 `for (t = 0; t < (rgPlayerStatus[role][kStatusDualAttack] ? 2 : 1); t++)`(ts attack.ts:195 `for (let t=0; t<hits; t++)`):整套伤害结算(jitter/crit/李逍遥/Random",
+        "正文信号 101:- **前置**: ?skip-intro=1 → devpanel → B 选**多体**敌队(至少 3 只敌人同屏,且各 health 高扛得住)。默认单人李逍遥。进 selectAction 后 console 注入群攻能力:`window.__game.gs.battleState.players[0].status.attackAll = 1` 不",
+        "正文信号 143:5) 玩家 base dex 简化:battle-system.ts:552-554 用 role.dexterity+(role.level+6)*4,未含装备 dex 加成(注释明示 M3 不实现),与真 PAL_GetPlayerDexterity 有差;手算玩家 dex 按此简化式。",
+        "正文信号 156:- **预期**: sdlpal fight.c:356-359 PAL_CLASSIC:rgPlayerStatus[role][kStatusHaste]!=0 → wDexterity *= 3;fight.c:382-386 cap 999。formulas.ts:207-214 getPlayerActualDexterity 同款(dex*=3,",
+        "正文信号 178:1) dualMove 进队的「随机 jitter + 取小者标 fIsSecond」语义未真做到位（简版）。sdlpal fight.c:1480-1489 真值：dualMove 敌的两条 entry 各自独立 RandomFloat(0.9,1.1) 摇 dex，再比两个 dex 取小者标 fIsSecond=TRUE（即两动谁先谁后由随机决定，第二动",
+        "正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current harness plus user-run evidence; manual cases are not runtime proof.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "format": "markdown",
+      "title": "feature-status.md 重审报告(2026-06-01)",
+      "date": "2026-06-01",
+      "bodyDates": ["2026-06-01"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-84",
+        "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+        "afterSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+        "sourceAfterMatch": true,
+        "coreConclusion": "feature-status.md 重审报告(2026-06-01)：这是 audit-report，当前文档状态为 historical。全文 84 行、9 个标题；摘要/首段为「> 方法:13 组并行 agent 逐行核 **ts 实际实现 + sdlpal 源 + 测试文件三方**,再对\"标签不准\"的行派独立对抗复核(防误告)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 12:| **done-1to1** | 57 | 核对 ts 与 sdlpal 真值一致忠实(待 user 真机核) |",
+          "正文信号 13:| **simplified** | 22 | 能跑但近似/简版/缺真值分支(表几乎全已自标 ⚠️) |",
+          "正文信号 15:| **not-done** | 8 | stub/缺失(全部 = 音频 3 + 外设 3 + 炼丹蛊 2,**全是明确 todo,无意外**) |",
+          "正文信号 25:### D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`",
+          "正文信号 28:- **矛盾点**:表 `✅ claimed` 按定义 = \"Claude 自认**1:1**\",且备注还写\"逃跑公式对齐 fight.c\" —— 但公式输入恰恰没对齐。这是自知的简化,按表自身规则该归 ⚠️ partial。",
+          "正文信号 29:- **修**:状态 `✅ claimed` → `⚠️ partial`;备注补\"flee str 用 raw fleeRate 非装备感知 getPlayerFleeRate(M3 简化,装备逃跑加成被忽略)\"。",
+          "正文信号 37:| **D9** 敌 AI 选 target | ⚠️ partial / 测试 ⬜ | **已 1:1**:enemy-ai.ts 对齐 fight.c:4540-4545(RandomLong(0,wMaxPartyMemberIndex)+while HP==0 重摇);enemy-ai.test.ts **13 用例**。B2 c10 已坐实 sdl",
+          "正文信号 38:| **D17** 战斗动画 | 备注嵌\"⚠️ Summon 召唤神演出未做\" | **召唤神演出已做**(commit 94cc1e0):anim-timeline.ts:782 buildSummonGodSequence(port fight.c:3072-3187)+ magic.ts:317 dispatch + magic-sprite 已提取 ",
+          "正文信号 39:| **B3 / E3** autoScript | 测试 ⬜ todo | event-system.test.ts 有 autoScript 断言,实现 1:1 对 script.c:3482 | 测试列 ⬜ → ✅ partial |",
+          "正文信号 40:| **B7** 明雷怪 | 测试 ⬜ todo | event-system.test.ts:1501 有 0x4C 用例;实现 1:1。**另:备注 ts 行号 :4035 过时,真实 :4475-4569** | 测试 ⬜ → ✅ partial;修行号 |",
+          "正文信号 41:| **B12** camera 0x7F | ⚠️ partial,备注\"平滑移镜 no-op(:2606)\" | **平滑 pan 已实现**(event-system.ts:2865 相对 pan + :1866 多帧)。备注引的 :2593/:2606 是 item-script 代码,**行号全错** | 升 ✅ claimed;备注重写(真实现在",
+          "正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+        "afterSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+      "afterSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "c04f49d81674d510d1c8a96c53b84a120bdc8d56",
+      "bytes": 6245,
+      "physicalLineSlots": 84,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "feature-status.md 重审报告(2026-06-01)"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "总览"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "⭐ 唯一真高估(必须改)"
+        },
+        {
+          "line": 25,
+          "level": 3,
+          "text": "D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "低估 6 处(表标低了 —— 正向偏差,顺带修)"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "简版 22 行 —— 表几乎全已自标 ⚠️,诚实(无需大改)"
+        },
+        {
+          "line": 58,
+          "level": 2,
+          "text": "cannot-verify 13 行 —— **不是缺口,是验证受限**"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "给 user 的结论"
+        }
+      ],
+      "statusSignals": [
+        "# feature-status.md 重审报告(2026-06-01)",
+        "### D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`",
+        "- **修**:状态 `✅ claimed` → `⚠️ partial`;备注补\"flee str 用 raw fleeRate 非装备感知 getPlayerFleeRate(M3 简化,装备逃跑加成被忽略)\"。"
+      ],
+      "semanticOutline": "feature-status three-way audit of TS, sdlpal and tests; correct overclaims and TODO statuses.",
+      "conflicts": [
+        "正文信号 12:| **done-1to1** | 57 | 核对 ts 与 sdlpal 真值一致忠实(待 user 真机核) |",
+        "正文信号 13:| **simplified** | 22 | 能跑但近似/简版/缺真值分支(表几乎全已自标 ⚠️) |",
+        "正文信号 15:| **not-done** | 8 | stub/缺失(全部 = 音频 3 + 外设 3 + 炼丹蛊 2,**全是明确 todo,无意外**) |",
+        "正文信号 25:### D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`",
+        "正文信号 28:- **矛盾点**:表 `✅ claimed` 按定义 = \"Claude 自认**1:1**\",且备注还写\"逃跑公式对齐 fight.c\" —— 但公式输入恰恰没对齐。这是自知的简化,按表自身规则该归 ⚠️ partial。",
+        "正文信号 29:- **修**:状态 `✅ claimed` → `⚠️ partial`;备注补\"flee str 用 raw fleeRate 非装备感知 getPlayerFleeRate(M3 简化,装备逃跑加成被忽略)\"。",
+        "正文信号 37:| **D9** 敌 AI 选 target | ⚠️ partial / 测试 ⬜ | **已 1:1**:enemy-ai.ts 对齐 fight.c:4540-4545(RandomLong(0,wMaxPartyMemberIndex)+while HP==0 重摇);enemy-ai.test.ts **13 用例**。B2 c10 已坐实 sdl",
+        "正文信号 38:| **D17** 战斗动画 | 备注嵌\"⚠️ Summon 召唤神演出未做\" | **召唤神演出已做**(commit 94cc1e0):anim-timeline.ts:782 buildSummonGodSequence(port fight.c:3072-3187)+ magic.ts:317 dispatch + magic-sprite 已提取 ",
+        "正文信号 39:| **B3 / E3** autoScript | 测试 ⬜ todo | event-system.test.ts 有 autoScript 断言,实现 1:1 对 script.c:3482 | 测试列 ⬜ → ✅ partial |",
+        "正文信号 40:| **B7** 明雷怪 | 测试 ⬜ todo | event-system.test.ts:1501 有 0x4C 用例;实现 1:1。**另:备注 ts 行号 :4035 过时,真实 :4475-4569** | 测试 ⬜ → ✅ partial;修行号 |",
+        "正文信号 41:| **B12** camera 0x7F | ⚠️ partial,备注\"平滑移镜 no-op(:2606)\" | **平滑 pan 已实现**(event-system.ts:2865 相对 pan + :1866 多帧)。备注引的 :2593/:2606 是 item-script 代码,**行号全错** | 升 ✅ claimed;备注重写(真实现在",
+        "正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current feature-status and canonical code/source checks.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "format": "markdown",
+      "title": "gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)",
+      "date": "2026-06-01",
+      "bodyDates": ["2026-06-01"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-216",
+        "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+        "afterSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+        "sourceAfterMatch": true,
+        "coreConclusion": "gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)：这是 plan-status，当前文档状态为 historical。全文 216 行、15 个标题；摘要/首段为「> **背景**:`gameOverActive` 是 ts 自造字段(sdlpal 0 命中),判据 `outcome === 'lost'` 无 sdlpal 出处 →」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 11:>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,",
+          "正文信号 50:> 为何不只挪判据到 0x4F、不加新标记?Q6 已证:T0 末 onPresent 时 0x4F 尚未跑(在 ip 41076,前面 41075 是 0x43 `break` 续跑),`gameOverActive=false` → 走 `present.ts:162 fb.clear()` 露大世界 1 帧。必须有 T0 同步点亮的过渡标记补这一帧。`d",
+          "正文信号 99:return   // 纯 hold:此刻无死亡 dialog,palette 也还没 ramp(0x4F 未跑)",
+          "正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+        "afterSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+      "afterSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "82d3ef445dba70813dbad629902488dbfe78d4e3",
+      "bytes": 17970,
+      "physicalLineSlots": 216,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)"
+        },
+        {
+          "line": 18,
+          "level": 1,
+          "text": "Design: 过渡帧 hold + 0x4F 点亮死亡视觉"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "0. 数据真值(已 byte-level 核实,data/extracted/events/all.json)"
+        },
+        {
+          "line": 41,
+          "level": 2,
+          "text": "1. 标记拆分:`deathHoldActive`(过渡帧)+ `gameOverActive`(0x4F 后)"
+        },
+        {
+          "line": 54,
+          "level": 2,
+          "text": "2. 逐 consumer 改法"
+        },
+        {
+          "line": 56,
+          "level": 3,
+          "text": "(a) `game-state.ts` resumePostBattleScript(set 点)— 用预判替换无条件置位"
+        },
+        {
+          "line": 93,
+          "level": 3,
+          "text": "(b) `present.ts` presentFrame(read 点)— hold 分支并入 deathHoldActive"
+        },
+        {
+          "line": 109,
+          "level": 3,
+          "text": "(c) `event-system.ts` 0x4F handler(点亮 + 移交)"
+        },
+        {
+          "line": 123,
+          "level": 3,
+          "text": "(d) `event-system.ts:1647` showDialog(不动 + 验证不误清)"
+        },
+        {
+          "line": 127,
+          "level": 3,
+          "text": "(e) `bootstrap.ts` isDeathReload + clear(双标记都纳入)"
+        },
+        {
+          "line": 133,
+          "level": 3,
+          "text": "(f) `scene-system.ts:452` clear(双标记)"
+        },
+        {
+          "line": 137,
+          "level": 3,
+          "text": "(g) `game-state.ts` 类型(field 声明)"
+        },
+        {
+          "line": 143,
+          "level": 2,
+          "text": "3. 死亡序列逐 tick 时序表"
+        },
+        {
+          "line": 168,
+          "level": 2,
+          "text": "4. TDD 逐 commit"
+        },
+        {
+          "line": 209,
+          "level": 2,
+          "text": "关键文件 / 行号锚点(全 `/Users/zhangxu/illegal/type-pal/`)"
+        }
+      ],
+      "statusSignals": [
+        "> **状态(2026-06-01 完成)**:C1-C7 全部实施完毕,7 commit(1dba2fd→dea6692),全包 1529 测全绿 + tsc 干净。"
+      ],
+      "semanticOutline": "deathHoldActive/gameOverActive split, consumers, tick timing and focused tests.",
+      "conflicts": [
+        "正文信号 11:>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,",
+        "正文信号 50:> 为何不只挪判据到 0x4F、不加新标记?Q6 已证:T0 末 onPresent 时 0x4F 尚未跑(在 ip 41076,前面 41075 是 0x43 `break` 续跑),`gameOverActive=false` → 走 `present.ts:162 fb.clear()` 露大世界 1 帧。必须有 T0 同步点亮的过渡标记补这一帧。`d",
+        "正文信号 99:return   // 纯 hold:此刻无死亡 dialog,palette 也还没 ramp(0x4F 未跑)",
+        "正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "format": "markdown",
+      "title": "type-pal 剩余工作执行计划(2026-06-01)",
+      "date": "2026-06-01",
+      "bodyDates": ["2026-06-01", "2026-06-06"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-126",
+        "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+        "afterSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+        "sourceAfterMatch": true,
+        "coreConclusion": "type-pal 剩余工作执行计划(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 126 行、12 个标题；摘要/首段为「> 来源:源码级清查 workflow(9-agent,逐项回 reference/sdlpal 核实\"是否真没做\",防 checkbox 过期)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 4:> 31 项排查 → **20 真待办**(W1-W5)+ **11 其实已做**(订正 roadmap)+ **2 死代码该删** + **2 sdlpal 真值冲突不该做**。",
+          "正文信号 10:## ⚠️ 先订正认知(这些不是缺口)",
+          "正文信号 20:| D20-2 中毒精灵本体紫色 | **sdlpal 真值冲突,不该做**:全源 grep 证实中毒从不设精灵 iColorShift 紫色(头像染色已做) |",
+          "正文信号 50:> - 2026-06-01 的“trance magic id 47 完全未被引用”结论已废弃。真实路径是 object-magic 295「梦蛇」",
+          "正文信号 70:| **A4 OpeningMenu 坐标公式** | S | draw-opening-menu.ts:39 硬编码 x=125;真值 `125-(w>4?(w-4)*8:0)`,w=PAL_WordWidth | port wordWidth helper(ui.c:836)。⚠️ '新的故事'4 字 → w=4 → x=125 **可能已对**,gap",
+          "正文信号 71:| **F1 默认新游戏字段核对** | M | (标题\"非 SAVEDGAME 反序列化\"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-",
+          "正文信号 84:| **wWave 屏波** | M | 原语 screen-wave.ts 在(大世界已接 present.ts:180);battle 渲染路径未接 + magic.wave bump 未推 | builder 帧带 screenWave 字段(首帧 set=magic.wave、末帧复位 0,sWaveProgression=0);present-ba",
+          "正文信号 98:| **D13 敌逃飞出屏动画** | M | battle-opcodes.ts:1035 applyEnemyEscape 纯数据 stub(health=0,1042 行有 TODO);无飞出帧 | 生成飞出时间轴:全活敌同步 `pos.x+=5,pos.y-=2`/帧,x>320 移除,10ms/帧,末尾强清 objectId=0(**数据终态须与旧",
+          "正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+        "afterSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+      "afterSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "3f67afc7cdb5d6033d92b4330272018caf503a26",
+      "bytes": 11334,
+      "physicalLineSlots": 126,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "type-pal 剩余工作执行计划(2026-06-01)"
+        },
+        {
+          "line": 10,
+          "level": 2,
+          "text": "⚠️ 先订正认知(这些不是缺口)"
+        },
+        {
+          "line": 12,
+          "level": 3,
+          "text": "其实已做(11 项 — roadmap checkbox 过期,跟 G9/D1 一样被错标)"
+        },
+        {
+          "line": 27,
+          "level": 3,
+          "text": "死代码 / 不接(2 项 — 经 source 定性)"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "W1 — 战斗公式补全 + 死代码清理(纯逻辑,无渲染依赖,最稳先做)"
+        },
+        {
+          "line": 47,
+          "level": 2,
+          "text": "W2 — 持久 fAutoBattle(历史上曾误判 trance 觉醒演出为 N/A)"
+        },
+        {
+          "line": 64,
+          "level": 2,
+          "text": "W3 — 世界/菜单层(独立于战斗,可任意时段穿插)"
+        },
+        {
+          "line": 78,
+          "level": 2,
+          "text": "W4 — 战斗演出视觉:OffMagic/EnemyMagic 帧改造(内聚同批,共用 builder)"
+        },
+        {
+          "line": 93,
+          "level": 2,
+          "text": "W5 — 入场/逃跑演出(present 层基础设施,放最后)"
+        },
+        {
+          "line": 105,
+          "level": 2,
+          "text": "L 系统(炼丹/蛊虫 — 多为 already-done + 端到端验证)"
+        },
+        {
+          "line": 119,
+          "level": 2,
+          "text": "建议执行顺序"
+        },
+        {
+          "line": 124,
+          "level": 2,
+          "text": "总工作量估"
+        }
+      ],
+      "statusSignals": [
+        "| D1 enemyTeam slot 映射 | 非简化:OBJECT-index→enemyID 翻译已在**提取期**完成(enemy-teams.ts:78),slot 直当 id 正确 |"
+      ],
+      "semanticOutline": "Corrected remaining-work W1-W5/L plan, false gaps, risks and order.",
+      "conflicts": [
+        "正文信号 4:> 31 项排查 → **20 真待办**(W1-W5)+ **11 其实已做**(订正 roadmap)+ **2 死代码该删** + **2 sdlpal 真值冲突不该做**。",
+        "正文信号 10:## ⚠️ 先订正认知(这些不是缺口)",
+        "正文信号 20:| D20-2 中毒精灵本体紫色 | **sdlpal 真值冲突,不该做**:全源 grep 证实中毒从不设精灵 iColorShift 紫色(头像染色已做) |",
+        "正文信号 50:> - 2026-06-01 的“trance magic id 47 完全未被引用”结论已废弃。真实路径是 object-magic 295「梦蛇」",
+        "正文信号 70:| **A4 OpeningMenu 坐标公式** | S | draw-opening-menu.ts:39 硬编码 x=125;真值 `125-(w>4?(w-4)*8:0)`,w=PAL_WordWidth | port wordWidth helper(ui.c:836)。⚠️ '新的故事'4 字 → w=4 → x=125 **可能已对**,gap",
+        "正文信号 71:| **F1 默认新游戏字段核对** | M | (标题\"非 SAVEDGAME 反序列化\"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-",
+        "正文信号 84:| **wWave 屏波** | M | 原语 screen-wave.ts 在(大世界已接 present.ts:180);battle 渲染路径未接 + magic.wave bump 未推 | builder 帧带 screenWave 字段(首帧 set=magic.wave、末帧复位 0,sWaveProgression=0);present-ba",
+        "正文信号 98:| **D13 敌逃飞出屏动画** | M | battle-opcodes.ts:1035 applyEnemyEscape 纯数据 stub(health=0,1042 行有 TODO);无飞出帧 | 生成飞出时间轴:全活敌同步 `pos.x+=5,pos.y-=2`/帧,x>320 移除,10ms/帧,末尾强清 objectId=0(**数据终态须与旧",
+        "正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "format": "markdown",
+      "title": "SDLPal 功能面覆盖审计",
+      "date": "2026-06-01",
+      "bodyDates": ["2026-06-01", "2026-06-06"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-497",
+        "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+        "afterSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+        "sourceAfterMatch": true,
+        "coreConclusion": "SDLPal 功能面覆盖审计：这是 audit-report，当前文档状态为 historical。全文 497 行、43 个标题；摘要/首段为「更新时间：2026-06-01」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 29:按可见玩法估算，当前版本已经覆盖了主线可玩所需的大部分骨架：地图、脚本、菜单、物品、法术、战斗流程、存档、RNG/FBP/MKF 资源、结局与大量视觉层都已经存在。但距离“SDLPal 行为级还原”仍有几个核心差距：运行时音频未接入、战斗若干数值公式不完全一致、隐藏属性经验系统缺失、部分战斗视觉与菜单细节仍是简化实现。",
+          "正文信号 36:| Opcode 框架与脚本执行 | 85-95% | opcode 面覆盖很高，但部分 opcode 是状态记录或 present/audio 待接 |",
+          "正文信号 40:| 运行时音频 | 0-15% | 资源已抽取，播放器和脚本驱动基本未接 |",
+          "正文信号 41:| 输入与平台层 | 50-70% | 键盘主路径完成，鼠标、手柄、触摸、SDL 视频配置多为 Web 替代或待办 |",
+          "正文信号 53:| `play.c` | 地图更新、使用/装备物品、搜索、按键等待 | 主要路径已实现；搜索/物品特殊链路需要更多端到端验证 |",
+          "正文信号 59:| `input.c` / `video.c` / `audio.c` / `sound.c` | 输入、视频、音频、MIDI/SFX | 键盘与画面主路径可用；音频、鼠标/手柄/触摸、平台配置待补或 N/A |",
+          "正文信号 71:建议状态：`⬜/⚠️`。这是战斗数值长期还原度的高优先级缺口。",
+          "正文信号 86:建议状态：`✅/⚠️`，取决于真档覆盖测试数量。",
+          "正文信号 94:建议状态：`✅/⚠️`，说明“结算 UI 已实现，隐藏属性经验未实现”。",
+          "正文信号 102:建议状态：`⚠️`。",
+          "正文信号 112:- 哪些是未来待办。",
+          "正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+        "afterSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+      "afterSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "7494f1c5d7eae08e1686ea2c8bda426ec112ec02",
+      "bytes": 47458,
+      "physicalLineSlots": 497,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "SDLPal 功能面覆盖审计"
+        },
+        {
+          "line": 5,
+          "level": 2,
+          "text": "审计范围"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "总结判断"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "SDLPal 功能面与当前映射"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "`feature-status.md` 建议补充的功能点"
+        },
+        {
+          "line": 63,
+          "level": 3,
+          "text": "1. 隐藏属性经验系统"
+        },
+        {
+          "line": 73,
+          "level": 3,
+          "text": "2. 战斗结果路由 / Game Over / 强制败北剧情"
+        },
+        {
+          "line": 88,
+          "level": 3,
+          "text": "3. 胜利结算画面与成长展示"
+        },
+        {
+          "line": 96,
+          "level": 3,
+          "text": "4. 系统菜单设置与确认框"
+        },
+        {
+          "line": 104,
+          "level": 3,
+          "text": "5. 平台视频与输入能力边界"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "`feature-status.md` 过期或高估项"
+        },
+        {
+          "line": 118,
+          "level": 3,
+          "text": "D3 玩家物理攻击公式高估"
+        },
+        {
+          "line": 130,
+          "level": 3,
+          "text": "D5/D7 玩家敏捷公式需要复核"
+        },
+        {
+          "line": 142,
+          "level": 3,
+          "text": "D11 未提隐藏属性经验"
+        },
+        {
+          "line": 146,
+          "level": 3,
+          "text": "D12 逃跑公式描述偏旧"
+        },
+        {
+          "line": 152,
+          "level": 3,
+          "text": "D18 重复/自动战斗描述偏旧"
+        },
+        {
+          "line": 156,
+          "level": 3,
+          "text": "D24 隐身状态描述偏旧"
+        },
+        {
+          "line": 160,
+          "level": 3,
+          "text": "G9 ShakeScreen 描述偏旧"
+        },
+        {
+          "line": 164,
+          "level": 3,
+          "text": "L1/L2 特殊物品状态偏旧"
+        },
+        {
+          "line": 177,
+          "level": 2,
+          "text": "仍然合理的缺口"
+        },
+        {
+          "line": 188,
+          "level": 2,
+          "text": "建议优先级"
+        },
+        {
+          "line": 190,
+          "level": 3,
+          "text": "P0：修正文档高误导项"
+        },
+        {
+          "line": 200,
+          "level": 3,
+          "text": "P1：修核心战斗数值"
+        },
+        {
+          "line": 204,
+          "level": 3,
+          "text": "P2：做特殊物品真档验收"
+        },
+        {
+          "line": 214,
+          "level": 3,
+          "text": "P3：补音频与系统菜单"
+        },
+        {
+          "line": 224,
+          "level": 3,
+          "text": "P4：平台能力归档"
+        },
+        {
+          "line": 236,
+          "level": 2,
+          "text": "第二轮深审：SDLPal 全功能面逐项对账"
+        },
+        {
+          "line": 247,
+          "level": 3,
+          "text": "SDLPal 函数功能全集索引"
+        },
+        {
+          "line": 272,
+          "level": 3,
+          "text": "逐功能还原矩阵"
+        },
+        {
+          "line": 274,
+          "level": 4,
+          "text": "A. 启动 / 主循环 / 生命周期"
+        },
+        {
+          "line": 286,
+          "level": 4,
+          "text": "B. 资源 / 地图 / 数据"
+        },
+        {
+          "line": 300,
+          "level": 4,
+          "text": "C. 大世界探索 / 场景"
+        },
+        {
+          "line": 317,
+          "level": 4,
+          "text": "D. 脚本 / Opcode"
+        },
+        {
+          "line": 333,
+          "level": 4,
+          "text": "E. 全局状态 / 存档 / 成长"
+        },
+        {
+          "line": 348,
+          "level": 4,
+          "text": "F. 大世界 UI / 菜单 / 文本"
+        },
+        {
+          "line": 371,
+          "level": 4,
+          "text": "G. 战斗系统"
+        },
+        {
+          "line": 401,
+          "level": 4,
+          "text": "H. 视觉特效 / 过场"
+        },
+        {
+          "line": 414,
+          "level": 4,
+          "text": "I. 输入 / 平台"
+        },
+        {
+          "line": 425,
+          "level": 4,
+          "text": "J. 音频"
+        },
+        {
+          "line": 436,
+          "level": 3,
+          "text": "当前最关键的还原偏差"
+        },
+        {
+          "line": 450,
+          "level": 3,
+          "text": "`feature-status.md` 需要同步的精确修订"
+        },
+        {
+          "line": 469,
+          "level": 3,
+          "text": "更准确的总体还原度"
+        },
+        {
+          "line": 490,
+          "level": 3,
+          "text": "建议下一步修复顺序"
+        }
+      ],
+      "statusSignals": [
+        "本次审计把 `reference/sdlpal` 作为源头，对照当前 Web 版实现、测试与三份核心状态文档：",
+        "- `docs/feature-status.md`",
+        "- `docs/opcode-status.md`",
+        "- `docs/resource-status.md`",
+        "重点不是逐条复核已有状态表是否写对，而是反向从 SDLPal 源码枚举功能面，检查 `feature-status.md` 是否漏了 SDLPal 的重要系统、是否有过期描述、以及当前版本还原度的真实风险点。",
+        "当前项目明显以 SDLPal 的 `PAL_CLASSIC` 路径为主要目标；SDLPal 的部分平台层能力，例如 fullscreen、窗口缩放、截图、手柄/触摸、非 classic 配置页，应该在状态表中明确标为“Web 替代 / 暂不纳入”，否则容易被误判为缺漏。",
+        "`resource-status.md` 和资源抽取链路非常扎实，资源面基本已经接近完整；`opcode-status.md` 的 opcode 覆盖度也很高。真正的问题在于 `feature-status.md` 更像“开发完成记录”，还不是一张从 SDLPal 功能面反推出来的完整还原矩阵。"
+      ],
+      "semanticOutline": "SDLPal feature-surface mapping to feature-status, gaps and priorities.",
+      "conflicts": [
+        "正文信号 29:按可见玩法估算，当前版本已经覆盖了主线可玩所需的大部分骨架：地图、脚本、菜单、物品、法术、战斗流程、存档、RNG/FBP/MKF 资源、结局与大量视觉层都已经存在。但距离“SDLPal 行为级还原”仍有几个核心差距：运行时音频未接入、战斗若干数值公式不完全一致、隐藏属性经验系统缺失、部分战斗视觉与菜单细节仍是简化实现。",
+        "正文信号 36:| Opcode 框架与脚本执行 | 85-95% | opcode 面覆盖很高，但部分 opcode 是状态记录或 present/audio 待接 |",
+        "正文信号 40:| 运行时音频 | 0-15% | 资源已抽取，播放器和脚本驱动基本未接 |",
+        "正文信号 41:| 输入与平台层 | 50-70% | 键盘主路径完成，鼠标、手柄、触摸、SDL 视频配置多为 Web 替代或待办 |",
+        "正文信号 53:| `play.c` | 地图更新、使用/装备物品、搜索、按键等待 | 主要路径已实现；搜索/物品特殊链路需要更多端到端验证 |",
+        "正文信号 59:| `input.c` / `video.c` / `audio.c` / `sound.c` | 输入、视频、音频、MIDI/SFX | 键盘与画面主路径可用；音频、鼠标/手柄/触摸、平台配置待补或 N/A |",
+        "正文信号 71:建议状态：`⬜/⚠️`。这是战斗数值长期还原度的高优先级缺口。",
+        "正文信号 86:建议状态：`✅/⚠️`，取决于真档覆盖测试数量。",
+        "正文信号 94:建议状态：`✅/⚠️`，说明“结算 UI 已实现，隐藏属性经验未实现”。",
+        "正文信号 102:建议状态：`⚠️`。",
+        "正文信号 112:- 哪些是未来待办。",
+        "正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current feature/resource/opcode tables and implementation.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-02-item-audit.md",
+      "format": "markdown",
+      "title": "物品功能实现完整性审计(type-pal vs sdlpal)",
+      "date": "2026-06-02",
+      "bodyDates": ["2026-06-02", "2026-06-06"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-169",
+        "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+        "afterSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+        "sourceAfterMatch": true,
+        "coreConclusion": "物品功能实现完整性审计(type-pal vs sdlpal)：这是 audit-report，当前文档状态为 historical。全文 169 行、18 个标题；摘要/首段为「日期:2026-06-02」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 10:> - 0x34 紫金葫芦炼丹已弹 `item-box` dialog,并有等待/按键关闭单测。",
+          "正文信号 14:> - 0x47 PlaySound 已入 `gs.pendingSounds`;0x31 ChangeBattleSprite 已写 `BattlePlayer.spriteNumOverride`。",
+          "正文信号 28:- **战斗使用**:原列 4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现),当前这些已修或重判;0x73 战斗 raw fallback 可达性另行低优核验。",
+          "正文信号 31:- **音频/演出**:原列 0x47/0x31/0x73 多为 stub;当前 0x47 已走 pendingSounds、0x31 已接 sprite override、0x73 大世界 dither fade 已接。",
+          "正文信号 36:## 2. opcode-gap 表(未实现 / stub / 边界偏差)",
+          "正文信号 46:| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | yes | yes | 所有带音效的物品脚本 | event-system.ts pushes `gs.pendingSounds`;battle-opcodes.ts fallback 同队列 | ✅ 不再是 c",
+          "正文信号 66:| 大世界用 | partial | 0xA1:cutscene 队伍聚拢 | trail 聚拢效果对,但未逐字段设 `rgParty[1..].y=party[0].y-1`、未显式 UpdatePartyGestures(功能等价,非 1:1) | script.c:2998-3014 | event-system.ts:2973-2983 |",
+          "正文信号 73:| 战斗用 | partial | 0x29:寿葫芦/净衣符类(战斗施毒/正向毒) | 战斗 `item.ts performItem` 调 runScript **不传 opts.eventObjectId** → 单目标(op0==0)时 `currentEventObjectId=undefined` → targets=[] → **不施毒**;另 ",
+          "正文信号 100:| 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |",
+          "正文信号 107:| partial | 0x61 jump if not poisoned | 两实现都未排除 level>=99 装备毒(sdlpal global.c:1669-1675 显式 skip);role 仅带装备毒时 type-pal 误判\"已中毒\"不跳。常规毒一致 | script.c:1957-1965 / global.c:1616 | event-s",
+          "正文信号 109:| 可达性风险 | 0x5A halve player HP | handler 正确,但 performBattleAction 现强制 item→enemy 目标,无影毒-use 选队员 UI 路由可能未通(handler 就绪,触发链待验) | script.c:1887-1893 | battle-opcodes.ts:693-711 |",
+          "正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+        "afterSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+      "afterSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "7666538feb2a3380ba0bf592ce20e2b20b91f3a4",
+      "bytes": 20916,
+      "physicalLineSlots": 169,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "物品功能实现完整性审计(type-pal vs sdlpal)"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "1. 摘要"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "2. opcode-gap 表(未实现 / stub / 边界偏差)"
+        },
+        {
+          "line": 53,
+          "level": 2,
+          "text": "3. 逐物品 gap 表(仅列含非 ok finding 的物品 / opcode)"
+        },
+        {
+          "line": 55,
+          "level": 3,
+          "text": "3.1 大世界使用维(overworld-use)"
+        },
+        {
+          "line": 69,
+          "level": 3,
+          "text": "3.2 战斗使用维(battle-use)—— 核心 bug:item.ts 不传 eventObjectId 致单目标失效"
+        },
+        {
+          "line": 81,
+          "level": 3,
+          "text": "3.3 战斗投掷维(throw)"
+        },
+        {
+          "line": 89,
+          "level": 3,
+          "text": "3.4 技能消耗维(skill-consume)"
+        },
+        {
+          "line": 95,
+          "level": 3,
+          "text": "3.5 装备维(equip)"
+        },
+        {
+          "line": 103,
+          "level": 3,
+          "text": "3.6 边界 / 小偏差(低优,非阻塞)"
+        },
+        {
+          "line": 113,
+          "level": 2,
+          "text": "4. 标注 + 数据问题"
+        },
+        {
+          "line": 115,
+          "level": 3,
+          "text": "4.1 标注根因:`giveItem._item` off-by-61 命名空间错位(high)"
+        },
+        {
+          "line": 124,
+          "level": 3,
+          "text": "4.2 items.json 数据层:byte-level 全量 0 mismatch(无 bug)"
+        },
+        {
+          "line": 133,
+          "level": 2,
+          "text": "5. 修复建议清单(按严重度排序)"
+        },
+        {
+          "line": 135,
+          "level": 3,
+          "text": "High(真实功能缺陷,玩家可感知)"
+        },
+        {
+          "line": 141,
+          "level": 3,
+          "text": "Med(逻辑偏差 / 体验缺失)"
+        },
+        {
+          "line": 148,
+          "level": 3,
+          "text": "Low(演出 / 边界 / 真值数据 / 注释)"
+        },
+        {
+          "line": 160,
+          "level": 2,
+          "text": "附:验证修正记录(verify verdicts → 任务前置修正)"
+        }
+      ],
+      "statusSignals": [
+        "日期:2026-06-02",
+        "> - 0x2D/0x2F 大世界玩家状态已写入/移除 `gs.rgPlayerStatus`,并有 0x2D/0x2F 单测。",
+        "> - 0x22 复活已清 `rgPlayerStatus` 中 <=999 的状态。",
+        "- **大世界使用**:原列 5 处(0x2D/0x2F 状态 STUB、0x22 status 清除缺失、0x34 物品框 dialog 缺、0x50 delay 缺、0x62/0x63 timer 死),其中这些底层项当前均已修或重判。"
+      ],
+      "semanticOutline": "Item opcode gaps, per-item findings, data labels and severity fixes.",
+      "conflicts": [
+        "正文信号 10:> - 0x34 紫金葫芦炼丹已弹 `item-box` dialog,并有等待/按键关闭单测。",
+        "正文信号 14:> - 0x47 PlaySound 已入 `gs.pendingSounds`;0x31 ChangeBattleSprite 已写 `BattlePlayer.spriteNumOverride`。",
+        "正文信号 28:- **战斗使用**:原列 4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现),当前这些已修或重判;0x73 战斗 raw fallback 可达性另行低优核验。",
+        "正文信号 31:- **音频/演出**:原列 0x47/0x31/0x73 多为 stub;当前 0x47 已走 pendingSounds、0x31 已接 sprite override、0x73 大世界 dither fade 已接。",
+        "正文信号 36:## 2. opcode-gap 表(未实现 / stub / 边界偏差)",
+        "正文信号 46:| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | yes | yes | 所有带音效的物品脚本 | event-system.ts pushes `gs.pendingSounds`;battle-opcodes.ts fallback 同队列 | ✅ 不再是 c",
+        "正文信号 66:| 大世界用 | partial | 0xA1:cutscene 队伍聚拢 | trail 聚拢效果对,但未逐字段设 `rgParty[1..].y=party[0].y-1`、未显式 UpdatePartyGestures(功能等价,非 1:1) | script.c:2998-3014 | event-system.ts:2973-2983 |",
+        "正文信号 73:| 战斗用 | partial | 0x29:寿葫芦/净衣符类(战斗施毒/正向毒) | 战斗 `item.ts performItem` 调 runScript **不传 opts.eventObjectId** → 单目标(op0==0)时 `currentEventObjectId=undefined` → targets=[] → **不施毒**;另 ",
+        "正文信号 100:| 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |",
+        "正文信号 107:| partial | 0x61 jump if not poisoned | 两实现都未排除 level>=99 装备毒(sdlpal global.c:1669-1675 显式 skip);role 仅带装备毒时 type-pal 误判\"已中毒\"不跳。常规毒一致 | script.c:1957-1965 / global.c:1616 | event-s",
+        "正文信号 109:| 可达性风险 | 0x5A halve player HP | handler 正确,但 performBattleAction 现强制 item→enemy 目标,无影毒-use 选队员 UI 路由可能未通(handler 就绪,触发链待验) | script.c:1887-1893 | battle-opcodes.ts:693-711 |",
+        "正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current item script/opcode code and focused tests.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "format": "markdown",
+      "title": "2026-06-06 Battle System Current Audit",
+      "date": "2026-06-06",
+      "bodyDates": ["2026-06-06"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-56",
+        "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+        "afterSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+        "sourceAfterMatch": true,
+        "coreConclusion": "2026-06-06 Battle System Current Audit：这是 audit-report，当前文档状态为 historical。全文 56 行、5 个标题；摘要/首段为「本文件作为战斗系统大修入口,只记录当前 TS 实现与 SDLPal 的实质差异。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 8:- Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。",
+          "正文信号 28:- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。",
+          "正文信号 33:- 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。",
+          "正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+        "afterSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+      "afterSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "9589e96904672840c2a0ca81e580fdaf607c1125",
+      "bytes": 3873,
+      "physicalLineSlots": 56,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "2026-06-06 Battle System Current Audit"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "已排除的旧误报"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "P0:已修复行为差异"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "P1:规则/体验差异"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "P2:低优先级"
+        }
+      ],
+      "statusSignals": [
+        "- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。"
+      ],
+      "semanticOutline": "Current battle audit: false-positive exclusions, P0/P1/P2 findings.",
+      "conflicts": [
+        "正文信号 8:- Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。",
+        "正文信号 28:- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。",
+        "正文信号 33:- 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。",
+        "正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current battle code/tests and fresh audit.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "format": "markdown",
+      "title": "type-pal × sdlpal 差异审查报告",
+      "date": "2026-06-07",
+      "bodyDates": ["2026-06-05", "2026-06-07"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-2147",
+        "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+        "afterSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+        "sourceAfterMatch": true,
+        "coreConclusion": "type-pal × sdlpal 差异审查报告：这是 audit-report，当前文档状态为 historical。全文 2147 行、81 个标题；摘要/首段为「> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 12:| ❌ 复核否决(误报) | 6 |",
+          "正文信号 13:| ❓ 待定 | 0 |",
+          "正文信号 25:- **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。",
+          "正文信号 28:下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。",
+          "正文信号 41:| M7 | ✅ 通过 | `fForce/fRepeat` 已变成整队粘滞标志,剩余待选队员自动提交,全员动作填完后清标志。 |",
+          "正文信号 54:> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 47 条 Low 修改(全部),按实现消费链 + 回归测试锚点复核。结论:47 条已完整收口,未发现新的遗漏。",
+          "正文信号 70:| L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |",
+          "正文信号 78:| L21 | ✅ 通过 | `attack.ts` 群攻 sweep 续跳条件删 `be.e.health<=0`,只判 `!be \\|\\| be.defeated`(对齐 fight.c:3698 `wObjectID==0 \\|\\| idx>wMaxEnemyIndex`)。首 sweep 打死但本 action 内未清槽(`defeated=fals",
+          "正文信号 87:| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定\"冻结不变\"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |",
+          "正文信号 103:| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |",
+          "正文信号 114:| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |",
+          "正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+        "afterSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+      "afterSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "f0eaf14973396efa4516eef3c4e25a90e03580d8",
+      "bytes": 320221,
+      "physicalLineSlots": 2147,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "type-pal × sdlpal 差异审查报告"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "统计"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "修复进度(2026-06-07 落地)"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "M级修复审查"
+        },
+        {
+          "line": 52,
+          "level": 2,
+          "text": "L级修复审查(已标 ✅)"
+        },
+        {
+          "line": 106,
+          "level": 2,
+          "text": "速查索引"
+        },
+        {
+          "line": 177,
+          "level": 2,
+          "text": "🔴 High（2）"
+        },
+        {
+          "line": 179,
+          "level": 3,
+          "text": "✅ H1 · 🔴 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局)"
+        },
+        {
+          "line": 210,
+          "level": 3,
+          "text": "✅ H2 · 🔴 大世界用物品选目标时,TS 把已阵亡(HP=0)队员标灰跳过,原版可对死人用药(复活类物品无法使用)"
+        },
+        {
+          "line": 238,
+          "level": 2,
+          "text": "🟠 Medium（15）"
+        },
+        {
+          "line": 240,
+          "level": 3,
+          "text": "✅ M1 · 🟠 姓名 title 识别漏 nCurrentDialogLine==0 限制 —— 段中第 2+ 行若以冒号结尾会被误当姓名牌、从正文丢失"
+        },
+        {
+          "line": 260,
+          "level": 3,
+          "text": "✅ M2 · 🟠 opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型"
+        },
+        {
+          "line": 291,
+          "level": 3,
+          "text": "✅ M3 · 🟠 NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱"
+        },
+        {
+          "line": 327,
+          "level": 3,
+          "text": "✅ M4 · 🟠 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate）"
+        },
+        {
+          "line": 355,
+          "level": 3,
+          "text": "✅ M5 · 🟠 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代"
+        },
+        {
+          "line": 390,
+          "level": 3,
+          "text": "✅ M6 · 🟠 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留)"
+        },
+        {
+          "line": 420,
+          "level": 3,
+          "text": "✅ M7 · 🟠 R(重提)/F(强行)键未做整队粘滞,只对当前队员生效"
+        },
+        {
+          "line": 449,
+          "level": 3,
+          "text": "✅ M8 · 🟠 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字)"
+        },
+        {
+          "line": 478,
+          "level": 3,
+          "text": "✅ M9 · 🟠 非召唤合击的法术效果音在派发瞬间立即播放，而非随 OffMagic 特效帧同步(早约 0.7 秒)"
+        },
+        {
+          "line": 502,
+          "level": 3,
+          "text": "✅ M10 · 🟠 大世界单体治疗(0x1B/1C/1D)未复刻 PAL_IncreaseHPMP 的“仅活人 + 无变化即失败”语义"
+        },
+        {
+          "line": 518,
+          "level": 3,
+          "text": "✅ M11 · 🟠 0x22 复活把目标全部毒清空,C 只清等级<=3 的毒"
+        },
+        {
+          "line": 548,
+          "level": 3,
+          "text": "✅ M12 · 🟠 0x29 给队员上毒未在施加当下跑毒的 playerScript(C 跑一次)"
+        },
+        {
+          "line": 582,
+          "level": 3,
+          "text": "✅ M13 · 🟠 narration 居中提示框(kDialogCenterWindow)被错误地画了 6px 投影阴影,原版无阴影"
+        },
+        {
+          "line": 612,
+          "level": 3,
+          "text": "✅ M14 · 🟠 FadeToRed 的 0x4F→0x4E 像素重映射在战败 game-over 定格帧上从未生效"
+        },
+        {
+          "line": 634,
+          "level": 3,
+          "text": "✅ M15 · 🟠 DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错"
+        },
+        {
+          "line": 661,
+          "level": 2,
+          "text": "🟡 Low（47）"
+        },
+        {
+          "line": 663,
+          "level": 3,
+          "text": "✅ L1 · 🟡 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角"
+        },
+        {
+          "line": 689,
+          "level": 3,
+          "text": "✅ L2 · 🟡 fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显"
+        },
+        {
+          "line": 719,
+          "level": 3,
+          "text": "✅ L3 · 🟡 gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误"
+        },
+        {
+          "line": 764,
+          "level": 3,
+          "text": "✅ L4 · 🟡 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧)"
+        },
+        {
+          "line": 799,
+          "level": 3,
+          "text": "✅ L5 · 🟡 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转"
+        },
+        {
+          "line": 833,
+          "level": 3,
+          "text": "✅ L6 · 🟡 读档/新游戏不复位物品菜单光标 iCurInvMenuItem"
+        },
+        {
+          "line": 853,
+          "level": 3,
+          "text": "✅ L7 · 🟡 读档不复位 sWaveProgression(屏幕波动增量随存档残留)"
+        },
+        {
+          "line": 887,
+          "level": 3,
+          "text": "✅ L8 · 🟡 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏)"
+        },
+        {
+          "line": 908,
+          "level": 3,
+          "text": "✅ L9 · 🟡 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C)"
+        },
+        {
+          "line": 943,
+          "level": 3,
+          "text": "✅ L10 · 🟡 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2"
+        },
+        {
+          "line": 973,
+          "level": 3,
+          "text": "✅ L11 · 🟡 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿"
+        },
+        {
+          "line": 997,
+          "level": 3,
+          "text": "✅ L12 · 🟡 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始"
+        },
+        {
+          "line": 1017,
+          "level": 3,
+          "text": "✅ L13 · 🟡 群攻每次挥砍后缺少 Delay(4) 收势停顿"
+        },
+        {
+          "line": 1037,
+          "level": 3,
+          "text": "✅ L14 · 🟡 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧"
+        },
+        {
+          "line": 1069,
+          "level": 3,
+          "text": "✅ L15 · 🟡 战斗投掷/使用物品演出期间不显示物品名称标签"
+        },
+        {
+          "line": 1099,
+          "level": 3,
+          "text": "✅ L16 · 🟡 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3)"
+        },
+        {
+          "line": 1135,
+          "level": 3,
+          "text": "✅ L17 · 🟡 keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波"
+        },
+        {
+          "line": 1165,
+          "level": 3,
+          "text": "✅ L18 · 🟡 群攻/召唤/合击伤害对每个敌人共用同一随机系数，C 对每个敌人各掷一次 RandomFloat"
+        },
+        {
+          "line": 1189,
+          "level": 3,
+          "text": "✅ L19 · 🟡 梦蛇变身切换到新精灵时直接硬切，缺少原版的淡入淡出过场"
+        },
+        {
+          "line": 1221,
+          "level": 3,
+          "text": "✅ L20 · 🟡 AoE 法术伤害对所有目标共用同一个随机扰动因子,C 是每目标独立 RandomFloat"
+        },
+        {
+          "line": 1258,
+          "level": 3,
+          "text": "✅ L21 · 🟡 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍"
+        },
+        {
+          "line": 1294,
+          "level": 3,
+          "text": "✅ L22 · 🟡 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取"
+        },
+        {
+          "line": 1324,
+          "level": 3,
+          "text": "✅ L23 · 🟡 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态)"
+        },
+        {
+          "line": 1348,
+          "level": 3,
+          "text": "✅ L24 · 🟡 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致"
+        },
+        {
+          "line": 1378,
+          "level": 3,
+          "text": "✅ L25 · 🟡 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份)"
+        },
+        {
+          "line": 1400,
+          "level": 3,
+          "text": "✅ L26 · 🟡 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示)"
+        },
+        {
+          "line": 1420,
+          "level": 3,
+          "text": "✅ L27 · 🟡 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID"
+        },
+        {
+          "line": 1440,
+          "level": 3,
+          "text": "✅ L28 · 🟡 WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」"
+        },
+        {
+          "line": 1475,
+          "level": 3,
+          "text": "✅ L29 · 🟡 slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令"
+        },
+        {
+          "line": 1511,
+          "level": 3,
+          "text": "✅ L30 · 🟡 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致"
+        },
+        {
+          "line": 1549,
+          "level": 3,
+          "text": "✅ L31 · 🟡 cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移"
+        },
+        {
+          "line": 1581,
+          "level": 3,
+          "text": "✅ L32 · 🟡 layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充"
+        },
+        {
+          "line": 1601,
+          "level": 3,
+          "text": "✅ L33 · 🟡 narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px)"
+        },
+        {
+          "line": 1631,
+          "level": 3,
+          "text": "✅ L34 · 🟡 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100%"
+        },
+        {
+          "line": 1662,
+          "level": 3,
+          "text": "✅ L35 · 🟡 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」"
+        },
+        {
+          "line": 1696,
+          "level": 3,
+          "text": "✅ L36 · 🟡 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示"
+        },
+        {
+          "line": 1730,
+          "level": 3,
+          "text": "✅ L37 · 🟡 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选"
+        },
+        {
+          "line": 1758,
+          "level": 3,
+          "text": "✅ L38 · 🟡 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上"
+        },
+        {
+          "line": 1791,
+          "level": 3,
+          "text": "✅ L39 · 🟡 用物品列表未把「已装备但本身可用」的装备追加进列表"
+        },
+        {
+          "line": 1815,
+          "level": 3,
+          "text": "✅ L40 · 🟡 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久)"
+        },
+        {
+          "line": 1851,
+          "level": 3,
+          "text": "✅ L41 · 🟡 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表"
+        },
+        {
+          "line": 1877,
+          "level": 3,
+          "text": "✅ L42 · 🟡 DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu"
+        },
+        {
+          "line": 1912,
+          "level": 3,
+          "text": "✅ L43 · 🟡 Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms"
+        },
+        {
+          "line": 1932,
+          "level": 3,
+          "text": "✅ L44 · 🟡 Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态"
+        },
+        {
+          "line": 1952,
+          "level": 3,
+          "text": "✅ L45 · 🟡 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4"
+        },
+        {
+          "line": 1972,
+          "level": 3,
+          "text": "✅ L46 · 🟡 SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播)"
+        },
+        {
+          "line": 1994,
+          "level": 3,
+          "text": "✅ L47 · 🟡 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环"
+        },
+        {
+          "line": 2026,
+          "level": 2,
+          "text": "❌ 复核否决的误报（6）"
+        },
+        {
+          "line": 2030,
+          "level": 3,
+          "text": "FP1 · 战斗·法术伤害与治疗 — 玩家进攻法术 inline 伤害对敌方防御做了 C 没有的 (SHORT) 转换与负值钳零"
+        },
+        {
+          "line": 2053,
+          "level": 3,
+          "text": "FP2 · 战斗·脚本 opcode 与敌人 AI — 0x9F 敌人变身覆盖了 AI 脚本字段(C 保留原脚本)→ 变身怪只变身一次后失去 AI"
+        },
+        {
+          "line": 2076,
+          "level": 3,
+          "text": "FP3 · 战斗·主循环与回合流程 — 战斗菜单按 Menu 回退上一队员时只跳过死亡者,未跳过睡眠/麻痹/混乱者"
+        },
+        {
+          "line": 2084,
+          "level": 3,
+          "text": "FP4 · 过场·整屏动画与结局 — 结局动画缺首帧从黑 600ms 淡入(fNeedToFadeIn),climax 画面直接满亮弹出"
+        },
+        {
+          "line": 2105,
+          "level": 3,
+          "text": "FP5 · 战斗·结算与成长 — 战后清状态/清毒/清临时装备效果只遍历当前队伍,而非全部 6 个角色"
+        },
+        {
+          "line": 2123,
+          "level": 3,
+          "text": "FP6 · 渲染·地图瓦片与精灵 — 队员跟随者(成员1/2)走路用了队长的步帧序列 [0,1,0,2],漏了 iStepFrameFollower 反相序列 [0,2,0,1]"
+        },
+        {
+          "line": 2139,
+          "level": 2,
+          "text": "审查完整性"
+        }
+      ],
+      "statusSignals": [
+        "> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。",
+        "> 规模:92 个 agent、7.67M token、2677 次工具调用。compare 共产出 70 条候选,**全部完成对抗复核,零遗漏**。",
+        "> 审查日期:2026-06-07。范围:M1–M15 全部已落地修改,按代码消费链 + 对照 `reference/sdlpal/` 真值复核。结论:15 条已完整收口。"
+      ],
+      "semanticOutline": "First diff audit: statistics, M/L fixes, rejected false positives.",
+      "conflicts": [
+        "正文信号 12:| ❌ 复核否决(误报) | 6 |",
+        "正文信号 13:| ❓ 待定 | 0 |",
+        "正文信号 25:- **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。",
+        "正文信号 28:下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。",
+        "正文信号 41:| M7 | ✅ 通过 | `fForce/fRepeat` 已变成整队粘滞标志,剩余待选队员自动提交,全员动作填完后清标志。 |",
+        "正文信号 54:> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 47 条 Low 修改(全部),按实现消费链 + 回归测试锚点复核。结论:47 条已完整收口,未发现新的遗漏。",
+        "正文信号 70:| L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |",
+        "正文信号 78:| L21 | ✅ 通过 | `attack.ts` 群攻 sweep 续跳条件删 `be.e.health<=0`,只判 `!be \\|\\| be.defeated`(对齐 fight.c:3698 `wObjectID==0 \\|\\| idx>wMaxEnemyIndex`)。首 sweep 打死但本 action 内未清槽(`defeated=fals",
+        "正文信号 87:| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定\"冻结不变\"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |",
+        "正文信号 103:| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |",
+        "正文信号 114:| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |",
+        "正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current code plus new source-anchored diff audit.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "format": "markdown",
+      "title": "type-pal × sdlpal 第二轮深挖差异审查报告",
+      "date": "2026-06-10",
+      "bodyDates": ["2026-06-07", "2026-06-10", "2026-06-11"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-289",
+        "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+        "afterSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+        "sourceAfterMatch": true,
+        "coreConclusion": "type-pal × sdlpal 第二轮深挖差异审查报告：这是 audit-report，当前文档状态为 historical。全文 289 行、26 个标题；摘要/首段为「> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 14:| 🟡 low | 39(其中 8 条已对抗复核,31 条未复核) |",
+          "正文信号 18:> low 级中标 `[未复核]` 的条目未做对抗复核,修复前请先按行号核对 C 源。",
+          "正文信号 33:对象建 rgObject overlay 机制,latent 零收益 —— 待真实数据出现再做。",
+          "正文信号 37:- DL19(0x73 等键豁免):与\"fade backup 须含对话像素\"的视觉机制直接冲突,且全数据 0 相邻实例。",
+          "正文信号 39:flFadeTime(audio.c)—— **忠实不做** gain ramp;计算保留注释供未来 OGG/RIX 后端。",
+          "正文信号 42:2 个测试 fixture 缺陷(e2e flee 未同步 runtime fleeRate、casualty 阈值锁旧行为)。",
+          "正文信号 68:- C 真值: fight.c:3611 perform 起手必跑 validate(fight.c:3286-3358):法术未学 / `kStatusSilence>0` / `MP<wCostMP` → 攻击系法术降普攻(target -1→0)、辅助系降 Defend;投掷数量 0 → 降普攻(:3418-3422);UseItem 数量 0 → 降",
+          "正文信号 100:- TS 现状: present-battle.ts:229-232 仅 `animFrame.screenWave>0`(法术帧)才 applyScreenWave;待机/菜单/普攻帧不施波。",
+          "正文信号 101:- 影响: 5 个战场(水下/幻境类)原版全程荡漾,TS 静止、法术时突然波动。复核另发现更宽:anim-timeline.ts:908 法术帧 wave **未叠加 baseScreenWave**(仅用于 keepEffect 判定)——带常驻波战场连法术期间的波幅都偏小。",
+          "正文信号 118:**DM2 战斗结束未清大世界持久 rgPlayerStatus——金刚符等 buff 永久化** [confirmed]",
+          "正文信号 124:**DM4 逃跑成功率 def 累加未跳过已死敌** [confirmed]",
+          "正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224 "
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+        "afterSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+      "afterSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "56faadd5279b934278e75d5e69e6b70701ed44b2",
+      "bytes": 38486,
+      "physicalLineSlots": 289,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "type-pal × sdlpal 第二轮深挖差异审查报告"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "统计"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "修复进度(2026-06-11/12 全部落地)"
+        },
+        {
+          "line": 44,
+          "level": 2,
+          "text": "审计期间用户已修(与本报告交叠)"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "🔴 HIGH(9 条,全部对抗复核 confirmed)"
+        },
+        {
+          "line": 53,
+          "level": 3,
+          "text": "DH1 敌队 0 占位槽被压缩——68/380 队站位错排,0x9E 召唤永远没有空槽"
+        },
+        {
+          "line": 60,
+          "level": 3,
+          "text": "DH2 CLASSIC 下 wDualMove=1 敌人应每轮必双动,TS 错用非 CLASSIC 的 50% 掷骰"
+        },
+        {
+          "line": 66,
+          "level": 3,
+          "text": "DH3 perform 期缺 PAL_BattlePlayerValidateAction 降级链——封魔照常施法、MP/物品不足吞回合"
+        },
+        {
+          "line": 72,
+          "level": 3,
+          "text": "DH4 autoScript 的 0x06 jumpByRate 目标为 0 时应\"原地重掷\",TS 跳到 entry 0 → NPC 自动脚本永久死亡"
+        },
+        {
+          "line": 79,
+          "level": 3,
+          "text": "DH5 isWalkable 永久豁免 triggerMode≥4 的事件对象碰撞——744 个门卫/阻挡体可被穿行"
+        },
+        {
+          "line": 85,
+          "level": 3,
+          "text": "DH6 群攻挥砍缺\"全敌闪白\"与\"全敌收势抖动\"两段演出"
+        },
+        {
+          "line": 91,
+          "level": 3,
+          "text": "DH7 读档后不清空毒状态——C 读档即解毒"
+        },
+        {
+          "line": 97,
+          "level": 3,
+          "text": "DH8 带常驻屏波的战场(18/22/32/35/50)整场战斗不波动"
+        },
+        {
+          "line": 103,
+          "level": 3,
+          "text": "DH9 子菜单完成操作后应关闭整个菜单回大世界,TS 弹回上级 hub"
+        },
+        {
+          "line": 111,
+          "level": 2,
+          "text": "🟠 MEDIUM(32 条,全部对抗复核;按子系统分组)"
+        },
+        {
+          "line": 113,
+          "level": 3,
+          "text": "战斗逻辑"
+        },
+        {
+          "line": 139,
+          "level": 3,
+          "text": "战斗演出/渲染"
+        },
+        {
+          "line": 162,
+          "level": 3,
+          "text": "脚本引擎/场景"
+        },
+        {
+          "line": 170,
+          "level": 3,
+          "text": "对话/文本"
+        },
+        {
+          "line": 187,
+          "level": 3,
+          "text": "菜单/存档"
+        },
+        {
+          "line": 201,
+          "level": 3,
+          "text": "Shell/过场/输入"
+        },
+        {
+          "line": 223,
+          "level": 2,
+          "text": "🟡 LOW"
+        },
+        {
+          "line": 225,
+          "level": 3,
+          "text": "已对抗复核(8 条)"
+        },
+        {
+          "line": 236,
+          "level": 3,
+          "text": "未对抗复核(31 条,修复前请按行号核对 C 源)"
+        },
+        {
+          "line": 280,
+          "level": 2,
+          "text": "横向备注"
+        },
+        {
+          "line": 286,
+          "level": 2,
+          "text": "各范围\"已核对无差异\"摘要"
+        }
+      ],
+      "statusSignals": [
+        "> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。",
+        "状态机/DM29 进战斗揭场期静默)。"
+      ],
+      "semanticOutline": "Second deep audit: lifecycle/order/side-effect/system handoff/frame findings.",
+      "conflicts": [
+        "正文信号 14:| 🟡 low | 39(其中 8 条已对抗复核,31 条未复核) |",
+        "正文信号 18:> low 级中标 `[未复核]` 的条目未做对抗复核,修复前请先按行号核对 C 源。",
+        "正文信号 33:对象建 rgObject overlay 机制,latent 零收益 —— 待真实数据出现再做。",
+        "正文信号 37:- DL19(0x73 等键豁免):与\"fade backup 须含对话像素\"的视觉机制直接冲突,且全数据 0 相邻实例。",
+        "正文信号 39:flFadeTime(audio.c)—— **忠实不做** gain ramp;计算保留注释供未来 OGG/RIX 后端。",
+        "正文信号 42:2 个测试 fixture 缺陷(e2e flee 未同步 runtime fleeRate、casualty 阈值锁旧行为)。",
+        "正文信号 68:- C 真值: fight.c:3611 perform 起手必跑 validate(fight.c:3286-3358):法术未学 / `kStatusSilence>0` / `MP<wCostMP` → 攻击系法术降普攻(target -1→0)、辅助系降 Defend;投掷数量 0 → 降普攻(:3418-3422);UseItem 数量 0 → 降",
+        "正文信号 100:- TS 现状: present-battle.ts:229-232 仅 `animFrame.screenWave>0`(法术帧)才 applyScreenWave;待机/菜单/普攻帧不施波。",
+        "正文信号 101:- 影响: 5 个战场(水下/幻境类)原版全程荡漾,TS 静止、法术时突然波动。复核另发现更宽:anim-timeline.ts:908 法术帧 wave **未叠加 baseScreenWave**(仅用于 keepEffect 判定)——带常驻波战场连法术期间的波幅都偏小。",
+        "正文信号 118:**DM2 战斗结束未清大世界持久 rgPlayerStatus——金刚符等 buff 永久化** [confirmed]",
+        "正文信号 124:**DM4 逃跑成功率 def 累加未跳过已死敌** [confirmed]",
+        "正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224 "
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current code/tests and renewed lifecycle audit.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "format": "markdown",
+      "title": "游戏分辨率(canvas 显示尺寸)设置 Implementation Plan",
+      "date": "2026-06-13",
+      "bodyDates": ["2026-06-13"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-461",
+        "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+        "afterSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+        "sourceAfterMatch": true,
+        "coreConclusion": "游戏分辨率(canvas 显示尺寸)设置 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 461 行、10 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 377:/* 显示尺寸由 display-scale.ts(initDisplayScale)按持久化档/适应窗口设;此处仅 JS 未就绪时的兜底 3×。 */",
+          "正文信号 396:.catch((err: unknown) => {",
+          "正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用\"左上角常驻 DOM 控件\"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用\"最大整数倍(锐利,留黑边)\"——也可做\"分数铺满(填满但像素略不均)\"。两点都易调,确认后再实现。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+        "afterSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+      "afterSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "56735edf2bed20471de03be891044bab20194c7a",
+      "bytes": 17523,
+      "physicalLineSlots": 461,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "游戏分辨率(canvas 显示尺寸)设置 Implementation Plan"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "设计要点(实现前必读)"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "File Structure"
+        },
+        {
+          "line": 31,
+          "level": 3,
+          "text": "Task 1: 缩放核心(计算 + 套用 + 持久化)"
+        },
+        {
+          "line": 162,
+          "level": 3,
+          "text": "Task 2: 控制器 + 全屏 + resize 重算"
+        },
+        {
+          "line": 254,
+          "level": 3,
+          "text": "Task 3: 左上角控件 UI"
+        },
+        {
+          "line": 360,
+          "level": 3,
+          "text": "Task 4: 接入 main.ts 与 index.html"
+        },
+        {
+          "line": 425,
+          "level": 3,
+          "text": "Task 5: 浏览器验证"
+        },
+        {
+          "line": 445,
+          "level": 2,
+          "text": "Self-Review"
+        },
+        {
+          "line": 453,
+          "level": 2,
+          "text": "Execution Handoff"
+        }
+      ],
+      "statusSignals": [],
+      "semanticOutline": "Canvas display scale, integer sizing, persistence/window adaptation and decisions.",
+      "conflicts": [
+        "正文信号 377:/* 显示尺寸由 display-scale.ts(initDisplayScale)按持久化档/适应窗口设;此处仅 JS 未就绪时的兜底 3×。 */",
+        "正文信号 396:.catch((err: unknown) => {",
+        "正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用\"左上角常驻 DOM 控件\"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用\"最大整数倍(锐利,留黑边)\"——也可做\"分数铺满(填满但像素略不均)\"。两点都易调,确认后再实现。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current display-scale/canvas code and product decision.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "format": "markdown",
+      "title": "离线资源预缓存(Service Worker)Implementation Plan",
+      "date": "2026-06-13",
+      "bodyDates": ["2026-06-13"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-675",
+        "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+        "afterSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+        "sourceAfterMatch": true,
+        "coreConclusion": "离线资源预缓存(Service Worker)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 675 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 21:- **兜底**:SW 不可用 / 未注册 / 预缓存未覆盖到的资源 → 各 loader 的原 `fetch` 照常按需拉(**绝不比现状差**)。",
+          "正文信号 87:Expected: FAIL（`buildManifest` 未导出 / 模块不存在）",
+          "正文信号 319:> 注:`Date.now()` 在 SW 里可用(这是 SW 脚本,不是 workflow 脚本)。续传靠 `cache.match` 跳过——重载/中断后再触发会从未缓存项继续。",
+          "正文信号 558:.catch((err: unknown) => {",
+          "正文信号 663:- **占位扫描**:无 TBD/TODO;每个代码步给了完整代码。",
+          "正文信号 665:- **已知后续(非本plan)**:① 76k 小文件请求开销大,未来可把 world 图块打包成少量归档(改资源管线 + loader)大幅降请求数;② 移动端/计费网络可加\"暂停预缓存\"开关。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+        "afterSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+      "afterSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "da2fbf5e64a91804c6812b704aec71a51bec9369",
+      "bytes": 26345,
+      "physicalLineSlots": 675,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "离线资源预缓存(Service Worker)Implementation Plan"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "设计要点 / 约束(实现前必读)"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "File Structure"
+        },
+        {
+          "line": 37,
+          "level": 3,
+          "text": "Task 1: 资源清单生成(pal-extract)"
+        },
+        {
+          "line": 179,
+          "level": 3,
+          "text": "Task 2: Service Worker — 运行时 cache-first + 激活清理"
+        },
+        {
+          "line": 240,
+          "level": 3,
+          "text": "Task 3: Service Worker — 消息驱动后台预缓存(节流/续传/进度/版本失效)"
+        },
+        {
+          "line": 330,
+          "level": 3,
+          "text": "Task 4: 页面侧 SW 客户端(注册 / 持久化 / 触发 / 进度)"
+        },
+        {
+          "line": 443,
+          "level": 3,
+          "text": "Task 5: 右上角进度小组件(DOM)"
+        },
+        {
+          "line": 537,
+          "level": 3,
+          "text": "Task 6: 接入 main.ts(boot 门后启动预缓存 + UI)"
+        },
+        {
+          "line": 587,
+          "level": 3,
+          "text": "Task 7: 部署链路与 nginx 提示"
+        },
+        {
+          "line": 603,
+          "level": 1,
+          "text": "注:Service Worker(dist/sw.js,register updateViaCache:'none')自更新,无需 nginx 特殊配置;"
+        },
+        {
+          "line": 604,
+          "level": 1,
+          "text": "asset-manifest.json 随 data 目标同步。若重跑过 pnpm extract,务必用 all(data 同步新清单)。"
+        },
+        {
+          "line": 621,
+          "level": 3,
+          "text": "Task 8: 生产构建端到端验证(浏览器)"
+        },
+        {
+          "line": 660,
+          "level": 2,
+          "text": "Self-Review"
+        },
+        {
+          "line": 667,
+          "level": 2,
+          "text": "Execution Handoff"
+        }
+      ],
+      "statusSignals": [
+        "- **SW 脚本自更新**:`register('/sw.js', { updateViaCache: 'none' })` 让浏览器不走 HTTP 缓存取 sw.js,绕开 nginx `max-age=604800` 导致 SW 永不更新的坑。"
+      ],
+      "semanticOutline": "Service worker manifest, resumable batch cache, fallback fetch and loader contract.",
+      "conflicts": [
+        "正文信号 21:- **兜底**:SW 不可用 / 未注册 / 预缓存未覆盖到的资源 → 各 loader 的原 `fetch` 照常按需拉(**绝不比现状差**)。",
+        "正文信号 87:Expected: FAIL（`buildManifest` 未导出 / 模块不存在）",
+        "正文信号 319:> 注:`Date.now()` 在 SW 里可用(这是 SW 脚本,不是 workflow 脚本)。续传靠 `cache.match` 跳过——重载/中断后再触发会从未缓存项继续。",
+        "正文信号 558:.catch((err: unknown) => {",
+        "正文信号 663:- **占位扫描**:无 TBD/TODO;每个代码步给了完整代码。",
+        "正文信号 665:- **已知后续(非本plan)**:① 76k 小文件请求开销大,未来可把 world 图块打包成少量归档(改资源管线 + loader)大幅降请求数;② 移动端/计费网络可加\"暂停预缓存\"开关。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current service worker/precache implementation and deployment evidence.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "format": "markdown",
+      "title": "生产增强工具面板(Production Tools Panel)Implementation Plan",
+      "date": "2026-06-13",
+      "bodyDates": ["2026-06-13", "2026-06-15"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-889",
+        "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+        "afterSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+        "sourceAfterMatch": true,
+        "coreConclusion": "生产增强工具面板(Production Tools Panel)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 889 行、18 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 15:> 本节为最终口径,与下方 Task 冲突处**以本节为准**(原 Task 的功能骨架/TDD 步骤不变,仅样式 + tab 结构按此调整)。核心诉求:视觉从 dev-panel 风格升级为生产级,配色贴近 load 界面(index.html `#boot-loading` + precache-ui)。",
+          "正文信号 39:- **左竖 Tab**:宋体竖列;选中 = 金底暗字 + 左侧 2px 朱红条;未选柔金 hover 微亮 + 槽底。",
+          "正文信号 323:let obj: { format?: string; version?: number; gs?: unknown }",
+          "正文信号 760:masterGain.gain.value = pendingBgmVolume ?? 1 // 若 setBgmVolume 在 ready 前被调,用暂存值",
+          "正文信号 766:let pendingBgmVolume: number | undefined",
+          "正文信号 768:pendingBgmVolume = v",
+          "正文信号 827:> 注:`scaleCtrl` 依赖 canvas-resolution plan 已落地。若该 plan 未做,先做其 Task 1-2(display-scale.ts),或本 plan 临时内联一个最简 controller。",
+          "正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+        "afterSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+      "afterSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "50696227b057d786684782fd703a03f6364e1fe1",
+      "bytes": 44259,
+      "physicalLineSlots": 889,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "生产增强工具面板(Production Tools Panel)Implementation Plan"
+        },
+        {
+          "line": 13,
+          "level": 2,
+          "text": "2026-06-15 设计修订(最终执行口径)"
+        },
+        {
+          "line": 17,
+          "level": 3,
+          "text": "视觉规范(替换原 plan 各处 dev-panel 风格内联样式)"
+        },
+        {
+          "line": 44,
+          "level": 3,
+          "text": "Tab 结构:6 → 4"
+        },
+        {
+          "line": 58,
+          "level": 3,
+          "text": "dialogHistory 数据结构变更(影响 Task 2)"
+        },
+        {
+          "line": 65,
+          "level": 3,
+          "text": "其余 Task 影响"
+        },
+        {
+          "line": 73,
+          "level": 2,
+          "text": "设计要点(实现前必读)"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "File Structure"
+        },
+        {
+          "line": 102,
+          "level": 3,
+          "text": "Task 1: 抽出战斗只读函数到共享无门模块"
+        },
+        {
+          "line": 178,
+          "level": 3,
+          "text": "Task 2: 历史对话缓冲(捕获)"
+        },
+        {
+          "line": 268,
+          "level": 3,
+          "text": "Task 3: 存档导入导出(纯逻辑)"
+        },
+        {
+          "line": 352,
+          "level": 3,
+          "text": "Task 4: 工具面板框架(prod 可用 + toggle + tab)"
+        },
+        {
+          "line": 488,
+          "level": 3,
+          "text": "Task 5: 各 tab 内容(战斗 / 场景坐标 / 分辨率 / 存档 / 历史对话)"
+        },
+        {
+          "line": 670,
+          "level": 3,
+          "text": "Task 6: 音量调节(BGM 主音量 + 静音 + 持久化)"
+        },
+        {
+          "line": 798,
+          "level": 3,
+          "text": "Task 7: bootstrap 无条件接入(生产可用)"
+        },
+        {
+          "line": 848,
+          "level": 3,
+          "text": "Task 8: 浏览器端到端验证"
+        },
+        {
+          "line": 873,
+          "level": 2,
+          "text": "Self-Review"
+        },
+        {
+          "line": 881,
+          "level": 2,
+          "text": "Execution Handoff"
+        }
+      ],
+      "statusSignals": [
+        "**Goal:** 在**生产构建**里(dev-panel 被 tree-shake 掉、玩家无任何调试入口)提供一个非侵入的\"工具/增强\"DOM 覆盖层,热键/按钮唤出,含:战斗(队伍/敌人/场地)状态查看、当前场景+地图+主角坐标、分辨率设置、**音量调节(BGM 音量 + 静音,localStorage 持久)**、存档导入导出、历史对话查询。**全部只读 + 玩家便利动作(分辨率/音量/存档),不改任何游戏逻辑/不破坏原版表现。**"
+      ],
+      "semanticOutline": "Production tools panel visual contract, tabs, controls, volume and dependencies.",
+      "conflicts": [
+        "正文信号 15:> 本节为最终口径,与下方 Task 冲突处**以本节为准**(原 Task 的功能骨架/TDD 步骤不变,仅样式 + tab 结构按此调整)。核心诉求:视觉从 dev-panel 风格升级为生产级,配色贴近 load 界面(index.html `#boot-loading` + precache-ui)。",
+        "正文信号 39:- **左竖 Tab**:宋体竖列;选中 = 金底暗字 + 左侧 2px 朱红条;未选柔金 hover 微亮 + 槽底。",
+        "正文信号 323:let obj: { format?: string; version?: number; gs?: unknown }",
+        "正文信号 760:masterGain.gain.value = pendingBgmVolume ?? 1 // 若 setBgmVolume 在 ready 前被调,用暂存值",
+        "正文信号 766:let pendingBgmVolume: number | undefined",
+        "正文信号 768:pendingBgmVolume = v",
+        "正文信号 827:> 注:`scaleCtrl` 依赖 canvas-resolution plan 已落地。若该 plan 未做,先做其 Task 1-2(display-scale.ts),或本 plan 临时内联一个最简 controller。",
+        "正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current tools panel/design system and display-scale contract.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "format": "markdown",
+      "title": "统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan",
+      "date": "2026-06-14",
+      "bodyDates": ["2026-06-13", "2026-06-14"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-780",
+        "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+        "afterSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+        "sourceAfterMatch": true,
+        "coreConclusion": "统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 780 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 141:Expected: FAIL（`createUnifiedProgressUi` 未导出）",
+          "正文信号 339:Expected: FAIL（`onReady`/`onUnavailable`/`boostPrecache` 未实现)",
+          "正文信号 471:if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速",
+          "正文信号 618:const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true",
+          "正文信号 646:.catch((err: unknown) => {",
+          "正文信号 657:.catch((err: unknown) => {",
+          "正文信号 730:bash scripts/deploy.sh app   # 仅运行时代码改动,无需 pnpm extract(manifest 未变);若 nginx 缓存旧 index.html 需硬刷(memory: prod-deploy-stale-index-cache)",
+          "正文信号 748:**占位扫描**:无 TBD/TODO;每个代码步给完整代码。",
+          "正文信号 755:- PROD 下 `#boot-loading` 进度由 SW 字节驱动、不再包 fetch:确认首访 SW 未 claim 前的最早请求不计入只是\"初期从非 0 起跳\",不影响单调。",
+          "正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+        "afterSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+      "afterSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "a1e0defb8ef0619135ae2899bd636a6f1af3d8b3",
+      "bytes": 36177,
+      "physicalLineSlots": 780,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "设计要点 / 约束(实现前必读)"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "接口契约(全程锁定,各 task 引用)"
+        },
+        {
+          "line": 62,
+          "level": 2,
+          "text": "File Structure"
+        },
+        {
+          "line": 75,
+          "level": 3,
+          "text": "Task 1: 三态进度 UI 控制器(precache-ui.ts)"
+        },
+        {
+          "line": 239,
+          "level": 3,
+          "text": "Task 2: 加载页骨架升级(index.html 虚线 + 按钮)"
+        },
+        {
+          "line": 293,
+          "level": 3,
+          "text": "Task 3: 预缓存客户端 early-register + ready/unavailable + boost(precache-client.ts)"
+        },
+        {
+          "line": 401,
+          "level": 3,
+          "text": "Task 4: SW 让路——低并发起步 + boost 提速(sw.js)"
+        },
+        {
+          "line": 485,
+          "level": 3,
+          "text": "Task 5: video autoplay 预热(avi-player.ts)"
+        },
+        {
+          "line": 532,
+          "level": 3,
+          "text": "Task 6: bootstrap 可玩门(soundfontSettled 后 onPlayable + await enterGate)"
+        },
+        {
+          "line": 596,
+          "level": 3,
+          "text": "Task 7: main.ts 协调接线(最早注册 SW + 三态 UI + 门 + fallback)"
+        },
+        {
+          "line": 689,
+          "level": 3,
+          "text": "Task 8: 生产构建端到端验证(浏览器)"
+        },
+        {
+          "line": 735,
+          "level": 2,
+          "text": "Self-Review"
+        },
+        {
+          "line": 757,
+          "level": 2,
+          "text": "Execution Handoff"
+        },
+        {
+          "line": 763,
+          "level": 2,
+          "text": "落地记录(2026-06-14 执行完成)"
+        }
+      ],
+      "statusSignals": [],
+      "semanticOutline": "Unified precache progress/playable gate implementation, SW bridge and deployment.",
+      "conflicts": [
+        "正文信号 141:Expected: FAIL（`createUnifiedProgressUi` 未导出）",
+        "正文信号 339:Expected: FAIL（`onReady`/`onUnavailable`/`boostPrecache` 未实现)",
+        "正文信号 471:if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速",
+        "正文信号 618:const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true",
+        "正文信号 646:.catch((err: unknown) => {",
+        "正文信号 657:.catch((err: unknown) => {",
+        "正文信号 730:bash scripts/deploy.sh app   # 仅运行时代码改动,无需 pnpm extract(manifest 未变);若 nginx 缓存旧 index.html 需硬刷(memory: prod-deploy-stale-index-cache)",
+        "正文信号 748:**占位扫描**:无 TBD/TODO;每个代码步给完整代码。",
+        "正文信号 755:- PROD 下 `#boot-loading` 进度由 SW 字节驱动、不再包 fetch:确认首访 SW 未 claim 前的最早请求不计入只是\"初期从非 0 起跳\",不影响单调。",
+        "正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current precache/progress gate code and deployment evidence.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "format": "markdown",
+      "title": "统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec",
+      "date": "2026-06-14",
+      "bodyDates": ["2026-06-13", "2026-06-14"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-82",
+        "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
+        "afterSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
+        "sourceAfterMatch": true,
+        "coreConclusion": "统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec：这是 plan-status，当前文档状态为 historical。全文 82 行、13 个标题；摘要/首段为「> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
+        "afterSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
+      "afterSha256": "11564c4b9716be6f39d45ad110896c19cf94754bb742eee1e6c85fe99d3fa71d",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "20ffc4e124ed98e57f94999d6106d3c623b5a071",
+      "bytes": 6771,
+      "physicalLineSlots": 82,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "背景 / 动机"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "设计"
+        },
+        {
+          "line": 23,
+          "level": 3,
+          "text": "整体流程(时序)"
+        },
+        {
+          "line": 35,
+          "level": 3,
+          "text": "进度条三态(单一组件, 三个形态)"
+        },
+        {
+          "line": 40,
+          "level": 3,
+          "text": "进度数据源:Service Worker 统一"
+        },
+        {
+          "line": 45,
+          "level": 3,
+          "text": "让\"可玩点\"尽快到达"
+        },
+        {
+          "line": 49,
+          "level": 3,
+          "text": "可玩门 + 进入解锁"
+        },
+        {
+          "line": 54,
+          "level": 3,
+          "text": "兜底(SW 不可用 / 老浏览器 / 注册失败)"
+        },
+        {
+          "line": 57,
+          "level": 2,
+          "text": "决策(已与用户确认)"
+        },
+        {
+          "line": 62,
+          "level": 2,
+          "text": "影响文件(均在已上线代码基础上重构)"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "验收标准"
+        },
+        {
+          "line": 79,
+          "level": 2,
+          "text": "已知后续(非本设计)"
+        }
+      ],
+      "statusSignals": [],
+      "semanticOutline": "Design of unified precache progress/playable gate and acceptance.",
+      "conflicts": [
+        "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current precache gate implementation.",
+      "proposedClassification": "archive-design-spec",
+      "proposedTemplate": "design-spec-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "format": "markdown",
+      "title": "速通计时器 设计方案（Speedrun Timer）",
+      "date": "2026-06-18",
+      "bodyDates": ["2026-06-18"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "design-spec",
+        "templateId": "design-spec-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "design-spec",
+        "templateId": "design-spec-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-240",
+        "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
+        "afterSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
+        "sourceAfterMatch": true,
+        "coreConclusion": "速通计时器 设计方案（Speedrun Timer）：这是 design-spec，当前文档状态为 historical。全文 240 行、25 个标题；摘要/首段为「> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 46:- **打点**：每帧对「当前待触发节点」求值其 detector，命中即把主时钟快照写入该节点 `current`，并推进到下一节点（严格按序，不可乱序、不可回退）。",
+          "正文信号 176:1. **自动**：一局跑到「通关」且**本局总时间 < `best[通关]`**（或基准为空）→ 用本局逐点 `current` **整条覆盖** `perCheckpoint`。半途快但未通关的跑不更新。",
+          "正文信号 177:2. **手动**：设置里「用本次成绩设为最佳」→ 整条覆盖（即使未破纪录，允许手动锚定）。",
+          "正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
+        "afterSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
+      "afterSha256": "081a51146baa83324317061297b6c8763e4879cc4e2c8d1db58b7c428477ef36",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "8dfaf9af24a051ad03f91b636a6b6edc3b475529",
+      "bytes": 17640,
+      "physicalLineSlots": 240,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "速通计时器 设计方案（Speedrun Timer）"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "1. 目标"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "2. 总体架构"
+        },
+        {
+          "line": 38,
+          "level": 2,
+          "text": "3. 计时引擎语义"
+        },
+        {
+          "line": 40,
+          "level": 3,
+          "text": "3.1 状态机"
+        },
+        {
+          "line": 49,
+          "level": 3,
+          "text": "3.2 主时钟：wall-clock"
+        },
+        {
+          "line": 55,
+          "level": 3,
+          "text": "3.3 暂停与「3 秒倒计时恢复」"
+        },
+        {
+          "line": 60,
+          "level": 2,
+          "text": "4. Checkpoint 自动检测"
+        },
+        {
+          "line": 62,
+          "level": 3,
+          "text": "4.1 进度快照（每帧从 `gs` 构建）"
+        },
+        {
+          "line": 81,
+          "level": 3,
+          "text": "4.2 检测原语"
+        },
+        {
+          "line": 97,
+          "level": 3,
+          "text": "4.2.1 逐节点检测表（常量已对到我们的 extracted 数据）"
+        },
+        {
+          "line": 127,
+          "level": 3,
+          "text": "4.3 战斗信号实现（直接镜像 PalTimer 的活体血量轮询）"
+        },
+        {
+          "line": 136,
+          "level": 3,
+          "text": "4.4 运行时校准清单（仅剩 7 项，其余已离线坐实）"
+        },
+        {
+          "line": 146,
+          "level": 3,
+          "text": "4.5 常量证据（已核对的数据来源）"
+        },
+        {
+          "line": 153,
+          "level": 3,
+          "text": "4.6 默认参考线（首次播种值，来自 PalTimer `bestPAL98.txt` 默认）"
+        },
+        {
+          "line": 159,
+          "level": 2,
+          "text": "5. 数据模型与持久化"
+        },
+        {
+          "line": 161,
+          "level": 3,
+          "text": "5.1 PB 基准（整跑级，PalTimer「设为最佳」语义）"
+        },
+        {
+          "line": 174,
+          "level": 3,
+          "text": "5.2 基准更新规则"
+        },
+        {
+          "line": 180,
+          "level": 3,
+          "text": "5.3 localStorage keys"
+        },
+        {
+          "line": 191,
+          "level": 2,
+          "text": "6. UI：右侧覆盖层"
+        },
+        {
+          "line": 198,
+          "level": 2,
+          "text": "7. UI：工具面板第 6 tab「计时器」"
+        },
+        {
+          "line": 208,
+          "level": 2,
+          "text": "8. 香蕉树中场休息"
+        },
+        {
+          "line": 217,
+          "level": 2,
+          "text": "9. 测试策略"
+        },
+        {
+          "line": 226,
+          "level": 2,
+          "text": "10. 范围与取舍"
+        },
+        {
+          "line": 233,
+          "level": 2,
+          "text": "11. 风险（多数已离线坐实，残余风险见下）"
+        }
+      ],
+      "statusSignals": [
+        "> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）",
+        "| `detectors.ts` | 检测原语：`enterScene` / `leaveScene` / `atSpot` / `bossWon` / `hasItem` / `bgmIs`（见 §4.2），外加「过彩依」两段状态机。每个检测器是纯函数 `(cur, prev, mem) => boolean`。 |",
+        "| `snapshot.ts` | 每帧从 `gs` 抽轻量进度快照（见 §4.1）。检测器只读快照，不触碰引擎内部结构。 |",
+        "| `timer.ts` | 计时状态机 + 主时钟（wall-clock）+ 打点推进 + PB 比较。核心控制器。 |"
+      ],
+      "semanticOutline": "Speedrun wall-clock, checkpoint detectors, best persistence, overlay and tools tab.",
+      "conflicts": [
+        "正文信号 46:- **打点**：每帧对「当前待触发节点」求值其 detector，命中即把主时钟快照写入该节点 `current`，并推进到下一节点（严格按序，不可乱序、不可回退）。",
+        "正文信号 176:1. **自动**：一局跑到「通关」且**本局总时间 < `best[通关]`**（或基准为空）→ 用本局逐点 `current` **整条覆盖** `perCheckpoint`。半途快但未通关的跑不更新。",
+        "正文信号 177:2. **手动**：设置里「用本次成绩设为最佳」→ 整条覆盖（即使未破纪录，允许手动锚定）。",
+        "正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current timer code/product decision and behavior review.",
+      "proposedClassification": "archive-design-spec",
+      "proposedTemplate": "design-spec-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "format": "markdown",
+      "title": "速通计时器 Implementation Plan",
+      "date": "2026-06-18",
+      "bodyDates": ["2026-06-18"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-1645",
+        "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+        "afterSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+        "sourceAfterMatch": true,
+        "coreConclusion": "速通计时器 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1645 行、16 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 169:} as unknown as GameState",
+          "正文信号 190:const s = buildSnapshot(fakeGs({ battleState } as unknown as Partial<GameState>))",
+          "正文信号 275:- Produces: `type DetectorMem = Record<string, unknown>`；`type Detector = (cur: ProgressSnapshot, prev: ProgressSnapshot | null, mem: DetectorMem) => boolean`；工厂 `enterScene/leaveS",
+          "正文信号 353:export type DetectorMem = Record<string, unknown>",
+          "正文信号 704:it('未破纪录 → 不动 bests', () => {",
+          "正文信号 882:// 香蕉树(反作弊/中场休息):开关开 + 本局未做过",
+          "正文信号 1238:({ wNumScene: 1, party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState",
+          "正文信号 1247:it('未启用 → 不挂覆盖层、计时不动', () => {",
+          "正文信号 1301:/** 主循环每 rAF 调用:推进时钟、检测打点、刷新覆盖层与倒计时。未启用则隐藏 UI 并跳过。 */",
+          "正文信号 1396:tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)",
+          "正文信号 1572:> 实现者注：`makeDeps`/装配细节以 `tools-panel.test.ts` 现有用例为准——照抄同文件构造 `ToolsPanelDeps` 的方式（`getGs`/`getResources` 等）。若现有测试未导出可复用 helper，则在本用例内联构造一份最小 deps（`getGs: () => fakeGs`，其余按现有用例填）。",
+          "正文信号 1640:**2. Placeholder scan：** 无 \"TBD/TODO/稍后\"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+        "afterSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+      "afterSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "c219e19cc1f9afc7d976886d1789cb4291a9399c",
+      "bytes": 63459,
+      "physicalLineSlots": 1645,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "速通计时器 Implementation Plan"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "Global Constraints"
+        },
+        {
+          "line": 25,
+          "level": 2,
+          "text": "File Structure"
+        },
+        {
+          "line": 45,
+          "level": 3,
+          "text": "Task 1: 时间格式化 `time-format.ts`"
+        },
+        {
+          "line": 143,
+          "level": 3,
+          "text": "Task 2: 进度快照 `snapshot.ts`"
+        },
+        {
+          "line": 267,
+          "level": 3,
+          "text": "Task 3: 检测原语 `detectors.ts`"
+        },
+        {
+          "line": 419,
+          "level": 3,
+          "text": "Task 4: Checkpoint 定义 `checkpoints.ts`"
+        },
+        {
+          "line": 536,
+          "level": 3,
+          "text": "Task 5: 持久化 `store.ts`"
+        },
+        {
+          "line": 643,
+          "level": 3,
+          "text": "Task 6: 计时状态机 `timer.ts`"
+        },
+        {
+          "line": 948,
+          "level": 3,
+          "text": "Task 7: 倒计时视图 `countdown.ts`"
+        },
+        {
+          "line": 1029,
+          "level": 3,
+          "text": "Task 8: 右侧覆盖层 `overlay.ts`"
+        },
+        {
+          "line": 1218,
+          "level": 3,
+          "text": "Task 9: 单例编排 `index.ts`"
+        },
+        {
+          "line": 1364,
+          "level": 3,
+          "text": "Task 10: 主循环集成 `main-loop.ts`"
+        },
+        {
+          "line": 1417,
+          "level": 3,
+          "text": "Task 11: 工具面板第 6 tab `tools-panel.ts`"
+        },
+        {
+          "line": 1593,
+          "level": 3,
+          "text": "Task 12: 运行时坐标/BGM 校准（手动，无 TDD）"
+        },
+        {
+          "line": 1625,
+          "level": 2,
+          "text": "Self-Review"
+        }
+      ],
+      "statusSignals": [
+        "**Architecture:** 自包含新模块 `packages/game/src/tools/speedrun/`，纯读 `GameState` 构建每帧快照 → 检测器判定 → 计时状态机推进。主时钟用 wall-clock（rAF 帧 `now`）。集成仅两处：`shell/main-loop.ts` 加一行 `tickSpeedrunTimer`、`tools/tools-panel.ts` 加第 6 tab。引擎其它代码零改动。",
+        "| `snapshot.ts` | `ProgressSnapshot`/`BattleSnap` 类型 + `buildSnapshot(gs)`。 |"
+      ],
+      "semanticOutline": "Speedrun timer implementation, detectors, main loop, overlay and tests.",
+      "conflicts": [
+        "正文信号 169:} as unknown as GameState",
+        "正文信号 190:const s = buildSnapshot(fakeGs({ battleState } as unknown as Partial<GameState>))",
+        "正文信号 275:- Produces: `type DetectorMem = Record<string, unknown>`；`type Detector = (cur: ProgressSnapshot, prev: ProgressSnapshot | null, mem: DetectorMem) => boolean`；工厂 `enterScene/leaveS",
+        "正文信号 353:export type DetectorMem = Record<string, unknown>",
+        "正文信号 704:it('未破纪录 → 不动 bests', () => {",
+        "正文信号 882:// 香蕉树(反作弊/中场休息):开关开 + 本局未做过",
+        "正文信号 1238:({ wNumScene: 1, party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState",
+        "正文信号 1247:it('未启用 → 不挂覆盖层、计时不动', () => {",
+        "正文信号 1301:/** 主循环每 rAF 调用:推进时钟、检测打点、刷新覆盖层与倒计时。未启用则隐藏 UI 并跳过。 */",
+        "正文信号 1396:tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)",
+        "正文信号 1572:> 实现者注：`makeDeps`/装配细节以 `tools-panel.test.ts` 现有用例为准——照抄同文件构造 `ToolsPanelDeps` 的方式（`getGs`/`getResources` 等）。若现有测试未导出可复用 helper，则在本用例内联构造一份最小 deps（`getGs: () => fakeGs`，其余按现有用例填）。",
+        "正文信号 1640:**2. Placeholder scan：** 无 \"TBD/TODO/稍后\"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current timer code/tests and tools-panel integration.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "format": "markdown",
+      "title": "瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）",
+      "date": "2026-06-22",
+      "bodyDates": ["2026-06-22"],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-127",
+        "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+        "afterSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+        "sourceAfterMatch": true,
+        "coreConclusion": "瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）：这是 plan-status，当前文档状态为 historical。全文 127 行、15 个标题；摘要/首段为「> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 8:> - **v1(atlas)—— 已否决**:每地图把 tile 拼成一张大 PNG。实测体积只砍 **13%**(见 §7),远低于预期。",
+          "正文信号 73:| atlas RGBA(v1,已否决) | 230 MB | 13.2% |",
+          "正文信号 74:| 原始 RLE(未压缩) | 133 MB | 49.9% |",
+          "正文信号 102:## 7. 被否决的方案(留痕)",
+          "正文信号 105:- **WebP/AVIF lossless**:需 Node 端编码器(sharp/cwebp,当前未装);且运行时仍走 `createImageBitmap`+canvas,解码开销一分不省;压缩比也不及 RLE+brotli。被支配。",
+          "正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+        "afterSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+      "afterSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "292a02b33a683532b72b260bfea98684a2f9c1b4",
+      "bytes": 10077,
+      "physicalLineSlots": 127,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "0. 问题陈述(数据驱动)"
+        },
+        {
+          "line": 24,
+          "level": 2,
+          "text": "1. 目标"
+        },
+        {
+          "line": 36,
+          "level": 2,
+          "text": "2. 方案:每地图 gzip RLE blob"
+        },
+        {
+          "line": 38,
+          "level": 3,
+          "text": "2.1 存储格式"
+        },
+        {
+          "line": 49,
+          "level": 3,
+          "text": "2.2 运行时解码(无 canvas)"
+        },
+        {
+          "line": 61,
+          "level": 3,
+          "text": "2.3 改动面(锚点已核实)"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "3. 实测数据(真实 GOP.MKF,28 map / 9199 tile,外推到 265MB)"
+        },
+        {
+          "line": 82,
+          "level": 2,
+          "text": "4. 忠实性论证"
+        },
+        {
+          "line": 86,
+          "level": 2,
+          "text": "5. 迁移:一刀切"
+        },
+        {
+          "line": 89,
+          "level": 2,
+          "text": "6. 执行步骤(每步独立 commit + `pnpm check` 全绿)"
+        },
+        {
+          "line": 102,
+          "level": 2,
+          "text": "7. 被否决的方案(留痕)"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "8. 第二阶段衔接 & 后续"
+        },
+        {
+          "line": 112,
+          "level": 2,
+          "text": "9. 风险"
+        },
+        {
+          "line": 117,
+          "level": 2,
+          "text": "10. 验收标准"
+        }
+      ],
+      "statusSignals": [
+        "> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。",
+        "| 像素输出 | — | **逐像素不变**(snapshot 钉死) | 底线 |"
+      ],
+      "semanticOutline": "Per-map gzip/RLE blob replacing atlas, measurements, migration and risks.",
+      "conflicts": [
+        "正文信号 8:> - **v1(atlas)—— 已否决**:每地图把 tile 拼成一张大 PNG。实测体积只砍 **13%**(见 §7),远低于预期。",
+        "正文信号 73:| atlas RGBA(v1,已否决) | 230 MB | 13.2% |",
+        "正文信号 74:| 原始 RLE(未压缩) | 133 MB | 49.9% |",
+        "正文信号 102:## 7. 被否决的方案(留痕)",
+        "正文信号 105:- **WebP/AVIF lossless**:需 Node 端编码器(sharp/cwebp,当前未装);且运行时仍走 `createImageBitmap`+canvas,解码开销一分不省;压缩比也不及 RLE+brotli。被支配。",
+        "正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current resource pipeline/phase2 tileset decisions and measured evidence.",
+      "proposedClassification": "archive-plan-status",
+      "proposedTemplate": "plan-status-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/phase1/plans/README.md",
+      "format": "markdown",
+      "title": "docs/plans/ — 开发过程历史档案(索引)",
+      "date": "README.md",
+      "bodyDates": [
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-27",
+        "2026-05-28",
+        "2026-05-30",
+        "2026-05-31",
+        "2026-06-01",
+        "2026-06-02",
+        "2026-06-06",
+        "2026-06-07",
+        "2026-06-10",
+        "2026-06-13",
+        "2026-06-14",
+        "2026-06-18",
+        "2026-06-22"
+      ],
+      "status": "historical",
+      "catalogStatus": "draft",
+      "catalogReviewStatus": "reviewed",
+      "currentRegistry": {
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewStatus": "content-reviewed",
+        "reviewDepth": "structured-content",
+        "reviewRecord": "20261004-structured-content-phase1-01.json"
+      },
+      "currentReview": {
+        "path": "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+        "entryCountForPath": 1,
+        "duplicateCount": 0,
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "reviewDepth": "structured-content",
+        "reviewedLines": "1-78",
+        "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+        "afterSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+        "sourceAfterMatch": true,
+        "coreConclusion": "docs/plans/ — 开发过程历史档案(索引)：这是 plan-status，当前文档状态为 historical。全文 78 行、9 个标题；摘要/首段为「> ⚠️ **本目录是历史快照,不代表当前状态。**」。属于历史/归档材料，不能单独证明当前实现。",
+        "unresolved": [
+          "正文信号 3:> ⚠️ **本目录是历史快照,不代表当前状态。**",
+          "正文信号 16:- 🔄 **可能含未完项** —— 原文列了 backlog / roadmap;**现状须对照状态表核实**,勿直接照搬当待办执行。",
+          "正文信号 17:- 🧪 **待实测** —— 列了交给 user 的真机验收用例,verified 与否以 user 核对为准。",
+          "正文信号 56:| [remaining-work-plan](2026-06-01-remaining-work-plan.md) | 剩余工作执行计划(W1–W5,20 真待办) | 🔄 |"
+        ],
+        "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+        "stopLine": "do not promote historical claims to current truth without a current source or user decision"
+      },
+      "catalog": {
+        "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+        "afterSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+        "sourceAfterMatch": true,
+        "lastReviewed": "2026-10-04",
+        "revisionCurrentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "revisionImplementationSha": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82"
+      },
+      "routing": null,
+      "routingArchiveOnly": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+      "afterSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
+      "sourceAfterLiveMatch": true,
+      "gitBlobSha1": "2d81926eb0e91bddccfed12ec7ee7306deb3c5a8",
+      "bytes": 6606,
+      "physicalLineSlots": 78,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "docs/plans/ — 开发过程历史档案(索引)"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "怎么用这个目录"
+        },
+        {
+          "line": 12,
+          "level": 2,
+          "text": "状态图例"
+        },
+        {
+          "line": 19,
+          "level": 2,
+          "text": "索引"
+        },
+        {
+          "line": 21,
+          "level": 3,
+          "text": "M0–M5 里程碑(设计 + 实施计划,均已完工)"
+        },
+        {
+          "line": 33,
+          "level": 3,
+          "text": "M5.5–M5.6 审计与计划重置(关键转折)"
+        },
+        {
+          "line": 42,
+          "level": 3,
+          "text": "差异审计期(2026-05-30 起,逐子系统对 sdlpal 1:1)"
+        },
+        {
+          "line": 63,
+          "level": 3,
+          "text": "资源管线优化"
+        },
+        {
+          "line": 69,
+          "level": 2,
+          "text": "2026-06 后期计划（历史）"
+        }
+      ],
+      "statusSignals": [
+        "> ⚠️ **本目录是历史快照,不代表当前状态。**",
+        "> 每个文件是写作当时(文件名日期)的里程碑设计 / 实施计划 / 审计报告,记录\"当初怎么设计、怎么计划、当时查出什么差异\"。计划早已执行、实现可能已偏离、审计结论可能已被后续推翻或并入状态表。**把这里的内容当现状读会误导后续工作。**",
+        "- **查\"现在是什么样\"** → 不看本目录,看 [`../feature-status.md`](../status/feature-status.md) / [`../opcode-status.md`](../status/opcode-status.md) / [`../resource-status.md`](../status/resource-status.md) / [`../item-status.md`](../status/item-status.md) / [`../magic-status.md`](../status/magic-status.md) / [`../cutscene-status.md`](../status/cutscene-status.md) / [`../game-mechanics.md`](../game-mechanics.md) 七张真值表,以及决策记录 [`../04-decisions.md`](../04-decisions.md)、架构 [`../02-architecture.md`](../02-architecture.md)。",
+        "- 审计类文件的结论一旦修完即并入上述状态表;**本目录文件不随实现进展更新**,只作历史留存。",
+        "## 状态图例",
+        "- ✅ **已落地** —— 计划已执行完 / 修复已完成;若是审计,结论已并入对应状态表。纯历史追溯用。",
+        "- 🔄 **可能含未完项** —— 原文列了 backlog / roadmap;**现状须对照状态表核实**,勿直接照搬当待办执行。",
+        "| 文件 | 里程碑 | 状态 |",
+        "| 文件 | 内容 | 状态 |"
+      ],
+      "semanticOutline": "Historical plans index, legend, links and later-history entry points.",
+      "conflicts": [
+        "正文信号 3:> ⚠️ **本目录是历史快照,不代表当前状态。**",
+        "正文信号 16:- 🔄 **可能含未完项** —— 原文列了 backlog / roadmap;**现状须对照状态表核实**,勿直接照搬当待办执行。",
+        "正文信号 17:- 🧪 **待实测** —— 列了交给 user 的真机验收用例,verified 与否以 user 核对为准。",
+        "正文信号 56:| [remaining-work-plan](2026-06-01-remaining-work-plan.md) | 剩余工作执行计划(W1–W5,20 真待办) | 🔄 |"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 README/status indexes; navigation only.",
+      "proposedClassification": "governance-index",
+      "proposedTemplate": "governance-index-v1 + archive-record-v1 overlay",
+      "templateDecision": "accept-readonly-proposal; future migration must keep the original historical body/fields and add the archive boundary without current promotion",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "notAuthorized": [
+    "正文迁移",
+    "registry/routing/catalog/review writes",
+    "runtime/E2E/visual/coverage execution",
+    "current product or full-done claims"
+  ]
+}

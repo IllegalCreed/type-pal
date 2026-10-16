@@ -109,5 +109,46 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON reading",
+      "paired original report and declared source anchors read",
+      "original Git blob",
+      "actual publication consumer"
+    ],
+    "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
+    "sourceGitObject": "f3f39bb9dea26be0aa0d14fda1c8904c1db0193f",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase2/reforge publication audit only. BattleSession 调用readiness、settlement、command selection与action scheduler；不重复BattleHost世界写回信用。",
+    "primarySource": [
+      "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+      "packages/reforge/src/battle/battle-session.ts:209-211",
+      "packages/reforge/src/battle/battle-session.ts:361-372",
+      "packages/reforge/src/battle/battle-session.ts:1162-1171",
+      "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
+      "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit的全部顶层字段保持，新增不覆盖字段的统一治理envelope；source/版本/历史/缺raw与原counter保留。",
+    "explainedLimits": [
+      "四owner的35条历史回归及三人成型最小试打不覆盖完整胜败/存档/剧情E2E。",
+      "直接读到battle-turn-readiness.test.ts:46的as unknown as BattleState；其最小snapshot fixture是否满足现行测试质量输入规则须独立测试卡判断，本次不改旧测试、不宣称其质量accept。"
+    ],
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual full JSON machine-envelope migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "performed=false、空artifacts与缺raw保持；source-backed不构成新runtime/视觉/coverage或旧测试质量accept。",
+    "nextStep": "核验移除envelope后原对象deep-equal与真实paired consumer，登记after SHA；后续动态/测试质量任务不得从静态迁移继承通过。"
+  }
 }

@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "verified",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "scripts/e2e/errand-game.mjs",
@@ -119,5 +122,19 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-17",
+    "owner": "Codex",
+    "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+    "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+    "sourceGitObject": "50aa047ed02fa7eeead20ed6f4edf803347030e2",
+    "scope": "Document-audit of e2e-005; original versions/candidate/claims/history retained. No new runtime execution.",
+    "beforeAfter": "Original flat paired E2E audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
+    "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
+    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+  }
 }

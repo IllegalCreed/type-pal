@@ -1,0 +1,1365 @@
+{
+  "schemaVersion": 1,
+  "id": "r63-ops-evidence-readmes-20261017",
+  "reviewer": "Codex root full-text ops evidence migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R64: historical ops evidence/review Markdown uses evidence-receipt-v1 plus archive-record-v1 overlay; preserve source bytes, task/consumer links and execution boundaries. No execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 证据",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+      "afterSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+        "implementationSha": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+        "candidateSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+        "afterSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+        "lineCount": 84,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 1497,
+          "sourceLines": 27,
+          "sourceFinalNewline": true,
+          "inverseSha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-84",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "1e2d3d7f72acae34a8f4456be4b8af0b57ccdac9ee047d35fc9cc5f9d174db6e",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "fb34f6d069b761ad8f8ea565ab07a4f5963749447b7c9fd3640d90ecd1ab920a",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · r1 饱和档案：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · r1 饱和档案",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9",
+      "afterSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+        "implementationSha": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9",
+        "candidateSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+        "afterSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+        "lineCount": 118,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4607,
+          "sourceLines": 61,
+          "sourceFinalNewline": true,
+          "inverseSha256": "6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-118",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "7f97d716bc727f9fb800c80367d69b30c1b96de9a04d457f2a12ed228cd99a1d",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · 排重账（existing-proof ledger）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md:1"
+      ],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · 排重账（existing-proof ledger）",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "626b1510c07b02f895325a8416c8b9fd3a7e678cf56b4ea43a20c060a62a192d",
+      "afterSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md"]
+      },
+      "revision": {
+        "currentSha": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+        "implementationSha": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "626b1510c07b02f895325a8416c8b9fd3a7e678cf56b4ea43a20c060a62a192d",
+        "candidateSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+        "afterSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+        "lineCount": 154,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 12898,
+          "sourceLines": 97,
+          "sourceFinalNewline": true,
+          "inverseSha256": "626b1510c07b02f895325a8416c8b9fd3a7e678cf56b4ea43a20c060a62a192d",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-154",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "6a549831e068e6fb02d173993a17cdcb210283a0f54b2d5f3cff7161ec30a891",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/dedup-ledger.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "626b1510c07b02f895325a8416c8b9fd3a7e678cf56b4ea43a20c060a62a192d",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-BATTLE-STATE-1 交付证据(r1)：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-BATTLE-STATE-1 交付证据(r1)",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "cb2a93927a765e2cf4a00f1b49a7489ba5a82fec4b58acfe439553284fdee76f",
+      "afterSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+        "implementationSha": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "cb2a93927a765e2cf4a00f1b49a7489ba5a82fec4b58acfe439553284fdee76f",
+        "candidateSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+        "afterSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+        "lineCount": 86,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 1710,
+          "sourceLines": 29,
+          "sourceFinalNewline": true,
+          "inverseSha256": "cb2a93927a765e2cf4a00f1b49a7489ba5a82fec4b58acfe439553284fdee76f",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-86",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "d5803d5d972beb89cc5d1c9096f7a6eb6fe09fc023faeb13acd576ecebe7a1f7",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "cb2a93927a765e2cf4a00f1b49a7489ba5a82fec4b58acfe439553284fdee76f",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-BATTLE-STATE-1 排重账(GLM r1)：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-BATTLE-STATE-1 排重账(GLM r1)",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc",
+      "afterSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md"]
+      },
+      "revision": {
+        "currentSha": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+        "implementationSha": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc",
+        "candidateSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+        "afterSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+        "lineCount": 152,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 10627,
+          "sourceLines": 95,
+          "sourceFinalNewline": true,
+          "inverseSha256": "45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-152",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "eb8360ad80b63528e2a3299e75c3e53bed80ae3795ee59802ce1edffa2088fc3",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 证据索引(GLM r1)：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 证据索引(GLM r1)",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "9b0c8f88e72c17616726e38569cc4202f47d405770ded990a5c0a48a2439d92e",
+      "afterSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+        "implementationSha": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "9b0c8f88e72c17616726e38569cc4202f47d405770ded990a5c0a48a2439d92e",
+        "candidateSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+        "afterSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+        "lineCount": 89,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 2129,
+          "sourceLines": 32,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9b0c8f88e72c17616726e38569cc4202f47d405770ded990a5c0a48a2439d92e",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-89",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "0618303a97be71610af6d2f8ed405996e6adcd60873137cd8c957e3a39e40fae",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "9b0c8f88e72c17616726e38569cc4202f47d405770ded990a5c0a48a2439d92e",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 排重账(GLM r1)：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 排重账(GLM r1)",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d",
+      "afterSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md"]
+      },
+      "revision": {
+        "currentSha": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+        "implementationSha": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d",
+        "candidateSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+        "afterSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+        "lineCount": 101,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 5064,
+          "sourceLines": 44,
+          "sourceFinalNewline": true,
+          "inverseSha256": "69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-101",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "06bf33da31264fb187c16c7d968e5f9f1821b932772963fe478771e445327b46",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83",
+      "afterSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+        "implementationSha": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83",
+        "candidateSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+        "afterSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+        "lineCount": 88,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 2508,
+          "sourceLines": 31,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-88",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "e04aad955ba0c5c6283eb58b402e81911060ecc7bcc7d48dfaf51def1ffc8c21",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "coverage 实证探针(排重账 §判例的数据源)：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md:1"
+      ],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "coverage 实证探针(排重账 §判例的数据源)",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f",
+      "afterSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md"]
+      },
+      "revision": {
+        "currentSha": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+        "implementationSha": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f",
+        "candidateSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+        "afterSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+        "lineCount": 83,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 1375,
+          "sourceLines": 26,
+          "sourceFinalNewline": true,
+          "inverseSha256": "14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-83",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "b1c330fae05ffa77a0363f1bef3123157dcd33790de064006e592edbb4a4f7ca",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/README.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R64 evidence migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 合同排重账（r1）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md:1"],
+      "unresolved": [
+        "Historical evidence requires current consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 合同排重账（r1）",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r64_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575"
+        }
+      ],
+      "sourceSha256": "cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21",
+      "afterSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+      "publicCallers": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "historical-evidence-receipt",
+        "assertions": [
+          "original evidence scope remains traceable",
+          "historical status remains date-scoped",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md"]
+      },
+      "revision": {
+        "currentSha": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+        "implementationSha": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+        "history": [
+          {
+            "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R64 ops evidence receipt migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r64-ops-evidence-readmes-20261017.json",
+        "sourceSha256": "cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21",
+        "candidateSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+        "afterSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+        "lineCount": 151,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 8118,
+          "sourceLines": 94,
+          "sourceFinalNewline": true,
+          "inverseSha256": "cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R64 ops evidence receipt migration",
+          "reviewer": "r64_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy evidence presentation; original source retained"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
+      "reviewedLines": "1-151",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "artifactOnly": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+      "candidateSha256": "c048b4f79d0abc8a194e47bddcbb0a29140c594fe63fb64fe0906b33f87042e6",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md",
+          "revision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+          "sha256": "cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence",
+        "currentBoundary": "current task card and consumer own truth"
+      },
+      "dependencies": "Corresponding task card, current consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R64-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

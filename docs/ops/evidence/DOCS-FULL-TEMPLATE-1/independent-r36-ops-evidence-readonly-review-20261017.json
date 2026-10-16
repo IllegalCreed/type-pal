@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r36-ops-evidence-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 11,
+    "paths": [
+      "docs/ops/archive/evidence/A7-3/README.md",
+      "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "docs/ops/archive/evidence/ED-3/README.md",
+      "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "docs/ops/archive/evidence/README.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "11/11 fully read",
+    "sourceAfter": "11/11 byte SHA equal at intake",
+    "registry": "11/11 governed-legacy entries and review references",
+    "catalog": "ops evidence paths outside phase/lore catalog scope",
+    "routing": "archive-only at intake",
+    "classification": "11 archive-evidence-receipt Markdown records",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/evidence/A7-3/README.md",
+      "format": "markdown",
+      "title": "A7-3 · 历史证据",
+      "date": "undated",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+      "afterSha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+      "bytes": 371,
+      "physicalLineSlots": 11,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "A7-3 · 历史证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "format": "markdown",
+      "title": "C1-3 第一批 NPC 归档决策（用户已批准）",
+      "date": "2026-08-14",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+      "afterSha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+      "bytes": 6209,
+      "physicalLineSlots": 77,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "C1-3 第一批 NPC 归档决策（用户已批准）"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "冻结输入"
+        },
+        {
+          "line": 20,
+          "level": 2,
+          "text": "建议人物"
+        },
+        {
+          "line": 30,
+          "level": 3,
+          "text": "Entity 精确清单"
+        },
+        {
+          "line": 44,
+          "level": 3,
+          "text": "Dialogue 精确集合"
+        },
+        {
+          "line": 61,
+          "level": 2,
+          "text": "明确 deferred"
+        },
+        {
+          "line": 67,
+          "level": 2,
+          "text": "用户批准语句"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [
+        "正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`"
+      ],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "format": "markdown",
+      "title": "文档结构整理证据",
+      "date": "undated",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+      "afterSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+      "bytes": 541,
+      "physicalLineSlots": 12,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "文档结构整理证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3/README.md",
+      "format": "markdown",
+      "title": "ED-3 · 历史证据",
+      "date": "undated",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+      "afterSha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+      "bytes": 280,
+      "physicalLineSlots": 10,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-3 · 历史证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "format": "markdown",
+      "title": "ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）",
+      "date": "2026-09-04",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+      "afterSha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+      "bytes": 16432,
+      "physicalLineSlots": 246,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "结果"
+        },
+        {
+          "line": 32,
+          "level": 2,
+          "text": "候选原始样本（ms，n=20）"
+        },
+        {
+          "line": 64,
+          "level": 2,
+          "text": "B 批战场 / 敌队 / 氛围纵切检查点"
+        },
+        {
+          "line": 83,
+          "level": 2,
+          "text": "B 批 skill / enemy / poison 纵切检查点"
+        },
+        {
+          "line": 101,
+          "level": 2,
+          "text": "B 批 actor 纵切检查点"
+        },
+        {
+          "line": 121,
+          "level": 2,
+          "text": "B 批 item 纵切检查点"
+        },
+        {
+          "line": 135,
+          "level": 2,
+          "text": "B 批 world sprite / action / battle sprite 纵切检查点"
+        },
+        {
+          "line": 166,
+          "level": 2,
+          "text": "C 批同步域、媒体与最终 compact 检查点"
+        },
+        {
+          "line": 221,
+          "level": 2,
+          "text": "C 批异步地图事实检查点"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [
+        "正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +",
+        "正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。"
+      ],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "format": "markdown",
+      "title": "ED-INPUT-PERF-1 PAL Chromium 性能与功能证据",
+      "date": "2026-08-25",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+      "afterSha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+      "bytes": 4879,
+      "physicalLineSlots": 83,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-INPUT-PERF-1 PAL Chromium 性能与功能证据"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "方法"
+        },
+        {
+          "line": 17,
+          "level": 2,
+          "text": "基线与最终结果"
+        },
+        {
+          "line": 32,
+          "level": 2,
+          "text": "原始样本（毫秒，顺序与 20 次编辑一致）"
+        },
+        {
+          "line": 34,
+          "level": 3,
+          "text": "项目显示名"
+        },
+        {
+          "line": 42,
+          "level": 3,
+          "text": "角色当前体力"
+        },
+        {
+          "line": 50,
+          "level": 3,
+          "text": "物品说明"
+        },
+        {
+          "line": 58,
+          "level": 3,
+          "text": "毒名称"
+        },
+        {
+          "line": 66,
+          "level": 3,
+          "text": "共享脚本说明"
+        },
+        {
+          "line": 74,
+          "level": 2,
+          "text": "功能与布局验证"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "format": "markdown",
+      "title": "ED-REORDER-DRAG-1 · 历史证据",
+      "date": "2026-08-27",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+      "afterSha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+      "bytes": 366,
+      "physicalLineSlots": 11,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-REORDER-DRAG-1 · 历史证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "format": "markdown",
+      "title": "ED-SHOP · 历史证据",
+      "date": "undated",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+      "afterSha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+      "bytes": 220,
+      "physicalLineSlots": 9,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-SHOP · 历史证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接",
+      "date": "2026-08-20",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+      "afterSha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+      "bytes": 12144,
+      "physicalLineSlots": 119,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "停线结论"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "PB3：15 个 transition / seal digest 域"
+        },
+        {
+          "line": 70,
+          "level": 2,
+          "text": "PB4：enemy/script owned leaf 不漂移"
+        },
+        {
+          "line": 87,
+          "level": 2,
+          "text": "ARCH 逐项处置清单"
+        },
+        {
+          "line": 108,
+          "level": 2,
+          "text": "ARCH 接手约束"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [
+        "正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**",
+        "正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为",
+        "正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为",
+        "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。"
+      ],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF current-only baseline（2026-08-22）",
+      "date": "2026-08-22",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+      "afterSha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+      "bytes": 3387,
+      "physicalLineSlots": 81,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF current-only baseline（2026-08-22）"
+        },
+        {
+          "line": 3,
+          "level": 2,
+          "text": "结论"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "环境与范围"
+        },
+        {
+          "line": 27,
+          "level": 2,
+          "text": "当前测试拓扑"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "一次性执行基线"
+        },
+        {
+          "line": 47,
+          "level": 3,
+          "text": "fast / unit"
+        },
+        {
+          "line": 58,
+          "level": 3,
+          "text": "PAL"
+        },
+        {
+          "line": 73,
+          "level": 2,
+          "text": "保留的 current-only 证明"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": ["正文信号 71:隔离、失败传播、报告守恒与长期维护成本。"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/evidence/README.md",
+      "format": "markdown",
+      "title": "时点证据",
+      "date": "2026-08-22",
+      "status": "historical-evidence",
+      "currentRegistry": {
+        "docType": "evidence-receipt",
+        "templateId": "evidence-receipt-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "sourceSha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+      "afterSha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+      "bytes": 1156,
+      "physicalLineSlots": 22,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "时点证据"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "分类入口"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": "Historical ops evidence receipt: preserve evidence identity, source/caller, inputs, oracle, results, limitations and rework state.",
+      "conflicts": [],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "successor": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "proposedClassification": "archive-evidence-receipt",
+      "proposedTemplate": "evidence-receipt-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

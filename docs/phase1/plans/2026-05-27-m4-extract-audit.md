@@ -1,186 +1,266 @@
 # M4 pal-extract 实际提取清单 audit
 
-> 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。
-> 修法:通读 [packages/pal-extract/src/cli.ts](../../../packages/pal-extract/src/cli.ts) 1-686 行,把所有 MKF / chunk 实际处理范围 + 输出 path 列清楚,留作后续 task 真做前查表的信源(不再 shallow grep 推断)。
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: audit-report-v1 / 1.0.0
+
+本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 审计问题
+
+- 历史问题域：M4 extraction audit: byte-level inventory and completeness review across 14 MKFs; fixes for palettes, item/portrait/video/data/menu labels; remaining audio and AVI/runtime gaps; explicit non-covered concerns.
+- 当前状态轴：历史；旧审计状态词只属于原始日期。
+
+## 范围与证据
+
+- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`；187 行槽 / 17801 bytes。
+- 标题/章节锚点：1:M4 pal-extract 实际提取清单 audit; 11:2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账); 35:数据基线; 43:14 MKF · chunk 级处理表; 98:后续 task 资产真实状况; 114:真漏洞列表(实做对应 task 前必须补); 116:1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b); 121:2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)。
+
+## 发现
+
+- 正文信号 16:- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+n
+- 正文信号 24:- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
+- 正文信号 29:- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
+- 正文信号 103:| **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
+- 正文信号 104:| **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
+- 正文信号 107:| **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
+- 正文信号 110:| **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
+- 正文信号 165:- 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
+- 正文信号 182:- 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
+- 正文信号 186:待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+
+## 结论
+
+- M4 pal-extract 实际提取清单 audit：这是 audit-report，当前文档状态为 historical。全文 187 行、14 个标题；摘要/首段为「> 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。」。属于历史/归档材料，不能单独证明当前实现。
+- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+
+## 整改与复核
+
+- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 后继：C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
+
+## 历史范围
+
+- phase1 archive plan/audit；日期：2026-05-27；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`。
+
+## 原始结论
+
+- M4 pal-extract 实际提取清单 audit：这是 audit-report，当前文档状态为 historical。全文 187 行、14 个标题；摘要/首段为「> 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。」。属于历史/归档材料，不能单独证明当前实现。
+
+## 当时证据
+
+- 标题锚点：1:M4 pal-extract 实际提取清单 audit; 11:2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账); 35:数据基线; 43:14 MKF · chunk 级处理表; 98:后续 task 资产真实状况; 114:真漏洞列表(实做对应 task 前必须补); 116:1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b); 121:2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)；原始正文、代码、表格、状态词在 quote 保全。
+
+## 当前有效性
+
+historical。do not promote historical claims to current truth without a current source or user decision
+- 历史冲突/未决：
+- 正文信号 16:- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+n
+- 正文信号 24:- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
+- 正文信号 29:- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
+- 正文信号 103:| **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
+- 正文信号 104:| **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
+- 正文信号 107:| **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
+- 正文信号 110:| **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
+- 正文信号 165:- 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
+- 正文信号 182:- 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
+- 正文信号 186:待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+
+## 继任文档
+
+- C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
+- 当前事实由继任规范、代码和新的 review 决定。
+
+## 原文保全
+
+固定源 SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # M4 pal-extract 实际提取清单 audit
 >
-> 日期:2026-05-27 · M5.6 v2 session 2
-> 维护要求:每加新 pal-extract 流水线时同步本文件;落项目 T20 真值 audit v2 起点。
-
----
-
-## 2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账)
-
-user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(raw chunk_count vs extracted output + 追 parser)。结论:
-
-**唯一影响还原的真缺口 + 已补:**
-- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+night(buf>768 时),palette JSON 加 `nightColors`;游戏侧 night 选色 wiring 待接。
-
-**user 额外要求(已做):**
-- **MAP/GOP #104/#164**(无 scene 引用的非空地图)也提取(cli `uniqueMapNums` 加全非空 chunk)+ 渲染到 `build/tilemap-renders/map-{104,164}.png` 供预览。
-- **SOUNDS.MKF 完整提取**:363 非空 chunk(各为完整 RIFF/WAVE)整块 dump → `sounds/{i}.wav`(原仅 metadata)。
-- **Musics/ 完整提取**:86 MIDI(`{NNN}.mid`)+ 8 CD `TRACKxx.ogg` 纯拷贝 → `music/` + `music-manifest.json`。**至此 raw 下所有游戏资源数据全部落地**(runtime 音频播放系统仍留 M6,但数据无缺)。
-
-**确认非缺口(byte-level 验证):**
-- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
-- `ABC.MKF`/`F.MKF` = 敌/我战斗 sprite(battle.c),全 dump;`ABC` 另在 `PAL_IsWINVersion` 临时开作版本探测。
-- 图形/数据/文本/视频(FBP/MGO/F/ABC/FIRE/BALL/RGM/DATA/SSS/RNG/WORD/M.MSG/1-6.avi)全 full。
-
-**仍 deferred(M6 音频里程碑,非漏):**
-- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
-
-下方旧表 + 漏洞列表已就地订正过时项(STORE/BALL/WORD 标 ✓、GOP 描述、SOUNDS WAV、PAT 夜间、Musics 新增行)。
-
----
-
-## 数据基线
-
-- **数据文件**:[data/raw/](../../../data/raw) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
-- **build target**:fIsWIN95 = TRUE(YJ2 压缩,WIN95 data,自动检测 sdlpal `global.c:50-109 PAL_IsWINVersion`);sdlpal 源码编译用 PAL_CLASSIC(关 ATB)— `fIsWIN95` 和 `PAL_CLASSIC` 是两个独立维度
-- **输出根**:`data/extracted/`（本地可再生环境产物，不入库） → 拷到 `packages/game/public/extracted/`（symlink → data/extracted，本地环境） 给 game runtime fetch
-
----
-
-## 14 MKF · chunk 级处理表
-
-| MKF | chunk | sdlpal 真值含义 | pal-extract 行为 | 输出 path |
-|---|---|---|---|---|
-| **SSS.MKF** | 1 | rgScene[] scenes 表 | sss.scenes (295) | events 流水线 |
-| | 2 | rgObject[] OBJECT 表 | sss.objects → parseItems / parseSpells / parseEnemyObjects | `data/items.json` + `data/spells.json` + `data/enemy-objects.json` |
-| | 3+ | bytecode + messageOffsets | sliceByScene + recompile round-trip | `events/scene-{NNN}.json` × 295 + `events/shared.json` + `events/objects.json` |
-| **DATA.MKF** | **0** | **STORE 表**(`WORD rgwItems[MAX_STORE_ITEM]` × nStore)| ✓ parseStores(M5 shop 已修)| `data/stores.json` |
-| | 1 | ENEMY 战斗属性 | parseEnemies(配合 SSS chunk 2) | `data/enemies.json` |
-| | 2 | ENEMYTEAM 敌队 | parseEnemyTeams + objectIndex→enemyId 翻译 | `data/enemy-teams.json` |
-| | 3 | PlayerRoles 全字段(M5.B 扩) | parsePlayerRoles | `data/player-roles.json` |
-| | 4 | MAGIC 法术详细 | parseMagicTable | `data/magic.json` |
-| | 5 | BATTLEFIELD 战场背景 | parseBattleFields | `data/battle-fields.json` |
-| | 6 | LEVELUPMAGIC_ALL × 5 角色 | parseLevelUpMagic | `data/level-up-magic.json` |
-| | 7 | 空 | skip(0 字节) | — |
-| | 8 | 空 | skip | — |
-| | 9 | SPRITEUI sprite group(无 YJ2,raw)| parseSpriteChunk → 72 帧 | `images/ui/frame-NN.png` × 72 + `data/ui-sprite/spriteui.json` |
-| | 10 | lpEffectSprite 战斗特效 sprite | parseSpriteChunk → 86 帧 | `images/magic/frame-NN.png` × 86 + `data/magic-sprite/effect.json` |
-| | 11 | rgwBattleEffectIndex[10][2] | parseBattleEffectIndex | `data/battle-effect-index.json` |
-| | 12 | bufDialogIcons 282B(text.c:891)| raw base64 dump,runtime 解 RLE | `data/dialog-icons-raw.json` |
-| | 13 | ENEMYPOS 5×5 PALPOS | parseEnemyPos | `data/enemy-pos.json` |
-| | 14 | rgLevelUpExp[100] WORD × 100 | parseLevelUpExp | `data/level-up-exp.json` |
-| | 15 | 不存在(count=15,index 0-14)| — | — |
-| **MGO.MKF** | 0-636 | NPC / cutscene sprite group YJ2 | dump-all(M5.Sync.2 改);633 / 637 chunk 可解 | `images/world/npc/{spriteId}/frame-NN.png` + `data/sprite/{id}.json` |
-| **F.MKF** | 0-18 | player 战斗 sprite YJ2 | dump-all(M5.Sync.2 改)| `images/battle/player/{id}/frame-NN.png` + `data/battle-sprite/player/{id}.json` |
-| **ABC.MKF** | 0-153 | enemy 战斗 sprite YJ2 | dump-all(M5.Sync.2 改)| `images/battle/enemy/{id}/frame-NN.png` + `data/battle-sprite/enemy/{id}.json` |
-| **FBP.MKF** | 0-77 | 320×200 8-bit indexed bg | YJ2 全 dump(76 写 + 2 空 skip)| `images/battle/bg/{NNN}.png` × 76 + `data/battle-bgs.json` |
-| | 2 | **OpeningMenu 主菜单背景**(WIN95)`MAINMENU_BACKGROUND_FBPNUM (fIsWIN95?2:60)` | 同上 | `images/battle/bg/002.png` ← **T17 用** |
-| | 3 | Splash up(WIN95)`BITMAPNUM_SPLASH_UP (fIsWIN95?0x03:0x26)` | 额外单独写 splash 目录 | `images/splash/splash-up-win95.png` ← **T18 用** |
-| | 4 | Splash down(WIN95)| 同上 | `images/splash/splash-down-win95.png` ← **T18 用** |
-| | 60 | 结局 CG(DOS 主菜单背景,我们 WIN95 不用)| 同上 | `images/battle/bg/060.png` |
-| **PAT.MKF** | 9 chunk | 调色板 6-bit RGB × 256(**#0/#5 = 1536B 含夜间半**,余 768B 纯白天)| ✓ decodePalette 抽**白天 + 夜间**(2026-05-29 补;sdlpal `PAL_GetPalette(n,fNight)` 真值)| `data/palette/{i}.json`(含 `nightColors`) |
-| **MAP.MKF** | 226 chunk per mapNum YJ2 | 地图 tile 排布(128×64×2,含障碍位 `&0x2000` map.c:298)| 配合 GOP.MKF parseMap | `data/tilemap/{mapNum}.json` |
-| **GOP.MKF** | 226 chunk per mapNum | **tileset 瓦片位图组**(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧)— **不是**障碍层 | parseMap 内部消费 | (同上 tilemap json) |
-| MAP + GOP | 223 非空 mapNum | 222 scene-ref + **2 unreferenced(#104/#164,2026-05-29 user 要求全提)**;空(0/168/171)skip | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
-| **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| ✓ T18 Step 2:`decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13 → 1464 frame PNG | `images/animation/rng-{NN}/frame-{NNN}.png` + `data/rng-frames.json` |
-| **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ✓ `parsers/rgm.ts decodeRgmPortrait`(M5.6 T10d 修)RLE → PNG | `images/portraits/{NN}.png` × 88 + `data/portraits.json` |
-| **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ✓ decodeBallIcon RLE → 251 PNG(M5.6 T10b 已修)| `images/items/{NNN}.png` + `data/items-icons.json` |
-| **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
-| **SOUNDS.MKF** | 0-504 | **WAV/RIFF 音效**(WIN95;363 非空 + 142 空)| ✓ **全 363 非空 chunk dump → wav**(2026-05-29 补)+ metadata | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json` |
-| **Musics/**(非 MKF)| — | 86 MIDI(`{NNN}.mid`,编号 = sdlpal wNumMusic,midi.c:69)+ 8 CD `TRACK*.ogg`(AUDIO_PlayCDTrack)。`mus.mkf` **存在**(RIX/OPL 格式,88 chunk / 86 非空)但 set-diff 证明是同 track 号的 86 个 MIDI 的另一编码;WIN95 忠实乐源走 `midi.c:67-69` MIDI,`mus.mkf` 仅 `MUSIC_RIX` 时用(`audio.c:304-305`),**无需解码**| ✓ MIDI/OGG 纯拷贝(2026-05-29 补);mus.mkf 同源冗余跳过(2026-05-30 复核)| `music/{NNN}.mid` × 86 + `music/TRACKxx.ogg` × 8 + `data/music-manifest.json` |
-| **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
-| **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| ✓ parseWordDat flat+system(2026-05-27 修)| `lookup/words.json` |
-| WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |
-| WORD.DAT | [42..60] 战斗/UI 19 条 | ✓ parseWordDat battleUi(2026-05-27 修)| `lookup/words.json` |
-| WORD.DAT | [61..295] 物品名 235 条 | parseWordDat | `lookup/words.json.items` |
-| WORD.DAT | [296..397] 仙术名 102 条 | parseWordDat | `lookup/words.json.spells` |
-| WORD.DAT | [398..550] 敌人名 153 条 | parseWordDat | `lookup/words.json.enemies` |
-| WORD.DAT | [551..564] 毒素/特殊 14 条 | parseWordDat | `lookup/words.json.scenes` |
-| **SAVE.MKF** | — | **不存在**(WIN95+ 用 .RPG 存档)| — | — |
-| **unifont-cn.bdf**(非 MKF)| — | Unifont CN BDF(M4.P4 ship)| parseBdf + glyphsToJson | `data/font/glyphs.json` |
-| **1-6.avi**(6 个全)| — | trademark / splash / opening AVI / cutscene / 结局 | ✓ T18 Step 1:`pnpm extract:videos` 离线 ffmpeg H.264 CRF 18 + AAC 96k → mp4 | `data/extracted/videos/{1-6}.mp4` |
-
----
-
-## 后续 task 资产真实状况
-
-| task | 用到什么资产 | pal-extract 现状 | 实做前要不要补流水线 |
-|---|---|---|---|
-| **T17 OpeningMenu** | FBP chunk 2 主菜单 bg + SPRITEUI(chunk 9) + 字 | ✅ 全已 dump | 不需补 |
-| **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
-| **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
-| **T10d PlayerStatus** | RGM 92 角色头像 + SPRITEUI + LevelUpExp | ✅ 全已 dump(M5.6 T10d 已修 RGM RLE → 88 PNG) | 不需补 |
-| **T10c InGameMagicMenu** | SPRITEUI + magic chunk 10 effect frames + magic.json | ✅ 全已 dump | 不需补 |
-| **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
-| **T15 BattleWon** | SPRITEUI 9-slice box + 战斗结算文字 | ✅ | 不需补 |
-| **T16 levelup** | LevelUpExp + LevelUpMagic + SPRITEUI | ✅ 数据 OK | 不需补 |
-| **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
-
----
-
-## 真漏洞列表(实做对应 task 前必须补)
-
-### 1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b)
-- **触发 task**:T10b InventoryMenu / T10e EquipItemMenu
-- **修法**:[`parsers/ball.ts`](../../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
-- **典型尺寸**:48×47 indexed PNG with alpha mask(opaque=0 处 透明)。
-
-### 2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)
-- **触发 task**:T10d PlayerStatus / DialogBox portrait
-- **修法**:[`parsers/rgm.ts`](../../../packages/pal-extract/src/resources/parsers/rgm.ts) `decodeRgmPortrait` —
-  与 BALL 同模式(`palcommon.c:96-100` 4-byte file header `02 00 00 00` skip + decodeRle + encodeIndexedPng),
-  输出 `images/portraits/{NN}.png` × 88(chunk 0 + 3 空 skip)+ `data/portraits.json` manifest。
-- **典型尺寸**:78×91 indexed PNG with alpha mask(chunk 1 真值)。
-- **runtime 接入**:loader 不重复 fetch(复用 `dialog-assets.portraitFrames` map)— DialogBox + PlayerStatus
-  共享同一 chunkIndex → IndexedImage 映射。dialog-assets 已切换 PNG fetch path(取代 rgm-raw.json runtime RLE)。
-
-### 3. 1-6.avi → mp4(ffmpeg 离线)— ✓ T18 Step 1 已修(2026-05-27)
-- **触发 task**:T18 Trademark + Splash / T19 OpeningMenu AVI / 后续 cutscene
-- **状态**:`pnpm -F @type-pal/pal-extract extract:videos` 走 [`scripts/extract-videos.ts`](../../../packages/pal-extract/scripts/extract-videos.ts) — ffmpeg H.264 CRF 18 preset slow + AAC 96k,6 个 AVI 全转,输出 `data/extracted/videos/{1-6}.mp4`(总 ~21MB)。增量 build(mtime 比对 skip)。
-- **memory 锚**:`avi-offline-ffmpeg-to-mp4`(个人 memory 笔记,非版本库文件)
-
-### 4. DATA.MKF chunk 0 STORE 表抽取
-- **触发 task**:BuyMenu / SellMenu 真做(M5.M-w3 已部分做,目前 opcode stub)
-- **工作量**:加 `parsers/store.ts` 解 `WORD rgwItems[MAX_STORE_ITEM] × nStore` → `data/stores.json`
-- **sdlpal 真值锚**:[global.c:292](../../../reference/sdlpal/global.c#L292) `LOAD_DATA(lprgStore, nStore * sizeof(STORE), 0, fpDATA)`
-- **STORE 结构**:[global.h:252-255](../../../reference/sdlpal/global.h#L252-L255)
-- **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
-
-### 6. items/spells/enemyObjects scripts 切片丢弃 — ✓ 已修(2026-05-27 T10b 修 / session 3)
-- **触发**:user 反馈"物品都没法使用" — 选完 use-target Confirm 后 console.debug stub。
-- **根因**:[`sliceByScene`](../../../packages/pal-extract/src/events/slice.ts) 只用 scene 入口 + eventObject 做 BFS,**漏收 items/spells/enemyObjects.scriptOn\* 作为 entry point**。
-  验证:items.scriptOnUse 范围 39190..43028,原 shared.json label 范围 2201..42409 → 103 个 item scripts 全 miss。
-  整批 script bytecode 被切片**丢弃**(任何 scene reach 不到的 cmd 自动丢)。
-- **修法**:
-  - sliceByScene 加 `globalEntries: number[]` 参数 — items/spells/enemyObjects.scriptOn{Use,Equip,Throw,Desc,Success,TurnStart,BattleEnd,Ready} BFS 单独 reachable 集合,强制归 shared。sdlpal 真值依据 [`script.c:3140 PAL_RunTriggerScript`](../../../reference/sdlpal/script.c#L3140) → `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组。
-  - cli.ts 先 parseItems/parseSpells/parseEnemyObjects 再 sliceByScene,收集 globalScriptEntries 喂 sliceByScene + 加进 disasm entryIps 让命中点也打 L_<ip> 标签
-  - 验证:items.scriptOnUse 103/103 hits in shared.json labelMap;shared.json 1999 → 4405 commands(+628 entry × BFS 后展开 2406 cmds)
-- **配套**:event-system.ts `startOverworldItemScript` helper + menu-driver 用物品流程接入 event mode;Phase 3 opcode handler(HP/MP/status 等)按 sdlpal script.c case-by-case port。
-
-### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump — ✓ 已修(2026-05-27)
-- **触发 task**:T17 OpeningMenu / SystemMenu / SaveSlot / battle UI / 任何 `PAL_GetWord(wNum)` 引用真字符串
-- **修法**:`parseWordDat` 增加 `flat: string[]`(565 条 index = sdlpal word id)+ `system: string[]`(id 0-35)+ `battleUi: string[]`(id 42-60),全 565 条全 dump 进 `lookup/words.json`
-- **真值锚**:`MAINMENU_LABEL_NEWGAME=7` → "新的故事" / `LOADGAME=8` → "旧的回忆" / `CASH_LABEL=21` → "金钱" / `LOADMENU_LABEL_SLOT_FIRST=43-47` → "进度一/二/三/四/五" 等
-- **runtime 接入**:game runtime 暂仍硬编码字符串(与 sdlpal id 真值对应),loader 加 fetchWords + menu 走 lookup 留 follow-up(T20 真值 audit v2)
-
----
-
-## 本 audit 没覆盖的事
-
-- DATA.MKF chunk 15+(count=15 注释说 chunk 15 超出范围,但需 double-check `chunkCount(dataMkf)` 实际返回值是 15 还是 16)
-- FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 `battle-bgs.json`（本地提取产物 `data/extracted/data/battle-bgs.json`） ids 列表确实缺 5 和 58
-- 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
-
-这些等 T20(M5.5 真值 audit v2)再深扫。
-
----
-
-## v2 session 2 shallow-推教训
-
-本 audit 起源是我在 T17 准备阶段连续 4 次 shallow 推:
-1. `find -name "fbp*"` 0 hit 就说 "FBP 没 extract" — **没去看 cli.ts 是不是把 FBP 当 battle bg routed 到 battle/bg/**
-2. 看 sdlpal `(fIsWIN95 ? 2 : 60)` 三元 macro 推 "PAL_CLASSIC build → chunk 60" — **没查 fIsWIN95 实际值**,把 fIsWIN95 和 PAL_CLASSIC 混成一回事
-3. 起手 msg 写 "OpeningMenu 3 选 1(新/读档/退出)" 我没怼,直到查 sdlpal `uigame.c:105-109` 才发现真值是 2 项
-4. 本 audit doc 自己只"通读 cli.ts"没追 **parser 函数实现**,把 `parseWordDat` 当作"WORD.DAT 全 dump",实际只 dump 5/7 category 丢 55 条 sys/UI/battle menu label — **audit doc 本身 shallow,失去 single source of truth 价值** — user 用 "WORD.DAT 你又少提取东西了?" 揭穿
-
-**修法**(行为约束):
-- 看 sdlpal 三元 macro 必查 condition 实际值,不凭印象
-- find filename 0 hit ≠ "没提取",要 grep extractor cli.ts 实际逻辑
-- 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
-- **audit doc 不能只看 cli.ts 调用 — 必须追 parser 函数实现(看是否 dump-all vs 选 subset)**;cli.ts 调用 `parseX` 不代表 X 被全 dump
-- 本 audit doc 是 single source of truth — 后续 task 真做前先查,不再 shallow grep;但 audit doc 自己也得真实(本文档已在 2026-05-27 由 WORD.DAT 漏洞触发第一次修订)
-
-待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+> > 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。
+> > 修法:通读 [packages/pal-extract/src/cli.ts](../../../packages/pal-extract/src/cli.ts) 1-686 行,把所有 MKF / chunk 实际处理范围 + 输出 path 列清楚,留作后续 task 真做前查表的信源(不再 shallow grep 推断)。
+> >
+> > 日期:2026-05-27 · M5.6 v2 session 2
+> > 维护要求:每加新 pal-extract 流水线时同步本文件;落项目 T20 真值 audit v2 起点。
+>
+> ---
+>
+> ## 2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账)
+>
+> user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(raw chunk_count vs extracted output + 追 parser)。结论:
+>
+> **唯一影响还原的真缺口 + 已补:**
+> - **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+night(buf>768 时),palette JSON 加 `nightColors`;游戏侧 night 选色 wiring 待接。
+>
+> **user 额外要求(已做):**
+> - **MAP/GOP #104/#164**(无 scene 引用的非空地图)也提取(cli `uniqueMapNums` 加全非空 chunk)+ 渲染到 `build/tilemap-renders/map-{104,164}.png` 供预览。
+> - **SOUNDS.MKF 完整提取**:363 非空 chunk(各为完整 RIFF/WAVE)整块 dump → `sounds/{i}.wav`(原仅 metadata)。
+> - **Musics/ 完整提取**:86 MIDI(`{NNN}.mid`)+ 8 CD `TRACKxx.ogg` 纯拷贝 → `music/` + `music-manifest.json`。**至此 raw 下所有游戏资源数据全部落地**(runtime 音频播放系统仍留 M6,但数据无缺)。
+>
+> **确认非缺口(byte-level 验证):**
+> - `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
+> - `ABC.MKF`/`F.MKF` = 敌/我战斗 sprite(battle.c),全 dump;`ABC` 另在 `PAL_IsWINVersion` 临时开作版本探测。
+> - 图形/数据/文本/视频(FBP/MGO/F/ABC/FIRE/BALL/RGM/DATA/SSS/RNG/WORD/M.MSG/1-6.avi)全 full。
+>
+> **仍 deferred(M6 音频里程碑,非漏):**
+> - 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
+>
+> 下方旧表 + 漏洞列表已就地订正过时项(STORE/BALL/WORD 标 ✓、GOP 描述、SOUNDS WAV、PAT 夜间、Musics 新增行)。
+>
+> ---
+>
+> ## 数据基线
+>
+> - **数据文件**:[data/raw/](../../../data/raw) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
+> - **build target**:fIsWIN95 = TRUE(YJ2 压缩,WIN95 data,自动检测 sdlpal `global.c:50-109 PAL_IsWINVersion`);sdlpal 源码编译用 PAL_CLASSIC(关 ATB)— `fIsWIN95` 和 `PAL_CLASSIC` 是两个独立维度
+> - **输出根**:`data/extracted/`（本地可再生环境产物，不入库） → 拷到 `packages/game/public/extracted/`（symlink → data/extracted，本地环境） 给 game runtime fetch
+>
+> ---
+>
+> ## 14 MKF · chunk 级处理表
+>
+> | MKF | chunk | sdlpal 真值含义 | pal-extract 行为 | 输出 path |
+> |---|---|---|---|---|
+> | **SSS.MKF** | 1 | rgScene[] scenes 表 | sss.scenes (295) | events 流水线 |
+> | | 2 | rgObject[] OBJECT 表 | sss.objects → parseItems / parseSpells / parseEnemyObjects | `data/items.json` + `data/spells.json` + `data/enemy-objects.json` |
+> | | 3+ | bytecode + messageOffsets | sliceByScene + recompile round-trip | `events/scene-{NNN}.json` × 295 + `events/shared.json` + `events/objects.json` |
+> | **DATA.MKF** | **0** | **STORE 表**(`WORD rgwItems[MAX_STORE_ITEM]` × nStore)| ✓ parseStores(M5 shop 已修)| `data/stores.json` |
+> | | 1 | ENEMY 战斗属性 | parseEnemies(配合 SSS chunk 2) | `data/enemies.json` |
+> | | 2 | ENEMYTEAM 敌队 | parseEnemyTeams + objectIndex→enemyId 翻译 | `data/enemy-teams.json` |
+> | | 3 | PlayerRoles 全字段(M5.B 扩) | parsePlayerRoles | `data/player-roles.json` |
+> | | 4 | MAGIC 法术详细 | parseMagicTable | `data/magic.json` |
+> | | 5 | BATTLEFIELD 战场背景 | parseBattleFields | `data/battle-fields.json` |
+> | | 6 | LEVELUPMAGIC_ALL × 5 角色 | parseLevelUpMagic | `data/level-up-magic.json` |
+> | | 7 | 空 | skip(0 字节) | — |
+> | | 8 | 空 | skip | — |
+> | | 9 | SPRITEUI sprite group(无 YJ2,raw)| parseSpriteChunk → 72 帧 | `images/ui/frame-NN.png` × 72 + `data/ui-sprite/spriteui.json` |
+> | | 10 | lpEffectSprite 战斗特效 sprite | parseSpriteChunk → 86 帧 | `images/magic/frame-NN.png` × 86 + `data/magic-sprite/effect.json` |
+> | | 11 | rgwBattleEffectIndex[10][2] | parseBattleEffectIndex | `data/battle-effect-index.json` |
+> | | 12 | bufDialogIcons 282B(text.c:891)| raw base64 dump,runtime 解 RLE | `data/dialog-icons-raw.json` |
+> | | 13 | ENEMYPOS 5×5 PALPOS | parseEnemyPos | `data/enemy-pos.json` |
+> | | 14 | rgLevelUpExp[100] WORD × 100 | parseLevelUpExp | `data/level-up-exp.json` |
+> | | 15 | 不存在(count=15,index 0-14)| — | — |
+> | **MGO.MKF** | 0-636 | NPC / cutscene sprite group YJ2 | dump-all(M5.Sync.2 改);633 / 637 chunk 可解 | `images/world/npc/{spriteId}/frame-NN.png` + `data/sprite/{id}.json` |
+> | **F.MKF** | 0-18 | player 战斗 sprite YJ2 | dump-all(M5.Sync.2 改)| `images/battle/player/{id}/frame-NN.png` + `data/battle-sprite/player/{id}.json` |
+> | **ABC.MKF** | 0-153 | enemy 战斗 sprite YJ2 | dump-all(M5.Sync.2 改)| `images/battle/enemy/{id}/frame-NN.png` + `data/battle-sprite/enemy/{id}.json` |
+> | **FBP.MKF** | 0-77 | 320×200 8-bit indexed bg | YJ2 全 dump(76 写 + 2 空 skip)| `images/battle/bg/{NNN}.png` × 76 + `data/battle-bgs.json` |
+> | | 2 | **OpeningMenu 主菜单背景**(WIN95)`MAINMENU_BACKGROUND_FBPNUM (fIsWIN95?2:60)` | 同上 | `images/battle/bg/002.png` ← **T17 用** |
+> | | 3 | Splash up(WIN95)`BITMAPNUM_SPLASH_UP (fIsWIN95?0x03:0x26)` | 额外单独写 splash 目录 | `images/splash/splash-up-win95.png` ← **T18 用** |
+> | | 4 | Splash down(WIN95)| 同上 | `images/splash/splash-down-win95.png` ← **T18 用** |
+> | | 60 | 结局 CG(DOS 主菜单背景,我们 WIN95 不用)| 同上 | `images/battle/bg/060.png` |
+> | **PAT.MKF** | 9 chunk | 调色板 6-bit RGB × 256(**#0/#5 = 1536B 含夜间半**,余 768B 纯白天)| ✓ decodePalette 抽**白天 + 夜间**(2026-05-29 补;sdlpal `PAL_GetPalette(n,fNight)` 真值)| `data/palette/{i}.json`(含 `nightColors`) |
+> | **MAP.MKF** | 226 chunk per mapNum YJ2 | 地图 tile 排布(128×64×2,含障碍位 `&0x2000` map.c:298)| 配合 GOP.MKF parseMap | `data/tilemap/{mapNum}.json` |
+> | **GOP.MKF** | 226 chunk per mapNum | **tileset 瓦片位图组**(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧)— **不是**障碍层 | parseMap 内部消费 | (同上 tilemap json) |
+> | MAP + GOP | 223 非空 mapNum | 222 scene-ref + **2 unreferenced(#104/#164,2026-05-29 user 要求全提)**;空(0/168/171)skip | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
+> | **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| ✓ T18 Step 2:`decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13 → 1464 frame PNG | `images/animation/rng-{NN}/frame-{NNN}.png` + `data/rng-frames.json` |
+> | **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ✓ `parsers/rgm.ts decodeRgmPortrait`(M5.6 T10d 修)RLE → PNG | `images/portraits/{NN}.png` × 88 + `data/portraits.json` |
+> | **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ✓ decodeBallIcon RLE → 251 PNG(M5.6 T10b 已修)| `images/items/{NNN}.png` + `data/items-icons.json` |
+> | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
+> | **SOUNDS.MKF** | 0-504 | **WAV/RIFF 音效**(WIN95;363 非空 + 142 空)| ✓ **全 363 非空 chunk dump → wav**(2026-05-29 补)+ metadata | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json` |
+> | **Musics/**(非 MKF)| — | 86 MIDI(`{NNN}.mid`,编号 = sdlpal wNumMusic,midi.c:69)+ 8 CD `TRACK*.ogg`(AUDIO_PlayCDTrack)。`mus.mkf` **存在**(RIX/OPL 格式,88 chunk / 86 非空)但 set-diff 证明是同 track 号的 86 个 MIDI 的另一编码;WIN95 忠实乐源走 `midi.c:67-69` MIDI,`mus.mkf` 仅 `MUSIC_RIX` 时用(`audio.c:304-305`),**无需解码**| ✓ MIDI/OGG 纯拷贝(2026-05-29 补);mus.mkf 同源冗余跳过(2026-05-30 复核)| `music/{NNN}.mid` × 86 + `music/TRACKxx.ogg` × 8 + `data/music-manifest.json` |
+> | **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
+> | **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| ✓ parseWordDat flat+system(2026-05-27 修)| `lookup/words.json` |
+> | WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |
+> | WORD.DAT | [42..60] 战斗/UI 19 条 | ✓ parseWordDat battleUi(2026-05-27 修)| `lookup/words.json` |
+> | WORD.DAT | [61..295] 物品名 235 条 | parseWordDat | `lookup/words.json.items` |
+> | WORD.DAT | [296..397] 仙术名 102 条 | parseWordDat | `lookup/words.json.spells` |
+> | WORD.DAT | [398..550] 敌人名 153 条 | parseWordDat | `lookup/words.json.enemies` |
+> | WORD.DAT | [551..564] 毒素/特殊 14 条 | parseWordDat | `lookup/words.json.scenes` |
+> | **SAVE.MKF** | — | **不存在**(WIN95+ 用 .RPG 存档)| — | — |
+> | **unifont-cn.bdf**(非 MKF)| — | Unifont CN BDF(M4.P4 ship)| parseBdf + glyphsToJson | `data/font/glyphs.json` |
+> | **1-6.avi**(6 个全)| — | trademark / splash / opening AVI / cutscene / 结局 | ✓ T18 Step 1:`pnpm extract:videos` 离线 ffmpeg H.264 CRF 18 + AAC 96k → mp4 | `data/extracted/videos/{1-6}.mp4` |
+>
+> ---
+>
+> ## 后续 task 资产真实状况
+>
+> | task | 用到什么资产 | pal-extract 现状 | 实做前要不要补流水线 |
+> |---|---|---|---|
+> | **T17 OpeningMenu** | FBP chunk 2 主菜单 bg + SPRITEUI(chunk 9) + 字 | ✅ 全已 dump | 不需补 |
+> | **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
+> | **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
+> | **T10d PlayerStatus** | RGM 92 角色头像 + SPRITEUI + LevelUpExp | ✅ 全已 dump(M5.6 T10d 已修 RGM RLE → 88 PNG) | 不需补 |
+> | **T10c InGameMagicMenu** | SPRITEUI + magic chunk 10 effect frames + magic.json | ✅ 全已 dump | 不需补 |
+> | **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
+> | **T15 BattleWon** | SPRITEUI 9-slice box + 战斗结算文字 | ✅ | 不需补 |
+> | **T16 levelup** | LevelUpExp + LevelUpMagic + SPRITEUI | ✅ 数据 OK | 不需补 |
+> | **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
+>
+> ---
+>
+> ## 真漏洞列表(实做对应 task 前必须补)
+>
+> ### 1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b)
+> - **触发 task**:T10b InventoryMenu / T10e EquipItemMenu
+> - **修法**:[`parsers/ball.ts`](../../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
+> - **典型尺寸**:48×47 indexed PNG with alpha mask(opaque=0 处 透明)。
+>
+> ### 2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)
+> - **触发 task**:T10d PlayerStatus / DialogBox portrait
+> - **修法**:[`parsers/rgm.ts`](../../../packages/pal-extract/src/resources/parsers/rgm.ts) `decodeRgmPortrait` —
+>   与 BALL 同模式(`palcommon.c:96-100` 4-byte file header `02 00 00 00` skip + decodeRle + encodeIndexedPng),
+>   输出 `images/portraits/{NN}.png` × 88(chunk 0 + 3 空 skip)+ `data/portraits.json` manifest。
+> - **典型尺寸**:78×91 indexed PNG with alpha mask(chunk 1 真值)。
+> - **runtime 接入**:loader 不重复 fetch(复用 `dialog-assets.portraitFrames` map)— DialogBox + PlayerStatus
+>   共享同一 chunkIndex → IndexedImage 映射。dialog-assets 已切换 PNG fetch path(取代 rgm-raw.json runtime RLE)。
+>
+> ### 3. 1-6.avi → mp4(ffmpeg 离线)— ✓ T18 Step 1 已修(2026-05-27)
+> - **触发 task**:T18 Trademark + Splash / T19 OpeningMenu AVI / 后续 cutscene
+> - **状态**:`pnpm -F @type-pal/pal-extract extract:videos` 走 [`scripts/extract-videos.ts`](../../../packages/pal-extract/scripts/extract-videos.ts) — ffmpeg H.264 CRF 18 preset slow + AAC 96k,6 个 AVI 全转,输出 `data/extracted/videos/{1-6}.mp4`(总 ~21MB)。增量 build(mtime 比对 skip)。
+> - **memory 锚**:`avi-offline-ffmpeg-to-mp4`(个人 memory 笔记,非版本库文件)
+>
+> ### 4. DATA.MKF chunk 0 STORE 表抽取
+> - **触发 task**:BuyMenu / SellMenu 真做(M5.M-w3 已部分做,目前 opcode stub)
+> - **工作量**:加 `parsers/store.ts` 解 `WORD rgwItems[MAX_STORE_ITEM] × nStore` → `data/stores.json`
+> - **sdlpal 真值锚**:[global.c:292](../../../reference/sdlpal/global.c#L292) `LOAD_DATA(lprgStore, nStore * sizeof(STORE), 0, fpDATA)`
+> - **STORE 结构**:[global.h:252-255](../../../reference/sdlpal/global.h#L252-L255)
+> - **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
+>
+> ### 6. items/spells/enemyObjects scripts 切片丢弃 — ✓ 已修(2026-05-27 T10b 修 / session 3)
+> - **触发**:user 反馈"物品都没法使用" — 选完 use-target Confirm 后 console.debug stub。
+> - **根因**:[`sliceByScene`](../../../packages/pal-extract/src/events/slice.ts) 只用 scene 入口 + eventObject 做 BFS,**漏收 items/spells/enemyObjects.scriptOn\* 作为 entry point**。
+>   验证:items.scriptOnUse 范围 39190..43028,原 shared.json label 范围 2201..42409 → 103 个 item scripts 全 miss。
+>   整批 script bytecode 被切片**丢弃**(任何 scene reach 不到的 cmd 自动丢)。
+> - **修法**:
+>   - sliceByScene 加 `globalEntries: number[]` 参数 — items/spells/enemyObjects.scriptOn{Use,Equip,Throw,Desc,Success,TurnStart,BattleEnd,Ready} BFS 单独 reachable 集合,强制归 shared。sdlpal 真值依据 [`script.c:3140 PAL_RunTriggerScript`](../../../reference/sdlpal/script.c#L3140) → `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组。
+>   - cli.ts 先 parseItems/parseSpells/parseEnemyObjects 再 sliceByScene,收集 globalScriptEntries 喂 sliceByScene + 加进 disasm entryIps 让命中点也打 L_<ip> 标签
+>   - 验证:items.scriptOnUse 103/103 hits in shared.json labelMap;shared.json 1999 → 4405 commands(+628 entry × BFS 后展开 2406 cmds)
+> - **配套**:event-system.ts `startOverworldItemScript` helper + menu-driver 用物品流程接入 event mode;Phase 3 opcode handler(HP/MP/status 等)按 sdlpal script.c case-by-case port。
+>
+> ### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump — ✓ 已修(2026-05-27)
+> - **触发 task**:T17 OpeningMenu / SystemMenu / SaveSlot / battle UI / 任何 `PAL_GetWord(wNum)` 引用真字符串
+> - **修法**:`parseWordDat` 增加 `flat: string[]`(565 条 index = sdlpal word id)+ `system: string[]`(id 0-35)+ `battleUi: string[]`(id 42-60),全 565 条全 dump 进 `lookup/words.json`
+> - **真值锚**:`MAINMENU_LABEL_NEWGAME=7` → "新的故事" / `LOADGAME=8` → "旧的回忆" / `CASH_LABEL=21` → "金钱" / `LOADMENU_LABEL_SLOT_FIRST=43-47` → "进度一/二/三/四/五" 等
+> - **runtime 接入**:game runtime 暂仍硬编码字符串(与 sdlpal id 真值对应),loader 加 fetchWords + menu 走 lookup 留 follow-up(T20 真值 audit v2)
+>
+> ---
+>
+> ## 本 audit 没覆盖的事
+>
+> - DATA.MKF chunk 15+(count=15 注释说 chunk 15 超出范围,但需 double-check `chunkCount(dataMkf)` 实际返回值是 15 还是 16)
+> - FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 `battle-bgs.json`（本地提取产物 `data/extracted/data/battle-bgs.json`） ids 列表确实缺 5 和 58
+> - 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
+>
+> 这些等 T20(M5.5 真值 audit v2)再深扫。
+>
+> ---
+>
+> ## v2 session 2 shallow-推教训
+>
+> 本 audit 起源是我在 T17 准备阶段连续 4 次 shallow 推:
+> 1. `find -name "fbp*"` 0 hit 就说 "FBP 没 extract" — **没去看 cli.ts 是不是把 FBP 当 battle bg routed 到 battle/bg/**
+> 2. 看 sdlpal `(fIsWIN95 ? 2 : 60)` 三元 macro 推 "PAL_CLASSIC build → chunk 60" — **没查 fIsWIN95 实际值**,把 fIsWIN95 和 PAL_CLASSIC 混成一回事
+> 3. 起手 msg 写 "OpeningMenu 3 选 1(新/读档/退出)" 我没怼,直到查 sdlpal `uigame.c:105-109` 才发现真值是 2 项
+> 4. 本 audit doc 自己只"通读 cli.ts"没追 **parser 函数实现**,把 `parseWordDat` 当作"WORD.DAT 全 dump",实际只 dump 5/7 category 丢 55 条 sys/UI/battle menu label — **audit doc 本身 shallow,失去 single source of truth 价值** — user 用 "WORD.DAT 你又少提取东西了?" 揭穿
+>
+> **修法**(行为约束):
+> - 看 sdlpal 三元 macro 必查 condition 实际值,不凭印象
+> - find filename 0 hit ≠ "没提取",要 grep extractor cli.ts 实际逻辑
+> - 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
+> - **audit doc 不能只看 cli.ts 调用 — 必须追 parser 函数实现(看是否 dump-all vs 选 subset)**;cli.ts 调用 `parseX` 不代表 X 被全 dump
+> - 本 audit doc 是 single source of truth — 后续 task 真做前先查,不再 shallow grep;但 audit doc 自己也得真实(本文档已在 2026-05-27 由 WORD.DAT 漏洞触发第一次修订)
+>
+> 待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+<!-- original-source-quote:end -->

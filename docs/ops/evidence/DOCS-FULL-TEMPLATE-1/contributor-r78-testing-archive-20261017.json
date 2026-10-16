@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r78-testing-archive-20261017",
+  "kind": "R78 testing archive migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
+  "scope": {
+    "documents": 50,
+    "docTypes": {
+      "archive-record": 50
+    },
+    "kinds": {
+      "markdown": 35,
+      "json": 15
+    },
+    "historyOverlay": true
+  },
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
+      "sourceSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
+      "afterSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
+      "sourceSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
+      "afterSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review.md",
+      "sourceSha256": "60592ced52b9ea6b3ee25489d174ff9ebf1e69e5f3179f246686a980761a130c",
+      "afterSha256": "d40735cb9abf2a73c6578219d5e65244e6317402ce7efcc36d49eef641fee595",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
+      "sourceSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
+      "afterSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review.md",
+      "sourceSha256": "4ca8f4194b06176249aebfc1765eece7e31a2f3f1fefdbf978499ad138f1cb22",
+      "afterSha256": "52dc96c2e9591391e60e653fae592471162b4a6006227a1780119cb487ebe8ca",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
+      "sourceSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
+      "afterSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
+      "sourceSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+      "afterSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review.md",
+      "sourceSha256": "5ea9f699f2cbba36723680b37dedd5ee44c51cf9fba0e58894369f3ed86fee76",
+      "afterSha256": "3edc5119e243dad0a7bcb856f4e87b0bd802863077b553848f0a112a6cf842eb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r8-review.md",
+      "sourceSha256": "d35555222c2d9a01aae26e6a898df9a853187a93ac34ac58e76dbceb4f999503",
+      "afterSha256": "0435332d45340b0c1b831a6db8f1176e4afef29450f7bb7daa377603206d2bd2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
+      "sourceSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+      "afterSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/README.md",
+      "sourceSha256": "1216f2848742f7714cae5d59659a8296137c7c33884db6567bfa72e68866fa49",
+      "afterSha256": "d157fb1201fcdfe5ed3b81bf58fc8262ca91bb521c2b666c799654d433eb5482",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-intake-review.md",
+      "sourceSha256": "caf8b2c02d9bdd9e66cc2616c28648c6943279816529a2ce3e1ed054c4682ac7",
+      "afterSha256": "dd1b684340cc74629bc64946e738e5a4f12c5bee04d9241f84bae82d70c085e4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
+      "sourceSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
+      "afterSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
+      "sourceSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
+      "afterSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review.md",
+      "sourceSha256": "c4eade862fa7d2aa5d568c7e8dbdd535fe8b814a6707961d0dc8972a86cc209f",
+      "afterSha256": "3dbb7f64f984d6d1390a3e14477dbc1e86737c3f07c776a339398ca6fba18c47",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/README.md",
+      "sourceSha256": "f0f7ed0a199f50eb2627f098c7f2edbfac8a81aa074a6a63e8aacc6c913cb6ae",
+      "afterSha256": "4abcec8b18b06712bdd9bc674839202db65345065964926e8e19d58f0021ca51",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/README.md",
+      "sourceSha256": "619ba46986dfc64ab42b78334b998d04413a55bfcf8c995b95672788e035c71b",
+      "afterSha256": "ec20cf927898735ecafd37c0a8ce16c91fb29bf6ee248f300f798e87a7bb8fc6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
+      "sourceSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
+      "afterSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md",
+      "sourceSha256": "327e882aeec8c0b66babe7468aef193bf9211724f61db079c42c75b36bab2a74",
+      "afterSha256": "4ab1bbe8ae8458cb265cd340b9f6239bdd58ac13ce688635e8f1741c7a75e9b0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md",
+      "sourceSha256": "b4e5edc923a13d4ff8317aa06212e254fa212812ad6b7108365f4226bb537dae",
+      "afterSha256": "fc6ad1f2ba86ed83ec93250374d82730e2d682ea579f3557cff591ec54e9614f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md",
+      "sourceSha256": "f12f1a1e066be868e104c790df2dc15daae0e4dc1dc3b83d248e7b26d7779935",
+      "afterSha256": "6cc641008dddae3b8466ab52b780d5cf9626f6254c49e5aa1bbca118ccabf6d0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md",
+      "sourceSha256": "dc85896d29b008c08c46dda70234930ad55178d300290aab32535e2809cb87a0",
+      "afterSha256": "414db2a8a14cad3f1dfa17133e034ad8a4e2ccb318856e0e2baf872dec148af0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md",
+      "sourceSha256": "65b25c02cda90432002b378fb3a3310fcf9fe06e15ed687a3427e925b3bf51a4",
+      "afterSha256": "4c2dfbfec389a0c15e9e9eb3872bce9f9154877ec5bfd9bc83bb6eec97343954",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/README.md",
+      "sourceSha256": "d53677e6829c28ba3bdb3a4504a2ecb6eafcf2c2217001b5b4548d6f47971ab6",
+      "afterSha256": "cfc180f2e34b12fc547161fdd3d365b59ef9d7d8ee856082e44cd956f0662c7e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md",
+      "sourceSha256": "4efb42982405f36a7d385a36e5d9fe0d66d37f32c77c3fa17457cfaa4e691f71",
+      "afterSha256": "356862573a707d0976604056379b62ac5aeb765681dbca9d331a09b52132ebea",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md",
+      "sourceSha256": "437346b9bab008fe4fad1dbdcde2f8ce28ca401209a877739c45a77cabf95b3f",
+      "afterSha256": "7ea8a092aae93b42715f2b1f2c31443399a09b97057950d37ef317d51579d9d6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
+      "sourceSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
+      "afterSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
+      "sourceSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
+      "afterSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md",
+      "sourceSha256": "dd59d7fbbb2ab8567af9cc35acf726b5e1b71f63b882b49149e8faef5d648845",
+      "afterSha256": "fc89fd33e7f894d7c7ae48469999281c7d83e171864d93fddb1f3b17bcc611e8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md",
+      "sourceSha256": "1026169f5d5465514d34b4f41961786b9eda625ad3a74b2772874bac53967405",
+      "afterSha256": "1cf7e4152e871b9f90556e6ee2f121d3b5b754b13abd0c253f8618520d57401f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/README.md",
+      "sourceSha256": "f08cb925791bf99da87767467aa5984abe4468bbe960e0f936011bbf8a9f9366",
+      "afterSha256": "aaf369b65b623da3bf75b4cdff04e18fd0a0c95cbd4c899bbbcb02c8e1231c6e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/battle-simulator-assessment.md",
+      "sourceSha256": "6d81d434cd0c6113b33684d984ea95b9841ea405d53148cc382a4d3def39896c",
+      "afterSha256": "680fb28b8f3d01f05a3b4ab9a634c7dddc969826a4bfa4a4a11570ef125257d4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/README.md",
+      "sourceSha256": "efd5161552967a9b2a452c108eef7740feb4a5ab3030cf7490251ce1da69f5cd",
+      "afterSha256": "4a2e6615156a3e863d235d2de136d42fc2164d426746ce3ebf76f3ba3705479a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/codex-plus2-ui.md",
+      "sourceSha256": "5d5e569034836b9152d4f560518ee9149eaa8c64e493ecf051d481cd1181eb7d",
+      "afterSha256": "8b255060ed3c8cf5e2462a5f274745c555bc37edd61e276dc8bf7a9293a506a6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md",
+      "sourceSha256": "e86d062630a21d9b9598b6568e22b832b6cea368f52ac397ba269f689ae443e3",
+      "afterSha256": "80d3860370831649c5afae3b73ea439d0609ed29c1e10c30663d242647894679",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-review.md",
+      "sourceSha256": "cea4d852c9dad2ed934ab471c092ebea907dd96e77cca8cb08aa06c531c0d89d",
+      "afterSha256": "81da054297c8ee0868b4ecd20174b89d66f80872c834e2dc63fc1df1e713e97c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-integration.md",
+      "sourceSha256": "f48f7b14efee0c55a7f70cdffc2acfae5881ace07da83142b446c5c96a4de1a8",
+      "afterSha256": "74fd73a4651595c50dc0807bb4b61a7fc803d0afb158bc596c96820d2ea36688",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-review.md",
+      "sourceSha256": "37985a86b55c0be9f2a75ade873953d71080f70bc05e6656436a0d531706efd0",
+      "afterSha256": "6d606009d31297cb89d1bc690382d08f8ee253340b3d06be3ba0a838dea5e204",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
+      "sourceSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
+      "afterSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
+      "sourceSha256": "3ce6f5a05b79e648f2e1de2a896cb3e000c4649ad0f0922a5dadf1129fde1578",
+      "afterSha256": "b2a2c4a1ca6ce0b0acc0732ddf799d631bf685e61220bf7830d9fa8620bbd27f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
+      "sourceSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
+      "afterSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+      "sourceSha256": "4b0f8c9615a24dff37b656fce79bcee648f4c4d6d6f2f30d5d3c99602b861db1",
+      "afterSha256": "63ef112fe19a58d7ef6056594143deb7fb04f6e5c1dfc1d1bfda95017f1beb85",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
+      "sourceSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
+      "afterSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+      "sourceSha256": "ed7445ff799a452ff67a0187231ce1306783de6ef8301c9a312a1feac9fd8811",
+      "afterSha256": "3374275413b8233503e15f3aa26153813219319a6a19b27e07422c6291315367",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-functional-visual-2026-09-22.md",
+      "sourceSha256": "2ed1e749c1062496c097b0387a76496b11b099dbf92af214e920dd087d5db3e7",
+      "afterSha256": "400f0c24e1d9947ee04a89858cf08c82ae7b25fe00e3e3c16b91e3b30891ccbb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md",
+      "sourceSha256": "62bf88a2e12d011c4462cd07747fee8c21406369908dcac5a2d36ca0c0f5fc07",
+      "afterSha256": "73404c815d0db5d52ef84528e9f939103f03042694e7208dbaec951329af01bd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md",
+      "sourceSha256": "19a0229d371a5908cf574c2b965d1c84b24e482f2e9ae50f6f9455611795d4ae",
+      "afterSha256": "392fc494a6d949cdeff116bf9cff2fd40c1565ab6b76b63c4782909c769a74ee",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
+      "sourceSha256": "ec890562b34fa38527eb00270af4eeeab71dc11f2d2b6e2f624326f28a8a31bf",
+      "afterSha256": "ff11a158fa4bfadc496dfb888d82236fe1fe558575051bbfbfbd021f600663d4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows.md",
+      "sourceSha256": "1e6b67680dd7b729ff55aa579f9736de84d246f1788d7a6df88fd3b41cd4d13d",
+      "afterSha256": "2bf043b3b0b12f17f352cdd50cbe0e108fcce7ec18cb4db6965e0ca4f240efa7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "exactRoundTrip": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
+      "sourceSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
+      "afterSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "exactRoundTrip": true
+    }
+  ]
+}

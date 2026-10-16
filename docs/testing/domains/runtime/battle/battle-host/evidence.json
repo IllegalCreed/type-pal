@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
@@ -99,5 +102,45 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "document-audit-v2",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON reading",
+      "paired original report and declared source anchors read",
+      "original Git blob",
+      "actual publication consumer"
+    ],
+    "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
+    "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
+    "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
+    "scope": "phase2/reforge publication audit only. BattleHost 负责launch/prepare身份、提交拍读取live world和世界收尾；BattleSession内部菜单/结算另有合同。",
+    "primarySource": [
+      "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "packages/reforge/src/main.ts:1242-1261",
+      "packages/reforge/src/battle/battle-host.ts:53-67",
+      "packages/reforge/src/battle/battle-host.ts:156-160",
+      "packages/reforge/src/battle/battle-host.test.ts:13-36",
+      "packages/content/src/character.ts:168-170"
+    ],
+    "beforeAfter": "原document-audit的全部顶层字段保持，新增不覆盖字段的统一治理envelope；source/版本/历史/缺raw与原counter保留。",
+    "explainedLimits": [
+      "旧57794d15/348a50d1已被46287966取代；strict7972、旧warnings和H9随机输入校正保留原范围。",
+      "本轮不重新执行PAL战斗、反控或覆盖基线；source anchor核读不是新战斗通过。"
+    ],
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual full JSON machine-envelope migration",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "performed=false、空artifacts与缺raw保持；source-backed不构成新runtime/视觉/coverage或旧测试质量accept。",
+    "nextStep": "核验移除envelope后原对象deep-equal与真实paired consumer，登记after SHA；后续动态/测试质量任务不得从静态迁移继承通过。"
+  }
 }

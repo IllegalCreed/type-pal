@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "id": "r55-ops-dedup-ledger-20261017",
+  "reviewer": "Codex root full-text semantic migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R55: historical test dedup ledgers use evidence-receipt-v1 with archive-record-v1 overlay; preserve source/caller/legal-input/oracle/fullName and original quote. Migration grants no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTRACTS-1 合同排重账：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:1",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:13",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:92"
+      ],
+      "unresolved": [
+        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse."
+      ],
+      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence/test-dedup",
+      "capability": "test-glm-game-event-contracts-1",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r55_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
+        }
+      ],
+      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+      "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "publicCallers": [
+        "event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md → dedup-ledger.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+        "corresponding task card and evidence consumers"
+      ],
+      "businessOracle": {
+        "type": "historical-test-dedup-ledger",
+        "assertions": [
+          "source:line/caller/input/oracle mapping remains traceable",
+          "NEW/REG and not-new classifications remain explicit",
+          "historical counts and mutation summaries are not current execution credit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+          "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+          "docs/ops/archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+        "implementationSha": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+        "history": [
+          {
+            "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R55 test dedup ledger template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r55-ops-dedup-ledger-20261017.json",
+        "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+        "candidateSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+        "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+        "lineCount": 159,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6382,
+          "sourceLines": 89,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R55 template migration",
+          "reviewer": "r55_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; historical test ledger remains source-preserved"
+      ],
+      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
+      "reviewedLines": "1-159",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "candidateSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "sha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence/test-dedup",
+        "currentBoundary": "current task card, machine consumer and fresh receipt own truth"
+      },
+      "dependencies": "event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）; corresponding task card and fresh evidence receipt.",
+      "versionScope": {
+        "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R55-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账（GLM r1）：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:1",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:10",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:49"
+      ],
+      "unresolved": [
+        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse.",
+        "Current task remains rework; original raw mutation evidence and reachability gaps are not closed by this migration."
+      ],
+      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
+      "phase": "ops",
+      "module": "evidence/test-dedup",
+      "capability": "test-glm-game-turn-boundaries-1",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r55_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
+        }
+      ],
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "publicCallers": [
+        "turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → dedup-ledger.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+        "corresponding task card and evidence consumers"
+      ],
+      "businessOracle": {
+        "type": "historical-test-dedup-ledger",
+        "assertions": [
+          "source:line/caller/input/oracle mapping remains traceable",
+          "NEW/REG and not-new classifications remain explicit",
+          "historical counts and mutation summaries are not current execution credit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+          "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+        "implementationSha": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+        "history": [
+          {
+            "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R55 test dedup ledger template migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r55-ops-dedup-ledger-20261017.json",
+        "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+        "candidateSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+        "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+        "lineCount": 131,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6728,
+          "sourceLines": 61,
+          "sourceFinalNewline": true,
+          "inverseSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R55 template migration",
+          "reviewer": "r55_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy presentation; historical test ledger remains source-preserved"
+      ],
+      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
+      "reviewedLines": "1-131",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "candidateSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "sha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence/test-dedup",
+        "currentBoundary": "current task card, machine consumer and fresh receipt own truth"
+      },
+      "dependencies": "turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）; corresponding task card and fresh evidence receipt.",
+      "versionScope": {
+        "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R55-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

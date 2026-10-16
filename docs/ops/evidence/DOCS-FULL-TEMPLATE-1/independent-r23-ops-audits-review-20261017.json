@@ -1,0 +1,1562 @@
+{
+  "schemaVersion": 1,
+  "id": "type-pal-r23-ops-audits-readonly-review-20261017",
+  "reviewer": "Codex (non-author independent review)",
+  "reviewDate": "2026-10-17",
+  "baseCommit": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+  "scope": "R23 9 docs under docs/ops/archive/audits; no repository writes",
+  "verdict": "accept-readonly-proposal",
+  "blockingCounters": 0,
+  "nonBlockingCounters": 2,
+  "counters": [
+    "README.md requires governance-index-v1 reclassification; current registry binding is semantically wrong.",
+    "OPS-TST-PERF remains audit-report-v1 for this historical ops mapping; moving it to test-domain-report-v1 would require a separate frozen template/consumer design."
+  ],
+  "templateProposal": {
+    "audit-report-v1": {
+      "count": 8,
+      "outline": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"],
+      "historyRule": "archive wrapper preserving original date/conclusion/evidence and explicit current-validity boundary"
+    },
+    "governance-index-v1": {
+      "count": 1,
+      "outline": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
+      "historyRule": "historical navigation wrapper; index links do not become current truth"
+    }
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "title": "B10-1 源敌队槽位 census（2026-08-09）",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
+      "afterSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
+      "lineCount": 77,
+      "byteCount": 3238,
+      "headings": [
+        {
+          "line": 1,
+          "text": "B10-1 源敌队槽位 census（2026-08-09）"
+        },
+        {
+          "line": 6,
+          "text": "输入与可复现命令"
+        },
+        {
+          "line": 20,
+          "text": "总账"
+        },
+        {
+          "line": 42,
+          "text": "G2 交叉清单"
+        },
+        {
+          "line": 70,
+          "text": "复审解释"
+        }
+      ],
+      "semanticOutline": [
+        "只读审计证据与 B10-1 G1/G2 使用边界",
+        "三份输入 JSON 与不可写复现命令",
+        "380 源敌队 / 1900 原始条目 / 861 语义槽 / 757 有效敌槽 / 104 空槽等总账",
+        "20 支含空槽且带 summon/divide 定义的队伍交叉清单",
+        "65535 与 0 的槽位解释、v11 只保留有效成员、v12 应保留 Array<string|null> 的复审说明"
+      ],
+      "coreConclusion": "B10-1 源敌队槽位 census（2026-08-09）：完整读取 77 行/3238 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "data/extracted/data/enemy-teams.json",
+        "projects/pal/content/enemy-teams.json",
+        "projects/pal/content/enemies.json",
+        "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["B10-1 任务卡 G1/G2（历史入口）", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "历史 census 未在当前树重跑，输入 SHA 与 v12 迁移目标需要当前候选重新绑定",
+        "仅静态源/生成数据核对；不证明 runtime、敌人 summon/divide、站位或 RNG 行为"
+      ],
+      "counters": [],
+      "unresolved": [
+        "历史 census 未在当前树重跑，输入 SHA 与 v12 迁移目标需要当前候选重新绑定",
+        "仅静态源/生成数据核对；不证明 runtime、敌人 summon/divide、站位或 RNG 行为"
+      ],
+      "nextStep": "保留历史原始 census；若用于当前迁移，重跑三份输入并把结果接入当前 canonical 证据。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-77"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+      "title": "N3-1 P7-R13 三方源语义审计合并裁决",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
+      "afterSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
+      "lineCount": 230,
+      "byteCount": 15315,
+      "headings": [
+        {
+          "line": 1,
+          "text": "N3-1 P7-R13 三方源语义审计合并裁决"
+        },
+        {
+          "line": 15,
+          "text": "结论"
+        },
+        {
+          "line": 40,
+          "text": "三方差集合并"
+        },
+        {
+          "line": 42,
+          "text": "# 确认最终缺失或运行时失效"
+        },
+        {
+          "line": 58,
+          "text": "# 已补回或当前数据没有实害"
+        },
+        {
+          "line": 68,
+          "text": "# 尚需逐站或动态裁决"
+        },
+        {
+          "line": 78,
+          "text": "对独立报告的纠正"
+        },
+        {
+          "line": 80,
+          "text": "# Kimi 报告"
+        },
+        {
+          "line": 91,
+          "text": "# GLM 报告"
+        },
+        {
+          "line": 103,
+          "text": "# 两份报告共同问题"
+        },
+        {
+          "line": 109,
+          "text": "P7-R13 build 分批设计"
+        },
+        {
+          "line": 115,
+          "text": "# R13-0：指令去向账、跨域 diagnostics 与 fail-closed"
+        },
+        {
+          "line": 130,
+          "text": "# R13-1：身份与动态行为运行时"
+        },
+        {
+          "line": 143,
+          "text": "# R13-2：跨激活控制流"
+        },
+        {
+          "line": 154,
+          "text": "# R13-3：58 件投掷能力闭包"
+        },
+        {
+          "line": 162,
+          "text": "# R13-4：真实确认框"
+        },
+        {
+          "line": 168,
+          "text": "# R13-5：敌人脚本与战斗运行上下文"
+        },
+        {
+          "line": 178,
+          "text": "# R13-6：技能、palette 与表现债务"
+        },
+        {
+          "line": 187,
+          "text": "# R13-Z：发布与终审"
+        },
+        {
+          "line": 198,
+          "text": "本轮只读复核命令摘要"
+        },
+        {
+          "line": 201,
+          "text": "完整最终构建报告，而非 raw migrateAll"
+        },
+        {
+          "line": 212,
+          "text": "源/最终投掷守恒"
+        }
+      ],
+      "semanticOutline": [
+        "两份双盲审计与 Codex 金丝雀、s048/e796 反例的统一裁决边界",
+        "A1-A11 确认缺口、补回项与尚需动态裁决项",
+        "Kimi/GLM 报告纠正与不可收敛的计数/语义差异",
+        "R13-0 到 R13-6 与 R13-Z 的分批 build 设计和 fail-closed 要求",
+        "完整构建/投掷守恒复跑命令摘要"
+      ],
+      "coreConclusion": "N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/reforge/src/main.ts",
+        "reference/sdlpal/script.c",
+        "R13-0~R13-Z 后继任务卡与 evidence"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["P7-R13 任务卡/后继 R13 记录", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复",
+        "正文并列 48/58 throw、10/14 pendingSkills、0x76/0x9B、旧版本等争议，需以当时上下文和后继记录解释",
+        "包含迁移/运行时设计提案，未给出现行候选的 runtime/E2E/visual/coverage 证明"
+      ],
+      "counters": ["旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"],
+      "unresolved": [
+        "历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复",
+        "正文并列 48/58 throw、10/14 pendingSkills、0x76/0x9B、旧版本等争议，需以当时上下文和后继记录解释",
+        "包含迁移/运行时设计提案，未给出现行候选的 runtime/E2E/visual/coverage 证明",
+        "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"
+      ],
+      "nextStep": "保留历史裁决和原始冲突；任何当前修复引用必须绑定新的 source-backed disposition、runtime canary 与版本。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-230"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "title": "N3-1 P7-R13-4 confirm 源控制流审计",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
+      "afterSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
+      "lineCount": 275,
+      "byteCount": 16555,
+      "headings": [
+        {
+          "line": 1,
+          "text": "N3-1 P7-R13-4 `confirm` 源控制流审计"
+        },
+        {
+          "line": 9,
+          "text": "1. 冻结口径"
+        },
+        {
+          "line": 30,
+          "text": "2. 26 RAW → 28 logical → 31 physical"
+        },
+        {
+          "line": 79,
+          "text": "3. 用户可见反例"
+        },
+        {
+          "line": 88,
+          "text": "4. 根因"
+        },
+        {
+          "line": 109,
+          "text": "5. 修复约束"
+        },
+        {
+          "line": 147,
+          "text": "6. R13-4 evidence / MG2"
+        },
+        {
+          "line": 197,
+          "text": "7. content / SAVE epoch"
+        },
+        {
+          "line": 214,
+          "text": "8. runtime 与 Editor"
+        },
+        {
+          "line": 216,
+          "text": "# Reforge"
+        },
+        {
+          "line": 239,
+          "text": "# Editor"
+        },
+        {
+          "line": 250,
+          "text": "9. 最低验收矩阵"
+        }
+      ],
+      "semanticOutline": [
+        "26 RAW / 28 logical / 31 physical confirm 口径与 digest",
+        "逐站 No 目标、Yes fallthrough、terminal lifecycle 与 22/31 有损节点",
+        "买水果、买米、s009 的用户可见 No 分支反例",
+        "P3/P7 根因、冻结旧 projector 与 append-only augmentation 约束",
+        "R13 evidence/MG2、content/SAVE epoch、Reforge/Editor 控制器和最低验收矩阵"
+      ],
+      "coreConclusion": "N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "data/extracted/events/all.json",
+        "packages/migrate/src/experimental/script-v5/p7-canonical.ts",
+        "packages/reforge/src/main.ts",
+        "R13-4 published seal/MG2 records"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["R13-4 任务卡及后继 evidence", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约",
+        "确认框运行时、存档屏障、Editor v5 预览和浏览器 canary 均为当时验收要求，不是本篇静态证据",
+        "No/Yes 语义和 31 个物理节点必须以当前 canonical 产物复核，旧 digest 不能单独授权 build"
+      ],
+      "counters": ["历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"],
+      "unresolved": [
+        "当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约",
+        "确认框运行时、存档屏障、Editor v5 预览和浏览器 canary 均为当时验收要求，不是本篇静态证据",
+        "No/Yes 语义和 31 个物理节点必须以当前 canonical 产物复核，旧 digest 不能单独授权 build",
+        "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"
+      ],
+      "nextStep": "保留 26/28/31 及反例；当前实现只可由新 source census、双跑 MG2、真实 confirm 两臂与 Editor/runtime evidence 重新证明。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-275"
+    },
+    {
+      "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "title": "P7-R13-5 敌人脚本源语义审计",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
+      "afterSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
+      "lineCount": 150,
+      "byteCount": 10866,
+      "headings": [
+        {
+          "line": 1,
+          "text": "P7-R13-5 敌人脚本源语义审计"
+        },
+        {
+          "line": 7,
+          "text": "结论"
+        },
+        {
+          "line": 50,
+          "text": "12 个 pending 敌人逐项 disposition"
+        },
+        {
+          "line": 67,
+          "text": "强制非 pending 金丝雀"
+        },
+        {
+          "line": 69,
+          "text": "# enemy-496 石长老"
+        },
+        {
+          "line": 83,
+          "text": "# enemy-483 林月如二"
+        },
+        {
+          "line": 88,
+          "text": "# enemy-519 明王"
+        },
+        {
+          "line": 99,
+          "text": "必须另签的公共 delta"
+        },
+        {
+          "line": 118,
+          "text": "最低机器验收"
+        },
+        {
+          "line": 135,
+          "text": "代码锚点"
+        }
+      ],
+      "semanticOutline": [
+        "enemyObjects 三类 hook 与最终 EnemyDef/boss overlay/Reforge 消费范围",
+        "153 raw/projection/final、54 带脚本敌人、12 pending/31 source site 账",
+        "12 个 pending 敌人逐项 disposition（420/421/422/435/463/469/483/486/499/519/539/547）",
+        "enemy-496 双臂、enemy-483 时序、enemy-519 八项成长的动态金丝雀",
+        "公共 delta、最低机器验收与代码锚点"
+      ],
+      "coreConclusion": "P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/migrate/src/pal-boss-overlay.ts",
+        "packages/reforge/src/battle/battle-session.ts",
+        "reference/sdlpal/fight.c",
+        "reference/sdlpal/script.c"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["P7-R13-5 任务卡/后继 evidence", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合",
+        "敌人持久 cursor、battle-only choreography、onDefeated canonical authority、fail-loud 生成门禁属于未决公共 delta",
+        "只读报告不授予敌人脚本、战斗演出、存档或 runtime 验收信用"
+      ],
+      "counters": [
+        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
+      ],
+      "unresolved": [
+        "pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合",
+        "敌人持久 cursor、battle-only choreography、onDefeated canonical authority、fail-loud 生成门禁属于未决公共 delta",
+        "只读报告不授予敌人脚本、战斗演出、存档或 runtime 验收信用",
+        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
+      ],
+      "nextStep": "保留 pending disposition 与动态验收矩阵；当前不把 153/153 产物存在性当成语义闭合。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-150"
+    },
+    {
+      "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "title": "DOC-AUDIT-1 · 仓库文档与信息架构审计",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
+      "afterSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
+      "lineCount": 318,
+      "byteCount": 20409,
+      "headings": [
+        {
+          "line": 1,
+          "text": "DOC-AUDIT-1 · 仓库文档与信息架构审计"
+        },
+        {
+          "line": 8,
+          "text": "结论"
+        },
+        {
+          "line": 24,
+          "text": "1. 范围与口径"
+        },
+        {
+          "line": 26,
+          "text": "# 1.1 规模快照"
+        },
+        {
+          "line": 44,
+          "text": "# 1.2 判断层级"
+        },
+        {
+          "line": 55,
+          "text": "2. P1：会把当前工作带错方向的问题"
+        },
+        {
+          "line": 57,
+          "text": "# DOC-01 · canonical 版本在“当前”文档中互相冲突"
+        },
+        {
+          "line": 74,
+          "text": "# DOC-02 · 二阶段总入口已经失去索引真值"
+        },
+        {
+          "line": 87,
+          "text": "# DOC-03 · 活路线图混入旧“下一步”和已被推翻的硬约束"
+        },
+        {
+          "line": 100,
+          "text": "# DOC-04 · 包、工程与参考入口中有直接错误"
+        },
+        {
+          "line": 117,
+          "text": "# DOC-05 · 第一阶段“当前真值”口径超过了证据有效期"
+        },
+        {
+          "line": 133,
+          "text": "# DOC-06 · ops 当前状态语义与现行流程入口不清"
+        },
+        {
+          "line": 151,
+          "text": "3. P2：历史边界与信息架构问题"
+        },
+        {
+          "line": 153,
+          "text": "# DOC-07 · 历史计划仍长得像可立即执行的指令"
+        },
+        {
+          "line": 178,
+          "text": "# DOC-08 · 目录承担的职责不清晰"
+        },
+        {
+          "line": 207,
+          "text": "# DOC-09 · 没有自动保鲜机制"
+        },
+        {
+          "line": 217,
+          "text": "4. 断链台账"
+        },
+        {
+          "line": 241,
+          "text": "5. 建议的整理顺序"
+        },
+        {
+          "line": 243,
+          "text": "# 批次 A · 先修会误导工作的现行入口"
+        },
+        {
+          "line": 253,
+          "text": "# 批次 B · 建索引，不先搬历史"
+        },
+        {
+          "line": 262,
+          "text": "# 批次 C · 增加自动检查"
+        },
+        {
+          "line": 275,
+          "text": "# 批次 D · 只对未来内容改变存放方式"
+        },
+        {
+          "line": 282,
+          "text": "6. 明确保留、不能误删的内容"
+        },
+        {
+          "line": 291,
+          "text": "7. 基线探针命令"
+        },
+        {
+          "line": 294,
+          "text": "在 main@4cbbf758 执行可得到上表；当前树会额外计入本文与 audits/README"
+        },
+        {
+          "line": 295,
+          "text": "仓库可见 Markdown 数量与行数"
+        },
+        {
+          "line": 299,
+          "text": "最大文件"
+        },
+        {
+          "line": 302,
+          "text": "含 Markdown、但没有本地 README 的 docs 目录"
+        },
+        {
+          "line": 310,
+          "text": "当前版本的一手代码锚点"
+        },
+        {
+          "line": 313,
+          "text": "当前文档中的旧版本候选（历史任务卡和第一阶段计划需另行分类，不能全局替换）"
+        }
+      ],
+      "semanticOutline": [
+        "2026-09-06 main@4cbbf758 只读基线和未启动清理声明",
+        "文档规模、判断优先级与 P1 当前误导问题 DOC-01~DOC-06",
+        "P2 历史边界/目录职责/自动保鲜 DOC-07~DOC-09",
+        "32 次断链/27 个唯一目标与裸路径台账",
+        "批次 A-D 整理顺序、保留项和可复跑探针"
+      ],
+      "coreConclusion": "DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "packages/content/src/character.ts",
+        "docs/phase2/README.md",
+        "docs/phase2/roadmap.md",
+        "docs/phase2/capability-map.md",
+        "package.json",
+        "scripts/docs"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": [
+        "DOC-AUDIT-1 后继 docs 任务/当前 check:docs",
+        "docs/ops/archive/audits/README.md"
+      ],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/documentation-2026-09-06.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度",
+        "建议批次未全部实施；文档明确清理、迁移、自动门禁均未开始",
+        "部分历史建议与后续 current-only/模板治理规则需由新 governance index 和 task card 接管"
+      ],
+      "counters": [
+        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
+      ],
+      "unresolved": [
+        "基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度",
+        "建议批次未全部实施；文档明确清理、迁移、自动门禁均未开始",
+        "部分历史建议与后续 current-only/模板治理规则需由新 governance index 和 task card 接管",
+        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
+      ],
+      "nextStep": "保留 2026-09-06 诊断与建议；当前治理应以实际树重新分类、当前 registry/catalog 和 check:docs 输出为准。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-318"
+    },
+    {
+      "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+      "title": "GLM P7-R13 源指令语义闭包独立审计报告",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
+      "afterSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
+      "lineCount": 327,
+      "byteCount": 19750,
+      "headings": [
+        {
+          "line": 1,
+          "text": "GLM P7-R13 源指令语义闭包独立审计报告"
+        },
+        {
+          "line": 6,
+          "text": "审计方法"
+        },
+        {
+          "line": 12,
+          "text": "全域矩阵"
+        },
+        {
+          "line": 26,
+          "text": "一、确认最终缺失"
+        },
+        {
+          "line": 28,
+          "text": "# 1. setPalette 14 条 deferred（5 组 palette 5↔0 + 1 palette 2 + 1 palette 6）"
+        },
+        {
+          "line": 37,
+          "text": "# 2. lossySkills 4 条（回梦/夺魂/鬼降/酒神）"
+        },
+        {
+          "line": 46,
+          "text": "# 3. 敌人 AI 脚本域损失（GLM 子代理独立发现）"
+        },
+        {
+          "line": 60,
+          "text": "# 4. pendingSkills 10 条（动态公式简化）"
+        },
+        {
+          "line": 71,
+          "text": "二、已补回（由 C8/overlay/augmentation 补回，非上游迁移器直接生成）"
+        },
+        {
+          "line": 73,
+          "text": "# 1. 14 件剧情物品用途（C8-R2 augmentation）"
+        },
+        {
+          "line": 80,
+          "text": "# 2. 90 驱魔香 / 91 十里香 / 137 无影毒 / 150 金蚕王（C8-R2 上游迁移器修改）"
+        },
+        {
+          "line": 87,
+          "text": "三、风险待验证"
+        },
+        {
+          "line": 89,
+          "text": "# 1. 0x08 checkpoint 36 条 push(undefined)"
+        },
+        {
+          "line": 96,
+          "text": "# 2. pendingThrow 48 条（相克 use 链）"
+        },
+        {
+          "line": 102,
+          "text": "# 3. 0x76 ShowFBP 4 条 push(undefined)"
+        },
+        {
+          "line": 110,
+          "text": "四、真实 no-op / 批准近似"
+        },
+        {
+          "line": 127,
+          "text": "五、Codex 清单之外的新增项"
+        },
+        {
+          "line": 129,
+          "text": "# 1. setPalette(5/2/6) 自定义调色板无替代（Codex 提到但未完全分类）"
+        },
+        {
+          "line": 135,
+          "text": "# 2. migrateAll 原始报告 vs 最终 PAL 的差异口径未文档化"
+        },
+        {
+          "line": 142,
+          "text": "# 3. lossySkills 的 itemId 为 undefined"
+        },
+        {
+          "line": 149,
+          "text": "六、对 Codex 数字或结论的反证"
+        },
+        {
+          "line": 151,
+          "text": "# 1. Codex 称\"34 个 0x08 未保留 checkpoint 持久推进语义\""
+        },
+        {
+          "line": 156,
+          "text": "# 2. Codex 称\"敌人迁移有 12 个 pendingScripts 仍发布 partial EnemyDef\""
+        },
+        {
+          "line": 162,
+          "text": "七、无法收敛的口径"
+        },
+        {
+          "line": 164,
+          "text": "# 573 条\"引用目标含段转移\""
+        },
+        {
+          "line": 171,
+          "text": "八、建议阻断生成的门禁"
+        },
+        {
+          "line": 173,
+          "text": "# 1. setPalette 自定义 palette 硬门禁"
+        },
+        {
+          "line": 185,
+          "text": "# 2. lossySkills 必须带 itemId"
+        },
+        {
+          "line": 192,
+          "text": "# 3. migrateAll 报告 vs 最终 PAL 差异对账门禁"
+        },
+        {
+          "line": 205,
+          "text": "九、完整复跑命令"
+        },
+        {
+          "line": 208,
+          "text": "1. 迁移报告"
+        },
+        {
+          "line": 219,
+          "text": "2. 最终 PAL diagnostics"
+        },
+        {
+          "line": 225,
+          "text": "3. setPalette deferred 计数"
+        },
+        {
+          "line": 228,
+          "text": "4. push(undefined) 全量"
+        },
+        {
+          "line": 231,
+          "text": "5. 敌人 pendingScripts"
+        },
+        {
+          "line": 237,
+          "text": "6. at-risk opcode 源计数"
+        },
+        {
+          "line": 256,
+          "text": "十、总结"
+        },
+        {
+          "line": 273,
+          "text": "附录：GLM 子代理补充发现（2026-07-26）"
+        },
+        {
+          "line": 275,
+          "text": "# pendingSkills 修正：14 条而非 10 条"
+        },
+        {
+          "line": 281,
+          "text": "# 敌人 pendingScripts 详细清单（12 个敌人）"
+        },
+        {
+          "line": 302,
+          "text": "# pendingThrow 修正：47 条而非 48 条 + 非相克链解释"
+        },
+        {
+          "line": 308,
+          "text": "# loadScene fade 时长修正"
+        },
+        {
+          "line": 312,
+          "text": "# 诊断 schema 只支持 item 域"
+        },
+        {
+          "line": 319,
+          "text": "# 最终修正总结"
+        }
+      ],
+      "semanticOutline": [
+        "43,503 source commands 的独立方法与普通/敌人/技能/物品/palette 全域矩阵",
+        "setPalette、lossySkills、敌人 opcode、pendingSkills 的确认缺失",
+        "C8/overlay 补回项与 0x08、pendingThrow、0x76 风险",
+        "no-op/approved-lossy、Codex 差集反证、573 段转移池",
+        "门禁建议、复跑命令及附录修正（14 pendingSkills、47/48 pendingThrow、schema item-only）"
+      ],
+      "coreConclusion": "GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "GLM",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "data/extracted/events/all.json",
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/migrate/src/migration-diagnostic.ts",
+        "projects/pal/content/migration-diagnostics.json"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["N3-1/P7-R13 合并裁决与后继任务", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正",
+        "静态审计和内存 report 不提供当前 runtime/E2E/visual/coverage 证明",
+        "setPalette/0x08/0x76/no-op 与敌人语义需要后继 source disposition 和动态验收"
+      ],
+      "counters": ["必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"],
+      "unresolved": [
+        "正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正",
+        "静态审计和内存 report 不提供当前 runtime/E2E/visual/coverage 证明",
+        "setPalette/0x08/0x76/no-op 与敌人语义需要后继 source disposition 和动态验收",
+        "必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"
+      ],
+      "nextStep": "保留 GLM 独立反证；当前采用前先重跑完整 buildPalMigration、最终产物与相应 canary，并记录差集。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-327"
+    },
+    {
+      "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+      "title": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
+      "afterSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
+      "lineCount": 214,
+      "byteCount": 19435,
+      "headings": [
+        {
+          "line": 1,
+          "text": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi，架构 / SDLPal 语义红队）"
+        },
+        {
+          "line": 8,
+          "text": "§1 确认最终缺失(最终产物中没有等价物,用户可感知)"
+        },
+        {
+          "line": 10,
+          "text": "# M1.【新发现·最重】0x04 callScript 的 owner 操作数 off-by-one,12 个站点错绑实体"
+        },
+        {
+          "line": 19,
+          "text": "# M2. 0x08 checkpoint 语义全丢;前缀副作用在重触发时重放,含 6 处物品、5 处金钱刷取点"
+        },
+        {
+          "line": 32,
+          "text": "# M3. 0x0A confirm 运行时恒返回\"是\",全部 26 个是/否选择失效"
+        },
+        {
+          "line": 39,
+          "text": "# M4. end.reset(0x02) 的 idleFrames 被提取后无人读取,跨触发延时闸门语义全丢"
+        },
+        {
+          "line": 46,
+          "text": "# M5. 敌人 12 个 pending 运行时零 fallback;明王缺口比金丝雀所列更大"
+        },
+        {
+          "line": 55,
+          "text": "# M6. 战斗 choreography 混合词汇,运行时只执行 4 种命令,其余记日志丢弃"
+        },
+        {
+          "line": 61,
+          "text": "# M7. 敌脚本 battleEnd 只取 stages[0],多段链第 2 段起全丢且无 pending"
+        },
+        {
+          "line": 66,
+          "text": "# M8. 敌脚本 0x79 队伍门在\"段内有后续对话\"时整支丢弃"
+        },
+        {
+          "line": 71,
+          "text": "# M9. setPalette 5 组 palette5↔0 无可执行替代"
+        },
+        {
+          "line": 79,
+          "text": "§2 已被等价补回(确认有现代等价物,不计缺失)"
+        },
+        {
+          "line": 93,
+          "text": "§3 仅风险待动态验证(结构性开放口,当前数据未造成实害或需实机确认)"
+        },
+        {
+          "line": 109,
+          "text": "§4 真实 no-op / 用户批准近似(有源码或铁律证据,不应计 bug)"
+        },
+        {
+          "line": 125,
+          "text": "§5 门禁为什么没挡住(机制分析)"
+        },
+        {
+          "line": 137,
+          "text": "§6 可复跑命令与计数"
+        },
+        {
+          "line": 140,
+          "text": "0x08 全量普查 + 前缀副作用分类(M2 全部数字来源)"
+        },
+        {
+          "line": 156,
+          "text": "0x04 op1≠0 站点(M1)→ 12 站,全部 call L_35644"
+        },
+        {
+          "line": 163,
+          "text": "0x76 站点与操作数(N4)→ 4 站全 [65535,0,0]"
+        },
+        {
+          "line": 170,
+          "text": "off-by-one 产物实证:projects/pal/content/scenes/s093.json 搜 e1749 的 behaviors"
+        },
+        {
+          "line": 171,
+          "text": "敌人 pending 清单:内存执行 loadPalMigrationSources + buildPalMigration,读 report.enemies.pendingScripts"
+        },
+        {
+          "line": 172,
+          "text": "门禁定义:translate-events.ts:668-702(gaps/flowCuts)、p7-transition-ledger.ts:195-282、migration-validate.ts:403-637"
+        },
+        {
+          "line": 177,
+          "text": "§7 新增差集与误报"
+        },
+        {
+          "line": 179,
+          "text": "# 我发现而 Codex 金丝雀未覆盖的(按严重度)"
+        },
+        {
+          "line": 193,
+          "text": "# 我认为 Codex 误报/高估的"
+        },
+        {
+          "line": 203,
+          "text": "§8 fail-closed 门禁建议(最小结构性,非堆 golden)"
+        }
+      ],
+      "semanticOutline": [
+        "d263efd3/c3d620a9 基线与 SDLPal/迁移器/运行时三路重建",
+        "M1-M9 确认缺失：callScript owner、0x08、confirm、idleFrames、敌人 hooks、choreography、battleEnd、0x79、palette",
+        "等价补回、动态风险和 approved no-op/近似分类",
+        "可复跑普查命令、Codex 差集/误报与 G1-G6 fail-closed 门禁建议"
+      ],
+      "coreConclusion": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Kimi",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "reference/sdlpal/script.c",
+        "reference/sdlpal/scene.c",
+        "reference/sdlpal/play.c",
+        "packages/migrate/src/translate-events.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/reforge/src/main.ts"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["N3-1/P7-R13 合并裁决与后继任务", "docs/ops/archive/audits/README.md"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定",
+        "报告把若干结构性开放口列为风险或缺失，明确要求动态验证；静态读证不能升格为当前缺陷已修复或已重现",
+        "提出 instruction disposition、diagnostics、context matrix、身份 oracle、副作用重放和单源翻译器等后继设计，但未实施"
+      ],
+      "counters": ["与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"],
+      "unresolved": [
+        "基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定",
+        "报告把若干结构性开放口列为风险或缺失，明确要求动态验证；静态读证不能升格为当前缺陷已修复或已重现",
+        "提出 instruction disposition、diagnostics、context matrix、身份 oracle、副作用重放和单源翻译器等后继设计，但未实施",
+        "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"
+      ],
+      "nextStep": "保留 Kimi 红队独立证据和反例；当前只按新的 source-backed disposition、runtime/save canary 和用户裁决采纳。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-214"
+    },
+    {
+      "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "title": "OPS-TST-PERF G1 旧断言去向映射",
+      "phase": "ops",
+      "module": "archive/audits",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
+      "afterSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
+      "lineCount": 68,
+      "byteCount": 11920,
+      "headings": [
+        {
+          "line": 1,
+          "text": "OPS-TST-PERF G1 旧断言去向映射"
+        },
+        {
+          "line": 14,
+          "text": "44 条逐项映射"
+        },
+        {
+          "line": 63,
+          "text": "守恒与剩余 source proof"
+        }
+      ],
+      "semanticOutline": [
+        "fast-synthetic、pal-oracle、canary、release-shared 四种证明路由定义",
+        "44 条旧 PAL-heavy 断言逐条映射到后继测试标题和路由",
+        "映射守恒、G1 append-only 状态机、source proof 边界和共享 lease 探针"
+      ],
+      "coreConclusion": "OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": [
+        "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+        "packages/migrate/src/experimental/script-v5/* tests",
+        "docs/testing/catalog.json",
+        "对应后继 test files"
+      ],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": [
+        "OPS-TST-PERF 任务/后继 testing evidence",
+        "docs/ops/archive/audits/README.md"
+      ],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行",
+        "44 条映射中的旧测试与后继测试文件/标题属于历史快照，当前运行状态需由 testing catalog/evidence 核对",
+        "位于 ops archive 且正文是历史审计映射，暂不改绑 test-domain-report；若未来迁移为测试域报告，需先冻结新 template/consumer 设计"
+      ],
+      "counters": [
+        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
+      ],
+      "unresolved": [
+        "此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行",
+        "44 条映射中的旧测试与后继测试文件/标题属于历史快照，当前运行状态需由 testing catalog/evidence 核对",
+        "位于 ops archive 且正文是历史审计映射，暂不改绑 test-domain-report；若未来迁移为测试域报告，需先冻结新 template/consumer 设计",
+        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
+      ],
+      "nextStep": "保留 44 条映射与证明边界；当前测试信用只来自 catalog 配对 report/evidence 的真实执行。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → audit-report-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-68"
+    },
+    {
+      "path": "docs/ops/archive/audits/README.md",
+      "title": "历史审计回执",
+      "phase": "ops",
+      "module": "archive/audits-index",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "contentReviewStatus": "content-reviewed",
+      "reviewDepth": "independent-full-text-semantic-review",
+      "classificationBasis": "正文语义与 consumer 需求；目录只作历史边界，不决定类型",
+      "sourceSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
+      "afterSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
+      "lineCount": 17,
+      "byteCount": 1038,
+      "headings": [
+        {
+          "line": 1,
+          "text": "历史审计回执"
+        },
+        {
+          "line": 7,
+          "text": "文档与附件"
+        }
+      ],
+      "semanticOutline": [
+        "历史审计回执的导航目的和当前状态边界",
+        "上级运维历史归档入口",
+        "8 篇审计正文与 worktree retirement 历史记录的链接索引"
+      ],
+      "coreConclusion": "历史审计回执：完整读取 17 行/1038 字节；按正文确定为 governance-index / governance-index-v1，历史材料保留原结论和日期。",
+      "status": "historical",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "independent-full-text-read",
+        "repository-history",
+        "non-author-review"
+      ],
+      "primarySources": ["docs/ops/archive/audits/*.md"],
+      "phaseAnchors": [
+        "docs/ops/archive/audits/README.md",
+        "docs/phase-governance/templates/README.md",
+        "docs/ops/agent-workflow.md"
+      ],
+      "dependencies": [
+        "当前 document-registry.json 与 20261004-structured-content-ops-01.json",
+        "后继任务卡/测试 catalog（按正文引用）"
+      ],
+      "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
+      "publicCallers": ["docs/ops/archive/README.md", "各历史审计正文"],
+      "legalInputs": [
+        "current repository tree",
+        "the complete target document bytes",
+        "current template registry",
+        "the document’s own cited sources"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "exact current bytes and text were read and hashed",
+          "all headings and semantic claims were recorded",
+          "historical statements remain dated and are not promoted",
+          "static review provides no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/archive/audits/README.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ],
+        "notes": "classification is content-based; prior structured ledger is retained as historical input"
+      },
+      "issues": [
+        "现有 registry 将 README 误绑为 audit-report；正文是索引导航，应改 governance-index-v1",
+        "列表本身不提供审计事实、执行证明或当前状态；其链接目标仍需由各篇 review/SHA 独立治理",
+        "README 已含后续新增 worktree-retirement 链接，必须以当前 SHA 记录，不回写旧 review"
+      ],
+      "counters": [
+        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
+      ],
+      "unresolved": [
+        "现有 registry 将 README 误绑为 audit-report；正文是索引导航，应改 governance-index-v1",
+        "列表本身不提供审计事实、执行证明或当前状态；其链接目标仍需由各篇 review/SHA 独立治理",
+        "README 已含后续新增 worktree-retirement 链接，必须以当前 SHA 记录，不回写旧 review",
+        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
+      ],
+      "nextStep": "以 governance-index 模板重绑并保留历史导航；索引只负责入口，不承载当前结论。",
+      "history": [
+        {
+          "revision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
+          "date": "2026-10-17",
+          "action": "independent-full-text-semantic-review",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not promote dated historical claims, static audit mappings, proposal counters, or index links into current implementation/runtime/E2E/visual/coverage truth without fresh primary-source evidence.",
+      "userVisibleBeforeAfter": "governed-legacy/audit-report-v1 → governance-index-v1 with historical wrapper and exact source preservation.",
+      "reviewedLines": "1-17"
+    }
+  ]
+}

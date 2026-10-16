@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r76-testing-archive-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 50,
+    "readAndChecked": 50,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r76-testing-archive.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R76-B01",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 50 testing archive documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R76-B02",
+      "count": 50,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all50": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1194 documents; content-reviewed 1194)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 992 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7992 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1194/1194; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4340 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/needles-summary.json",
+      "afterSha256": "ba7821683c8d051a8d717721aee923db6325709d50ade6383c3149eb33abffad",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/vitest-adjacent.json",
+      "afterSha256": "23dea450e4f7ccd656833c8d3e958d46f3f78e5e26c28714a628fe0248430bdb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/vitest-new.json",
+      "afterSha256": "9d3fc6d60a578aa86803d175ae99fc9c6e5061f3c9808e468cc23fa53a0029c0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/README.md",
+      "afterSha256": "d059b9527bf13e7a7c2bb42d0bf0ea54d04a0e35130fc217eaab720304711e1d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/needles-summary.json",
+      "afterSha256": "dcaaaf6aa93fac86eb1e367e9679edb93021c8015a5cbfff692f3799d2abc73d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/vitest-adjacent.json",
+      "afterSha256": "ac6398f22f400097c94bb8c8dac3cc894da4d02aa9dcf1c16d8f0619abcf7e3e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/vitest-new.json",
+      "afterSha256": "08aec5405838b0d2e08c47be123edc02f6d10c170d81165a12512f1e1e068a05",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/README.md",
+      "afterSha256": "7650586bd2670cc6fce9bc77e0f96ca24530c6982ee022e63f548126b389c8ab",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/needles-summary.json",
+      "afterSha256": "e927184faf71732e8c6a3358d249c07873451a88591e62420a68a6e8597ff362",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/vitest-adjacent.json",
+      "afterSha256": "d05686c8a1905ce6c54802398b85726a68ed81a39caee208e82a39074e1b4ef5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/vitest-new.json",
+      "afterSha256": "27dbdc2549db9b8f531cf99e266fd20187ca24375c1d06ecddee1650fa71d5a8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/README.md",
+      "afterSha256": "f6c0fafff96ee6c44f199be436fbd4c4ec2d8ed96a7a021bca5ff3bb01e2c93a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/needles-summary.json",
+      "afterSha256": "4b06a9aeaac7efb32d97bddad87b3992139293acaeb84de525652c8ef3255781",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/vitest-adjacent.json",
+      "afterSha256": "e72f8c5308d912519c1ff60a84a0d3ea4ad409d835a2f905846142d7b50e49fe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/vitest-new.json",
+      "afterSha256": "42f47f432bf61065a4f0f707c989780f8078c32e0a20216c6092824e4a3824ca",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/README.md",
+      "afterSha256": "db03295f617e500fba78b70faf37b46f6161d6372174e2eea825674512689505",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/needles-summary.json",
+      "afterSha256": "45db6b604785206f4f2b8874cbd75327459d9c87bee6823a56fc86c19b8396ee",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/vitest-adjacent.json",
+      "afterSha256": "643938343b02cf9dbb365681a578345ccd95e716ba367117c2c2e909a6480866",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/vitest-new.json",
+      "afterSha256": "e35282af12fac0884bf668dd86a575e1cb9620f093216dac4f6f1f62f5f8ce39",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/receipt.md",
+      "afterSha256": "41194ccade8ef2fc36ee0eefcdd2affccf50992cbe54161f8d63a9154b4b6d7a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/targets.json",
+      "afterSha256": "5cf6f74ee0999ccdd035da77b231a41b783a9c6d1b212bc32ee2d806a804fb8b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/tools/README.md",
+      "afterSha256": "2882fa0b2b636552582b489fedf46b9379eeb983360ba2fe53614269bbb85457",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/README.md",
+      "afterSha256": "48ba1172bc4bb6faaddfb1328731ce6cf4a7ff85b8e0cf88b1e2b29274e47a34",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/evidence.json",
+      "afterSha256": "24da754d6447381d965b026009fac34b40688998e96941057124e7fab2b7c552",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/README.md",
+      "afterSha256": "746ffdb2e06010b20fe1c6e9ba89860c997b6dbb87d01d3344da6eb3c3cc8e2d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/README.md",
+      "afterSha256": "41a798f4d1aa573f3b6f06dab460f8010d2558353a34048b84bd30722d869c80",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/artifact.json",
+      "afterSha256": "e612e749fe22bd90458aac5337031391c90666d724a117a12b3aea97b6080f7d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/README.md",
+      "afterSha256": "44811c1eaedcf1c3432e89f4d8a9df20b4a50b1dc1634f35c6ac946a0bd3f9d5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/README.md",
+      "afterSha256": "724bc695a6a33186a028aeeb96d4219a24f2055f9a914b25655207ac265103bb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/receipt.md",
+      "afterSha256": "68a77cc763a2874af1cecc53ceda7f9983e333fc69f636e31c5baee9931f4103",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/targets.json",
+      "afterSha256": "8485854eaf8391fa0e89ff8afa4b77beb049cbb94e7d2c851acc51d323f99123",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/tools/README.md",
+      "afterSha256": "23b353e63f5a70f94a6185bf94d695d336051e82f78522a01b1e772afc15fc80",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/README.md",
+      "afterSha256": "9882e1a470e452cc10cedc5d7777ada9a0202cb56e1ac0a1f17ab5025107c0b0",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/a/README.md",
+      "afterSha256": "ec32f9c10e16359f636e1a6d0fbedf4300f24aa5cb71935013ffd17ef0f824c3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/b/README.md",
+      "afterSha256": "c6f966f5e0bd20425af296c2cb817510546754c1c0aad039487930d5abda78f1",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/c/README.md",
+      "afterSha256": "e0b6e6f5fbdaebb8d5142a7388c85bd1476a97da6fc6347f84700af0d20551e2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-intake-review.md",
+      "afterSha256": "be5aeb7a70262768241338b1433be270dce255eb1245d716e6ade0fdaf69de59",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-integration.md",
+      "afterSha256": "f840d9abc7a876f1e9a19621d49b66103ec533378b0428099a865afac2868384",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/d/README.md",
+      "afterSha256": "ae2d051902da63ddbaaeeb94faf5f41624f584eb138775805933078dd959bd59",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/targets.freeze.json",
+      "afterSha256": "5c1468d6cc90917ddc99cd2dbd62f4d9a4d2652ab59a51368aee0c615ef0ef1c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/tools/README.md",
+      "afterSha256": "6894f458363962181ab3057f86d5844d0593eeec61b3dfe40f6b7942ef8f6d04",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-tenfold-triple/README.md",
+      "afterSha256": "6b2bea5f892904f6f662b35443e72c4f0f295feeade7bc12d92c52136d51b87a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/README.md",
+      "afterSha256": "6ca2ebc1ddf694b77017fba0f6c21a282e68aa78ebd4f6255277c662de1f5986",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/README.md",
+      "afterSha256": "42305d469a3af4573b6f7fe855c90124f84f568c1c8e63b09b094f4eb71718d7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G04-D08.readback.json",
+      "afterSha256": "e75bb7c10c972dc9a587d18084453ca952d8edeb122e6a6af5d284b93627ac33",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G05-A11.readback.json",
+      "afterSha256": "0d96ccfe6ab18640755c91b439bd566f3477298d3ab82edb6d3b2c2764675f63",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G06-A12.readback.json",
+      "afterSha256": "a48ba901c8f57c68c19173b0afb939d2fbed062fd18b79f66876f61ff1bce4eb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G07-B13.readback.json",
+      "afterSha256": "b1609318617b12e7a0284a6a4c2555550a3711554eb6c246649e8ee089f14f21",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G08-D07.readback.json",
+      "afterSha256": "6ae6c5597ab6237752a826ba325b499c55b88b94fa9476ee15e1f4d0100d6352",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C01.readback.json",
+      "afterSha256": "5324fa08b3d449b7c3a9fcabf32de6ca25c0f9b42ae66482bab59d8e9b22c992",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

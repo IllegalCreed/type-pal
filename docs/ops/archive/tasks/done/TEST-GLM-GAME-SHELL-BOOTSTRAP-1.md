@@ -1,68 +1,135 @@
 # TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit
 
 Status: done
-Phase: phase1
-Capability: game / shell bootstrap, loading and resource failure boundaries
-Coding Owner: GLM
-Reviewer: Codex（独立验收）
-Contributor: GLM
-Branch: `codex/glm-game-shell-bootstrap-r1`
-Visual Verification Timing: dev-functional
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: task-card-v1 / 1.0.0
+
+本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
 
 ## 目标
 
-审计 Game shell 启动与资源加载仍未证明的公开业务边界：bootstrap 装配、资源缺失/重试、loading gate、precache UI、输入与主循环启动/停止。只证明公开启动结果、错误恢复和清理，不用浏览器剧情或私有全局状态堆覆盖。
+- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
 
 ## 范围
 
-- `packages/game/src/shell/bootstrap.ts`、`bootstrap-resources.ts`、`boot-loading.ts`、`fetch-retry.ts`、`precache-client.ts`、`precache-ui.ts`、`main-loop.ts`、`input.ts` 的公开 caller/host flow。
-- 先排重 `bootstrap*.test.ts`、`boot-loading*.test.ts`、`fetch-retry*.test.ts`、`precache*.test.ts`、`main-loop*.test.ts`、`input*.test.ts` 和已归档 shell 卡。
-- 重点审计：资源成功/缺失/重试耗尽、loading 状态锁、启动失败清理、precache 取消/恢复、主循环 start/stop 与输入 listener 生命周期。
-- 不重复 event/battle/menu-save 卡，不跑剧情 E2E，不改产品/旧测/config/baseline/真实资源，禁止私有 globals、核心 mock、强转、skip/ignore/扩 timeout。
+- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
+- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
 
-## 验收条件
+## 前提与证据
 
-- source:line × public caller × legal input × business oracle × fullName ledger，明确 existing-proof/unreachable/blocked/product-counter。
-- 新合同必须断言公开 loading/error/retry/cleanup/loop/input 结果，不只断言函数被调用。
-- 反控严格绿→指定业务红→恢复绿，恰一 AssertionError，完整 JSON/raw/exit/signal/spawn、identity、hash、临时树清理。
-- 定向/相邻/Game shell 全量、typecheck、lint 0/0/0、docs、diff 通过；覆盖率/数量不是单卡门槛。
+- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
+- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
+- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
+- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
 
-## GLM r1 交付回执（2026-10-06）
+## 验收
 
-- 候选提交：`acb1f6d607d8a41efb8cfde8aef17d34597a27cd`（分支 `codex/glm-game-shell-bootstrap-r1`，
-  基 origin/main `cb12a63e2`；工作树 `/private/tmp/type-pal-shell-bootstrap`）。
-- 交付：`packages/game/src/shell/shell-bootstrap.glm-shell.test.ts`（6 合同：SB1 胜利结算曲覆盖
-  bootstrap.ts:191-198 / SB2 揭场 introFade 静默+战斗曲循环 :192-199 / SB3 战斗帧 bus SFX
-  drain+explore 不消费 :202-213 / SB4 SW 消息路由 precache-client.ts:67-72 / SB5 storage.persist
-  失败容忍 :74-79 / SB6 startRafLoop 帧链自续订+cancel 停链 main-loop.ts:173-180）。
-  证据：[ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/](../../../evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)
-  （排重账含逐文件 existing-proof 饱和/unreachable/U 账；identity 6/6；反控 6/6 VALID，
-  每针红相位 failed 恰 1 且为业务 AssertionError、恢复逐字节、恢复绿 identity 等于原始绿）。
-- 排重结论：fetch-retry / boot-loading / bootstrap-resources / precache-ui / input 五文件 existing-proof
-  饱和零新增；main-loop 除 SB6 外饱和；bootstrap() 本体 unreachable-in-vitest（Wave I 同结论）。
-- U 账：U-1 `swc.ready` 拒绝悬空 rejection（precache-client.ts:83 + main.ts:49 `void` 未 catch，
-  register 失败走 onUnavailable 而.ready 拒绝不走——不对称），留 Codex 裁决是否开产品卡；本卡不改产品。
-- 质量门：定向 6/6；相邻 shell 全目录 39 文件 258/258；game 全量 309 文件 3512/3512；
-  game typecheck 0 错；根 lint 0/0/0（3463 文件）；`pnpm check:docs` 全链过（含 content-review
-  pin 机械刷新：evidence/README 为本卡编辑，board.md/tasks/index.md 两处为 main 既有 drift 一并
-  按 8494b465c 判例外科刷新，语义结论未动）；`git diff <base>..HEAD --check` 零 whitespace 问题。
-- 工作树：`/private/tmp/type-pal-shell-bootstrap`（分支 codex/glm-game-shell-bootstrap-r1，
-  基 origin/main cb12a63e2）；产品/旧测/config/真实数据零改动（git status 仅新测试+证据+索引行）。
-  worktree 环境注记：根 `data/extracted`、`data/raw/*`、`packages/game/public/extracted` 三处软链
-  补齐后全量方绿（dev-panel.test 直读 data/extracted）。
-- Status 维持 `build`→`review` 转换由 Codex 独立验收决定；覆盖率/例数未作门槛。
+- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
+- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
+- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
 
-## Codex 独立验收与收口（2026-10-06）
+## 状态与交接
 
-- 独立复跑：定向 6/6；strict shell counterproof 6/6 VALID，MUT-01~06 均精确命中业务合同。
-- 独立质量门：Game typecheck、docs、git diff --check 通过；集成全仓 lint 3469 files、0/0/0。
-- U-1 `swc.ready` reject 未处理登记为产品观察，未夹带修复；结论：合入 main，任务归档为 done。
+- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
+- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
+- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
 
-## 下一位 Agent 提示词
+## 历史范围
 
-```text
-你是 TEST-GLM-GAME-SHELL-BOOTSTRAP-1 的 Coding Owner（GLM）。先读 AGENTS.md、CLAUDE.md、docs/phase1/engineering-notes.md、本卡、所有 bootstrap/boot-loading/fetch-retry/precache/main-loop/input 旧测和归档 shell 卡。
-只在 codex/glm-game-shell-bootstrap-r1 工作；先做 shell source:line×公开caller×合法输入×业务oracle×fullName 排重，重点审计 bootstrap 装配、资源失败/重试、loading gate、precache 取消恢复、主循环和输入 listener 生命周期。
-不得重复 event/battle/menu-save 合同，不跑剧情 E2E，不改产品/旧测/config/baseline/真实数据，不用私有 globals、核心 mock、强转、skip、ignore、扩 timeout。无合法新合同就交 existing-proof/unreachable 饱和档案。
-新增反控必须严格三态、恰一业务 AssertionError、完整执行集/hash/清理证明；交付 test、typecheck、lint 0/0/0、docs、diff 和完整 SHA。覆盖率/例数不是完成条件，不得标 done。
-```
+- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
+- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+
+## 原始结论
+
+- TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit：原始顶部状态为 done；完整原始语义保留于下方 quote。
+
+## 当时证据
+
+- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+
+## 当前有效性
+
+historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
+- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+
+## 继任文档
+
+- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
+- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
+- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+## 原文保全
+
+固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `5b1fd75a260f885caad1ab83e8f856d94887c524457dafd9b971d5786dc36c98`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit
+>
+> Status: done
+> Phase: phase1
+> Capability: game / shell bootstrap, loading and resource failure boundaries
+> Coding Owner: GLM
+> Reviewer: Codex（独立验收）
+> Contributor: GLM
+> Branch: `codex/glm-game-shell-bootstrap-r1`
+> Visual Verification Timing: dev-functional
+>
+> ## 目标
+>
+> 审计 Game shell 启动与资源加载仍未证明的公开业务边界：bootstrap 装配、资源缺失/重试、loading gate、precache UI、输入与主循环启动/停止。只证明公开启动结果、错误恢复和清理，不用浏览器剧情或私有全局状态堆覆盖。
+>
+> ## 范围
+>
+> - `packages/game/src/shell/bootstrap.ts`、`bootstrap-resources.ts`、`boot-loading.ts`、`fetch-retry.ts`、`precache-client.ts`、`precache-ui.ts`、`main-loop.ts`、`input.ts` 的公开 caller/host flow。
+> - 先排重 `bootstrap*.test.ts`、`boot-loading*.test.ts`、`fetch-retry*.test.ts`、`precache*.test.ts`、`main-loop*.test.ts`、`input*.test.ts` 和已归档 shell 卡。
+> - 重点审计：资源成功/缺失/重试耗尽、loading 状态锁、启动失败清理、precache 取消/恢复、主循环 start/stop 与输入 listener 生命周期。
+> - 不重复 event/battle/menu-save 卡，不跑剧情 E2E，不改产品/旧测/config/baseline/真实资源，禁止私有 globals、核心 mock、强转、skip/ignore/扩 timeout。
+>
+> ## 验收条件
+>
+> - source:line × public caller × legal input × business oracle × fullName ledger，明确 existing-proof/unreachable/blocked/product-counter。
+> - 新合同必须断言公开 loading/error/retry/cleanup/loop/input 结果，不只断言函数被调用。
+> - 反控严格绿→指定业务红→恢复绿，恰一 AssertionError，完整 JSON/raw/exit/signal/spawn、identity、hash、临时树清理。
+> - 定向/相邻/Game shell 全量、typecheck、lint 0/0/0、docs、diff 通过；覆盖率/数量不是单卡门槛。
+>
+> ## GLM r1 交付回执（2026-10-06）
+>
+> - 候选提交：`acb1f6d607d8a41efb8cfde8aef17d34597a27cd`（分支 `codex/glm-game-shell-bootstrap-r1`，
+>   基 origin/main `cb12a63e2`；工作树 `/private/tmp/type-pal-shell-bootstrap`）。
+> - 交付：`packages/game/src/shell/shell-bootstrap.glm-shell.test.ts`（6 合同：SB1 胜利结算曲覆盖
+>   bootstrap.ts:191-198 / SB2 揭场 introFade 静默+战斗曲循环 :192-199 / SB3 战斗帧 bus SFX
+>   drain+explore 不消费 :202-213 / SB4 SW 消息路由 precache-client.ts:67-72 / SB5 storage.persist
+>   失败容忍 :74-79 / SB6 startRafLoop 帧链自续订+cancel 停链 main-loop.ts:173-180）。
+>   证据：[ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/](../../../evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)
+>   （排重账含逐文件 existing-proof 饱和/unreachable/U 账；identity 6/6；反控 6/6 VALID，
+>   每针红相位 failed 恰 1 且为业务 AssertionError、恢复逐字节、恢复绿 identity 等于原始绿）。
+> - 排重结论：fetch-retry / boot-loading / bootstrap-resources / precache-ui / input 五文件 existing-proof
+>   饱和零新增；main-loop 除 SB6 外饱和；bootstrap() 本体 unreachable-in-vitest（Wave I 同结论）。
+> - U 账：U-1 `swc.ready` 拒绝悬空 rejection（precache-client.ts:83 + main.ts:49 `void` 未 catch，
+>   register 失败走 onUnavailable 而.ready 拒绝不走——不对称），留 Codex 裁决是否开产品卡；本卡不改产品。
+> - 质量门：定向 6/6；相邻 shell 全目录 39 文件 258/258；game 全量 309 文件 3512/3512；
+>   game typecheck 0 错；根 lint 0/0/0（3463 文件）；`pnpm check:docs` 全链过（含 content-review
+>   pin 机械刷新：evidence/README 为本卡编辑，board.md/tasks/index.md 两处为 main 既有 drift 一并
+>   按 8494b465c 判例外科刷新，语义结论未动）；`git diff <base>..HEAD --check` 零 whitespace 问题。
+> - 工作树：`/private/tmp/type-pal-shell-bootstrap`（分支 codex/glm-game-shell-bootstrap-r1，
+>   基 origin/main cb12a63e2）；产品/旧测/config/真实数据零改动（git status 仅新测试+证据+索引行）。
+>   worktree 环境注记：根 `data/extracted`、`data/raw/*`、`packages/game/public/extracted` 三处软链
+>   补齐后全量方绿（dev-panel.test 直读 data/extracted）。
+> - Status 维持 `build`→`review` 转换由 Codex 独立验收决定；覆盖率/例数未作门槛。
+>
+> ## Codex 独立验收与收口（2026-10-06）
+>
+> - 独立复跑：定向 6/6；strict shell counterproof 6/6 VALID，MUT-01~06 均精确命中业务合同。
+> - 独立质量门：Game typecheck、docs、git diff --check 通过；集成全仓 lint 3469 files、0/0/0。
+> - U-1 `swc.ready` reject 未处理登记为产品观察，未夹带修复；结论：合入 main，任务归档为 done。
+>
+> ## 下一位 Agent 提示词
+>
+> ```text
+> 你是 TEST-GLM-GAME-SHELL-BOOTSTRAP-1 的 Coding Owner（GLM）。先读 AGENTS.md、CLAUDE.md、docs/phase1/engineering-notes.md、本卡、所有 bootstrap/boot-loading/fetch-retry/precache/main-loop/input 旧测和归档 shell 卡。
+> 只在 codex/glm-game-shell-bootstrap-r1 工作；先做 shell source:line×公开caller×合法输入×业务oracle×fullName 排重，重点审计 bootstrap 装配、资源失败/重试、loading gate、precache 取消恢复、主循环和输入 listener 生命周期。
+> 不得重复 event/battle/menu-save 合同，不跑剧情 E2E，不改产品/旧测/config/baseline/真实数据，不用私有 globals、核心 mock、强转、skip、ignore、扩 timeout。无合法新合同就交 existing-proof/unreachable 饱和档案。
+> 新增反控必须严格三态、恰一业务 AssertionError、完整执行集/hash/清理证明；交付 test、typecheck、lint 0/0/0、docs、diff 和完整 SHA。覆盖率/例数不是完成条件，不得标 done。
+> ```
+>
+<!-- original-source-quote:end -->

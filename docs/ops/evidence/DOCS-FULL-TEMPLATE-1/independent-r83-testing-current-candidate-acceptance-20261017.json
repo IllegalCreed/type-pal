@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r83-testing-current-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "97af63389174bbb35629d98d90c9c4de460a729a",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 4,
+    "readAndChecked": 4,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r83-testing-current.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R83-B01",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Current testing entry, governance guide and two machine catalogs preserve native/current semantics."
+    },
+    {
+      "id": "R83-B02",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Template sections/routes and machine artifact envelopes agree; no execution credit."
+    }
+  ],
+  "summaryChecks": {
+    "all4": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (1481 documents; content-reviewed 1481)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1188 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8008 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 1481/1481; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4368 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/testing/README.md",
+      "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
+      "templateId": "governance-index-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "templateId": "guide-runbook-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/legacy-flat-classification.json",
+      "afterSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
+      "templateId": "test-catalog-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/legacy-flat.json",
+      "afterSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
+      "templateId": "test-catalog-v1",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

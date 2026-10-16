@@ -1,0 +1,755 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r91-ops-evidence-artifacts-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 99,
+    "readAndChecked": 99,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R91-B01",
+      "count": 99,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 99 ops evidence historical artifact documents preserve source/after SHA and historical boundaries."
+    },
+    {
+      "id": "R91-B02",
+      "count": 99,
+      "status": "closed-for-receipt-open-for-cleanup",
+      "statement": "Markdown quote inverse and JSON byte-stable artifacts are retained; no execution credit and no deletion authorization."
+    }
+  ],
+  "summaryChecks": {
+    "all99": true,
+    "issues": [],
+    "noExecutionCredit": true
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (2180 documents; content-reviewed 2180)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 1250 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 8008 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 2180/2180; 120 docs-tool tests passed)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4400 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r51-ops-archive-task-readonly-review-20261017.md",
+      "afterSha256": "c295bfe50a83560931a782ef657f9ead5ad5c05e7f18ad2977f23945b8781fed",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-candidate-acceptance-20261017.json",
+      "afterSha256": "c57f6519f791c5331cc0481b6e0daeb72015a4132c2050a61428916bd885c1c7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-candidate-acceptance-20261017.md",
+      "afterSha256": "f2e13398b98bdc7bead7cfadc525e54a9a5333b2447af810a4be4f8229cd741d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-readonly-review-20261017.json",
+      "afterSha256": "2af97aedad3b39a0c6749749f87e9c36001e9a12780dc9fc0233e7b358aff026",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r52-ops-archive-task-readonly-review-20261017.md",
+      "afterSha256": "a371941b1c3fa7837dde565afa51a83e78482fe92f1e91c2d59dc0ebf1925a76",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-candidate-acceptance-20261017.json",
+      "afterSha256": "aa92ac9bda1bed694f54fff49e1af10f99bc867f6aed16bdc60140d7c3248349",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-candidate-acceptance-20261017.md",
+      "afterSha256": "a1475509d1b0b5da094d37f51a66a091548a886998b83b3b35c1936c4c3d820f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-readonly-review-20261017.json",
+      "afterSha256": "1535895dc78b22095d8f1551b4e5403f4024f6bd3a9c99a31a858b065593bf9d",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r53-ops-archive-task-readonly-review-20261017.md",
+      "afterSha256": "e40b195641fd9c214e1be44a80bc3d257febfb997fd2077f205f18ff51412c1b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": false,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-candidate-acceptance-20261017.json",
+      "afterSha256": "116bc6358a36d031861e0ed37cf05893c7038dd8c9284f40b93af7b3c47263ec",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-readonly-review-20261017.json",
+      "afterSha256": "998680ad594fdeb5ebf53bf5e5b5fccbcad4a0f8786dbb098594137045963c30",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-candidate-acceptance-20261017.json",
+      "afterSha256": "3c48c2d10e7742968ed673140e4c43f5f1367b73e70da01b20dc1e8637d79ce6",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r55-ops-dedup-ledger-readonly-review-20261017.json",
+      "afterSha256": "4e3ab41c512fd4ab21d56411ec5907757caaf98c7c0e0c47c735d2e724742837",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-candidate-acceptance-20261017.json",
+      "afterSha256": "5a6275e592b045abdf1de29d9143ec0307c938e410e067125425196e36c947ee",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r56-ops-machine-evidence-readonly-review-20261017.json",
+      "afterSha256": "4639b232267b09deca4b01e6aaec05db05b6d9833929a4ce00978a6a3f6208db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r57-current-task-cards-candidate-acceptance-20261017.json",
+      "afterSha256": "b45a2a84b7c91a7295303dfc0e11097e20f8b6142107d1f2dcbb9bb8ee6e7cda",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r57-current-task-cards-readonly-review-20261017.json",
+      "afterSha256": "c949dc55fd4fb652a0af41828788de4fac89446e15e8abb83e09d2383b8469ba",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-candidate-acceptance-20261017.json",
+      "afterSha256": "c30022636247d54c13189c7af2e3f9b5fc01105c0fa3991087c7a72ece44709b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r58-task-template-sources-readonly-review-20261017.json",
+      "afterSha256": "d183de6ea315ada01ef85e8783aacdc53a2e3cc65fddc5120c5603b143a8ee9f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-candidate-acceptance-20261017.json",
+      "afterSha256": "3a66872e2cf345bc4962495325a8f750461f9390236d652c7097c16de3b0d722",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r59-ops-archive-task-cards-readonly-review-20261017.json",
+      "afterSha256": "118509aab0320ef19b7fc941f21f5e66709548add19137f02a9e7775f899e566",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-candidate-acceptance-20261017.json",
+      "afterSha256": "d2c3887791e5a806eb0c1a85c4188f6afb04b499b325cc07fc805e910903a22f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r60-testing-e2e-entry-readonly-review-20261017.json",
+      "afterSha256": "c572ff2bd437ab3f7f35485c88617f185548273a69bf51f92dd8d7567b3f3c83",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-candidate-acceptance-20261017.json",
+      "afterSha256": "f401d271a136b01ee413c77271e935fe058819e878b7dce4981603d787f16200",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r61-testing-domain-history-readonly-review-20261017.json",
+      "afterSha256": "a5334991dd850f029f7bbbfbf0594ba985694c0d95ad9923a4bdec029201c164",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-candidate-acceptance-20261017.json",
+      "afterSha256": "1787cdb0151486508b417ff2a5870d725deb9844013c3978c27ad7583dfd3b0f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r62-template-sources-readonly-review-20261017.json",
+      "afterSha256": "394dca3e5067fbc649f1172eaf805878a43e063e40cb1e5e8096ce77b0720741",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r63-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "876db3327db0dc0472a314b7f997b510a3a760694632cf07cf51747dcb54f1a8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r63-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "10d2294b8b340faa2e09d0d2c9e2427d1b73f998a69f031c9e50b04aa2dba68a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "0b753a7f0796c09afc1196b839094bca701d6adc6229bbb5c6594a477823ab41",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "2c8bdee4a5c9a8f0b08890600631453b7248e879986882130650c5439357a9f3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r65-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "8541d1f9f7f327a26028ea894b693855328a289d75a75c941e591fdf762c1a1b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r65-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "152e187b7f4e0c8724e7e12e90ff2781e3057fa109a57a00e48cf841abee0713",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r66-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "f6af66708504da55e974cfb53e3b25c0a7e30e4e31f2f84a432d863d252658c4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r66-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "00e6b0cd958b8a2996b93049742c1f9dcbd86ff2bf61e5c950f35dd714813e34",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-candidate-acceptance-20261017.json",
+      "afterSha256": "6d80d69d8451d68bba279152763598f4e41dc8a8a66900d5d8cbc173a12d9f7c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r67-testing-legacy-html-readonly-review-20261017.json",
+      "afterSha256": "7853ee16ed03c3976eda5a8602dbadcbd72ba11282f61d0be028746e5399bdf5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "ad5a38b4c83bde5dd584c0ced52b6b2f773b208e1019f4c079eaae1402c5c64b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r68-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "4bc7459af89279379c2f6e6ace2f5bd4bed46d011c5366fbe732ddc302b9dca5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r69-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "b7f73d1220c051e1a391bca992a7a184d6c7826910322e968ed7746c18fb055c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r69-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "c1ec6fc8152c0c033994dec3e0848b9012b3628b9642c7eecf9d7ac2b106c391",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r70-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "afterSha256": "c13dc29e08a19d9e9f6080d438c4aff87a7576481b2ee353240028c466b77308",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r70-ops-evidence-readmes-readonly-review-20261017.json",
+      "afterSha256": "b1b77a6f005df52afe0b14ae24fad58e936a7bbb96864626f5d258fbbb3c5693",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "98696912c719cb72aa6407fdbfe5cd0a4e3bf9fde6fe893be00e7b7837d3987b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r71-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "29065790fd3a4b3091e6fd2a8ad2646fb9f2bcaba1b28f32a79a141da721d47a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r72-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "14827d50dac4fac56823c0cf77668fd8f5d58f6f097a858d4edc0747b4621e72",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r72-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "d5c387e6f49e8e60f7682b2d528d9524f3aceef55161be518ea5c4ac5a867550",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "fe6d13e75b2e945c300f8150a623a3c52d01a45d15d35d61e37cf44050d4f910",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r73-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "f2300fe52b20b52f6d790ec142f22a6f979548cc329da4c4255b5cfb344b2952",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r74-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "52700bad4f1b65d64616aa8e13a7aadde8e7ff3da5767f18fcb2513018a7825e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r74-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "10c96e1006196d53706cfa63dee973a5004b36e5ac3ebfad109b489a1b0aeb16",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r75-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "71de30cba120e16c9a84ca4006b5913794d39626240931aafc129758718de318",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r75-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "562a515e85edab998606ad14457ad1e04412a98c1d98eae5bcafe6c8694332a3",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r76-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "f06d708f31d011b3f0a54cfeadc18275825a6115aa96d9a60d0a12608b2b17dc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r76-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "a71f7f12f81eb5a11683ed10c29e049b9c3e151b65cd2e5dff3b85f6d6cea141",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r77-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "8cd2e00d9017216fc4f8f964738733bbe35940d4d350c7def4a1938d20544f83",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r77-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "e389f66187ef9cddb59b148aced08a4d71b172415c7d0d3083950394700e719a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "bdb3b673e2dc3c2c2253cf4dcb902061153c20c79f9252afe49a1e831df8a339",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r78-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "2e3bd62eca53c4401207f10622a5296c9bc14241a73cb60f26633ea05d3e982c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r79-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "7284ff1d855539bbc1579924b07e1d29e1c845ac5ee12688d00f9a5c762dad8a",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r79-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "bd2e601ecdcca1cfb913ac7c16ba9a48c529bf58f2e3a310645330670df386bb",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r80-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "1362102319344c8191da351c42361cd6847ab85d1e5941dfec54689320aba3d4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r80-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "524f7f935fd6ce4be50cb6fcea52c9d6417b51a9dc7c91372f686df53188e04b",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r81-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "5c59015817a3d2c90421d2dd3bd29fecbd96057669c257a860472c3cb0d00727",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r81-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "a358ef97b141d0a1b350a30cbc37fabb52c522fe0e4148289b338c1fe787473c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "d380b8186766a1a3777992e36270e4eddee2161e12269067d30ad586cd4ac524",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r82-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "2015368d4ea03a488ac09cbbbfaabdca75667cdd8081455ac84ac1b493ca2f80",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r83-testing-current-candidate-acceptance-20261017.json",
+      "afterSha256": "3a56a2116210fcaaa93a83885650fbbd4d11e19af209c3a16ed7b49f835473da",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r83-testing-current-readonly-review-20261017.json",
+      "afterSha256": "2cc44f2c395a4eaac6ce18735450033bbfb25cc09baa9cb44f7b94041903e6cd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-candidate-acceptance-20261017.json",
+      "afterSha256": "c1988cd1e235d38f50412a4278d504a92f270049f4d68cede28dd0c62e46524c",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r84-ops-evidence-index-readonly-review-20261017.json",
+      "afterSha256": "5f8bd4f2b73526febd4233840667102d88cc14abefdd4dad2bf5a548227b0f30",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-candidate-acceptance-20261017.json",
+      "afterSha256": "95d2ebc5bc9d0c470fc0f10ebe441d7908bf33dbfeae2c6046bf04afe106737f",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r85-testing-archive-readonly-review-20261017.json",
+      "afterSha256": "7ce37c37773a55901e1ef1d1f4546f2fb6885b5b92b56132a5881c54e16584d9",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r86-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "5dfcc7fa54f659d3e7d12ede5d303fdb9cba0ec98592473416f4229298ac0dbe",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r86-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "c4938cfe8a77690b6b5b351ad46caae9605d205623bd1c285362d7b6dd9fdbaa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r87-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+      "afterSha256": "ec20ee1501386fbe3064989ef459646726fdf22a4164ebcce448f394494110ee",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r87-ops-evidence-artifacts-readonly-review-20261017.json",
+      "afterSha256": "ab2db72811b556360bb8729bf8d7f332a926b42a8dd830f6aa451bbe65a9a366",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json",
+      "afterSha256": "84bc7fea67b3075231e8fffd4285fee9f19d1281a2929d20f5f1755113e59923",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-01.json",
+      "afterSha256": "3a87f506fe3d4700e3d547591785d9edaeff18b3e566871d1f4e9939dbd9dff8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-02.json",
+      "afterSha256": "e078b6d3cef2f5c21b451e296fb73b0b3112f227b20a4b401d98e8842f7f28fa",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-03.json",
+      "afterSha256": "094e9b888d7f260a99164a48e08a7cbd4ccc8a64111a33be12af7f63964f362e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-04.json",
+      "afterSha256": "0e00fdbca874b813d6db186a04070a22602434fb0f719a34edce14118f5206fc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-05.json",
+      "afterSha256": "8df417721353a65de445bee842e55a5e1a71d64fc68cc3eb188cafb81079dfd2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-06.json",
+      "afterSha256": "f14a6ff2369b8d9e1a3d3e8c9b606f992a3efae2ceab887951b479bff6452812",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-07.json",
+      "afterSha256": "f6b6a14e4bcd6930bff7bc4c0527de13f400ae2c87aa79671b476043775601af",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-08.json",
+      "afterSha256": "57a2cef9bd5e9813a70b4c3b577bc059e9010c89f759435f5f53677694fc97ad",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-09.json",
+      "afterSha256": "fc333a475b41897d148f224466c16a8af8f4c2a9fbf7193f01b192c4a5d3fd15",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
+      "afterSha256": "4b1a1eaaeb7c4671bc3c4b232bee935cae84ee424981d48103c417144f58bdfd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+      "afterSha256": "a6736c335ac453a047ec819fa75e0df7118c251f6aa977a31c82af2e600b98c8",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json",
+      "afterSha256": "f680b30c3d815d50960e18b352938012f592b76b0ec4e17bce23d48189ebf8db",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-03.json",
+      "afterSha256": "1285741da0cb13a20b7c7895e0c3dd1aa73ed3824e019457320007f5781116f7",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+      "afterSha256": "8010a7b11542fe215e56858f7d8e7878a0d0d3d30a53ae7f99da9c3f2450d6b4",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-candidates.json",
+      "afterSha256": "ad50a044476d374f4e34b3918996ac80f24c1bac6d0c219c2b5e7c19b94dd6bd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots.json",
+      "afterSha256": "0cb8a444bd087c2fc32847e061edca1715fa55835f288c786487b6465b771adf",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1/candidate.json",
+      "afterSha256": "a11168d32bc8e072657ea47c3f40be90cde5a289b7c99173497f4b5cfcb4beb2",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1/candidate.json",
+      "afterSha256": "0323ef6722b00d72b075c950679c83d0910f0f67eebddd57cf3ba9fbf455cbe5",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protection.json",
+      "afterSha256": "d217424ea0d6f526e527e2063c94f697e73ee7d3784bda5f8a0c58c8b75b187e",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
+      "afterSha256": "bf8cbb2d074259c1dc0c81c7df683b0511f3c02dd8dcca2bea92fd578d4b8cdd",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/readonly-phase2-audits-r22-20261016.json",
+      "afterSha256": "5662cef5794df99b7dc9c183f323664d6924a5f8f924e1d1fc93ed4f7c3108cc",
+      "templateId": "archive-record-v1",
+      "artifactOnly": true,
+      "pass": true
+    }
+  ]
+}

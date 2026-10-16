@@ -1,0 +1,1871 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "A8 bounded terminal format / repository namespace source-format-partial and central pending inventory intake; not full terminal approval/DAG/current/complete acceptance",
+  "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "entries": [],
+  "migrationCredit": 0,
+  "approvalChecked": false,
+  "currentChecked": false,
+  "completeChecked": false,
+  "design": {
+    "path": "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+    "sha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+    "bytes": 74720,
+    "lines": 1067
+  },
+  "source": {
+    "base": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+    "history": [
+      "57fde0c722443dd58d9aac68c085dc1590fd5640",
+      "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+      "85ebe86d38d047c10339e053299ae050af5ec053"
+    ],
+    "exactCommit": "85ebe86d38d047c10339e053299ae050af5ec053",
+    "sourceLines": 2968,
+    "pins": [
+      {
+        "path": "scripts/docs/terminal-json.mjs",
+        "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+        "bytes": 9817,
+        "lines": 257,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "1eab6304c6dec0afd8c99fc22ef6a3825254f552",
+          "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+          "bytes": 9817,
+          "lines": 257
+        }
+      },
+      {
+        "path": "scripts/docs/terminal-codec.mjs",
+        "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+        "bytes": 2625,
+        "lines": 69,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "d2a0091a8652348ea4e021449f38f6e42942a6d4",
+          "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+          "bytes": 2625,
+          "lines": 69
+        }
+      },
+      {
+        "path": "scripts/docs/terminal-git.mjs",
+        "sha256": "4abf0f4da5a371d0042474c7ddd9bee1eacd48e8f62b99ac269a1e5f6d9c7fb0",
+        "bytes": 9737,
+        "lines": 241,
+        "changedFromF4": true,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "8b918781938e41d53f5df6d85b3eaaac00acf164",
+          "sha256": "a53a9d0e3ead3f3bc7e6f09bcf3f0444944f72b37aa9c6e19b21a80b2c809583",
+          "bytes": 9604,
+          "lines": 240
+        }
+      },
+      {
+        "path": "scripts/docs/terminal-namespace.mjs",
+        "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+        "bytes": 12819,
+        "lines": 331,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "266209f3fc13b07b2ca3d0979ddc74e01daea015",
+          "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+          "bytes": 12819,
+          "lines": 331
+        }
+      },
+      {
+        "path": "scripts/docs/terminal-contract.mjs",
+        "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+        "bytes": 17857,
+        "lines": 497,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "40257927cda06bad7cbb81679eea2528cc564dac",
+          "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+          "bytes": 17857,
+          "lines": 497
+        }
+      },
+      {
+        "path": "scripts/docs/terminal-codec.test.mjs",
+        "sha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+        "bytes": 42683,
+        "lines": 1125,
+        "changedFromF4": true,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "fc4dd07200335c3a3d5070ca33c0879da5d05b5a",
+          "sha256": "e2e69b307415b3060357fb81c0394cbf3570b6896194f07d5d2cc3ed8016ef2f",
+          "bytes": 40492,
+          "lines": 1066
+        }
+      },
+      {
+        "path": "scripts/docs/check.mjs",
+        "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+        "bytes": 14206,
+        "lines": 351,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "da25cca5ff95590039dafe0d024e35b4c3c3b0f0",
+          "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+          "bytes": 14206,
+          "lines": 351
+        }
+      },
+      {
+        "path": "scripts/quality/lint-zero.mjs",
+        "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+        "bytes": 3515,
+        "lines": 97,
+        "changedFromF4": false,
+        "completeActualPriorGit": {
+          "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "gitObject": "a911610b9b664d5920d0ed43ba501fba5f2bcc45",
+          "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+          "bytes": 3515,
+          "lines": 97
+        }
+      }
+    ],
+    "owner": "terminal_a8_continuation",
+    "unchangedPreA8RepositoryTestFiles": 1752
+  },
+  "readingScope": {
+    "rootFreshCodeLines": 370,
+    "rootFreshCode": "lint-zero97; terminal-git1-112; check260-351; codec69. Not a full root2968-line manual read.",
+    "independentSource": "Complete all8 aggregate source and contracts freshly read by nonauthor; exact first counter and delta closure reports retained complete below.",
+    "rootMetadata": "Inventory maintenance and current record/control/task authored by Codex; require distinct nonauthor exact root intake."
+  },
+  "sourceReview": {
+    "firstCounter": {
+      "path": "/tmp/type-pal-a8-independent-source-review-20261016.json",
+      "sha256": "e4af5539da2513f6add22cc9a3c0786753efb6bea4a7c4f04c1e259104813d76",
+      "bytes": 26303,
+      "lines": 526,
+      "completeReport": {
+        "kind": "A8 first full nonauthor implementation review, exactf4 source counter",
+        "reviewer": "n6_signoff_q_admission_review; nonauthor of A design/implementation/tests/author proofs; no repository writer",
+        "verdict": "counter-source; A-CWD-ALIAS is open; do not accept exactf4 aggregate source or future root integration/full gates",
+        "candidate": {
+          "root": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+          "commit": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "parent": "57fde0c722443dd58d9aac68c085dc1590fd5640",
+          "base": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "clean": true,
+          "manifest": {
+            "path": "/tmp/type-pal-a8-continuation-20261016/final-freeze.json",
+            "sha256": "eb807c5e939c089eb8d5e2c4a89dc98c9446fabc976a968b659738de1cce1897",
+            "bytes": 2215,
+            "lines": 68
+          },
+          "files": [
+            {
+              "path": "scripts/docs/terminal-json.mjs",
+              "bytes": 9817,
+              "lines": 257,
+              "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+              "gitObject": "1eab6304c6dec0afd8c99fc22ef6a3825254f552",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/terminal-json.mjs",
+                "sha256": "628a4526434dc963ef9ef06a3b820ff970aec7b67f13495f9c44ca302badd4cc",
+                "bytes": 9579,
+                "status": "??",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/terminal-json.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-json.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/terminal-codec.mjs",
+              "bytes": 2625,
+              "lines": 69,
+              "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+              "gitObject": "d2a0091a8652348ea4e021449f38f6e42942a6d4",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/terminal-codec.mjs",
+                "sha256": "2da665cc42cee60030017e935ff05fd479da447707b22fc9b141df48d50e3ce4",
+                "bytes": 2606,
+                "status": "??",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/terminal-codec.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-codec.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/terminal-git.mjs",
+              "bytes": 9604,
+              "lines": 240,
+              "sha256": "a53a9d0e3ead3f3bc7e6f09bcf3f0444944f72b37aa9c6e19b21a80b2c809583",
+              "gitObject": "8b918781938e41d53f5df6d85b3eaaac00acf164",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/terminal-git.mjs",
+                "sha256": "43669ef674b5a98fd297f7bb5caed9e4d493aa90a4d89156602fc695d01c95da",
+                "bytes": 9406,
+                "status": "??",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/terminal-git.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-git.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/terminal-namespace.mjs",
+              "bytes": 12819,
+              "lines": 331,
+              "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+              "gitObject": "266209f3fc13b07b2ca3d0979ddc74e01daea015",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/terminal-namespace.mjs",
+                "sha256": "7aa476f34be13f22b014eb500410d5f1fdf1653caad9c80ebed95ebc505dac64",
+                "bytes": 10277,
+                "status": "??",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/terminal-namespace.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-namespace.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/terminal-contract.mjs",
+              "bytes": 17857,
+              "lines": 497,
+              "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+              "gitObject": "40257927cda06bad7cbb81679eea2528cc564dac",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/terminal-contract.mjs",
+                "sha256": "71d16bce4fc69c7eb389a7e53fdb28be2619c25d6898351facec1090efd8554c",
+                "bytes": 17178,
+                "status": "??",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/terminal-contract.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-contract.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/terminal-codec.test.mjs",
+              "bytes": 40492,
+              "lines": 1066,
+              "sha256": "e2e69b307415b3060357fb81c0394cbf3570b6896194f07d5d2cc3ed8016ef2f",
+              "gitObject": "fc4dd07200335c3a3d5070ca33c0879da5d05b5a",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "sourceKind": "New focused test, not present in interrupted seven-file candidate",
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/terminal-codec.test.mjs",
+                "existed": false
+              }
+            },
+            {
+              "path": "scripts/docs/check.mjs",
+              "bytes": 14206,
+              "lines": 351,
+              "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+              "gitObject": "da25cca5ff95590039dafe0d024e35b4c3c3b0f0",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/docs/check.mjs",
+                "sha256": "330a519cc7b9a0ea516288bcc778c25532eba290515570af138b6e56e97a7b41",
+                "bytes": 14105,
+                "status": " M",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/docs/check.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/docs/check.mjs",
+                "sha256": "5ddcbc1f26f3d1c49a698ab0bc9ddb90a5a9c47dcbb4578f70e333876e02ac54",
+                "lines": 333
+              }
+            },
+            {
+              "path": "scripts/quality/lint-zero.mjs",
+              "bytes": 3515,
+              "lines": 97,
+              "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+              "gitObject": "a911610b9b664d5920d0ed43ba501fba5f2bcc45",
+              "owner": "terminal_a8_continuation",
+              "acceptance": "pending root non-author full code review; author verification only",
+              "interruptedPartial": {
+                "path": "scripts/quality/lint-zero.mjs",
+                "sha256": "216a479d7840d78ebf43dc7c457db21da2dc95d8e65a4941cecffa7348109d74",
+                "bytes": 3429,
+                "status": " M",
+                "preservedPath": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/scripts/quality/lint-zero.mjs",
+                "accepted": false
+              },
+              "baseSource": {
+                "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+                "path": "scripts/quality/lint-zero.mjs",
+                "sha256": "360c38acc7a36107b89e391ccfe4c1ebd91653979be95dc1a911024ff46da912",
+                "lines": 86
+              }
+            }
+          ]
+        },
+        "readingScope": {
+          "freshFull": "Formal1067 exactA design incl complete928 wire;90MD/696JSON newA-only design acceptance, all8 implementation/test files2908 (implementation/entries1842 +newfocusedtest1066), fullstrict158, author delivery735, both original-entry complete diffs, three author calibration reports198/59/146, all actual firstfailure blocks and actual final soleledgerred.",
+          "fullDesignPins": {
+            "formal": {
+              "path": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal/docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+              "sha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+              "bytes": 74720,
+              "lines": 1067
+            },
+            "newAOnlyMd": {
+              "path": "/tmp/type-pal-f2-a8-tail-independent-design-review-20261016.md",
+              "sha256": "da9e3116464e07321188060ea806b81e678f00d8e37eb94d085c9728cccf8880",
+              "bytes": 13956,
+              "lines": 90
+            },
+            "newAOnlyJson": {
+              "path": "/tmp/type-pal-f2-a8-tail-independent-design-review-20261016.json",
+              "sha256": "7774f77bd1f7b2f01cec5b2d82304aff4da95da04b64dcb875f251207959cf47",
+              "bytes": 26191,
+              "lines": 696
+            },
+            "scope": "All1067 formal lines,90 new appendix and696 independent report actually read. Old v3 source is not self-accepted by its author; A design agree is not implementation acceptance. B/C0/C1 remain counter and not build allowed."
+          },
+          "outputHandling": "One long wire output clipped; actual945-1045 and900-948 reread to cover missing serializer/storage/graph portions. No unseen middle inferred. Prior rules same-agent fullread reused by unchanged pinned AGENTS/CLAUDE/workflow/READ-FIRST/model/template/testing bytes; not all linked source files reread.",
+          "mechanical": "Actual Git/base scope and all1752 original .test.{mjs,ts,tsx} hashes/unchangedprotected sources; SHA/all subordinate proof/gate/historical artifact association, seven interrupted preserved bytes. Rawline/string equality is identity evidence only.",
+          "notClaimed": "No1838 semantic corpus/artifact prose read, actual approvals/DAG/current/fullT/F/CI/producerclosure or product runtime/E2E/visual/coverage."
+        },
+        "counters": [
+          {
+            "id": "A-CWD-ALIAS",
+            "priority": "P2",
+            "sourcePath": "scripts/docs/terminal-git.mjs",
+            "sourceLines": [63, 66],
+            "sourceSha256": "a53a9d0e3ead3f3bc7e6f09bcf3f0444944f72b37aa9c6e19b21a80b2c809583",
+            "fact": "lstat(cwd).isDirectory rejects legitimate directory symlink before realGit discovery; publicrunLintZero(cwd) formerly accepts that exact legalcaller. Namespace nofollow constraint concerns namespaceparents/FD, not caller alias. Existing CLI argv alias fix does not handle explicit exportcwd alias.",
+            "contract": "Frozen A design preserves actual publicrunLintZero(cwd) API/Biomecwd and real root discovery. Existing caller valid IO must remain valid; no candidate-controlled bypass flag.",
+            "actualEvidence": {
+              "path": "/tmp/type-pal-a8-independent-public-alias-observer-20261016.json",
+              "sha256": "07546d62104cdf9e431099934efa43d60fb466a31ec028f596d40378c77a7f05",
+              "bytes": 2498,
+              "lines": 96
+            },
+            "actualSameInput": {
+              "oldAa5AliasOk": true,
+              "currentPhysicalOk": true,
+              "currentAliasOk": false,
+              "allThreeSameUnchangedFiles": 12,
+              "allThreeEWI": 0,
+              "allThreeSkippedChangedTruncated": 0,
+              "onlyCurrentAliasDiagnostic": "TERMINAL_GIT caller directory required",
+              "physicalBadPayloadDiagnostic": "TERMINAL_FRAMING fixed single-frame header required",
+              "aliasBadPayloadDiagnostic": "TERMINAL_GIT caller directory required"
+            },
+            "reproducer": {
+              "path": "/tmp/type-pal-a8-independent-public-alias-observer-20261016.mjs",
+              "sha256": "464364e6dd1a20e6d54551d5378ad60d05f767235a9852bff3f12c6ed09bc402",
+              "bytes": 13637,
+              "lines": 344
+            },
+            "command": ["node", "/tmp/type-pal-a8-independent-public-alias-observer-20261016.mjs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+            "ownedFixtureRemoved": true,
+            "sourceWrites": 0,
+            "minimalRework": "Root-authorized original8scope only: canonicalize legitimate caller directory identity before Git discovery, retain original Biomecwd and actual namespace/parent/FD symlink refusal. Add actual exportaliasclean positive plus canonicalNOT_GZIP framingtarget negative, retainbrokenGit/nonGit/linked/subdir/CLIalias/import behavior. Preservef4/firstcounter and proveactualdelta in newcommit; no sharedledger/product/oldtests/config changes."
+          }
+        ],
+        "actualIndependentChecks": {
+          "identityHistory": {
+            "proof": {
+              "path": "/tmp/type-pal-a8-independent-identity-probe-20261016.json",
+              "sha256": "15c34a0037a8bf1f6fa1091a90061f3cae82cac88022bd8b44a812bd6a327c84",
+              "bytes": 8816,
+              "lines": 353
+            },
+            "checks": 85,
+            "issues": 0
+          },
+          "focused": {
+            "command": ["node", "--test", "scripts/docs/terminal-codec.test.mjs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+            "exit": 0,
+            "tests": 32,
+            "pass": 32,
+            "fail": 0,
+            "skip": 0,
+            "todo": 0,
+            "raw": {
+              "path": "/tmp/type-pal-a8-independent-focused-20261016.tap",
+              "sha256": "ce8fb71321483cf42f6b7c1d9fd92e5eb14c1d7a53d07566b66d900923b373db",
+              "bytes": 7551,
+              "lines": 202
+            },
+            "scope": "Fresh full actual32 includes genuine dualCLI/hookremoval/alias cases;32 does not test exportcwd alias regression."
+          },
+          "physicalFinalPathRace": {
+            "proof": {
+              "path": "/tmp/type-pal-a8-independent-race-probe-20261016.json",
+              "sha256": "1d38224744aab70b1bd11388c520392fc022692f64cd798cdb54d505b730c8b9",
+              "bytes": 978,
+              "lines": 30
+            },
+            "checks": 4,
+            "issues": 0,
+            "scope": "Positive/finalFD-path replacement/finalpath missing/restored positive. OwnedIO fixture only, fs hook restored/temporarytreesremoved; not arbitrary-race exhaustiveness."
+          },
+          "backupSeven": {
+            "manifest": {
+              "path": "/tmp/type-pal-a8-interrupted-working-snapshot-20261016/manifest.json",
+              "sha256": "30b9a8ad8dbe098e7b4d51e3e60dcd9954e10d5ff8442943458caa78b833f46a",
+              "bytes": 1492,
+              "lines": 48
+            },
+            "sevenCompletePreservedBytes": true
+          }
+        },
+        "otherImplementationReview": {
+          "parserCodec": "Byte-first rawstringtoken/depth/value checks and pertokenparse, own-key duplicates, direct JSON.stringifykey UTF8token J/-0/dense finite values/uniqueLF. Fixedmanualgzip/rawZ_FINISH consumed count/CRC/ISIZE/footerEOF/resourcebounds. No secondmember/fallback. Knowninput/canonicalstrings/counter cases are components only, notT approval.",
+          "gitNamespace": "Fixed4MiB rawmeta bound; type+knownsize before boundedimmutableblobread; fullcommit nottagpeel; realDdocs/rawinventory/fixed33cc eightkey1838. Physical solepayload/indexnamesmode-stage-oid/missing;HEADidentitydifference no badpayload obligation. FD/parents/no-follow/size+1/finalleaf/namespace absence/indexHEAD rechecks present. CWDalias is exceptioncounter above.",
+          "schema": "Allclosednamed structures/finiteunions13top/native24 detailedpredicate+typed6/extensions preserved extras; zero native shell shortcuts. ExactEventpointerlastkey, localownpath/count/id and identityset checks. Actualexternalclaims/graph/registeredbinding/fullread/versionsemantics deferredB and resultthreecreditsfalse; no misleadingfull loader.",
+          "entries": "Sharedgate beforedocsbody/json/indexoutput; lint export+CLI AND namespace with unchanged inspectLintResult and fullBiome report/diagnostics retained. Physicalrealpath argv-main comparison now handles CLI aliases; imports staynonexecuting. Exportcwd alias needs separatefix.",
+          "testsScope": "32 newfocused contracts cover IO/schema/codec entries; actualoriginal1752 tests bytes unchanged. Formatmathshapes labelledUNAPPROVED and real33cc roots borrowed, no productionfakebaseline or currentcredit. Ordinaryoversizewarning remains even archivehookdisabled."
+        },
+        "authorEvidence": {
+          "delivery": {
+            "path": "/tmp/type-pal-a8-continuation-20261016/delivery-report.json",
+            "sha256": "3228f868f0452e7c42cf39efc02cbbd9082565ffe9ec6fe38c8153a2d3ab8213",
+            "bytes": 36586,
+            "lines": 735
+          },
+          "proofs": {
+            "actual-hook-calibration.json": {
+              "path": "/tmp/type-pal-a8-continuation-20261016/actual-hook-calibration.json",
+              "sha256": "9c143cf716d9584df0e4c823b547d708dfc03367ba25c28d64112fa1f34f7f1a",
+              "bytes": 8093,
+              "lines": 198
+            },
+            "pointer-guard-calibration.json": {
+              "path": "/tmp/type-pal-a8-continuation-20261016/pointer-guard-calibration.json",
+              "sha256": "1cf9737155ac8c311059c782490d9a0e9780ce08ae3e242d9365edc1c4f301cb",
+              "bytes": 2537,
+              "lines": 59
+            },
+            "alias-guard-calibration.json": {
+              "path": "/tmp/type-pal-a8-continuation-20261016/alias-guard-calibration.json",
+              "sha256": "39529f15630660c4133f56a4b6fc6b925c75f17d286fb86bcaff6cb0245772ef",
+              "bytes": 6306,
+              "lines": 146
+            },
+            "actual-metadata-budget.json": {
+              "path": "/tmp/type-pal-a8-continuation-20261016/actual-metadata-budget.json",
+              "sha256": "b0cd6a3d17657e3d48099d37c9134f0a23c8b8d9e5d32346571905c878d612c6",
+              "bytes": 760,
+              "lines": 14
+            }
+          },
+          "actualFiveNeedles": "Twohookremoval+pointer+twoargv-CLIalias => exactoneAssertionError each andbefore/restoredpasses; complete raw/provenance/hashes actually checked. First missingdeps/TypeError/oraclemistake not counted as validneedles.",
+          "firstFailures": "Sevenpartial backup;missingBiomecollection;24of29/5fail including absentdifferencesTypeError,12B wrongframingoracle,3callerfixtures;2E/1W/3I formatlint;pointermissingexception;two actualCLIaliasmissingreject;unusedresolvewarning;trackedcentralledgercounter retained. No firstgreen claim."
+        },
+        "wholeGateStatus": {
+          "authorFinal": {
+            "frozenManifest": "/tmp/type-pal-a8-continuation-20261016/final-freeze.json",
+            "frozenSha256": "eb807c5e939c089eb8d5e2c4a89dc98c9446fabc976a968b659738de1cce1897",
+            "overallPassed": false,
+            "centralLedgerCounterIsNotWaived": true,
+            "results": [
+              {
+                "name": "docs",
+                "command": ["pnpm", "check:docs"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+                "startedAt": "2026-10-16T06:53:34.143435+00:00",
+                "seconds": 39.902,
+                "status": 0,
+                "signal": null,
+                "spawnError": null,
+                "stdout": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-docs.stdout",
+                  "sha256": "2f81597cd8a4a7ce254386f6d41cc595b17095b28bd47d96e1391385d262aec1",
+                  "bytes": 29008
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-docs.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                }
+              },
+              {
+                "name": "quality",
+                "command": ["pnpm", "test:quality-tools"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+                "startedAt": "2026-10-16T06:54:14.046390+00:00",
+                "seconds": 1.731,
+                "status": 1,
+                "signal": null,
+                "spawnError": null,
+                "stdout": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-quality.stdout",
+                  "sha256": "a86e41d8672e749c1875d50f95e1f4ced19dbc4dea9603d27bb86d88a271baf7",
+                  "bytes": 7177
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-quality.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                }
+              },
+              {
+                "name": "lint",
+                "command": ["pnpm", "lint"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+                "startedAt": "2026-10-16T06:54:15.777780+00:00",
+                "seconds": 2.307,
+                "status": 0,
+                "signal": null,
+                "spawnError": null,
+                "stdout": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-lint.stdout",
+                  "sha256": "b1cae818f321bdbe09bd68a97224deac820ea4252646a86fad7fe842356c92dd",
+                  "bytes": 190
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-lint.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                }
+              },
+              {
+                "name": "diff",
+                "command": ["git", "diff", "aa5a62f85d76233b2db37fc570d7bf97ae2b4054", "--check"],
+                "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+                "startedAt": "2026-10-16T06:54:18.084643+00:00",
+                "seconds": 0.022,
+                "status": 0,
+                "signal": null,
+                "spawnError": null,
+                "stdout": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-diff.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                },
+                "stderr": {
+                  "path": "/tmp/type-pal-a8-continuation-20261016/final-diff.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "bytes": 0
+                }
+              }
+            ]
+          },
+          "qualityCounter": {
+            "status": "OPEN shared central integration counter; not waived",
+            "path": "docs/ops/audits/code-quality-file-ledger.md",
+            "actualTracked": 3300,
+            "declaredTracked": 3294,
+            "actualClosed": 229,
+            "actualReview": 5,
+            "actualPending": 3066,
+            "actualUnclosed": 3071,
+            "rootRequiredAction": "After independent A8 source review, register exact6 source increments pending in root central ledger and its true review/SHA/consumer writeback; keep closed229/review5 unless independently authorized actual evidence changes them, then run real quality-tools. Contributor exact8 does not write docs or fake current acceptance.",
+            "runnerMeaning": "Final observation collector exited0 only because it correctly recorded expected counter. Actual pnpm test:quality-tools status is1 and overallPassed=false; this is not a gate bypass."
+          },
+          "conclusion": "Overall failed. Finaldocs118/lint4117 EWI0/diff0 do not override qualitytools36/37exit1 centraltrackedinventorymismatch. Rootcentral6pendingintake separately required and no accept or waiver here."
+        },
+        "ownObserverHistory": {
+          "wrongRegexHypothesis": "A proposed JS$ tailLF suspicion was directly refuted: actualsix41/65byte fields rejected SCHEMA and same realGit/33ccpositive then leafnameLF rejectedNAMESPACE_NAME. No candidatecounter for that hypothesis; message retracted.",
+          "literalActual": {
+            "path": "/tmp/type-pal-a8-independent-literal-observer-20261016.json",
+            "sha256": "254c0b39d7cb29d696052d04532fe578f40fc8e71e67c6d2c452932e74b1a330",
+            "bytes": 5252,
+            "lines": 219
+          },
+          "importTypo": "Independent raceobserver initially importedrealpathSync fromnode:path, causing SyntaxError before fixtureexecution; samefirstscript recaptured rawerror then onlyunusedimport removed. Candidate untouched.",
+          "retained": [
+            {
+              "path": "/tmp/type-pal-a8-independent-race-probe-first-observer-20261016.mjs",
+              "sha256": "ac2ad28b906fafcd081da044f5a385f4a4396149d2c614fe520b4a34b9a4a3ee",
+              "bytes": 2820,
+              "lines": 22
+            },
+            {
+              "path": "/tmp/type-pal-a8-independent-race-probe-first-observer-20261016.log",
+              "sha256": "c0dd6c5e0b275b90743c42fbeb25798ccba6418d22903b93a53829ecdac732ba",
+              "bytes": 586,
+              "lines": 10
+            },
+            {
+              "path": "/tmp/type-pal-a8-independent-public-alias-observer-first-20261016.mjs",
+              "sha256": "7cef5e2657388347befe1dca7c8fb8dfbbf66349f698defff6d0fe60fdd919fc",
+              "bytes": 13387,
+              "lines": 344
+            },
+            {
+              "path": "/tmp/type-pal-a8-independent-public-alias-observer-first-20261016.json",
+              "sha256": "cf46ee010b2e575578fe19bf5412eae271fca8cbfeef78c76b3e565264bcc49e",
+              "bytes": 2120,
+              "lines": 83
+            }
+          ],
+          "aliasComparisonCalibration": "First valid observation counted11 files fornew versus12 forold becauseoldmodulecopy addedbetweenobservations. Improvedfinalobserver putsoldcopybeforeallthreecalls: identical12fileinput/EWI0, same regression. Firstpreserved, no production/sourcechange.",
+          "lineCountCorrection": "Prior chat3975source claim corrected:3975=sum2908source+1067design; actual originaltestlock1752 isfilecount. No codepin changed."
+        },
+        "nextStep": "Root may authorize original8scope minimalrework after recordingthiscounter; authorwaitedforfixedreport androotgrant. Newsourcecommit/delta/actualpubliccallerproof andnecessarygates mustbe independentlyreviewed, then rootcentralintake separately. No userperbatchpermission needed.",
+        "repositoryWrites": 0,
+        "migrationCredit": 0,
+        "runtimeE2EVisualCoverageCredit": 0,
+        "B_C0_C1": "counter/notbuild; no approval/current/complete acceptance",
+        "goal": "Full1838/allincrements/artifacts active/build incomplete",
+        "markdown": {
+          "path": "/tmp/type-pal-a8-independent-source-review-20261016.md",
+          "sha256": "9faff5fe258b14a52710c351fe4c8fb53bffce18c15170d9192e9c71ee70ba5b",
+          "bytes": 4368,
+          "lines": 34
+        }
+      }
+    },
+    "closure": {
+      "path": "/tmp/type-pal-a8-cwd-alias-independent-closure-20261016.json",
+      "sha256": "f55acc2fcdede47ad9df5179e347c727487b652b8f47caf2b407737d39e40e8a",
+      "bytes": 15633,
+      "lines": 379,
+      "completeReport": {
+        "kind": "A8 exact85 source-format independent closure of A-CWD-ALIAS",
+        "reviewer": "n6_signoff_q_admission_review; same independent first-f4 reviewer, nonauthor of both source versions, tests or author proofs; readonly",
+        "verdict": "accept-source-format-partial exact85ebe86d38d047c10339e053299ae050af5ec053; A-CWD-ALIAS closed. Not root integration/full gates/B/current/complete or future-byte acceptance.",
+        "candidate": {
+          "root": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+          "commit": "85ebe86d38d047c10339e053299ae050af5ec053",
+          "parent": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+          "aggregateBase": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "delta": ["scripts/docs/terminal-git.mjs", "scripts/docs/terminal-codec.test.mjs"],
+          "aggregatePathCount": 8,
+          "aggregateLines": 2968,
+          "clean": true
+        },
+        "sourcePins": [
+          {
+            "path": "scripts/docs/terminal-json.mjs",
+            "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+            "bytes": 9817,
+            "lines": 257,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "1eab6304c6dec0afd8c99fc22ef6a3825254f552",
+              "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+              "bytes": 9817,
+              "lines": 257
+            }
+          },
+          {
+            "path": "scripts/docs/terminal-codec.mjs",
+            "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+            "bytes": 2625,
+            "lines": 69,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "d2a0091a8652348ea4e021449f38f6e42942a6d4",
+              "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+              "bytes": 2625,
+              "lines": 69
+            }
+          },
+          {
+            "path": "scripts/docs/terminal-git.mjs",
+            "sha256": "4abf0f4da5a371d0042474c7ddd9bee1eacd48e8f62b99ac269a1e5f6d9c7fb0",
+            "bytes": 9737,
+            "lines": 241,
+            "changedFromF4": true,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "8b918781938e41d53f5df6d85b3eaaac00acf164",
+              "sha256": "a53a9d0e3ead3f3bc7e6f09bcf3f0444944f72b37aa9c6e19b21a80b2c809583",
+              "bytes": 9604,
+              "lines": 240
+            }
+          },
+          {
+            "path": "scripts/docs/terminal-namespace.mjs",
+            "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+            "bytes": 12819,
+            "lines": 331,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "266209f3fc13b07b2ca3d0979ddc74e01daea015",
+              "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+              "bytes": 12819,
+              "lines": 331
+            }
+          },
+          {
+            "path": "scripts/docs/terminal-contract.mjs",
+            "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+            "bytes": 17857,
+            "lines": 497,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "40257927cda06bad7cbb81679eea2528cc564dac",
+              "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+              "bytes": 17857,
+              "lines": 497
+            }
+          },
+          {
+            "path": "scripts/docs/terminal-codec.test.mjs",
+            "sha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+            "bytes": 42683,
+            "lines": 1125,
+            "changedFromF4": true,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "fc4dd07200335c3a3d5070ca33c0879da5d05b5a",
+              "sha256": "e2e69b307415b3060357fb81c0394cbf3570b6896194f07d5d2cc3ed8016ef2f",
+              "bytes": 40492,
+              "lines": 1066
+            }
+          },
+          {
+            "path": "scripts/docs/check.mjs",
+            "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+            "bytes": 14206,
+            "lines": 351,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "da25cca5ff95590039dafe0d024e35b4c3c3b0f0",
+              "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+              "bytes": 14206,
+              "lines": 351
+            }
+          },
+          {
+            "path": "scripts/quality/lint-zero.mjs",
+            "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+            "bytes": 3515,
+            "lines": 97,
+            "changedFromF4": false,
+            "completeActualPriorGit": {
+              "revision": "f4cebdbf6a97c9d8f0538562d563eb4fa6ab7304",
+              "gitObject": "a911610b9b664d5920d0ed43ba501fba5f2bcc45",
+              "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+              "bytes": 3515,
+              "lines": 97
+            }
+          }
+        ],
+        "readingScope": {
+          "fresh": "Complete actual two-path diff, appended59 newtest lines, author641JSON/275manifest/16MD, rawbefore/red/restored and normalization24 script, key322public observation fields/actual gate summaries, writer initial failure and draft-vs-final typed differences.",
+          "reusedExact": "Same-agent prior526JSON/34MD fullf4 source review actual2908 plus formal1067/newA-only90+696 design. Only code changes callerrealpath and two new focused cases; unchanged sixfiles, full1066oldtest prefix and all1752 pre-A8 testbytes checked. No claim fresh reread unchanged2908 source or wholecorpus.",
+          "artifacts": "All33local+10immutableexternal pins actualhash/bytes/lines checked; these are identity and provenance, not semantic fullread claims for all machine raw listings. Whole priorcounter preserved via fixed rawSHA and actualf4Git, not restamped as firstpass.",
+          "scopeLimit": "No rootQ/currentledger mutation/review, no independent full1838/artifact prose read or B/F/fullT/current/approval/complete implementation validation."
+        },
+        "counterClosure": {
+          "id": "A-CWD-ALIAS",
+          "before": "lstat calleralias itself refused legal publiccwd input before real namespace",
+          "after": "realpathSync(resolve(cwd)) normalizes caller identity only before existingdirectory/Git discovery. Biome receives unchanged originalcwd; namespaceactualparents/leaves/FD nofollowbyte-exact.",
+          "actualPublicIO": {
+            "proof": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-public-observer-20261016.json",
+              "sha256": "4ab366462d4d0858605267bd80c9afaba18cd5204c2606fe63158fc466a254a1",
+              "bytes": 3693,
+              "lines": 134
+            },
+            "producer": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-public-observer-20261016.mjs",
+              "sha256": "188332fa706953221a561be6948222fcd11d7a7a5501be5511115be5f1aae349",
+              "bytes": 14211,
+              "lines": 345
+            },
+            "command": [
+              "node",
+              "/tmp/type-pal-a8-independent-cwd-closure-public-observer-20261016.mjs"
+            ],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+            "sameActualFileCount": 12,
+            "oldAa5AliasPass": true,
+            "newPhysicalPass": true,
+            "newAliasPass": true,
+            "allEWIAndChangedSkippedTruncated": 0,
+            "badPhysical": "false,TERMINAL_FRAMING",
+            "badAlias": "false,TERMINAL_FRAMING samecanonicalregularNOT_GZIP, not wrongtarget",
+            "payloadRemovalRecoversAlias": true,
+            "invalidAliasIssues": ["ELOOP", "ENOENT"],
+            "ownedRemoved": true
+          },
+          "independentSingleMutation": {
+            "proof": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-normalization-20261016/normalization-calibration.json",
+              "sha256": "f11ebe340859b494365c83a1ae68a8be4592bf7a29a9954006350988d9c1daa6",
+              "bytes": 4150,
+              "lines": 96
+            },
+            "producer": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-normalization-20261016.py",
+              "sha256": "cf992c5b2bf0c0fb3f4c533abf17206dd5d7618073554175fd269112b1c92a86",
+              "bytes": 3482,
+              "lines": 24
+            },
+            "actualFinalTest": "public runLintZero directory-alias cwd keeps the legal caller and checks real namespace bytes",
+            "mutation": "Ownedcopy only remove callernormalization expression; keep realpath import referenced so realBiome remains samelegalprecondition. Other module/entry/namespaceguard unchanged.",
+            "status": [0, 1, 0],
+            "exactAssertionErrors": [0, 1, 0],
+            "ownedRemoved": true,
+            "sourceTestPins": [
+              {
+                "stage": "before",
+                "moduleSha256": "4abf0f4da5a371d0042474c7ddd9bee1eacd48e8f62b99ac269a1e5f6d9c7fb0",
+                "testSha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+                "log": "/tmp/type-pal-a8-independent-cwd-closure-normalization-20261016/normalization-before.tap",
+                "sha256": "216de551b8d22ab5669bee9b5d6757527e609d42c8129916ed2915f97ff154ff"
+              },
+              {
+                "stage": "mutant",
+                "moduleSha256": "2da8f44467b33af72b08a80964c7b3ac0470f36ae99aba94b14d5e7c33e0bb11",
+                "testSha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+                "log": "/tmp/type-pal-a8-independent-cwd-closure-normalization-20261016/normalization-mutant.tap",
+                "sha256": "85d90b361faa8567be859a640f2c9f2df6ab673d1b974eea85a01f402184a2f7"
+              },
+              {
+                "stage": "restored",
+                "moduleSha256": "4abf0f4da5a371d0042474c7ddd9bee1eacd48e8f62b99ac269a1e5f6d9c7fb0",
+                "testSha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+                "log": "/tmp/type-pal-a8-independent-cwd-closure-normalization-20261016/normalization-restored.tap",
+                "sha256": "38f0bb21e356758df50f45f22190866556a0d4eeb5016e572e63f45e9d5497da"
+              }
+            ]
+          },
+          "result": "closed actual source regression only; zero runtime/current/fullapproval or migrationcredit"
+        },
+        "actualIndependentChecks": {
+          "metadataSourceHistoryCallerGates": {
+            "proof": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-checks-20261016.json",
+              "sha256": "72fbeb8a46889befee1b178d24d28eb07347188a255c065d50895f87b7c5b34e",
+              "bytes": 7633,
+              "lines": 334
+            },
+            "checks": 81,
+            "issues": 0
+          },
+          "fullFocusedRunner": {
+            "command": ["node", "--test", "scripts/docs/terminal-codec.test.mjs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-terminal-a8/type-pal",
+            "exit": 0,
+            "tests": 34,
+            "pass": 34,
+            "fail": 0,
+            "skip": 0,
+            "todo": 0,
+            "raw": {
+              "path": "/tmp/type-pal-a8-independent-cwd-closure-focused-20261016.tap",
+              "sha256": "dc76747ddc4e68895528cd60c8ce44e65ec8bf82a2b4ba93aa835afc8dca6eb5",
+              "bytes": 8052,
+              "lines": 214
+            },
+            "meaning": "Actual old32+new2, including dualCLI hooks, argvCLIalias/import and linkedgitfile/child/nonGit/physical source/schema/codec; no productoldtests/coverageexecution."
+          }
+        },
+        "history": {
+          "firstIndependentCounter": {
+            "path": "/tmp/type-pal-a8-independent-source-review-20261016.json",
+            "sha256": "e4af5539da2513f6add22cc9a3c0786753efb6bea4a7c4f04c1e259104813d76",
+            "bytes": 26303,
+            "lines": 526
+          },
+          "firstCounterMarkdown": {
+            "path": "/tmp/type-pal-a8-independent-source-review-20261016.md",
+            "sha256": "9faff5fe258b14a52710c351fe4c8fb53bffce18c15170d9192e9c71ee70ba5b",
+            "bytes": 4368,
+            "lines": 34
+          },
+          "firstAuthorDelivery": {
+            "path": "/tmp/type-pal-a8-continuation-20261016/delivery-report.json",
+            "sha256": "3228f868f0452e7c42cf39efc02cbbd9082565ffe9ec6fe38c8153a2d3ab8213",
+            "bytes": 36586,
+            "lines": 735
+          },
+          "newAuthorDelivery": {
+            "path": "/tmp/type-pal-a8-cwd-alias-repair-20261016/delivery-report.json",
+            "sha256": "fb90f9da59797b34fdf8d9b8dd37eee380d82a133a308a2c030f7c830f1d69b1",
+            "bytes": 28126,
+            "lines": 641
+          },
+          "newManifest": {
+            "path": "/tmp/type-pal-a8-cwd-alias-repair-20261016/manifest.json",
+            "sha256": "18f0a8ea08e1cd5bef8f1067115211cfd902ba41f42923192f3b210e8ef45fd0",
+            "bytes": 9847,
+            "lines": 275
+          },
+          "authorMD": {
+            "path": "/tmp/type-pal-a8-cwd-alias-repair-20261016/delivery-report.md",
+            "sha256": "45401bd6ae71226f1691927a454569dd16a7348ba20e88f3c90a04d26ff68393",
+            "bytes": 1848,
+            "lines": 16
+          },
+          "newObservations": "UTF8writerfirstfailure/draft2097152reporttypo retained, actualcode2,000,000unchanged. PriorregexTailLFfalsehypothesis explicitlyretracted andoldobserverimport/countcorrections kept; no sourcecounter invented from them."
+        },
+        "gates": {
+          "executor": "Author, independently rawpins+actualsummaries checked; reviewer reran34 focused/publiccaller/mutation only, not all120/lint.",
+          "authorResults": {
+            "status": 0,
+            "tests": 120,
+            "pass": 120,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0,
+            "legacyDocsCases": 86,
+            "a8Cases": 34,
+            "markdown": 1230,
+            "localLinks": 8028,
+            "tasks": 361,
+            "issues": 0,
+            "modelBodyContracts": 238,
+            "modelStructureOnly": true,
+            "testingDocIssues": 0,
+            "phaseLoreDocuments": 184,
+            "strictContentReviews": 733
+          },
+          "lint": {
+            "status": 0,
+            "files": 4117,
+            "errors": 0,
+            "warnings": 0,
+            "infos": 0,
+            "completeReport": true
+          },
+          "diff": {
+            "status": 0,
+            "outputBytes": 0
+          },
+          "quality": {
+            "status": 1,
+            "tests": 37,
+            "pass": 36,
+            "fail": 1,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0,
+            "soleFailureTest": 10,
+            "soleFailureFullName": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+            "declared": {
+              "inventory": 3294,
+              "closed": 229,
+              "review": 5,
+              "pending": 3060,
+              "unclosed": 3065
+            },
+            "actual": {
+              "inventory": 3300,
+              "closed": 229,
+              "review": 5,
+              "pending": 3066,
+              "unclosed": 3071
+            },
+            "cause": "Six newly tracked A8 modules need central pending ledger intake. This two-path repair adds no new file. Root owns intake after independent source acceptance.",
+            "waived": false,
+            "repairedByAuthor": false,
+            "fullGatePassed": false
+          },
+          "overallPassed": false,
+          "noWaiver": "Quality36/37exit1 soletracked6pendingledgercounter stillopen. Register exactsixincrements centrally with genuine review/SHA/consumer, retainclosed229/review5; rootactualintegrated gates must separately reachzero."
+        },
+        "remainingSourceCounters": [],
+        "nextStep": "Root may receive exact85 A8source-format component with natural source/history ancestry; root alone handles exactsixpendingcentralinventory/reviewwriteback and actual integrationgates/non-authorrootbytesreview. Sourceacceptance not approval of thatfuturemetadata or B/C0/C1.",
+        "approvalChecked": false,
+        "currentChecked": false,
+        "completeChecked": false,
+        "canonicalMigrationCredit": 0,
+        "runtimeE2EVisualCoverageCredit": 0,
+        "repositoryWrites": 0,
+        "goal": "Full1838/allincrement/artifactobjective remains active/build incomplete",
+        "markdown": {
+          "path": "/tmp/type-pal-a8-cwd-alias-independent-closure-20261016.md",
+          "sha256": "2beca997ba04b4faa979a52a4161015ec45b23825d23a42cd2a8ce5af7e5c32d",
+          "bytes": 2305,
+          "lines": 15
+        }
+      }
+    }
+  },
+  "predecessorReception": {
+    "path": "/tmp/type-pal-q6-root-signoff-independent-review-20261016.json",
+    "sha256": "68cfcd328d67b059f8a943710ebc9126ef78994055646dd02ebceaeb24828a3e",
+    "bytes": 10384,
+    "lines": 250,
+    "completeReport": {
+      "kind": "Q6 actual acceptance signoff metadata independent tail review",
+      "reviewer": "n6_intake_review; nonauthor of two signoff metadata files, readonly",
+      "verdict": "accept-signoff-metadata exacttree77451148cab12dab3b560ef683af478509be8062; no A8/HTML/source/full-goal or future-byte acceptance",
+      "candidate": {
+        "HEAD": "13ee36134f587298b7282985a8771929004a6d3c",
+        "acceptedIntakeTree": "688bd1f490f06ce7d7e4a0c6e287680cefdd25ae",
+        "newSignoffTree": "77451148cab12dab3b560ef683af478509be8062",
+        "deltaFiles": [
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/reviews/20261016-phase2-guides-q.json"
+        ],
+        "relativeDeltaFiles": 2,
+        "aggregatePaths": 16,
+        "manifest": {
+          "path": "/tmp/type-pal-q6-root-signoff-frozen-manifest-20261016.json",
+          "sha256": "90c9e9d5fd2a266042bb9d8ff6d86ce207f9bbcdafd9a0235f8ab19d3cab1fe5",
+          "bytes": 4515,
+          "lines": 106
+        },
+        "all16FrozenWorktreeAndIndexExact": true
+      },
+      "freshReadScope": {
+        "currentDelta": "Directly read exact five-line task append and whole actual rootIntake delta: status, actualAcceptance binding, full13ee top-event locator and currentRepair.scope historical qualification. All other root keys/full six entries compared exact.",
+        "reports": "Whole303 closure report rawSHA and embedded deepEqual mechanically checked; accepted13ee actual tree equals report688bd1f. Report/source32object semantics reused, not rerun/re-read. Root current event full immediate prior actually fetched from13ee Git/blob/wholeSHA/unique top key; previous7dffc event preserved inside that full prior.",
+        "gates": "Actual new raw docs/lint summaries read and all five raw report/log pins checked against frozen16/tree. Root executed86/lint, reviewer does not claim own broad rerun.",
+        "A8TaskFactOnly": "At root request, only new task sentence already-demonstrated cwd alias counter independently sourced: SHA-check source-review report and read verdict/A-CWD-ALIAS plus complete96-line public-alias observer. No fresh526 full-code report/source or A8 implementation review; no85ebe or HTML acceptance."
+      },
+      "actualIndependentChecks": {
+        "checks": 68,
+        "issues": 0,
+        "other14FilesExact": true,
+        "sixCurrentEntriesDeepEqualAccepted13ee": true,
+        "allSourceBodyNativeUnchanged": true,
+        "onlyRootEventFourKeyDelta": true,
+        "actualAcceptance": {
+          "acceptedRevision": "13ee36134f587298b7282985a8771929004a6d3c",
+          "acceptedTree": "688bd1f490f06ce7d7e4a0c6e287680cefdd25ae",
+          "report": {
+            "path": "/tmp/type-pal-q6-root-intake-independent-closure-20261016.json",
+            "sha256": "2dcc805db21a2b343d669791cc163af77fd9dc535dac8f056a2bd4646d6c1478",
+            "bytes": 14193,
+            "lines": 303
+          },
+          "completeEmbedded303Equal": true,
+          "zeroGateSha256": "2e44efa2fba507620c7993b37b3f9d660c15a2602729530efdaace453f9a02c4"
+        },
+        "actualWholePriorEvent": {
+          "revision": "13ee36134f587298b7282985a8771929004a6d3c",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "blob": "1edae34490c3a1d3825983111e6fb1870f3ac392",
+          "wholeSha256": "8e27711a155442b37853b6df6bb175bbfd047e9f017ebe81699ca6766aff632f",
+          "selector": {
+            "nativeTopKey": "rootIntake",
+            "uniqueMatches": 1
+          },
+          "actuallyRetrievedAndDeepEqual": true
+        },
+        "currentRepairScope": "Only scope scalar changed; nine-scalar repair/necessary primary/data/counter history unchanged. Previous awaits sentence explicitly historical7dffc→13ee, current actual event canonical.",
+        "originalCounterAndFailedGateReportsUnchanged": true,
+        "first85of86StillFailureUnknownGitReadCause": true
+      },
+      "taskSentenceA8SourceAttribution": {
+        "sourceReport": {
+          "path": "/tmp/type-pal-a8-independent-source-review-20261016.json",
+          "sha256": "e4af5539da2513f6add22cc9a3c0786753efb6bea4a7c4f04c1e259104813d76",
+          "bytes": 26303,
+          "lines": 526
+        },
+        "actualObserver": {
+          "path": "/tmp/type-pal-a8-independent-public-alias-observer-20261016.json",
+          "sha256": "07546d62104cdf9e431099934efa43d60fb466a31ec028f596d40378c77a7f05",
+          "bytes": 2498,
+          "lines": 96
+        },
+        "finding": "Exactf4 independent counterA-CWD-ALIAS. Oldaa5 alias and newf4 physical same12Biome files EWI0 accepted; f4 explicitcwd alias rejected onlyTERMINAL_GIT caller-directory-required. Physicalbadpayload hit framing, aliasbadpayload stopped oncwd. This supports task phrase already-discovered alias rework only.",
+        "scope": "Existing counter source authority attributed, no new reviewer sourcecode/implementation acceptance. New85ebe candidate and HTML outside Q tail scope."
+      },
+      "actualNewGates": {
+        "report": {
+          "path": "/tmp/type-pal-q6-root-signoff-intake-gates-20261016.json",
+          "sha256": "b3ba2133692e83af8410f9315438701376164456d3ceee4f8451dfef95f1d644",
+          "bytes": 3209,
+          "lines": 101
+        },
+        "frozenInputsUnchanged": true,
+        "rawResults": [
+          {
+            "name": "docs",
+            "argv": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 46.347,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-signoff-gate-docs-20261016.log",
+              "sha256": "76c30496d14e1f186e4e71c710077b6e9d7dfc2095ff384bbc865c3c38663da5",
+              "bytes": 21584
+            }
+          },
+          {
+            "name": "lint",
+            "argv": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 2.189,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-signoff-gate-lint-20261016.log",
+              "sha256": "ba60fc93567bab3f49de7d46b24d6e437befe0b64c25fba252d1bc06d185d74a",
+              "bytes": 201
+            }
+          },
+          {
+            "name": "diff",
+            "argv": ["git", "diff", "c3bb4096c4041a7890350199ca226fc79d174832", "--check"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 0.036,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-signoff-gate-diff-20261016.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            }
+          },
+          {
+            "name": "strict",
+            "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 0.116,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-signoff-gate-strict-20261016.log",
+              "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+              "bytes": 63
+            }
+          },
+          {
+            "name": "progress",
+            "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+            "exit": 0,
+            "signal": null,
+            "timedOut": false,
+            "elapsedSeconds": 1.379,
+            "log": {
+              "path": "/tmp/type-pal-q6-root-signoff-gate-progress-20261016.log",
+              "sha256": "1916bf9f0facf9fff493da1b80242199f485fcfe6560281c33550edfa4cecd1b",
+              "bytes": 80160
+            }
+          }
+        ],
+        "actualRead": {
+          "docs": {
+            "exit": 0,
+            "seconds": 46.347,
+            "tests": 86,
+            "pass": 86,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0,
+            "MD": 1230,
+            "localLinks": 8048,
+            "issues": 0
+          },
+          "model": {
+            "routes": 7,
+            "bodyContracts": 250,
+            "issues": 0
+          },
+          "testingIssues": 0,
+          "phaseLoreDocuments": 184,
+          "strictDocuments": 733,
+          "lint": {
+            "files": 4113,
+            "error": 0,
+            "warning": 0,
+            "info": 0,
+            "completeReport": true
+          },
+          "diffBytes": 0,
+          "timeouts": 0
+        },
+        "independence": "Broad gates executed by root, exact pins/summaries and metadata integrity independently verified; static evidence only."
+      },
+      "actualProgress": {
+        "approvedCohort": 1838,
+        "cohortMigrated": 245,
+        "incrementalMigrated": 5,
+        "currentCandidates": 1985,
+        "currentPending": 1735,
+        "issues": []
+      },
+      "evidence": [
+        {
+          "path": "/tmp/type-pal-q6-root-signoff-independent-probe-20261016.py",
+          "sha256": "c5ef4486713d1b5cf73f14c22a844ecc13ef46ba7f7c3a0731da1e1f91d022c0",
+          "bytes": 6864,
+          "lines": 24
+        },
+        {
+          "path": "/tmp/type-pal-q6-root-signoff-independent-probe-20261016.json",
+          "sha256": "1bc792054ac92bb06c55ca8ec705bb1995dedcecc0e8cebd47d6e7edf698f9c5",
+          "bytes": 72128,
+          "lines": 1469
+        }
+      ],
+      "remainingCounters": [],
+      "limits": [
+        "Only current Q signoff2metadata accepted at tree77451148; six-source semantic authority remains e018/3a804 and exactroot13ee/2dcc, no repeated source/migration credit.",
+        "245/1838+5/current1985pending1735 remains partial; full docs/increments/artifacts and final independent complete audit remain unfinished.",
+        "No product/runtime/E2E/visual/coverage acceptance, no source code/oldtest/coverage writes.",
+        "No A8 newcandidate/HTML build/implementation acceptance.",
+        "This tail report should be preserved by the next actual package predecessorReception as planned, not recursively embedded into the same two files and treated as preapproval."
+      ],
+      "nextStep": "Commit exact reviewed Q signoff metadata, preserve report separately in next actual reception package, then continue authorized full governance. No further Q signature recursion or batch user reconfirmation needed.",
+      "finalState": {
+        "HEAD": "13ee36134f587298b7282985a8771929004a6d3c",
+        "frozenTree": "77451148cab12dab3b560ef683af478509be8062",
+        "reviewerRepoContentWrites": 0,
+        "reviewerStageCommitMergePush": 0,
+        "fullGoalComplete": false
+      }
+    }
+  },
+  "inventory": {
+    "before": {
+      "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "gitObject": "bbe3a80c5feb0a7c6b185001c272c054c2c1b775",
+      "sha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+      "bytes": 108097,
+      "lines": 586
+    },
+    "after": {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+      "lines": 592
+    },
+    "completeCurrentRecordPrior": {
+      "kind": "complete-prior-current-in-reachable-fixed-git",
+      "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+      "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+      "selector": {
+        "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+        "uniqueMatches": 1
+      },
+      "completePriorObjectRetrievedAndCompared": true
+    },
+    "actualProducer": {
+      "path": "/tmp/type-pal-a8-root-current-inventory-20261016.json",
+      "sha256": "221e771c298632414e31ddbf6331a028f51ad56a7a1f549e419e162d0b2ae40f",
+      "bytes": 4010032,
+      "lines": 115659
+    },
+    "firstRootFailure": {
+      "path": "/tmp/type-pal-a8-root-preintake-quality-ledger-20261016.log",
+      "sha256": "21853f586a8156c9708f53ff2276b84881eb0187c21cbf7c836ce181bc68f0d5",
+      "bytes": 152,
+      "lines": 3
+    },
+    "counts": {
+      "before": 3294,
+      "after": 3300,
+      "closed": 229,
+      "review": 5,
+      "pending": 3066,
+      "unclosed": 3071
+    },
+    "oldLiveRowsByteExact": 248,
+    "newLiveRows": 254,
+    "original273LinesExact": true,
+    "newPendingTools": [
+      {
+        "path": "scripts/docs/terminal-json.mjs",
+        "category": "tool",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "有界 UTF8/JSON 语法、重复键与原生字段读取",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "scripts/docs/check.mjs and scripts/quality/lint-zero.mjs through terminal-namespace.mjs",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      },
+      {
+        "path": "scripts/docs/terminal-codec.mjs",
+        "category": "tool",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "固定 gzip header/单流 footer/CRC/ISIZE 精确 framing",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "scripts/docs/check.mjs and scripts/quality/lint-zero.mjs through terminal-namespace.mjs",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      },
+      {
+        "path": "scripts/docs/terminal-git.mjs",
+        "category": "tool",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "真实 Git 工作树发现与元数据边界；合法 caller symlink 归一化",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "scripts/docs/check.mjs and scripts/quality/lint-zero.mjs through terminal-namespace.mjs",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      },
+      {
+        "path": "scripts/docs/terminal-namespace.mjs",
+        "category": "tool",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "唯一工作树 namespace/FD 与 source-format-partial 协调",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "scripts/docs/check.mjs and scripts/quality/lint-zero.mjs through terminal-namespace.mjs",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      },
+      {
+        "path": "scripts/docs/terminal-contract.mjs",
+        "category": "tool",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "终端 JSON 记录/事件格式合同；不授审批与完成信用",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "scripts/docs/check.mjs and scripts/quality/lint-zero.mjs through terminal-namespace.mjs",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      },
+      {
+        "path": "scripts/docs/terminal-codec.test.mjs",
+        "category": "test",
+        "status": "待核",
+        "owner": "Codex docs-governance tools",
+        "purpose": "34 个格式/真实公开 caller/反控合同；不计旧业务测试或覆盖率",
+        "input": "Frozen terminal format / Git repository metadata or owned focused fixtures, as exact source contract; no product data migration",
+        "caller": "pnpm test:docs-tools / node --test",
+        "output": "Format validation result or focused assertion; no acceptance/complete promotion",
+        "retention": "Tracked source retained while actual caller exists; tmp receipts pinned here as observer evidence, not canonical product truth"
+      }
+    ]
+  },
+  "authorGateHistory": {
+    "firstQualityTools": "36/37 exit1: six new tracked paths not in central inventory. Historical failure retained; this root must run37/37, no waiver.",
+    "finalAuthorDocs": "120/120 including34 new focused cases; source-format-partial only, root current inventory maintenance not yet covered.",
+    "notFreshRootRead": [
+      {
+        "path": "/tmp/type-pal-a8-continuation-20261016/delivery-report.json",
+        "sha256": "3228f868f0452e7c42cf39efc02cbbd9082565ffe9ec6fe38c8153a2d3ab8213",
+        "bytes": 36586,
+        "lines": 735
+      },
+      {
+        "path": "/tmp/type-pal-a8-cwd-alias-repair-20261016/delivery-report.json",
+        "sha256": "fb90f9da59797b34fdf8d9b8dd37eee380d82a133a308a2c030f7c830f1d69b1",
+        "bytes": 28126,
+        "lines": 641
+      }
+    ],
+    "scope": "Author reports full-read by independent source reviewer, root reuses that review. No claim root manually read full735/641 JSON lines."
+  },
+  "rootIntake": {
+    "status": "accepted exact root source-format-partial integration; six pending inventory rows admitted; no whole-goal completion",
+    "base": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+    "sourceCommit": "85ebe86d38d047c10339e053299ae050af5ec053",
+    "scope": "Exact8 frozen source files plus ledger/current D entry/new control/task. Other14 D entries, registry/routes/catalog/matrix and old1752 tests immutable.",
+    "sourceAlreadyAccepted": "Exact85 source-format-partial only; root future metadata is not preaccepted.",
+    "actualAcceptance": {
+      "fixedCommit": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+      "fixedTree": "54ede789a6d6a33e585240fd9c695823fde7f6ac",
+      "independentReport": {
+        "path": "/tmp/type-pal-a8-root-intake-independent-review-20261016.json",
+        "sha256": "60f62bb9be8b7402f18e7cd1709b8f70ba6019fd5c8bdb016a7e6e39c292b711",
+        "bytes": 18957,
+        "lines": 457
+      },
+      "completeIndependentReport": {
+        "kind": "Independent readonly A8 exact12 root natural intake review",
+        "reviewer": "n6_signoff_q_admission_review; nonauthor of all12 root paths, original independent f4 counter and85 closure reviewer",
+        "verdict": "accept-root-intake exact staged tree54ede789a6d6a33e585240fd9c695823fde7f6ac at HEAD782128f12f475a7a72bc0d4dc7c6b4fe091c6509 + MERGE_HEAD85ebe86d38d047c10339e053299ae050af5ec053; source-format-partial and six pending inventory additions only",
+        "candidate": {
+          "root": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal",
+          "HEAD": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+          "MERGE_HEAD": "85ebe86d38d047c10339e053299ae050af5ec053",
+          "tree": "54ede789a6d6a33e585240fd9c695823fde7f6ac",
+          "manifest": {
+            "path": "/tmp/type-pal-a8-root-frozen-manifest-20261016.json",
+            "sha256": "e2824c4ad906420d9d18f58d8f5b0d0a243de956788035618630db9c4bd3541c",
+            "bytes": 3205,
+            "lines": 81
+          },
+          "paths": [
+            {
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+              "gitObject": "5c72af76eeb424fb7ddeb05cab7795bc35069edb",
+              "bytes": 109812
+            },
+            {
+              "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+              "sha256": "565b46d4aa0682e927f7b8324acc24f6109233e9835821db67ee77d6a08bfe5a",
+              "gitObject": "814e365a51503048f1987a9cc307a8b9bd7220ab",
+              "bytes": 199565
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+              "sha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
+              "gitObject": "e746c9ba333c7bb3255c7047c2f40315c67eb619",
+              "bytes": 302305
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261016-terminal-a8.json",
+              "sha256": "387521097bce121438aca8823c939bfdfaa79a8ed22fec21f63904786dce0397",
+              "gitObject": "3d955a45243addb2f346194900de1b39d34297e6",
+              "bytes": 72716
+            },
+            {
+              "path": "scripts/docs/check.mjs",
+              "sha256": "751b5e8b3f9aa5843eca97cd221b06bde6040235736516bb26d45c6d7a69f00e",
+              "gitObject": "da25cca5ff95590039dafe0d024e35b4c3c3b0f0",
+              "bytes": 14206
+            },
+            {
+              "path": "scripts/docs/terminal-codec.mjs",
+              "sha256": "36c07a62bae782a6922e5c3375d04f885f951b8d8efe9f2f48f25b42e71d84de",
+              "gitObject": "d2a0091a8652348ea4e021449f38f6e42942a6d4",
+              "bytes": 2625
+            },
+            {
+              "path": "scripts/docs/terminal-codec.test.mjs",
+              "sha256": "950ce8ff20fa2a5da6cef3200e542ff2d678cccf013ca507061cb2fb291ee433",
+              "gitObject": "5a2bb0a87fb3065b036365543b80acc057d96f23",
+              "bytes": 42683
+            },
+            {
+              "path": "scripts/docs/terminal-contract.mjs",
+              "sha256": "1f24954d18629c8b6c42079a14ec8c534189eeb1357b5ff00ecff2a80db3bcaa",
+              "gitObject": "40257927cda06bad7cbb81679eea2528cc564dac",
+              "bytes": 17857
+            },
+            {
+              "path": "scripts/docs/terminal-git.mjs",
+              "sha256": "4abf0f4da5a371d0042474c7ddd9bee1eacd48e8f62b99ac269a1e5f6d9c7fb0",
+              "gitObject": "f67d634131c8349803090903039200666409d45b",
+              "bytes": 9737
+            },
+            {
+              "path": "scripts/docs/terminal-json.mjs",
+              "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+              "gitObject": "1eab6304c6dec0afd8c99fc22ef6a3825254f552",
+              "bytes": 9817
+            },
+            {
+              "path": "scripts/docs/terminal-namespace.mjs",
+              "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33",
+              "gitObject": "266209f3fc13b07b2ca3d0979ddc74e01daea015",
+              "bytes": 12819
+            },
+            {
+              "path": "scripts/quality/lint-zero.mjs",
+              "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+              "gitObject": "a911610b9b664d5920d0ed43ba501fba5f2bcc45",
+              "bytes": 3515
+            }
+          ],
+          "exact12WorkIndexTree": true,
+          "wholeStage0IndexEntries": 10728,
+          "sourceEightByteExact85": true,
+          "aggregateBase": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+          "untracked": 0,
+          "unstaged": 0
+        },
+        "readScope": {
+          "freshSemanticRead": "Actual complete ledger/task root diff, every changed D entry field and current A8 control top/source/readingScope/inventory/authorGateHistory/rootIntake/stopLine. New six purposes, source-format limits, actual producer/consumer ownership, current vs native capture axes, evidence and next step assessed directly. Existing task199k/D302k unaffected prior material is reused at fixed Git, not claimed newly reread.",
+          "freshCode": "Both inventory216 and ledger142 complete source lines read, plus actual document-model checkMigratedDocument and helpers in observed portions and real docs CLI/lint hooks. Current root has exactly accepted85 source bytes. This review does not relabel root370-line read as fresh2968.",
+          "reusedFullSourceAndDesign": "Prior exact f4 report contains full2908 source +1067 formal design +A-only90MD/696JSON review, first A-CWD-ALIAS counter and every real author failure. Exact85 closure contains full2968 aggregate reuse with actual two-file delta, independent34 focused/public caller/normalization proof. These reports are retained complete and mechanically deepEqual here, not freshly rerun source-wide.",
+          "preservationNotSemanticPromotion": "Old248 whole rows/GFM AST, all1752 .test.{mjs,ts,tsx} bytes, original273-line51844B and complete prior/receipts are preservation checks. None implies fresh old-code or product execution acceptance."
+        },
+        "independentActualChecks": {
+          "identityHistoryProbe": {
+            "path": "/tmp/type-pal-a8-root-intake-independent-probe-20261016.json",
+            "sha256": "9f90c081c97e6ad298456287dff5279b6aad8d1b16ddeb6006782faff7f2b17a",
+            "bytes": 37044,
+            "lines": 978
+          },
+          "actualConsumerProbe": {
+            "path": "/tmp/type-pal-a8-root-intake-independent-consumers-20261016.json",
+            "sha256": "9067e2dc1eecde8783411ed5366ad1a03872a6b3df8b95ffc4cc53860d3546ab",
+            "bytes": 3837,
+            "lines": 127
+          },
+          "checks": 101,
+          "issues": 0,
+          "oldTestFiles": 1752,
+          "oldTestFileCountScope": "Whole repository original .test.{mjs,ts,tsx} aa5 set; file identity only, not docs-only and not execution count.",
+          "allOldTestBytesExact": true,
+          "completeStage0IndexEqualsFrozenTree": true,
+          "all12PinsRecheckedAtEnd": true
+        },
+        "sourceAuthority": {
+          "firstCounter": {
+            "path": "/tmp/type-pal-a8-independent-source-review-20261016.json",
+            "sha256": "e4af5539da2513f6add22cc9a3c0786753efb6bea4a7c4f04c1e259104813d76",
+            "bytes": 26303,
+            "lines": 526,
+            "complete526RawDeepEqual": true
+          },
+          "exact85Closure": {
+            "path": "/tmp/type-pal-a8-cwd-alias-independent-closure-20261016.json",
+            "sha256": "f55acc2fcdede47ad9df5179e347c727487b652b8f47caf2b407737d39e40e8a",
+            "bytes": 15633,
+            "lines": 379,
+            "complete379RawDeepEqual": true
+          },
+          "newRootSourceWrites": 0,
+          "oldF4CounterAndAuthorFailedGatesPreserved": true,
+          "absoluteEvidencePins": {
+            "references": 61,
+            "uniquePaths": 54,
+            "mismatches": 0
+          },
+          "sourceAxes": "Native ec2 capture SHA/blob and immediate782 reviewedSource actual Git both verified; no source axis silently replaced."
+        },
+        "inventoryAndCurrentEntry": {
+          "realProducer": {
+            "path": "/tmp/type-pal-a8-root-intake-independent-current-inventory-20261016.json",
+            "sha256": "221e771c298632414e31ddbf6331a028f51ad56a7a1f549e419e162d0b2ae40f",
+            "bytes": 4010032,
+            "records": 3300
+          },
+          "producerActualCaller": {
+            "argv": [
+              "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+              "scripts/quality/code-quality-inventory.mjs"
+            ],
+            "cwd": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal"
+          },
+          "counts": {
+            "total": 3300,
+            "closed": 229,
+            "review": 5,
+            "pending": 3066,
+            "unclosed": 3071
+          },
+          "liveRows": {
+            "prior": 248,
+            "current": 254,
+            "newToolPending": 5,
+            "newTestPending": 1,
+            "allPriorFullBytesAndGfmAstOrderExact": true,
+            "soleContinuousGfmTable": true
+          },
+          "original": {
+            "revision": "22eead43a6c825e1345feb92441e09d340d22c18",
+            "blob": "8195bf08cf7193b1dffc0c5676629e6692e50b92",
+            "sha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+            "bytes": 51844,
+            "lines": 273,
+            "actualGitAndPriorRoundTrip": true
+          },
+          "DRecord": "Existing unique code-quality-file-ledger entry only. Other14 whole entries, D nonentries, priorReadings and all previous provenance/history are exact; original capture source axes remain ec2, current reviewedSource actual782; current after mirrors equal f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d.",
+          "completeImmediatePrior": {
+            "kind": "complete-prior-current-in-reachable-fixed-git",
+            "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+            "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+            "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+            "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+            "selector": {
+              "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "wholePriorLocatorsActuallyFetched": 14,
+          "currentRecordAuthority": "Only new A8 control.rootIntake owns current intake verdict. status pending / actualAcceptance null truthfully describes frozen pre-review time. This report accepts exactly those bytes and does not sign subsequent writeback.",
+          "migrationCredit": 0,
+          "codeQualityClosedCredit": 0
+        },
+        "actualIndependentNegatives": [
+          {
+            "case": "Prior782 declared3294 vs same real3300 inventory",
+            "result": "Actual two original designated count failures reproduced; current ledger passes."
+          },
+          {
+            "case": "Memory-only3300 to3299 scalar",
+            "result": "Exactly inventory count mismatch; current original restored green."
+          },
+          {
+            "case": "Memory-only new terminal-json pending to已验证",
+            "result": "Exactly status count mismatch230/5/3065/3070; no false closed credit."
+          },
+          {
+            "case": "Memory-only remove current required heading",
+            "result": "Exactly missing section 当前状态 despite full historical fenced source; current template/overlay consumer passes."
+          }
+        ],
+        "QPredecessor": {
+          "path": "/tmp/type-pal-q6-root-signoff-independent-review-20261016.json",
+          "sha256": "68cfcd328d67b059f8a943710ebc9126ef78994055646dd02ebceaeb24828a3e",
+          "bytes": 10384,
+          "lines": 250,
+          "complete250RawDeepEqual": true,
+          "acceptedTailTreeEqualsCommitted782Tree": true,
+          "QFilesChanged": 0,
+          "limits": "Historical Q counter/failure/unknown cause/source reception scopes retained; no Q re-migration or new product credit."
+        },
+        "actualRootSevenGates": {
+          "report": {
+            "path": "/tmp/type-pal-a8-root-intake-gates-20261016.json",
+            "sha256": "ee5254f0fafaaa21903ba1c5e6e17acffa26fb3b3c068043c798adc4bebf79a1",
+            "bytes": 3966,
+            "lines": 134
+          },
+          "frozenInputsUnchanged": true,
+          "gateResults": [
+            {
+              "name": "quality-ledger",
+              "argv": ["node", "scripts/quality/code-quality-ledger.mjs"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-quality-ledger-20261016.log",
+                "sha256": "00d9ddb328e92a0a4139677503a3b45bedcb3193ec04e93b52afec4d0956be53",
+                "bytes": 111
+              }
+            },
+            {
+              "name": "docs",
+              "argv": ["pnpm", "check:docs"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-docs-20261016.log",
+                "sha256": "7c225f2a99c2fb09928a474ce16d22d73626b88125a379a16e02226a211e9ccf",
+                "bytes": 29541
+              }
+            },
+            {
+              "name": "quality-tools",
+              "argv": ["pnpm", "test:quality-tools"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-quality-tools-20261016.log",
+                "sha256": "297aca63b2c79a88139dc9f24f58cbcaaeb1c1b8e292ddba744d0c3db27f74fc",
+                "bytes": 6147
+              }
+            },
+            {
+              "name": "lint",
+              "argv": ["pnpm", "lint"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-lint-20261016.log",
+                "sha256": "c1833b0aad8068e634805e222983785915b1eedcec24b639d7d9b6cf7aad4b72",
+                "bytes": 201
+              }
+            },
+            {
+              "name": "diff",
+              "argv": ["git", "diff", "782128f12f475a7a72bc0d4dc7c6b4fe091c6509", "--check"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-diff-20261016.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              }
+            },
+            {
+              "name": "strict",
+              "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-strict-20261016.log",
+                "sha256": "d3ae976d4ffcd74b3375935fc57e5299fd7fdc55306b875d030ba11d8241aa62",
+                "bytes": 63
+              }
+            },
+            {
+              "name": "progress",
+              "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--json"],
+              "exit": 0,
+              "signal": null,
+              "timedOut": false,
+              "log": {
+                "path": "/tmp/type-pal-a8-root-gate-progress-20261016.log",
+                "sha256": "e90d06f5bda82f0c85fa9f538e1dfed817c3987dff73a923416b5d97933d46f6",
+                "bytes": 80160
+              }
+            }
+          ],
+          "actualRawSummaries": {
+            "docs": {
+              "tests": 120,
+              "pass": 120,
+              "fail": 0,
+              "cancelled": 0,
+              "skipped": 0,
+              "todo": 0
+            },
+            "markdown": 1230,
+            "localLinks": 8055,
+            "tasks": 361,
+            "documentModelRoutes": 7,
+            "documentModelBodyContracts": 250,
+            "documentModelIssues": 0,
+            "testingIssues": 0,
+            "phaseLoreDocuments": 184,
+            "strictContentReviewed": 733,
+            "qualityTools": {
+              "tests": 37,
+              "pass": 37,
+              "fail": 0,
+              "cancelled": 0,
+              "skipped": 0,
+              "todo": 0
+            },
+            "lint": {
+              "files": 4120,
+              "error": 0,
+              "warning": 0,
+              "info": 0,
+              "completeReport": true
+            },
+            "diffBytes": 0
+          },
+          "independence": "Broad seven gates were executed by root; reviewer checks all raw hashes/bytes, exit/signal/timeout and actual summaries. Fresh independent ledger/Marked/model checks are separately identified; no duplicated120 run claimed."
+        },
+        "actualProgress": {
+          "approvedCohort": 1838,
+          "cohortMigrated": 245,
+          "cohortPending": 1593,
+          "incrementalMigrated": 5,
+          "currentCandidates": 1986,
+          "currentPending": 1736,
+          "issues": []
+        },
+        "observerSetupCorrections": [
+          "Readonly initial JSON introspection incorrectly treated1752-item list as an object; corrected the projection. No repository command or candidate failure.",
+          "Own /tmp Python probe initially had a non-ASCII bytes literal SyntaxError before execution; saved original script and raw stderr, changed only owned probe encoding.",
+          "Own /tmp probe initially guessed obsolete consistency-matrix.json; discovered actual cross-phase-matrix.json and .md, then verified both exact. This was observer lookup error, not candidate missing file.",
+          "Own /tmp report writer initially used reserved Python pass keyword in dict construction and failed before execution; original and raw stderr retained, corrected only owned writer."
+        ],
+        "evidence": [
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-probe-20261016.py",
+            "sha256": "40116fe1d708fd7a2c2f7f1cd949fbc3699d842fe792ab44d3063c89de40e34a",
+            "bytes": 14217,
+            "lines": 119
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-consumers-20261016.mjs",
+            "sha256": "d8928a6b9984a42dd4530a3a8f444c93bf6d5bad04390e9f940054c3741a7fe2",
+            "bytes": 6078,
+            "lines": 52
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-probe-before-20261016.py",
+            "sha256": "193c12931ff806cbe6b3769fbb04e7558f59bd1c5ba352a36501dacfc6d842eb",
+            "bytes": 13951,
+            "lines": 118
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-probe-preflight-20261016.log",
+            "sha256": "8a8c005e81a2a20fc546748fd7df0d6d0d9fe5640fe8ec31e771a5b8da9f5977",
+            "bytes": 280,
+            "lines": 4
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-probe-path-before-20261016.py",
+            "sha256": "6c2687835019960a660199196d4b1dc4b633bceb7af9635502a4b33147f75973",
+            "bytes": 13959,
+            "lines": 118
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-report-writer-before-20261016.py",
+            "sha256": "15ab4b16df7d24a192b22f0dda859349e7a0d5b22f3fa453e2cdccaf2e576f46",
+            "bytes": 14253,
+            "lines": 97
+          },
+          {
+            "path": "/tmp/type-pal-a8-root-intake-independent-report-writer-preflight-20261016.log",
+            "sha256": "da61253a07582d6953bd687cf59cdd3c9e2a956b998833e6b02e7d59e26f89db",
+            "bytes": 225,
+            "lines": 4
+          }
+        ],
+        "remainingCounters": [],
+        "stopLines": [
+          "Acceptance applies only to exact12/tree54ede789 frozen bytes; a natural merge commit with identical tree may carry this snapshot authority. No future metadata, current acceptance writeback or main bytes are presigned.",
+          "Source acceptance remains A8 source-format-partial. B/C0/C1, graph/approval/content/canonical current/complete validation and fullT not implemented or accepted.",
+          "No product, existing test, coverage, shared template/registry/route/catalog/matrix, or CI changes accepted or performed. No runtime/E2E/browser/visual/coverage acceptance.",
+          "245/1838 baseline +5 increment migrated and current1986/pending1736 is partial. Entire full docs/increment/artifact goal remains active/build; not done/main push or cleanup approval.",
+          "No additional body migration or CODE-QUALITY closed credit. Six new tool/test paths are pending even though dedicated format tests pass. Full source history/counters/failed gates remain retained."
+        ],
+        "repoContentWrites": 0,
+        "stageMutations": 0,
+        "mergeCommitPerformed": false
+      },
+      "actualSevenGates": {
+        "path": "/tmp/type-pal-a8-root-intake-gates-20261016.json",
+        "sha256": "ee5254f0fafaaa21903ba1c5e6e17acffa26fb3b3c068043c798adc4bebf79a1",
+        "bytes": 3966,
+        "lines": 134
+      },
+      "actualConsumers": {
+        "path": "/tmp/type-pal-a8-root-intake-consumers-20261016.json",
+        "sha256": "8d4aec613ef87ff585372cb4c1c0c9d96b85e4ccfba6ecea23f8ecfc68c82539",
+        "bytes": 4543,
+        "lines": 170
+      },
+      "completePrior": {
+        "revision": "655b8c687cb3e568c85fa53084d503e40b845e6a",
+        "path": "docs/phase-governance/reviews/20261016-terminal-a8.json",
+        "gitObject": "3d955a45243addb2f346194900de1b39d34297e6",
+        "fileSha256": "387521097bce121438aca8823c939bfdfaa79a8ed22fec21f63904786dce0397",
+        "selector": ["rootIntake"],
+        "completePriorRetrieved": true
+      },
+      "scope": "Only exact12 staged source-format/central inventory intake; these later signoff/design bytes require separate scoped independent review. No new migrated body or CODE-QUALITY closed credit."
+    }
+  },
+  "stopLine": "No whole1838 completion, B/C0/C1, live terminal approval/DAG/current/complete validation, runtime/E2E/browser/visual/coverage or product/old-test acceptance. Full goal continues; all increments/artifacts remain in denominator."
+}

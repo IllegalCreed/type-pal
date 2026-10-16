@@ -1,68 +1,824 @@
 {
-  "schemaVersion": 1,
-  "id": "content-document-template-registry-20261004",
+  "schemaVersion": 2,
+  "id": "content-document-template-registry-20261011",
   "owner": "Codex",
-  "policy": "One stable type and one template contract per governed document; historical documents retain truth scope and are not promoted by formatting migration.",
+  "policy": "One stable type and one template contract per governed document; historical documents retain truth scope and are not promoted by formatting migration. Testing documents use dedicated contracts while preserving machine fields.",
   "types": [
     {
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"]
+      "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
+      "templateVersion": "1.0.0",
+      "purpose": "职责导航与权威入口",
+      "statuses": ["current", "draft", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "task-card.md",
-      "requiredSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"]
+      "requiredSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+      "templateVersion": "1.0.0",
+      "purpose": "单一变更的目标、准入、实施与交接",
+      "statuses": ["draft", "build", "review", "done", "blocked", "rework", "cancelled"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "guide-runbook.md",
-      "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"]
+      "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"],
+      "templateVersion": "1.0.0",
+      "purpose": "可重复操作的前提、步骤与失败处理",
+      "statuses": ["draft", "current", "retired"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "audit-report.md",
-      "requiredSections": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"]
+      "requiredSections": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"],
+      "templateVersion": "1.0.0",
+      "purpose": "审计问题、发现与整改复核",
+      "statuses": ["draft", "open", "resolved", "blocked", "rework", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "evidence-receipt.md",
-      "requiredSections": ["证据身份", "来源与输入", "断言与业务 oracle", "结果", "限制与复核"]
+      "requiredSections": ["证据身份", "来源与输入", "断言与业务 oracle", "结果", "限制与复核"],
+      "templateVersion": "1.0.0",
+      "purpose": "指定来源、输入与候选的证据回执",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "design-spec.md",
-      "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"]
+      "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+      "templateVersion": "1.0.0",
+      "purpose": "问题、真值约束与设计验收",
+      "statuses": ["draft", "proposed", "current", "superseded", "blocked"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "plan-status.md",
-      "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"]
+      "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+      "templateVersion": "1.0.0",
+      "purpose": "时间范围、里程碑与阻塞",
+      "statuses": ["planned", "active", "blocked", "done", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "reference-canon.md",
-      "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"]
+      "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"],
+      "templateVersion": "1.0.0",
+      "purpose": "分清已核真值与候选来源",
+      "statuses": ["candidate", "current", "historical", "superseded"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "narrative-idea",
       "templateId": "narrative-idea-v1",
       "template": "narrative-idea.md",
-      "requiredSections": ["创意目的", "已知约束", "候选内容", "未决选择", "升级为 canon 的门槛"]
+      "requiredSections": ["创意目的", "已知约束", "候选内容", "未决选择", "升级为 canon 的门槛"],
+      "templateVersion": "1.0.0",
+      "purpose": "尚未升格 canon 的创意与取舍",
+      "statuses": ["idea", "draft", "approved", "rejected", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "archive-record.md",
-      "requiredSections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"]
+      "requiredSections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+      "templateVersion": "1.0.0",
+      "purpose": "保留时点结论、证据与继任关系",
+      "statuses": ["historical", "superseded", "retained"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
+    },
+    {
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "../../testing/_templates/test-catalog.json",
+      "templateVersion": "1.2.0",
+      "requiredSections": [],
+      "purpose": "机器索引与依赖的事实源",
+      "statuses": ["current", "draft", "rework"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "json",
+      "requiredFields": ["schemaVersion", "generatedBy", "entries", "_governance"],
+      "requiredValues": {
+        "schemaVersion": 2,
+        "_governance.runtimeExecutionPerformed": false
+      },
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "primarySource",
+        "scope",
+        "history",
+        "supersedes",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "entryReadingsField": "_governance.entryReadings",
+      "defaultRequiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "primarySource",
+        "scope",
+        "publicationRules",
+        "entryReadings",
+        "history",
+        "supersedes",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "variants": {
+        "frozen-document-binding-baseline-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "status",
+            "denominator",
+            "registry",
+            "policy",
+            "summary",
+            "entries",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "id": "docs-full-template-binding-baseline-20261011",
+            "status": "baseline-pending-semantic-review",
+            "denominator": 1838,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.kind": "static-document-governance",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lastReviewed",
+            "owner",
+            "provenance",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "primarySource",
+            "scope",
+            "lifecycle",
+            "currentAudit",
+            "captureReading",
+            "history",
+            "supersedes",
+            "beforeAfter",
+            "stopLine",
+            "nextStep"
+          ],
+          "statuses": ["baseline-pending-semantic-review"],
+          "statusPolicy": {
+            "axis": "frozen-binding-capture"
+          },
+          "preservedSource": {
+            "kind": "frozen-document-binding-root-view-v1"
+          }
+        }
+      }
+    },
+    {
+      "docType": "test-contract",
+      "templateId": "test-contract-v1",
+      "template": "../../testing/_templates/test-contract.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Contract question",
+        "Legal typed inputs",
+        "Caller and oracle",
+        "Dedupe and limits",
+        "Revision"
+      ],
+      "purpose": "合法输入、caller、oracle 与排重的测试合同",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "archived", "current"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
+    },
+    {
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "template": "../../testing/_templates/test-domain-report.md",
+      "templateVersion": "1.1.0",
+      "requiredSections": [
+        "Domain scope",
+        "Claim matrix",
+        "Inputs and fixtures",
+        "Results and gaps",
+        "Quality gate"
+      ],
+      "purpose": "域内 claim/evidence 与缺口",
+      "statuses": [
+        "draft",
+        "active",
+        "verified",
+        "rework",
+        "superseded",
+        "archived",
+        "proposal",
+        "current"
+      ],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown",
+      "statusPolicy": {
+        "axis": "catalog-publication",
+        "catalog": "docs/testing/catalog.json",
+        "placement": "first-metadata-paragraph-after-root-title"
+      }
+    },
+    {
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "template": "../../testing/_templates/test-e2e-stage.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": ["入口与前置", "当前结论", "证据与状态", "依赖与历史"],
+      "purpose": "稳定阶段的入口、前驱与当期结论",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "archived"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
+    },
+    {
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "template": "../../testing/_templates/test-run-report.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Scope",
+        "Execution and assertions",
+        "Results",
+        "Evidence",
+        "Revision history"
+      ],
+      "purpose": "一次执行的断言、结果与回执",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
+    },
+    {
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateVersion": "1.5.0",
+      "requiredSections": [
+        "Machine envelope",
+        "Execution identity",
+        "Steps and hashes",
+        "Exit and cleanup",
+        "Limits"
+      ],
+      "purpose": "机器执行身份、步骤与退出清理",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "json",
+      "requiredFields": [
+        "schemaVersion",
+        "id",
+        "status",
+        "execution",
+        "sourceRefs",
+        "publicCallers",
+        "legalInputs",
+        "businessOracle",
+        "dedupe",
+        "steps",
+        "hashes",
+        "artifacts",
+        "failures",
+        "cleanup",
+        "history"
+      ],
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "variant",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "scope",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "variants": {
+        "document-audit-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          }
+        },
+        "historical-execution-publication-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": true,
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "requiredValues": {
+              "schemaVersion": 2,
+              "kind": "document-audit",
+              "runtimeExecution.performed": true
+            }
+          }
+        },
+        "historical-review-payload-v1": {
+          "format": "json",
+          "requiredFields": [
+            "candidate",
+            "candidateBase",
+            "reviewedMain",
+            "verdict",
+            "checks",
+            "g01",
+            "v01ActorName",
+            "g06AuthorGuard",
+            "g08DropOutput",
+            "_governance"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        },
+        "historical-continuation-integration-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "status",
+            "owner",
+            "candidate",
+            "protectedBase",
+            "validatedImplementation",
+            "queues",
+            "priorCompleted",
+            "logDirectory",
+            "gates",
+            "coverage",
+            "negativeControls",
+            "unchanged",
+            "notClaimed",
+            "remoteCi",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "status": "accepted; all local integration gates passed",
+            "negativeControls.scope": "previous per-slice evidence, not rerun during integration",
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        },
+        "historical-intake-completion-v1": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "date",
+            "integrationBase",
+            "cursor",
+            "glm",
+            "unifiedGates",
+            "baseline",
+            "visual",
+            "followups",
+            "activeSceneArchitectureWipIncluded",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 1,
+            "date": "2026-09-26",
+            "activeSceneArchitectureWipIncluded": false,
+            "unifiedGates.fullOrQ1Q2": false,
+            "visual.userProjectSavesWritten": false,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        },
+        "historical-command-integration-v1": {
+          "format": "json",
+          "requiredFields": [
+            "task",
+            "candidate",
+            "productHead",
+            "integration",
+            "protectedBase",
+            "owner",
+            "reviewer",
+            "verdict",
+            "closedCounters",
+            "counts",
+            "total",
+            "baselineHash",
+            "addedSources",
+            "selfTests",
+            "cases",
+            "mechanical",
+            "quality",
+            "scope",
+            "visual",
+            "logs",
+            "limits",
+            "retirement",
+            "_governance"
+          ],
+          "requiredValues": {
+            "task": "ARCH-F2-CURSOR-BATCH-2",
+            "verdict": "accept",
+            "scope.glmCandidateIncluded": false,
+            "scope.allCoverageMetricsUnchanged": true,
+            "visual.userProjectWrites": false,
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "lifecycle", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          }
+        }
+      },
+      "statusPolicy": {
+        "axis": "execution"
+      }
+    },
+    {
+      "docType": "quality-gate",
+      "templateId": "quality-gate-v1",
+      "template": "../../testing/_templates/quality-gate.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Gate scope",
+        "Diagnostics policy",
+        "Commands and raw counts",
+        "Decision",
+        "Stop line"
+      ],
+      "purpose": "命令、原始诊断与接受/拒绝判据",
+      "statuses": ["draft", "active", "passed", "failed", "blocked", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
+    }
+  ],
+  "status": "frozen-for-migration",
+  "adoption": {
+    "date": "2026-10-15",
+    "guideCommit": "169fc3d04f86ededf567e2b9d0417497ed7ef775",
+    "pilotStatus": "Old 2026-10-11 preservation-only samples remain counter; no acceptance inherited from them.",
+    "model": "docs/ops/guides/documentation-model.md",
+    "realPilotStatus": "17 types exercised by actual reviewed migrations, matching SHA/body contracts and format-specific consumers on 2026-10-15; partial progress only, not full-docs acceptance",
+    "historicalExecutionVariantPilot": "C2 test-machine-evidence1.3.0 actual006 JSON pilot independently accepted2026-10-16 after C2.1/.2/.3/.4 and metadata/human-output counters closed; all original fields retained, real consumers and rejection proofs passed; no runtime/expiry credit"
+  },
+  "historyOverlayTemplateId": "archive-record-v1",
+  "historicalSourcePins": [
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+      "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+      "approvedBy": "Codex and independent receipt_review design review 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "approvedBy": "Codex root and independent history_cards_c_tail source/design review 2026-10-16; exact nine-key contract frozen at fd504255",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+      "sha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "a4dcfe27ab3411decb9ca21e160b76d153926e5e",
+      "sha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3f718327c8df97612b000b74a362066fd650c8aa",
+      "sha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c",
+      "approvedBy": "Codex root and independent history_cards_c_tail exact three-shape source/design review; frozen at ea9368e2 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
     }
   ]
 }

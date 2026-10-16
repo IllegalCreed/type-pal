@@ -1,263 +1,338 @@
 # PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议
 
-状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。
-产品基线从`09ee6e3c`到本次取证未修改。各批只提交报告与内存/只读边界复现工具。
-没有重开已验收任务、没有由内部Codex分工代签Kimi/GLM；后续修复重新按风险取得实现准入。
+Status: historical
+Validity: historical
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-17
+Template: audit-report-v1 / 1.0.0
 
-## 修复进度（更新至2026-09-21）
+本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
-- [当前前置欠账/R4准入核对](../../../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)：A-08/A-09在14257da7的修前反例已转入
-  [迁移写盘保护r1](../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。候选57dda7ed三席同候选accept齐（Codex自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；36新回归、五负控、隔离真实发布双跑、check8029/strict7538与远端#286成功为既有证据。本次只做文档收口，不再执行真实迁移或更新基线。
-  E-05仍为退役候选，U-02仍risk，R4未因此自动开门。TB00/TB01已分别done，不再按下方历史局部表述返工。
+## 审计问题
 
-- [D-06/D-07物品作者记录与脚本身份](../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md)：候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户明确授权后由Codex核产品/脚本零漂移并done归档。创建/复制/删除双会话、共享/私有显式身份、canonical引用校验已修；check7909/strict7418、五组负控及原生保存重开证据有效。本次只做文档收口；TB00/TB01窄counter继续原卡返工，full/Q1/Q2、R4/N6b边界不变。
+- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
 
-- [E-01第一阶段资源测试输入合同](../../../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md)：Codex连续测试维护，
-  修整组缺席/单文件缺失/空样本的skip与失败判定；20项无PAL依赖隔离回归及真实资源对拍通过，
-  check7478/严格fast6989绿，已完成，不改生产或资产管线。
-- [E-03/E-04预览缓存](../../../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md)：Codex接续D-02收口独立推进，
-  两个私有组件缓存修复已完成：15项真实字节回归、7针业务负控及原生浏览器绘制检查通过，check7457/严格fast6969通过。
-  不改资源格式/公共加载器/播放语义，不等GLM运行时补测返工；缓存容量与pending FIRE读取协议不在本次范围。
+## 范围与证据
 
-- [E-06 质量门禁](quality-gate-remediation.md)已修复，完整 check 通过。
-- [B-04 当前存档预检](save-preflight-remediation.md)已完成，候选 `2c39b1af` 三席 accept 并按用户授权收口；
-  R4/Q1 恢复与剧情观感用例已登记待跑；[editor 已知帧覆盖缺口](coverage-determinism.md)已补确定性回归并三签收口。
-- [A-01 存档隔离](../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)候选 `526eea00` 三席终审 accept，用户明确免复验通过，已由 Codex 收口为 done；
-  发布运行按稳定项目 ID、编辑器试玩额外按工作区 ID 隔离，旧开发库不读不迁不删，未改 SAVE8/content20。
-  其余修复分组维持下文顺序，本次没有整组实现授权，也未宣称完整 E2E 通过。
-- [EDITOR-SAVE-CONFLICT-1](../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
-  2026-09-07 用户明确验收通过，Codex 已收口为 done；完整 check/严格 fast 与原生双页最小功能证据齐，无实现漂移。
-  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
-- [EDITOR-SAVE-RECOVERY-1](../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 承接 A-03：
-  2026-09-07 用新增当前 API 探针复现“新页面缺人物定义、原页面仍可重试”；相邻 86 项通过。
-  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
-  普通保存、打开、首存/另存、克隆、ZIP/试玩读门已接入恢复保护；原生API及[系统目录/界面主链](../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-native-ui.md)已补证。
-  b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；Kimi/GLM终审accept，用户明确免手动复审并通过，Codex核候选零漂移后归档。A-03按约定范围已修复；保留约80–85秒大克隆成本与未覆盖防御分支，完整R4/E2E仍待集中执行。
+- 版本/时间范围：2026-09-06；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`。
+- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
+- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
 
-- [EDITOR-LEAVE-GUARD-1](../../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) 承接 A-07：
-  2026-09-13 r1 三席设计齐后已实现，候选10c84238三席终审均accept、无返工，用户授权继续后已done归档；新建/打开/关闭双dirty保护、
-  保存结果/异步版本/点击choice复验及导出互斥已接入，含原生功能验证与五针负控；check6918、严格fast6430通过。
-  [回执](../../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)保留最后自审返工及边界；D-01撤销顺序随后独立处理，不并入A-03已验收范围。
+## 发现
 
-以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
+| ID | 发现 | 证据 | 影响 | 状态 |
+|---|---|---|---|---|
+| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
+- 未决信号：- 正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
+- 正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
+- 正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
+- 正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
+- 正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
 
-2026-09-13接续：[D-01全局历史卡](../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已核三席r1设计并进入build。
-当前代码复现普通交错错序与配对拆半；旧probe的save-state缺席适配与导入问题单独记录，不当成产品修复证据。
-用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；该取证工作包本身不是产品修复授权。
+## 结论
 
-用户在取证包接收后要求继续，D-01首批14回归后，整卡候选70e3f627已完成全局顺序、配对原子性、失败保全、Root/App接线及保存重开投影修复。
-整卡新增63项（首批14+本轮49）；完整check6,981、官方ratchet/单次严格fast6,493，五针反控与真实OPFS功能闭环通过。
-GLM 20项工作流经独立复核补强后接收，贡献身份披露；同候选70e3f627/r1的Codex/Kimi/GLM均accept，无返工。
-2026-09-13用户明确“验收通过”，Codex已统一核定done并归档D-01；无需再转AI或重签设计。
-另发现的物品新建canonical缺席及共享ID前缀歧义已在[编辑器审计D-06/D-07](editor-workflows.md)登记，未扩大本卡或宣称修复。
+- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
+- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
 
-以下为该取证包的历史返工记录；当前11fb8148已接收，见本段末尾与[当前接收结论](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)。
+## 整改与复核
 
-GLM候选028ad866首次接收为counter，见[逐项复核与R1～R4返工](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)：
-场景删除被换成钩子删除、缓存故障未实际注入、上传直接提交B被误报最后选择获胜，以及分类/日志矛盾。
-Codex独立确认原D-02三条场景漏边与D-03选择乱序仍在；保留D-01可用观察，其他候选证据待返工，不采用其12/23/9语义分类或“6组已确认根因”。
-产品/正式测试/覆盖率均未修改，不将本接收写成修复完成。
+- 修复 Owner：由后续 task card 和当前 Owner 明确。
+- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
+- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
 
-同日返工e5dba719复核：R1两场景矩阵及部分合法缓存/真实上传证据已修；仍有重试未渲染即卸载、
-实际shaMatch未断言却报covered，以及在途/失败组合错配问题，整体counter仅保留剩余项，已确认部分不重做。
-原18/15/11分布未通过语义验收；记录见同一接收报告最新Codex区，不重签D-01设计。
+## 历史范围
 
-同日二轮返工c69947f8复核：缓存真实重试/在途entered、上传指定失败组合与主要文字已补；
-但原G-C05在隔离修复后已绘制仍报失败，G-I07实际SHA被篡改仍报covered，两个判定阻断保留。
-G-C07仅证明不同root卸载/新挂载观察，不能归因alive保护；44项19/15/10只通过算术，待分类收窄。
-继续保留已核观察，不重做全批；整批未合入、未转正式回归、无产品/覆盖率变化，详见接收报告最新Codex区。
+- phase2/lore archive；日期：2026-09-06；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508。
 
-同日三轮6deb390c复核：原缓存误判与上传SHA/宽/像素断言已用独立反控证实修复；G-C07收窄通过。
-仅剩缓存探针前提失效仍判covered，以及44行统计/重复附录等机械收尾；实数为19/14/11，不是18/14/12。
-主要鉴别力不重开，产品/正式回归未修改，原样接收仍待此定点收尾，见同一接收报告。
+## 原始结论
 
-**当前：收尾11fb8148已独立复核accept并接收取证包。** 缓存前提失效现明确拒绝，正常对照及六条独立反控通过预期核验；
-报告19/14/11及历史附录对账一致，四诊断脚本原样接入main。正式回归先随D-01实施，再随D-02/D-03/E-03/E-04对应卡转正，
-11项risk按归属保留，GLM测试贡献披露；本次不改产品、不增覆盖率、不标任务done、不转Kimi。
+- PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议：这是 audit-report，当前文档状态为 A。全文 264 行、12 个标题；摘要/首段为「状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
 
-## 结论先说
+## 当时证据
 
-2026-09-14并行准备：[GLM剩余边界大批（二）](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md)分配六组72检查点，
-为B-05～09/U-02、Q1导出钩子、C-01～05、A-08/09/E-05及七包高价值测试缺口补一手证据与回归草案。
-不重复已接收44项，不修改产品/正式测试/基线，不把工作量当缺陷或新增覆盖数。以下两轮counter为历史；当前接手结果见下。
+- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
 
-首轮4ffae69b接收为**counter**（见[独立复核与R1～R7](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)）：
-72行算术成立但48/5/19语义分类不采纳；存在反向contract、无业务断言、手写迁移守卫和遗漏实际入口。
-部分运行时取消/偷取/barrier观察可复用，六探针与机器账暂不合入；不重开D-01、不把偷取错归毒杀C-04、不批准删除。
+## 当前有效性
 
-返工a5b7cd89独立复核仍counter：120次退出码与12条业务红确认，C写回方向、D真实动作断言、E真实函数链及Biome已改好；
-但canonical入口替换、barrier/附带/投掷的反向合同、全队复活换成两次单体物品、未执行终态及正确拒绝承接仍有缺口。
-保留已确认素材，只继续[二轮剩余S1～S6](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)，不把42/12/18采纳为全合同完成，不入正式回归或扩大产品授权。
+historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
+- 历史冲突/未决：
+- 正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
+- 正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
+- 正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
+- 正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
+- 正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
 
-**当前：用户确认GLM额度耗尽，Codex接手完成S1～S6取证返工并集成诊断包。**
-[最终逐项证据](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json)为34 covered / 23 reproduced / 15 risk（A～F各12）；
-60项分别执行observe/contract加F单模式共121次，另13项隔离反控/正确结果见证；数字指检查点，不是新bug或正式测试数量。
-地图/entry与主壳采用真实AST函数，战斗补实际消费/回合/终态，迁移补正确拒绝和完整副作用轨迹；此前误记正常的barrier、附带效果、全队复活、投掷入口改回正确合同。
-15项待证为B08/B09旧finally权威、C08主壳旧战斗写回所有权、F01～12静态覆盖候选，具体尝试与后续归属保留。
-养蛊当前第7轮产物与机制文档的原版9回合说法需Q2核四向真值，不据此先改迁移数据。
-正式回归随B-05/08/09、B-06/07、C-01～05及A-08/09等修复卡转正；七包候选先去重，旧接口不批准删除。
-GLM原材料贡献与Codex修改自验证分开披露，不代签、不重开D-01、不转Kimi终审、不改产品/基线或宣布E2E通过。
+## 继任文档
 
-2026-09-14后续：B-05/08/09已进入[WORLD-ASYNC-COMMIT-1](../../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md) r1 draft，
-覆盖当前换图同步提交、canonical预检依赖和四选择叶取消残留；不混入保存barrier/U-02/战斗/默认落点或迁移。
-后续用户已批准GLM豁免、Kimi已签r1设计；2026-09-15 Codex已完成三段实现与[正式回归/反控](../../../testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md)，推进review待Kimi实现终审。
-新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
+- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 当前事实由继任规范、代码、测试和新的 review 决定。
 
-2026-09-16接续：GLM恢复额度，WORLD补审已accept、Kimi终审待回；[四包基础测试](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)三席r1设计齐，GLM已核build准入（648b4086）。
-Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)r1 draft：
-当前树两旧反例仍业务红，新增[双状态出口反例](save-barrier-lineage-premise.md)排除“只删准入gate”的不完整修法，39项相邻测试绿。
-只是只读前提与方案，不是新产品修复/覆盖率；待两席独立设计签字，不复用WORLD豁免或扩大到U-02/dumpSave。
+## 原文保全
 
-2026-09-17：上述保存子链r1已完成[实现与验证](../../../testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md)，候选dff3442d自身三席终审accept、无返工。
-新增43项、8反控、完整check7079与严格fast6591通过；用户要求按齐备终审收口，Codex核候选零漂移后done归档；SL-E1～3集中R4/Q1仍待执行。
+固定源 SHA `cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议
+>
+> 状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。
+> 产品基线从`09ee6e3c`到本次取证未修改。各批只提交报告与内存/只读边界复现工具。
+> 没有重开已验收任务、没有由内部Codex分工代签Kimi/GLM；后续修复重新按风险取得实现准入。
+>
+> ## 修复进度（更新至2026-09-21）
+>
+> - [当前前置欠账/R4准入核对](../../../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)：A-08/A-09在14257da7的修前反例已转入
+>   [迁移写盘保护r1](../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。候选57dda7ed三席同候选accept齐（Codex自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；36新回归、五负控、隔离真实发布双跑、check8029/strict7538与远端#286成功为既有证据。本次只做文档收口，不再执行真实迁移或更新基线。
+>   E-05仍为退役候选，U-02仍risk，R4未因此自动开门。TB00/TB01已分别done，不再按下方历史局部表述返工。
+>
+> - [D-06/D-07物品作者记录与脚本身份](../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md)：候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户明确授权后由Codex核产品/脚本零漂移并done归档。创建/复制/删除双会话、共享/私有显式身份、canonical引用校验已修；check7909/strict7418、五组负控及原生保存重开证据有效。本次只做文档收口；TB00/TB01窄counter继续原卡返工，full/Q1/Q2、R4/N6b边界不变。
+>
+> - [E-01第一阶段资源测试输入合同](../../../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md)：Codex连续测试维护，
+>   修整组缺席/单文件缺失/空样本的skip与失败判定；20项无PAL依赖隔离回归及真实资源对拍通过，
+>   check7478/严格fast6989绿，已完成，不改生产或资产管线。
+> - [E-03/E-04预览缓存](../../../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md)：Codex接续D-02收口独立推进，
+>   两个私有组件缓存修复已完成：15项真实字节回归、7针业务负控及原生浏览器绘制检查通过，check7457/严格fast6969通过。
+>   不改资源格式/公共加载器/播放语义，不等GLM运行时补测返工；缓存容量与pending FIRE读取协议不在本次范围。
+>
+> - [E-06 质量门禁](quality-gate-remediation.md)已修复，完整 check 通过。
+> - [B-04 当前存档预检](save-preflight-remediation.md)已完成，候选 `2c39b1af` 三席 accept 并按用户授权收口；
+>   R4/Q1 恢复与剧情观感用例已登记待跑；[editor 已知帧覆盖缺口](coverage-determinism.md)已补确定性回归并三签收口。
+> - [A-01 存档隔离](../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)候选 `526eea00` 三席终审 accept，用户明确免复验通过，已由 Codex 收口为 done；
+>   发布运行按稳定项目 ID、编辑器试玩额外按工作区 ID 隔离，旧开发库不读不迁不删，未改 SAVE8/content20。
+>   其余修复分组维持下文顺序，本次没有整组实现授权，也未宣称完整 E2E 通过。
+> - [EDITOR-SAVE-CONFLICT-1](../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
+>   2026-09-07 用户明确验收通过，Codex 已收口为 done；完整 check/严格 fast 与原生双页最小功能证据齐，无实现漂移。
+>   A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
+> - [EDITOR-SAVE-RECOVERY-1](../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 承接 A-03：
+>   2026-09-07 用新增当前 API 探针复现“新页面缺人物定义、原页面仍可重试”；相邻 86 项通过。
+>   用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
+>   普通保存、打开、首存/另存、克隆、ZIP/试玩读门已接入恢复保护；原生API及[系统目录/界面主链](../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-native-ui.md)已补证。
+>   b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；Kimi/GLM终审accept，用户明确免手动复审并通过，Codex核候选零漂移后归档。A-03按约定范围已修复；保留约80–85秒大克隆成本与未覆盖防御分支，完整R4/E2E仍待集中执行。
+>
+> - [EDITOR-LEAVE-GUARD-1](../../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) 承接 A-07：
+>   2026-09-13 r1 三席设计齐后已实现，候选10c84238三席终审均accept、无返工，用户授权继续后已done归档；新建/打开/关闭双dirty保护、
+>   保存结果/异步版本/点击choice复验及导出互斥已接入，含原生功能验证与五针负控；check6918、严格fast6430通过。
+>   [回执](../../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)保留最后自审返工及边界；D-01撤销顺序随后独立处理，不并入A-03已验收范围。
+>
+> 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
+>
+> 2026-09-13接续：[D-01全局历史卡](../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已核三席r1设计并进入build。
+> 当前代码复现普通交错错序与配对拆半；旧probe的save-state缺席适配与导入问题单独记录，不当成产品修复证据。
+> 用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；该取证工作包本身不是产品修复授权。
+>
+> 用户在取证包接收后要求继续，D-01首批14回归后，整卡候选70e3f627已完成全局顺序、配对原子性、失败保全、Root/App接线及保存重开投影修复。
+> 整卡新增63项（首批14+本轮49）；完整check6,981、官方ratchet/单次严格fast6,493，五针反控与真实OPFS功能闭环通过。
+> GLM 20项工作流经独立复核补强后接收，贡献身份披露；同候选70e3f627/r1的Codex/Kimi/GLM均accept，无返工。
+> 2026-09-13用户明确“验收通过”，Codex已统一核定done并归档D-01；无需再转AI或重签设计。
+> 另发现的物品新建canonical缺席及共享ID前缀歧义已在[编辑器审计D-06/D-07](editor-workflows.md)登记，未扩大本卡或宣称修复。
+>
+> 以下为该取证包的历史返工记录；当前11fb8148已接收，见本段末尾与[当前接收结论](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)。
+>
+> GLM候选028ad866首次接收为counter，见[逐项复核与R1～R4返工](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)：
+> 场景删除被换成钩子删除、缓存故障未实际注入、上传直接提交B被误报最后选择获胜，以及分类/日志矛盾。
+> Codex独立确认原D-02三条场景漏边与D-03选择乱序仍在；保留D-01可用观察，其他候选证据待返工，不采用其12/23/9语义分类或“6组已确认根因”。
+> 产品/正式测试/覆盖率均未修改，不将本接收写成修复完成。
+>
+> 同日返工e5dba719复核：R1两场景矩阵及部分合法缓存/真实上传证据已修；仍有重试未渲染即卸载、
+> 实际shaMatch未断言却报covered，以及在途/失败组合错配问题，整体counter仅保留剩余项，已确认部分不重做。
+> 原18/15/11分布未通过语义验收；记录见同一接收报告最新Codex区，不重签D-01设计。
+>
+> 同日二轮返工c69947f8复核：缓存真实重试/在途entered、上传指定失败组合与主要文字已补；
+> 但原G-C05在隔离修复后已绘制仍报失败，G-I07实际SHA被篡改仍报covered，两个判定阻断保留。
+> G-C07仅证明不同root卸载/新挂载观察，不能归因alive保护；44项19/15/10只通过算术，待分类收窄。
+> 继续保留已核观察，不重做全批；整批未合入、未转正式回归、无产品/覆盖率变化，详见接收报告最新Codex区。
+>
+> 同日三轮6deb390c复核：原缓存误判与上传SHA/宽/像素断言已用独立反控证实修复；G-C07收窄通过。
+> 仅剩缓存探针前提失效仍判covered，以及44行统计/重复附录等机械收尾；实数为19/14/11，不是18/14/12。
+> 主要鉴别力不重开，产品/正式回归未修改，原样接收仍待此定点收尾，见同一接收报告。
+>
+> **当前：收尾11fb8148已独立复核accept并接收取证包。** 缓存前提失效现明确拒绝，正常对照及六条独立反控通过预期核验；
+> 报告19/14/11及历史附录对账一致，四诊断脚本原样接入main。正式回归先随D-01实施，再随D-02/D-03/E-03/E-04对应卡转正，
+> 11项risk按归属保留，GLM测试贡献披露；本次不改产品、不增覆盖率、不标任务done、不转Kimi。
+>
+> ## 结论先说
+>
+> 2026-09-14并行准备：[GLM剩余边界大批（二）](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md)分配六组72检查点，
+> 为B-05～09/U-02、Q1导出钩子、C-01～05、A-08/09/E-05及七包高价值测试缺口补一手证据与回归草案。
+> 不重复已接收44项，不修改产品/正式测试/基线，不把工作量当缺陷或新增覆盖数。以下两轮counter为历史；当前接手结果见下。
+>
+> 首轮4ffae69b接收为**counter**（见[独立复核与R1～R7](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)）：
+> 72行算术成立但48/5/19语义分类不采纳；存在反向contract、无业务断言、手写迁移守卫和遗漏实际入口。
+> 部分运行时取消/偷取/barrier观察可复用，六探针与机器账暂不合入；不重开D-01、不把偷取错归毒杀C-04、不批准删除。
+>
+> 返工a5b7cd89独立复核仍counter：120次退出码与12条业务红确认，C写回方向、D真实动作断言、E真实函数链及Biome已改好；
+> 但canonical入口替换、barrier/附带/投掷的反向合同、全队复活换成两次单体物品、未执行终态及正确拒绝承接仍有缺口。
+> 保留已确认素材，只继续[二轮剩余S1～S6](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)，不把42/12/18采纳为全合同完成，不入正式回归或扩大产品授权。
+>
+> **当前：用户确认GLM额度耗尽，Codex接手完成S1～S6取证返工并集成诊断包。**
+> [最终逐项证据](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json)为34 covered / 23 reproduced / 15 risk（A～F各12）；
+> 60项分别执行observe/contract加F单模式共121次，另13项隔离反控/正确结果见证；数字指检查点，不是新bug或正式测试数量。
+> 地图/entry与主壳采用真实AST函数，战斗补实际消费/回合/终态，迁移补正确拒绝和完整副作用轨迹；此前误记正常的barrier、附带效果、全队复活、投掷入口改回正确合同。
+> 15项待证为B08/B09旧finally权威、C08主壳旧战斗写回所有权、F01～12静态覆盖候选，具体尝试与后续归属保留。
+> 养蛊当前第7轮产物与机制文档的原版9回合说法需Q2核四向真值，不据此先改迁移数据。
+> 正式回归随B-05/08/09、B-06/07、C-01～05及A-08/09等修复卡转正；七包候选先去重，旧接口不批准删除。
+> GLM原材料贡献与Codex修改自验证分开披露，不代签、不重开D-01、不转Kimi终审、不改产品/基线或宣布E2E通过。
+>
+> 2026-09-14后续：B-05/08/09已进入[WORLD-ASYNC-COMMIT-1](../../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md) r1 draft，
+> 覆盖当前换图同步提交、canonical预检依赖和四选择叶取消残留；不混入保存barrier/U-02/战斗/默认落点或迁移。
+> 后续用户已批准GLM豁免、Kimi已签r1设计；2026-09-15 Codex已完成三段实现与[正式回归/反控](../../../testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md)，推进review待Kimi实现终审。
+> 新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
+>
+> 2026-09-16接续：GLM恢复额度，WORLD补审已accept、Kimi终审待回；[四包基础测试](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)三席r1设计齐，GLM已核build准入（648b4086）。
+> Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)r1 draft：
+> 当前树两旧反例仍业务红，新增[双状态出口反例](save-barrier-lineage-premise.md)排除“只删准入gate”的不完整修法，39项相邻测试绿。
+> 只是只读前提与方案，不是新产品修复/覆盖率；待两席独立设计签字，不复用WORLD豁免或扩大到U-02/dumpSave。
+>
+> 2026-09-17：上述保存子链r1已完成[实现与验证](../../../testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md)，候选dff3442d自身三席终审accept、无返工。
+> 新增43项、8反控、完整check7079与严格fast6591通过；用户要求按齐备终审收口，Codex核候选零漂移后done归档；SL-E1～3集中R4/Q1仍待执行。
+>
+> 同日WORLD候选e13216e7已补齐Kimi独立accept（43fd83ab），三席齐、用户确认，Codex已核done并归档；
+> 当前main该卡七产品文件仅core有已验收保存子链后续改动，不冒称全树与旧候选零diff；WA-E1～3仍待R4。
+>
+> 2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
+> 历轮counter已修并由Codex独立接收，139项GLM测试合入最新主线；完整check7218、官方ratchet/单次受保护strict fast6730/617通过。
+> 产品源码/旧测试不变，全仓行70.90%/分支62.50%；集成候选48d3b8e3三席accept、用户确认后由Codex核零漂移并done归档。
+> YJ2两项后续补测保留，不外推为完整E2E或覆盖目标完成，不代签其它卡。
+>
+> 2026-09-18编辑器补测收口：[TEST-EDITOR-LOGIC-COVERAGE-1](../../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)
+> 集成候选5ca9dad2三席accept、用户授权，Codex核零漂移后done归档；47项新增、check7282及strict fast6794/617通过。
+> A3技能Update保留下一批补测候选，D4真实provider边界归D-02修复，D5保存重开归R4；D-02/06/07未因此关闭。
+>
+> 本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
+> 以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。
+> 建议先围绕证据修复边界并补回归，再建设R4薄E2E，以基线保护之后的content21切换；
+> **不要求先把所有优化或第一阶段问题修完才允许二阶段起跑**。
+>
+> ## 覆盖及阅读入口
+>
+> | 批次 | 证据 | 重点 |
+> |---|---|---|
+> | A | [数据安全台账](README.md) | 存档存储、导入恢复、编辑器写盘、迁移计划/发布与资产物化 |
+> | B | [世界与异步生命周期](world-lifecycle.md) | 两阶段切场景/读档、canonical状态、取消、快照barrier、entry预检 |
+> | C | [战斗](battle.md) | 规则/状态/操作、战后库存、音画接线与测试盲区；不替代Q2 |
+> | D | [编辑器工作流](editor-workflows.md) | 双会话历史、引用删除、异步上传、试玩入口与保存承诺 |
+> | E | [测试与工程](engineering.md) | 资源测试前置条件、缓存正确性、版本残留、现有门禁及发布边界 |
+>
+> 七包主要风险调用链均纳入本轮：shared解码/格式，pal-extract提取/对拍，game状态/战斗/缓存，
+> content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/脚本/存档/战斗，editor作者/保存/引用/试玩。
+> 根脚本/发布配置亦已读。**没有声称逐行人工审完每个文件或穷举每个参数组合**。
+> 测试计数以各批回执为准，跨批重叠不简单累加成“全仓测试总数”。
+>
+> ## 建议推进顺序
+>
+> 2026-09-20收口：[共享战斗模拟器首批](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)主体fe0fee84及列宽补丁d394eccc
+> 三席accept齐、用户最终UI验收通过，Codex已done归档。D-04/D-05关闭：当前工程显式配置、真实BattleSession、独立临时world
+> 和无正常SaveStore路径已落实；[实施记录](../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)保留7895/7404与列宽22项的各自候选口径。
+> 原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
+> 并行[运行时状态与元数据六组补测](../../../testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md)仍独立推进，当前状态以看板为准，不随本卡关闭。
+>
+> 2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
+> Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
+> [回执](../../../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md)在案；两席终审accept、用户要求继续，2026-09-19由Codex核候选零漂移后done归档。
+> GLM[运行时基础功能五组补测](../../../testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md)（十模块30族）于2026-09-19完成收窄返工，
+> 源3dfec190已由Codex独立复核并集成62a18137：60新测试、check7538/受保护单次fast7049通过，三席accept齐、用户确认，2026-09-19核零漂移后done归档。
+> 该测试包不改生产，GLM为测试贡献者而非独立第三方；不互借签字、不冒称完整E2E。
+>
+> 2026-09-18收口：[D-03精灵上传选图卡](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/archive/legacy/editor/editor-workflows/sprite-selection.md)，当前done。
+> 候选a88ab18d，22定向/36相邻/6负控及Codex实际界面检查通过，check7302/strict fast6814；三席accept齐、用户验收通过，已核零漂移并归档。
+> 编辑器命令/引用补测已另卡done；本卡不改其core/测试面，也不提前实现G-I04提交取消政策。
+>
+> 以下是修复排期建议，不是已经开始的任务，也不提前决定schema版本/文件布局/兼容策略。
+>
+> | 顺序 | 修复组/对应记录 | 与E2E的关系 |
+> |---|---|---|
+> | 0 | E-06：恢复质量门禁绿基线，机械格式与需判断的规则问题分开 | 当前typecheck绿、lint红；先让后续修复回执可解释，不以关闭规则换绿色 |
+> | 1 | A-01存档命名空间；B-04当前存档预检/失败隔离 | 多项目检查点与坏输入恢复测试前优先处理；合法薄正向用例不因此一概停线 |
+> | 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
+> | 3 | B-05/08/09：地图覆写提交、entry依赖快照、取消后写状态 | 剧情runner采用相关换图/并发/取消路径前修；未触及的薄段可先成为基线，不能把缺覆盖报成全能力通过 |
+> | 4 | B-06/07保存与子活动互等；D-02/03/04、E-03/04作者功能边界 | 对应确认保存、删除、上传、技能试玩、跨工程预览工作流接入前修；不要求无关薄段等待全部UI修复 |
+> | 5 | C-01至C-05及路线图原有Q2缺口 | 集中进入Q2：战内新增物品、附带状态、全队复活、毒杀收尾、投掷菜单；Q1速胜不能替代这批 |
+> | 6 | A-08/09迁移物化条件防护；E-05历史输入/producer退役 | N6b重迁及版本切换前核清；当前单writer/无symlink的R4不因假设条件全部冻结 |
+> | 独立 | A-04/05/06、B-01/02/03、C-06/07、E-01/02 | 第一阶段存档、运行、战斗、资源测试/离线问题；单独排期，不强套二阶段current-only架构 |
+>
+> **最先建议进入方案的是A-01存档隔离与B-04预检边界，两项分清，不合成一个巨大存档系统重写。**
+> E-06可作为低风险门禁清理先收；跨包、save/migration等按完整准入，普通同Owner连续修复按既有免签规则。
+>
+> R4起跑时必须写清实际使用的项目/存档身份、输入校验、作者保存方式及其未覆盖故障路径，
+> 用明确的checkpoint/阶段结束断言而不是toast、窗口打开、命令返回success作为通过条件。
+> 本报告不授权为绕过缺陷而把真实运行逻辑桩掉；Q1速胜仍必须经过正式奖励和剧情分支。
+>
+> ## 审计后用户补充
+>
+> - **默认落点选择与s135迁移误配**已另行记录到[设计议题池](../../../phase2/design-backlog.md#用户补充默认落点选择与迁移误配)：
+>   唯一普通入口作为默认；多个入口保留各自落点并指定默认；剧情传送保留显式坐标，不猜地图中心。
+>   s135默认55,17误取自另一传送链，正确具名入口42,17仍在。**尚未修复，必须修迁移上游后重生成**。
+>   本条是审计收口后追加的已核实问题，不修改A–E原编号/历史回执，也不以本记录授权开始迁移实现。
+>
+> ## 审计后实现期追加（2026-09-07）
+>
+> 2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)r1三席设计齐，已开build。
+> Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；现有capture隔离成立，但直接绑它不能替代safe-point等待。
+> 方案限主壳共用快照队列与DEV异步导出，已实施并补[正式回归](../../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)：17新用例/5反控、check7235/严格fast6747通过，三席accept、2026-09-18已核定done归档；不把后续R4 runner提前记为完成。
+>
+> - **Q1 检查点导出钩子接错函数（历史缺陷，已按上卡修复）**：旧`packages/reforge/src/main.ts:6933` 把 `dumpSave`
+>   绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是
+>   已有的零参 `captureCurrentSavePayload`（`main.ts:5580`）。浏览器零参调用导出的是缺字段对象，
+>   JSON 仅 `{"version":8,"contentVersion":20}`，不能成为合法 checkpoint；正常 F5 使用本地 wrapper，不受此误接影响。
+>   独立只读复算：`node --import tsx --input-type=module -e 'import {buildCurrentSavePayload} from "./packages/reforge/src/save/ops.ts"; console.log(JSON.stringify(Reflect.apply(buildCurrentSavePayload,undefined,[])))'`。
+>   接线在 SAVE-ISOLATION-1 前已存在，本卡未改；R4/Q1 建立导出链前需另修并钉住真实零参调用链，不能
+>   以 builder 单测或 toast 替代。存档隔离的浏览器复核使用正式 F5/F9 和真实 IndexedDB，不以此坏钩子造快照。
+>
+> ## 需要产品选择的边界
+>
+> - A-01（2026-09-06 已裁决）：不同 projectId 不互相覆盖；同 projectId 的多个工作区/评审副本也各自独立，
+>   同工作区重开及 HTTP→本地绑定保持自身身份。方案与当前准入见存档隔离卡，不擅自重命名工程或清理用户数据库。
+>   用户在评审中补充：现有开发档可全部作废，无需迁移/恢复/兼容；主要保障发布后玩家的不同工程进度互不覆盖。
+>   隔离落实到读写地址而非仅读后校验；该废弃许可不适用于未来正式用户存档，不改变当前 r2 方案或重开签字。
+> - D-05（2026-09-19已裁决）：**独立临时试玩，不读写正常存档，关闭即丢弃测试状态**。
+>   已与D-04共同完成共享模拟器首批并于2026-09-20三席及用户验收后done，不引入第三阶段X5全套配置，不改普通试玩/正式游戏保存规则。
+>   原审计仅证明主动保存会保存临时技能/999MP，不把它夸大成已证明立即自动覆盖；历史证据保留，实际实现与边界见上方收口记录。
+> - 其余已确认保持现有合同的普通修复不反复询问产品取舍；Agent负责把事实核准。
+>   高风险变更另开卡、前提证据与三签按协议执行；已经验收的旧卡不重复签同一结论。
+>
+> ## 归并与“不要误读”
+>
+> - B-06/07是同一个保存barrier家族的两种嵌套入口；只修host key不一定覆盖内联场景hook，合并修复、分别回归。
+> - D-01普通两栈错序与配对拆分同根；D-02三种漏边同一家族。不要按反例数量膨胀卡数。
+> - E-03/04可用同一缓存合同修复组，但身份隔离和失败重试是两条独立验收；缓存容量另测后定。
+> - A-03、D-01/02明确有恢复/撤销路径，不叫永久丢失；D-01当前只证实空私有记录被错误撤销，按P2。
+> - B-04坏输入、A-08并发写、A-09链接目录、部分资源失败/乱序都带触发条件，
+>   **没有证据表明用户现有工程或存档已经受损**。
+> - C-03是合法作者全队复活组合，不是当前PAL单体还魂咒失效；C-04可额外行动恢复结算，不是永久死锁。
+> - E-05不是生产加载旧工程：content20/SAVE8入口仍成立。残留历史输出与测试调用要清，不删获准的当前raw工具/局部格式。
+> - E-06的238条lint error诊断不等于238个业务缺陷。类型、局部测试、静态组件门禁通过也不等于全check或实机E2E通过。
+>
+> ## 待证项与撤回项
+>
+> U-01已在B-04追证，不重复计数。**U-02仍待证**：`main.ts:5167-5175`旧detached finally只有清runner受身份保护，
+> 之后的权威释放等缺同等判断。但本轮进一步核得：
+>
+> - runner活跃时普通输入被门控；不能假设此时任意F9/切场景都可达。
+> - 已有runner内嵌调用ownsRunnerSlot=false，不执行该全局收尾。
+> - 真物品入口传同signal，abortScript兑现挂起等待，canonical运行器检查取消并关闭活动。
+> - 读档启动auto本身不能证明新权威已取得，因为autoHost禁止实体接管/队伍挂载。
+>
+> 所缺反例：**合法取消旧detached→旧Promise还没清理→新交互/onEnter实际取得权威→旧finally释放新权威**。
+> 不能用无视AbortSignal的假invoke生成“证据”。后续生命周期修复时补真实调度用例；本轮不升级为已确认缺陷，
+> 也不反过来宣称绝对安全（coordinator的活动登记不等于全局互斥）。
+>
+> 已撤回：A的dry-run恢复journal写入属于已声明语义；C的合击混乱初疑有直接SDL反证；
+> E的data部署&&/errexit初疑被真实Bash控制流反证。保留撤回原因，不让早期猜测混入最终缺陷表。
+>
+> ## 优化怎么安排
+>
+> - 先修已经证实的边界问题并补真实调用链测试，不先整体拆App/main、重写脚本系统或扩新版本。
+> - R4基线后再分域提取大型模块，测试应能证明保存、脚本、战斗和呈现的所有权不变。
+> - 类型化引用walker、统一历史事务、缓存生命周期都是面向具体问题的收敛方向，不是预先批准的新公共框架。
+> - 有界缓存/释放、派生索引增量和性能基准先测后定；不能凭静态Map、函数长度或O(n)下“必须重构”结论。
+> - 敌队大目录虚拟滚动按原二阶段队列，`capture`依赖Q1/Q2，A1/A8最终发布收口；
+>   无障碍、时间天气、随机笔刷、时间旅行调试、内容语义补标、脚本库参数化创作便利与版权替换维持第三阶段边界。
+>
+> ## 交付与下一步
+>
+> 各项含源码位置、触发/反证、内存探针及后续E2E入口。类型检查7包通过；E批设计门禁92文件/2例外通过；
+> 全仓lint仍红，完整浏览器/E2E/生产部署未执行。A–E证据不能充当对应修复后的回归证据，修复时必须重跑正确性断言。
+>
+> 只读审计至此收口，**修复尚未开始**。下一步按上述优先级进入修复方案/小改阶段；
+> 本轮无下一位外部Agent提示词、无需用户逐条技术验收或再签审计卡。
+> 需要三方的新修复卡届时同时给出Kimi/GLM并行提示词，由两席各自落盘，不让用户搬运审查正文。
 
-同日WORLD候选e13216e7已补齐Kimi独立accept（43fd83ab），三席齐、用户确认，Codex已核done并归档；
-当前main该卡七产品文件仅core有已验收保存子链后续改动，不冒称全树与旧候选零diff；WA-E1～3仍待R4。
-
-2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
-历轮counter已修并由Codex独立接收，139项GLM测试合入最新主线；完整check7218、官方ratchet/单次受保护strict fast6730/617通过。
-产品源码/旧测试不变，全仓行70.90%/分支62.50%；集成候选48d3b8e3三席accept、用户确认后由Codex核零漂移并done归档。
-YJ2两项后续补测保留，不外推为完整E2E或覆盖目标完成，不代签其它卡。
-
-2026-09-18编辑器补测收口：[TEST-EDITOR-LOGIC-COVERAGE-1](../../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)
-集成候选5ca9dad2三席accept、用户授权，Codex核零漂移后done归档；47项新增、check7282及strict fast6794/617通过。
-A3技能Update保留下一批补测候选，D4真实provider边界归D-02修复，D5保存重开归R4；D-02/06/07未因此关闭。
-
-本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
-以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。
-建议先围绕证据修复边界并补回归，再建设R4薄E2E，以基线保护之后的content21切换；
-**不要求先把所有优化或第一阶段问题修完才允许二阶段起跑**。
-
-## 覆盖及阅读入口
-
-| 批次 | 证据 | 重点 |
-|---|---|---|
-| A | [数据安全台账](README.md) | 存档存储、导入恢复、编辑器写盘、迁移计划/发布与资产物化 |
-| B | [世界与异步生命周期](world-lifecycle.md) | 两阶段切场景/读档、canonical状态、取消、快照barrier、entry预检 |
-| C | [战斗](battle.md) | 规则/状态/操作、战后库存、音画接线与测试盲区；不替代Q2 |
-| D | [编辑器工作流](editor-workflows.md) | 双会话历史、引用删除、异步上传、试玩入口与保存承诺 |
-| E | [测试与工程](engineering.md) | 资源测试前置条件、缓存正确性、版本残留、现有门禁及发布边界 |
-
-七包主要风险调用链均纳入本轮：shared解码/格式，pal-extract提取/对拍，game状态/战斗/缓存，
-content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/脚本/存档/战斗，editor作者/保存/引用/试玩。
-根脚本/发布配置亦已读。**没有声称逐行人工审完每个文件或穷举每个参数组合**。
-测试计数以各批回执为准，跨批重叠不简单累加成“全仓测试总数”。
-
-## 建议推进顺序
-
-2026-09-20收口：[共享战斗模拟器首批](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)主体fe0fee84及列宽补丁d394eccc
-三席accept齐、用户最终UI验收通过，Codex已done归档。D-04/D-05关闭：当前工程显式配置、真实BattleSession、独立临时world
-和无正常SaveStore路径已落实；[实施记录](../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)保留7895/7404与列宽22项的各自候选口径。
-原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
-并行[运行时状态与元数据六组补测](../../../testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md)仍独立推进，当前状态以看板为准，不随本卡关闭。
-
-2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
-Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
-[回执](../../../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md)在案；两席终审accept、用户要求继续，2026-09-19由Codex核候选零漂移后done归档。
-GLM[运行时基础功能五组补测](../../../testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md)（十模块30族）于2026-09-19完成收窄返工，
-源3dfec190已由Codex独立复核并集成62a18137：60新测试、check7538/受保护单次fast7049通过，三席accept齐、用户确认，2026-09-19核零漂移后done归档。
-该测试包不改生产，GLM为测试贡献者而非独立第三方；不互借签字、不冒称完整E2E。
-
-2026-09-18收口：[D-03精灵上传选图卡](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/archive/legacy/editor/editor-workflows/sprite-selection.md)，当前done。
-候选a88ab18d，22定向/36相邻/6负控及Codex实际界面检查通过，check7302/strict fast6814；三席accept齐、用户验收通过，已核零漂移并归档。
-编辑器命令/引用补测已另卡done；本卡不改其core/测试面，也不提前实现G-I04提交取消政策。
-
-以下是修复排期建议，不是已经开始的任务，也不提前决定schema版本/文件布局/兼容策略。
-
-| 顺序 | 修复组/对应记录 | 与E2E的关系 |
-|---|---|---|
-| 0 | E-06：恢复质量门禁绿基线，机械格式与需判断的规则问题分开 | 当前typecheck绿、lint红；先让后续修复回执可解释，不以关闭规则换绿色 |
-| 1 | A-01存档命名空间；B-04当前存档预检/失败隔离 | 多项目检查点与坏输入恢复测试前优先处理；合法薄正向用例不因此一概停线 |
-| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |
-| 3 | B-05/08/09：地图覆写提交、entry依赖快照、取消后写状态 | 剧情runner采用相关换图/并发/取消路径前修；未触及的薄段可先成为基线，不能把缺覆盖报成全能力通过 |
-| 4 | B-06/07保存与子活动互等；D-02/03/04、E-03/04作者功能边界 | 对应确认保存、删除、上传、技能试玩、跨工程预览工作流接入前修；不要求无关薄段等待全部UI修复 |
-| 5 | C-01至C-05及路线图原有Q2缺口 | 集中进入Q2：战内新增物品、附带状态、全队复活、毒杀收尾、投掷菜单；Q1速胜不能替代这批 |
-| 6 | A-08/09迁移物化条件防护；E-05历史输入/producer退役 | N6b重迁及版本切换前核清；当前单writer/无symlink的R4不因假设条件全部冻结 |
-| 独立 | A-04/05/06、B-01/02/03、C-06/07、E-01/02 | 第一阶段存档、运行、战斗、资源测试/离线问题；单独排期，不强套二阶段current-only架构 |
-
-**最先建议进入方案的是A-01存档隔离与B-04预检边界，两项分清，不合成一个巨大存档系统重写。**
-E-06可作为低风险门禁清理先收；跨包、save/migration等按完整准入，普通同Owner连续修复按既有免签规则。
-
-R4起跑时必须写清实际使用的项目/存档身份、输入校验、作者保存方式及其未覆盖故障路径，
-用明确的checkpoint/阶段结束断言而不是toast、窗口打开、命令返回success作为通过条件。
-本报告不授权为绕过缺陷而把真实运行逻辑桩掉；Q1速胜仍必须经过正式奖励和剧情分支。
-
-## 审计后用户补充
-
-- **默认落点选择与s135迁移误配**已另行记录到[设计议题池](../../../phase2/design-backlog.md#用户补充默认落点选择与迁移误配)：
-  唯一普通入口作为默认；多个入口保留各自落点并指定默认；剧情传送保留显式坐标，不猜地图中心。
-  s135默认55,17误取自另一传送链，正确具名入口42,17仍在。**尚未修复，必须修迁移上游后重生成**。
-  本条是审计收口后追加的已核实问题，不修改A–E原编号/历史回执，也不以本记录授权开始迁移实现。
-
-## 审计后实现期追加（2026-09-07）
-
-2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)r1三席设计齐，已开build。
-Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；现有capture隔离成立，但直接绑它不能替代safe-point等待。
-方案限主壳共用快照队列与DEV异步导出，已实施并补[正式回归](../../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)：17新用例/5反控、check7235/严格fast6747通过，三席accept、2026-09-18已核定done归档；不把后续R4 runner提前记为完成。
-
-- **Q1 检查点导出钩子接错函数（历史缺陷，已按上卡修复）**：旧`packages/reforge/src/main.ts:6933` 把 `dumpSave`
-  绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是
-  已有的零参 `captureCurrentSavePayload`（`main.ts:5580`）。浏览器零参调用导出的是缺字段对象，
-  JSON 仅 `{"version":8,"contentVersion":20}`，不能成为合法 checkpoint；正常 F5 使用本地 wrapper，不受此误接影响。
-  独立只读复算：`node --import tsx --input-type=module -e 'import {buildCurrentSavePayload} from "./packages/reforge/src/save/ops.ts"; console.log(JSON.stringify(Reflect.apply(buildCurrentSavePayload,undefined,[])))'`。
-  接线在 SAVE-ISOLATION-1 前已存在，本卡未改；R4/Q1 建立导出链前需另修并钉住真实零参调用链，不能
-  以 builder 单测或 toast 替代。存档隔离的浏览器复核使用正式 F5/F9 和真实 IndexedDB，不以此坏钩子造快照。
-
-## 需要产品选择的边界
-
-- A-01（2026-09-06 已裁决）：不同 projectId 不互相覆盖；同 projectId 的多个工作区/评审副本也各自独立，
-  同工作区重开及 HTTP→本地绑定保持自身身份。方案与当前准入见存档隔离卡，不擅自重命名工程或清理用户数据库。
-  用户在评审中补充：现有开发档可全部作废，无需迁移/恢复/兼容；主要保障发布后玩家的不同工程进度互不覆盖。
-  隔离落实到读写地址而非仅读后校验；该废弃许可不适用于未来正式用户存档，不改变当前 r2 方案或重开签字。
-- D-05（2026-09-19已裁决）：**独立临时试玩，不读写正常存档，关闭即丢弃测试状态**。
-  已与D-04共同完成共享模拟器首批并于2026-09-20三席及用户验收后done，不引入第三阶段X5全套配置，不改普通试玩/正式游戏保存规则。
-  原审计仅证明主动保存会保存临时技能/999MP，不把它夸大成已证明立即自动覆盖；历史证据保留，实际实现与边界见上方收口记录。
-- 其余已确认保持现有合同的普通修复不反复询问产品取舍；Agent负责把事实核准。
-  高风险变更另开卡、前提证据与三签按协议执行；已经验收的旧卡不重复签同一结论。
-
-## 归并与“不要误读”
-
-- B-06/07是同一个保存barrier家族的两种嵌套入口；只修host key不一定覆盖内联场景hook，合并修复、分别回归。
-- D-01普通两栈错序与配对拆分同根；D-02三种漏边同一家族。不要按反例数量膨胀卡数。
-- E-03/04可用同一缓存合同修复组，但身份隔离和失败重试是两条独立验收；缓存容量另测后定。
-- A-03、D-01/02明确有恢复/撤销路径，不叫永久丢失；D-01当前只证实空私有记录被错误撤销，按P2。
-- B-04坏输入、A-08并发写、A-09链接目录、部分资源失败/乱序都带触发条件，
-  **没有证据表明用户现有工程或存档已经受损**。
-- C-03是合法作者全队复活组合，不是当前PAL单体还魂咒失效；C-04可额外行动恢复结算，不是永久死锁。
-- E-05不是生产加载旧工程：content20/SAVE8入口仍成立。残留历史输出与测试调用要清，不删获准的当前raw工具/局部格式。
-- E-06的238条lint error诊断不等于238个业务缺陷。类型、局部测试、静态组件门禁通过也不等于全check或实机E2E通过。
-
-## 待证项与撤回项
-
-U-01已在B-04追证，不重复计数。**U-02仍待证**：`main.ts:5167-5175`旧detached finally只有清runner受身份保护，
-之后的权威释放等缺同等判断。但本轮进一步核得：
-
-- runner活跃时普通输入被门控；不能假设此时任意F9/切场景都可达。
-- 已有runner内嵌调用ownsRunnerSlot=false，不执行该全局收尾。
-- 真物品入口传同signal，abortScript兑现挂起等待，canonical运行器检查取消并关闭活动。
-- 读档启动auto本身不能证明新权威已取得，因为autoHost禁止实体接管/队伍挂载。
-
-所缺反例：**合法取消旧detached→旧Promise还没清理→新交互/onEnter实际取得权威→旧finally释放新权威**。
-不能用无视AbortSignal的假invoke生成“证据”。后续生命周期修复时补真实调度用例；本轮不升级为已确认缺陷，
-也不反过来宣称绝对安全（coordinator的活动登记不等于全局互斥）。
-
-已撤回：A的dry-run恢复journal写入属于已声明语义；C的合击混乱初疑有直接SDL反证；
-E的data部署&&/errexit初疑被真实Bash控制流反证。保留撤回原因，不让早期猜测混入最终缺陷表。
-
-## 优化怎么安排
-
-- 先修已经证实的边界问题并补真实调用链测试，不先整体拆App/main、重写脚本系统或扩新版本。
-- R4基线后再分域提取大型模块，测试应能证明保存、脚本、战斗和呈现的所有权不变。
-- 类型化引用walker、统一历史事务、缓存生命周期都是面向具体问题的收敛方向，不是预先批准的新公共框架。
-- 有界缓存/释放、派生索引增量和性能基准先测后定；不能凭静态Map、函数长度或O(n)下“必须重构”结论。
-- 敌队大目录虚拟滚动按原二阶段队列，`capture`依赖Q1/Q2，A1/A8最终发布收口；
-  无障碍、时间天气、随机笔刷、时间旅行调试、内容语义补标、脚本库参数化创作便利与版权替换维持第三阶段边界。
-
-## 交付与下一步
-
-各项含源码位置、触发/反证、内存探针及后续E2E入口。类型检查7包通过；E批设计门禁92文件/2例外通过；
-全仓lint仍红，完整浏览器/E2E/生产部署未执行。A–E证据不能充当对应修复后的回归证据，修复时必须重跑正确性断言。
-
-只读审计至此收口，**修复尚未开始**。下一步按上述优先级进入修复方案/小改阶段；
-本轮无下一位外部Agent提示词、无需用户逐条技术验收或再签审计卡。
-需要三方的新修复卡届时同时给出Kimi/GLM并行提示词，由两席各自落盘，不让用户搬运审查正文。
+<!-- original-source-quote:end -->

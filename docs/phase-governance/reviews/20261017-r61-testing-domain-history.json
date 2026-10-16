@@ -1,0 +1,2628 @@
+{
+  "schemaVersion": 1,
+  "id": "r61-testing-domain-history-20261017",
+  "reviewer": "Codex root full-text testing history migration",
+  "reviewDate": "2026-10-17",
+  "policy": "R61: historical domain reports use test-domain-report with archive overlay; historical machine evidence remains byte-stable; legacy-flat audit is current testing governance report. No execution credit is granted.",
+  "entries": [
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B3 命令表单族所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": [
+        "docs/testing/domains/editor/commands/command-form-families/history/report.md:1"
+      ],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/editor/commands/command-form-families",
+      "capability": "B3 命令表单族所有权候选",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
+      "afterSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+      "publicCallers": [
+        "docs/testing/domains/editor/commands/command-form-families/report.md",
+        "docs/testing/domains/editor/commands/command-form-families/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/editor/commands/command-form-families/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+          "docs/testing/domains/editor/commands/command-form-families/report.md",
+          "docs/testing/domains/editor/commands/command-form-families/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+        "implementationSha": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
+        "candidateSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+        "afterSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+        "lineCount": 93,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4985,
+          "sourceLines": 56,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-93",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "061bf40f9eb47d8071d486be8063513a4851bfbc97cd1bd997e0814099be20a6",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "a3ae18148bd305f4387f7024f3b2020bedda16db4631c50ff72488a28f5f5601",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/editor/commands/command-form-families",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B2 地图工作区会话所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": [
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md:1"
+      ],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/editor/map/map-workspace-sessions",
+      "capability": "B2 地图工作区会话所有权候选",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
+      "afterSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+      "publicCallers": [
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+          "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+        "implementationSha": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
+        "candidateSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+        "afterSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+        "lineCount": 103,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6152,
+          "sourceLines": 66,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-103",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "6d8c487f7b59dc1b49d43c505f828fe2451d1e745d7d9961380d4f93df63342f",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "4c85b6623c7f2e46fd0aabe2dfeb2c73c7489e037ceb0e12651a7ea44efdbbb7",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/editor/map/map-workspace-sessions",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "D1 第一阶段依赖环拆分：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": [
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md:1"
+      ],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/phase1-runtime/dependencies/dependency-ownership",
+      "capability": "D1 第一阶段依赖环拆分",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
+      "afterSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+      "publicCallers": [
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+        "implementationSha": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
+        "candidateSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+        "afterSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+        "lineCount": 86,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 5729,
+          "sourceLines": 49,
+          "sourceFinalNewline": true,
+          "inverseSha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-86",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "eec13321cfa7c0be225a2a82d7c6cc358761ae85c735c0237e25532e095d1cc8",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "31f0c158f300dc7fa358edc565eff3fd4a711c0eccd277b01e4fd48ae24b5d56",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/phase1-runtime/dependencies/dependency-ownership",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Reforge 战斗宿主拆分（A2）：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": ["docs/testing/domains/runtime/battle/battle-host/history/report.md:1"],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/runtime/battle/battle-host",
+      "capability": "Reforge 战斗宿主拆分（A2）",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
+      "afterSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+      "publicCallers": [
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/runtime/battle/battle-host/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+          "docs/testing/domains/runtime/battle/battle-host/report.md",
+          "docs/testing/domains/runtime/battle/battle-host/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+        "implementationSha": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
+        "candidateSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+        "afterSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+        "lineCount": 148,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 10117,
+          "sourceLines": 111,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-148",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "aa77ccd3a5649e564a96d1abdfa70e812c1bc44438eb626ed67ff7aa13f6fd0b",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "a6b7fb311f9039fff38b26f823a3d0864d48fd6f9d58cf8e66515c79b189a5ae",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/battle/battle-host",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "C1 BattleSession 状态所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md:1"
+      ],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/runtime/battle/battle-session-owners",
+      "capability": "C1 BattleSession 状态所有权候选",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
+      "afterSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+      "publicCallers": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+          "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+        "implementationSha": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
+        "candidateSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+        "afterSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+        "lineCount": 87,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4491,
+          "sourceLines": 50,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-87",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "4ad68fe6cf7eba4b3c30eb2881f678956fd75197350ee2f9fb20c4333c61f1e1",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/battle/battle-session-owners",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Reforge菜单/物品宿主拆分 · A1：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": ["docs/testing/domains/runtime/menu/menu-session/history/report.md:1"],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/runtime/menu/menu-session",
+      "capability": "Reforge菜单/物品宿主拆分 · A1",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
+      "afterSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+      "publicCallers": [
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/domains/runtime/menu/menu-session/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/runtime/menu/menu-session/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+          "docs/testing/domains/runtime/menu/menu-session/report.md",
+          "docs/testing/domains/runtime/menu/menu-session/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+        "implementationSha": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
+        "candidateSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+        "afterSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+        "lineCount": 136,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 8612,
+          "sourceLines": 99,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-136",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "31b94c01c4649b0f8e121852d4582dc3d129b5b8869b9f01429ea2b0e575da9a",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "f956e82342fb2638bd574689c9b23bfb9749bb08fe0780dd82525cc4f1511cc4",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/menu/menu-session",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A3-c 活动场景与镜头状态归属：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": ["docs/testing/domains/runtime/scene/active-scene/history/report.md:1"],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/runtime/scene/active-scene",
+      "capability": "A3-c 活动场景与镜头状态归属",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
+      "afterSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+      "publicCallers": [
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/runtime/scene/active-scene/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+          "docs/testing/domains/runtime/scene/active-scene/report.md",
+          "docs/testing/domains/runtime/scene/active-scene/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+        "implementationSha": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
+        "candidateSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+        "afterSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+        "lineCount": 100,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 5494,
+          "sourceLines": 63,
+          "sourceFinalNewline": true,
+          "inverseSha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-100",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "f15a10b2834df54d8781c80572786407b5007b3a2024d693caeaca2334cd263f",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "cb2f77e65d64cfc4ff71afe7cf1fa8e6918c96aec6001c55daad8ba7e8f86f33",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/scene/active-scene",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A3-d/e 世界移动与绘制状态归属候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "truthAnchors": ["docs/testing/domains/runtime/world/world-runtime/history/report.md:1"],
+      "unresolved": [
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+      ],
+      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "phase": "testing",
+      "module": "domains/runtime/world/world-runtime",
+      "capability": "A3-d/e 世界移动与绘制状态归属候选",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
+      "afterSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+      "publicCallers": [
+        "docs/testing/domains/runtime/world/world-runtime/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/evidence.json"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "historical report/evidence pair",
+        "docs/testing/domains/runtime/world/world-runtime/history/report.md"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-domain-report",
+        "assertions": [
+          "claim/evidence scope remains date-scoped",
+          "history overlay explicit",
+          "paired evidence remains reachable",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+          "docs/testing/domains/runtime/world/world-runtime/report.md",
+          "docs/testing/domains/runtime/world/world-runtime/evidence.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+        "implementationSha": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 historical domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
+        "candidateSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+        "afterSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+        "lineCount": 98,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 5755,
+          "sourceLines": 61,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 historical domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical domain report presentation; original history retained"
+      ],
+      "stopLine": "do not promote historical domain report to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain report 保持 → 接入 archive-record，保留日期、结论、证据和 successor 边界。",
+      "reviewedLines": "1-98",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "78f2d8ac74ebcb8a29605712dc0d4a47c2500e7e05a98ba1f6eddbcb097d39a1",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/world/world-runtime",
+        "currentBoundary": "current catalog, report and evidence pair own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh paired evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": [
+        "docs/testing/domains/editor/commands/command-form-families/history/evidence.json:1"
+      ],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/editor/commands/command-form-families",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+      "afterSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+      "publicCallers": [
+        "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/editor/commands/command-form-families/report.md",
+        "docs/testing/domains/editor/commands/command-form-families/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+          "docs/testing/domains/editor/commands/command-form-families/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+        "implementationSha": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+        "candidateSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+        "afterSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+        "lineCount": 126,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 5015,
+          "sourceLines": 126,
+          "sourceFinalNewline": true,
+          "inverseSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "integrationReceipt",
+            "evidenceScope",
+            "owner",
+            "base",
+            "initialSyncedMain",
+            "finalSyncedMain",
+            "implementations",
+            "scope",
+            "status",
+            "ownership",
+            "tests",
+            "negativeControls",
+            "functional",
+            "unchangedContracts",
+            "notRun"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-126",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "00d0c13ec4238405d41d9efa0cf0882bb108232a2605664c4f2a13b2bd082811",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/editor/commands/command-form-families",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": [
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json:1"
+      ],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/editor/map/map-workspace-sessions",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+      "afterSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+      "publicCallers": [
+        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+        "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+          "docs/testing/domains/editor/map/map-workspace-sessions/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+        "implementationSha": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+        "candidateSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+        "afterSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+        "lineCount": 144,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 5243,
+          "sourceLines": 144,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "integrationReceipt",
+            "evidenceScope",
+            "owner",
+            "base",
+            "initialSyncedMain",
+            "finalSyncedMain",
+            "implementations",
+            "scope",
+            "status",
+            "ownership",
+            "tests",
+            "negativeControls",
+            "functional",
+            "unchangedContracts",
+            "notRun"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-144",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "d2ed2dd57ad0aeed76e9f48f3309465e9f9010309584cbb57aba39a12fabfae7",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/editor/map/map-workspace-sessions",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": [
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json:1"
+      ],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/phase1-runtime/dependencies/dependency-ownership",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+      "afterSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+      "publicCallers": [
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+        "implementationSha": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+        "candidateSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+        "afterSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+        "lineCount": 369,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 10686,
+          "sourceLines": 369,
+          "sourceFinalNewline": true,
+          "inverseSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "base",
+            "productCandidate",
+            "bugFix",
+            "contentRefactor",
+            "owner",
+            "independentThirdParty",
+            "d1",
+            "e2",
+            "checks",
+            "baseline",
+            "visual"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-369",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/phase1-runtime/dependencies/dependency-ownership",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": ["docs/testing/domains/runtime/battle/battle-host/history/evidence.json:1"],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/runtime/battle/battle-host",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+      "afterSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+      "publicCallers": [
+        "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/runtime/battle/battle-host/report.md",
+        "docs/testing/domains/runtime/battle/battle-host/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+          "docs/testing/domains/runtime/battle/battle-host/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+        "implementationSha": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+        "candidateSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+        "afterSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+        "lineCount": 280,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 7089,
+          "sourceLines": 280,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "task",
+            "base",
+            "implementation",
+            "authorization",
+            "before",
+            "after",
+            "verification",
+            "disclosures",
+            "accounting",
+            "physicalLines",
+            "status"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-280",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/battle/battle-host",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json:1"
+      ],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/runtime/battle/battle-session-owners",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+      "afterSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+      "publicCallers": [
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+        "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+          "docs/testing/domains/runtime/battle/battle-session-owners/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+        "implementationSha": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+        "candidateSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+        "afterSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+        "lineCount": 159,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 4684,
+          "sourceLines": 159,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "integrationReceipt",
+            "evidenceScope",
+            "owner",
+            "base",
+            "initialSyncedMain",
+            "finalSyncedMain",
+            "implementations",
+            "scope",
+            "status",
+            "ownership",
+            "tests",
+            "negativeControls",
+            "functional",
+            "unchangedContracts",
+            "notRun"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-159",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "d8665106f46f37fd970fe38ecc4f9ec5e3c1e84e3df50fecd26784c22af94b7d",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/battle/battle-session-owners",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": ["docs/testing/domains/runtime/menu/menu-session/history/evidence.json:1"],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/runtime/menu/menu-session",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+      "afterSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+      "publicCallers": [
+        "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+        "docs/testing/domains/runtime/menu/menu-session/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/runtime/menu/menu-session/report.md",
+        "docs/testing/domains/runtime/menu/menu-session/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+          "docs/testing/domains/runtime/menu/menu-session/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+        "implementationSha": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+        "candidateSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+        "afterSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+        "lineCount": 503,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 15948,
+          "sourceLines": 503,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "task",
+            "date",
+            "base",
+            "implementation",
+            "authorization",
+            "physicalLines",
+            "before",
+            "after",
+            "accounting",
+            "unchangedSensitiveFunctions",
+            "verification",
+            "disclosures"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-503",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/menu/menu-session",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": ["docs/testing/domains/runtime/scene/active-scene/history/evidence.json:1"],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/runtime/scene/active-scene",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+      "afterSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+      "publicCallers": [
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "docs/testing/domains/runtime/scene/active-scene/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/runtime/scene/active-scene/report.md",
+        "docs/testing/domains/runtime/scene/active-scene/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+          "docs/testing/domains/runtime/scene/active-scene/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+        "implementationSha": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+        "candidateSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+        "afterSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+        "lineCount": 318,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 7192,
+          "sourceLines": 318,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "owner",
+            "base",
+            "implementation",
+            "result",
+            "baselineHash",
+            "testCount",
+            "sourceFileCount",
+            "total",
+            "reforge",
+            "newModules",
+            "negativeControls",
+            "judge",
+            "parity",
+            "productionHashCount",
+            "quality",
+            "scope",
+            "visual",
+            "remaining"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-318",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/scene/active-scene",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "truthAnchors": ["docs/testing/domains/runtime/world/world-runtime/history/evidence.json:1"],
+      "unresolved": [
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+      ],
+      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "phase": "testing",
+      "module": "domains/runtime/world/world-runtime",
+      "capability": "history",
+      "owner": "Codex",
+      "provenance": [
+        "source-machine-artifact",
+        "full-json-structured-review",
+        "testing-history-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+      "afterSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+      "publicCallers": [
+        "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/report.md"
+      ],
+      "legalInputs": [
+        "current testing catalog",
+        "docs/testing/domains/runtime/world/world-runtime/report.md",
+        "docs/testing/domains/runtime/world/world-runtime/history/evidence.json"
+      ],
+      "businessOracle": {
+        "type": "historical-testing-machine-artifact",
+        "assertions": [
+          "original JSON parses",
+          "original top-level fields remain",
+          "source and after bytes are identical",
+          "historical execution is not current credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-enveloped",
+        "against": [
+          "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+          "docs/testing/domains/runtime/world/world-runtime/report.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+        "implementationSha": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "full JSON parse and structured review",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 byte-stable history evidence envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "json-artifact-envelope",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+        "candidateSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+        "afterSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+        "lineCount": 121,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "byte-stable JSON artifact",
+          "sourceBytes": 4054,
+          "sourceLines": 121,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+          "exactRoundTrip": true,
+          "topLevelShape": "object",
+          "topLevelFields": [
+            "schemaVersion",
+            "integrationReceipt",
+            "evidenceScope",
+            "owner",
+            "base",
+            "implementation",
+            "scope",
+            "status",
+            "ownership",
+            "tests",
+            "negativeControls",
+            "functional",
+            "unchangedContracts",
+            "notRun"
+          ]
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 byte-stable history evidence envelope",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy historical machine evidence presentation; original fields retained"
+      ],
+      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "历史 domain machine evidence 保持原字段/字节 → registry/review 增加 test-machine-evidence artifact envelope、SHA 和 consumer 边界。",
+      "reviewedLines": "1-121",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "documentStatus": "historical-artifact",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "a64b390e9091a9be2124f7a9e4e1dbcd38a6f5d147f0f0e914ca59fb63cf6b8f",
+          "scope": "full JSON artifact"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "domains/runtime/world/world-runtime",
+        "currentBoundary": "current catalog/report/evidence consumer own truth"
+      },
+      "dependencies": "Current catalog, canonical report and fresh evidence.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "historical-artifact"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R61 legacy-flat audit migration; testing-meta/catalog/quote checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "legacy-flat-audit.md：current testing governance domain report; machine census and migration boundaries remain explicit without execution credit.",
+      "truthAnchors": ["docs/testing/domains/ops/testing-governance/legacy-flat-audit.md:1"],
+      "unresolved": [
+        "Legacy manifest/classification and migration consumers remain source of truth; no new runtime/E2E/coverage credit."
+      ],
+      "nextStep": "继续按 legacy-flat manifest、catalog、retired SHA 和 consumer 逐篇复核。",
+      "phase": "testing",
+      "module": "ops/testing-governance",
+      "capability": "legacy-flat-audit",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-semantic-review",
+        "testing-consumer-review",
+        {
+          "nonAuthorReviewer": "r61_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200"
+        }
+      ],
+      "sourceSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+      "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+      "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
+      "legalInputs": [
+        "docs/testing/legacy-flat.json",
+        "docs/testing/legacy-flat-classification.json",
+        "migration manifests"
+      ],
+      "businessOracle": {
+        "type": "legacy-content-governance",
+        "assertions": [
+          "every legacy path has classification/provenance/source SHA",
+          "migrated/retained entries have explicit target or reason",
+          "no Agent name leaks into canonical targets",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": [
+          "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "docs/testing/legacy-flat.json",
+          "docs/testing/legacy-flat-classification.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "implementationSha": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "history": [
+          {
+            "revision": "01bd03367050801bd2317719f498807ca2f66200",
+            "date": "2026-10-17",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "R61 legacy-flat domain report migration",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r61-testing-domain-history-20261017.json",
+        "sourceSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+        "candidateSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "afterSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+        "lineCount": 91,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6618,
+          "sourceLines": 46,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+          "exactRoundTrip": true
+        }
+      },
+      "history": [
+        {
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "deep-semantic"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R61 legacy-flat domain report migration",
+          "reviewer": "r61_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; manifest and consumer remain canonical"],
+      "stopLine": "do not promote legacy classification review to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "legacy-flat audit 保持 → 接入 test-domain-report、testing-meta/catalog、source SHA 和停止线；分类与执行事实不变。",
+      "reviewedLines": "1-91",
+      "templateVersion": "1.1.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "documentStatus": "current",
+      "sourceGitRevision": "01bd03367050801bd2317719f498807ca2f66200",
+      "candidateSha256": "30c2cadc065ab109a124353d96d50a7f2f1ea94244a09dabe8d26b80a0a937e7",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
+          "revision": "01bd03367050801bd2317719f498807ca2f66200",
+          "sha256": "f5ee6aa9c2fb58c9a35672ddc154d308f885abe28705eb2a214f97bf23210816",
+          "scope": "full UTF-8 source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "ops/testing-governance",
+        "currentBoundary": "legacy manifest, classification and check-testing consumer own truth"
+      },
+      "dependencies": "legacy-flat manifest, migration manifests and check-testing.",
+      "versionScope": {
+        "sourceRevision": "01bd03367050801bd2317719f498807ca2f66200",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R61-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    }
+  ]
+}

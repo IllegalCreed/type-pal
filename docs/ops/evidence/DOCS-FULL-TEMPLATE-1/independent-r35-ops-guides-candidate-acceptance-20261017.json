@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r35-ops-guides-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 4,
+    "readAndChecked": 4,
+    "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+    "docTypes": {
+      "guide-runbook": 4
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R35-CANDIDATE-B01",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 8 phase1 status/plan documents preserve historical boundary and successor/stopLine."
+    },
+    {
+      "id": "R35-CANDIDATE-B02",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Source/after and quote inverse pass; trailing whitespace uses explicit reversible sentinels ␠/⇥."
+    },
+    {
+      "id": "R35-CANDIDATE-B03",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; ops guide paths are explicitly outside phase/lore catalog scope."
+    },
+    {
+      "id": "R35-CANDIDATE-B04",
+      "count": 4,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all4": true,
+    "sourceAfterQuoteTemplateLedgerAll4": true,
+    "issueCount": 0,
+    "issues": [],
+    "catalogScope": "ops guide paths are not catalog entries by policy; no catalog claim is made"
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 429 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "node scripts/docs/check-phase-lore-governance.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (184 documents)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4180 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1259 Markdown / 7884 local links / 361 tasks / content22 SAVE12; model 429 body contracts; testing 0; phase/lore 184; content 733/733)"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r35-ops-guides.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r35-ops-guides.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "sourceSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+      "afterSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r35-ops-guides.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "sourceSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+      "afterSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+      "quoteInverse": true,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "registryReview": "20261017-r35-ops-guides.json",
+      "catalogAfterMatches": "not-in-catalog-by-ops-scope",
+      "routingMatches": true,
+      "historicalBoundary": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

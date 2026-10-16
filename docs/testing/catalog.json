@@ -765,7 +765,7 @@
       "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-10-15",
+      "reviewBy": "2026-10-23",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -1381,7 +1381,7 @@
       "title": "编辑器命令表单族所有权",
       "status": "current",
       "phase": ["phase2"],
-      "engines": ["reforge"],
+      "engines": ["editor"],
       "owner": "Codex",
       "provenance": ["Codex"],
       "domain": "editor",
@@ -1592,7 +1592,7 @@
       "title": "编辑器地图工作区会话所有权",
       "status": "current",
       "phase": ["phase2"],
-      "engines": ["reforge"],
+      "engines": ["editor"],
       "owner": "Codex",
       "provenance": ["Codex"],
       "domain": "editor",
@@ -1705,8 +1705,8 @@
       "kind": "report",
       "title": "第一阶段依赖所有权拆分",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": ["phase1"],
+      "engines": ["game"],
       "owner": "Codex",
       "provenance": ["Codex"],
       "domain": "phase1-runtime",
@@ -1832,5 +1832,172 @@
       },
       "reviewScope": "document-audit; historical execution claims retained with their original scope"
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-catalog-v1",
+    "templateVersion": "1.2.0",
+    "status": "current",
+    "lastReviewed": "2026-10-15",
+    "owner": "Codex",
+    "provenance": [
+      "full JSON read: all 18 entries and every field",
+      "paired source reports for three scope corrections",
+      "real catalog/paired/index consumers",
+      "Git source bytes"
+    ],
+    "sourceSha256": "0725ad537c24840deee7daf69fb7577888c11cb97846226f0af5d5cc156a8f19",
+    "sourceGitObject": "f1832ec54e4be6db7bf105bfc373b122e319d9bb",
+    "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+    "primarySource": [
+      "scripts/docs/generate-testing-index.mjs:9-155",
+      "scripts/docs/check-testing.mjs:187-340",
+      "scripts/docs/check-testing.mjs:415-555",
+      "packages/editor/src/ui/CommandForm.tsx:82-93",
+      "packages/editor/src/ui/MapMode.tsx:403-420",
+      "packages/game/src/core/dependency-ownership.test.ts:1-45"
+    ],
+    "scope": "18 published testing records only. Not a census of all docs/testing files, all 1838 baseline documents, migration completion, or current runtime readiness.",
+    "publicationRules": [
+      "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
+      "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
+      "Dependencies require current/verified publication and acyclic IDs; actual runtime predecessors also need the fragment contract and same-engine current execution receipts.",
+      "Original reviewBy deadlines retain their dated scope; expired/rework entries cannot be silently renewed or upgraded by formatting. An explicit scoped publication review may set the next review deadline with rationale/history while preserving execution freshness and status.",
+      "Canonical report, metadata and evidence remain paired. History/supersedes identify archived originals without making them current inputs."
+    ],
+    "runtimeExecutionPerformed": false,
+    "entryReadings": [
+      {
+        "id": "e2e-contract",
+        "conclusion": "共同验收合同 current；两引擎独立 checkpoint/verify/capture 与真实输入、状态和恢复 oracle；不把10-04 SAVE11出版审计升级当前实跑。"
+      },
+      {
+        "id": "e2e-route",
+        "conclusion": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。10-18 reviewBy 保留，不自动续期。"
+      },
+      {
+        "id": "e2e-common-issues",
+        "conclusion": "001～005 问题族汇总，依赖五片段但不复制通过数字；来源含收集器/绘制/比较 oracle，source audit 非新运行。"
+      },
+      {
+        "id": "e2e-001",
+        "conclusion": "原 verified/09-28 与无前驱身份保留；55正文、站定及新上下文恢复是原业务义务，不升级旧 checkpoint 为当前SAVE12前驱。"
+      },
+      {
+        "id": "e2e-002",
+        "conclusion": "原 verified/10-02 依赖001；20行、cash0→500与三苗人进房及恢复状态，各引擎独立，e56/s003只作源身份。"
+      },
+      {
+        "id": "e2e-003",
+        "conclusion": "原 verified/10-02 依赖002；楼梯12次、14行、126/127控制权与禁止取菜捷径，004入口核读不计本段实跑。"
+      },
+      {
+        "id": "e2e-004",
+        "conclusion": "原 verified/10-02 依赖003；story/items/saves六case、取消不扣酒/赠酒收尾，旧failed与receipt-only复核不抹除。"
+      },
+      {
+        "id": "e2e-005",
+        "conclusion": "原 verified/10-02 依赖004；story/guards/saves、唯一50文/报信偏序及后台返程，原启动失败和旧前驱不升级。"
+      },
+      {
+        "id": "e2e-006",
+        "conclusion": "2026-10-16实质发布复核后明确reviewBy10-15→10-23；继续rework/lastVerified10-03。当前SAVE12合法输入、原SAVE11 revision/历史执行、state2/state3与偏移冲突及完整岛口停止线分别核读，不认证本次E2E/视觉通过。"
+      },
+      {
+        "id": "runtime-active-scene",
+        "conclusion": "换场资源/镜头 ownership；17旧回归与AST/步数对照不计新E2E，原history report/evidence与supersedes保持。"
+      },
+      {
+        "id": "runtime-battle-host",
+        "conclusion": "战斗准备/启动身份与世界提交，当前port/source阅读不替代BattleSession内部合同或历史随机输入反控重跑。"
+      },
+      {
+        "id": "runtime-battle-session-owners",
+        "conclusion": "readiness/settlement/selection/action owner，不重复BattleHost；35旧回归、300ms与AST接线不证明当前胜败演出。"
+      },
+      {
+        "id": "runtime-world-owners",
+        "conclusion": "canonical endpoint→live提交→touch→continuation、取消与draw责任；Motion coordinator/ActiveScene/presentation各有界，不重算整场景E2E。"
+      },
+      {
+        "id": "legacy-flat-audit",
+        "conclusion": "331项旧closeout（209移动+122工具停止线）的有限账本；不等于当前1838+全docs逐篇语义迁移或artifact全部归属。"
+      },
+      {
+        "id": "editor-command-form-families",
+        "conclusion": "完整报告与CommandForm实际caller表明引擎为editor；原reforge分类纠正留历史。typed桥接/家庭表单ownership不新增UI/覆盖信用。"
+      },
+      {
+        "id": "reforge-menu-session",
+        "conclusion": "菜单/物品pending ownership与真实port事件；已迁移报告和paired evidence维持原候选/版本，不把历史mutants转当前E2E。"
+      },
+      {
+        "id": "editor-map-workspace-sessions",
+        "conclusion": "完整报告与MapMode实际caller表明引擎为editor；指针取消零写/地图与EditSession身份，原生剪贴板与完整视觉仍未核。"
+      },
+      {
+        "id": "phase1-dependency-ownership",
+        "conclusion": "完整D1报告和GameState/game owner源码表明phase1/game；原phase2/reforge纠正留历史。SCC/161函数/8旧测试和最小浏览器不成为当前游戏E2E或SAVE12合同。"
+      }
+    ],
+    "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
+    "history": [
+      {
+        "date": "2026-10-15",
+        "action": "actual full-text catalog pilot; semantic scope corrections",
+        "sourceRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
+        "fieldCorrections": [
+          {
+            "id": "editor-command-form-families",
+            "field": "engines",
+            "before": ["reforge"],
+            "after": ["editor"]
+          },
+          {
+            "id": "editor-map-workspace-sessions",
+            "field": "engines",
+            "before": ["reforge"],
+            "after": ["editor"]
+          },
+          {
+            "id": "phase1-dependency-ownership",
+            "field": "phase",
+            "before": ["phase2"],
+            "after": ["phase1"]
+          },
+          {
+            "id": "phase1-dependency-ownership",
+            "field": "engines",
+            "before": ["reforge"],
+            "after": ["game"]
+          }
+        ],
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "date": "2026-10-16",
+        "action": "explicit-e2e006-publication-review-renewal",
+        "scope": "Only e2e-006; original/new stage/report and paired JSON, source/current caller, active card and continuous top160 independently read; other17 entries not re-audited",
+        "reviewer": "receipt_review",
+        "decision": "agree; conservative continued publication as rework with explicit source/history conflicts and stop lines",
+        "before": {
+          "reviewBy": "2026-10-15",
+          "entryReading": {
+            "id": "e2e-006",
+            "conclusion": "保留 rework 与10-15 reviewBy；期望当前SAVE12输入但revision仍原SAVE11审计，求药/出海/岛口双轨日志和视觉缺口不能被路线终点代替。"
+          }
+        },
+        "after": {
+          "reviewBy": "2026-10-23",
+          "lastVerified": "2026-10-03",
+          "status": "rework"
+        },
+        "originalFailure": "validateCatalog(today=2026-10-16) rejected e2e-006 reviewBy10-15; original failure retained, not waived",
+        "rationale": "Actual full paired publication/evidence/status review rather than formatting; next publication review in7days, no new execution claim",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      }
+    ],
+    "supersedes": [],
+    "stopLine": "Do not move entries to payload, alter candidate/versions/status/dates, infer full-docs completion or current runtime readiness from this static catalog audit.",
+    "nextStep": "Regenerate derived indexes, verify reversible equality and all real consumers; continue per-document report/evidence/template migration and artifact ownership."
+  }
 }

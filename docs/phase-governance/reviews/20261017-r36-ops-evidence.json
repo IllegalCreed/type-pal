@@ -1,0 +1,1694 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r36-ops-evidence",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R36 migration of 15 phase2/lore Markdown documents and 3 HTML prototypes; preserve source/history; HTML remains byte-stable artifact evidence; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/archive/evidence/A7-3/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "A7-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/A7-3/README.md:1",
+        "docs/ops/archive/evidence/A7-3/README.md:1 A7-3 · 历史证据",
+        "docs/ops/archive/evidence/A7-3/README.md:7 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-A7-3-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+      "afterSha256": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+      "publicCallers": [
+        "docs/ops/archive/evidence/A7-3/README.md → ../README.md",
+        "docs/ops/archive/evidence/A7-3/README.md → editor-frame-workbench-desktop.png",
+        "docs/ops/archive/evidence/A7-3/README.md → reforge-s066-frame-animation.png",
+        "docs/ops/archive/evidence/A7-3/README.md → reforge-s066-skip-cleanup.png"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/A7-3/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/A7-3/README.md"]
+      },
+      "revision": {
+        "currentSha": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+        "implementationSha": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+        "candidateSha256": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+        "afterSha256": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+        "lineCount": 80,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 371,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-80",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/A7-3/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "undated",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "C1-3 第一批 NPC 归档决策（用户已批准）：这是 evidence-receipt，当前文档状态为 historical。全文 78 行、7 个标题；摘要/首段为「日期：2026-08-14」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:1",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:1 C1-3 第一批 NPC 归档决策（用户已批准）",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:7 冻结输入",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:20 建议人物",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:30 Entity 精确清单",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:44 Dialogue 精确集合",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:61 明确 deferred",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:67 用户批准语句"
+      ],
+      "unresolved": [
+        "正文信号 65:- 其余 7,839 个未选候选全部保持原样；第一批不靠 sprite/speaker/portrait/hash 自动扩张。",
+        "正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-C1-3-first-batch-proposal",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+      "afterSha256": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/C1-3-first-batch-proposal.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/C1-3-first-batch-proposal.md"]
+      },
+      "revision": {
+        "currentSha": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+        "implementationSha": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+        "candidateSha256": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+        "afterSha256": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+        "lineCount": 146,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 6209,
+          "sourceLines": 77,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-146",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-14",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`"
+        },
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "文档结构整理证据：这是 evidence-receipt，当前文档状态为 historical。全文 13 行、2 个标题；摘要/首段为「relocation.json 登记搬迁前哈希、逐文件去向和目录映射；它是本次执行输入的历史快照，不应根据当前树重写。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/DOC-IA-2/README.md:1",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md:1 文档结构整理证据",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md:7 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-DOC-IA-2-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+      "afterSha256": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+      "publicCallers": [
+        "docs/ops/archive/evidence/DOC-IA-2/README.md → ../README.md",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md → additional-attachments.json",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md → preservation-report.json",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md → relocation.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/DOC-IA-2/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/DOC-IA-2/README.md"]
+      },
+      "revision": {
+        "currentSha": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+        "implementationSha": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+        "candidateSha256": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+        "afterSha256": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+        "lineCount": 81,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 541,
+          "sourceLines": 12,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-81",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "undated",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 11 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/ED-3/README.md:1",
+        "docs/ops/archive/evidence/ED-3/README.md:1 ED-3 · 历史证据",
+        "docs/ops/archive/evidence/ED-3/README.md:7 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-ED-3-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+      "afterSha256": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+      "publicCallers": [
+        "docs/ops/archive/evidence/ED-3/README.md → ../README.md",
+        "docs/ops/archive/evidence/ED-3/README.md → cutscene-reference-1280.jpg",
+        "docs/ops/archive/evidence/ED-3/README.md → cutscene-reference-720.jpg"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/ED-3/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/ED-3/README.md"]
+      },
+      "revision": {
+        "currentSha": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+        "implementationSha": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+        "candidateSha256": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+        "afterSha256": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+        "lineCount": 79,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 280,
+          "sourceLines": 10,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-79",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/ED-3/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "3ef3ecabc174cda66cee4f903ac234efdf89b072622003c97540873acf323b2f",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "undated",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）：这是 evidence-receipt，当前文档状态为 historical。全文 247 行、10 个标题；摘要/首段为「环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:1",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:1 ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:11 结果",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:32 候选原始样本（ms，n=20）",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:64 B 批战场 / 敌队 / 氛围纵切检查点",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:83 B 批 skill / enemy / poison 纵切检查点",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:101 B 批 actor 纵切检查点",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:121 B 批 item 纵切检查点",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:135 B 批 world sprite / action / battle sprite 纵切检查点"
+      ],
+      "unresolved": [
+        "正文信号 231:history/version/dirty 均未变化。缓存 batch p50/p95=0/0.001ms，强制 batch 重建 p50/p95=",
+        "正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +",
+        "正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-ED-3A-reference-index-performance-2026-09-04",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+      "afterSha256": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+      "publicCallers": [
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md → ED-3/cutscene-reference-1280.jpg",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md → ED-3/cutscene-reference-720.jpg"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md"]
+      },
+      "revision": {
+        "currentSha": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+        "implementationSha": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+        "candidateSha256": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+        "afterSha256": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+        "lineCount": 317,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 16432,
+          "sourceLines": 246,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-317",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-09-04",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +"
+        },
+        {
+          "id": "R36-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。"
+        },
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-INPUT-PERF-1 PAL Chromium 性能与功能证据：这是 evidence-receipt，当前文档状态为 historical。全文 84 行、10 个标题；摘要/首段为「日期：2026-08-25」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:1",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:1 ED-INPUT-PERF-1 PAL Chromium 性能与功能证据",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:8 方法",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:17 基线与最终结果",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:32 原始样本（毫秒，顺序与 20 次编辑一致）",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:34 项目显示名",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:42 角色当前体力",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:50 物品说明",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:58 毒名称"
+      ],
+      "unresolved": [
+        "正文信号 14:- 字段覆盖项目显示名、角色当前体力、物品说明、毒名称、共享脚本说明；共享脚本在独立未保存浏览器会话中创建。",
+        "正文信号 82:- 派生状态在 reload 后先显示“检查中”，约 0.4s 后进入当前结果；PAL 当前 186 个既有诊断被保留，未伪装成“0 项”。",
+        "正文信号 83:- 浏览器会话最终 reload；未保存性能样本、临时共享脚本或字段修改均未写入工程。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-ED-INPUT-PERF-1-pal-chromium-2026-08-25",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+      "afterSha256": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md"]
+      },
+      "revision": {
+        "currentSha": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+        "implementationSha": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+        "candidateSha256": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+        "afterSha256": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+        "lineCount": 152,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4879,
+          "sourceLines": 83,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-152",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-25",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-REORDER-DRAG-1 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:1",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:1 ED-REORDER-DRAG-1 · 历史证据",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:7 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-ED-REORDER-DRAG-1-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+      "afterSha256": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+      "publicCallers": [
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md → ../README.md",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md → design-lab-live-reflow-2026-08-27.png",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md → design-lab-rf21-1280.png",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md → pal-startup-party-720.png"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md"]
+      },
+      "revision": {
+        "currentSha": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+        "implementationSha": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+        "candidateSha256": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+        "afterSha256": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+        "lineCount": 80,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 366,
+          "sourceLines": 11,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-80",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "a3c35f35eb0dc0f12debcfd0088d6311e3d5694c1bfc8a619df89b9b0228191b",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-27",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "ED-SHOP · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/ED-SHOP/README.md:1",
+        "docs/ops/archive/evidence/ED-SHOP/README.md:1 ED-SHOP · 历史证据",
+        "docs/ops/archive/evidence/ED-SHOP/README.md:7 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-ED-SHOP-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+      "afterSha256": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+      "publicCallers": [
+        "docs/ops/archive/evidence/ED-SHOP/README.md → ../README.md",
+        "docs/ops/archive/evidence/ED-SHOP/README.md → shop-trial-dialog-720.jpg"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/ED-SHOP/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/ED-SHOP/README.md"]
+      },
+      "revision": {
+        "currentSha": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+        "implementationSha": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+        "candidateSha256": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+        "afterSha256": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+        "lineCount": 78,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 220,
+          "sourceLines": 9,
+          "sourceFinalNewline": true,
+          "inverseSha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-78",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "a4b541403a68ade6f26ec34ca45958f841cada273facfc9a0887bdb63442ce3c",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "undated",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接：这是 evidence-receipt，当前文档状态为 historical。全文 120 行、6 个标题；摘要/首段为「Date: 2026-08-20」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:1",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:1 OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:9 停线结论",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:43 PB3：15 个 transition / seal digest 域",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:70 PB4：enemy/script owned leaf 不漂移",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:87 ARCH 逐项处置清单",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:108 ARCH 接手约束"
+      ],
+      "unresolved": [
+        "正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**",
+        "正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为",
+        "正文信号 47:15 项；缺项、重复或未分类会让审计脚本非零。",
+        "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。",
+        "正文信号 103:| `scripts/install-v4-authority-report.mts` | 把一次性报告中的 9 个 rebuilt seals 写回 baseline | 人工 CLI；无产品 caller | 否 | **delete** | 仅用于本次未通过 focused 的候选；ARCH 不应把该候选当 authority 安装 |",
+        "正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**",
+        "正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为",
+        "正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为",
+        "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-OPS-TST-PERF-B-arch-current-only-handoff",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+      "afterSha256": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md"]
+      },
+      "revision": {
+        "currentSha": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+        "implementationSha": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+        "candidateSha256": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+        "afterSha256": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+        "lineCount": 194,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 12144,
+          "sourceLines": 119,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-194",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-20",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**"
+        },
+        {
+          "id": "R36-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为"
+        },
+        {
+          "id": "R36-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为"
+        },
+        {
+          "id": "R36-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。"
+        },
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "OPS-TST-PERF current-only baseline（2026-08-22）：这是 evidence-receipt，当前文档状态为 historical。全文 82 行、8 个标题；摘要/首段为「`ARCH-CURRENT-ONLY-1` 已删除旧 release/shared/fresh、P2/P3/P4 shadow 与历史」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:1",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:1 OPS-TST-PERF current-only baseline（2026-08-22）",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:3 结论",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:18 环境与范围",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:27 当前测试拓扑",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:45 一次性执行基线",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:47 fast / unit",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:58 PAL",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:73 保留的 current-only 证明"
+      ],
+      "unresolved": [
+        "正文信号 15:- 若未来 current-only 门禁重新出现可感知回归，再用当时的 current 测试清单另开窄卡；不得恢复",
+        "正文信号 71:隔离、失败传播、报告守恒与长期维护成本。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-OPS-TST-PERF-current-only-baseline-2026-08-22",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+      "afterSha256": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md"]
+      },
+      "revision": {
+        "currentSha": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+        "implementationSha": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+        "candidateSha256": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+        "afterSha256": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+        "lineCount": 150,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 3387,
+          "sourceLines": 81,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-150",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-22",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 71:隔离、失败传播、报告守恒与长期维护成本。"
+        },
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "时点证据：这是 evidence-receipt，当前文档状态为 historical。全文 23 行、3 个标题；摘要/首段为「报告、截图和测量产物按任务存放；其内容是产生时的事实，不承诺随后实现不变。媒体原始字节保留，当前判断应同时核对源码与任务状态。」。属于历史/归档材料，不能单独证明当前实现。",
+      "truthAnchors": [
+        "docs/ops/archive/evidence/README.md:1",
+        "docs/ops/archive/evidence/README.md:1 时点证据",
+        "docs/ops/archive/evidence/README.md:7 分类入口",
+        "docs/ops/archive/evidence/README.md:15 文档与附件"
+      ],
+      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "archive",
+      "capability": "ops-archive-evidence-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r36_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15"
+        }
+      ],
+      "sourceSha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+      "afterSha256": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+      "publicCallers": [
+        "docs/ops/archive/evidence/README.md → ../README.md",
+        "docs/ops/archive/evidence/README.md → A7-3/README.md",
+        "docs/ops/archive/evidence/README.md → DOC-IA-2/README.md",
+        "docs/ops/archive/evidence/README.md → ED-3/README.md",
+        "docs/ops/archive/evidence/README.md → ED-REORDER-DRAG-1/README.md",
+        "docs/ops/archive/evidence/README.md → ED-SHOP/README.md",
+        "docs/ops/archive/evidence/README.md → ARCH-CURRENT-ONLY-1-retention-ledger.md",
+        "docs/ops/archive/evidence/README.md → C1-3-first-batch-proposal.md",
+        "docs/ops/archive/evidence/README.md → ED-3A-reference-index-performance-2026-09-04.md",
+        "docs/ops/archive/evidence/README.md → ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+        "docs/ops/archive/evidence/README.md → OPS-TST-PERF-B-arch-current-only-handoff.md",
+        "docs/ops/archive/evidence/README.md → OPS-TST-PERF-current-only-baseline-2026-08-22.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/archive/evidence/README.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/archive/evidence/README.md"]
+      },
+      "revision": {
+        "currentSha": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+        "implementationSha": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+            "date": "2026-10-17",
+            "action": "R36 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r36-ops-evidence-20261017.json",
+        "sourceSha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+        "candidateSha256": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+        "afterSha256": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+        "lineCount": 91,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 1156,
+          "sourceLines": 22,
+          "sourceFinalNewline": true,
+          "inverseSha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+          "action": "R36 readonly proposal accepted then migration/envelope",
+          "reviewer": "r36_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-91",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "historical-evidence",
+      "sourceGitRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+      "candidateSha256": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/evidence/README.md",
+          "revision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+          "sha256": "130a29fcb02778dac7142ec8e4caf0df3c4fbb2af00e186da21aecf5e0092114",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current evidence receipt, task card and verified consumer result when re-run.",
+      "versionScope": {
+        "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+        "date": "2026-08-22",
+        "validity": "historical-evidence"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R36-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-readonly-review-20261017.json",
+    "sha256": "8b49b0c87c5d56e5ba7c76b234b1a126eab60b63329719d54993415222678357",
+    "verdict": "accept-readonly-proposal",
+    "scope": "11/11 ops archive evidence documents"
+  },
+  "migrationSummary": {
+    "documents": 11,
+    "sourceRevision": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+    "sourceQuoteInverse": "11/11",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "evidence-receipt": 11
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-candidate-acceptance-20261017.json",
+    "sha256": "ecaa6d15eba868870fa2ac566bb4e0f4c2246f67f04125d2a7d958376d15d60f",
+    "verdict": "accept",
+    "scope": "11/11 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

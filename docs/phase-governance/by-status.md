@@ -1,18 +1,95 @@
 # Lore / 三阶段文档状态索引
 
-由 `scripts/docs/build-phase-lore-governance.mjs` 生成。
+由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
+
+## archived
+
+- [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) · phase1/plans
+- [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) · phase2/archive
+- [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) · phase2/archive
+- [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) · phase2/archive
+- [资产 / 提取 / 迁移 八单元 三方逐函数对照审计(MKF / 精灵 / 字节码 / 资产管线 / manifest / 投掷物 / 战斗物品 / 数据 bug 补丁台账)](../phase2/archive/audits/am-asset-migrate-audit.md) · phase2/archive
+- [攻击 / 法术系统 四单元 三方逐函数对照审计(物理攻击 / 法术攻击 / 召唤 / 混乱打友)](../phase2/archive/audits/b-attack-magic-audit.md) · phase2/archive
+- [战斗核心逻辑三方逐函数审计(公式 / 状态机 / 回合队列 / 结算)](../phase2/archive/audits/b-core-audit.md) · phase2/archive
+- [战斗子系统逐函数审计（B 单元 / phase2-foundation）](../phase2/archive/audits/b-subsystem-audit.md) · phase2/archive
+- [战场/战斗乐默认值 · 待作者定值清单（2026-07-06，随 D24 三层化补丁产出）](../phase2/archive/audits/battle-config-fills-review.md) · phase2/archive
+- [二阶段战斗演出审计 —— 一阶段知识移植清单（2026-07-05）](../phase2/archive/audits/battle-presentation-audit-2026-07-05.md) · phase2/archive
+- [菜单系统 九单元 三方逐函数对照审计(框架 / 状态 / 装备 / 仙术 / 物品 / 商店 / 存档 / 开场 / 主菜单)](../phase2/archive/audits/c-menu-audit.md) · phase2/archive
+- [实体/角色数据 八单元 三方逐函数对照审计(实体模型 / 角色数据 / 跟随者 / 装备效果 / 升级经验 / 技能 / 物品 / 敌人)](../phase2/archive/audits/ec-data-audit.md) · phase2/archive
+- [编辑器/引擎全功能盘点 + 对标评审（2026-07-05）](../phase2/archive/audits/editor-audit-2026-07-05.md) · phase2/archive
+- [编辑器创作闭环与一级模块审计（2026-07-13）](../phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md) · phase2/archive
+- [编辑器整体翻新与质量审查后续备忘（2026-08-14）](../phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md) · phase2/archive
+- [编辑器视觉与工作台一致性巡检（2026-08-15）](../phase2/archive/audits/editor-ui-audit-2026-08-15.md) · phase2/archive
+- [第一阶段引擎架构债审查报告（第二阶段重写输入）](../phase2/archive/audits/engine-debt-audit.md) · phase2/archive
+- [对话/文本系统 三方逐函数审计(对话框渲染 / 控制符解析 / 文本数据)](../phase2/archive/audits/n-dialog-text-audit.md) · phase2/archive
+- [事件 / 脚本系统三方逐函数审计(事件解释器 / autoScript / 触发器 / 走位骑乘相机 / 页切换状态机)](../phase2/archive/audits/n-event-script-audit.md) · phase2/archive
+- [N1-1 对话控制码退役审计](../phase2/archive/audits/n1-dialogue-migration-audit.md) · phase2/archive
+- [第一阶段深度审计跟踪表](../phase2/archive/audits/phase1-audit-tracker.md) · phase2/archive
+- [原版事件脚本字节码普查(M3 设计输入,2026-07-02)](../phase2/archive/audits/script-census.md) · phase2/archive
+- [字体 / 调色板 / 屏幕特效 — 三方逐函数对照审计](../phase2/archive/audits/w-font-palette-audit.md) · phase2/archive
+- [渲染地基三方逐函数审计(瓦片 / 精灵 / 场景合成)](../phase2/archive/audits/w-render-audit.md) · phase2/archive
+- [壳层 / 主循环 / 音频 / 过场 / 场景 / 存档 · 三方逐函数审计](../phase2/archive/audits/x-shell-audit.md) · phase2/archive
+- [X3-1 场景入场迁移审计](../phase2/archive/audits/x3-scene-entry-migration-audit.md) · phase2/archive
+- [角色(Actor)与精灵动画模型设计](../phase2/archive/designs/actor-model-design.md) · phase2/archive
+- [氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表](../phase2/archive/designs/ambience-design.md) · phase2/archive
+- [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) · phase2/archive
+- [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) · phase2/archive
+- [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) · phase2/archive
+- [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) · phase2/archive
+- [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) · phase2/archive
+- [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) · phase2/archive
+- [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) · phase2/archive
+- [敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)](../phase2/archive/designs/enemy-ai-design.md) · phase2/archive
+- [物品 / 装备数据架构设计(item & equipment data)](../phase2/archive/designs/item-data-design.md) · phase2/archive
+- [菜单系统设计（menu design）](../phase2/archive/designs/menu-design.md) · phase2/archive
+- [对话系统结构化数据模型 · 设计](../phase2/archive/designs/model-design.md) · phase2/archive
+- [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) · phase2/archive
+- [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) · phase2/archive
+- [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) · phase2/archive
+- [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) · phase2/archive
+- [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) · phase2/archive
+- [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) · phase2/archive
+- [剧情脚本系统](../phase2/archive/designs/script-system-design.md) · phase2/archive
+- [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) · phase2/archive
+- [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) · phase2/archive
+- [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) · phase2/archive
+- [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) · phase2/archive
+- [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) · phase2/archive
+- [编辑器 B1 · 逻辑层实现计划(给 GLM)](../phase2/archive/plans/editor-b1-logic-plan.md) · phase2/archive
+- [装备面板 实现计划(替占位面板)](../phase2/archive/plans/equip-menu-plan.md) · phase2/archive
+- [装备地基 实现计划(item.ts + 6 槽 + inventory + 有效属性)](../phase2/archive/plans/equipment-foundation-plan.md) · phase2/archive
+- [仙术菜单 实现计划(接技能地基)](../phase2/archive/plans/magic-menu-plan.md) · phase2/archive
+- [菜单系统实现计划（menu plan）](../phase2/archive/plans/menu-plan.md) · phase2/archive
+- [M1 · 数据表批量迁移器 实现计划](../phase2/archive/plans/migrator-m1-plan.md) · phase2/archive
+- [对话结构化 · ① 数据模型 + 状态机 实现计划](../phase2/archive/plans/model-plan.md) · phase2/archive
+- [Palette → RGBA 改造计划(运行时去调色板)](../phase2/archive/plans/palette-to-rgba-plan.md) · phase2/archive
+- [工程地基实施计划(A 期)—— 给 GLM 开工](../phase2/archive/plans/project-foundation-plan.md) · phase2/archive
+- [P1 · FileSource 地基 实现计划](../phase2/archive/plans/project-lifecycle-p1-filesource-plan.md) · phase2/archive
+- [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) · phase2/archive
+- [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) · phase2/archive
+- [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) · phase2/archive
+- [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) · phase2/archive
+- [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) · phase2/archive
+- [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) · phase2/archive
+- [技能数据地基 实现计划](../phase2/archive/plans/skill-data-plan.md) · phase2/archive
+- [状态面板完整还原 实现计划](../phase2/archive/plans/status-page-plan.md) · phase2/archive
+- [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) · phase2/archive
+- [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) · phase2/archive
+- [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) · phase2/archive
+- [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) · phase2/archive
+- [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) · phase2/archive
+- [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) · phase2/archive
+- [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) · phase2/archive
+- [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) · phase3/reference
 
 ## current
 
-- [官方角色设定（characters）](../lore/characters.md) · lore/canon
-- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
+- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
+- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
 - [叙事设计工作流 —— 从灵感到落地](../lore/narrative-workflow.md) · lore/canon
 - [docs/lore/ — 仙剑设定真值库](../lore/README.md) · lore/canon
 - [扩展红线清单（taboos）](../lore/taboos.md) · lore/canon
 - [仙剑剧情时间线与流程攻略](../lore/timeline.md) · lore/canon
-- [版本差异登记（versions）](../lore/versions.md) · lore/canon
-- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
-- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
 - [01 · 背景与可行性](../phase1/01-feasibility.md) · phase1/governance
 - [02 · 架构设计](../phase1/02-architecture.md) · phase1/governance
 - [03 · 开发计划](../phase1/03-development-plan.md) · phase1/governance
@@ -30,6 +107,13 @@
 - [Opcode Status · type-pal](../phase1/status/opcode-status.md) · phase1/status
 - [docs/phase1/status/ — 第一阶段覆盖快照](../phase1/status/README.md) · phase1/status
 - [Resource Status · type-pal](../phase1/status/resource-status.md) · phase1/status
+- [历史专项审计](../phase2/archive/audits/README.md) · phase2/archive
+- [历史设计与规范快照](../phase2/archive/designs/README.md) · phase2/archive
+- [历史界面草案](../phase2/archive/mockups/README.md) · phase2/archive
+- [历史实施计划](../phase2/archive/plans/README.md) · phase2/archive
+- [第二阶段历史归档](../phase2/archive/README.md) · phase2/archive
+- [室内切片历史](../phase2/archive/slices/indoor/README.md) · phase2/archive
+- [历史垂直切片](../phase2/archive/slices/README.md) · phase2/archive
 - [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) · phase2/governance
 - [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) · phase2/governance
 - [人物预制与场景实体创作说明](../phase2/guides/actor-presets.md) · phase2/guides
@@ -52,18 +136,19 @@
 - [第二阶段现行规范](../phase2/specs/README.md) · phase2/specs
 - [当前存档合同](../phase2/specs/save-system.md) · phase2/specs
 - [作者脚本与运行时合同](../phase2/specs/script-system.md) · phase2/specs
-- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/governance
 - [docs/phase3/ — 第三阶段：内容重建与产品化](../phase3/README.md) · phase3/governance
-- [美术资产生图管线（art-pipeline，第三阶段输入）](../phase3/reference/art-pipeline.md) · phase3/reference
 - [第三阶段参考输入](../phase3/reference/README.md) · phase3/reference
 
 ## draft
 
-- [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/canon
+- [官方角色设定（characters）](../lore/characters.md) · lore/canon
+- [DLC 创意池（dlc-ideas）](../lore/dlc-ideas.md) · lore/ideas
+- [仙剑江湖势力关系图（factions）](../lore/factions.md) · lore/canon
 - [DLC-01 鬼界支线 · 节拍表（Beat Sheet）](../lore/ideas/guijie/beat-sheet.md) · lore/ideas
 - [DLC-01 鬼界支线 · 创作讨论记录](../lore/ideas/guijie/brainstorm.md) · lore/ideas
-- [docs/lore/ideas/guijie/ — 鬼界 DLC 设想](../lore/ideas/guijie/README.md) · lore/ideas
-- [故事与 DLC 设想](../lore/ideas/README.md) · lore/ideas
+- [版本差异登记（versions）](../lore/versions.md) · lore/canon
+- [鬼界设定查证（world-rules 补充）](../lore/world-rules-ghost-realm.md) · lore/canon
+- [世界规则（world-rules）](../lore/world-rules.md) · lore/canon
 - [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) · phase1/plans
 - [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) · phase1/plans
 - [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) · phase1/plans
@@ -82,7 +167,6 @@
 - [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) · phase1/plans
 - [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) · phase1/plans
 - [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) · phase1/plans
-- [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) · phase1/plans
 - [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) · phase1/plans
 - [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) · phase1/plans
 - [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) · phase1/plans
@@ -108,90 +192,5 @@
 - [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) · phase1/plans
 - [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) · phase1/plans
 - [第二阶段 · 设计议题池（backlog）](../phase2/design-backlog.md) · phase2/governance
-- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/governance
-
-## archived
-
-- [A7-0 音乐资源闭包报告](../phase2/archive/audits/a7-0-music-resource-closure-report.md) · phase2/archive
-- [A7-2 静态图闭包与 engine chrome 自包含结果报告](../phase2/archive/audits/a7-2-static-images-engine-chrome-report.md) · phase2/archive
-- [A7/R7 工程资源闭包与稳定资源注册表审计](../phase2/archive/audits/a7-resource-closure-audit.md) · phase2/archive
-- [资产 / 提取 / 迁移 八单元 三方逐函数对照审计(MKF / 精灵 / 字节码 / 资产管线 / manifest / 投掷物 / 战斗物品 / 数据 bug 补丁台账)](../phase2/archive/audits/am-asset-migrate-audit.md) · phase2/archive
-- [攻击 / 法术系统 四单元 三方逐函数对照审计(物理攻击 / 法术攻击 / 召唤 / 混乱打友)](../phase2/archive/audits/b-attack-magic-audit.md) · phase2/archive
-- [战斗核心逻辑三方逐函数审计(公式 / 状态机 / 回合队列 / 结算)](../phase2/archive/audits/b-core-audit.md) · phase2/archive
-- [战斗子系统逐函数审计（B 单元 / phase2-foundation）](../phase2/archive/audits/b-subsystem-audit.md) · phase2/archive
-- [战场/战斗乐默认值 · 待作者定值清单（2026-07-06，随 D24 三层化补丁产出）](../phase2/archive/audits/battle-config-fills-review.md) · phase2/archive
-- [二阶段战斗演出审计 —— 一阶段知识移植清单（2026-07-05）](../phase2/archive/audits/battle-presentation-audit-2026-07-05.md) · phase2/archive
-- [菜单系统 九单元 三方逐函数对照审计(框架 / 状态 / 装备 / 仙术 / 物品 / 商店 / 存档 / 开场 / 主菜单)](../phase2/archive/audits/c-menu-audit.md) · phase2/archive
-- [实体/角色数据 八单元 三方逐函数对照审计(实体模型 / 角色数据 / 跟随者 / 装备效果 / 升级经验 / 技能 / 物品 / 敌人)](../phase2/archive/audits/ec-data-audit.md) · phase2/archive
-- [编辑器/引擎全功能盘点 + 对标评审（2026-07-05）](../phase2/archive/audits/editor-audit-2026-07-05.md) · phase2/archive
-- [编辑器创作闭环与一级模块审计（2026-07-13）](../phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md) · phase2/archive
-- [编辑器整体翻新与质量审查后续备忘（2026-08-14）](../phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md) · phase2/archive
-- [编辑器视觉与工作台一致性巡检（2026-08-15）](../phase2/archive/audits/editor-ui-audit-2026-08-15.md) · phase2/archive
-- [第一阶段引擎架构债审查报告（第二阶段重写输入）](../phase2/archive/audits/engine-debt-audit.md) · phase2/archive
-- [对话/文本系统 三方逐函数审计(对话框渲染 / 控制符解析 / 文本数据)](../phase2/archive/audits/n-dialog-text-audit.md) · phase2/archive
-- [事件 / 脚本系统三方逐函数审计(事件解释器 / autoScript / 触发器 / 走位骑乘相机 / 页切换状态机)](../phase2/archive/audits/n-event-script-audit.md) · phase2/archive
-- [N1-1 对话控制码退役审计](../phase2/archive/audits/n1-dialogue-migration-audit.md) · phase2/archive
-- [第一阶段深度审计跟踪表](../phase2/archive/audits/phase1-audit-tracker.md) · phase2/archive
-- [历史专项审计](../phase2/archive/audits/README.md) · phase2/archive
-- [原版事件脚本字节码普查(M3 设计输入,2026-07-02)](../phase2/archive/audits/script-census.md) · phase2/archive
-- [字体 / 调色板 / 屏幕特效 — 三方逐函数对照审计](../phase2/archive/audits/w-font-palette-audit.md) · phase2/archive
-- [渲染地基三方逐函数审计(瓦片 / 精灵 / 场景合成)](../phase2/archive/audits/w-render-audit.md) · phase2/archive
-- [壳层 / 主循环 / 音频 / 过场 / 场景 / 存档 · 三方逐函数审计](../phase2/archive/audits/x-shell-audit.md) · phase2/archive
-- [X3-1 场景入场迁移审计](../phase2/archive/audits/x3-scene-entry-migration-audit.md) · phase2/archive
-- [角色(Actor)与精灵动画模型设计](../phase2/archive/designs/actor-model-design.md) · phase2/archive
-- [氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表](../phase2/archive/designs/ambience-design.md) · phase2/archive
-- [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) · phase2/archive
-- [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) · phase2/archive
-- [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) · phase2/archive
-- [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) · phase2/archive
-- [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) · phase2/archive
-- [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) · phase2/archive
-- [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) · phase2/archive
-- [敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)](../phase2/archive/designs/enemy-ai-design.md) · phase2/archive
-- [物品 / 装备数据架构设计(item & equipment data)](../phase2/archive/designs/item-data-design.md) · phase2/archive
-- [菜单系统设计（menu design）](../phase2/archive/designs/menu-design.md) · phase2/archive
-- [对话系统结构化数据模型 · 设计](../phase2/archive/designs/model-design.md) · phase2/archive
-- [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) · phase2/archive
-- [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) · phase2/archive
-- [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) · phase2/archive
-- [历史设计与规范快照](../phase2/archive/designs/README.md) · phase2/archive
-- [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) · phase2/archive
-- [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) · phase2/archive
-- [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) · phase2/archive
-- [剧情脚本系统](../phase2/archive/designs/script-system-design.md) · phase2/archive
-- [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) · phase2/archive
-- [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) · phase2/archive
-- [历史界面草案](../phase2/archive/mockups/README.md) · phase2/archive
-- [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) · phase2/archive
-- [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) · phase2/archive
-- [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) · phase2/archive
-- [编辑器 B1 · 逻辑层实现计划(给 GLM)](../phase2/archive/plans/editor-b1-logic-plan.md) · phase2/archive
-- [装备面板 实现计划(替占位面板)](../phase2/archive/plans/equip-menu-plan.md) · phase2/archive
-- [装备地基 实现计划(item.ts + 6 槽 + inventory + 有效属性)](../phase2/archive/plans/equipment-foundation-plan.md) · phase2/archive
-- [仙术菜单 实现计划(接技能地基)](../phase2/archive/plans/magic-menu-plan.md) · phase2/archive
-- [菜单系统实现计划（menu plan）](../phase2/archive/plans/menu-plan.md) · phase2/archive
-- [M1 · 数据表批量迁移器 实现计划](../phase2/archive/plans/migrator-m1-plan.md) · phase2/archive
-- [对话结构化 · ① 数据模型 + 状态机 实现计划](../phase2/archive/plans/model-plan.md) · phase2/archive
-- [Palette → RGBA 改造计划(运行时去调色板)](../phase2/archive/plans/palette-to-rgba-plan.md) · phase2/archive
-- [工程地基实施计划(A 期)—— 给 GLM 开工](../phase2/archive/plans/project-foundation-plan.md) · phase2/archive
-- [P1 · FileSource 地基 实现计划](../phase2/archive/plans/project-lifecycle-p1-filesource-plan.md) · phase2/archive
-- [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) · phase2/archive
-- [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) · phase2/archive
-- [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) · phase2/archive
-- [历史实施计划](../phase2/archive/plans/README.md) · phase2/archive
-- [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) · phase2/archive
-- [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) · phase2/archive
-- [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) · phase2/archive
-- [技能数据地基 实现计划](../phase2/archive/plans/skill-data-plan.md) · phase2/archive
-- [状态面板完整还原 实现计划](../phase2/archive/plans/status-page-plan.md) · phase2/archive
-- [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) · phase2/archive
-- [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) · phase2/archive
-- [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) · phase2/archive
-- [第二阶段历史归档](../phase2/archive/README.md) · phase2/archive
-- [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) · phase2/archive
-- [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) · phase2/archive
-- [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) · phase2/archive
-- [室内切片历史](../phase2/archive/slices/indoor/README.md) · phase2/archive
-- [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) · phase2/archive
-- [历史垂直切片](../phase2/archive/slices/README.md) · phase2/archive
-
+- [第三阶段 · 发布 / 版权资源 / 玩法 / 世界观 / MMO（backlog）](../phase3/backlog.md) · phase3/backlog
+- [构件提取、房间重绘与场景脚本迁移](../phase3/map-reconstruction.md) · phase3/design

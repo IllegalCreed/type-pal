@@ -1,0 +1,1618 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r24-phase2-designs-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex independent non-author reviewer (r24_independent_review)",
+  "candidateHead": "1d39e2f8ad43b88e232ae64aa96d103c189ea2a9",
+  "verdict": "accept",
+  "verdictScope": "accept candidate documentation reception only; do not mark full task done or grant product/runtime credit",
+  "scope": {
+    "targetDocuments": 21,
+    "readAndChecked": 21,
+    "paths": [
+      "docs/phase2/archive/designs/actor-model-design.md",
+      "docs/phase2/archive/designs/ambience-design.md",
+      "docs/phase2/archive/designs/asset-pipeline.md",
+      "docs/phase2/archive/designs/battle-model-m4-design.md",
+      "docs/phase2/archive/designs/content-schema.md",
+      "docs/phase2/archive/designs/e6-position-authority-design.md",
+      "docs/phase2/archive/designs/e7-follower-riding-design.md",
+      "docs/phase2/archive/designs/editor-design.md",
+      "docs/phase2/archive/designs/enemy-ai-design.md",
+      "docs/phase2/archive/designs/item-data-design.md",
+      "docs/phase2/archive/designs/menu-design.md",
+      "docs/phase2/archive/designs/model-design.md",
+      "docs/phase2/archive/designs/poison-system-design.md",
+      "docs/phase2/archive/designs/project-design.md",
+      "docs/phase2/archive/designs/project-lifecycle-design.md",
+      "docs/phase2/archive/designs/save-system-design.md",
+      "docs/phase2/archive/designs/scene-model-m2-design.md",
+      "docs/phase2/archive/designs/script-model-m3-design.md",
+      "docs/phase2/archive/designs/script-system-design.md",
+      "docs/phase2/archive/designs/skill-data-design.md",
+      "docs/phase2/archive/designs/visual-design.md"
+    ],
+    "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+    "sourceReadonlyReceipt": {
+      "tmpPath": "/tmp/type-pal-r24-phase2-designs-readonly-review-20261017.json",
+      "evidenceCopy": "/Users/zhangxu/.codex/worktrees/docs-full-template-proposal/type-pal/docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-review-20261017.json",
+      "tmpSha256": "b2a35ff1cba39f95ed25290f8e77a9873e60ec57633e5b609425877eb31c4422",
+      "evidenceSha256": "a7cdf862eebb23b1e1793c8e6fa2ae5505cd01a9f0c501071c50b4bea36503f5",
+      "rawByteIdentity": false,
+      "formattingNormalized": true,
+      "parsedContentEqual": true,
+      "scopeValid": true,
+      "rawDifferenceNonBlocking": true
+    },
+    "candidateReview": "docs/phase-governance/reviews/20261017-phase2-designs-r24.json",
+    "contributorEvidence": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-designs-r24-20261017.json",
+    "mutationBoundary": "Only this independent acceptance JSON/MD is written; no正文语义、registry/routing/catalog/central review/task card is modified by this reviewer."
+  },
+  "blockingCounters": [
+    {
+      "id": "R24-CANDIDATE-B01",
+      "status": "closed-for-receipt-open-for-product",
+      "count": 21,
+      "statement": "All 21 migrated bodies retain historical/archive boundary and explicit successor/stopLine; no current promotion."
+    },
+    {
+      "id": "R24-CANDIDATE-B02",
+      "status": "closed-for-receipt-open-for-product",
+      "count": 21,
+      "statement": "All 21 quote inverse and source/after checks are exact; source identity is fixed at catalog sourceRevision."
+    },
+    {
+      "id": "R24-CANDIDATE-B03",
+      "status": "closed-for-receipt-open-for-product",
+      "count": 21,
+      "statement": "All 21 remain zero runtime/E2E/visual/coverage credit."
+    },
+    {
+      "id": "R24-CANDIDATE-B04",
+      "status": "closed-for-receipt-open-for-product",
+      "count": 21,
+      "statement": "No old 20261004 review duplicate; candidate is not a done/full-product declaration."
+    }
+  ],
+  "nonBlockingCounters": [
+    {
+      "id": "R24-CANDIDATE-NB01",
+      "status": "pass",
+      "count": 21,
+      "statement": "Each registry/review/routing/catalog entry resolves to the same target path and candidate after SHA."
+    },
+    {
+      "id": "R24-CANDIDATE-NB02",
+      "status": "pass",
+      "count": 21,
+      "statement": "Template five sections and archive overlay are non-empty; original source quote remains byte-invertible."
+    },
+    {
+      "id": "R24-CANDIDATE-NB03",
+      "status": "pass",
+      "count": 1,
+      "statement": "Prior readonly /tmp and evidence copy differ only in JSON formatting: tmp SHA b2a35ff1cba39f95ed25290f8e77a9873e60ec57633e5b609425877eb31c4422 vs evidence SHA a7cdf862eebb23b1e1793c8e6fa2ae5505cd01a9f0c501071c50b4bea36503f5; parsed JSON is equal; formattingNormalized=true; this is non-blocking."
+    }
+  ],
+  "summaryChecks": {
+    "all21": true,
+    "registryScope": true,
+    "catalogScope": true,
+    "routingScope": true,
+    "reviewScope": true,
+    "contributorScope": true,
+    "oldReviewNoDuplicate": true,
+    "sourceAfterQuoteTemplateLedgerAll21": true,
+    "issueCount": 0,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 303 body contracts; 0 issues; structure only)"
+    },
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (733 documents; content-reviewed 733)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs tools 120/120; docs 1237 Markdown / 8083 local links / 361 tasks; document model 303 contracts; testing docs 0; phase/lore 184; content review 733/733)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4136 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS after acceptance evidence write; no whitespace errors"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "These are static documentation and provenance checks only; no product execution or visual acceptance was performed."
+  },
+  "documents": [
+    {
+      "path": "docs/phase2/archive/designs/actor-model-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "5ba7e245217753244f6dd7b562ed84f69202f3497fdd46492a6d3a1302fcf006",
+      "afterSha256": "f793f6a0783a9ec436ec2f2ddb55bd23e5bf1a784f9f20474b24721fc47b3517",
+      "sourceLines": 165,
+      "afterLines": 248,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "f793f6a0783a9ec436ec2f2ddb55bd23e5bf1a784f9f20474b24721fc47b3517"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/ambience-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def",
+      "afterSha256": "ade43e35f40d3a8afed796e332b25fd5dc2d9a1d428099c8fc472c97fda27bea",
+      "sourceLines": 98,
+      "afterLines": 181,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "ade43e35f40d3a8afed796e332b25fd5dc2d9a1d428099c8fc472c97fda27bea"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/asset-pipeline.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "09add5c9d41b917392c6efa10277325b9e7400ab3495ac2eeb4de4e6b1902067",
+      "afterSha256": "4301160304e16709f5d9109aef5e9e31ea849595ccfa748296c4e55a481f2600",
+      "sourceLines": 255,
+      "afterLines": 338,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "4301160304e16709f5d9109aef5e9e31ea849595ccfa748296c4e55a481f2600"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/battle-model-m4-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37",
+      "afterSha256": "41e57e94d8267ffe8a416f3deac96e0420519ff829c3a1b1827ed1b4d9a8e8db",
+      "sourceLines": 143,
+      "afterLines": 226,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "41e57e94d8267ffe8a416f3deac96e0420519ff829c3a1b1827ed1b4d9a8e8db"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/content-schema.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "da560b47421f46968b4b4e0563bd9bc06aaaf3f893d3ece2b5079141f01c4322",
+      "afterSha256": "0ae705b987ffaf2a1a705618bad37e31d28de1f12b984dcf318fbe9c2c7b1bad",
+      "sourceLines": 469,
+      "afterLines": 552,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "0ae705b987ffaf2a1a705618bad37e31d28de1f12b984dcf318fbe9c2c7b1bad"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/e6-position-authority-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "99a404f997accf60de7982bf3b579e8053f3a00d96c5972a4260036a9f11a9f7",
+      "afterSha256": "4d3fe9ddbb4bb0fde1486b0edd3e365674766611b600181d477e03d2ad54adb2",
+      "sourceLines": 101,
+      "afterLines": 184,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "4d3fe9ddbb4bb0fde1486b0edd3e365674766611b600181d477e03d2ad54adb2"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/e7-follower-riding-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "f29ca5c2e543edcd13c86d41189acc3721aecfcfb109d2beaa34b95a1888f50b",
+      "afterSha256": "23672ac5bb1d8d6c73ad6704fbd5f8dcd32715283f1731f7132fcca25e154307",
+      "sourceLines": 73,
+      "afterLines": 156,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "23672ac5bb1d8d6c73ad6704fbd5f8dcd32715283f1731f7132fcca25e154307"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/editor-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "d12087ad38d64b714e760a05dc3877cf6cfcffd769352ccbf7a52718cb0b74bc",
+      "afterSha256": "b1ba429cfff9e667e8f5b7a856bbc163a440e1cddba67d61c91220ca47082da3",
+      "sourceLines": 407,
+      "afterLines": 490,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "b1ba429cfff9e667e8f5b7a856bbc163a440e1cddba67d61c91220ca47082da3"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/enemy-ai-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2",
+      "afterSha256": "adff244fd9aa20d9b08b8f783f0438e508aa5fe47479d39d1e5438090e240ba3",
+      "sourceLines": 152,
+      "afterLines": 235,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "adff244fd9aa20d9b08b8f783f0438e508aa5fe47479d39d1e5438090e240ba3"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/item-data-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "06bdceb34b817576aefaca1ff06a63e724680ce6526260b01c9c72554f0d4920",
+      "afterSha256": "48e1027d53b8c53433181557968bf05c18e5a0f52bfde2f24dec5cc3a610c4fa",
+      "sourceLines": 146,
+      "afterLines": 229,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "48e1027d53b8c53433181557968bf05c18e5a0f52bfde2f24dec5cc3a610c4fa"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/menu-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "3737284005b5d570b901210bfd778510504d8d90d510737461ced50d399be69a",
+      "afterSha256": "bbf324fa5c626721909e6bcbba9b5b68befb37fff98d0887b4d6cccbb7ab9653",
+      "sourceLines": 104,
+      "afterLines": 187,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "bbf324fa5c626721909e6bcbba9b5b68befb37fff98d0887b4d6cccbb7ab9653"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/model-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593",
+      "afterSha256": "deee726b4f65db5a5ae00abed365eaccf3b8dbc3a122fc335ff6d19a9e979066",
+      "sourceLines": 203,
+      "afterLines": 286,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "deee726b4f65db5a5ae00abed365eaccf3b8dbc3a122fc335ff6d19a9e979066"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/poison-system-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757",
+      "afterSha256": "db89f92886edecd81cb739d9babb3d608e11638fc7e5416da497171ca7b18e26",
+      "sourceLines": 122,
+      "afterLines": 205,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "db89f92886edecd81cb739d9babb3d608e11638fc7e5416da497171ca7b18e26"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/project-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7",
+      "afterSha256": "6c541acba139ac76f18d197ffe609afcbcd1be311827af95cc431afdabfa4c7e",
+      "sourceLines": 248,
+      "afterLines": 331,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "6c541acba139ac76f18d197ffe609afcbcd1be311827af95cc431afdabfa4c7e"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/project-lifecycle-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "589920b16f6b4ee699ac19b8e241c7e3fed801957bb472dfa9d6baa058a7ce67",
+      "afterSha256": "07a930bb86837dafd32fe60b473e7783dd02a6fa3e2bf9dcbff98fcaef14b643",
+      "sourceLines": 427,
+      "afterLines": 510,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "07a930bb86837dafd32fe60b473e7783dd02a6fa3e2bf9dcbff98fcaef14b643"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/save-system-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "e345ba95b310253f3e98214abdca1e4e3d40ea2cd2eb6c7f86493ab0992f035c",
+      "afterSha256": "d5b0edbf6d5f5fe1abc0c9b63fa44aaaa48bb5ce5d5b4829bbf77c53df66aa4b",
+      "sourceLines": 188,
+      "afterLines": 271,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "d5b0edbf6d5f5fe1abc0c9b63fa44aaaa48bb5ce5d5b4829bbf77c53df66aa4b"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/scene-model-m2-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042",
+      "afterSha256": "4d012235218667783bc2acf8a7d2128a77a97590ff3a55d4ef256fcf2c7c1b64",
+      "sourceLines": 68,
+      "afterLines": 151,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "4d012235218667783bc2acf8a7d2128a77a97590ff3a55d4ef256fcf2c7c1b64"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/script-model-m3-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "5aa1b91b4958e21a2b5d18afc078a943a3c3070394ca63f5fda9d6a2448ba1e6",
+      "afterSha256": "4dd30f2bd9cfb3c03895a26e5eaf04ccb647be4a84442416c1beb5f3df6a0eb0",
+      "sourceLines": 171,
+      "afterLines": 254,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "4dd30f2bd9cfb3c03895a26e5eaf04ccb647be4a84442416c1beb5f3df6a0eb0"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/script-system-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "ccedfc19b36374f723a85b7713d5d7c1e4ef833ec7367c35316cb78f61b28353",
+      "afterSha256": "449f2f0a47a688fc10f5fbf16143dcf583f40f25c13e1bf078d541819fa57e16",
+      "sourceLines": 328,
+      "afterLines": 411,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "449f2f0a47a688fc10f5fbf16143dcf583f40f25c13e1bf078d541819fa57e16"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/skill-data-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "efaf146d031628b152721d771e9e61d482aed1dc4e077f9e822db1720d54e1ce",
+      "afterSha256": "3e3e5c6a6069f540df787f18fe0a6ee9dbd0fbdeb5e76a41957b78e4f4ba5f16",
+      "sourceLines": 145,
+      "afterLines": 228,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "3e3e5c6a6069f540df787f18fe0a6ee9dbd0fbdeb5e76a41957b78e4f4ba5f16"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    },
+    {
+      "path": "docs/phase2/archive/designs/visual-design.md",
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "a5b3e0ad93a533dc731adb94c4d50eb6d9cd893078bd46f8e6be735103cfc64d",
+      "afterSha256": "90c1d4fd2b7dec3d91e6de59c7cfe066065f666da6b173d78f89a8a434a54adf",
+      "sourceLines": 144,
+      "afterLines": 227,
+      "quote": {
+        "markerPresent": true,
+        "inverseExact": true,
+        "inverseError": null
+      },
+      "template": {
+        "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+        "allFiveNonEmpty": true,
+        "archiveOverlaySections": [
+          "历史范围",
+          "原始结论",
+          "当时证据",
+          "当前有效性",
+          "继任文档",
+          "原文保全"
+        ],
+        "allOverlayNonEmpty": true,
+        "compliant": true
+      },
+      "ledger": {
+        "registry": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "reviewRecord": "20261017-phase2-designs-r24.json"
+        },
+        "review": {
+          "present": true,
+          "templateCompliance": "template-compliant",
+          "documentStatus": "historical"
+        },
+        "routing": {
+          "present": true,
+          "historyOverlay": true
+        },
+        "catalog": {
+          "present": true,
+          "status": "archived",
+          "afterSha256": "90c1d4fd2b7dec3d91e6de59c7cfe066065f666da6b173d78f89a8a434a54adf"
+        },
+        "allConsistent": true
+      },
+      "boundary": {
+        "historicalStopLineSuccessorPreserved": true,
+        "oldReviewDuplicateAbsent": true
+      },
+      "credit": {
+        "runtime": 0,
+        "e2e": 0,
+        "visual": 0,
+        "coverage": 0,
+        "metadataFlagsNoCredit": true
+      },
+      "checks": {
+        "sourceIdentity": true,
+        "afterIdentity": true,
+        "quoteInverse": true,
+        "templateAndOverlay": true,
+        "ledger": true,
+        "boundary": true,
+        "oldReviewNoDuplicate": true,
+        "noPseudoCredit": true
+      }
+    }
+  ],
+  "writerEvidenceReadOnly": {
+    "reviewEntries": 21,
+    "contributorEntries": 21,
+    "oldReviewEntries": 28,
+    "catalogTargetEntries": 21,
+    "registryTargetEntries": 21,
+    "routingTargetEntries": 21
+  }
+}

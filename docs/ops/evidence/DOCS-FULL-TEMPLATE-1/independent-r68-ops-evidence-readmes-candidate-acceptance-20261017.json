@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r68-ops-evidence-readmes-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "9e72e90307af540a28efaed4c235d3aef8672e6a",
+  "verdict": "accept",
+  "scope": {
+    "targetDocuments": 10,
+    "readAndChecked": 10,
+    "candidateReview": "docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json"
+  },
+  "blockingCounters": [
+    {
+      "id": "R68-B01",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "All 10 evidence Markdown documents preserve source/after SHA, quote inverse and historical boundaries."
+    },
+    {
+      "id": "R68-B02",
+      "count": 10,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "Registry/review/routing agree; no runtime/E2E/visual/coverage credit."
+    }
+  ],
+  "summaryChecks": {
+    "all10": true,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (879 documents; content-reviewed 879)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 806 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7976 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 879/879)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4308 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+      "afterSha256": "5b44f6c36983ca24f507eb50049b630853a6c7cdd55309eeee92263daf4918f5",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md",
+      "afterSha256": "336b56f2d5ba245dce3b079c42fa1ff65c6870d60187571db4c7b3bfb3e2bb2c",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
+      "afterSha256": "11736f545f8603c8905101d7d448f33ede9c6ac90eb1df3bba35ec15aca2b6aa",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/dedup-ledger.md",
+      "afterSha256": "dc46cf32c5d06a98c2ba492bcb5ac2243289ae5fe52165a37dbb55889a276396",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+      "afterSha256": "1e7281ad2101a93afdec42c9771895ad3c5ec26b7af9f7fdbcc65fbcc61399fd",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md",
+      "afterSha256": "aaa8bba9f4c1e69d8387d71cd9571a4a7e863fe260520db0d1e4bea3a251c78b",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
+      "afterSha256": "08e18cfcace69988ddade6b82b3b91b781d26a085c5ef1d398e8ddf6ca542382",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+      "afterSha256": "4feb02d4a1fc47887133fa700b69f39b0769e8936ba9e0121943abcd14384344",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md",
+      "afterSha256": "f6a3b5e746143a80624775a2ea653514fa53371edb1d258e7a04c52d517dcf85",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
+      "afterSha256": "0008fc04bd995f0ff19fb4366f1f445199491992cb9c09768b4e6f5e67aa6425",
+      "templateId": "evidence-receipt-v1",
+      "pass": true
+    }
+  ]
+}

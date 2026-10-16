@@ -1,0 +1,1624 @@
+{
+  "schemaVersion": 1,
+  "id": "20261017-r34-ops-pre-e2e",
+  "reviewer": "Codex root",
+  "reviewDate": "2026-10-17",
+  "policy": "R34 migration of 15 phase2/lore Markdown documents and 3 HTML prototypes; preserve source/history; HTML remains byte-stable artifact evidence; no execution credit.",
+  "entries": [
+    {
+      "path": "docs/ops/audits/pre-e2e/battle.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "C批 · 战斗调用链审计：这是 audit-report，当前文档状态为 current。全文 194 行、12 个标题；摘要/首段为「基线：`35aa1dc5`，产品代码与A/B批基线一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/battle.md:1",
+        "docs/ops/audits/pre-e2e/battle.md:1 C批 · 战斗调用链审计",
+        "docs/ops/audits/pre-e2e/battle.md:6 本轮结论与边界",
+        "docs/ops/audits/pre-e2e/battle.md:29 C-01 · 战内新物品未带回世界背包",
+        "docs/ops/audits/pre-e2e/battle.md:49 C-02 · 敌普攻附带能力被缩成“只下毒”",
+        "docs/ops/audits/pre-e2e/battle.md:65 C-03 · 全队复活目标集合把死者排除了",
+        "docs/ops/audits/pre-e2e/battle.md:81 C-04 · 毒杀收尾迟到下一次行动",
+        "docs/ops/audits/pre-e2e/battle.md:95 C-05 · 投掷入口被“使用物品”条件误挡",
+        "docs/ops/audits/pre-e2e/battle.md:107 C-06 · 一阶段三尸咒挂上不发作的毒"
+      ],
+      "unresolved": [
+        "正文信号 8:确认7项新问题：二阶段5项、一阶段2项。未修改产品实现、正式测试、当前PAL工程或用户存档。",
+        "正文信号 9:现有19个测试文件/753条测试通过，仍未拦截下面的反例。根因、触发条件和对照均已由主Agent复核。",
+        "正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。",
+        "正文信号 29:## C-01 · 战内新物品未带回世界背包",
+        "正文信号 37:走真实按键`法术→选技能→选敌→偷取→Q逃跑/F攻击胜利`，等待真实`session.done`，再调用真实写回函数。",
+        "正文信号 40:- 边界：未运行完整main与敌onDefeated后续脚本；副本传入/统一写回由源码确认。",
+        "正文信号 42:**本轮没有独立跑九回合养蛊E2E**，不把它算第二个已复现问题。战败/terminated未单独按键复跑。",
+        "正文信号 57:- 复现：真实current敌401、物品表和`stepBattle`，固定RNG=0，确认敌先手、物攻未格挡、两门通过；",
+        "正文信号 60:- 反证：概率门没过、毒抗挡下、格挡时不附带本来正确；本条不取消这些门，也不把“未发声音”当状态缺陷。",
+        "正文信号 68:`editor/src/ui/SkillTab.tsx:84-88,103-107`提供“全队”“复活”，`:1157`的目标编辑未禁止组合。",
+        "正文信号 88:- 边界：本轮复现是完整core轮转＋session分派源码，未跑浏览器结算画面。",
+        "正文信号 102:- 边界：只核按键路由与禁用条件，未截图宣称具体像素问题。不是既有“围攻/状态”灰显事项。",
+        "正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。",
+        "正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-battle",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+      "afterSha256": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/pre-e2e/battle.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/battle.md"]
+      },
+      "revision": {
+        "currentSha": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+        "implementationSha": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+        "candidateSha256": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+        "afterSha256": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+        "lineCount": 262,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 16485,
+          "sourceLines": 193,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-262",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/battle.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-20",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。"
+        },
+        {
+          "id": "R34-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "D批 · 编辑器工作流审计：这是 audit-report，当前文档状态为 draft。全文 218 行、12 个标题；摘要/首段为「基线：`50ed0f0f`，产品代码与A–C批一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/editor-workflows.md:1",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:1 D批 · 编辑器工作流审计",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:6 本轮结论与范围",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:23 D-01 · 跨会话撤销没有统一的时间顺序",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:51 D-02 · 引用图遗漏部分场景依赖",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:74 D-03 · 旧图片解码完成后覆盖新选图",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:95 D-04 · 技能“战斗中试放”仍固定旧工程入口",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:117 D-05 · 临时试放“不改存档”的告知与保存行为不一致",
+        "docs/ops/audits/pre-e2e/editor-workflows.md:140 对照、已有问题与未覆盖范围"
+      ],
+      "unresolved": [
+        "正文信号 4:性质：审计报告，**不是实现任务卡，也不是编辑器综合E2E验收**。未改产品代码、正式测试、工程或存档。",
+        "正文信号 14:| D-02 | P2 | 部分场景依赖未进入删除守卫，允许删后又被保存校验拒绝 | 引用图补边与删除→撤销→保存回归 |",
+        "正文信号 44:已复现移除的是Undo1后已空的私有脚本记录，尚未证明未被用户撤销的非空正文丢失，故按P2而非P1登记。",
+        "正文信号 61:却未进入场景目标收集，因此`stateMachine.next.branch.cond.currentScene`也漏。",
+        "正文信号 68:支持currentScene的条件编辑器（`:1366`）。不是人为构造未支持的脚本语法。",
+        "正文信号 69:当前PAL`s172.json:1435`存在对s182禁用onEnter/onTeleport的形状；**未证明s182没有其他阻断引用**，",
+        "正文信号 103:新空白工程真实种子只有start场景，未生成敌队0（`core/seed.ts:164-166,222-245`）。",
+        "正文信号 106:- 原`main.ts`的startBattleBody函数体（AST读取，仅代入编译期DEV常量，缺队路径未变）收到该链接的battle=0：",
+        "正文信号 107:`:2217-2225`发现空敌人列表，toast“敌队缺数据,桩胜(M4c)”后等待400ms并返回`victory`，没有创建BattleSession。",
+        "正文信号 109:- 验证边界：组件SSR不是浏览器点击；函数体只替等待/提示和启动环境，走缺队早退；未完整启动引擎。",
+        "正文信号 131:- 限定：**本轮证实的反例由用户随后主动保存触发**，未证实打开链接立即写盘/自动覆盖，",
+        "正文信号 132:也未排除后续切场景等自动存档路径保存临时状态；",
+        "正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-editor-workflows",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+      "afterSha256": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/archive/legacy/editor/editor-workflows/sprite-selection.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md",
+        "docs/ops/audits/pre-e2e/editor-workflows.md → ../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/audits/pre-e2e/editor-workflows.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/editor-workflows.md"]
+      },
+      "revision": {
+        "currentSha": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+        "implementationSha": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+        "candidateSha256": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+        "afterSha256": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+        "lineCount": 284,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 21320,
+          "sourceLines": 217,
+          "sourceFinalNewline": true,
+          "inverseSha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-284",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-13",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/engineering.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "E批 · 测试、工程与维护性审计：这是 audit-report，当前文档状态为 current。全文 175 行、11 个标题；摘要/首段为「基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/engineering.md:1",
+        "docs/ops/audits/pre-e2e/engineering.md:1 E批 · 测试、工程与维护性审计",
+        "docs/ops/audits/pre-e2e/engineering.md:11 摘要",
+        "docs/ops/audits/pre-e2e/engineering.md:22 E-01 · 资源测试的前置条件与实际结果不一致",
+        "docs/ops/audits/pre-e2e/engineering.md:45 E-02 · 预缓存进度把404也计作已缓存",
+        "docs/ops/audits/pre-e2e/engineering.md:58 E-03 · 特效预览缓存缺工程身份",
+        "docs/ops/audits/pre-e2e/engineering.md:73 E-04 · 缩略图把失败当作永久缓存结果",
+        "docs/ops/audits/pre-e2e/engineering.md:85 E-05 · 开发期旧调用面/历史生成分支未退役",
+        "docs/ops/audits/pre-e2e/engineering.md:107 E-06 · 当前全仓质量门禁并未全绿"
+      ],
+      "unresolved": [
+        "正文信号 4:本轮新增6项编号记录：4类功能/测试问题、1类开发期旧调用面残留、1项全仓质量门禁未绿。",
+        "正文信号 9:下文缺陷源码行号与探针结论保留首轮审计时点；本次不含缓存容量/LRU或pending FIRE读取协议。",
+        "正文信号 16:| E-02 | 一阶段缓存进度 | P2 | 404资源未缓存，却计入“已缓存”字节并显示100% |",
+        "正文信号 38:初版只替named未生效的试跑已排除，不把它当缺资源测试证据。",
+        "正文信号 41:E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。",
+        "正文信号 55:产品没有“离线就绪”字样，本报告不虚构该文案。未操作浏览器真实CacheStorage或断网现场。",
+        "正文信号 69:同资源字节的项目或整页刷新会掩盖问题。未改任何项目资源。",
+        "正文信号 85:## E-05 · 开发期旧调用面/历史生成分支未退役",
+        "正文信号 88:本条是删除纪律未完全落实，不是“当前迁移正在生成旧工程”。",
+        "正文信号 107:## E-06 · 当前全仓质量门禁并未全绿",
+        "正文信号 111:仍有**238条error级诊断、50 warning、13 info**，exit1。产品文件未改，属于现存门禁基线问题。",
+        "正文信号 113:**238条诊断不是238个运行缺陷**，不据此夸大业务风险；未在审计中自动格式化产品源码。",
+        "正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。",
+        "正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。",
+        "正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-engineering",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+      "afterSha256": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/engineering.md → ../../../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md",
+        "docs/ops/audits/pre-e2e/engineering.md → ../../../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md",
+        "docs/ops/audits/pre-e2e/engineering.md → summary.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/pre-e2e/engineering.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/engineering.md"]
+      },
+      "revision": {
+        "currentSha": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+        "implementationSha": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+        "candidateSha256": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+        "afterSha256": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+        "lineCount": 245,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 14433,
+          "sourceLines": 174,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-245",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/engineering.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-19",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。"
+        },
+        {
+          "id": "R34-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。"
+        },
+        {
+          "id": "R34-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账：这是 audit-report，当前文档状态为 current。全文 235 行、15 个标题；摘要/首段为「后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/README.md:1",
+        "docs/ops/audits/pre-e2e/README.md:1 PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账",
+        "docs/ops/audits/pre-e2e/README.md:18 约束与覆盖",
+        "docs/ops/audits/pre-e2e/README.md:47 第一批结论摘要",
+        "docs/ops/audits/pre-e2e/README.md:68 A-01 · 不同项目的快速/自动存档会互相覆盖",
+        "docs/ops/audits/pre-e2e/README.md:81 A-02 · 锁只串行，不识别另一编辑器的旧快照",
+        "docs/ops/audits/pre-e2e/README.md:99 A-03 · 合法状态的部分保存会破坏已发布引用",
+        "docs/ops/audits/pre-e2e/README.md:121 A-04 · 一阶段的过渡态被当成可快存状态",
+        "docs/ops/audits/pre-e2e/README.md:134 A-05 · 请求成功不等于事务提交成功"
+      ],
+      "unresolved": [
+        "正文信号 5:下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。",
+        "正文信号 6:以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../archive/board-history/board-20261004.md)为准，不改原探针和历史结论。",
+        "正文信号 8:后续修复：[编辑器覆盖率确定性](coverage-determinism.md)已用独立受控帧回归闭环并三签收口，未降低门禁或修改生产行为。",
+        "正文信号 15:进度：**A–E五批首轮只读取证已收口，修复尚未开始。** B批基线`84434b8a`、C批基线`35aa1dc5`、D批基线`50ed0f0f`、E批基线`223a20f0`，产品代码未变。",
+        "正文信号 16:总体判断、风险归并、待证项与建议修复顺序见[总收口](summary.md)；完成审计不代表产品无缺陷或E2E已通过。",
+        "正文信号 21:- 依用户已批准路线图，在商店生命周期后、R4 薄 E2E 前审计。确认缺陷、待验证疑点、可选优化分开，",
+        "正文信号 30:| B | 世界/脚本/切场景、异步取消与收尾、状态所有权 | [B批报告](world-lifecycle.md)：9条确认观察（8家族），U-01已追证为B-04；U-02待证 |",
+        "正文信号 33:| E | 测试可信度、构建/发布、性能与维护性 | [E批报告](engineering.md)：6项记录，含旧调用面纪律与lint未绿；发布/性能未测范围明确保留 |",
+        "正文信号 44:未做：真实用户目录故障注入、真实IndexedDB破坏试验、浏览器慢网剧情复现、远程部署、完整通关/战斗E2E。",
+        "正文信号 49:**A批9项确认的问题/防护缺口；当时留下的U-01已由B-04追证，尚未修复。** 严重度表示触发后的影响，触发条件与",
+        "正文信号 55:| A-02 | 二阶段编辑器 | P1 | 第二编辑器首次保存的陈旧全量快照覆盖A已存内容 | 多窗口保存/冲突测试前修 |",
+        "正文信号 57:| A-04 | 一阶段运行时 | P1 | sceneLoading窗口仍允许F5，读回路径跳过尚未跑的onEnter | 一阶段F5检查点前修；不直接阻断二阶段R4 |",
+        "正文信号 5:下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。",
+        "正文信号 10:2026-09-07 用户明确免复验通过，已 done；下文缺陷复现保留修前证据，不代表本候选仍共用存储键。",
+        "正文信号 13:Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。",
+        "正文信号 16:总体判断、风险归并、待证项与建议修复顺序见[总收口](summary.md)；完成审计不代表产品无缺陷或E2E已通过。",
+        "正文信号 55:| A-02 | 二阶段编辑器 | P1 | 第二编辑器首次保存的陈旧全量快照覆盖A已存内容 | 多窗口保存/冲突测试前修 |",
+        "正文信号 79:  不增加旧key静默fallback掩盖冲突。复现见 `probe-save-boundaries.mjs` 的A-01。",
+        "正文信号 84:2026-09-07 用户明确验收通过，已 done，候选未漂移。下列是修前反例，不表示新候选仍静默覆盖。",
+        "正文信号 96:- 修复方向：打开时持有磁盘基线，写入前在同一互斥域校验目标版本/差异；冲突显式报告，不把当前磁盘重采样当旧快照。",
+        "正文信号 102:完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。",
+        "正文信号 182:非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+      "afterSha256": "fd2160362f7c5d8f68d92f00ec50519971459c8b2cbc7614bb1ceae5a75141f3",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/README.md → quality-gate-remediation.md",
+        "docs/ops/audits/pre-e2e/README.md → save-preflight-remediation.md",
+        "docs/ops/audits/pre-e2e/README.md → tools/README.md",
+        "docs/ops/audits/pre-e2e/README.md → save-barrier-lineage-premise.md",
+        "docs/ops/audits/pre-e2e/README.md → ../../archive/board-history/board-20261004.md",
+        "docs/ops/audits/pre-e2e/README.md → coverage-determinism.md",
+        "docs/ops/audits/pre-e2e/README.md → ../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md",
+        "docs/ops/audits/pre-e2e/README.md → summary.md",
+        "docs/ops/audits/pre-e2e/README.md → world-lifecycle.md",
+        "docs/ops/audits/pre-e2e/README.md → battle.md",
+        "docs/ops/audits/pre-e2e/README.md → editor-workflows.md",
+        "docs/ops/audits/pre-e2e/README.md → engineering.md",
+        "docs/ops/audits/pre-e2e/README.md → ../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md",
+        "docs/ops/audits/pre-e2e/README.md → ../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md",
+        "docs/ops/audits/pre-e2e/README.md → tools/probe-editor-save-recovery.mjs",
+        "docs/ops/audits/pre-e2e/README.md → ../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/pre-e2e/README.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/README.md"]
+      },
+      "revision": {
+        "currentSha": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+        "implementationSha": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+        "candidateSha256": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+        "afterSha256": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+        "lineCount": 319,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 21443,
+          "sourceLines": 234,
+          "sourceFinalNewline": true,
+          "inverseSha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "a65d1ad855c5eaf7c63c0a3bb179905979913cd8934d4ac265d2deb9f3409542",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-319",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "fd2160362f7c5d8f68d92f00ec50519971459c8b2cbc7614bb1ceae5a75141f3",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/README.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-07",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 5:下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。"
+        },
+        {
+          "id": "R34-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 10:2026-09-07 用户明确免复验通过，已 done；下文缺陷复现保留修前证据，不代表本候选仍共用存储键。"
+        },
+        {
+          "id": "R34-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 13:Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。"
+        },
+        {
+          "id": "R34-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 16:总体判断、风险归并、待证项与建议修复顺序见[总收口](summary.md)；完成审计不代表产品无缺陷或E2E已通过。"
+        },
+        {
+          "id": "R34-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 55:| A-02 | 二阶段编辑器 | P1 | 第二编辑器首次保存的陈旧全量快照覆盖A已存内容 | 多窗口保存/冲突测试前修 |"
+        },
+        {
+          "id": "R34-6",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 79:  不增加旧key静默fallback掩盖冲突。复现见 `probe-save-boundaries.mjs` 的A-01。"
+        },
+        {
+          "id": "R34-7",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 84:2026-09-07 用户明确验收通过，已 done，候选未漂移。下列是修前反例，不表示新候选仍静默覆盖。"
+        },
+        {
+          "id": "R34-8",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 96:- 修复方向：打开时持有磁盘基线，写入前在同一互斥域校验目标版本/差异；冲突显式报告，不把当前磁盘重采样当旧快照。"
+        },
+        {
+          "id": "R34-9",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 102:完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。"
+        },
+        {
+          "id": "R34-10",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 182:非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例：这是 audit-report，当前文档状态为 draft。全文 76 行、5 个标题；摘要/首段为「2026-09-16，Codex。取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`，产品与WORLD候选`e13216e7`相同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:1",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:1 SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:7 本次新增证据",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:33 内部生命周期压力反例（限定范围）",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:40 旧证据复跑与限制",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:71 修复准入与未做"
+      ],
+      "unresolved": [
+        "正文信号 21:| 同输入场景 | 原产品 | 仅删begin的pending gate（内存单点） |",
+        "正文信号 23:| 未请求保存，内联出口 | first/childEnd/parentEnd全执行 | 相同，正常对照 |",
+        "正文信号 25:| 同内容独立root hook，confirm后请求保存 | first执行，cursor=last，成功快照；childEnd未执行，符合独立根安全点暂停 | 相同，对照证明不能全局取消安全点stop |",
+        "正文信号 29:全局fetch禁止网络且finally恢复，server关闭；未写项目/资产/存档，不声称Vite内部绝无缓存I/O。",
+        "正文信号 31:诊断100ms只缩短已证互等的观察，生产默认10000ms未改；独立根/无保存正控同轮执行。",
+        "正文信号 56:仍可使用真实AbortError、世界链尾未写、后续保存可用断言；正式SL-07必须直接抓实际snapshot，不能原样搬此弱断言。",
+        "正文信号 66:结果3 files / 39 tests全绿；它们保护独立root暂停等原合同，未覆盖本卡两条反例。新probe Biome复查0问题。",
+        "正文信号 71:## 修复准入与未做",
+        "正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。",
+        "正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确："
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-save-barrier-lineage-premise",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+      "afterSha256": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md → ../../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md → ../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md → tools/probe-save-barrier-family.mjs",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md → tools/probe-glm-next-barrier.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md"]
+      },
+      "revision": {
+        "currentSha": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+        "implementationSha": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+        "candidateSha256": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+        "afterSha256": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+        "lineCount": 144,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 5892,
+          "sourceLines": 75,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-144",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-16",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。"
+        },
+        {
+          "id": "R34-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确："
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B-04 修复回执：当前存档预检与恢复失败隔离：这是 audit-report，当前文档状态为 current。全文 59 行、4 个标题；摘要/首段为「状态：**SAVE-PREFLIGHT-1 已 done（2026-09-06，用户明确授权收口）**。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md:1",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md:1 B-04 修复回执：当前存档预检与恢复失败隔离",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md:8 已完成",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md:18 验证与证据边界",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md:43 后续事项"
+      ],
+      "unresolved": [
+        "正文信号 28:| 单次严格 fast coverage | 609 个生产文件 / 5,761 项；精确基线通过，未降门槛、未缩范围 |",
+        "正文信号 40:未重跑 full coverage；fast 的增加不能冒充 PAL/browser/E2E 覆盖。没有对用户真实数据库做损坏试验，",
+        "正文信号 41:没有承诺任意提交后异常回滚，也没有穷举一切未知字段。",
+        "正文信号 47:| 合法 checkpoint → 行走/脚本 → 坏 checkpoint 拒绝 → 合法恢复 | [R4/Q1 集中 E2E 登记](../../../testing/e2e/contract.md#已登记的存档恢复回归save-preflight-1)，Owner Codex，待跑；剧情观感不逐卡重复 |",
+        "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |",
+        "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-save-preflight-remediation",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+      "afterSha256": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md → ../../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md → ../../../testing/e2e/contract.md#已登记的存档恢复回归save-preflight-1",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md → ../../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md → ../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/audits/pre-e2e/save-preflight-remediation.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/save-preflight-remediation.md"]
+      },
+      "revision": {
+        "currentSha": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+        "implementationSha": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+        "candidateSha256": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+        "afterSha256": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+        "lineCount": 125,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 4916,
+          "sourceLines": 58,
+          "sourceFinalNewline": true,
+          "inverseSha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-125",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-06",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/summary.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议：这是 audit-report，当前文档状态为 A。全文 264 行、12 个标题；摘要/首段为「状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/summary.md:1",
+        "docs/ops/audits/pre-e2e/summary.md:1 PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议",
+        "docs/ops/audits/pre-e2e/summary.md:7 修复进度（更新至2026-09-21）",
+        "docs/ops/audits/pre-e2e/summary.md:78 结论先说",
+        "docs/ops/audits/pre-e2e/summary.md:131 覆盖及阅读入口",
+        "docs/ops/audits/pre-e2e/summary.md:146 建议推进顺序",
+        "docs/ops/audits/pre-e2e/summary.md:185 审计后用户补充",
+        "docs/ops/audits/pre-e2e/summary.md:192 审计后实现期追加（2026-09-07）",
+        "docs/ops/audits/pre-e2e/summary.md:206 需要产品选择的边界"
+      ],
+      "unresolved": [
+        "正文信号 4:产品基线从`09ee6e3c`到本次取证未修改。各批只提交报告与内存/只读边界复现工具。",
+        "正文信号 11:E-05仍为退役候选，U-02仍risk，R4未因此自动开门。TB00/TB01已分别done，不再按下方历史局部表述返工。",
+        "正文信号 20:不改资源格式/公共加载器/播放语义，不等GLM运行时补测返工；缓存容量与pending FIRE读取协议不在本次范围。",
+        "正文信号 24:R4/Q1 恢复与剧情观感用例已登记待跑；[editor 已知帧覆盖缺口](coverage-determinism.md)已补确定性回归并三签收口。",
+        "正文信号 26:发布运行按稳定项目 ID、编辑器试玩额外按工作区 ID 隔离，旧开发库不读不迁不删，未改 SAVE8/content20。",
+        "正文信号 27:其余修复分组维持下文顺序，本次没有整组实现授权，也未宣称完整 E2E 通过。",
+        "正文信号 30:A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。",
+        "正文信号 33:用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。",
+        "正文信号 35:b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6",
+        "正文信号 42:以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。",
+        "正文信号 52:另发现的物品新建canonical缺席及共享ID前缀歧义已在[编辑器审计D-06/D-07](editor-workflows.md)登记，未扩大本卡或宣称修复。",
+        "正文信号 57:场景删除被换成钩子删除、缓存故障未实际注入、上传直接提交B被误报最后选择获胜，以及分类/日志矛盾。",
+        "正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。",
+        "正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。",
+        "正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。",
+        "正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。",
+        "正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-summary",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+      "afterSha256": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md",
+        "docs/ops/audits/pre-e2e/summary.md → quality-gate-remediation.md",
+        "docs/ops/audits/pre-e2e/summary.md → save-preflight-remediation.md",
+        "docs/ops/audits/pre-e2e/summary.md → coverage-determinism.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-native-ui.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md",
+        "docs/ops/audits/pre-e2e/summary.md → ../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/pre-e2e/summary.md"],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/summary.md"]
+      },
+      "revision": {
+        "currentSha": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+        "implementationSha": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+        "candidateSha256": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+        "afterSha256": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+        "lineCount": 338,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 29068,
+          "sourceLines": 263,
+          "sourceFinalNewline": true,
+          "inverseSha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-338",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/summary.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-06",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。"
+        },
+        {
+          "id": "R34-2",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。"
+        },
+        {
+          "id": "R34-3",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。"
+        },
+        {
+          "id": "R34-4",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。"
+        },
+        {
+          "id": "R34-5",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/tools/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "PRE-E2E 审计工具：这是 audit-report，当前文档状态为 current。全文 7 行、1 个标题；摘要/首段为「本目录只存探针、配置和验证脚本；审计结论在上级目录的报告中。脚本移动保留源 SHA、after SHA、cwd、」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/tools/README.md:1",
+        "docs/ops/audits/pre-e2e/tools/README.md:1 PRE-E2E 审计工具"
+      ],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-tools-README",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+      "afterSha256": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/tools/README.md → ../../../archive/ops-governance-layout-20261004.json"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/audits/pre-e2e/tools/README.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/tools/README.md"]
+      },
+      "revision": {
+        "currentSha": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+        "implementationSha": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+        "candidateSha256": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+        "afterSha256": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+        "lineCount": 73,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 415,
+          "sourceLines": 6,
+          "sourceFinalNewline": true,
+          "inverseSha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-73",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/README.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "undated",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "B批 · 世界、脚本与异步收尾：这是 audit-report，当前文档状态为 current。全文 183 行、12 个标题；摘要/首段为「后续更新（2026-09-06）：[B-04 当前存档预检已修复](save-preflight-remediation.md)，三席通过并按用户授权收口。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:1",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:1 B批 · 世界、脚本与异步收尾",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:9 结论与边界",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:29 B-01 · 过期失败回调仍拥有当前GameState",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:40 B-02 · 同版本好槽被当前精灵别名污染",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:53 B-03 · 读档失败只报错，没有回收加载态",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:63 B-04 · U-01追证：坏核心字段突破恢复边界",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:88 B-05 · canonical地图覆写提交早于可失败的预载",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md:100 B-06 / B-07 · 保存屏障与它等待的子活动互等"
+      ],
+      "unresolved": [
+        "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**",
+        "正文信号 12:修其中一个未必覆盖另一个，不等于必须开两张修复卡。A批U-01已由B-04追证，不能再笼统写“所有坏字段都会污染世界”。",
+        "正文信号 18:| B-03 | 一阶段 | P1，条件性 | 读档资源失败后黑屏/加载锁未收口 | 正常槽的目标场景资源请求失败，可通过再次成功读档恢复 |",
+        "正文信号 19:| B-04 | 二阶段 | P1，坏输入条件 | 坏金额/朝向越过预检并污染活动状态；party空值错误未收口 | 同项目同版本损坏SAVE8；正常当前保存器不会自然写这些坏值 |",
+        "正文信号 21:| B-06 | 二阶段 | P2 | 确认框请求保存→继续开战，因lineage key不一致等待自己 | 合法作者流程；超时释放后继续，不是永久死锁 |",
+        "正文信号 22:| B-07 | 二阶段 | P2 | 确认框请求保存→内联场景出口，持久lease申请等待自己 | 同场景/session正常嵌套；同样有超时恢复 |",
+        "正文信号 23:| B-08 | 二阶段 | P2，条件性 | 切场景预检签名漏canonical hook选择，放过过期entry契约 | 资源等待期间另一auto/脚本切换目标hook；reveal随后拒绝不匹配 |",
+        "正文信号 31:- 直接证据：`packages/game/src/core/event-system.ts:3488-3504`的`triggerPendingSceneLoad`捕获同一gs引用；",
+        "正文信号 56:`:1710`等待loadSceneCommon失败后没有恢复catch/finally。F9外层仅toast；`core/scene-system.ts:488`持续拒绝输入。",
+        "正文信号 58:palette全黑；真实tickSceneInput不移动。未模拟真实浏览器断网/磁盘故障。",
+        "正文信号 59:- 反证：资源成功或缓存命中时正常；再次F9成功可恢复，**不是永久不可恢复**。普通triggerPendingSceneLoad的catch",
+        "正文信号 75:| facing=\"sideways\" | commit期间dcol异常 | 已abort旧controller、替换world/scene/facing，尚未完成恢复，无回滚 |",
+        "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**"
+      ],
+      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-pre-e2e-world-lifecycle",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "nonAuthorReviewer": "r34_readonly_review",
+          "verdict": "accept-readonly-proposal",
+          "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9"
+        }
+      ],
+      "sourceSha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+      "afterSha256": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+      "publicCallers": [
+        "docs/ops/audits/pre-e2e/world-lifecycle.md → save-preflight-remediation.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/audits/pre-e2e/world-lifecycle.md"
+      ],
+      "businessOracle": {
+        "type": "historical-template-migration",
+        "assertions": [
+          "original bytes remain hashable",
+          "historical boundary explicit",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-migrated",
+        "against": ["docs/ops/audits/pre-e2e/world-lifecycle.md"]
+      },
+      "revision": {
+        "currentSha": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+        "implementationSha": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+            "date": "2026-10-17",
+            "action": "R34 phase2/lore migration or HTML artifact envelope",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "document-template-migration",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r34-ops-pre-e2e-20261017.json",
+        "sourceSha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+        "candidateSha256": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+        "afterSha256": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+        "lineCount": 249,
+        "artifactPreserved": false,
+        "originalPreservation": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 17436,
+          "sourceLines": 182,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+          "exactRoundTrip": true,
+          "trailingWhitespaceEncoding": {
+            "space": "␠",
+            "tab": "⇥"
+          }
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+          "action": "R34 readonly proposal accepted then migration/envelope",
+          "reviewer": "r34_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+      "reviewedLines": "1-249",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current-audit",
+      "sourceGitRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "candidateSha256": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+      "primarySource": [
+        {
+          "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+          "revision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+          "sha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+          "scope": "full source"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "pre-e2e",
+        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+      },
+      "dependencies": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "versionScope": {
+        "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+        "date": "2026-09-06",
+        "validity": "current-audit"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R34-1",
+          "status": "preserved-open-for-product-work",
+          "statement": "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**"
+        },
+        {
+          "id": "R34-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No product execution or visual acceptance."
+        }
+      ]
+    }
+  ],
+  "independentReadOnlyReceipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r34-ops-pre-e2e-readonly-review-20261017.json",
+    "sha256": "517712357a5d27a5333001869083863b97ac52a352924e49d23ad722084512c3",
+    "verdict": "accept-readonly-proposal",
+    "scope": "9/9 ops pre-E2E audit reports"
+  },
+  "migrationSummary": {
+    "documents": 9,
+    "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+    "sourceQuoteInverse": "9/9",
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false,
+    "docTypes": {
+      "audit-report": 9
+    }
+  },
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r34-ops-pre-e2e-candidate-acceptance-20261017.json",
+    "sha256": "1fdfa3d1704b5a0d333fc888c1b116bd32dbce9dcd4e942e314d1ca4724a3a61",
+    "verdict": "accept",
+    "scope": "9/9 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r26-indoor-slices-20261017",
+  "kind": "R26 indoor slice Markdown migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "candidate",
+  "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+  "scope": {
+    "documents": 4,
+    "docTypes": {
+      "archive-record": 2,
+      "plan-status": 2
+    },
+    "migrationCredit": 4
+  },
+  "deferredScope": {
+    "documents": 3,
+    "paths": [
+      "docs/phase2/archive/mockups/actor-mode-v1.html",
+      "docs/phase2/archive/mockups/actor-mode-v2.html",
+      "docs/phase2/archive/mockups/place-mode.html"
+    ],
+    "reason": "HTML variant/template contract not frozen."
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json",
+    "sha256": "8d1157e64940acbb142b91edfb695f6312cd159551fdf3028b6aa1c36d1f5bde",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 4,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "title": "切片 1（重定 · 小版）· 鬼界民居 demo",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+      "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+      "sourceLines": 70,
+      "afterLines": 110,
+      "outline": "Small real-content slice proposal for a one-room ghost-home demo in reforge Canvas 2D: Li Xiaoyao walks/collides and talks to one or two ghosts; scope excludes editor/migration/combat/menu/save/scene switching/complex animation; reuse original tiles/sprites and hand-write scene data; minimal Scene/Map/Entity/Dialogue model; three-layer state, instantiable engine, pure movement/collision, Renderer interface, action-handler registry; build order content→renderer/input→assets→movement→dialogue; browser walk/collision/dialogue acceptance and a few focused tests.",
+      "conflicts": [
+        "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
+        "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
+        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+      ],
+      "stopLine": "Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.",
+      "successor": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "title": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+      "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+      "sourceLines": 130,
+      "afterLines": 190,
+      "outline": "Historical static-NPC collision TDD plan: identifies collide as a dead field; constrains scope to fixed-position entities; adds pure sameTile(pixelToTile) plus an isBlocked wrapper while preserving resolveMove semantics; specifies focused collision tests, reforge check/lint, and a browser check for blocked passage plus dialogue and detour.",
+      "conflicts": [
+        "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
+        "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
+        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+      ],
+      "stopLine": "Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.",
+      "successor": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "title": "切片 1「室内场景跑通」实现计划（slice 1 plan）",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+      "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+      "sourceLines": 1352,
+      "afterLines": 1412,
+      "outline": "Historical implementation plan for two packages and an indoor vertical slice: workspace wiring; content schema, indexed-PNG decode, scene parsing/validation, hand-written scene/assets; reforge entities/grid/collision/resolveMove/state/cutscene/interaction/input/fixed tick; then camera, WebGL2 textured-quad rendering, identity postprocess, Canvas2D text, and browser/rAF dev entry; concludes with self-review and handoff.",
+      "conflicts": [
+        "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
+        "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
+        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+      ],
+      "stopLine": "Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.",
+      "successor": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "title": "P1 · 切片 1：室内场景跑通（slice 1 spec）",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+      "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+      "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+      "sourceLines": 278,
+      "afterLines": 318,
+      "outline": "Historical P1 indoor-slice spec: goal and scope table; D1–D9 mapping; content/reforge package layout; scene/map/entity/cutscene schema; indexed-PNG assets; three-layer state and lightweight component entities; pure movement and separate world/entity collision; declarative event/dialogue; WebGL2 plus Canvas2D text; loop/input/error/module boundaries; tests, build order, and future items.",
+      "conflicts": [
+        "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
+        "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
+        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+      ],
+      "stopLine": "Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.",
+      "successor": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    }
+  ],
+  "independentCandidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-candidate-acceptance-20261017.json",
+    "sha256": "23f27fcf57bc93608789ad3a5d4a18b687a0f6225482e19c600e8826332c1d65",
+    "verdict": "accept",
+    "scope": "4/4 Markdown candidate reception; HTML 3 deferred",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

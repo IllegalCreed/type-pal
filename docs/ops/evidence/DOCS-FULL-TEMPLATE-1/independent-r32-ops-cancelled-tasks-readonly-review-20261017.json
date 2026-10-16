@@ -1,0 +1,879 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r32-ops-cancelled-tasks-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 7,
+    "all7": true,
+    "paths": [
+      "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "docs/ops/archive/tasks/cancelled/README.md",
+      "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "7/7 fully read",
+    "sourceAfter": "7/7 byte SHA equal at intake",
+    "registry": "7/7 governed-legacy entries and review references",
+    "catalog": "ops archive paths outside phase/lore catalog scope",
+    "routing": "archive-only at intake",
+    "classification": "7 archive-task-card",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "format": "markdown",
+      "title": "D15-2 - PAL auto 地形路线兼容修复",
+      "date": "2026-08-12",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+      "afterSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
+      "bytes": 26842,
+      "physicalLineSlots": 366,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "D15-2 - PAL auto 地形路线兼容修复"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "取消裁决（2026-08-13）"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "历史目标（已取消）"
+        },
+        {
+          "line": 27,
+          "level": 2,
+          "text": "范围与硬边界"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "上下文锚点（实现前必读）"
+        },
+        {
+          "line": 64,
+          "level": 2,
+          "text": "根因与首个 canary"
+        },
+        {
+          "line": 74,
+          "level": 2,
+          "text": "审计基线（D15-1 discovery，2026-08-13）"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "冻结设计（v1，三方设计 agree）"
+        },
+        {
+          "line": 86,
+          "level": 3,
+          "text": "1. 同版本 append-only successor"
+        },
+        {
+          "line": 103,
+          "level": 3,
+          "text": "2. 唯一 movement parity 合同"
+        },
+        {
+          "line": 117,
+          "level": 3,
+          "text": "3. registry + control-flow source ledger"
+        },
+        {
+          "line": 144,
+          "level": 3,
+          "text": "4. disposition 与投影规则"
+        },
+        {
+          "line": 175,
+          "level": 3,
+          "text": "5. cursor / save 兼容边界"
+        },
+        {
+          "line": 187,
+          "level": 3,
+          "text": "6. CLI、重放与写盘事务"
+        },
+        {
+          "line": 199,
+          "level": 2,
+          "text": "验收矩阵"
+        },
+        {
+          "line": 201,
+          "level": 3,
+          "text": "ledger / dry executor"
+        },
+        {
+          "line": 210,
+          "level": 3,
+          "text": "route projector / transition"
+        },
+        {
+          "line": 220,
+          "level": 3,
+          "text": "runtime / save / release"
+        },
+        {
+          "line": 230,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 232,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 248,
+          "level": 4,
+          "text": "GLM 数据账复算证据（2026-08-13，HEAD b9de09d0；本人实跑 audit-entity-motion.mts，非代理）"
+        },
+        {
+          "line": 299,
+          "level": 3,
+          "text": "进入 done 前：审查签字"
+        },
+        {
+          "line": 306,
+          "level": 2,
+          "text": "Kimi 设计复审记录（2026-08-12，本人；只读核查，未改实现，未代签 GLM）"
+        },
+        {
+          "line": 337,
+          "level": 2,
+          "text": "视觉验证记录"
+        },
+        {
+          "line": 345,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 359,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 8:Blocked By: 用户裁决否定任务前提",
+        "正文信号 11:## 取消裁决（2026-08-13）",
+        "正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。",
+        "正文信号 21:## 历史目标（已取消）",
+        "正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。",
+        "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`",
+        "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath",
+        "正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、",
+        "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "format": "markdown",
+      "title": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界",
+      "date": "2026-09-01",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+      "afterSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
+      "bytes": 8576,
+      "physicalLineSlots": 143,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界"
+        },
+        {
+          "line": 15,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 21,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 35,
+          "level": 2,
+          "text": "前提真值门"
+        },
+        {
+          "line": 37,
+          "level": 3,
+          "text": "一句话前提"
+        },
+        {
+          "line": 42,
+          "level": 3,
+          "text": "四向真值矩阵"
+        },
+        {
+          "line": 51,
+          "level": 3,
+          "text": "直接证据与替代解释"
+        },
+        {
+          "line": 64,
+          "level": 2,
+          "text": "用户可见偏离"
+        },
+        {
+          "line": 72,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "设计方案"
+        },
+        {
+          "line": 97,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 112,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 114,
+          "level": 3,
+          "text": "进入 build 前"
+        },
+        {
+          "line": 126,
+          "level": 3,
+          "text": "进入 done 前"
+        },
+        {
+          "line": 134,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 139,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）",
+        "正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复",
+        "正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。",
+        "正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**",
+        "正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**",
+        "正文信号 132:- done 准入: blocked",
+        "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "format": "markdown",
+      "title": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing",
+      "date": "2026-09-01",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+      "afterSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
+      "bytes": 1633,
+      "physicalLineSlots": 32,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "追踪原因"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "原目标与替代关系"
+        },
+        {
+          "line": 26,
+          "level": 2,
+          "text": "当前门禁"
+        },
+        {
+          "line": 30,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）",
+        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof",
+      "date": "2026-08-10",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+      "afterSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
+      "bytes": 18615,
+      "physicalLineSlots": 247,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "2026-08-22 current-only 终局处置"
+        },
+        {
+          "line": 39,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 60,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 84,
+          "level": 2,
+          "text": "前提真值矩阵"
+        },
+        {
+          "line": 105,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 124,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 126,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 188,
+          "level": 3,
+          "text": "进入 done 前：实现签字"
+        },
+        {
+          "line": 197,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 199,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 205,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 210,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 244,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由",
+        "正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有",
+        "正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试",
+        "正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。",
+        "正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。",
+        "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。",
+        "正文信号 195:- done 准入结论: blocked",
+        "正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成",
+        "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "format": "markdown",
+      "title": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner",
+      "date": "2026-08-10",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+      "afterSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
+      "bytes": 56635,
+      "physicalLineSlots": 660,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner"
+        },
+        {
+          "line": 16,
+          "level": 2,
+          "text": "2026-08-22 current-only 终局处置"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 46,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 60,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 83,
+          "level": 2,
+          "text": "前提真值矩阵"
+        },
+        {
+          "line": 104,
+          "level": 2,
+          "text": "冻结的资源与失败矩阵"
+        },
+        {
+          "line": 113,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 128,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 130,
+          "level": 3,
+          "text": "进入 build 前：设计签字"
+        },
+        {
+          "line": 196,
+          "level": 3,
+          "text": "2026-08-19 v4-only 前提补充（三方重签已齐）"
+        },
+        {
+          "line": 217,
+          "level": 4,
+          "text": "Kimi 重签（2026-08-19 v4-only 前提补充；本人一手读码，非代理）"
+        },
+        {
+          "line": 262,
+          "level": 4,
+          "text": "GLM v4-only 前提补充审查（2026-08-19，机械核对；本人一手读码 + census，非代理）"
+        },
+        {
+          "line": 306,
+          "level": 4,
+          "text": "Codex v4-only 前提补充重签（2026-08-19，最新 HEAD 独立复核）"
+        },
+        {
+          "line": 326,
+          "level": 3,
+          "text": "进入 done 前：实现签字"
+        },
+        {
+          "line": 335,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 337,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 342,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 347,
+          "level": 2,
+          "text": "Build：实现与候选验证（Codex，2026-08-18）"
+        },
+        {
+          "line": 477,
+          "level": 3,
+          "text": "2026-08-19 implementation checkpoint 阻塞记录"
+        },
+        {
+          "line": 533,
+          "level": 3,
+          "text": "2026-08-20 current-v4 authority 最终 focused blocker"
+        },
+        {
+          "line": 583,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 657,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 3:Status: cancelled",
+        "正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，",
+        "正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知",
+        "正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，",
+        "正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。",
+        "正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。",
+        "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：",
+        "正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。",
+        "正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。",
+        "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "format": "markdown",
+      "title": "已取消任务",
+      "date": "undated",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+      "afterSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+      "bytes": 258,
+      "physicalLineSlots": 7,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "已取消任务"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 1:# 已取消任务",
+        "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+      "format": "markdown",
+      "title": "W7E - 独立地图库与场景地图绑定（已取消）",
+      "date": "2026-07-13",
+      "status": "historical",
+      "currentRegistry": {
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-01.json"
+      },
+      "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+      "sourceSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+      "afterSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
+      "bytes": 29504,
+      "physicalLineSlots": 357,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "W7E - 独立地图库与场景地图绑定（已取消）"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "目标"
+        },
+        {
+          "line": 28,
+          "level": 2,
+          "text": "范围"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "上下文锚点"
+        },
+        {
+          "line": 86,
+          "level": 2,
+          "text": "验收条件"
+        },
+        {
+          "line": 114,
+          "level": 2,
+          "text": "推进签字"
+        },
+        {
+          "line": 118,
+          "level": 3,
+          "text": "进入 build 前:设计签字"
+        },
+        {
+          "line": 153,
+          "level": 3,
+          "text": "进入 done 前:审查签字"
+        },
+        {
+          "line": 162,
+          "level": 2,
+          "text": "Draft: 设计与风险"
+        },
+        {
+          "line": 164,
+          "level": 3,
+          "text": "设计结论"
+        },
+        {
+          "line": 166,
+          "level": 4,
+          "text": "1. 存储 schema 与内存真值"
+        },
+        {
+          "line": 191,
+          "level": 4,
+          "text": "2. v1 显式兼容升级"
+        },
+        {
+          "line": 202,
+          "level": 4,
+          "text": "3. loader / runtime"
+        },
+        {
+          "line": 210,
+          "level": 4,
+          "text": "4. editor / Command / UI"
+        },
+        {
+          "line": 219,
+          "level": 4,
+          "text": "5. serializer / migrate / MG2"
+        },
+        {
+          "line": 230,
+          "level": 4,
+          "text": "6. 消费方清单（R1 门禁）"
+        },
+        {
+          "line": 244,
+          "level": 3,
+          "text": "实施分期"
+        },
+        {
+          "line": 254,
+          "level": 3,
+          "text": "已知风险"
+        },
+        {
+          "line": 271,
+          "level": 3,
+          "text": "主审立场"
+        },
+        {
+          "line": 278,
+          "level": 3,
+          "text": "三方争议记录(按需)"
+        },
+        {
+          "line": 285,
+          "level": 2,
+          "text": "额度 / 代班记录(如适用)"
+        },
+        {
+          "line": 295,
+          "level": 2,
+          "text": "Build: 实现与自测"
+        },
+        {
+          "line": 321,
+          "level": 2,
+          "text": "视觉验证记录(如适用)"
+        },
+        {
+          "line": 329,
+          "level": 2,
+          "text": "Review: 审查与返工"
+        },
+        {
+          "line": 336,
+          "level": 2,
+          "text": "用户验收"
+        },
+        {
+          "line": 341,
+          "level": 2,
+          "text": "交接日志"
+        },
+        {
+          "line": 349,
+          "level": 2,
+          "text": "下一位 Agent 提示词"
+        },
+        {
+          "line": 353,
+          "level": 2,
+          "text": "后续收编回执（2026-09-05）"
+        }
+      ],
+      "semanticOutline": "Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.",
+      "conflicts": [
+        "正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）",
+        "正文信号 3:Status: cancelled",
+        "正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为",
+        "正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。",
+        "正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。",
+        "正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。",
+        "正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器",
+        "正文信号 160:- done 准入结论: blocked",
+        "正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。",
+        "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。"
+      ],
+      "stopLine": "do not promote historical cancelled task claims to current work without a new task card and current decision",
+      "successor": "Current ops task board, active task cards and fresh primary-source evidence.",
+      "proposedClassification": "archive-task-card",
+      "proposedTemplate": "task-card-v1 + archive-record-v1 overlay",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

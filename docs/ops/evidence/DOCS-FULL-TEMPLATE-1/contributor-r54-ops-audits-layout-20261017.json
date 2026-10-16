@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r54-ops-audits-layout-20261017",
+  "kind": "R54 ops audits/index/layout migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+  "scope": {
+    "documents": 3,
+    "docTypes": {
+      "audit-report": 1,
+      "governance-index": 1,
+      "archive-record": 1
+    },
+    "historyOverlay": "none; current audit/index plus byte-stable historical JSON artifact",
+    "migrationCredit": 3
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r54-ops-audits-layout-readonly-review-20261017.json",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 3,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+      "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+      "sourceLines": 87,
+      "afterLines": 132,
+      "sourceAfterEqual": false,
+      "quoteInverse": true,
+      "consumerBoundary": "Current task cards, code/test evidence and the audit index.",
+      "stopLine": "do not promote static audit conclusions to runtime/E2E/visual/coverage acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+      "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "sourceLines": 12,
+      "afterLines": 54,
+      "sourceAfterEqual": false,
+      "quoteInverse": true,
+      "consumerBoundary": "Architecture debt audit, pre-E2E audit, current task cards and evidence consumer.",
+      "stopLine": "do not treat navigation index or linked historical reports as current execution acceptance",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    },
+    {
+      "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+      "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+      "sourceLines": 3170,
+      "afterLines": 3170,
+      "sourceAfterEqual": true,
+      "quoteInverse": true,
+      "consumerBoundary": "Archive README, layout-plan consumers and retention ledger.",
+      "stopLine": "do not delete or reinterpret historical layout JSON until all consumers, successor links, retention and SHA are independently closed",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r55-ops-dedup-ledger-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "candidateHead": "7ea529ab5a3f2be583ae02909066824913eee66a",
+  "verdict": "accept-readonly-proposal",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "root": ".",
+    "documentsRead": 2,
+    "all2": true,
+    "paths": [
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "strict UTF-8 source read and SHA-256; full source text read; NEW/REG, caller, oracle, legal-input and counterexample sections inspected"
+  },
+  "summary": {
+    "documents": "2/2 fully read",
+    "sourceAfter": "2/2 source and quote inverse recorded",
+    "registry": "2/2 migrated from governed-legacy",
+    "routing": "2/2 evidence-receipt routes with history overlay",
+    "classification": "2 historical test evidence receipts",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "format": "markdown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+      "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）",
+        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md → dedup-ledger.md"
+      ],
+      "documentStatus": "historical",
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "format": "markdown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "quoteInverse": true,
+      "consumerRefs": [
+        "turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → dedup-ledger.md"
+      ],
+      "documentStatus": "historical",
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

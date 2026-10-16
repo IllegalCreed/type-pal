@@ -1,0 +1,345 @@
+import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { test } from 'node:test'
+import { auditDocuments, renderTaskIndex, taskInfo } from './check.mjs'
+import { checkDocumentModel, checkRouting, checkTemplateBody } from './document-model.mjs'
+
+const config = {
+  entry: 'AGENTS.md',
+  entrySection: '操作与必读',
+  forwardingEntries: ['CLAUDE.md'],
+  routes: [{ operation: '改文档', required: ['docs/model.md'] }],
+}
+const files = {
+  'AGENTS.md': '## 操作与必读\n\n| 改文档 | [模型](docs/model.md) | 先核来源与写回 |\n',
+  'CLAUDE.md': '[规则](AGENTS.md#操作与必读)',
+  'docs/model.md': '# 模型\n',
+}
+
+test('a copied historical route cannot authorize work when the live route points elsewhere', () => {
+  const read = (path) =>
+    path === 'AGENTS.md'
+      ? '## 操作与必读\n| 改文档 | [旧规则](docs/old.md) | 读旧规则 |\n## 历史\n| 改文档 | [模型](docs/model.md) | 旧记载 |'
+      : files[path]
+  assert.deepEqual(checkRouting(config, read), ['改文档: mandatory link missing: docs/model.md'])
+})
+
+test('a routed target must exist; merely writing its name cannot satisfy the contract', () => {
+  assert.deepEqual(
+    checkRouting(config, (path) => files[path]),
+    [],
+  )
+  assert.deepEqual(
+    checkRouting(config, (path) => (path === 'docs/model.md' ? undefined : files[path])),
+    ['改文档: target missing: docs/model.md'],
+  )
+})
+
+test('an example fenced table is not the live operation route', () => {
+  const read = (path) =>
+    path === 'AGENTS.md'
+      ? '## 操作与必读\n```md\n| 改文档 | [模型](docs/model.md) | 示例 |\n```'
+      : files[path]
+  assert.deepEqual(checkRouting(config, read), ['改文档: expected one live route row'])
+})
+
+test('a source-copy wrapper does not satisfy the registered index body contract', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'governance-index')
+  const wrapper = '# Pilot\n\n## Preserved source body\n\nOriginal navigation.\n'
+  assert.deepEqual(
+    checkTemplateBody(wrapper, template),
+    template.requiredSections.map((name) => `missing section: ${name}`),
+  )
+})
+
+test('headings alone, including headings in examples, are insufficient migration evidence', () => {
+  const template = { format: 'markdown', requiredSections: ['结果', '限制'] }
+  assert.deepEqual(
+    checkTemplateBody('# 回执\n## 结果\n### 子标题\n\n```md\n## 限制\n```', template),
+    ['empty section: 结果', 'missing section: 限制'],
+  )
+})
+
+test('moving a machine receipt into payload breaks its public top-level field contract', () => {
+  const template = { format: 'json', requiredFields: ['id', 'steps', 'exitCode'] }
+  const receipt = { id: 'run-001', steps: [], exitCode: null }
+  assert.deepEqual(checkTemplateBody(JSON.stringify(receipt), template), [])
+  assert.deepEqual(checkTemplateBody(JSON.stringify({ payload: receipt }), template), [
+    'missing machine field: id',
+    'missing machine field: steps',
+    'missing machine field: exitCode',
+  ])
+  assert.deepEqual(checkTemplateBody('null', template), ['expected machine evidence object'])
+})
+
+test('a catalog envelope preserves its public schema and cannot claim execution', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-catalog')
+  const catalog = JSON.parse(
+    readFileSync(new URL('../../docs/testing/catalog.json', import.meta.url)),
+  )
+  assert.deepEqual(checkTemplateBody(JSON.stringify(catalog), template), [])
+  const wrapped = { payload: catalog, _governance: catalog._governance }
+  assert(
+    checkTemplateBody(JSON.stringify(wrapped), template).includes('missing machine field: entries'),
+  )
+  const falseExecution = structuredClone(catalog)
+  falseExecution._governance.runtimeExecutionPerformed = true
+  assert.deepEqual(checkTemplateBody(JSON.stringify(falseExecution), template), [
+    'machine field mismatch: _governance.runtimeExecutionPerformed',
+  ])
+})
+
+test('catalog readings must pair each public entry once and carry a concrete conclusion', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-catalog')
+  const catalog = JSON.parse(
+    readFileSync(new URL('../../docs/testing/catalog.json', import.meta.url)),
+  )
+  const missing = structuredClone(catalog)
+  const removed = missing._governance.entryReadings.pop()
+  assert.deepEqual(checkTemplateBody(JSON.stringify(missing), template), [
+    `catalog reading missing: ${removed.id}`,
+  ])
+  const duplicate = structuredClone(catalog)
+  duplicate._governance.entryReadings.push(duplicate._governance.entryReadings[0])
+  assert.deepEqual(checkTemplateBody(JSON.stringify(duplicate), template), [
+    `unknown or duplicate catalog reading: ${duplicate.entries[0].id}`,
+  ])
+  const empty = structuredClone(catalog)
+  empty._governance.entryReadings[0].conclusion = ' '
+  assert.deepEqual(checkTemplateBody(JSON.stringify(empty), template), [
+    `catalog reading conclusion missing: ${empty.entries[0].id}`,
+  ])
+})
+
+test('a source audit cannot become execution evidence by changing its performed flag or envelope label', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-machine-evidence')
+  const receipt = JSON.parse(
+    readFileSync(new URL('../../docs/testing/e2e/evidence/e2e-001.json', import.meta.url)),
+  )
+  const options = { variant: 'document-audit-v2' }
+  assert.deepEqual(checkTemplateBody(JSON.stringify(receipt), template, options), [])
+  const falseExecution = structuredClone(receipt)
+  falseExecution.runtimeExecution.performed = true
+  assert.deepEqual(checkTemplateBody(JSON.stringify(falseExecution), template, options), [
+    'machine field mismatch: runtimeExecution.performed',
+  ])
+  const mislabeled = structuredClone(receipt)
+  mislabeled._governance.variant = 'execution'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(mislabeled), template, options), [
+    'governance variant mismatch',
+  ])
+})
+
+test('publication current is valid for a source audit but cannot pass an execution lifecycle', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const template = registry.types.find((type) => type.docType === 'test-machine-evidence')
+  const audit = JSON.parse(
+    readFileSync(
+      new URL(
+        '../../docs/testing/domains/runtime/scene/active-scene/evidence.json',
+        import.meta.url,
+      ),
+    ),
+  )
+  assert.equal(audit.status, 'current')
+  assert.equal(audit.runtimeExecution.performed, false)
+  const options = { variant: 'document-audit-v2' }
+  assert.deepEqual(checkTemplateBody(JSON.stringify(audit), template, options), [])
+  audit.status = 'recorded'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(audit), template, options), [
+    'invalid catalog-publication status: recorded',
+  ])
+  const execution = JSON.parse(
+    readFileSync(
+      new URL('../../docs/testing/_templates/test-machine-evidence.json', import.meta.url),
+    ),
+  )
+  assert.deepEqual(checkTemplateBody(JSON.stringify(execution), template), [])
+  execution.status = 'current'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(execution), template), [
+    'invalid execution status: current',
+  ])
+})
+
+test('status examples cannot replace the report publication field or make duplicate fields unambiguous', () => {
+  const template = {
+    format: 'markdown',
+    requiredSections: [],
+    statuses: ['current'],
+    statusPolicy: { axis: 'catalog-publication' },
+  }
+  const examples =
+    '# Report\n<!-- Status: current -->\n```md\nStatus: current\n```\n> Status: current'
+  assert.deepEqual(checkTemplateBody(examples, template), ['one valid document status required'])
+  assert.deepEqual(
+    checkTemplateBody('# Report\n\nStatus: current（source only）\n\nText.', template),
+    [],
+  )
+  assert.deepEqual(checkTemplateBody(`${examples}\nStatus: current\nStatus: current`, template), [
+    'one valid document status required',
+  ])
+})
+
+test('both report and source audit must project the unique catalog publication state', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const base = 'docs/testing/domains/runtime/scene/active-scene/'
+  const model = {
+    entry: 'AGENTS.md',
+    entrySection: 'Routes',
+    routes: [],
+    forwardingEntries: [],
+    migratedDocuments: [
+      { path: `${base}report.md`, templateId: 'test-domain-report-v1' },
+      {
+        path: `${base}evidence.json`,
+        templateId: 'test-machine-evidence-v1',
+        variant: 'document-audit-v2',
+      },
+    ],
+  }
+  const catalogPath = 'docs/testing/catalog.json'
+  const catalog = JSON.parse(readFileSync(new URL(`../../${catalogPath}`, import.meta.url)))
+  const documents = new Map([
+    ['AGENTS.md', '# Agent\n## Routes\nNo live operations in this fixture.'],
+    [catalogPath, JSON.stringify(catalog)],
+    ...model.migratedDocuments.map(({ path }) => [
+      path,
+      readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8'),
+    ]),
+  ])
+  const run = () => checkDocumentModel(model, registry, (path) => documents.get(path))
+  assert.deepEqual(run(), [])
+  const reportPath = `${base}report.md`
+  const originalReport = documents.get(reportPath)
+  const liveStatus = /^Status: .*$/m.exec(originalReport)[0]
+  for (const example of [
+    '<pre>\nStatus: current\n</pre>',
+    '> Historical status example\nStatus: current',
+  ]) {
+    documents.set(reportPath, originalReport.replace(liveStatus, example))
+    assert.deepEqual(run(), [
+      `${reportPath}: one valid document status required`,
+      `${reportPath}: publication status differs from catalog`,
+    ])
+  }
+  const indentedStatus = originalReport.replace(
+    /^Owner: Codex\nStatus: [^\n]+\nLast reviewed: [^\n]+\nTemplate: [^\n]+/m,
+    '    Status: current\n\nOwner: Codex\nLast reviewed: 2026-10-15\nTemplate: test-domain-report-v1 / 1.1.0',
+  )
+  const indentedTitle = originalReport
+    .replace(liveStatus, '')
+    .replace(/^# /m, '    # Historical example\n\nStatus: current\n\n# ')
+  for (const example of [indentedStatus, indentedTitle]) {
+    documents.set(reportPath, example)
+    assert.deepEqual(run(), [
+      `${reportPath}: one valid document status required`,
+      `${reportPath}: publication status differs from catalog`,
+    ])
+  }
+  documents.set(reportPath, originalReport)
+  const entry = catalog.entries.find((item) => item.id === 'runtime-active-scene')
+  entry.status = 'verified'
+  documents.set(catalogPath, JSON.stringify(catalog))
+  assert.deepEqual(run(), [
+    `${base}report.md: publication status differs from catalog`,
+    `${base}evidence.json: publication status differs from catalog`,
+  ])
+  entry.status = 'current'
+  catalog.entries.push(structuredClone(entry))
+  documents.set(catalogPath, JSON.stringify(catalog))
+  assert.deepEqual(run(), [
+    `${base}report.md: publication status requires one catalog identity`,
+    `${base}evidence.json: publication status requires one catalog identity`,
+  ])
+})
+
+test('closing a task keeps its stable path while still removing its active-board authorization', () => {
+  const path = 'docs/ops/tasks/T.md'
+  const body = '# T\nStatus: done\n'
+  const documents = new Map([
+    ['docs/README.md', '[ops](ops/README.md)'],
+    ['docs/ops/README.md', '[tasks](tasks/README.md) [board](board.md)'],
+    ['docs/ops/tasks/README.md', '[index](index.md)'],
+    ['docs/ops/tasks/index.md', renderTaskIndex([taskInfo(path, body)])],
+    [path, body],
+    ['docs/ops/board.md', '# No active tasks'],
+  ])
+  const run = () =>
+    auditDocuments({
+      documents,
+      exists: (target) => documents.has(target),
+      expectedVersions: { content: 20, save: 8 },
+      sectionRules: [],
+      exceptions: [],
+    }).issues
+  assert.deepEqual(run(), [])
+  documents.set('docs/ops/board.md', '[T](tasks/T.md)')
+  assert.match(
+    run()
+      .map((issue) => issue.message)
+      .join('\n'),
+    /仍链接终态任务/,
+  )
+})
+
+test('a historical task must satisfy both task chapters and the explicit archive overlay', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const template = registry.types.find((type) => type.docType === 'task-card')
+  const history = registry.types.find((type) => type.docType === 'archive-record')
+  const text = readFileSync(
+    new URL('../../docs/ops/archive/tasks/done/E2-patrol-templates.md', import.meta.url),
+    'utf8',
+  )
+  const options = { additionalSections: history.requiredSections }
+  assert.deepEqual(checkTemplateBody(text, template, options), [])
+  const missingHistoricalBoundary = text.replace('\n## 当前有效性\n', '\n### 当前有效性\n')
+  assert.deepEqual(checkTemplateBody(missingHistoricalBoundary, template, options), [
+    'missing section: 当前有效性',
+  ])
+})
+
+test('phase views preserve authoritative draft/history labels despite misleading paths', async () => {
+  const { renderPhaseGovernanceIndexes } = await import('./build-phase-lore-governance.mjs')
+  const catalog = {
+    entries: [
+      {
+        path: 'docs/phase2/archive/designs/old.md',
+        phase: 'phase2',
+        module: 'reference',
+        title: 'Known | draft',
+        status: 'draft',
+        owner: 'User',
+      },
+      {
+        path: 'docs/phase2/current-name.md',
+        phase: 'phase2',
+        module: 'guide',
+        title: 'Historical contract',
+        status: 'archived',
+        owner: 'Codex',
+      },
+    ],
+  }
+  const original = structuredClone(catalog)
+  const views = renderPhaseGovernanceIndexes(catalog)
+  assert.match(views['by-phase.md'], /Known \\\| draft.*reference \| draft \| User/)
+  assert.match(
+    views['by-status.md'],
+    /## archived[\s\S]*current-name\.md[\s\S]*## draft[\s\S]*archive\/designs\/old\.md/,
+  )
+  assert.deepEqual(catalog, original)
+})

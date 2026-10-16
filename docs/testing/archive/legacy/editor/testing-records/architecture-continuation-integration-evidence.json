@@ -436,5 +436,93 @@
   ],
   "remoteCi": {
     "status": "outside this local receipt; verify GitHub runs for the delivered commit"
+  },
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "historical-continuation-integration-v1",
+    "lastReviewed": "2026-10-16",
+    "owner": "Codex (current documentation governance only; original native identity unchanged)",
+    "provenance": [
+      "Fixed approved33cc Git payload; full native/source semantic reading, no historical commands replayed.",
+      "原native owner字段保留Codex；本轮Codex只作历史机器文档治理。"
+    ],
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+    "sourceSha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b",
+    "scope": "2026-09-26剩余八项架构集成接受属于原历史；9573/957完整check与9081/728覆盖分母分开，109针仅沿用分项未重跑；62warnings/6infos与chunk、远端CI/视觉未证保持。",
+    "lifecycle": "historical",
+    "currentAudit": {
+      "runtimeExecutionPerformed": false,
+      "scope": "documentation template/source governance only",
+      "independentAcceptance": "Consult the current central review; this envelope alone grants no independent or execution acceptance.",
+      "rawAvailability": "No raw contents reopened/regenerated; see source-scoped review for existence observations"
+    },
+    "primarySource": [
+      {
+        "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "0e5c545af1e4d35473a08e2d0f7b3700b6474424",
+        "sha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b"
+      },
+      {
+        "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "revision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "scope": "paired dated historical integration narrative; full134 lines across three pairs read, not runtime replay"
+      }
+    ],
+    "phaseAnchors": {
+      "historical": "原八项跨phase1 D2/phase2 editor/runtime/migration架构；本轮文档治理不重定机制真值。",
+      "current": "docs/testing/governance.md and docs/ops/agent-workflow.md; no product build or old compatibility revived"
+    },
+    "publicCallers": [
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "scripts/docs/document-model.mjs with actual approved Git reader",
+      "scripts/docs/report-governance-progress.mjs only after central review/route intake; old native references remain dated"
+    ],
+    "legalInputs": [
+      "固定33cc同路径原15键对象，不以重建旧raw或本轮来源代替。",
+      "原八项集成候选f884e07c/验证树a2485e7d、保护26479604；临时MKF/M.MSG/WORD/extracted/baked输入与不链接RPG存档是当轮限定。"
+    ],
+    "businessOracle": {
+      "type": "fixed-native-object-preservation-and-dated-integration-semantics",
+      "assertions": [
+        "After removing only _governance, the complete native object must deepEqual approved33cc source; every original key/type/nested value remains.",
+        "原queues8/priorCompleted5和9573/957、9081/728分别保留，完整check不与覆盖分母相加。",
+        "negativeControls.detected=109且scope明确previous per-slice/not rerun；不得重命名为本次新反控。",
+        "原content20/SAVE8、62warnings/6infos、build chunk与远端CI未核保留，当前source常量不覆盖历史版本。"
+      ]
+    },
+    "dedupe": {
+      "result": "one historical integration payload; no new run/test/coverage credit",
+      "against": [
+        "本原机账与配对MD为同一集成事实，不重复算一次运行。",
+        "八队列沿用13批工作及分项109针；I lab/前批共享8707/8215是不同历史时间，不串加。"
+      ]
+    },
+    "dependencies": [
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "docs/phase-governance/templates/registry.json",
+      "scripts/docs/git-document-source.mjs",
+      "scripts/docs/frozen-document-source.mjs"
+    ],
+    "applicability": {
+      "historicalDate": "2026-09-26; explicit native date only where originally present, otherwise from paired narrative",
+      "nativeShape": "15 original keys plus governance only",
+      "templateVersion": "1.5.0",
+      "currentExecution": false
+    },
+    "history": [
+      {
+        "date": "2026-10-16",
+        "action": "Append source-pinned historical governance envelope; original native payload and all old dates/claims/diagnostics unchanged",
+        "sourceRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
+        "executionPerformed": false
+      }
+    ],
+    "supersedes": [],
+    "beforeAfter": "Original native historical integration object → same complete native fields plus distinct historical governance/source/limits; no prose replacement or invented publication identity.",
+    "stopLine": "Any native/source/type/dated result change, source drift, current execution promotion or old authorization revival requires rework. Keep original nonzero diagnostics and unknown raw/CI axes.",
+    "nextStep": "Use source-bound current central review for documentation acceptance; continue full-docs governance without rerunning historical tools or inferring product/runtime/E2E/visual/coverage."
   }
 }

@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-r30-phase1-foundation-20261017",
+  "kind": "R30 phase1 status/plan migration",
+  "date": "2026-10-17",
+  "owner": "Codex root",
+  "status": "accepted-candidate",
+  "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+  "scope": {
+    "documents": 9,
+    "docTypes": {
+      "design-spec": 2,
+      "governance-index": 2,
+      "guide-runbook": 3,
+      "reference-canon": 2
+    },
+    "historyOverlay": "archive-record-v1 for all",
+    "migrationCredit": 9
+  },
+  "independentReadonlyReview": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-readonly-review-20261017.json",
+    "sha256": "bf95b323ead336585e186a85a7ec519ee0a5b5c9eca77c57b8e2f2363d5ab430",
+    "verdict": "accept-readonly-proposal",
+    "reviewedDocuments": 9,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  },
+  "entries": [
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "title": "01 · 背景与可行性",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "sourceLines": 53,
+      "afterLines": 117,
+      "outline": "phase1 foundation document full-text review: 01 · 背景与可行性.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "title": "02 · 架构设计",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "sourceLines": 136,
+      "afterLines": 205,
+      "outline": "phase1 foundation document full-text review: 02 · 架构设计.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "title": "04 · 决策记录与待定问题",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "sourceLines": 85,
+      "afterLines": 150,
+      "outline": "phase1 foundation document full-text review: 04 · 决策记录与待定问题.",
+      "conflicts": [
+        "正文信号 28:| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把\"字节码 → events.json 忠实转写器\"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:\"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满\")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + rec"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "title": "05 · events.json schema",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "sourceLines": 157,
+      "afterLines": 226,
+      "outline": "phase1 foundation document full-text review: 05 · events.json schema.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "title": "06 · 测试策略",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "sourceLines": 83,
+      "afterLines": 148,
+      "outline": "phase1 foundation document full-text review: 06 · 测试策略.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "title": "Engineering Notes · type-pal(第一阶段)",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "sourceLines": 214,
+      "afterLines": 279,
+      "outline": "phase1 foundation document full-text review: Engineering Notes · type-pal(第一阶段).",
+      "conflicts": [
+        "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "title": "Game Mechanics · 原版底层机制真值",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "afterSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+      "sourceLines": 1581,
+      "afterLines": 1655,
+      "outline": "phase1 foundation document full-text review: Game Mechanics · 原版底层机制真值.",
+      "conflicts": [
+        "正文信号 67:**这属于新增作者能力，尚未实现，不改变本节记录的原版规则。**",
+        "正文信号 668:ts 实现状态:**已实现**(2026-06-26 核实,旧注\"未实现\"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。",
+        "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运",
+        "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:",
+        "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主",
+        "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+      ],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "title": "docs/phase1/ — 第一阶段（忠实还原）文档",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "sourceLines": 55,
+      "afterLines": 120,
+      "outline": "phase1 foundation document full-text review: docs/phase1/ — 第一阶段（忠实还原）文档.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "title": "sdlpal Build / 启动 / Headless 参考",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "sourceRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
+      "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "sourceLines": 252,
+      "afterLines": 317,
+      "outline": "phase1 foundation document full-text review: sdlpal Build / 启动 / Headless 参考.",
+      "conflicts": [],
+      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "successor": "Current phase1 canonical docs/code/tests and a fresh primary-source review.",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "trailingWhitespaceEncoding": {
+        "space": "␠",
+        "tab": "⇥"
+      }
+    }
+  ],
+  "candidateAcceptance": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.json",
+    "sha256": "a71fc6523b1f05f316fa5660546c841135d4d2294ff5297cc7665c65b1dda030",
+    "verdict": "accept",
+    "scope": "9/9 candidate reception only",
+    "nonAuthorReviewer": false,
+    "runtimeEvidence": false,
+    "e2eEvidence": false,
+    "visualEvidence": false,
+    "coverageEvidence": false
+  }
+}

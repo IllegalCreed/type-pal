@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r60-testing-e2e-entry-candidate-acceptance-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root independent post-migration audit",
+  "candidateHead": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+  "verdict": "accept",
+  "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
+  "scope": {
+    "targetDocuments": 8,
+    "readAndChecked": 8,
+    "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+    "candidateReview": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+    "docTypes": {
+      "governance-index": 2,
+      "test-domain-report": 1,
+      "design-spec": 1,
+      "test-machine-evidence": 4
+    }
+  },
+  "blockingCounters": [
+    {
+      "id": "R60-CANDIDATE-B01",
+      "count": 8,
+      "status": "closed-for-receipt-open-for-testing",
+      "statement": "All 8 E2E entries retain catalog/testing-meta/consumer and history boundaries."
+    },
+    {
+      "id": "R60-CANDIDATE-B02",
+      "count": 8,
+      "status": "closed-for-receipt-open-for-testing",
+      "statement": "Markdown template chapters, JSON governance envelopes and source/after SHA pass."
+    },
+    {
+      "id": "R60-CANDIDATE-B03",
+      "count": 8,
+      "status": "closed-for-receipt-open-for-testing",
+      "statement": "Registry/review/routing agree; old direct review duplicates removed."
+    },
+    {
+      "id": "R60-CANDIDATE-B04",
+      "count": 8,
+      "status": "closed-for-receipt-open-for-product",
+      "statement": "No runtime/E2E/visual/coverage credit; no historical verified promoted."
+    }
+  ],
+  "nonBlockingCounters": [],
+  "summaryChecks": {
+    "all8": true,
+    "sourceAfterTemplateLedgerAll8": true,
+    "issueCount": 0,
+    "issues": []
+  },
+  "staticCommands": {
+    "node scripts/docs/check-content-review.mjs --strict": {
+      "exitCode": 0,
+      "summary": "PASS (777 documents; content-reviewed 777)"
+    },
+    "node scripts/docs/check-document-model.mjs": {
+      "exitCode": 0,
+      "summary": "PASS (7 routes; 747 body contracts; 0 issues; structure only)"
+    },
+    "pnpm check:docs": {
+      "exitCode": 0,
+      "summary": "PASS (docs 1293 Markdown / 7959 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 777/777)"
+    },
+    "pnpm lint": {
+      "exitCode": 0,
+      "summary": "PASS (4276 files; 0 errors / 0 warnings / 0 infos)"
+    },
+    "git diff --check": {
+      "exitCode": 0,
+      "summary": "PASS"
+    }
+  },
+  "credit": {
+    "runtime": 0,
+    "e2e": 0,
+    "visual": 0,
+    "coverage": 0,
+    "statement": "Static documentation/provenance checks only; no product execution or visual acceptance."
+  },
+  "documents": [
+    {
+      "path": "docs/testing/e2e/README.md",
+      "sourceSha256": "310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f",
+      "afterSha256": "1bf187a50a00eccb2478db0de7e8b6433dd6744218a3da2feb4b7a7832224b39",
+      "quoteInverse": true,
+      "templateId": "governance-index-v1",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "sourceSha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
+      "afterSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+      "quoteInverse": true,
+      "templateId": "governance-index-v1",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "sourceSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
+      "afterSha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+      "quoteInverse": true,
+      "templateId": "test-domain-report-v1",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "sourceSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+      "afterSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+      "quoteInverse": true,
+      "templateId": "design-spec-v1",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-002.json",
+      "sourceSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
+      "afterSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+      "quoteInverse": false,
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "document-audit-v2",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-003.json",
+      "sourceSha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+      "afterSha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+      "quoteInverse": false,
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "document-audit-v2",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-004.json",
+      "sourceSha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757",
+      "afterSha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+      "quoteInverse": false,
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "document-audit-v2",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-005.json",
+      "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+      "afterSha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+      "quoteInverse": false,
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "document-audit-v2",
+      "registryReview": "20261017-r60-testing-e2e-entry.json",
+      "routingMatches": true,
+      "runtime": 0,
+      "e2e": 0,
+      "visual": 0,
+      "coverage": 0,
+      "pass": true
+    }
+  ]
+}

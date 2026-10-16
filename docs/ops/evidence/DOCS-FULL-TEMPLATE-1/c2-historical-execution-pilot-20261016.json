@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "id": "DOCS-FULL-TEMPLATE-1-C2-20261016",
+  "date": "2026-10-16",
+  "kind": "machine-template-contract-pilot",
+  "owner": "Codex",
+  "design": "C2, external independently frozen source pin and common model/progress per-document validation",
+  "sourcePin": {
+    "path": "docs/testing/e2e/evidence/e2e-006.json",
+    "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "gitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+    "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+    "approvedBy": "Codex and independent receipt_review design review 2026-10-16",
+    "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+  },
+  "versionOnlyAmendments": [
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "sourceSha256": "81540eef817fa7f22cf9745cae820351d6a2d53e97404c1105cfe1548e8b3a67",
+      "afterSha256": "88b57dc2a963efe6b753444088809114f0d8eeb8125fce5025020148cefd02e1",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "sourceSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+      "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "sourceSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+      "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+      "sourceSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+      "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "sourceSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+      "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+      "sourceSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+      "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+      "sourceSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+      "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+      "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "sourceSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+      "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "sourceSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+      "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-route.json",
+      "sourceSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+      "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "sourceSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+      "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "sourceSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+      "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+      "change": "Only _governance.templateVersion 1.2.0→1.3.0; inverse object equality passed"
+    }
+  ],
+  "pilot": {
+    "path": "docs/testing/e2e/evidence/e2e-006.json",
+    "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+    "afterSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+    "sourceGitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+    "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "originalTopLevelFieldsInverse": "deep-equal passed; no original field/value changes",
+    "historicalRuntimeExecutionPerformed": true,
+    "currentAuditRuntimeExecutionPerformed": false,
+    "publicationStatus": "rework",
+    "expiry": "reviewBy2026-10-15 remains; explicit2026-10-16 check fails"
+  },
+  "independentReview": {
+    "reviewer": "receipt_review (non-author, read-only)",
+    "date": "2026-10-16",
+    "result": "accept",
+    "scope": "C2 implementation and single actual006 JSON migration only, plus13 version-only amendments; six final implementation SHA values independently pinned",
+    "evidence": [
+      "Full new trusted source/reader/model/progress/strengthened five substantive tests read and executed",
+      "Real joint later false→true source/pin/envelope/working-baseline/review forgery: helper rejected, actual CLI exit1/cohortMigrated0",
+      "Actual tree/blob/annotated-tag rejection; missing frozen source fails with fixed1838 in JSON/human and require-complete",
+      "All compliant/route removed plus empty worktree baseline still exit1 and approvedCohort1838",
+      "68 docs-tool tests,14 real paired consumers, actual model81/content614/progress77+4/0issues",
+      "006 inverse object deepEqual,13 byte-only version amendments,7 conformity versions reconciled with history retained"
+    ],
+    "limits": "No006 Markdown migration, expiry renewal, old raw retrieval, current product/runtime/E2E/visual/coverage or whole-goal completion"
+  },
+  "runtimeExecutionPerformedThisAudit": false,
+  "selfHashPolicy": "External Git identity; after SHA lives in central external review record, no recursive self hash",
+  "implementation": [
+    {
+      "path": "scripts/docs/document-model.mjs",
+      "sha256": "96ecea168c9177c21a70a567c86ae96124dfbe96012e177e937c12dc0a840853",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    },
+    {
+      "path": "scripts/docs/check-document-model.mjs",
+      "sha256": "c36572ef34481d4cbeddee9360b846c5eca25d19b264d8bd4a35f8fe7a671fe0",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    },
+    {
+      "path": "scripts/docs/report-governance-progress.mjs",
+      "sha256": "fc7cd1300a79efec3f6e4cacfcc34ea42ca7ca93aff1ea2aceba75725fc728e7",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    },
+    {
+      "path": "scripts/docs/git-document-source.mjs",
+      "sha256": "91debaa8b71971b9b6f445218b749ac1f396b92fcbe27a7b93ab10f2cdc33874",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    },
+    {
+      "path": "scripts/docs/frozen-document-source.mjs",
+      "sha256": "001e7a4ee027bd0a3fea472c1872f324b2395ad42b9b26fc77150dc3c8a9ccca",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    },
+    {
+      "path": "scripts/docs/historical-execution-source.test.mjs",
+      "sha256": "e390d50b8f10158b58010a61ad81e2967b1e5f575b03e7768b5baf448a7c206f",
+      "nonAuthorFinalByteIdentity": "accepted by receipt_review"
+    }
+  ],
+  "authorChecks": {
+    "docsTools": {
+      "tests": 68,
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    "currentDefaultUtcGates": {
+      "docs": {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "bodyContracts": 81,
+        "contentReviews": 614,
+        "issues": 0
+      },
+      "lint": {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "files": 4081,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diff": {
+        "command": "git diff --check",
+        "exitCode": 0
+      },
+      "scope": "Default checker UTC date was2026-10-15; does not close explicit2026-10-16 expiry"
+    },
+    "actualPairedConsumer": {
+      "id": "e2e-006",
+      "issues": [],
+      "scope": "Preserves machine publication contract only"
+    },
+    "explicitLocalDateGate": {
+      "date": "2026-10-16",
+      "result": "rejected",
+      "issues": ["e2e-006: reviewBy 2026-10-15 is before 2026-10-16"],
+      "notWaived": true,
+      "resolution": "pending substantive publication review; no date silently renewed"
+    }
+  },
+  "reviewRework": [
+    {
+      "id": "C2.3",
+      "reviewer": "receipt_review",
+      "finding": "Actual helper and progress CLI accepted later false→true commit with jointly replaced registry pin, envelope, worktree baseline and matching review",
+      "resolution": "Add independently fixed baseline path/commit/blob/SHA trust root in reviewed docs-tool source; require same original source snapshot, verify real frozen Git baseline bytes and reject worktree drift before reading bindings; real joint-forgery CLI regression added",
+      "status": "closed by independent non-author recheck"
+    },
+    {
+      "id": "C2.4",
+      "reviewer": "receipt_review",
+      "finding": "Reader accepted real tree object cf1f490e7830cd51396ff66217e66354dd38bdae as commit",
+      "resolution": "cat-file -t must be commit; actual tree/blob/annotated-tag rejection regression added",
+      "status": "closed by independent non-author recheck"
+    },
+    {
+      "id": "C2-metadata",
+      "reviewer": "receipt_review",
+      "finding": "Seven current conformity objects retained templateVersion1.1.0 beside new version1.3.0",
+      "resolution": "Reconcile both current field names to1.3.0 and preserve old conformity objects in explicit history; body bytes unchanged",
+      "paths": [
+        "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+        "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+        "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+        "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+        "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json"
+      ],
+      "status": "closed by independent non-author recheck"
+    },
+    {
+      "id": "C2-human-denominator",
+      "reviewer": "receipt_review",
+      "finding": "Missing frozen Git source human output still used empty cohort size0 despite JSON1838",
+      "resolution": "Human denominator and require-complete comparison use trusted1838; actual missing-source CLI regression proves0/1838 and exit1",
+      "status": "closed by independent non-author recheck"
+    },
+    {
+      "id": "C2.5",
+      "reviewer": "receipt_review",
+      "finding": "Catalog current central record retained stale10-15/unchanged-date/only-classification claims after legitimate explicit10-23 renewal",
+      "resolution": "Reconcile all current fields to originalfull18 plus only006 renewal and17-object preservation; original fields retained in history/priorReadings",
+      "status": "closed by independent receipt_review final maintenance-delta recheck"
+    }
+  ],
+  "approvedBaselineScope": "Frozen original binding identity and1838 paths only, not baseline semantic migration credit; baseline remains candidate requiring own future control-metadata design/migration, no permanent legacy exemption",
+  "pairedMarkdownCandidate": {
+    "state": "candidate-pending-non-author-review",
+    "date": "2026-10-16",
+    "sourceRevision": "2522c4531d68f7fd43be72380059316672c681a3",
+    "documents": [
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+        "sourceGitObject": "65d23a97019de02e779462caa7087156b6e54e65",
+        "sourceSha256": "a1564b1c8a7614424e0114412fbdfbdc2493034b7ef17bd3608899f0c99e84d4",
+        "afterSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
+        "sourceLines": 17,
+        "afterLines": 42,
+        "originalPreserved": true
+      },
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "sourceGitObject": "bdec5b721d95aeed9532af501ff4b21460f17e57",
+        "sourceSha256": "880f782826e30e349d226fbe3525fc29717dffd0e52e1983dad37f1bf66420b8",
+        "afterSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
+        "sourceLines": 78,
+        "afterLines": 119,
+        "originalPreserved": true
+      }
+    ],
+    "templates": ["test-e2e-stage-v1/1.0.0", "test-run-report-v1/1.0.0"],
+    "readScope": {
+      "originalMarkdown": "17+78 lines fully read; all new candidate prose read",
+      "reforgeCaller": "boat-journey.mjs1-364 fully read and wrapper3lines",
+      "active006Card": "85lines fully read",
+      "continuousCard": "only1-160/3510; no full-card credit",
+      "gameCaller": "narrow source reading only; no complete-caller audit or runtime credit"
+    },
+    "preservation": {
+      "stage": "Original H1, YAML block and original conclusion preserved byte-for-byte, new required sections supply content-specific premise/status/evidence/history",
+      "report": "Frontmatter/testing-meta exact prefix unchanged; full original body recoverable by reversing only ATX heading demotion of2, including original chronology and conflicting numbers",
+      "machine": "Previously accepted JSON unchanged; all original machine fields preserved"
+    },
+    "semanticFindings": [
+      "state3 belongs original report/card; directly read current Reforge caller asserts primary state2",
+      "Original independent Reforge [0,0]/down and comparison [-2,-4]/up remain unexplained without per-round raw/revision; preserve both, no invented reconciliation",
+      "First-sentence stop credit withdrawn10-07; end requires all island dialogue confirmed and control returned",
+      "Later continuous done has distinct frozen scope; top160lines not full-card governance or current-runtime proof",
+      "Original31xx lint/migrate failure counts stay historical; no new runtime/E2E/visual/coverage execution"
+    ],
+    "expiryDuty": {
+      "observed": "2026-10-15 reviewBy expired on2026-10-16; unchanged in candidate",
+      "proposal": "After substantive paired publication review and independent confirmation of rework/no-current-pass boundaries, explicitly renew publication reviewBy to2026-10-23 in catalog+README only with dated renewal reason; leave lastVerified10-03, revision, machine historical fields and rework unchanged",
+      "rationale": "reviewBy schedules next review of published evidence/status; not execution freshness. Do not extend only for formatting or inherit later continuous done. Reviewer must agree actual substantive review suffices; otherwise leave expiry failed."
+    },
+    "notRun": ["runtime", "E2E", "visual", "coverage"],
+    "independentReview": "pending",
+    "migrationCredit": 0
+  },
+  "pairedMarkdownIntegration": {
+    "date": "2026-10-16",
+    "reviewer": "receipt_review",
+    "contentResult": "accept exact40bce two MD and complete original-body proof",
+    "publicationRenewalDesign": "agree; actual full content/evidence/status/negative-source review, conservative rework retained;7-day nextpublication deadline",
+    "finalDeltaReview": {
+      "reviewer": "receipt_review",
+      "result": "accept;C2.5 independently closed",
+      "scope": "Only006 date/prose/catalog current reading and17 unchanged-entry object proof; original report inverse and JSON bytes unchanged; no fresh all18 read or runtime credit",
+      "bodySha256": {
+        "stage": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+        "report": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+        "catalog": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
+        "machine": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03"
+      },
+      "reviewedRecordSnapshots": {
+        "catalogReview": "e2af7f07a9290809522fcb179cef71ee357b64ac41fc62c0c0b4c783c49dee66",
+        "006Review": "b5492376ea519f90ad13c5776fc28d3288fb16877207b41d3d1ce18f83b67774",
+        "receipt": "07a4b1e7b291ea7479410a0a594f31ca3c44c717e54af23516f81db8060e0e42"
+      },
+      "maintenanceLimit": "Subsequent root-only signoff/gate append changes record hashes; above hashes identify actually reviewed snapshots, not a claim of immutable current record bytes",
+      "actualGates": {
+        "localDate": "2026-10-16",
+        "catalogIssues": [],
+        "pairedIssues": [],
+        "oldDeadlineNegative": "In-memory restoring10-15 still rejects expiry",
+        "bodyContracts": 91,
+        "contentReviews": 616,
+        "diffIssues": 0
+      },
+      "notRun": ["runtime", "E2E", "visual", "coverage"]
+    },
+    "documents": [
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+        "sourceSha256": "a1564b1c8a7614424e0114412fbdfbdc2493034b7ef17bd3608899f0c99e84d4",
+        "candidateSha256": "8457faa7344c73e8f97a13a910167bbc5d17296d417b714d5405ad54dd1517c2",
+        "afterSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+        "lineCount": 42,
+        "preservation": "Original H1/conclusion byte-exact; original YAML byte-exact except explicit independently reviewed reviewBy10-15→10-23; original date retained in source Git and dated publication renewal history"
+      },
+      {
+        "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "sourceSha256": "880f782826e30e349d226fbe3525fc29717dffd0e52e1983dad37f1bf66420b8",
+        "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
+        "afterSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+        "lineCount": 119,
+        "preservation": "Original frontmatter/testing-meta exact prefix; entire original body byte-exact after reversing only2-level ATX demotion, including all original chronology/status/numbers/failed and passed results"
+      }
+    ],
+    "machineJsonUnchangedSha256": "95811ae224ea1659dde67c1951449478bd5d9cf3135d7400c6a9543cc858fe03",
+    "sourceMetadataUntouched": true,
+    "explicitDeadline": {
+      "before": "2026-10-15",
+      "after": "2026-10-23",
+      "originalLocal2026-10-16FailureRetained": true,
+      "lastVerifiedUnchanged": "2026-10-03",
+      "statusUnchanged": "rework",
+      "notExecutionFreshness": true
+    },
+    "notRun": ["runtime", "E2E", "visual", "coverage"]
+  },
+  "rootPairedIntegrationGates": {
+    "checkDocs": {
+      "log": "/tmp/type-pal-c-006-final-docs-20261016.log",
+      "exitCode": 0,
+      "toolTests": 68,
+      "failed": 0,
+      "skipped": 0,
+      "markdown": 1223,
+      "links": 7119,
+      "tasks": 361,
+      "bodyContracts": 91,
+      "contentReviews": 616,
+      "issues": 0
+    },
+    "lint": {
+      "firstRun": {
+        "errors": 1,
+        "reason": "Changed old ops review JSON not formatted; historical failure retained"
+      },
+      "rerun": {
+        "log": "/tmp/type-pal-c-006-lint-repaired-20261016.log",
+        "files": 4083,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "exitCode": 0
+      }
+    },
+    "explicitPublicationGate": "local2026-10-16 zero; originalexpiry rejected then explicit non-author-approved substantive review renews10-23",
+    "diff": "zero issues",
+    "scope": "These are actual integrated checks before signoff-only maintenance; final post-maintenance run still required",
+    "postSignoffRerun": {
+      "checkDocsLog": "/tmp/type-pal-c-006-accepted-docs-20261016.log",
+      "lintLog": "/tmp/type-pal-c-006-accepted-lint-20261016.log",
+      "result": "PASS",
+      "toolTests": 68,
+      "bodyContracts": 91,
+      "contentReviews": 616,
+      "lintFiles": 4083,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "scope": "Actual post-signoff full run; this field is subsequent root-only result maintenance, no new body or runtime claim"
+    }
+  }
+}
