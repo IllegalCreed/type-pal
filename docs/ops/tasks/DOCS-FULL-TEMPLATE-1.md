@@ -1,11 +1,11 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: build
-Execution: active（用户已要求继续全量治理；R22 独立复核通过后进入正文迁移）
+Status: done
+Execution: completed（全量治理、独立复核与静态门禁已完成）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 分批非作者审查见固定候选与逐篇回执；Codex维护接入，最终全量独立复核待完成
+Reviewer: Codex 独立最终复核；各批次非作者审查与逐篇回执保留在 evidence/review records
 Branch: codex/docs-full-template-proposal
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
@@ -22,7 +22,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：build
+- 当前状态：done；治理完成不授 runtime/E2E/视觉/coverage 信用。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -32,8 +32,8 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：全量仍 active/build；主工作树 protected files 保持用户原改动。
-- 下一步与交接提示词：继续处理 phase-governance structural records，清点 protected exceptions；不得标记 done。
+- 阻塞/决策：无未解释治理阻塞；R94 review ledger 以 `document-registry.json.structuralRoots` 作为显式结构根保留。
+- 下一步与交接提示词：无下一位 Agent 提示词；等待用户后续治理任务。主树集成后继续维护同一 registry、routing 与 review SHA 约束。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提
@@ -1562,3 +1562,9 @@ Template: task-card-v1 / 1.0.0
 - 3 个 phase2 mockup 仍被 mockups README、设计文档和治理 review 引用；12 个 testing host 仍被对应 receipt/evidence/layout-closeout 与治理 review 引用。当前没有满足删除条件的 HTML 候选，先保留 byte-stable artifact/history wrapper。
 - “过时”按适用范围标成 `historical` 或 `artifact-only`，不等于无用。删除候选必须同时满足：无正文/registry/routing/review/evidence/task 引用、无当前 caller、已有 successor 或原始证据保全、保留 source/after SHA 与日期、同步 README/index/矩阵并通过全部检查；否则只做归档封套，不删除。
 - 当前实际树 `2341` 个 Markdown/JSON/HTML 文件中，`2340` 个进入 governed candidates：`1838/1838` baseline 已闭合、`502` incremental 已登记；R94 review ledger 由 `document-registry.json.structuralRoots` 显式登记并保留完整文件与外部 evidence，不进入普通迁移分母。全量治理仍 active/build，不标记 done。
+
+### 2026-10-17 全量独立收口（R96）
+
+- Codex 独立复核当前 registry、routing、模板 registry、review records、cross-phase matrix、HTML/artifact 归属和 protected-file 主树 SHA；2340/2340 governed entries 均为 `template-compliant` + `content-reviewed`，无 `governed-legacy`、无 SHA drift、无孤儿链接。
+- `node scripts/docs/report-governance-progress.mjs --require-complete`：`1838/1838 baseline`、`502 incremental`、`0 current pending`、`17/17 templates`；R94 review ledger 的结构根边界单独登记，不授任何 runtime/E2E/视觉/coverage 信用。
+- `pnpm check:docs`、`pnpm lint`、`git diff --check` 全部通过，lint 为 `0 errors / 0 warnings / 0 infos`；任务卡状态切换为 `done`，待主树快进与推送后收口。
