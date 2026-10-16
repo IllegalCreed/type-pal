@@ -2020,6 +2020,51 @@
       "path": "docs/phase2/specs/script-system.md",
       "templateId": "design-spec-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/README.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/battle.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/engineering.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/summary.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/tools/README.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

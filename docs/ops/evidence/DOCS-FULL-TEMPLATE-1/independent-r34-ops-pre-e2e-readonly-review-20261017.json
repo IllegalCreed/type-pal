@@ -1,0 +1,768 @@
+{
+  "schemaVersion": 1,
+  "id": "independent-r34-ops-pre-e2e-readonly-review-20261017",
+  "reviewDate": "2026-10-17",
+  "reviewer": "Codex root full-text readonly review",
+  "scope": {
+    "root": ".",
+    "documentsRead": 9,
+    "all9": true,
+    "paths": [
+      "docs/ops/audits/pre-e2e/battle.md",
+      "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "docs/ops/audits/pre-e2e/engineering.md",
+      "docs/ops/audits/pre-e2e/README.md",
+      "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "docs/ops/audits/pre-e2e/summary.md",
+      "docs/ops/audits/pre-e2e/tools/README.md",
+      "docs/ops/audits/pre-e2e/world-lifecycle.md"
+    ],
+    "fullUtf8PhysicalRead": true,
+    "readMethod": "read_bytes + strict UTF-8 decode + SHA-256; no implementation/runtime execution"
+  },
+  "summary": {
+    "documents": "9/9 fully read",
+    "sourceAfter": "9/9 byte SHA equal at intake",
+    "registry": "9/9 governed-legacy entries and review references",
+    "catalog": "ops audit paths outside phase/lore catalog scope",
+    "routing": "archive-only at intake",
+    "classification": "9 audit-report current-audit records",
+    "issues": "0 actionable issues for readonly proposal"
+  },
+  "documents": [
+    {
+      "path": "docs/ops/audits/pre-e2e/battle.md",
+      "format": "markdown",
+      "title": "C批 · 战斗调用链审计",
+      "date": "2026-09-20",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+      "afterSha256": "ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2",
+      "bytes": 16485,
+      "physicalLineSlots": 193,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "C批 · 战斗调用链审计"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "本轮结论与边界"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "C-01 · 战内新物品未带回世界背包"
+        },
+        {
+          "line": 49,
+          "level": 2,
+          "text": "C-02 · 敌普攻附带能力被缩成“只下毒”"
+        },
+        {
+          "line": 65,
+          "level": 2,
+          "text": "C-03 · 全队复活目标集合把死者排除了"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "C-04 · 毒杀收尾迟到下一次行动"
+        },
+        {
+          "line": 95,
+          "level": 2,
+          "text": "C-05 · 投掷入口被“使用物品”条件误挡"
+        },
+        {
+          "line": 107,
+          "level": 2,
+          "text": "C-06 · 一阶段三尸咒挂上不发作的毒"
+        },
+        {
+          "line": 124,
+          "level": 2,
+          "text": "C-07 · 一阶段阵亡反应漏掉吉运增益"
+        },
+        {
+          "line": 140,
+          "level": 2,
+          "text": "已知项、撤回与后续疑点"
+        },
+        {
+          "line": 159,
+          "level": 2,
+          "text": "验证记录"
+        },
+        {
+          "line": 189,
+          "level": 2,
+          "text": "下一步"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。",
+        "正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "format": "markdown",
+      "title": "D批 · 编辑器工作流审计",
+      "date": "2026-09-13",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+      "afterSha256": "52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049",
+      "bytes": 21320,
+      "physicalLineSlots": 217,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "D批 · 编辑器工作流审计"
+        },
+        {
+          "line": 6,
+          "level": 2,
+          "text": "本轮结论与范围"
+        },
+        {
+          "line": 23,
+          "level": 2,
+          "text": "D-01 · 跨会话撤销没有统一的时间顺序"
+        },
+        {
+          "line": 51,
+          "level": 2,
+          "text": "D-02 · 引用图遗漏部分场景依赖"
+        },
+        {
+          "line": 74,
+          "level": 2,
+          "text": "D-03 · 旧图片解码完成后覆盖新选图"
+        },
+        {
+          "line": 95,
+          "level": 2,
+          "text": "D-04 · 技能“战斗中试放”仍固定旧工程入口"
+        },
+        {
+          "line": 117,
+          "level": 2,
+          "text": "D-05 · 临时试放“不改存档”的告知与保存行为不一致"
+        },
+        {
+          "line": 140,
+          "level": 2,
+          "text": "对照、已有问题与未覆盖范围"
+        },
+        {
+          "line": 142,
+          "level": 3,
+          "text": "D-06 · 新建物品后立即添加私有脚本缺少作者记录（2026-09-13补充）"
+        },
+        {
+          "line": 158,
+          "level": 3,
+          "text": "D-07 · 共享ScriptId与内部私有引用前缀相同时无法保存（2026-09-13补充）"
+        },
+        {
+          "line": 184,
+          "level": 2,
+          "text": "可复现证据与测试"
+        },
+        {
+          "line": 214,
+          "level": 2,
+          "text": "下一步"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/engineering.md",
+      "format": "markdown",
+      "title": "E批 · 测试、工程与维护性审计",
+      "date": "2026-09-19",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+      "afterSha256": "9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73",
+      "bytes": 14433,
+      "physicalLineSlots": 174,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "E批 · 测试、工程与维护性审计"
+        },
+        {
+          "line": 11,
+          "level": 2,
+          "text": "摘要"
+        },
+        {
+          "line": 22,
+          "level": 2,
+          "text": "E-01 · 资源测试的前置条件与实际结果不一致"
+        },
+        {
+          "line": 45,
+          "level": 2,
+          "text": "E-02 · 预缓存进度把404也计作已缓存"
+        },
+        {
+          "line": 58,
+          "level": 2,
+          "text": "E-03 · 特效预览缓存缺工程身份"
+        },
+        {
+          "line": 73,
+          "level": 2,
+          "text": "E-04 · 缩略图把失败当作永久缓存结果"
+        },
+        {
+          "line": 85,
+          "level": 2,
+          "text": "E-05 · 开发期旧调用面/历史生成分支未退役"
+        },
+        {
+          "line": 107,
+          "level": 2,
+          "text": "E-06 · 当前全仓质量门禁并未全绿"
+        },
+        {
+          "line": 121,
+          "level": 2,
+          "text": "性能/结构建议：不新增运行缺陷计数"
+        },
+        {
+          "line": 137,
+          "level": 2,
+          "text": "已排除与部署边界"
+        },
+        {
+          "line": 147,
+          "level": 2,
+          "text": "验证回执"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。",
+        "正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。",
+        "正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/README.md",
+      "format": "markdown",
+      "title": "PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账",
+      "date": "2026-09-07",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+      "afterSha256": "ae270924dc8896e12e1ee3abdeb7b5f88a34a19fd1c105b04f6edc03c4ff170b",
+      "bytes": 21443,
+      "physicalLineSlots": 234,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "约束与覆盖"
+        },
+        {
+          "line": 47,
+          "level": 2,
+          "text": "第一批结论摘要"
+        },
+        {
+          "line": 68,
+          "level": 2,
+          "text": "A-01 · 不同项目的快速/自动存档会互相覆盖"
+        },
+        {
+          "line": 81,
+          "level": 2,
+          "text": "A-02 · 锁只串行，不识别另一编辑器的旧快照"
+        },
+        {
+          "line": 99,
+          "level": 2,
+          "text": "A-03 · 合法状态的部分保存会破坏已发布引用"
+        },
+        {
+          "line": 121,
+          "level": 2,
+          "text": "A-04 · 一阶段的过渡态被当成可快存状态"
+        },
+        {
+          "line": 134,
+          "level": 2,
+          "text": "A-05 · 请求成功不等于事务提交成功"
+        },
+        {
+          "line": 145,
+          "level": 2,
+          "text": "A-06 · 损坏导入先覆盖好槽，后在运行时失败"
+        },
+        {
+          "line": 155,
+          "level": 2,
+          "text": "A-07 · 新建/打开缺少未保存内容离开保护"
+        },
+        {
+          "line": 164,
+          "level": 2,
+          "text": "A-08 · 计划检查到事务采样之间仍有并发写窗口"
+        },
+        {
+          "line": 179,
+          "level": 2,
+          "text": "A-09 · 资源物化未拒绝目标父目录symlink"
+        },
+        {
+          "line": 192,
+          "level": 2,
+          "text": "疑点与撤回记录"
+        },
+        {
+          "line": 202,
+          "level": 2,
+          "text": "验证记录与可复现方式"
+        },
+        {
+          "line": 229,
+          "level": 2,
+          "text": "下一步"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 5:下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。",
+        "正文信号 10:2026-09-07 用户明确免复验通过，已 done；下文缺陷复现保留修前证据，不代表本候选仍共用存储键。",
+        "正文信号 13:Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。",
+        "正文信号 16:总体判断、风险归并、待证项与建议修复顺序见[总收口](summary.md)；完成审计不代表产品无缺陷或E2E已通过。",
+        "正文信号 55:| A-02 | 二阶段编辑器 | P1 | 第二编辑器首次保存的陈旧全量快照覆盖A已存内容 | 多窗口保存/冲突测试前修 |",
+        "正文信号 79:  不增加旧key静默fallback掩盖冲突。复现见 `probe-save-boundaries.mjs` 的A-01。",
+        "正文信号 84:2026-09-07 用户明确验收通过，已 done，候选未漂移。下列是修前反例，不表示新候选仍静默覆盖。",
+        "正文信号 96:- 修复方向：打开时持有磁盘基线，写入前在同一互斥域校验目标版本/差异；冲突显式报告，不把当前磁盘重采样当旧快照。",
+        "正文信号 102:完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。",
+        "正文信号 182:非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "format": "markdown",
+      "title": "SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例",
+      "date": "2026-09-16",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+      "afterSha256": "c6b7a6b3a8be99b5c07d2bb98277fffeca61a9bedb7ba9f9c8b22514063340a8",
+      "bytes": 5892,
+      "physicalLineSlots": 75,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "本次新增证据"
+        },
+        {
+          "line": 33,
+          "level": 2,
+          "text": "内部生命周期压力反例（限定范围）"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "旧证据复跑与限制"
+        },
+        {
+          "line": 71,
+          "level": 2,
+          "text": "修复准入与未做"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。",
+        "正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确："
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "format": "markdown",
+      "title": "B-04 修复回执：当前存档预检与恢复失败隔离",
+      "date": "2026-09-06",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+      "afterSha256": "1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8",
+      "bytes": 4916,
+      "physicalLineSlots": 58,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "B-04 修复回执：当前存档预检与恢复失败隔离"
+        },
+        {
+          "line": 8,
+          "level": 2,
+          "text": "已完成"
+        },
+        {
+          "line": 18,
+          "level": 2,
+          "text": "验证与证据边界"
+        },
+        {
+          "line": 43,
+          "level": 2,
+          "text": "后续事项"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/summary.md",
+      "format": "markdown",
+      "title": "PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议",
+      "date": "2026-09-06",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+      "afterSha256": "cb96b4b7377c184160b0087544298d3bf387ba9be0e4a129f68933c3e02e4508",
+      "bytes": 29068,
+      "physicalLineSlots": 263,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议"
+        },
+        {
+          "line": 7,
+          "level": 2,
+          "text": "修复进度（更新至2026-09-21）"
+        },
+        {
+          "line": 78,
+          "level": 2,
+          "text": "结论先说"
+        },
+        {
+          "line": 131,
+          "level": 2,
+          "text": "覆盖及阅读入口"
+        },
+        {
+          "line": 146,
+          "level": 2,
+          "text": "建议推进顺序"
+        },
+        {
+          "line": 185,
+          "level": 2,
+          "text": "审计后用户补充"
+        },
+        {
+          "line": 192,
+          "level": 2,
+          "text": "审计后实现期追加（2026-09-07）"
+        },
+        {
+          "line": 206,
+          "level": 2,
+          "text": "需要产品选择的边界"
+        },
+        {
+          "line": 218,
+          "level": 2,
+          "text": "归并与“不要误读”"
+        },
+        {
+          "line": 230,
+          "level": 2,
+          "text": "待证项与撤回项"
+        },
+        {
+          "line": 247,
+          "level": 2,
+          "text": "优化怎么安排"
+        },
+        {
+          "line": 256,
+          "level": 2,
+          "text": "交付与下一步"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 30:  A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。",
+        "正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。",
+        "正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。",
+        "正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。",
+        "正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/tools/README.md",
+      "format": "markdown",
+      "title": "PRE-E2E 审计工具",
+      "date": "undated",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+      "afterSha256": "96f9acc5c831d1f7b8c41ef1b36fedb669f45e33ff9f45e288388ec1c571986d",
+      "bytes": 415,
+      "physicalLineSlots": 6,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "PRE-E2E 审计工具"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "format": "markdown",
+      "title": "B批 · 世界、脚本与异步收尾",
+      "date": "2026-09-06",
+      "status": "current-audit",
+      "currentRegistry": {
+        "docType": "audit-report",
+        "templateId": "audit-report-v1",
+        "templateCompliance": "governed-legacy",
+        "reviewRecord": "20261004-structured-content-ops-05.json"
+      },
+      "sourceRevision": "348620bf3c68aa77a7ef7e1abef9b8eda08530d9",
+      "sourceSha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+      "afterSha256": "bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a",
+      "bytes": 17436,
+      "physicalLineSlots": 182,
+      "headings": [
+        {
+          "line": 1,
+          "level": 1,
+          "text": "B批 · 世界、脚本与异步收尾"
+        },
+        {
+          "line": 9,
+          "level": 2,
+          "text": "结论与边界"
+        },
+        {
+          "line": 29,
+          "level": 2,
+          "text": "B-01 · 过期失败回调仍拥有当前GameState"
+        },
+        {
+          "line": 40,
+          "level": 2,
+          "text": "B-02 · 同版本好槽被当前精灵别名污染"
+        },
+        {
+          "line": 53,
+          "level": 2,
+          "text": "B-03 · 读档失败只报错，没有回收加载态"
+        },
+        {
+          "line": 63,
+          "level": 2,
+          "text": "B-04 · U-01追证：坏核心字段突破恢复边界"
+        },
+        {
+          "line": 88,
+          "level": 2,
+          "text": "B-05 · canonical地图覆写提交早于可失败的预载"
+        },
+        {
+          "line": 100,
+          "level": 2,
+          "text": "B-06 / B-07 · 保存屏障与它等待的子活动互等"
+        },
+        {
+          "line": 116,
+          "level": 2,
+          "text": "B-08 · 预检仍检查旧投影字段，遗漏当前hook选择"
+        },
+        {
+          "line": 131,
+          "level": 2,
+          "text": "B-09 · 取消后的selector仍然写入canonical"
+        },
+        {
+          "line": 143,
+          "level": 2,
+          "text": "未确证与已排除"
+        },
+        {
+          "line": 154,
+          "level": 2,
+          "text": "复现与验证记录"
+        }
+      ],
+      "semanticOutline": "Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.",
+      "conflicts": [
+        "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**"
+      ],
+      "stopLine": "do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance",
+      "successor": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.",
+      "proposedClassification": "audit-report",
+      "proposedTemplate": "audit-report-v1",
+      "runtimeExecutionPerformed": false,
+      "e2eExecutionPerformed": false,
+      "visualExecutionPerformed": false,
+      "coverageExecutionPerformed": false,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "accept-readonly-proposal"
+}

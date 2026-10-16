@@ -146,3 +146,10 @@
 - [R33 只读独立复核](independent-r33-phase2-lore-readonly-review-20261017.md)：18/18 全文读取；12 篇 Markdown 迁移，3 篇 HTML 原型使用 byte-stable `archive-record-v1` artifact envelope。
 - [R33 根接入回执](contributor-r33-phase2-lore-20261017.json)：逐篇记录模板、历史边界、artifact 归属、source/after SHA、冲突和继任入口。
 - [R33 候选独立接收](independent-r33-phase2-lore-candidate-acceptance-20261017.md)：18/18 候选接收；HTML 明确 out-of-routing/out-of-catalog；无 runtime/E2E/视觉/coverage 信用。
+
+
+## R34 ops pre-E2E audits
+
+- [R34 只读独立复核](independent-r34-ops-pre-e2e-readonly-review-20261017.md)：9/9 pre-E2E audit 全文读取，全部 `audit-report-v1` current-audit；静态审计不授执行信用。
+- [R34 根接入回执](contributor-r34-ops-pre-e2e-20261017.json)：逐篇记录审计问题、范围、证据、反例、停止线、复核条件和 source/after SHA。
+- [R34 候选独立接收](independent-r34-ops-pre-e2e-candidate-acceptance-20261017.md)：9/9 候选接收；ops audit 不进入 phase/lore catalog；无 runtime/E2E/视觉/coverage 信用。
