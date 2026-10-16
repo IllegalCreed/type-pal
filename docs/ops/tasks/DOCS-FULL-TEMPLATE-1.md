@@ -1312,3 +1312,10 @@ Branch: codex/docs-full-template-proposal
 - 中央接入：`docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json`、registry/routing 10 条 `evidence-receipt-v1 + archive-record-v1`；原始合同、状态、counter、consumer 和停止线保留。
 - R63 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r63-ops-evidence-readmes-candidate-acceptance-20261017.json`；10/10 source/after SHA、quote inverse、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
 - 当前进度 `805/1838 baseline + 20 incremental`；本批不删除 evidence、不标记 done、不推送 main。
+
+### 2026-10-17 R64 ops evidence Markdown
+
+- 非作者只读复核：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-readonly-review-20261017.json`，10/10 evidence/review Markdown 全文读取。
+- 中央接入：`docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json`、registry/routing 10 条 `evidence-receipt-v1 + archive-record-v1`；原始合同、状态、counter、consumer 和停止线保留。
+- R64 候选独立接收：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-candidate-acceptance-20261017.json`；10/10 source/after SHA、quote inverse、模板和历史边界接收；无 runtime/E2E/视觉/coverage 信用。
+- 当前进度 `814/1838 baseline + 21 incremental`；本批不删除 evidence、不标记 done、不推送 main。

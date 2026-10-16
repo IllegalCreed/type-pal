@@ -328,3 +328,13 @@
 
 - [R63 readonly](independent-r63-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
 - [R63 acceptance](independent-r63-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
+
+## R64 ops evidence Markdown
+
+- [R64 readonly](independent-r63-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
+- [R64 acceptance](independent-r63-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
+
+## R64 ops evidence Markdown
+
+- [R64 readonly](independent-r64-ops-evidence-readmes-readonly-review-20261017.json)：10/10 evidence/review Markdown 全文读取。
+- [R64 acceptance](independent-r64-ops-evidence-readmes-candidate-acceptance-20261017.json)：10/10 接收；无 runtime/E2E/视觉/coverage 信用。
