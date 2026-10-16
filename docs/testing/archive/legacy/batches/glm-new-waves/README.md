@@ -1,22 +1,62 @@
 # Legacy 历史归档：batches/glm-new-waves
 
-本目录仅保存历史记录，不提供当前 runtime、E2E 或 coverage 结论。源 SHA、caller、oracle、排重与停止线见
-[全量收口决策账](../../../migrations/legacy-full-closeout-plan.json)。
+Status: historical
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-17
+Template: archive-record-v1 / 1.0.0
 
-- [codex-G-console-closure-20260929.md](codex-G-console-closure-20260929.md)
-- [codex-I-console-closure-20260929.md](codex-I-console-closure-20260929.md)
-- [codex-accept-F-r2-c5ecf694.md](codex-accept-F-r2-c5ecf694.md)
-- [codex-accept-G-r2-fd1189a3.md](codex-accept-G-r2-fd1189a3.md)
-- [codex-accept-H-r1-6a25727c.md](codex-accept-H-r1-6a25727c.md)
-- [codex-accept-I-r2-044d3fa4.md](codex-accept-I-r2-044d3fa4.md)
-- [codex-accept-J-r2-acd67499.md](codex-accept-J-r2-acd67499.md)
-- [codex-review-F-9b015064.md](codex-review-F-9b015064.md)
-- [codex-review-G-07140f75.md](codex-review-G-07140f75.md)
-- [codex-review-H-013abf99.md](codex-review-H-013abf99.md)
-- [codex-review-I-2534b72c.md](codex-review-I-2534b72c.md)
-- [codex-review-J-009c5578.md](codex-review-J-009c5578.md)
-- [wave-F/](wave-F/README.md)
-- [wave-G/](wave-G/README.md)
-- [wave-H/](wave-H/README.md)
-- [wave-I/](wave-I/README.md)
-- [wave-J/](wave-J/README.md)
+本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+
+## 历史范围
+
+- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+
+## 原始结论
+
+- Legacy 历史归档：batches/glm-new-waves：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+
+## 当时证据
+
+- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+
+## 当前有效性
+
+historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+
+## 继任文档
+
+- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
+- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+
+## 停止线
+
+- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+
+## 原文保全
+
+固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `ccc84e3c9561a1b50531b92612196d62223b5f55f2a4ed8e419c05d129e9ee7f`；下方 quote 可逆回原始 UTF-8 字节。
+<!-- original-source-quote:start -->
+> # Legacy 历史归档：batches/glm-new-waves
+>
+> 本目录仅保存历史记录，不提供当前 runtime、E2E 或 coverage 结论。源 SHA、caller、oracle、排重与停止线见
+> [全量收口决策账](../../../migrations/legacy-full-closeout-plan.json)。
+>
+> - [codex-G-console-closure-20260929.md](codex-G-console-closure-20260929.md)
+> - [codex-I-console-closure-20260929.md](codex-I-console-closure-20260929.md)
+> - [codex-accept-F-r2-c5ecf694.md](codex-accept-F-r2-c5ecf694.md)
+> - [codex-accept-G-r2-fd1189a3.md](codex-accept-G-r2-fd1189a3.md)
+> - [codex-accept-H-r1-6a25727c.md](codex-accept-H-r1-6a25727c.md)
+> - [codex-accept-I-r2-044d3fa4.md](codex-accept-I-r2-044d3fa4.md)
+> - [codex-accept-J-r2-acd67499.md](codex-accept-J-r2-acd67499.md)
+> - [codex-review-F-9b015064.md](codex-review-F-9b015064.md)
+> - [codex-review-G-07140f75.md](codex-review-G-07140f75.md)
+> - [codex-review-H-013abf99.md](codex-review-H-013abf99.md)
+> - [codex-review-I-2534b72c.md](codex-review-I-2534b72c.md)
+> - [codex-review-J-009c5578.md](codex-review-J-009c5578.md)
+> - [wave-F/](wave-F/README.md)
+> - [wave-G/](wave-G/README.md)
+> - [wave-H/](wave-H/README.md)
+> - [wave-I/](wave-I/README.md)
+> - [wave-J/](wave-J/README.md)
+>
+<!-- original-source-quote:end -->
