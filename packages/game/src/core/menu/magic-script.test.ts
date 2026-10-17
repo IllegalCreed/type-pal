@@ -424,8 +424,14 @@ describe('runMagicScriptSync - 流程控制', () => {
 
   it('label 不存在 → 返回 false', () => {
     const gs = mkGs()
-    const ok = runMagicScriptSync(gs, 99999, 0)
-    expect(ok).toBe(false)
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const ok = runMagicScriptSync(gs, 99999, 0)
+      expect(ok).toBe(false)
+      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_99999 不在全局 labelMap')
+    } finally {
+      warn.mockRestore()
+    }
   })
 
   it('label 指向命令表外 → fail closed 并报告越界', () => {
@@ -485,8 +491,14 @@ describe('castOverworldMagic - 双层 script', () => {
   it('scriptOnUse 失败 → 不跑 scriptOnSuccess', () => {
     const gs = mkGs()
     const spell = mkSpell(99999, 43016) // scriptOnUse label 不存在 → 失败
-    const ok = castOverworldMagic(gs, spell, 6, 0, 0)
-    expect(ok).toBe(false)
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 不变(scriptOnSuccess 没跑)
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const ok = castOverworldMagic(gs, spell, 6, 0, 0)
+      expect(ok).toBe(false)
+      expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 不变(scriptOnSuccess 没跑)
+      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_99999 不在全局 labelMap')
+    } finally {
+      warn.mockRestore()
+    }
   })
 })

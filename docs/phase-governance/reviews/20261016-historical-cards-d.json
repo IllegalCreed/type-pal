@@ -2935,9 +2935,9 @@
       "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
-      "afterSha256": "e87d6efd8fd698dd6241134d254e23260c1abbfee760df33c6947562b179cf78",
+      "afterSha256": "40719f40869507ccbda49f91be5f8df433926bd097360767943d9913b3f23a55",
       "revision": {
-        "currentSha": "e87d6efd8fd698dd6241134d254e23260c1abbfee760df33c6947562b179cf78",
+        "currentSha": "40719f40869507ccbda49f91be5f8df433926bd097360767943d9913b3f23a55",
         "implementationSha": "a7c5f44da1043f13d8b2d1964a014ce647e69ecb2e862539d4508d8d84ce5831",
         "history": [
           {
@@ -2966,7 +2966,7 @@
         "kind": "independent-full-source-and-real-record-consumer-review",
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
-        "afterSha256": "e87d6efd8fd698dd6241134d254e23260c1abbfee760df33c6947562b179cf78",
+        "afterSha256": "40719f40869507ccbda49f91be5f8df433926bd097360767943d9913b3f23a55",
         "lineCount": 350,
         "originalPreservation": {
           "originalPreserved": true,
@@ -3212,9 +3212,9 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "9bd145594094343de31267b2fe7dd73bc42b73519ef388cea919897c5ee12fb2",
+      "afterSha256": "516ffcf91e0251c06bed727c575cae9e43f5aad5cfff2771a48002013e48d6b2",
       "revision": {
-        "currentSha": "9bd145594094343de31267b2fe7dd73bc42b73519ef388cea919897c5ee12fb2",
+        "currentSha": "516ffcf91e0251c06bed727c575cae9e43f5aad5cfff2771a48002013e48d6b2",
         "implementationSha": "a0b93fd1820bcc8032892a7c3485709a63ee32b0d5d48af4b78025e4208e546c",
         "history": [
           {
@@ -3309,7 +3309,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "9bd145594094343de31267b2fe7dd73bc42b73519ef388cea919897c5ee12fb2",
+        "afterSha256": "516ffcf91e0251c06bed727c575cae9e43f5aad5cfff2771a48002013e48d6b2",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

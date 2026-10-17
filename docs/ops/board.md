@@ -55,6 +55,7 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-105 | [Reforge MenuBox 残余测试逐文件复核](tasks/CODE-QUALITY-105-reforge-menu-box-residual-review.md) | review | Codex / 先处理相邻 Vitest 未 await 诊断 | 5合同/25定向通过，K1–K5反控当前重放通过；相邻118测试仍有一条未 await 诊断，coverage门阻塞 |
 | CODE-QUALITY-106 | [Reforge reward-gain 测试 Promise 诊断](tasks/CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | Codex / 运行全仓质量门后复验 | 定向5/5、相邻21/118零 stderr；仅测试 Promise/Abort oracle 修复，coverage门仍待收口 |
 | CODE-QUALITY-107 | [Game menu primitives / item-select 逐文件复核](tasks/CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | review | Codex / 先处理相邻 magic-script 诊断并跑全仓门 | 7文件/78定向通过；相邻40/377保留2条预期 labelMap stderr，E-4/E-5另卡 |
+| CODE-QUALITY-108 | [game magic-script warning ownership](tasks/CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | Codex / coverage baseline 收口后复验 | 缺失 label 两项 warning 已捕获；定向37/37、相邻377/377、全仓 check 零 stderr；coverage baseline 仍阻塞 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | Codex / 续C02剩余用例 | 九例0诊断、两反控；完整门仍非零，不合main |
 | QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | Codex / 续Kimi工作流 | 29定向/77相邻0诊断；完整门带其它诊断，未合main |

@@ -999,7 +999,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "9ccfd0259b480eeb0e18a5ee6ef02f9f9cd0b3787f92b5690681043f7a904610",
+      "afterSha256": "a6a0a363fad84756863daab472fb7f07625fa75799581315545a27feb3b51c92",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1022,7 +1022,7 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "9ccfd0259b480eeb0e18a5ee6ef02f9f9cd0b3787f92b5690681043f7a904610",
+        "currentSha": "a6a0a363fad84756863daab472fb7f07625fa75799581315545a27feb3b51c92",
         "implementationSha": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
         "history": [
           {
@@ -1038,7 +1038,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-        "afterSha256": "9ccfd0259b480eeb0e18a5ee6ef02f9f9cd0b3787f92b5690681043f7a904610",
+        "afterSha256": "a6a0a363fad84756863daab472fb7f07625fa75799581315545a27feb3b51c92",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1072,7 +1072,7 @@
           "revision": "89bf84e16",
           "action": "sync-latest-main-and-code-quality-navigation",
           "previousAfterSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-          "afterSha256": "9ccfd0259b480eeb0e18a5ee6ef02f9f9cd0b3787f92b5690681043f7a904610",
+          "afterSha256": "a6a0a363fad84756863daab472fb7f07625fa75799581315545a27feb3b51c92",
           "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         },
@@ -1080,7 +1080,7 @@
           "date": "2026-10-17",
           "revision": "89bf84e16",
           "action": "refresh-semantic-current-review-after-board-gate-update",
-          "previousAfterSha256": "9ccfd0259b480eeb0e18a5ee6ef02f9f9cd0b3787f92b5690681043f7a904610",
+          "previousAfterSha256": "a6a0a363fad84756863daab472fb7f07625fa75799581315545a27feb3b51c92",
           "afterSha256": "7e2615f962219d333a35d126562604e71f7f4f0ac086de750cb6f440ef689a04",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
@@ -4823,7 +4823,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "66d3c86b5652762afe268801baf737ced7f4cf01f3a818f94ae22f0905e0f915",
+      "afterSha256": "c763523cbacc87a18bdd9ff2596379f83c40c2e4d3e324a6eb97a07a1b451aac",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4846,7 +4846,7 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "66d3c86b5652762afe268801baf737ced7f4cf01f3a818f94ae22f0905e0f915",
+        "currentSha": "c763523cbacc87a18bdd9ff2596379f83c40c2e4d3e324a6eb97a07a1b451aac",
         "implementationSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "history": [
           {
@@ -4869,7 +4869,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "66d3c86b5652762afe268801baf737ced7f4cf01f3a818f94ae22f0905e0f915",
+        "afterSha256": "c763523cbacc87a18bdd9ff2596379f83c40c2e4d3e324a6eb97a07a1b451aac",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -4903,7 +4903,7 @@
           "revision": "89bf84e16",
           "action": "sync-review-record-after-sha",
           "previousAfterSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-          "afterSha256": "66d3c86b5652762afe268801baf737ced7f4cf01f3a818f94ae22f0905e0f915",
+          "afterSha256": "c763523cbacc87a18bdd9ff2596379f83c40c2e4d3e324a6eb97a07a1b451aac",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         },
@@ -4911,7 +4911,7 @@
           "date": "2026-10-17",
           "revision": "89bf84e16",
           "action": "refresh-after-sha-final",
-          "previousAfterSha256": "66d3c86b5652762afe268801baf737ced7f4cf01f3a818f94ae22f0905e0f915",
+          "previousAfterSha256": "c763523cbacc87a18bdd9ff2596379f83c40c2e4d3e324a6eb97a07a1b451aac",
           "afterSha256": "f37ca4ade0d2f5e917acfeb16f7c761e665d2514c931cc995f8f6ec1485b1dab",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
@@ -9687,7 +9687,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "645a13126b6090e6975d6c0e2b42001950ff3306c7deee4df73ad531fb8c676a",
+      "afterSha256": "c77c4831afa5550e9fbc6b1f7a99510ea9960e68da9cada0b72d601d88b4d55f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9710,7 +9710,7 @@
         "against": ["docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json"]
       },
       "revision": {
-        "currentSha": "645a13126b6090e6975d6c0e2b42001950ff3306c7deee4df73ad531fb8c676a",
+        "currentSha": "c77c4831afa5550e9fbc6b1f7a99510ea9960e68da9cada0b72d601d88b4d55f",
         "implementationSha": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "history": [
           {
@@ -9726,7 +9726,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "645a13126b6090e6975d6c0e2b42001950ff3306c7deee4df73ad531fb8c676a",
+        "afterSha256": "c77c4831afa5550e9fbc6b1f7a99510ea9960e68da9cada0b72d601d88b4d55f",
         "lineCount": 993,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -9760,7 +9760,7 @@
           "revision": "89bf84e16",
           "action": "sync-review-record-after-sha",
           "previousAfterSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-          "afterSha256": "645a13126b6090e6975d6c0e2b42001950ff3306c7deee4df73ad531fb8c676a",
+          "afterSha256": "c77c4831afa5550e9fbc6b1f7a99510ea9960e68da9cada0b72d601d88b4d55f",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
