@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "6f7b170db56ac90a28f435783ff82f93468a842da23aa478457c930eb45e5f8a",
+      "afterSha256": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "6f7b170db56ac90a28f435783ff82f93468a842da23aa478457c930eb45e5f8a",
+        "implementationSha": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "6f7b170db56ac90a28f435783ff82f93468a842da23aa478457c930eb45e5f8a",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
             "date": "2026-10-18",
@@ -755,7 +770,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "6f7b170db56ac90a28f435783ff82f93468a842da23aa478457c930eb45e5f8a",
+        "afterSha256": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

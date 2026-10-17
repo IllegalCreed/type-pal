@@ -63,7 +63,7 @@
       "path": "reference/sdlpal/uibattle.c",
       "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
       "lines": 1808,
-      "ranges": ["1740-1810"],
+      "ranges": ["1740-1808"],
       "boundary": "Floating number lifetime/position/show entry ranges."
     },
     {
@@ -79,5 +79,14 @@
     "draw-battle-settlement, draw-battle-sprites, draw-battle-ui or full present-battle review",
     "Browser visual/E2E verification",
     "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "previousClaim": "1740-1810",
+      "currentReadRange": "1740-1808",
+      "reason": "Old upper bound exceeded the actual source EOF; source content and prior product/test outcomes are unchanged.",
+      "evidence": "../53-wave-gates/receipt-audit/anchor-corrections.json"
+    }
   ]
 }

@@ -4,7 +4,7 @@
 
 ## 逐文件与真值边界
 
-完整读取三个实现和四份直接测试（背景、effect、effect/number 像素宿主、floating numbers）。按 caller 读取 `present-battle.ts` 的背景/keepEffect/波动/精灵/overlay/UI/数字装配区间。primary source 读取 `reference/sdlpal/battle.c` 的背景染色与绘制顺序、`uibattle.c:1746-1810` 的飘字寿命/位移/显示入口，以及 `fight.c` 的 effect anchor/伤害数字来源区间。SHA、行数和范围见 [`read-boundaries.json`](read-boundaries.json)。
+完整读取三个实现和四份直接测试（背景、effect、effect/number 像素宿主、floating numbers）。按 caller 读取 `present-battle.ts` 的背景/keepEffect/波动/精灵/overlay/UI/数字装配区间。primary source 读取 `reference/sdlpal/battle.c` 的背景染色与绘制顺序、`uibattle.c:1746-1767,1770-1808` 的飘字寿命/位移/显示入口，以及 `fight.c` 的 effect anchor/伤害数字来源区间。SHA、行数和范围见 [`read-boundaries.json`](read-boundaries.json)。
 
 ## 判别力与结论
 
@@ -16,3 +16,5 @@
 
 定向 `4 files / 23 tests passed`，`pnpm --filter @type-pal/game typecheck` 未见诊断；测试覆盖真实 framebuffer 像素、opaque mask、奇数宽 anchor、颜色基址、缺资源降级和寿命/位移。按用户成本约束，本小片未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`；整卡其余四个实现、统一门与视觉/E2E 保持 pending。
 
+
+2026-10-18 源区间勘误：旧上界越过实际EOF，现按[直接源码核对](../53-wave-gates/receipt-audit/anchor-corrections.json)更正；原read-boundaries字节在审计附件保留，不据此补签未运行的产品/全仓/coverage门。

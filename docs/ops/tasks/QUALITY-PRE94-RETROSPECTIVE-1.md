@@ -50,7 +50,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ### 2026-10-17 CODE-QUALITY-3x battle progression 当前复审
 
-完整读取 `battle-progression.ts`（306 行）、`battle-progression.glm-next-wave.test.ts`（142 行）、`battle-levelup.test.ts`（303 行）和 settlement progression caller；对照 SDLPal `battle.c:991-1373`、`global.c:2347-2454`，核对活人 gate、主/隐藏经验顺序与 RNG、stat cap 差异、HP/MP 回满时机、法术去重和 runtime/equipment snapshot，未发现可由 primary source + 真实 caller 证实的新 direct defect。
+完整读取 `battle-progression.ts`（306 行）、`battle-progression.glm-next-wave.test.ts`（142 行）、`battle-levelup.test.ts`（303 行）和 settlement progression caller；对照 SDLPal `battle.c:991-1373`、`global.c:2347-2409`，核对活人 gate、主/隐藏经验顺序与 RNG、stat cap 差异、HP/MP 回满时机、法术去重和 runtime/equipment snapshot，未发现可由 primary source + 真实 caller 证实的新 direct defect。
 
 本片无实现改动；相邻 settlement 与 battle-system 只作 owner/caller oracle，不重复关闭。测试保留 >99 level、隐藏无 cap、多池顺序、死亡/阈值/连升/满级、法术等级门与 runtime projection 反例。
 
@@ -400,7 +400,7 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ### 2026-10-17 CODE-QUALITY-3l battle-present 三文件切片
 
 - 范围：`packages/game/src/present/battle/{draw-battle-bg,draw-battle-effect,draw-battle-num}.ts` 与四份直接测试；读取 `present-battle.ts` 背景/keepEffect/波动/精灵/overlay/UI/飘字装配区间和 `battle.c`、`uibattle.c`、`fight.c` primary 区间。
-- primary/caller/oracle：`battle.c:50-90,565-620,982`、`uibattle.c:1746-1810`、`fight.c:600-720,2130-2200,2740-2770`；真实 framebuffer 像素、opaque mask、奇数宽 anchor、颜色基址、缺资源 no-op、寿命/位移 oracle。
+- primary/caller/oracle：`battle.c:50-90,565-620,982`、`uibattle.c:1746-1767,1770-1808`、`fight.c:600-720,2130-2200,2740-2770`；真实 framebuffer 像素、opaque mask、奇数宽 anchor、颜色基址、缺资源 no-op、寿命/位移 oracle。
 - 逐文件结论：背景索引0不透明/低 nibble染色/裁剪、effect/magic 底中 anchor/mask/缺帧降级、floating numbers 40ms age/0..10寿命/上移/5位对齐均与 caller/primary 一致，未发现新直接缺陷。drawNumber 的正 Infinity review 风险沿 3k 保持，未扩写为战斗可达 bug。
 - 未修/保留：`draw-battle-settlement`、`draw-battle-sprites`、`draw-battle-ui` 和整卡统一门/E2E 未核；未触碰 battle core、公式、schema/save 或 UI 形态。3l 整卡保持 `partial`。
 - 验证：定向 4 files/23 tests passed，`pnpm --filter @type-pal/game typecheck` passed；覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。已读清单与 SHA 见 [`3l-battle-present-primitives`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/README.md)。
@@ -604,3 +604,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 用户批准后完成失败终态、入口清理及本轮fetch ownership；4条旧指定单红→新相邻58绿，原组合反例重放1绿，game typecheck通过。真实PROD旧错误被覆盖→新保持、fetch已释放，正常按钮进场与三张实际截图完成。boot-loading.ts新增闭合，main/UI与UI主测试仍review；3312/289closed/47review/2976pending，83卡49partial/34pending/0accept不变。证据见[72批准修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)。
 
 另核f544b9b94只附28行README，会话执行记录存在持久化截断，无法认证当轮act/环境诊断计数；已撤回47–52统一门通过/收口及18份后续沿用声明，保留原文、4份执行片段、未知计数和旧C10实测范围。见[回执审计](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/audit.json)。本次没有重跑全仓/coverage/protected或调整baseline；下一步同片UI测试合同/隔离，再续73及剩余pre-94，94–102/editor优先级不提前。
+
+### 2026-10-18 GLM独立审计摘要的四项收口返工
+
+用户转达GLM对7b8365195..f544b9b94相关波次的独立审计摘要：内容层通过、收口纪律四项返工。该摘要不是本轮Codex重验全部71锚/五产品修复的原始证据。Codex单一Owner `build allowed` 仅：两处SDLPal引用范围与本轮对应docs/账本的精确更正、六条退役实际授权来源和registry注释，以及任务/看板/证据绑定。产品、测试body、matcher/拒绝规则、退役payload、baseline和原历史quote不改；不重跑全仓/coverage补造旧原件。
+
+前两项已于7fc92e98撤回统一门通过/收口并公开四份会话持久化片段；当轮完整日志与act/环境精确计数仍缺，保持unknown/rework。现核primary：uibattle.c全长1808，飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808；global.c全长2409，PAL_PlayerLevelUp 2347–2409。六退役的用户依据来自早于新增提交的本会话通用精简规则/全仓或editor范围指令，逐项执行裁定人为Codex，不登记为逐条用户签字，不援引OPQ旧五文件授权。源消息ID/时间/摘录、六实际快照与未运行项见[审计后续](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md)。

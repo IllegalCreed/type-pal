@@ -1,0 +1,57 @@
+{
+  "base": "291b7b59d4296650afb468a761ac269caba997b4",
+  "scope": "Two reported out-of-bounds source references only; no new 71-anchor re-audit or product runtime claim",
+  "corrections": [
+    {
+      "document": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/read-boundaries.json",
+      "beforeSha256": "d7d7214131692bbd0047892be36a389c96aee8b0e3da96de3b3d724fa5e9e180",
+      "source": "reference/sdlpal/uibattle.c",
+      "sourceSha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "sourceLines": 1808,
+      "previousClaim": "1740-1810",
+      "actualReadRange": "1740-1808",
+      "completeSourceFileRead": false,
+      "newProductOrTestCredit": false
+    },
+    {
+      "document": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3x-battle-progression/read-boundaries.json",
+      "beforeSha256": "0a7b10c56af97a5a16053d03eadb81cf9905e10837b4dc82db1f4fc87227bd0b",
+      "source": "reference/sdlpal/global.c",
+      "sourceSha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "sourceLines": 2409,
+      "previousClaim": "2347-2454",
+      "actualReadRange": "2347-2409",
+      "completeSourceFileRead": false,
+      "newProductOrTestCredit": false
+    }
+  ],
+  "anchors": [
+    {
+      "source": "reference/sdlpal/uibattle.c",
+      "lines": [1746, 1767],
+      "ownerFunction": "PAL_BattleUIUpdate",
+      "functionNameLine": 785,
+      "purpose": "floating number draw/age/position loop, only this suffix read",
+      "sourceSha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "rangeSha256": "f5a9ec76f68757914e192c93cbc1ee052461118d7fa9ea32ac1fe8aead76ae00"
+    },
+    {
+      "source": "reference/sdlpal/uibattle.c",
+      "lines": [1770, 1808],
+      "ownerFunction": "PAL_BattleUIShowNum",
+      "functionNameLine": 1770,
+      "purpose": "complete named function through EOF",
+      "sourceSha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "rangeSha256": "4037ce8fa2a74977db418a17d76654f7f2ae625c4b260746ef8bc6a0bdbad8e3"
+    },
+    {
+      "source": "reference/sdlpal/global.c",
+      "lines": [2347, 2409],
+      "ownerFunction": "PAL_PlayerLevelUp",
+      "functionNameLine": 2347,
+      "purpose": "complete named function through EOF",
+      "sourceSha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "rangeSha256": "ff56e636211297a9c9acf836c596b9d370c51c8d1dc64dc520fa387a224b7bd7"
+    }
+  ]
+}

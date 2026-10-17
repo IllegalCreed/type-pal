@@ -6502,11 +6502,26 @@
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "d018f68bea267a0351d771dab427cda3dedc03a0",
       "candidateSha256": "fddc3c2d5ac3a9d87931cf6c1f3cb4fd393fba86bf68d08bdbe8b7e575b3c59f",
-      "afterSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+      "afterSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
       "revision": {
         "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
-        "implementationSha": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+        "implementationSha": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -6521,7 +6536,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-h.json",
         "sourceSha256": "5e13a953a15a5f1e6a21abcb56d35fcdace461ec771f8830840a16cef2bd31dd",
         "candidateSha256": "fddc3c2d5ac3a9d87931cf6c1f3cb4fd393fba86bf68d08bdbe8b7e575b3c59f",
-        "afterSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+        "afterSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
         "lineCount": 211,
         "exactOriginalBytes": 8576,
         "originalPreservation": {
@@ -6598,7 +6613,7 @@
         "after": "historical。原活人经验、隐藏无cap与回满语义不能按直觉改动；相邻测试不是专属文件关闭。总纲2966/3058多时点及本包基点的inventory差额归根共享G处理，H保原数字与未知，不发当前全仓质量信用。",
         "semanticChange": "按该卡真实目标/范围/前提/验收/交接与历史overlay具体重组；原文完整可逆、稳定路径和原标题入口保留，不改变原产品决定或将历史实跑升格。"
       },
-      "reviewedLines": "1-211",
+      "reviewedLines": "1-213",
       "phase": "ops",
       "module": "historical-architecture-quality-contracts",
       "templateConformity": {

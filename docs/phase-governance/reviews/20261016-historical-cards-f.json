@@ -323,11 +323,26 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "e5c3c6c3f6a159abf4b13cd6a3bb4dbc43095053",
       "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
-      "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+      "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+        "implementationSha": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -342,7 +357,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
         "sourceSha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
         "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
-        "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+        "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
         "lineCount": 159,
         "exactOriginalBytes": 5022,
         "originalPreservation": {
@@ -381,7 +396,7 @@
         "after": "historical。原七文件审计不等于battle core/menu/dialog或全仓完成；缺资源降级、坐标/opaque边界仍需其当时caller解释，不能以文档模板认证当前产品行为、测试质量或视觉。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-159",
+      "reviewedLines": "1-161",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {

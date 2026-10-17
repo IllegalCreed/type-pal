@@ -1025,7 +1025,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
+      "afterSha256": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1049,8 +1049,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
+        "implementationSha": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
             "date": "2026-10-18",
@@ -1166,7 +1181,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
+        "afterSha256": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1201,7 +1216,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2287",
+      "reviewedLines": "1-2302",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4888,7 +4903,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
+      "afterSha256": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4912,8 +4927,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
+        "implementationSha": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
             "date": "2026-10-18",
@@ -5020,7 +5050,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
+        "afterSha256": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5055,7 +5085,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5260",
+      "reviewedLines": "1-5290",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5120,7 +5150,7 @@
         }
       ],
       "sourceSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-      "afterSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
+      "afterSha256": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5144,8 +5174,23 @@
       },
       "revision": {
         "currentSha": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-        "implementationSha": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
+        "implementationSha": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -5159,7 +5204,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
         "candidateSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-        "afterSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
+        "afterSha256": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
         "lineCount": 2692,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5194,7 +5239,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2692",
+      "reviewedLines": "1-2707",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5259,7 +5304,7 @@
         }
       ],
       "sourceSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
-      "afterSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
+      "afterSha256": "2ca424d7822a637d1ab2bf0c9210268aeeeff5c49806708fee5866b507c22afe",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5283,8 +5328,23 @@
       },
       "revision": {
         "currentSha": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
-        "implementationSha": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
+        "implementationSha": "2ca424d7822a637d1ab2bf0c9210268aeeeff5c49806708fee5866b507c22afe",
         "history": [
+          {
+            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
+            "date": "2026-10-18",
+            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
+            "previousAfterSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
+            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
+            "notRun": [
+              "product tests",
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -5298,7 +5358,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
         "candidateSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
-        "afterSha256": "2e0d0bb90fa3e4562fa932c54ea18871496ed4cdd7eaa6afdd180dcaef72eb9b",
+        "afterSha256": "2ca424d7822a637d1ab2bf0c9210268aeeeff5c49806708fee5866b507c22afe",
         "lineCount": 7007,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5333,7 +5393,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-7007",
+      "reviewedLines": "1-7022",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

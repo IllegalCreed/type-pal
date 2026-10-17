@@ -1,0 +1,193 @@
+[
+  {
+    "name": "followup-retirement-tests",
+    "command": ["node", "--test", "scripts/coverage/approved-test-retirements.test.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "da58f1ff47828b29b340db7400ec3fa216fc35dbcd23da6dbfceb16a637d4805",
+    "diagnostics": [],
+    "tests": 45,
+    "pass": 45,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0
+  },
+  {
+    "name": "followup-adjacent-tools",
+    "command": [
+      "node",
+      "--test",
+      "scripts/coverage/inventory.test.mjs",
+      "scripts/coverage/metrics.test.mjs",
+      "scripts/coverage/protected-baseline.test.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "6ef8678d28480f1db169e8ae76505ffc463662559a7b0fb7ec5e06caa7cc12ad",
+    "diagnostics": [],
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0
+  },
+  {
+    "name": "followup-docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "70b90353ef28f27e319c547902e52c24d7dbd61768fc931ca0629044dd28caf9",
+    "diagnostics": []
+  },
+  {
+    "name": "followup-lint",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "76f0f3b11545d5cbba7f776fd1ae7d0089fdbb4e0abb87da5c8bff563bd16bc3",
+    "diagnostics": [],
+    "zeroDiagnosticReport": true
+  },
+  {
+    "name": "followup-ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "0e4c7ad26a2b3ff6ccdbb78e3a072563a24d4942e0f89d918b0db857f52229bb",
+    "diagnostics": []
+  },
+  {
+    "name": "followup-diff",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diagnostics": []
+  },
+  {
+    "name": "docs-consumers-final",
+    "command": ["node", "scripts/docs/check.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "5bf42bc4611e75c00aa2f8d58112e6f325d8b7c9c2dcdff2a9d867c11dd559ec",
+    "scope": "Rerun the failed navigation consumer and remaining downstream validators after README repair; unchanged docs-tools125 previously passed, not rerun.",
+    "diagnostics": []
+  },
+  {
+    "name": "document-model-final",
+    "command": ["node", "scripts/docs/check-document-model.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+    "scope": "Rerun the failed navigation consumer and remaining downstream validators after README repair; unchanged docs-tools125 previously passed, not rerun.",
+    "diagnostics": []
+  },
+  {
+    "name": "testing-docs-final",
+    "command": ["node", "scripts/docs/check-testing.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+    "scope": "Rerun the failed navigation consumer and remaining downstream validators after README repair; unchanged docs-tools125 previously passed, not rerun.",
+    "diagnostics": []
+  },
+  {
+    "name": "phase-lore-final",
+    "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+    "scope": "Rerun the failed navigation consumer and remaining downstream validators after README repair; unchanged docs-tools125 previously passed, not rerun.",
+    "diagnostics": []
+  },
+  {
+    "name": "content-review-final",
+    "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "028087bbdd900340bc004aa4484f98809f7de3f05b7397566566204bd428b8f0",
+    "scope": "Rerun the failed navigation consumer and remaining downstream validators after README repair; unchanged docs-tools125 previously passed, not rerun.",
+    "diagnostics": []
+  },
+  {
+    "name": "final-lint",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "4bb876a5b33386b46a2cd75925dd512408de10b5f7fcf2b560a4b1e84431cc9e",
+    "diagnostics": [],
+    "zeroDiagnosticReport": true
+  },
+  {
+    "name": "final-ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "0e4c7ad26a2b3ff6ccdbb78e3a072563a24d4942e0f89d918b0db857f52229bb",
+    "diagnostics": []
+  },
+  {
+    "name": "final-diff",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diagnostics": []
+  },
+  {
+    "name": "docs-final-readme",
+    "command": ["node", "scripts/docs/check.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "5bf42bc4611e75c00aa2f8d58112e6f325d8b7c9c2dcdff2a9d867c11dd559ec"
+  },
+  {
+    "name": "receipt-format-final",
+    "command": [
+      "pnpm",
+      "exec",
+      "biome",
+      "check",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/verification.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/gates-followup.json",
+      "scripts/coverage/approved-test-retirements.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "234b80584535ecf3447bab9d5b896282b4dc7105a864eb82cc425183c152cb20"
+  }
+]

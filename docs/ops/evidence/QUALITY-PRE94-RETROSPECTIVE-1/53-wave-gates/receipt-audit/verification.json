@@ -1,0 +1,22 @@
+{
+  "command": ["python3", "/tmp/verify-audit-followup.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "sourceBase": "291b7b59d4296650afb468a761ac269caba997b4",
+  "scope": "Separate process data/source reconstruction, Codex self-check; not a third-party review or runtime/coverage acceptance",
+  "registryChange": "comments only; original executable text identical",
+  "registryBeforeSha256": "1fc445059f2d36b94208f9f7aaa760c74f84e5995a6f30b7e483c07ba2bc2cfd",
+  "registryAfterSha256": "d9c2a335f93d2ac6dd3e7c04ada950a6760e508ef23e81ef869471ea4bc19d62",
+  "original30PayloadUnchanged": true,
+  "matcherUnchanged": true,
+  "baselineUnchanged": true,
+  "sixHumanAuthoritiesPredateAdditions": true,
+  "threeCorrectedAnchorRangesInBoundsAndFunctionNamesMatch": true,
+  "historicalBodiesRetained": [
+    "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+    "docs/ops/audits/code-quality-governance.md"
+  ],
+  "oldWaveFullRawAvailable": false,
+  "oldWaveZeroDiagnosticAcceptance": false
+}

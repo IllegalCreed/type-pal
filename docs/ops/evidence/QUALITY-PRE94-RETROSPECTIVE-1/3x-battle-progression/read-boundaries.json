@@ -47,8 +47,10 @@
     },
     {
       "path": "reference/sdlpal/global.c",
-      "ranges": ["2347-2454"],
-      "boundary": "PAL_PlayerLevelUp stat increments, cap and primary exp reset primary."
+      "ranges": ["2347-2409"],
+      "boundary": "PAL_PlayerLevelUp stat increments, cap and primary exp reset primary.",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409
     }
   ],
   "notClaimed": [
@@ -57,5 +59,14 @@
     "Formula/status/actions/magic/item/coop acceptance",
     "Save/schema/migration/generated-asset/E2E/visual acceptance",
     "Product behavior or public-interface change"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "previousClaim": "2347-2454",
+      "currentReadRange": "2347-2409",
+      "reason": "Old upper bound exceeded the actual source EOF; source content and prior product/test outcomes are unchanged.",
+      "evidence": "../53-wave-gates/receipt-audit/anchor-corrections.json"
+    }
   ]
 }

@@ -196,3 +196,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[72启动加载](72-boot-loading/README.md)：20例精简/透传/拒绝/分母与隔离，三旧绿新单红，相邻54绿/typecheck通过。真实错误文案被迟到进度覆盖已另卡，UI旧关闭撤回rework，生产未动；288closed/47review/2977pending，49partial/34pending/0accept，无新统一门；下一批73。
 
 最新[72批准窄修](72-boot-loading/approved-fix/README.md)：失败进度终态/入口释放/本轮ownership已修，四旧单红新绿、相邻58绿/原红重放1绿、game typecheck和真实PROD失败/正常进场看图通过。boot源+1closed，UI主测试新增review，其余main/UI保留review，3312/289closed/47review/2976pending；49partial/34pending/0accept不变。47–52统一门信用已撤回，新全仓/coverage/protected未跑。下一步先同片UI测试合同/隔离，再续73。
+
+最新[独立审计四项返工](53-wave-gates/receipt-audit/README.md)：当前两锚上界按实际EOF/函数尾更正，六退役逐条追到human通用测试规则/本次治理范围与Codex执行提交；旧OPQ五文件特批不外推。没有改产品/测试body/退役payload/matcher/baseline或新增关闭。原47–52回执完整raw仍缺/诊断unknown，保持rework；后续UI测试与73继续。

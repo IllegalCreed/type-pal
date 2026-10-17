@@ -1,4 +1,9 @@
-// User approval: 2026-10-03, QUALITY-OPQ-RETIREMENT-1.
+// Authorization is per batch/entry, not inherited from a ledger-wide approval.
+// QUALITY-OPQ-RETIREMENT-1 (2026-10-03) covers only its original five snapshots.
+// Later rows need their own authority; the old five-file approval does not extend.
+// Six snapshots used by f544b9b94: see receipt-audit/retirement-authorizations.json
+// under docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates.
+// Those instruction sources are not individual user signatures or a general waiver.
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
@@ -13,6 +18,7 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'fd69e9746ea0c03527cef4411f4cc5c0256daf750e7f15de7d9d5934cff1d7f1',
       fileSha256: '8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f',
     },
+    // Original OPQ approval: only the following four migrate snapshots and render.test.ts.
     {
       file: 'packages/migrate/src/pal-authored-overlays.test.ts',
       previous: 9,
@@ -194,6 +200,9 @@ export const approvedTestRetirements = Object.freeze(
     },
     // Codex 2026-10-15 C08: G03-10 only rendered a test-host placeholder.
     // Actual viewer call-through positive/absence traces retained; exact snapshot only.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus editor-review-scope. Codex decision 2026-10-15.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx',
       previous: 10,
@@ -204,6 +213,9 @@ export const approvedTestRetirements = Object.freeze(
     },
     // Codex 2026-10-16 CODE2 rereview: the small-surface delta case is covered by
     // the full-plane preservation oracle in rng.boundaries.test.ts; exact snapshot only.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus all-pre94-review-scope. Codex decision 2026-10-16.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/shared/src/rng.test.ts',
       previous: 7,
@@ -214,6 +226,9 @@ export const approvedTestRetirements = Object.freeze(
     },
     // Codex 2026-10-16 CODE2b: four YJ2 cases move from this mixed file to the
     // stronger canonical byte/negative/determinism oracles; RLE bodies stay unchanged.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus all-pre94-review-scope. Codex decision 2026-10-16.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/shared/src/rle.glm-o.test.ts',
       previous: 13,
@@ -224,6 +239,9 @@ export const approvedTestRetirements = Object.freeze(
     },
     // Codex 2026-10-16 CODE3/3f: missing-name and raw passthrough oracles move
     // to the stronger boundary/actual-input suite; only this exact 9->6 snapshot.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus all-pre94-review-scope. Codex decision 2026-10-16.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/pal-extract/src/events/annotate.test.ts',
       previous: 9,
@@ -233,6 +251,9 @@ export const approvedTestRetirements = Object.freeze(
       fileSha256: '3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d',
     },
     // Codex C1: exact duplicate bare-prefix case transfers to the full PNG oracle.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus all-pre94-review-scope. Codex decision 2026-10-16.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts',
       previous: 5,
@@ -242,6 +263,9 @@ export const approvedTestRetirements = Object.freeze(
       fileSha256: '1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83',
     },
     // Codex C10: G07-03/09 weak subsets transfer to G07-02/04.
+    // Human authority: standing-test-quality and warehouse-governance;
+    // plus all-pre94-review-scope. Codex decision 2026-10-16.
+    // Exact human source IDs: receipt-audit/retirement-authorizations.json.
     {
       file: 'packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx',
       previous: 10,
